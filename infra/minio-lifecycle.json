@@ -1,0 +1,10 @@
+{
+  "Rule": [
+    {
+      "ID": "sandbox-auto-delete-30d",
+      "Status": "Enabled",
+      "Filter": {"Prefix": ""},
+      "Expiration": {"Days": 30}
+    }
+  ]
+}
