@@ -1,0 +1,2469 @@
+<!DOCTYPE html>
+<html lang="fr" class="h-full bg-[#f9f9ff]">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LucaP — Cabinet Luca Pacioli Portal</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    
+    <!-- CSS & Icon Libraries -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Chart.js for screen.png visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            DEFAULT: '#0d1b3e',
+                            light: '#1e2d5a',
+                            dark: '#060d1f',
+                            tint: '#7784ad'
+                        },
+                        slate: {
+                            DEFAULT: '#f4f6fa',
+                            dim: '#d0daf0',
+                            container: '#e7eeff'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Hanken Grotesk"', 'sans-serif']
+                    },
+                    borderRadius: {
+                        sm: '0.125rem',
+                        DEFAULT: '0.25rem',
+                        md: '0.375rem',
+                        lg: '0.5rem',
+                        xl: '0.75rem'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Modern scrollbars */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        /* Custom styles matching typography specs */
+        h1, h2, h3, .editorial-title {
+            font-family: 'Playfair Display', serif;
+        }
+        body, input, select, button, table {
+            font-family: 'Hanken Grotesk', sans-serif;
+        }
+    </style>
+</head>
+<body class="h-full flex flex-col overflow-hidden text-[#121c2c]">
+
+    <!-- TOP NOTIFICATION BANNER (Replaces alert() completely) -->
+    <div id="toast-container" class="fixed top-4 right-4 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- MAIN SHELL LAYOUT -->
+    <div class="flex h-full w-full overflow-hidden">
+        
+        <!-- SIDEBAR NAVIGATION (Matching Cabinet Luca Pacioli Sidebar in screen.png, achats_management.jpg, etc.) -->
+        <aside class="w-64 bg-[#0d1b3e] flex-shrink-0 flex flex-col justify-between text-white border-r border-navy-dark z-20">
+            <div class="p-6">
+                <div class="flex items-center gap-3 mb-8">
+                    <div class="w-8 h-8 rounded-sm bg-white text-navy flex items-center justify-center font-serif text-xl font-bold border border-navy-tint">L</div>
+                    <div>
+                        <h2 class="text-lg font-bold font-serif leading-tight">Cabinet Luca</h2>
+                        <h2 class="text-lg font-bold font-serif leading-tight">Pacioli</h2>
+                        <p class="text-[10px] text-navy-tint tracking-widest uppercase mt-0.5">Expertise Comptable</p>
+                    </div>
+                </div>
+
+                <!-- NAVIGATION ACTIONS -->
+                <nav class="space-y-1">
+                    <!-- Dashboard link -->
+                    <button onclick="switchView('client-dashboard')" id="nav-client-dashboard" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 text-sm font-semibold rounded-sm bg-navy-light text-white transition-all">
+                        <i class="fa-solid fa-chart-pie w-5 text-navy-tint"></i>
+                        Dashboard
+                    </button>
+                    <!-- Achats link -->
+                    <button onclick="switchView('client-achats')" id="nav-client-achats" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium rounded-sm text-gray-300 hover:bg-[#1a2d54] hover:text-white transition-all">
+                        <i class="fa-solid fa-cart-shopping w-5 text-navy-tint"></i>
+                        Achats
+                    </button>
+                    <!-- Ventes link -->
+                    <button onclick="switchView('client-ventes')" id="nav-client-ventes" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium rounded-sm text-gray-300 hover:bg-[#1a2d54] hover:text-white transition-all">
+                        <i class="fa-solid fa-file-invoice-dollar w-5 text-navy-tint"></i>
+                        Ventes / CA
+                    </button>
+                    <!-- TVA link -->
+                    <button onclick="showUpcomingServiceToast('TVA & Déclarations Fiscales')" class="w-full flex items-center justify-between px-4 py-2.5 text-sm font-medium rounded-sm text-gray-300 hover:bg-[#1a2d54] hover:text-white transition-all text-left">
+                        <span class="flex items-center gap-3">
+                            <i class="fa-solid fa-landmark w-5 text-navy-tint"></i>
+                            TVA
+                        </span>
+                        <span class="text-[10px] bg-red-900/60 text-red-200 px-1.5 py-0.5 rounded-sm">1 Urgent</span>
+                    </button>
+                    <!-- Retenue à la source link -->
+                    <button onclick="showUpcomingServiceToast('Retenue à la Source (RS)')" class="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium rounded-sm text-gray-300 hover:bg-[#1a2d54] hover:text-white transition-all text-left">
+                        <i class="fa-solid fa-shield-halved w-5 text-navy-tint"></i>
+                        Retenues à la source
+                    </button>
+                    <!-- Documents link -->
+                    <button onclick="switchView('client-documents')" id="nav-client-documents" class="nav-btn w-full flex items-center justify-between px-4 py-2.5 text-sm font-medium rounded-sm text-gray-300 hover:bg-[#1a2d54] hover:text-white transition-all text-left">
+                        <span class="flex items-center gap-3">
+                            <i class="fa-solid fa-folder-open w-5 text-navy-tint"></i>
+                            Documents
+                        </span>
+                        <span id="sidebar-doc-count" class="text-xs bg-navy-light text-navy-tint px-2 py-0.5 rounded-full">5</span>
+                    </button>
+                    <!-- Support tickets link -->
+                    <button onclick="switchView('client-support')" id="nav-client-support" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium rounded-sm text-gray-300 hover:bg-[#1a2d54] hover:text-white transition-all text-left">
+                        <i class="fa-solid fa-envelope-open-text w-5 text-navy-tint"></i>
+                        Support & Services
+                    </button>
+                    <!-- Global dashboard link -->
+                    <button onclick="showUpcomingServiceToast('Tableau de bord de groupe')" class="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium rounded-sm text-gray-300 hover:bg-[#1a2d54] hover:text-white transition-all text-left">
+                        <i class="fa-solid fa-globe w-5 text-navy-tint"></i>
+                        Tableau de bord global
+                    </button>
+                </nav>
+            </div>
+
+            <!-- SIDEBAR FOOTER ACTION -->
+            <div class="p-6 border-t border-navy-light space-y-3 bg-[#0a1532]">
+                <button onclick="triggerCSVExport()" class="w-full bg-white text-navy hover:bg-gray-100 transition px-4 py-2 text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 rounded-sm shadow-sm">
+                    <i class="fa-solid fa-file-export text-xs"></i>
+                    Export Data
+                </button>
+                <div class="text-[10px] text-center text-navy-tint">
+                    LucaP Platform v1.0.0
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN AREA -->
+        <main class="flex-1 flex flex-col overflow-hidden">
+            <!-- TOP NAVBAR (With Omnichannel Role switcher and quick simulation metrics) -->
+            <header class="h-16 bg-white border-b border-gray-200 px-6 flex items-center justify-between flex-shrink-0 z-10">
+                <!-- Search bar input -->
+                <div class="flex items-center gap-4 w-96 relative">
+                    <i class="fa-solid fa-search text-gray-400 absolute left-3"></i>
+                    <input type="text" placeholder="Rechercher une pièce ou facture..." class="w-full pl-9 pr-4 py-2 bg-slate text-sm rounded-sm focus:outline-none focus:ring-1 focus:ring-navy border border-gray-200">
+                </div>
+
+                <!-- PORTAL SIMULATION SWITCHER (For testing Sandbox/Lead, Client, and Staff experiences) -->
+                <div class="flex items-center gap-2 bg-slate p-1 rounded-md border border-gray-200">
+                    <button onclick="switchRole('client')" id="role-btn-client" class="px-3 py-1 text-xs font-bold uppercase rounded transition-all bg-navy text-white shadow-sm">Client Portal</button>
+                    <button onclick="switchRole('lead')" id="role-btn-lead" class="px-3 py-1 text-xs font-bold uppercase rounded transition-all text-gray-500 hover:bg-gray-200">Lead Sandbox</button>
+                    <button onclick="switchRole('staff')" id="role-btn-staff" class="px-3 py-1 text-xs font-bold uppercase rounded transition-all text-gray-500 hover:bg-gray-200 flex items-center gap-1">
+                        Staff Console
+                        <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                    </button>
+                </div>
+
+                <!-- User context controls -->
+                <div class="flex items-center gap-4">
+                    <!-- Notifications button -->
+                    <button class="relative p-2 text-gray-500 hover:text-navy transition" onclick="showUpcomingServiceToast('Centre d\'alertes')">
+                        <i class="fa-regular fa-bell text-lg"></i>
+                        <span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-red-500"></span>
+                    </button>
+                    <!-- Settings button -->
+                    <button class="p-2 text-gray-500 hover:text-navy transition" onclick="showUpcomingServiceToast('Paramètres de l\'espace')">
+                        <i class="fa-solid fa-sliders text-lg"></i>
+                    </button>
+                    <div class="h-8 w-px bg-gray-200"></div>
+                    <!-- Profile avatar block -->
+                    <div class="flex items-center gap-3">
+                        <div class="text-right">
+                            <p id="user-display-name" class="text-xs font-bold text-navy">Admin CPA</p>
+                            <p id="user-display-status" class="text-[10px] text-green-600 font-semibold flex items-center gap-1 justify-end">
+                                <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span> Session active
+                            </p>
+                        </div>
+                        <img src="https://placehold.co/100x100/0d1b3e/ffffff?text=CPA" id="user-avatar" alt="Avatar" class="w-9 h-9 rounded-full border border-gray-200 object-cover">
+                    </div>
+                </div>
+            </header>
+
+            <!-- CORE CONTROLLER VIEWPORT -->
+            <div class="flex-1 overflow-y-auto p-8 relative">
+                
+                <!-- ============================================= -->
+                <!-- CLIENT VIEW A: DASHBOARD VIEW (screen.png)   -->
+                <!-- ============================================= -->
+                <section id="view-client-dashboard" class="view-pane space-y-8">
+                    <!-- GREETING ROW -->
+                    <div class="flex justify-between items-end">
+                        <div>
+                            <h1 class="text-3xl font-serif font-bold text-navy">Bonjour, SARL Méditerranée</h1>
+                            <p class="text-sm text-gray-500 mt-1">Voici un aperçu de votre situation fiscale au 15 Octobre 2023.</p>
+                        </div>
+                        <div class="text-xs bg-navy-light text-white px-3 py-1.5 font-bold uppercase tracking-wide rounded-sm shadow-sm flex items-center gap-2">
+                            <i class="fa-solid fa-calendar-days text-navy-tint"></i>
+                            Période: Année 2023
+                        </div>
+                    </div>
+
+                    <!-- 5 METRIC CARDS (Exactly from screen.png) -->
+                    <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+                        <!-- Total CA HT -->
+                        <div class="bg-white p-5 border border-gray-200 rounded-sm shadow-sm space-y-2">
+                            <p class="text-[11px] font-bold uppercase tracking-wider text-gray-500">Total CA HT</p>
+                            <p class="text-2xl font-serif font-bold text-navy">145,280 <span class="text-xs font-sans text-gray-500 font-normal">TND</span></p>
+                            <p class="text-xs text-green-600 font-bold flex items-center gap-1">
+                                <i class="fa-solid fa-arrow-trend-up"></i> +12.4% <span class="text-[10px] text-gray-400 font-normal font-sans">vs M-1</span>
+                            </p>
+                        </div>
+                        <!-- Total Achats HT -->
+                        <div class="bg-white p-5 border border-gray-200 rounded-sm shadow-sm space-y-2">
+                            <p class="text-[11px] font-bold uppercase tracking-wider text-gray-500">Total Achats HT</p>
+                            <p class="text-2xl font-serif font-bold text-navy">82,450 <span class="text-xs font-sans text-gray-500 font-normal">TND</span></p>
+                            <p class="text-xs text-red-500 font-bold flex items-center gap-1">
+                                <i class="fa-solid fa-arrow-trend-up"></i> +4.1% <span class="text-[10px] text-gray-400 font-normal font-sans">vs M-1</span>
+                            </p>
+                        </div>
+                        <!-- Marge Brute HT -->
+                        <div class="bg-white p-5 border border-gray-200 rounded-sm shadow-sm space-y-2">
+                            <p class="text-[11px] font-bold uppercase tracking-wider text-gray-500">Marge Brute HT</p>
+                            <p class="text-2xl font-serif font-bold text-navy">62,830 <span class="text-xs font-sans text-gray-500 font-normal">TND</span></p>
+                            <p class="text-xs text-green-600 font-bold flex items-center gap-1">
+                                <i class="fa-solid fa-arrow-trend-up"></i> +8.2% <span class="text-[10px] text-gray-400 font-normal font-sans">vs M-1</span>
+                            </p>
+                        </div>
+                        <!-- TVA Net à payer -->
+                        <div class="bg-white p-5 border border-gray-200 rounded-sm shadow-sm space-y-2">
+                            <p class="text-[11px] font-bold uppercase tracking-wider text-gray-500">TVA Net à Payer</p>
+                            <p class="text-2xl font-serif font-bold text-navy">11,940 <span class="text-xs font-sans text-gray-500 font-normal">TND</span></p>
+                            <p class="text-xs text-orange-600 font-bold flex items-center gap-1">
+                                <i class="fa-regular fa-clock"></i> Échéance : 28/10
+                            </p>
+                        </div>
+                        <!-- Retenues Source -->
+                        <div class="bg-white p-5 border border-gray-200 rounded-sm shadow-sm space-y-2">
+                            <p class="text-[11px] font-bold uppercase tracking-wider text-gray-500">Retenues Source</p>
+                            <p class="text-2xl font-serif font-bold text-navy">4,215 <span class="text-xs font-sans text-gray-500 font-normal">TND</span></p>
+                            <p class="text-xs text-orange-600 font-bold flex items-center gap-1">
+                                <i class="fa-regular fa-folder-open"></i> 3 Décl. en attente
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- CHARTS GRID (CA vs Achats + Top 5 Achats precisely) -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <!-- CA vs Achats bar chart container -->
+                        <div class="bg-white p-6 border border-gray-200 rounded-sm shadow-sm lg:col-span-2 space-y-4">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <h3 class="text-lg font-serif font-bold text-navy">CA vs Achats (Mensuel)</h3>
+                                    <p class="text-xs text-gray-400">Comparaison annuelle 2023</p>
+                                </div>
+                                <div class="flex gap-1.5 bg-slate p-0.5 rounded-sm border border-gray-200">
+                                    <button class="px-2 py-1 text-[10px] font-bold uppercase rounded bg-navy text-white">Les deux</button>
+                                    <button class="px-2 py-1 text-[10px] font-bold uppercase text-gray-500 rounded">Ventes</button>
+                                    <button class="px-2 py-1 text-[10px] font-bold uppercase text-gray-500 rounded">Achats</button>
+                                </div>
+                            </div>
+                            <div class="h-64 relative">
+                                <canvas id="chart-ca-achats"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Top 5 Achats Pie Chart -->
+                        <div class="bg-white p-6 border border-gray-200 rounded-sm shadow-sm flex flex-col justify-between">
+                            <div>
+                                <h3 class="text-lg font-serif font-bold text-navy">Top 5 Achats</h3>
+                                <p class="text-xs text-gray-400">Répartition par catégorie d'activité</p>
+                            </div>
+                            <div class="h-44 relative my-4 flex justify-center">
+                                <canvas id="chart-top-achats"></canvas>
+                            </div>
+                            <!-- Legend details matching mockup -->
+                            <div class="space-y-1 text-xs">
+                                <div class="flex justify-between items-center">
+                                    <span class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-[#0d1b3e]"></span> Matières Premières</span>
+                                    <span class="font-bold">42%</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-[#455a8f]"></span> Logistique & Transport</span>
+                                    <span class="font-bold">24%</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-[#a3905c]"></span> Loyer & Charges</span>
+                                    <span class="font-bold">16%</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-[#c2d1f0]"></span> Marketing</span>
+                                    <span class="font-bold">12%</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-[#70717a]"></span> Autres</span>
+                                    <span class="font-bold">6%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RECENT TRANSACTIONS GRID -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <!-- Factures Récentes Table -->
+                        <div class="bg-white border border-gray-200 rounded-sm shadow-sm overflow-hidden flex flex-col justify-between">
+                            <div class="p-5 border-b border-gray-100 flex justify-between items-center">
+                                <h3 class="text-lg font-serif font-bold text-navy">Factures Récentes</h3>
+                                <button onclick="switchView('client-ventes')" class="text-xs font-bold uppercase text-navy border-b border-navy pb-0.5 tracking-wider">Voir tout</button>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left border-collapse">
+                                    <thead>
+                                        <tr class="bg-slate border-b border-gray-200">
+                                            <th class="px-5 py-3 text-[10px] font-bold uppercase text-gray-500 tracking-wider">Référence</th>
+                                            <th class="px-5 py-3 text-[10px] font-bold uppercase text-gray-500 tracking-wider">Client</th>
+                                            <th class="px-5 py-3 text-[10px] font-bold uppercase text-gray-500 tracking-wider">Montant</th>
+                                            <th class="px-5 py-3 text-[10px] font-bold uppercase text-gray-500 tracking-wider">Statut</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="recent-ventes-body">
+                                        <!-- Dynamic load rows -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Dépenses Récentes List -->
+                        <div class="bg-white border border-gray-200 rounded-sm shadow-sm flex flex-col justify-between overflow-hidden">
+                            <div class="p-5 border-b border-gray-100 flex justify-between items-center">
+                                <h3 class="text-lg font-serif font-bold text-navy">Dépenses Récentes</h3>
+                                <button onclick="switchView('client-achats')" class="text-xs font-bold uppercase text-navy border-b border-navy pb-0.5 tracking-wider">Voir tout</button>
+                            </div>
+                            <div class="p-5 divide-y divide-gray-100" id="recent-expenses-list">
+                                <!-- Dynamic load expenses -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ========================================================= -->
+                <!-- CLIENT VIEW B: ACHATS MANAGEMENT (achats_management.jpg) -->
+                <!-- ========================================================= -->
+                <section id="view-client-achats" class="view-pane hidden space-y-8">
+                    <!-- Title block -->
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h1 class="text-3xl font-serif font-bold text-navy">Gestion des Achats</h1>
+                            <p class="text-sm text-gray-500 mt-1">Suivi et enregistrement des dépenses institutionnelles.</p>
+                        </div>
+                        <button onclick="toggleTransactionSlideOver(true, 'Achat')" class="bg-navy hover:bg-navy-light text-white transition px-5 py-2.5 text-xs font-bold uppercase tracking-wider flex items-center gap-2 rounded-sm shadow-sm">
+                            <i class="fa-solid fa-plus"></i> Enregistrer un Achat
+                        </button>
+                    </div>
+
+                    <!-- Standardized mock filters -->
+                    <div class="bg-white p-5 border border-gray-200 rounded-sm shadow-sm flex flex-wrap gap-4 items-end">
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold uppercase tracking-wider text-gray-500">Période</label>
+                            <select class="border border-gray-200 rounded-sm bg-slate px-3 py-2 text-xs text-navy focus:ring-1 focus:ring-navy focus:outline-none">
+                                <option>Derniers 30 jours</option>
+                                <option>Ce mois-ci</option>
+                                <option>Cette année</option>
+                            </select>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold uppercase tracking-wider text-gray-500">Statut du Paiement</label>
+                            <select class="border border-gray-200 rounded-sm bg-slate px-3 py-2 text-xs text-navy focus:ring-1 focus:ring-navy focus:outline-none">
+                                <option>Tous les statuts</option>
+                                <option>Payé</option>
+                                <option>En attente</option>
+                            </select>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold uppercase tracking-wider text-gray-500">Catégorie</label>
+                            <select class="border border-gray-200 rounded-sm bg-slate px-3 py-2 text-xs text-navy focus:ring-1 focus:ring-navy focus:outline-none">
+                                <option>Toutes catégories</option>
+                                <option>SERVICES</option>
+                                <option>MATÉRIEL</option>
+                                <option>LOYER</option>
+                            </select>
+                        </div>
+                        <button onclick="showUpcomingServiceToast('Filtres avancés')" class="border border-gray-200 bg-slate text-navy hover:bg-gray-100 transition px-4 py-2 text-xs font-bold uppercase tracking-wider flex items-center gap-2 rounded-sm">
+                            <i class="fa-solid fa-sliders"></i> Plus de filtres
+                        </button>
+                    </div>
+
+                    <!-- Table Registry container -->
+                    <div class="bg-white border border-gray-200 rounded-sm shadow-sm overflow-hidden">
+                        <div class="p-4 bg-navy text-white flex justify-between items-center">
+                            <h3 class="text-sm font-semibold tracking-wider uppercase text-slate-dim">Registre des Factures d'Achat</h3>
+                            <div class="flex gap-2">
+                                <button onclick="showUpcomingServiceToast('Export PDF')" class="px-2.5 py-1 bg-navy-light text-xs font-bold rounded-sm border border-navy-tint text-navy-tint hover:text-white transition">Imprimer PDF</button>
+                                <button onclick="showUpcomingServiceToast('Export Excel')" class="px-2.5 py-1 bg-navy-light text-xs font-bold rounded-sm border border-navy-tint text-navy-tint hover:text-white transition">Excel (XLSX)</button>
+                            </div>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-slate border-b border-gray-200">
+                                        <th class="px-5 py-3 text-[10px] font-bold uppercase text-gray-500 tracking-wider">Date</th>
+                                        <th class="px-5 py-3 text-[10px] font-bold uppercase text-gray-500 tracking-wider">N° Facture</th>
+                                        <th class="px-5 py-3 text-[10px] font-bold uppercase text-gray-500 tracking-wider">Fournisseur</th>
+                                        <th class="px-5 py-3 text-[10px] font-bold uppercase text-gray-500 tracking-wider">Type</th>
+                                        <th class="px-5 py-3 text-[10px] font-bold uppercase text-gray-500 tracking-wider text-right">Montant HT</th>
+                                        <th class="px-5 py-3 text-[10px] font-bold uppercase text-gray-500 tracking-wider text-right">TVA</th>
+                                        <th class="px-5 py-3 text-[10px] font-bold uppercase text-gray-500 tracking-wider text-right">TTC</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="registry-achats-body" class="divide-y divide-gray-100">
+                                    <!-- Dynamic elements from state -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- METRICS FOOTER (Exactly matching the bottom of achats_management.jpg) -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <!-- Total HT Box -->
+                        <div class="bg-[#0d1b3e] text-white p-5 rounded-sm border border-navy-dark shadow-sm flex flex-col justify-between h-28">
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-navy-tint">Total HT</span>
+                            <span id="totals-ht" class="text-2xl font-serif font-bold">0,000</span>
+                            <span class="text-[10px] text-navy-tint uppercase tracking-wide">TND</span>
+                        </div>
+                        <!-- Total TVA Box -->
+                        <div class="bg-white text-navy p-5 rounded-sm border border-gray-200 shadow-sm flex flex-col justify-between h-28">
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-gray-500">Total TVA</span>
+                            <span id="totals-tva" class="text-2xl font-serif font-bold">0,000</span>
+                            <span class="text-[10px] text-green-600 font-semibold uppercase tracking-wide"><i class="fa-solid fa-check"></i> Récupérable</span>
+                        </div>
+                        <!-- Total Retenues Box -->
+                        <div class="bg-white text-navy p-5 rounded-sm border border-gray-200 shadow-sm flex flex-col justify-between h-28">
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-gray-500">Total Retenues</span>
+                            <span id="totals-retenues" class="text-2xl font-serif font-bold text-red-600">0,000</span>
+                            <span class="text-[10px] text-gray-400 uppercase tracking-wide">TND</span>
+                        </div>
+                        <!-- Total Net à payer Box -->
+                        <div class="bg-slate p-5 rounded-sm border border-slate-dim shadow-sm flex flex-col justify-between h-28">
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-gray-500 font-sans">Total Net à Payer</span>
+                            <span id="totals-net" class="text-2xl font-serif font-bold text-navy">0,000</span>
+                            <span class="text-[9px] text-gray-400 font-normal italic">*Soumis à validation finale</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================================== -->
+                <!-- CLIENT VIEW C: VENTES & CA MANAGEMENT (ventes_ca_management.png) -->
+                <!-- ============================================================== -->
+                <section id="view-client-ventes" class="view-pane hidden space-y-8">
+                    <!-- Title block -->
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h1 class="text-3xl font-serif font-bold text-navy">Ventes & Facturation</h1>
+                            <p class="text-sm text-gray-500 mt-1">Gestion des Ventes & Chiffre d'affaires.</p>
+                        </div>
+                        <button onclick="toggleTransactionSlideOver(true, 'Vente')" class="bg-navy hover:bg-navy-light text-white transition px-5 py-2.5 text-xs font-bold uppercase tracking-wider flex items-center gap-2 rounded-sm shadow-sm">
+                            <i class="fa-solid fa-plus"></i> Nouvelle Vente
+                        </button>
+                    </div>
+
+                    <!-- Static mini charts from ventes_ca_management.png -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <!-- Total HT -->
+                        <div class="bg-white p-5 border border-gray-200 rounded-sm shadow-sm flex flex-col justify-between">
+                            <p class="text-[10px] font-bold uppercase tracking-wider text-gray-500">Total HT (Mois)</p>
+                            <p class="text-2xl font-serif font-bold text-navy mt-2">145 230,000 <span class="text-xs font-sans text-gray-400 font-normal">TND</span></p>
+                            <div class="w-full bg-slate h-1.5 rounded-full overflow-hidden mt-3">
+                                <div class="bg-navy h-full" style="width: 72%"></div>
+                            </div>
+                        </div>
+                        <!-- TVA Collectée -->
+                        <div class="bg-white p-5 border border-gray-200 rounded-sm shadow-sm flex flex-col justify-between">
+                            <p class="text-[10px] font-bold uppercase tracking-wider text-gray-500">TVA Collectée</p>
+                            <p class="text-2xl font-serif font-bold text-navy mt-2">27 593,700 <span class="text-xs font-sans text-gray-400 font-normal">TND</span></p>
+                            <div class="w-full bg-slate h-1.5 rounded-full overflow-hidden mt-3">
+                                <div class="bg-navy-tint h-full" style="width: 48%"></div>
+                            </div>
+                        </div>
+                        <!-- Factures en retard -->
+                        <div class="bg-white p-5 border border-gray-200 rounded-sm shadow-sm flex flex-col justify-between">
+                            <p class="text-[10px] font-bold uppercase tracking-wider text-gray-500">Factures en retard</p>
+                            <p class="text-2xl font-serif font-bold text-red-600 mt-2">12</p>
+                            <p class="text-[10px] text-red-500 mt-3 font-semibold"><i class="fa-solid fa-circle-exclamation animate-pulse"></i> Attention, relances nécessaires</p>
+                        </div>
+                        <!-- Net à percevoir -->
+                        <div class="bg-white p-5 border border-gray-200 rounded-sm shadow-sm flex flex-col justify-between">
+                            <p class="text-[10px] font-bold uppercase tracking-wider text-gray-500 font-sans">Net à Percevoir</p>
+                            <p class="text-2xl font-serif font-bold text-navy mt-2">168 450,000 <span class="text-xs font-sans text-gray-400 font-normal">TND</span></p>
+                            <div class="w-full bg-slate h-1.5 rounded-full overflow-hidden mt-3">
+                                <div class="bg-green-600 h-full" style="width: 84%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Table configuration -->
+                    <div class="bg-white border border-gray-200 rounded-sm shadow-sm overflow-hidden">
+                        <div class="p-5 border-b border-gray-100 flex justify-between items-center flex-wrap gap-4">
+                            <h3 class="text-lg font-serif font-bold text-navy">Registre des Ventes</h3>
+                            <div class="flex items-center gap-3">
+                                <select class="border border-gray-200 bg-slate text-xs px-3 py-1.5 rounded-sm">
+                                    <option>Tous les statuts</option>
+                                    <option>Payé</option>
+                                    <option>En retard</option>
+                                </select>
+                                <button onclick="showUpcomingServiceToast('Filtres Ventes')" class="px-3 py-1.5 bg-slate border border-gray-200 text-xs font-bold uppercase tracking-wider rounded-sm text-navy hover:bg-gray-100 transition">Appliquer</button>
+                            </div>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-slate border-b border-gray-200">
+                                        <th class="px-5 py-3 text-[10px] font-bold uppercase text-gray-500 tracking-wider">Date</th>
+                                        <th class="px-5 py-3 text-[10px] font-bold uppercase text-gray-500 tracking-wider">N° Facture</th>
+                                        <th class="px-5 py-3 text-[10px] font-bold uppercase text-gray-500 tracking-wider">Client</th>
+                                        <th class="px-5 py-3 text-[10px] font-bold uppercase text-gray-500 tracking-wider">Type (Plan CA)</th>
+                                        <th class="px-5 py-3 text-[10px] font-bold uppercase text-gray-500 tracking-wider text-right">HT</th>
+                                        <th class="px-5 py-3 text-[10px] font-bold uppercase text-gray-500 tracking-wider text-right">TVA</th>
+                                        <th class="px-5 py-3 text-[10px] font-bold uppercase text-gray-500 tracking-wider text-right">TTC</th>
+                                        <th class="px-5 py-3 text-[10px] font-bold uppercase text-gray-500 tracking-wider text-right">RS</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="registry-ventes-body" class="divide-y divide-gray-100">
+                                    <!-- Dynamic rows matching ventes_ca_management.png -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================= -->
+                <!-- CLIENT VIEW D: SECURE DOCUMENT BANK          -->
+                <!-- ============================================= -->
+                <section id="view-client-documents" class="view-pane hidden space-y-8">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h1 class="text-3xl font-serif font-bold text-navy">Document Bank</h1>
+                            <p class="text-sm text-gray-500 mt-1">Espace hautement sécurisé d'archivage fiscal. Chiffrement enveloppe AES-256-GCM.</p>
+                        </div>
+                        <div class="text-xs font-bold text-green-600 bg-green-50 border border-green-200 px-3 py-1.5 rounded flex items-center gap-1.5 shadow-sm">
+                            <i class="fa-solid fa-vault"></i> Tunnel de chiffrement de stockage actif
+                        </div>
+                    </div>
+
+                    <!-- File Ingestion Drop Area -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <div class="bg-white p-6 border border-gray-200 rounded-sm shadow-sm space-y-4">
+                            <h3 class="text-lg font-serif font-bold text-navy">Importer des documents</h3>
+                            <p class="text-xs text-gray-500">Ajouter des factures, contrats, avals, ou justificatifs au format PDF, JPG ou PNG. Poids maximal 15 Mo.</p>
+                            
+                            <!-- Simulation of Drag and Drop -->
+                            <div onclick="document.getElementById('doc-bank-file-input').click()" class="border-2 border-dashed border-gray-200 hover:border-navy transition p-8 rounded bg-slate flex flex-col items-center justify-center text-center cursor-pointer space-y-3">
+                                <i class="fa-solid fa-cloud-arrow-up text-3xl text-navy-tint"></i>
+                                <span class="text-xs font-bold text-navy">Parcourir les fichiers</span>
+                                <span class="text-[10px] text-gray-400">Glisser & déposer ici</span>
+                                <input type="file" id="doc-bank-file-input" class="hidden" multiple onchange="simulateMultipleFileUpload(this.files)">
+                            </div>
+                        </div>
+
+                        <!-- Active Files Library list -->
+                        <div class="lg:col-span-2 bg-white border border-gray-200 rounded-sm shadow-sm overflow-hidden flex flex-col justify-between">
+                            <div class="p-5 border-b border-gray-100 flex justify-between items-center">
+                                <h3 class="text-lg font-serif font-bold text-navy">Coffre-fort client</h3>
+                                <span class="text-xs bg-slate border border-gray-200 text-navy px-3 py-1 rounded-sm font-semibold">Total : <span id="doc-bank-badge-count">5</span> documents</span>
+                            </div>
+                            <div class="divide-y divide-gray-100 overflow-y-auto max-h-96" id="documents-bank-list">
+                                <!-- Dynamic document lines inside vault -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================= -->
+                <!-- CLIENT VIEW E: SUPPORT & SERVICES TICKETS    -->
+                <!-- ============================================= -->
+                <section id="view-client-support" class="view-pane hidden space-y-8">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h1 class="text-3xl font-serif font-bold text-navy">Direct Ticket Center</h1>
+                            <p class="text-sm text-gray-500 mt-1">Échanges prioritaires et activation de services auprès du Cabinet Luca Pacioli.</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="openNewTicketModal()" class="bg-navy hover:bg-navy-light text-white px-5 py-2.5 text-xs font-bold uppercase tracking-wider flex items-center gap-2 rounded-sm shadow-sm">
+                                <i class="fa-solid fa-plus"></i> Ouvrir un Ticket / Question
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Marketplace for Arcelin's infrastructure services -->
+                    <div>
+                        <h3 class="text-xl font-serif font-bold text-navy mb-4">Services By LucaP</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <!-- VPN Server Deployment -->
+                            <div class="bg-white p-6 border border-gray-200 rounded-sm shadow-sm flex flex-col justify-between space-y-4">
+                                <div class="space-y-2">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs font-bold text-navy uppercase tracking-wider font-sans bg-slate px-2 py-0.5 border border-gray-100">Réseau sécurisé</span>
+                                        <i class="fa-solid fa-vpn-key text-xl text-navy"></i>
+                                    </div>
+                                    <h4 class="text-lg font-serif font-bold text-navy">Serveur VPN d'Entreprise</h4>
+                                    <p class="text-xs text-gray-500 leading-relaxed">Tunnel chiffré dédié pour l'isolement complet de votre activité commerciale et nearshoring.</p>
+                                </div>
+                                <button onclick="triggerServiceInquiry('VPN d\'Entreprise')" class="w-full bg-slate text-navy hover:bg-navy hover:text-white transition py-2 text-xs font-bold uppercase tracking-wider rounded-sm text-center">Souscrire en 1-Clic</button>
+                            </div>
+                            <!-- Email Archiving Server -->
+                            <div class="bg-white p-6 border border-gray-200 rounded-sm shadow-sm flex flex-col justify-between space-y-4">
+                                <div class="space-y-2">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs font-bold text-navy uppercase tracking-wider font-sans bg-slate px-2 py-0.5 border border-gray-100">Archivage Légal</span>
+                                        <i class="fa-solid fa-envelope-shield text-xl text-navy"></i>
+                                    </div>
+                                    <h4 class="text-lg font-serif font-bold text-navy">Email Archiving Server</h4>
+                                    <p class="text-xs text-gray-500 leading-relaxed">Sauvegarde sécurisée on-premise ou cloud de l'intégralité de vos correspondances réglementaires.</p>
+                                </div>
+                                <button onclick="triggerServiceInquiry('Email Archiving Server')" class="w-full bg-slate text-navy hover:bg-navy hover:text-white transition py-2 text-xs font-bold uppercase tracking-wider rounded-sm text-center">Souscrire en 1-Clic</button>
+                            </div>
+                            <!-- ERP Web Deployment -->
+                            <div class="bg-white p-6 border border-gray-200 rounded-sm shadow-sm flex flex-col justify-between space-y-4">
+                                <div class="space-y-2">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs font-bold text-navy uppercase tracking-wider font-sans bg-slate px-2 py-0.5 border border-gray-100">Système Web</span>
+                                        <i class="fa-solid fa-network-wired text-xl text-navy"></i>
+                                    </div>
+                                    <h4 class="text-lg font-serif font-bold text-navy">ERP Web Implementation</h4>
+                                    <p class="text-xs text-gray-500 leading-relaxed">Déploiement complet et hébergement de votre Progiciel de Gestion Intégré (Odoo/custom).</p>
+                                </div>
+                                <button onclick="triggerServiceInquiry('ERP Web')" class="w-full bg-slate text-navy hover:bg-navy hover:text-white transition py-2 text-xs font-bold uppercase tracking-wider rounded-sm text-center">Souscrire en 1-Clic</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Active Ticket Dashboard Workspace -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <div class="bg-white border border-gray-200 rounded-sm shadow-sm overflow-hidden flex flex-col">
+                            <div class="p-5 border-b border-gray-100 bg-slate">
+                                <h3 class="text-sm font-bold uppercase text-navy tracking-wider">Mes conversations actives</h3>
+                            </div>
+                            <div class="divide-y divide-gray-100 overflow-y-auto max-h-96" id="client-ticket-list">
+                                <!-- Dynamic client ticket buttons -->
+                            </div>
+                        </div>
+
+                        <!-- Active Chat thread workspace container -->
+                        <div class="lg:col-span-2 bg-white border border-gray-200 rounded-sm shadow-sm flex flex-col h-[500px]">
+                            <div class="p-4 border-b border-gray-100 bg-slate flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <i class="fa-solid fa-envelope-open-text text-navy text-lg"></i>
+                                    <div>
+                                        <h4 id="active-chat-title" class="text-sm font-bold text-navy">Aucun ticket sélectionné</h4>
+                                        <p id="active-chat-subtitle" class="text-[10px] text-gray-500">Sélectionnez une discussion à gauche pour voir les échanges</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span id="active-chat-channel" class="text-[10px] uppercase font-bold px-2 py-0.5 rounded-sm"></span>
+                                    <span id="active-chat-status" class="text-[10px] uppercase font-bold px-2 py-0.5 rounded-sm"></span>
+                                </div>
+                            </div>
+                            <!-- Messages stream container -->
+                            <div class="flex-1 p-6 overflow-y-auto space-y-4" id="active-chat-messages">
+                                <div class="text-center text-xs text-gray-400 py-12">
+                                    <i class="fa-regular fa-comment-dots text-3xl mb-3 block text-gray-300"></i>
+                                    Veuillez cliquer sur une discussion à gauche ou créer un nouveau ticket pour démarrer.
+                                </div>
+                            </div>
+                            <!-- Send input message strip -->
+                            <div class="p-4 border-t border-gray-100 flex items-center gap-3">
+                                <input type="text" id="active-chat-input" placeholder="Tapez votre message ici..." class="flex-1 border border-gray-200 px-4 py-2 text-sm rounded focus:outline-none focus:ring-1 focus:ring-navy" disabled>
+                                <button onclick="sendClientChatMessage()" id="active-chat-send-btn" class="bg-navy hover:bg-navy-light text-white px-4 py-2 rounded text-xs font-bold uppercase transition" disabled>
+                                    <i class="fa-solid fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================= -->
+                <!-- LEAD SANDBOX: GUEST CONDUIT                   -->
+                <!-- ============================================= -->
+                <section id="view-lead-sandbox" class="view-pane hidden space-y-8">
+                    <div class="max-w-4xl mx-auto space-y-8">
+                        <div class="text-center space-y-2">
+                            <h1 class="text-4xl font-serif font-bold text-navy">Espace Consultation Prospect</h1>
+                            <p class="text-sm text-gray-500 max-w-xl mx-auto">Déposez vos pièces comptables ou formulez vos besoins techniques pour obtenir une proposition d'intégration sous 24h.</p>
+                        </div>
+
+                        <!-- Lead Registration & Document Capture form -->
+                        <div class="bg-white p-8 border border-gray-200 rounded-sm shadow-sm space-y-6">
+                            <h3 class="text-xl font-serif font-bold text-navy border-b border-gray-100 pb-3">Formulaire de qualification rapide</h3>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="space-y-1">
+                                    <label class="text-[11px] font-bold uppercase text-gray-500">Nom Complet / Contact</label>
+                                    <input type="text" id="lead-name" placeholder="Ex: Sami Ben Ali" class="w-full border border-gray-200 px-4 py-2 text-sm rounded focus:outline-none focus:ring-1 focus:ring-navy">
+                                </div>
+                                <div class="space-y-1">
+                                    <label class="text-[11px] font-bold uppercase text-gray-500">Raison Sociale / Projet</label>
+                                    <input type="text" id="lead-company" placeholder="Ex: Startup Tech SAS" class="w-full border border-gray-200 px-4 py-2 text-sm rounded focus:outline-none focus:ring-1 focus:ring-navy">
+                                </div>
+                                <div class="space-y-1">
+                                    <label class="text-[11px] font-bold uppercase text-gray-500">Numéro WhatsApp / Téléphone</label>
+                                    <input type="text" id="lead-phone" placeholder="Ex: +216 99 999 999" class="w-full border border-gray-200 px-4 py-2 text-sm rounded focus:outline-none focus:ring-1 focus:ring-navy">
+                                </div>
+                                <div class="space-y-1">
+                                    <label class="text-[11px] font-bold uppercase text-gray-500">Email professionnel</label>
+                                    <input type="email" id="lead-email" placeholder="Ex: contact@startup.tn" class="w-full border border-gray-200 px-4 py-2 text-sm rounded focus:outline-none focus:ring-1 focus:ring-navy">
+                                </div>
+                            </div>
+
+                            <div class="space-y-1">
+                                <label class="text-[11px] font-bold uppercase text-gray-500">Décrivez votre besoin réglementaire ou infrastructure</label>
+                                <textarea id="lead-description" rows="3" placeholder="Ex: Je souhaite implémenter un serveur VPN pour 10 salariés et solliciter un devis de comptabilité standard." class="w-full border border-gray-200 px-4 py-2 text-sm rounded focus:outline-none focus:ring-1 focus:ring-navy"></textarea>
+                            </div>
+
+                            <!-- Document Upload Box -->
+                            <div class="space-y-2">
+                                <label class="text-[11px] font-bold uppercase text-gray-500">Déposer un document témoin (Facultatif)</label>
+                                <div onclick="document.getElementById('lead-file-input').click()" class="border-2 border-dashed border-gray-200 hover:border-navy transition p-8 rounded bg-slate flex flex-col items-center justify-center text-center cursor-pointer space-y-2">
+                                    <i class="fa-solid fa-file-pdf text-3xl text-navy-tint"></i>
+                                    <span class="text-xs font-bold text-navy">Sélectionner un fichier</span>
+                                    <span class="text-[10px] text-gray-400">PDF, JPG (Contrat existant, devis concurrent ou statuts)</span>
+                                    <span id="lead-file-status" class="text-xs text-green-600 font-semibold mt-2"></span>
+                                    <input type="file" id="lead-file-input" class="hidden" onchange="handleLeadFileSelection(this.files)">
+                                </div>
+                            </div>
+
+                            <button onclick="submitLeadSandboxForm()" class="w-full bg-navy hover:bg-navy-light text-white transition py-3 text-xs font-bold uppercase tracking-wider rounded-sm text-center">Soumettre ma demande de proposition</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================= -->
+                <!-- STAFF & ADMIN PORTAL: CONTROL ENCLAVE         -->
+                <!-- ============================================= -->
+                <section id="view-admin-dashboard" class="view-pane hidden space-y-8">
+                    <div class="flex justify-between items-center border-b border-gray-200 pb-4">
+                        <div>
+                            <h1 class="text-3xl font-serif font-bold text-navy">Espace Cabinet Luca Pacioli</h1>
+                            <p class="text-sm text-gray-500 mt-1">Console globale d'administration et de triage d'activité.</p>
+                        </div>
+                        
+                        <!-- Internal staff sub-tabs -->
+                        <div class="flex gap-2 border-l border-gray-200 pl-4">
+                            <button onclick="switchAdminSubTab('triage')" id="admin-tab-triage" class="px-4 py-2 text-xs font-bold uppercase tracking-wide rounded bg-navy text-white shadow-sm transition">Triage Documents</button>
+                            <button onclick="switchAdminSubTab('inbox')" id="admin-tab-inbox" class="px-4 py-2 text-xs font-bold uppercase tracking-wide rounded text-gray-500 hover:bg-gray-200 transition">Omnichannel Inbox</button>
+                            <button onclick="switchAdminSubTab('leads')" id="admin-tab-leads" class="px-4 py-2 text-xs font-bold uppercase tracking-wide rounded text-gray-500 hover:bg-gray-200 transition">Sandbox Leads</button>
+                            <button onclick="switchAdminSubTab('config')" id="admin-tab-config" class="px-4 py-2 text-xs font-bold uppercase tracking-wide rounded text-gray-500 hover:bg-gray-200 transition">Services Config</button>
+                        </div>
+                    </div>
+
+                    <!-- STAFF SUB-TAB 1: DOCUMENT TRIAGE (Side-by-Side verification) -->
+                    <div id="admin-subview-triage" class="space-y-6">
+                        <div class="bg-white p-4 border border-gray-200 rounded-sm shadow-sm flex items-center justify-between">
+                            <p class="text-sm text-gray-500">Veuillez examiner les factures téléchargées par les clients et valider les détails comptables.</p>
+                            <span class="text-xs bg-red-50 text-red-600 border border-red-200 px-3 py-1 font-semibold rounded-full" id="admin-triage-pending-count">2 documents à traiter</span>
+                        </div>
+
+                        <!-- Side by Side Preview Panel -->
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 h-[550px]" id="verification-workspace">
+                            <!-- Left: Scanned Document visualization -->
+                            <div class="bg-gray-100 border border-gray-200 rounded-sm shadow-sm overflow-hidden flex flex-col">
+                                <div class="bg-navy text-white p-3 text-xs font-bold uppercase tracking-wide flex justify-between items-center">
+                                    <span>Pièce justificative téléversée</span>
+                                    <span class="text-navy-tint" id="verify-doc-reference">DOC_VERIF_089.PDF</span>
+                                </div>
+                                <div class="flex-1 p-8 overflow-y-auto flex items-center justify-center">
+                                    <!-- A simulated professional invoice mockup -->
+                                    <div class="bg-white p-8 w-full max-w-sm border border-gray-300 shadow-sm space-y-6 font-mono text-[10px] text-gray-600 relative">
+                                        <div class="absolute inset-0 bg-red-100/10 flex items-center justify-center transform -rotate-12 select-none pointer-events-none">
+                                            <span class="border-4 border-red-600/40 text-red-600/40 text-sm font-bold uppercase tracking-widest px-4 py-2">NUMÉRIQUE</span>
+                                        </div>
+                                        <div class="flex justify-between items-start border-b border-gray-200 pb-3">
+                                            <div>
+                                                <p class="font-bold text-navy text-xs" id="verify-invoice-issuer">STE TUNISIE TELECOM</p>
+                                                <p>6 Rue de la BCT, Tunis</p>
+                                                <p>M.F. : 0002345/A/M/000</p>
+                                            </div>
+                                            <div class="text-right">
+                                                <p class="font-bold text-xs" id="verify-invoice-num">FACT-2023-089</p>
+                                                <p id="verify-invoice-date">Date: 12/10/2023</p>
+                                            </div>
+                                        </div>
+                                        <div class="space-y-1">
+                                            <p class="font-bold text-gray-700">DESTINATAIRE:</p>
+                                            <p class="font-bold">SARL Méditerranée</p>
+                                            <p>Zone Industrielle du Lac, Tunis</p>
+                                        </div>
+                                        <table class="w-full text-left border-t border-b border-gray-200 py-2">
+                                            <thead>
+                                                <tr class="font-bold">
+                                                    <th>DESCR.</th>
+                                                    <th class="text-right">MONTANT HT</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Abonnement Fibre Optique Pro Octobre</td>
+                                                    <td class="text-right" id="verify-invoice-ht">1 240,000</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="space-y-1 text-right">
+                                            <p>MONTANT HT: <span id="verify-invoice-ht-summary">1 240,000</span> TND</p>
+                                            <p>TVA (19%): <span id="verify-invoice-tva-summary">235,600</span> TND</p>
+                                            <p class="font-bold text-navy">TOTAL TTC: <span id="verify-invoice-ttc-summary">1 475,600</span> TND</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Right: Struct Metadata input form -->
+                            <div class="bg-white border border-gray-200 rounded-sm shadow-sm p-6 overflow-y-auto space-y-4 flex flex-col justify-between">
+                                <div class="space-y-4">
+                                    <h3 class="text-lg font-serif font-bold text-navy border-b border-gray-100 pb-2">Formulaire de qualification fiscale</h3>
+                                    
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <div class="space-y-1">
+                                            <label class="text-[10px] font-bold uppercase tracking-wider text-gray-500">Fournisseur</label>
+                                            <input type="text" id="admin-triage-supplier" class="w-full border border-gray-200 px-3 py-1.5 text-xs rounded">
+                                        </div>
+                                        <div class="space-y-1">
+                                            <label class="text-[10px] font-bold uppercase tracking-wider text-gray-500">Numéro de Facture</label>
+                                            <input type="text" id="admin-triage-ref" class="w-full border border-gray-200 px-3 py-1.5 text-xs rounded">
+                                        </div>
+                                    </div>
+
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <div class="space-y-1">
+                                            <label class="text-[10px] font-bold uppercase tracking-wider text-gray-500">Montant HT</label>
+                                            <input type="number" id="admin-triage-ht" step="0.001" oninput="calculateTriageForm()" class="w-full border border-gray-200 px-3 py-1.5 text-xs rounded">
+                                        </div>
+                                        <div class="space-y-1">
+                                            <label class="text-[10px] font-bold uppercase tracking-wider text-gray-500">Taux TVA</label>
+                                            <select id="admin-triage-tva" onchange="calculateTriageForm()" class="w-full border border-gray-200 px-3 py-1.5 text-xs rounded">
+                                                <option value="0">0%</option>
+                                                <option value="7">7%</option>
+                                                <option value="13">13%</option>
+                                                <option value="19" selected>19%</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <div class="space-y-1">
+                                            <label class="text-[10px] font-bold uppercase tracking-wider text-gray-500">Fodec (1%)</label>
+                                            <select id="admin-triage-fodec" onchange="calculateTriageForm()" class="w-full border border-gray-200 px-3 py-1.5 text-xs rounded">
+                                                <option value="false">Désactivé</option>
+                                                <option value="true">Activé (1%)</option>
+                                            </select>
+                                        </div>
+                                        <div class="space-y-1">
+                                            <label class="text-[10px] font-bold uppercase tracking-wider text-gray-500">Droit de Timbre</label>
+                                            <input type="number" id="admin-triage-timbre" value="1.000" step="0.001" oninput="calculateTriageForm()" class="w-full border border-gray-200 px-3 py-1.5 text-xs rounded">
+                                        </div>
+                                    </div>
+
+                                    <div class="p-4 bg-slate border border-gray-100 rounded space-y-2 text-xs">
+                                        <div class="flex justify-between">
+                                            <span>Montant TVA :</span>
+                                            <span id="admin-triage-calc-tva" class="font-bold">0,000 TND</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span>Montant Fodec :</span>
+                                            <span id="admin-triage-calc-fodec" class="font-bold">0,000 TND</span>
+                                        </div>
+                                        <div class="flex justify-between border-t border-gray-200 pt-2 font-serif text-sm text-navy">
+                                            <span>Total TTC Calculé :</span>
+                                            <span id="admin-triage-calc-ttc" class="font-bold">0,000 TND</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="flex gap-3">
+                                    <button onclick="skipTriageDocument()" class="flex-1 bg-slate hover:bg-gray-200 text-gray-600 transition py-2.5 text-xs font-bold uppercase tracking-wider rounded-sm text-center">Passer / Rejeter</button>
+                                    <button onclick="commitTriageDocument()" class="flex-1 bg-navy hover:bg-navy-light text-white transition py-2.5 text-xs font-bold uppercase tracking-wider rounded-sm text-center">Valider et Committer</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- STAFF SUB-TAB 2: OMNICHANNEL INBOX (2-Way routing and direct phone/meeting logs) -->
+                    <div id="admin-subview-inbox" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <!-- Left Inbox ticket list -->
+                        <div class="bg-white border border-gray-200 rounded-sm shadow-sm flex flex-col">
+                            <div class="p-4 border-b border-gray-100 bg-slate">
+                                <h3 class="text-xs font-bold uppercase text-navy tracking-wider">Demandes d'assistance ouvertes</h3>
+                            </div>
+                            <div class="divide-y divide-gray-100 overflow-y-auto max-h-96" id="admin-ticket-list">
+                                <!-- Dynamic entries from system tickets -->
+                            </div>
+                        </div>
+
+                        <!-- Chat workspace with custom routing selection -->
+                        <div class="lg:col-span-2 bg-white border border-gray-200 rounded-sm shadow-sm flex flex-col h-[550px]">
+                            <!-- Conversation active header -->
+                            <div class="p-4 border-b border-gray-100 bg-slate flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <i class="fa-solid fa-messages text-navy text-lg"></i>
+                                    <div>
+                                        <h4 id="admin-active-chat-title" class="text-sm font-bold text-navy">Aucune conversation active</h4>
+                                        <p id="admin-active-chat-subtitle" class="text-[10px] text-gray-500">Sélectionnez un ticket de support pour commencer la saisie</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span id="admin-active-chat-channel" class="text-[10px] uppercase font-bold px-2 py-0.5 rounded-sm"></span>
+                                </div>
+                            </div>
+
+                            <!-- Messages workspace -->
+                            <div class="flex-1 p-6 overflow-y-auto space-y-4 bg-gray-50" id="admin-active-chat-messages">
+                                <div class="text-center text-xs text-gray-400 py-16">
+                                    Sélectionnez une discussion à gauche pour triager ou répondre.
+                                </div>
+                            </div>
+
+                            <!-- Reply inputs (With tabs for Standard Routing, Internal Note, and Manual Interaction Logging) -->
+                            <div class="border-t border-gray-200 p-4 space-y-4 bg-white">
+                                <!-- Selection tabs for message type -->
+                                <div class="flex border-b border-gray-200">
+                                    <button onclick="switchReplyMode('standard')" id="reply-mode-standard" class="border-b-2 border-navy px-4 py-2 text-xs font-bold uppercase text-navy">Standard Reply</button>
+                                    <button onclick="switchReplyMode('note')" id="reply-mode-note" class="border-b-2 border-transparent px-4 py-2 text-xs font-bold uppercase text-gray-500 hover:text-navy">Internal Note</button>
+                                    <button onclick="switchReplyMode('activity')" id="reply-mode-activity" class="border-b-2 border-transparent px-4 py-2 text-xs font-bold uppercase text-gray-500 hover:text-navy flex items-center gap-1">
+                                        Log Interaction <i class="fa-solid fa-square-phone"></i>
+                                    </button>
+                                </div>
+
+                                <!-- Standard / Internal input field -->
+                                <div id="admin-message-input-container" class="flex gap-2">
+                                    <input type="text" id="admin-chat-input" placeholder="Rédiger votre réponse réglementaire..." class="flex-1 border border-gray-200 px-4 py-2 text-sm rounded focus:outline-none focus:ring-1 focus:ring-navy" disabled>
+                                    <button onclick="sendStaffChatMessage()" id="admin-chat-send-btn" class="bg-navy hover:bg-navy-light text-white px-5 py-2 rounded text-xs font-bold uppercase tracking-wider" disabled>Envoyer</button>
+                                </div>
+
+                                <!-- Direct off-system manual interaction form -->
+                                <div id="admin-activity-form-container" class="hidden p-4 bg-slate border border-gray-200 rounded space-y-4">
+                                    <div class="grid grid-cols-2 gap-4 text-xs">
+                                        <div class="space-y-1">
+                                            <label class="font-bold text-gray-500 uppercase tracking-wider block">Type de contact physique</label>
+                                            <select id="activity-type" class="w-full border border-gray-200 rounded px-2 py-1">
+                                                <option value="Appel Téléphonique">Appel Téléphonique</option>
+                                                <option value="Réunion Cabinet">Réunion Physique au Cabinet</option>
+                                                <option value="Bouche à Oreille">Bouche à Oreille / Direct</option>
+                                            </select>
+                                        </div>
+                                        <div class="space-y-1">
+                                            <label class="font-bold text-gray-500 uppercase tracking-wider block">Durée de l'échange</label>
+                                            <input type="text" id="activity-duration" placeholder="Ex: 15 min" class="w-full border border-gray-200 rounded px-2 py-1">
+                                        </div>
+                                    </div>
+                                    <div class="space-y-1">
+                                        <label class="text-xs font-bold text-gray-500 uppercase tracking-wider block">Synthèse & Décision administrative</label>
+                                        <textarea id="activity-notes" rows="2" placeholder="Ex: Accord verbal de validation du plan d'amortissement trimestriel." class="w-full border border-gray-200 rounded px-2 py-1 text-xs"></textarea>
+                                    </div>
+                                    <button onclick="logStaffManualActivity()" class="bg-navy text-white hover:bg-navy-light px-4 py-1.5 text-[10px] font-bold uppercase tracking-wider rounded-sm">Enregistrer l'interaction dans le Journal</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- STAFF SUB-TAB 3: LEAD CONVERTER (Convert sandbox proposal to Tenant) -->
+                    <div id="admin-subview-leads" class="hidden space-y-6">
+                        <div class="bg-white p-6 border border-gray-200 rounded-sm shadow-sm space-y-4">
+                            <h3 class="text-lg font-serif font-bold text-navy border-b border-gray-100 pb-2">Dossier de conversion des prospects</h3>
+                            <p class="text-xs text-gray-500">Un clic convertit les documents, pièces de sandbox et fiches prospects en compte client certifié Cabinet Luca Pacioli.</p>
+                            
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left border-collapse text-xs">
+                                    <thead>
+                                        <tr class="bg-slate border-b border-gray-200">
+                                            <th class="p-3 font-bold uppercase text-gray-500">Prospect</th>
+                                            <th class="p-3 font-bold uppercase text-gray-500">Société</th>
+                                            <th class="p-3 font-bold uppercase text-gray-500">Contact</th>
+                                            <th class="p-3 font-bold uppercase text-gray-500">Pièce jointe</th>
+                                            <th class="p-3 font-bold uppercase text-gray-500 text-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="admin-leads-table-body" class="divide-y divide-gray-100">
+                                        <!-- Dynamic load rows -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- STAFF SUB-TAB 4: DYNAMIC SERVICE CONFIGURATION -->
+                    <div id="admin-subview-config" class="hidden space-y-6">
+                        <div class="bg-white p-6 border border-gray-200 rounded-sm shadow-sm space-y-4">
+                            <h3 class="text-lg font-serif font-bold text-navy border-b border-gray-100 pb-2">Catalogue Dynamique de Prestations ("Services by LucaP")</h3>
+                            <p class="text-xs text-gray-500">Activer, désactiver ou configurer l'intégration en direct des offres d'infrastructure et support.</p>
+                            
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between p-4 bg-slate border border-gray-200 rounded">
+                                    <div>
+                                        <h4 class="text-sm font-bold text-navy">VPN d'Entreprise</h4>
+                                        <p class="text-[11px] text-gray-500">Fourniture d'adresses IP dédiées et de passerelles nearshoring.</p>
+                                    </div>
+                                    <input type="checkbox" checked class="w-10 h-5 bg-navy rounded-full focus:outline-none cursor-pointer">
+                                </div>
+                                <div class="flex items-center justify-between p-4 bg-slate border border-gray-200 rounded">
+                                    <div>
+                                        <h4 class="text-sm font-bold text-navy">Email Archiving Server</h4>
+                                        <p class="text-[11px] text-gray-500">Stockage et audit-readiness légal de toutes les correspondances.</p>
+                                    </div>
+                                    <input type="checkbox" checked class="w-10 h-5 bg-navy rounded-full focus:outline-none cursor-pointer">
+                                </div>
+                                <div class="flex items-center justify-between p-4 bg-slate border border-gray-200 rounded">
+                                    <div>
+                                        <h4 class="text-sm font-bold text-navy">ERP Web Implementation</h4>
+                                        <p class="text-[11px] text-gray-500">Instance Odoo d'affaires hébergée sur l'infrastructure sécurisée.</p>
+                                    </div>
+                                    <input type="checkbox" checked class="w-10 h-5 bg-navy rounded-full focus:outline-none cursor-pointer">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+            </div>
+        </main>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- SLIDE-OVER MODAL: NOUVELLE TRANSACTION (achats_management.jpg) -->
+    <!-- ============================================================== -->
+    <div id="transaction-slideover" class="fixed inset-0 bg-navy bg-opacity-50 z-50 flex justify-end hidden transition-all">
+        <div class="w-full max-w-xl bg-[#f9f9ff] h-full shadow-2xl flex flex-col justify-between overflow-y-auto">
+            
+            <div class="p-6 border-b border-gray-200 bg-white flex justify-between items-center flex-shrink-0">
+                <div>
+                    <h2 class="text-2xl font-serif font-bold text-navy" id="slideover-title">Nouvelle Transaction</h2>
+                    <p class="text-xs text-gray-500">Saisie simplifiée des pièces comptables avec calcul automatique des taxes.</p>
+                </div>
+                <button onclick="toggleTransactionSlideOver(false)" class="text-gray-500 hover:text-navy border border-gray-200 px-3 py-1.5 rounded-sm hover:bg-gray-100 transition">
+                    <i class="fa-solid fa-xmark"></i> Annuler
+                </button>
+            </div>
+
+            <!-- Content body -->
+            <div class="p-6 space-y-6 flex-1">
+                <!-- Select transaction direction buttons -->
+                <div class="grid grid-cols-2 gap-4">
+                    <button onclick="setSlideoverType('Achat')" id="slideover-tab-achat" class="p-4 border-2 rounded text-left transition flex items-center gap-3 border-navy bg-white">
+                        <i class="fa-solid fa-cart-shopping text-navy text-lg"></i>
+                        <div>
+                            <p class="text-sm font-bold text-navy">Achat</p>
+                            <p class="text-[10px] text-gray-400">Factures fournisseurs, frais généraux, matériel</p>
+                        </div>
+                    </button>
+                    <button onclick="setSlideoverType('Vente')" id="slideover-tab-vente" class="p-4 border border-gray-200 rounded text-left hover:border-navy transition flex items-center gap-3 bg-white">
+                        <i class="fa-solid fa-file-invoice text-navy text-lg"></i>
+                        <div>
+                            <p class="text-sm font-bold text-navy">Vente</p>
+                            <p class="text-[10px] text-gray-400">Chiffre d'affaires, prestations de services</p>
+                        </div>
+                    </button>
+                </div>
+
+                <!-- Form Section Title Header -->
+                <div class="bg-[#0c1427] text-white p-3 text-xs font-bold uppercase tracking-wider rounded-sm flex justify-between items-center">
+                    <span id="slideover-form-banner">DÉTAILS DE LA FACTURE D'ACHAT</span>
+                    <span class="text-navy-tint text-[10px]">Formulaire de précision fiscale</span>
+                </div>
+
+                <!-- Core Form Fields -->
+                <div class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold uppercase tracking-wider text-gray-500">Date de Facture</label>
+                            <input type="date" id="form-date" class="w-full border border-gray-200 rounded-sm px-3 py-2 text-xs focus:ring-1 focus:ring-navy">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold uppercase tracking-wider text-gray-500">Numéro de Facture</label>
+                            <input type="text" id="form-ref" placeholder="Ex: FACT-2023-089" class="w-full border border-gray-200 rounded-sm px-3 py-2 text-xs focus:ring-1 focus:ring-navy">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold uppercase tracking-wider text-gray-500" id="form-label-target">Fournisseur (Autocomplete)</label>
+                            <input type="text" id="form-target" placeholder="Commencez à taper le nom..." class="w-full border border-gray-200 rounded-sm px-3 py-2 text-xs focus:ring-1 focus:ring-navy">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold uppercase tracking-wider text-gray-500" id="form-label-category">Type d'achat (Plan Comptable)</label>
+                            <select id="form-category" class="w-full border border-gray-200 rounded-sm px-3 py-2 text-xs bg-slate focus:ring-1 focus:ring-navy">
+                                <option>LOCATION VEHICULE</option>
+                                <option>SERVICES TELECOM</option>
+                                <option>MATÉRIEL DE BUREAU</option>
+                                <option>PRODUITS CHIMIQUES</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold uppercase tracking-wider text-gray-500">Prix Hors Taxe (HT)</label>
+                            <input type="number" id="form-ht" value="0.000" step="0.001" oninput="calculateTransactionForm()" class="w-full border border-gray-200 rounded-sm px-3 py-2 text-sm font-semibold focus:ring-1 focus:ring-navy">
+                        </div>
+                        <!-- TVA Selection Chips -->
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold uppercase tracking-wider text-gray-500">Taux TVA</label>
+                            <div class="grid grid-cols-4 gap-1.5">
+                                <button onclick="setFormTVA(0)" id="tva-chip-0" class="py-2 text-xs font-bold border border-gray-200 bg-white hover:border-navy rounded-sm">0%</button>
+                                <button onclick="setFormTVA(7)" id="tva-chip-7" class="py-2 text-xs font-bold border border-gray-200 bg-white hover:border-navy rounded-sm">7%</button>
+                                <button onclick="setFormTVA(13)" id="tva-chip-13" class="py-2 text-xs font-bold border border-gray-200 bg-white hover:border-navy rounded-sm">13%</button>
+                                <button onclick="setFormTVA(19)" id="tva-chip-19" class="py-2 text-xs font-bold border border-navy bg-[#0d1b3e] text-white rounded-sm">19%</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fodec toggle & direct metadata computation -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="space-y-1 bg-white p-3 border border-gray-100 rounded-sm flex items-center justify-between">
+                            <div>
+                                <span class="text-xs font-bold text-navy block">Fodec (1%)</span>
+                                <span class="text-[9px] text-gray-400">Fonds de Dev. de la Compétitivité</span>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="form-fodec" onchange="calculateTransactionForm()" class="sr-only peer">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-navy"></div>
+                            </label>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 text-xs bg-slate p-3 border border-gray-100 rounded-sm">
+                            <div>
+                                <span class="text-[9px] text-gray-500 uppercase">Droit de Timbre</span>
+                                <span class="font-bold block mt-1" id="form-disp-timbre">1.000 TND</span>
+                            </div>
+                            <div>
+                                <span class="text-[9px] text-gray-500 uppercase">Montant TVA</span>
+                                <span class="font-bold block mt-1" id="form-disp-tva">0.000 TND</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mode de reglement & Bank dropdown -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold uppercase tracking-wider text-gray-500">Mode de règlement</label>
+                            <div class="grid grid-cols-2 gap-2">
+                                <label class="border border-gray-200 rounded bg-white p-3 flex items-center gap-2 cursor-pointer hover:border-navy">
+                                    <input type="radio" name="form-payment" value="Banque" checked class="text-navy focus:ring-navy">
+                                    <span class="text-xs font-medium">Banque / Chèque</span>
+                                </label>
+                                <label class="border border-gray-200 rounded bg-white p-3 flex items-center gap-2 cursor-pointer hover:border-navy">
+                                    <input type="radio" name="form-payment" value="Espèces" class="text-navy focus:ring-navy">
+                                    <span class="text-xs font-medium">Espèces</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold uppercase tracking-wider text-gray-500">Compte Bancaire</label>
+                            <select id="form-bank" class="w-full border border-gray-200 rounded px-3 py-2 text-xs bg-slate focus:ring-1 focus:ring-navy">
+                                <option>BIAT - Principal 8821</option>
+                                <option>ATB - Devise 1024</option>
+                                <option>UIB - Courant 4509</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Retenue à la source selection -->
+                    <div class="space-y-1 bg-white p-4 border border-gray-200 rounded">
+                        <label class="text-[10px] font-bold uppercase tracking-wider text-gray-500 block">Retenue à la source (RS)</label>
+                        <div class="grid grid-cols-2 gap-4 mt-1">
+                            <select id="form-rs-rate" onchange="calculateTransactionForm()" class="border border-gray-200 rounded px-3 py-2 text-xs">
+                                <option value="0">Sans RS</option>
+                                <option value="1.5">Honoraires, loyers, commissions (1.5%)</option>
+                                <option value="5">Prestations de services tierces (5%)</option>
+                                <option value="10">Honoraires non-commerciaux, jetons (10%)</option>
+                            </select>
+                            <div class="bg-slate px-3 py-2 border border-gray-100 rounded text-right">
+                                <span class="text-[9px] text-gray-400 block uppercase">Montant RS Déduit</span>
+                                <span class="text-sm font-bold text-navy" id="form-disp-rs">0.000 TND</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Document Upload Frame -->
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-bold uppercase tracking-wider text-gray-500 block">Pièce jointe réglementaire</label>
+                        <div onclick="document.getElementById('form-file-input').click()" class="border-2 border-dashed border-gray-200 hover:border-navy transition p-4 rounded bg-slate flex flex-col items-center justify-center text-center cursor-pointer">
+                            <i class="fa-solid fa-cloud-arrow-up text-xl text-navy-tint mb-1"></i>
+                            <span class="text-[11px] font-bold text-navy">Télécharger la pièce jointe (PDF, JPG)</span>
+                            <span class="text-[9px] text-gray-400">Glisser-déposer ou cliquer pour parcourir</span>
+                            <span id="form-file-status" class="text-[10px] text-green-600 font-semibold mt-1"></span>
+                            <input type="file" id="form-file-input" class="hidden" onchange="handleFormFileSelection(this.files)">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom slideover action metrics block -->
+            <div class="p-6 border-t border-gray-200 bg-white flex items-center justify-between flex-shrink-0">
+                <div class="space-y-1">
+                    <span class="text-[9px] text-gray-500 uppercase block">Net à Payer</span>
+                    <span class="text-2xl font-serif font-bold text-navy" id="form-disp-net">0.000 TND</span>
+                    <span class="text-[9px] bg-yellow-50 text-yellow-600 border border-yellow-200 px-2 py-0.5 rounded-sm font-semibold" id="form-disp-status">PRÊT POUR AUDIT</span>
+                </div>
+                <button onclick="submitTransactionForm()" class="bg-navy hover:bg-navy-light text-white transition px-6 py-3 text-xs font-bold uppercase tracking-wider flex items-center gap-2 rounded-sm shadow-md">
+                    <i class="fa-regular fa-floppy-disk"></i> Enregistrer la Transaction
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- NEW TICKET COMPOSER MODAL -->
+    <div id="new-ticket-modal" class="fixed inset-0 bg-navy bg-opacity-60 z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-white border border-gray-200 w-full max-w-lg rounded shadow-2xl overflow-hidden">
+            <div class="bg-navy text-white p-5 flex justify-between items-center">
+                <h3 class="text-lg font-serif font-bold">Ouvrir un nouveau Ticket de support</h3>
+                <button onclick="closeNewTicketModal()" class="text-white hover:text-gray-200"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="p-6 space-y-4">
+                <div class="space-y-1">
+                    <label class="text-[10px] font-bold uppercase tracking-wider text-gray-500">Objet de la demande</label>
+                    <input type="text" id="new-ticket-title" placeholder="Ex: Problème d'accès VPN" class="w-full border border-gray-200 px-3 py-2 text-xs rounded">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-bold uppercase tracking-wider text-gray-500">Service concerné</label>
+                        <select id="new-ticket-service" class="w-full border border-gray-200 px-3 py-2 text-xs rounded bg-slate">
+                            <option value="Standard Accounting">Comptabilité Générale</option>
+                            <option value="VPN d'Entreprise">VPN d'Entreprise</option>
+                            <option value="Email Archiving Server">Email Archiving Server</option>
+                            <option value="ERP Web">ERP Web Implementation</option>
+                            <option value="M&A Advisory">M&A / Deal Advisory</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-bold uppercase tracking-wider text-gray-500">Canal de contact favori</label>
+                        <select id="new-ticket-channel" class="w-full border border-gray-200 px-3 py-2 text-xs rounded bg-slate">
+                            <option value="In-App">In-App (Portail Web)</option>
+                            <option value="WhatsApp">WhatsApp Link</option>
+                            <option value="Email">Email direct</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="space-y-1">
+                    <label class="text-[10px] font-bold uppercase tracking-wider text-gray-500">Description détaillée de votre situation</label>
+                    <textarea id="new-ticket-body" rows="3" placeholder="Rédigez votre question réglementaire ou technique ici..." class="w-full border border-gray-200 px-3 py-2 text-xs rounded"></textarea>
+                </div>
+            </div>
+            <div class="bg-slate p-4 flex justify-end gap-2">
+                <button onclick="closeNewTicketModal()" class="bg-white border border-gray-200 hover:bg-gray-100 px-4 py-2 text-xs font-bold uppercase rounded">Annuler</button>
+                <button onclick="submitNewTicket()" class="bg-navy hover:bg-navy-light text-white px-5 py-2 text-xs font-bold uppercase rounded shadow">Envoyer le ticket</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- CORE JAVASCRIPT STATE SYSTEM & LOGIC BLOCK -->
+    <!-- ========================================== -->
+    <script>
+        // CLIENT METRIC DATABASE SIMULATING THE SYSTEM
+        let currentRole = 'client'; // client, lead, staff
+        let activeAdminSubTab = 'triage'; // triage, inbox, leads, config
+
+        // Simulated Documents Repository
+        let stateDocuments = [
+            { id: 'doc-1', name: 'facture_fibre_telecom_octobre.pdf', size: '1.2 Mo', date: '12/10/2023', classification: 'Invoice', encryption: 'AES-256-GCM', bucket: 'lucap-clients' },
+            { id: 'doc-2', name: 'quittance_loyer_bureaux_lac.pdf', size: '2.4 Mo', date: '01/10/2023', classification: 'Receipt', encryption: 'AES-256-GCM', bucket: 'lucap-clients' },
+            { id: 'doc-3', name: 'contrat_fourniture_dell.pdf', size: '5.1 Mo', date: '15/09/2023', classification: 'Agreement', encryption: 'AES-256-GCM', bucket: 'lucap-clients' },
+            { id: 'doc-4', name: 'mecanismes_fiscaux_tunisie_2024.pdf', size: '8.4 Mo', date: '05/09/2023', classification: 'Reference', encryption: 'AES-256-GCM', bucket: 'lucap-clients' },
+            { id: 'doc-5', name: 'statuts_sarl_mediterranee_signes.pdf', size: '3.6 Mo', date: '28/08/2023', classification: 'Legal', encryption: 'AES-256-GCM', bucket: 'lucap-clients' }
+        ];
+
+        // Active state registers matching achats_management.jpg and ventes_ca_management.png
+        let stateAchats = [
+            { id: 'ach-1', date: '12/10/2023', ref: 'FACT-2023-089', supplier: 'STE Tunisie Télécom', type: 'SERVICES', ht: 1240.000, tva: 235.600, ttc: 1475.600, status: 'Payé' },
+            { id: 'ach-2', date: '15/10/2023', ref: 'INV/772/2023', supplier: 'Dell Solutions S.A.', type: 'MATÉRIEL', ht: 5400.000, tva: 1026.000, ttc: 6426.000, status: 'Payé' },
+            { id: 'ach-3', date: '18/10/2023', ref: 'LC-2023-445', supplier: 'Local Prestige S.A.R.L', type: 'LOYER', ht: 2500.000, tva: 0.000, ttc: 2500.000, status: 'En attente' }
+        ];
+
+        let stateVentes = [
+            { id: 'ven-1', date: '12/10/2023', ref: 'FA-2023-0842', client: 'SOTEMAIL SA', type: 'VENTE MARCHANDISES 19%', ht: 10000.000, tva: 1900.000, ttc: 11900.000, rs: 119.000 },
+            { id: 'ven-2', date: '10/10/2023', ref: 'FA-2023-0841', client: 'TECH-SOLUTIONS SARL', type: 'VENTE EXPORT', ht: 25450.000, tva: 0.000, ttc: 25450.000, rs: 0.000 },
+            { id: 'ven-3', date: '05/10/2023', ref: 'FA-2023-0840', client: 'GLOBAL TRADING LTD', type: 'VENTE SERVICES 13%', ht: 5200.000, tva: 676.000, ttc: 5876.000, rs: 58.760 }
+        ];
+
+        // System Tickets simulating 2-way routing
+        let stateTickets = [
+            { id: 't-1', clientName: 'SARL Méditerranée', title: 'Accès VPN d\'Entreprise', service: 'VPN d\'Entreprise', channel: 'In-App', status: 'En cours', replies: [
+                { author: 'client', message: 'Bonjour, nous avons besoin d\'avoir les accès VPN pour nos 5 collaborateurs offshore.', date: '14/10/2023', type: 'text' },
+                { author: 'staff', message: 'Bonjour, votre passerelle de sécurité est en cours de provisionnement.', date: '14/10/2023', type: 'text' }
+            ]},
+            { id: 't-2', clientName: 'SARL Méditerranée', title: 'Consultation Amortissement', service: 'Standard Accounting', channel: 'WhatsApp', status: 'En attente', replies: [
+                { author: 'client', message: 'Est-il possible d\'amortir l\'achat du véhicule de service sur 4 ans ?', date: '12/10/2023', type: 'text' }
+            ]},
+            { id: 't-3', clientName: 'Société Aladin', title: 'Configuration Email Archiving', service: 'Email Archiving Server', channel: 'Email', status: 'Résolu', replies: [
+                { author: 'client', message: 'Je souhaiterais connecter nos emails de support pour sauvegarde légale.', date: '10/10/2023', type: 'text' },
+                { author: 'staff', message: 'La passerelle d\'archivage a été déployée avec succès.', date: '11/10/2023', type: 'text' }
+            ]}
+        ];
+
+        // Pipeline for temporary unvalidated documents (Triage Queue)
+        let stateTriageQueue = [
+            { id: 'tr-1', filename: 'TELECOM_OCT_2023.PDF', supplier: 'STE Tunisie Télécom', ref: 'FACT-2023-089', ht: 1240.000, tva: 19, timbre: 1.000 },
+            { id: 'tr-2', filename: 'DELL_HARDWARE_INV.PNG', supplier: 'Dell Solutions S.A.', ref: 'INV/772/2023', ht: 5400.000, tva: 19, timbre: 1.000 }
+        ];
+
+        // Prospective leads sandbox repository
+        let stateLeads = [
+            { id: 'lead-1', name: 'Sami Ben Ali', company: 'Startup Tech SAS', phone: '+216 99 999 999', email: 'sami@startup.tn', description: 'Besoin de company formation Tunisie et mise en place d\'un ERP pour gérer notre comptabilité initiale.', file: 'PROPOSITION_CONCURRENTE.PDF' }
+        ];
+
+        let selectedActiveClientTicketId = 't-1';
+        let selectedActiveAdminTicketId = 't-1';
+        let activeSlideoverType = 'Achat'; // Achat, Vente
+        let activeFormTVA = 19;
+        let selectedReplyMode = 'standard'; // standard, note, activity
+
+        // ROUTING SYSTEM SWITCHES BETWEEN SECTIONS
+        function switchView(viewId) {
+            // Hide all views
+            document.querySelectorAll('.view-pane').forEach(pane => {
+                pane.classList.add('hidden');
+            });
+            // Show active
+            document.getElementById('view-' + viewId).classList.remove('hidden');
+
+            // Reset navigation links styling
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.className = "nav-btn w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium rounded-sm text-gray-300 hover:bg-[#1a2d54] hover:text-white transition-all text-left";
+            });
+
+            // Set current active
+            const activeNav = document.getElementById('nav-' + viewId);
+            if (activeNav) {
+                activeNav.className = "nav-btn w-full flex items-center gap-3 px-4 py-2.5 text-sm font-bold rounded-sm bg-navy-light text-white transition-all text-left";
+            }
+        }
+
+        // ROLE SWITCHER SYSTEM (Simulating distinct roles within client, admin, lead)
+        function switchRole(role) {
+            currentRole = role;
+            
+            // Adjust top buttons styles
+            document.querySelectorAll('[id^="role-btn-"]').forEach(btn => {
+                btn.className = "px-3 py-1 text-xs font-bold uppercase rounded transition-all text-gray-500 hover:bg-gray-200";
+            });
+            document.getElementById('role-btn-' + role).className = "px-3 py-1 text-xs font-bold uppercase rounded transition-all bg-navy text-white shadow-sm";
+
+            // UI adjustments
+            const userNameEl = document.getElementById('user-display-name');
+            const userAvatarEl = document.getElementById('user-avatar');
+            const userStatusEl = document.getElementById('user-display-status');
+
+            if (role === 'client') {
+                userNameEl.innerText = "SARL Méditerranée";
+                userAvatarEl.src = "https://placehold.co/100x100/0d1b3e/ffffff?text=SARL";
+                userStatusEl.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-green-500"></span> Client Actif`;
+                switchView('client-dashboard');
+            } else if (role === 'lead') {
+                userNameEl.innerText = "Prospect Sandbox";
+                userAvatarEl.src = "https://placehold.co/100x100/7784ad/ffffff?text=Lead";
+                userStatusEl.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-yellow-500"></span> Hors Système`;
+                switchView('lead-sandbox');
+            } else if (role === 'staff') {
+                userNameEl.innerText = "Admin CPA (Arcelin)";
+                userAvatarEl.src = "https://placehold.co/100x100/0d1b3e/ffffff?text=CPA";
+                userStatusEl.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span> Mode Staff`;
+                switchView('admin-dashboard');
+                switchAdminSubTab('triage');
+            }
+            showToast("Changement de rôle", `Vous utilisez maintenant l'interface : ${role.toUpperCase()}`, "info");
+        }
+
+        // STAFF-SUB NAV WORKSPACE CONTROLLER
+        function switchAdminSubTab(tabId) {
+            activeAdminSubTab = tabId;
+            document.querySelectorAll('[id^="admin-tab-"]').forEach(btn => {
+                btn.className = "px-4 py-2 text-xs font-bold uppercase tracking-wide rounded text-gray-500 hover:bg-gray-200 transition";
+            });
+            document.getElementById('admin-tab-' + tabId).className = "px-4 py-2 text-xs font-bold uppercase tracking-wide rounded bg-navy text-white shadow-sm transition";
+
+            // Hide all sub-views
+            document.getElementById('admin-subview-triage').classList.add('hidden');
+            document.getElementById('admin-subview-inbox').classList.add('hidden');
+            document.getElementById('admin-subview-leads').classList.add('hidden');
+            document.getElementById('admin-subview-config').classList.add('hidden');
+
+            // Show active
+            document.getElementById('admin-subview-' + tabId).classList.remove('hidden');
+
+            if (tabId === 'triage') {
+                loadAdminTriageWorkspace();
+            } else if (tabId === 'inbox') {
+                loadAdminInboxWorkspace();
+            } else if (tabId === 'leads') {
+                loadAdminLeadsWorkspace();
+            }
+        }
+
+        // TOAST NOTIFICATION GENERATOR
+        function showToast(title, message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = "bg-white border border-gray-200 p-4 rounded shadow-lg pointer-events-auto flex items-start gap-3 w-80 transform translate-y-2 transition-all duration-300";
+            
+            let icon = '<i class="fa-solid fa-circle-check text-green-600 text-lg"></i>';
+            if (type === 'error') {
+                icon = '<i class="fa-solid fa-circle-exclamation text-red-600 text-lg"></i>';
+            } else if (type === 'info') {
+                icon = '<i class="fa-solid fa-circle-info text-blue-600 text-lg"></i>';
+            }
+
+            toast.innerHTML = `
+                ${icon}
+                <div class="flex-1">
+                    <h4 class="text-xs font-bold text-navy">${title}</h4>
+                    <p class="text-[11px] text-gray-500 mt-0.5">${message}</p>
+                </div>
+                <button onclick="this.parentElement.remove()" class="text-gray-400 hover:text-gray-600"><i class="fa-solid fa-xmark text-xs"></i></button>
+            `;
+            
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.remove();
+            }, 4000);
+        }
+
+        // UTILITY: SHOW AN INTEGRATION PLACEHOLDER POPUP
+        function showUpcomingServiceToast(serviceName) {
+            showToast("Prestation", `L'intégration de "${serviceName}" est active sous l'autorité du réseau de l'Andersen Group.`, "info");
+        }
+
+        // TRANSACTION FORM TAX COMPUTATION (TVA, Fodec, Timbre, RS, and Net)
+        function calculateTransactionForm() {
+            let ht = parseFloat(document.getElementById('form-ht').value) || 0;
+            let fodecActive = document.getElementById('form-fodec').checked;
+            let rsRate = parseFloat(document.getElementById('form-rs-rate').value) || 0;
+            let timbre = 1.000; // Standard Tunisian Stamp
+
+            // Compute values
+            let fodec = fodecActive ? ht * 0.01 : 0;
+            let baseTVA = ht + fodec;
+            let tvaAmount = baseTVA * (activeFormTVA / 100);
+            let ttc = baseTVA + tvaAmount + timbre;
+            let rs = ht * (rsRate / 100);
+            let net = ttc - rs;
+
+            // Form bindings
+            document.getElementById('form-disp-timbre').innerText = timbre.toFixed(3) + " TND";
+            document.getElementById('form-disp-tva').innerText = tvaAmount.toFixed(3) + " TND";
+            document.getElementById('form-disp-rs').innerText = rs.toFixed(3) + " TND";
+            document.getElementById('form-disp-net').innerText = net.toFixed(3) + " TND";
+        }
+
+        // CHIP SELECTOR ACTIONS FOR FORM TVA
+        function setFormTVA(rate) {
+            activeFormTVA = rate;
+            // Clear selections
+            [0, 7, 13, 19].forEach(r => {
+                const chip = document.getElementById(`tva-chip-${r}`);
+                chip.className = "py-2 text-xs font-bold border border-gray-200 bg-white hover:border-navy rounded-sm";
+            });
+            // Mark active
+            document.getElementById(`tva-chip-${rate}`).className = "py-2 text-xs font-bold border border-navy bg-[#0d1b3e] text-white rounded-sm";
+            calculateTransactionForm();
+        }
+
+        // SLIDE OVER CONTROLLER FOR TRANSACTION
+        function toggleTransactionSlideOver(show, type = 'Achat') {
+            const panel = document.getElementById('transaction-slideover');
+            if (show) {
+                setSlideoverType(type);
+                panel.classList.remove('hidden');
+                // Auto prefill current date
+                document.getElementById('form-date').value = new Date().toISOString().split('T')[0];
+            } else {
+                panel.classList.add('hidden');
+            }
+        }
+
+        // SETS TRANSACTION FORM DIRECTION (Achat vs Vente)
+        function setSlideoverType(type) {
+            activeSlideoverType = type;
+            calculateTransactionForm();
+
+            const tabAchat = document.getElementById('slideover-tab-achat');
+            const tabVente = document.getElementById('slideover-tab-vente');
+            const banner = document.getElementById('slideover-form-banner');
+            const labelTarget = document.getElementById('form-label-target');
+            const labelCategory = document.getElementById('form-label-category');
+            const selectCategory = document.getElementById('form-category');
+
+            if (type === 'Achat') {
+                tabAchat.className = "p-4 border-2 rounded text-left transition flex items-center gap-3 border-navy bg-white";
+                tabVente.className = "p-4 border border-gray-200 rounded text-left hover:border-navy transition flex items-center gap-3 bg-white";
+                banner.innerText = "DÉTAILS DE LA FACTURE D'ACHAT";
+                labelTarget.innerText = "Fournisseur (Autocomplete)";
+                labelCategory.innerText = "Type d'achat (Plan Comptable)";
+                
+                selectCategory.innerHTML = `
+                    <option>LOCATION VEHICULE</option>
+                    <option>SERVICES TELECOM</option>
+                    <option>MATÉRIEL DE BUREAU</option>
+                    <option>PRODUITS CHIMIQUES</option>
+                `;
+            } else {
+                tabVente.className = "p-4 border-2 rounded text-left transition flex items-center gap-3 border-navy bg-white";
+                tabAchat.className = "p-4 border border-gray-200 rounded text-left hover:border-navy transition flex items-center gap-3 bg-white";
+                banner.innerText = "DÉTAILS DE LA FACTURE DE VENTE";
+                labelTarget.innerText = "Client (Autocomplete)";
+                labelCategory.innerText = "Type de vente (Plan de Chiffre d'Affaires)";
+                
+                selectCategory.innerHTML = `
+                    <option>VENTE SERVICES 13%</option>
+                    <option>VENTE MARCHANDISES 19%</option>
+                    <option>VENTE EXPORT</option>
+                `;
+            }
+        }
+
+        // SUBMIT AND COMMIT NEW TRANSACTION FORM DATA TO REGISTRIES
+        function submitTransactionForm() {
+            const date = document.getElementById('form-date').value;
+            const ref = document.getElementById('form-ref').value || 'REF-N-2023';
+            const targetName = document.getElementById('form-target').value || 'STE Standard S.A.';
+            const category = document.getElementById('form-category').value;
+            const ht = parseFloat(document.getElementById('form-ht').value) || 0;
+
+            if (ht <= 0) {
+                showToast("Saisie Incorrecte", "Le montant Hors Taxe doit être supérieur à 0.", "error");
+                return;
+            }
+
+            // Calculations
+            let fodecActive = document.getElementById('form-fodec').checked;
+            let fodec = fodecActive ? ht * 0.01 : 0;
+            let tvaVal = ht * (activeFormTVA / 100);
+            let timbre = 1.000;
+            let ttc = ht + fodec + tvaVal + timbre;
+
+            if (activeSlideoverType === 'Achat') {
+                const newAchat = {
+                    id: 'ach-' + (stateAchats.length + 1),
+                    date: date,
+                    ref: ref,
+                    supplier: targetName,
+                    type: category,
+                    ht: ht,
+                    tva: tvaVal,
+                    ttc: ttc,
+                    status: 'En attente'
+                };
+                stateAchats.unshift(newAchat);
+                showToast("Achat Enregistré", "Le justificatif d'achat a été indexé et commis au grand livre.", "success");
+            } else {
+                let rsRate = parseFloat(document.getElementById('form-rs-rate').value) || 0;
+                let rs = ht * (rsRate / 100);
+                const newVente = {
+                    id: 'ven-' + (stateVentes.length + 1),
+                    date: date,
+                    ref: ref,
+                    client: targetName,
+                    type: category,
+                    ht: ht,
+                    tva: tvaVal,
+                    ttc: ttc,
+                    rs: rs
+                };
+                stateVentes.unshift(newVente);
+                showToast("Vente Enregistrée", "La transaction de vente a été enregistrée avec succès.", "success");
+            }
+
+            // Reset form fields
+            document.getElementById('form-ref').value = '';
+            document.getElementById('form-target').value = '';
+            document.getElementById('form-ht').value = '0.000';
+            document.getElementById('form-fodec').checked = false;
+            document.getElementById('form-file-status').innerText = '';
+
+            toggleTransactionSlideOver(false);
+            refreshStateAndDOM();
+        }
+
+        // TRIGGER INTEGRATION SIMULATION OF FILE DROPS
+        function handleFormFileSelection(files) {
+            if (files.length > 0) {
+                document.getElementById('form-file-status').innerText = "✓ Fichier joint : " + files[0].name;
+                showToast("Sécurisé", "L'empreinte cryptographique du document est validée.", "info");
+            }
+        }
+
+        function handleLeadFileSelection(files) {
+            if (files.length > 0) {
+                document.getElementById('lead-file-status').innerText = "✓ Pièce validée : " + files[0].name;
+            }
+        }
+
+        function simulateMultipleFileUpload(files) {
+            if (files.length > 0) {
+                for (let i = 0; i < files.length; i++) {
+                    const newDoc = {
+                        id: 'doc-uploaded-' + Math.random(),
+                        name: files[i].name,
+                        size: (files[i].size / (1024 * 1024)).toFixed(1) + ' Mo',
+                        date: new Date().toLocaleDateString('fr-FR'),
+                        classification: 'Upload-Client',
+                        encryption: 'AES-256-GCM',
+                        bucket: 'lucap-clients'
+                    };
+                    stateDocuments.unshift(newDoc);
+                }
+                showToast("Dépôt Sécurisé", `${files.length} fichiers téléversés avec double chiffrement d'enveloppe.`, "success");
+                refreshStateAndDOM();
+            }
+        }
+
+        // SYNCHRONIZATION AND RENDER SYSTEM FOR CORE DATA LEDGERS
+        function refreshStateAndDOM() {
+            // Document numbers
+            document.getElementById('sidebar-doc-count').innerText = stateDocuments.length;
+            document.getElementById('doc-bank-badge-count').innerText = stateDocuments.length;
+
+            // Load view components
+            renderClientDashboardLists();
+            renderAchatsList();
+            renderVentesList();
+            renderDocumentsVault();
+            renderClientTicketsList();
+        }
+
+        // RENDER METHOD FOR REGISTRY OF PURCHASES
+        function renderAchatsList() {
+            const body = document.getElementById('registry-achats-body');
+            body.innerHTML = '';
+
+            let sumHt = 0, sumTva = 0, sumTtc = 0;
+
+            stateAchats.forEach(ach => {
+                sumHt += ach.ht;
+                sumTva += ach.tva;
+                sumTtc += ach.ttc;
+
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-container transition-all";
+                tr.innerHTML = `
+                    <td class="px-5 py-3.5 text-xs text-gray-600 font-medium">${ach.date}</td>
+                    <td class="px-5 py-3.5 text-xs text-navy font-bold">${ach.ref}</td>
+                    <td class="px-5 py-3.5 text-xs text-gray-800 font-medium">${ach.supplier}</td>
+                    <td class="px-5 py-3.5 text-xs text-gray-500 font-sans"><span class="bg-slate border border-gray-100 text-navy font-bold px-1.5 py-0.5 rounded-sm">${ach.type}</span></td>
+                    <td class="px-5 py-3.5 text-xs text-navy font-semibold text-right">${ach.ht.toFixed(3)}</td>
+                    <td class="px-5 py-3.5 text-xs text-gray-600 text-right">${ach.tva.toFixed(3)}</td>
+                    <td class="px-5 py-3.5 text-xs text-navy font-bold text-right">${ach.ttc.toFixed(3)}</td>
+                `;
+                body.appendChild(tr);
+            });
+
+            // Set aggregate calculations
+            document.getElementById('totals-ht').innerText = sumHt.toFixed(3);
+            document.getElementById('totals-tva').innerText = sumTva.toFixed(3);
+            document.getElementById('totals-retenues').innerText = (sumHt * 0.015).toFixed(3); // Simulated summary computation
+            document.getElementById('totals-net').innerText = (sumTtc - (sumHt * 0.015)).toFixed(3);
+        }
+
+        // RENDER METHOD FOR REGISTRY OF SALES
+        function renderVentesList() {
+            const body = document.getElementById('registry-ventes-body');
+            body.innerHTML = '';
+
+            stateVentes.forEach(ven => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-container transition-all";
+                tr.innerHTML = `
+                    <td class="px-5 py-3.5 text-xs text-gray-600 font-medium">${ven.date}</td>
+                    <td class="px-5 py-3.5 text-xs text-navy font-bold">${ven.ref}</td>
+                    <td class="px-5 py-3.5 text-xs text-gray-800 font-medium">${ven.client}</td>
+                    <td class="px-5 py-3.5 text-xs text-gray-500 font-sans"><span class="bg-slate border border-gray-100 text-navy font-bold px-1.5 py-0.5 rounded-sm">${ven.type}</span></td>
+                    <td class="px-5 py-3.5 text-xs text-navy font-semibold text-right">${ven.ht.toFixed(3)}</td>
+                    <td class="px-5 py-3.5 text-xs text-gray-600 text-right">${ven.tva.toFixed(3)}</td>
+                    <td class="px-5 py-3.5 text-xs text-navy font-bold text-right">${ven.ttc.toFixed(3)}</td>
+                    <td class="px-5 py-3.5 text-xs text-red-600 font-semibold text-right">${ven.rs.toFixed(3)}</td>
+                `;
+                body.appendChild(tr);
+            });
+        }
+
+        // RENDER COFFRE-FORT CLIENT FILE BANK LIST
+        function renderDocumentsVault() {
+            const container = document.getElementById('documents-bank-list');
+            container.innerHTML = '';
+
+            stateDocuments.forEach(doc => {
+                const div = document.createElement('div');
+                div.className = "p-4 flex items-center justify-between hover:bg-slate transition-all";
+                div.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded bg-[#e7eeff] flex items-center justify-center text-navy"><i class="fa-solid fa-file-pdf text-lg"></i></div>
+                        <div>
+                            <h4 class="text-xs font-bold text-navy">${doc.name}</h4>
+                            <p class="text-[10px] text-gray-400 mt-0.5">Taille: ${doc.size} • Versé le: ${doc.date} • Compartiment: <span class="bg-navy/10 text-navy px-1 rounded">${doc.bucket}</span></p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-[10px] bg-green-50 border border-green-200 text-green-700 px-2 py-0.5 rounded font-mono font-bold"><i class="fa-solid fa-shield-halved"></i> ${doc.encryption}</span>
+                        <button onclick="triggerFileDownloadSim('${doc.name}')" class="p-1.5 text-gray-400 hover:text-navy transition"><i class="fa-solid fa-cloud-arrow-down"></i></button>
+                        <button onclick="deleteDocumentFromVault('${doc.id}')" class="p-1.5 text-gray-400 hover:text-red-600 transition"><i class="fa-solid fa-trash-can"></i></button>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // DOWNLOAD COFFRE-FORT FILE SIMULATOR
+        function triggerFileDownloadSim(filename) {
+            showToast("Téléchargement", `Fichier "${filename}" déchiffré à la volée depuis MinIO et téléchargé.`, "success");
+        }
+
+        // PURGE FILE ENTRY
+        function deleteDocumentFromVault(id) {
+            stateDocuments = stateDocuments.filter(d => d.id !== id);
+            showToast("Document Supprimé", "Le document a été retiré du coffre-fort.", "info");
+            refreshStateAndDOM();
+        }
+
+        // DASHBOARD QUICK VISUAL TABLES LOADER (screen.png)
+        function renderClientDashboardLists() {
+            // Recent invoice table
+            const vBody = document.getElementById('recent-ventes-body');
+            vBody.innerHTML = '';
+            
+            // Render first 4
+            stateVentes.slice(0, 4).forEach((v, index) => {
+                let statusChip = '<span class="text-[10px] bg-green-50 border border-green-200 text-green-600 font-bold px-2 py-0.5 rounded-sm uppercase">PAYÉ</span>';
+                if (index === 1) statusChip = '<span class="text-[10px] bg-yellow-50 border border-yellow-200 text-yellow-600 font-bold px-2 py-0.5 rounded-sm uppercase">EN ATTENTE</span>';
+                if (index === 2) statusChip = '<span class="text-[10px] bg-red-50 border border-red-200 text-red-600 font-bold px-2 py-0.5 rounded-sm uppercase">EN RETARD</span>';
+
+                const tr = document.createElement('tr');
+                tr.className = "border-b border-gray-100 hover:bg-slate transition-all";
+                tr.innerHTML = `
+                    <td class="px-5 py-3 text-xs font-bold text-navy">${v.ref}</td>
+                    <td class="px-5 py-3 text-xs text-gray-600 font-medium">${v.client}</td>
+                    <td class="px-5 py-3 text-xs font-bold text-navy">${v.ht.toLocaleString('fr-FR')} TND</td>
+                    <td class="px-5 py-3">${statusChip}</td>
+                `;
+                vBody.appendChild(tr);
+            });
+
+            // Recent expenses list
+            const eList = document.getElementById('recent-expenses-list');
+            eList.innerHTML = '';
+
+            stateAchats.slice(0, 3).forEach((a, index) => {
+                let iconClass = "fa-file-invoice";
+                if (index === 1) iconClass = "fa-box-open";
+                if (index === 2) iconClass = "fa-wifi";
+
+                let statusBadge = `<span class="text-[9px] bg-green-100 text-green-700 font-bold px-1.5 py-0.5 rounded uppercase">VALIDÉ</span>`;
+                if (index === 2) statusBadge = `<span class="text-[9px] bg-yellow-100 text-yellow-700 font-bold px-1.5 py-0.5 rounded uppercase">À TRAITER</span>`;
+
+                const div = document.createElement('div');
+                div.className = "py-4 flex items-center justify-between hover:bg-slate transition-all rounded-sm px-2";
+                div.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded bg-[#e7eeff] text-navy flex items-center justify-center"><i class="fa-solid ${iconClass}"></i></div>
+                        <div>
+                            <h4 class="text-xs font-bold text-navy">${a.supplier} - Octobre 2023</h4>
+                            <p class="text-[10px] text-gray-400 mt-0.5">${a.type} • ${a.date}</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xs font-bold text-navy">-${a.ht.toLocaleString('fr-FR')} TND</p>
+                        <p class="mt-1">${statusBadge}</p>
+                    </div>
+                `;
+                eList.appendChild(div);
+            });
+        }
+
+        // CLIENT DIRECT CHAT ACTIONS
+        function renderClientTicketsList() {
+            const container = document.getElementById('client-ticket-list');
+            container.innerHTML = '';
+
+            stateTickets.forEach(t => {
+                const isActive = t.id === selectedActiveClientTicketId;
+                const div = document.createElement('button');
+                div.onclick = () => selectClientActiveTicket(t.id);
+                div.className = `w-full text-left p-4 hover:bg-slate transition-all flex flex-col justify-between border-b border-gray-100 ${isActive ? 'bg-[#e7eeff]' : ''}`;
+                
+                let statusDot = '<span class="w-2 h-2 rounded-full bg-green-500"></span>';
+                if (t.status === 'En cours') statusDot = '<span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>';
+                if (t.status === 'Résolu') statusDot = '<span class="w-2 h-2 rounded-full bg-gray-400"></span>';
+
+                div.innerHTML = `
+                    <div class="flex justify-between items-center w-full">
+                        <span class="text-xs font-bold text-navy truncate pr-2">${t.title}</span>
+                        ${statusDot}
+                    </div>
+                    <p class="text-[10px] text-gray-500 mt-1 uppercase font-sans tracking-wide">Service: ${t.service} • ${t.channel}</p>
+                `;
+                container.appendChild(div);
+            });
+
+            // Bind current active ticket chat thread
+            const currentT = stateTickets.find(t => t.id === selectedActiveClientTicketId);
+            const chatTitle = document.getElementById('active-chat-title');
+            const chatSub = document.getElementById('active-chat-subtitle');
+            const chatChannel = document.getElementById('active-chat-channel');
+            const chatStatus = document.getElementById('active-chat-status');
+            const chatMsgContainer = document.getElementById('active-chat-messages');
+            const chatInput = document.getElementById('active-chat-input');
+            const chatBtn = document.getElementById('active-chat-send-btn');
+
+            if (currentT) {
+                chatTitle.innerText = currentT.title;
+                chatSub.innerText = "Secteur d'activité : " + currentT.service;
+                
+                chatChannel.innerText = currentT.channel;
+                chatChannel.className = `text-[10px] uppercase font-bold px-2 py-0.5 rounded-sm ${currentT.channel === 'WhatsApp' ? 'bg-green-100 text-green-700' : 'bg-navy text-white'}`;
+                
+                chatStatus.innerText = currentT.status;
+                chatStatus.className = `text-[10px] uppercase font-bold px-2 py-0.5 rounded-sm ${currentT.status === 'Résolu' ? 'bg-gray-100 text-gray-600' : 'bg-blue-100 text-blue-700'}`;
+
+                // Load messages stream
+                chatMsgContainer.innerHTML = '';
+                currentT.replies.forEach(r => {
+                    const isStaff = r.author === 'staff';
+                    const bubble = document.createElement('div');
+                    bubble.className = `flex ${isStaff ? 'justify-start' : 'justify-end'} w-full`;
+
+                    let metadataDetails = '';
+                    if (r.type === 'activity') {
+                        // Special log bubble for phone call or meeting
+                        bubble.className = "flex justify-center w-full my-2";
+                        bubble.innerHTML = `
+                            <div class="bg-yellow-50 border border-yellow-200 p-3 rounded-md text-xs text-yellow-800 max-w-md w-full flex items-start gap-3">
+                                <i class="fa-solid fa-square-phone text-lg"></i>
+                                <div>
+                                    <p class="font-bold uppercase text-[9px] tracking-wider text-yellow-600">${r.contactType} enregistré (${r.duration})</p>
+                                    <p class="mt-1">${r.message}</p>
+                                    <p class="text-[8px] text-gray-400 mt-1">Saisi par ${r.operator} le ${r.date}</p>
+                                </div>
+                            </div>
+                        `;
+                    } else if (r.type === 'note') {
+                        // Yellow styled bubble for hidden staff notes (Not visible to client)
+                        if (currentRole === 'client') return; // Skip showing internal notes to clients
+                        bubble.innerHTML = `
+                            <div class="bg-yellow-100/60 border border-yellow-200 p-3 rounded-md text-xs text-yellow-900 max-w-sm space-y-1">
+                                <p class="font-bold uppercase text-[8px] tracking-wider text-yellow-600"><i class="fa-solid fa-user-lock"></i> Note Interne Cabinet</p>
+                                <p>${r.message}</p>
+                                <p class="text-[8px] text-yellow-700 text-right">${r.date}</p>
+                            </div>
+                        `;
+                    } else {
+                        // Standard chat message bubbles
+                        bubble.innerHTML = `
+                            <div class="p-3.5 rounded-lg text-xs max-w-xs space-y-1 ${isStaff ? 'bg-slate text-navy' : 'bg-[#0d1b3e] text-white'}">
+                                <p class="font-bold uppercase text-[8px] tracking-wider ${isStaff ? 'text-navy-tint' : 'text-slate-dim'}">${isStaff ? 'Cabinet Pacioli' : 'Moi (Client)'}</p>
+                                <p>${r.message}</p>
+                                <p class="text-[8px] text-right ${isStaff ? 'text-gray-400' : 'text-navy-tint'}">${r.date}</p>
+                            </div>
+                        `;
+                    }
+                    chatMsgContainer.appendChild(bubble);
+                });
+
+                // Enable chat input field
+                chatInput.disabled = false;
+                chatBtn.disabled = false;
+                
+                // Scroll to bottom
+                chatMsgContainer.scrollTop = chatMsgContainer.scrollHeight;
+            } else {
+                chatInput.disabled = true;
+                chatBtn.disabled = true;
+            }
+        }
+
+        function selectClientActiveTicket(id) {
+            selectedActiveClientTicketId = id;
+            renderClientTicketsList();
+        }
+
+        // POST MESSAGE TRIGGER FROM CLIENT PORTAL
+        function sendClientChatMessage() {
+            const input = document.getElementById('active-chat-input');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const t = stateTickets.find(ticket => ticket.id === selectedActiveClientTicketId);
+            if (t) {
+                t.replies.push({
+                    author: 'client',
+                    message: text,
+                    date: new Date().toLocaleDateString('fr-FR'),
+                    type: 'text'
+                });
+                input.value = '';
+                showToast("Message Envoyé", "Votre réponse a été acheminée avec chiffrement de transport.", "success");
+                refreshStateAndDOM();
+            }
+        }
+
+        // MODAL AND TICKET SUBMISSION FLOWS
+        function openNewTicketModal() {
+            document.getElementById('new-ticket-modal').classList.remove('hidden');
+        }
+
+        function closeNewTicketModal() {
+            document.getElementById('new-ticket-modal').classList.add('hidden');
+        }
+
+        function submitNewTicket() {
+            const title = document.getElementById('new-ticket-title').value || 'Demande Standard';
+            const service = document.getElementById('new-ticket-service').value;
+            const channel = document.getElementById('new-ticket-channel').value;
+            const body = document.getElementById('new-ticket-body').value;
+
+            if (!body) {
+                showToast("Saisie Incorrecte", "Veuillez détailler votre situation.", "error");
+                return;
+            }
+
+            const newTicket = {
+                id: 't-' + (stateTickets.length + 1),
+                clientName: 'SARL Méditerranée',
+                title: title,
+                service: service,
+                channel: channel,
+                status: 'En cours',
+                replies: [
+                    { author: 'client', message: body, date: new Date().toLocaleDateString('fr-FR'), type: 'text' }
+                ]
+            };
+
+            stateTickets.unshift(newTicket);
+            selectedActiveClientTicketId = newTicket.id;
+            
+            // Clean modal fields
+            document.getElementById('new-ticket-title').value = '';
+            document.getElementById('new-ticket-body').value = '';
+            closeNewTicketModal();
+            
+            showToast("Ticket Ouvert", "Votre demande a été ajoutée à notre file d'attente prioritaires.", "success");
+            refreshStateAndDOM();
+        }
+
+        // TRIGGER INQUIRY AND ACTION PRE-INTEGRATED FROM SERVICES MARKETPLACE
+        function triggerServiceInquiry(serviceName) {
+            const title = `Demande de souscription d'offre - ${serviceName}`;
+            const body = `Bonjour Cabinet Luca Pacioli, nous souhaitons souscrire à l'offre "${serviceName}" de votre catalogue d'infrastructure. Veuillez initialiser le provisionnement pour notre structure.`;
+            
+            const newTicket = {
+                id: 't-' + (stateTickets.length + 1),
+                clientName: 'SARL Méditerranée',
+                title: title,
+                service: serviceName,
+                channel: 'In-App',
+                status: 'En cours',
+                replies: [
+                    { author: 'client', message: body, date: new Date().toLocaleDateString('fr-FR'), type: 'text' }
+                ]
+            };
+
+            stateTickets.unshift(newTicket);
+            selectedActiveClientTicketId = newTicket.id;
+            switchView('support');
+            showToast("Demande de service envoyée", `La provision pour l'offre "${serviceName}" a été enregistrée. Un ingénieur système ou CPA prend contact immédiatement.`, "success");
+            refreshStateAndDOM();
+        }
+
+        // TRIGGER DIRECT EXPORT REPORT FILE EXPORTER SIMULATION
+        function triggerCSVExport() {
+            let csvContent = "data:text/csv;charset=utf-8,Date,Reference,Supplier/Client,Type,HT,TVA,TTC\n";
+            stateAchats.forEach(a => {
+                csvContent += `${a.date},${a.ref},${a.supplier},${a.type},${a.ht},${a.tva},${a.ttc}\n`;
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "cabinet_pacioli_journal_transactions.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            showToast("Données Exportées", "Le fichier d'audit comptable (CSV) est généré.", "success");
+        }
+
+        // LEAD/SANDBOX PROSPECT WORKSPACE CONTROLLER
+        function submitLeadSandboxForm() {
+            const name = document.getElementById('lead-name').value;
+            const company = document.getElementById('lead-company').value;
+            const phone = document.getElementById('lead-phone').value;
+            const email = document.getElementById('lead-email').value;
+            const desc = document.getElementById('lead-description').value;
+
+            if (!name || !company || !email) {
+                showToast("Champs manquants", "Veuillez renseigner votre nom, société et email pour l'indexation.", "error");
+                return;
+            }
+
+            const newLead = {
+                id: 'lead-' + (stateLeads.length + 1),
+                name: name,
+                company: company,
+                phone: phone,
+                email: email,
+                description: desc,
+                file: document.getElementById('lead-file-status').innerText.replace("✓ Pièce validée : ", "") || "PROPOSAL_RECAL.PDF"
+            };
+
+            stateLeads.push(newLead);
+            
+            // Clear Sandbox fields
+            document.getElementById('lead-name').value = '';
+            document.getElementById('lead-company').value = '';
+            document.getElementById('lead-phone').value = '';
+            document.getElementById('lead-email').value = '';
+            document.getElementById('lead-description').value = '';
+            document.getElementById('lead-file-status').innerText = '';
+
+            showToast("Demande Reçue", "Votre sandbox d'évaluation est validée. Arcelin étudie votre demande d'intégration.", "success");
+        }
+
+        // ========================================================
+        // STAFF / ADMIN CONSOLE METHODOLOGY & CONTROLLERS
+        // ========================================================
+        
+        // TRIAGE WORKSPACE (Document verification Side-by-side)
+        function loadAdminTriageWorkspace() {
+            const countEl = document.getElementById('admin-triage-pending-count');
+            countEl.innerText = `${stateTriageQueue.length} documents en attente d'audit`;
+
+            if (stateTriageQueue.length > 0) {
+                document.getElementById('verification-workspace').classList.remove('opacity-40');
+                const doc = stateTriageQueue[0];
+
+                // Update visual document mock
+                document.getElementById('verify-doc-reference').innerText = doc.filename;
+                document.getElementById('verify-invoice-issuer').innerText = doc.supplier.toUpperCase();
+                document.getElementById('verify-invoice-num').innerText = doc.ref;
+                document.getElementById('verify-invoice-ht').innerText = doc.ht.toFixed(3);
+                document.getElementById('verify-invoice-ht-summary').innerText = doc.ht.toFixed(3);
+                
+                let tvaAmount = doc.ht * (doc.tva / 100);
+                document.getElementById('verify-invoice-tva-summary').innerText = tvaAmount.toFixed(3);
+                document.getElementById('verify-invoice-ttc-summary').innerText = (doc.ht + tvaAmount + doc.timbre).toFixed(3);
+
+                // Update right editing fields
+                document.getElementById('admin-triage-supplier').value = doc.supplier;
+                document.getElementById('admin-triage-ref').value = doc.ref;
+                document.getElementById('admin-triage-ht').value = doc.ht;
+                document.getElementById('admin-triage-tva').value = doc.tva;
+                document.getElementById('admin-triage-timbre').value = doc.timbre;
+
+                calculateTriageForm();
+            } else {
+                document.getElementById('verification-workspace').classList.add('opacity-40');
+                showToast("Fini !", "Toutes les pièces comptables ont été triagées.", "success");
+            }
+        }
+
+        // COMPUTE DYNAMIC TRIAGE CALCULATIONS IN STAFF SCREEN
+        function calculateTriageForm() {
+            let ht = parseFloat(document.getElementById('admin-triage-ht').value) || 0;
+            let tvaRate = parseFloat(document.getElementById('admin-triage-tva').value) || 0;
+            let fodecActive = document.getElementById('admin-triage-fodec').value === "true";
+            let timbre = parseFloat(document.getElementById('admin-triage-timbre').value) || 0;
+
+            let fodec = fodecActive ? ht * 0.01 : 0;
+            let baseTVA = ht + fodec;
+            let tvaAmount = baseTVA * (tvaRate / 100);
+            let ttc = baseTVA + tvaAmount + timbre;
+
+            document.getElementById('admin-triage-calc-tva').innerText = tvaAmount.toFixed(3) + " TND";
+            document.getElementById('admin-triage-calc-fodec').innerText = fodec.toFixed(3) + " TND";
+            document.getElementById('admin-triage-calc-ttc').innerText = ttc.toFixed(3) + " TND";
+        }
+
+        // COMMIT RE-EVALUATED TRIAGE DOCUMENT DIRECTLY TO MAIN CLIENT LEDGER
+        function commitTriageDocument() {
+            if (stateTriageQueue.length === 0) return;
+
+            const targetSupplier = document.getElementById('admin-triage-supplier').value;
+            const ref = document.getElementById('admin-triage-ref').value;
+            const ht = parseFloat(document.getElementById('admin-triage-ht').value) || 0;
+            const tvaRate = parseFloat(document.getElementById('admin-triage-tva').value) || 0;
+            const fodecActive = document.getElementById('admin-triage-fodec').value === "true";
+            const timbre = parseFloat(document.getElementById('admin-triage-timbre').value) || 0;
+
+            let fodec = fodecActive ? ht * 0.01 : 0;
+            let baseTVA = ht + fodec;
+            let tvaAmount = baseTVA * (tvaRate / 100);
+            let ttc = baseTVA + tvaAmount + timbre;
+
+            // Generate committed achat
+            const committedDoc = {
+                id: 'ach-committed-' + Math.random(),
+                date: new Date().toLocaleDateString('fr-FR'),
+                ref: ref,
+                supplier: targetSupplier,
+                type: 'SERVICES',
+                ht: ht,
+                tva: tvaAmount,
+                ttc: ttc,
+                status: 'Payé'
+            };
+
+            stateAchats.unshift(committedDoc);
+            
+            // Pop triage queue
+            stateTriageQueue.shift();
+            
+            showToast("Document Validé", "La transaction est validée et enregistrée dans le grand livre.", "success");
+            
+            refreshStateAndDOM();
+            loadAdminTriageWorkspace();
+        }
+
+        // SKIP CURRENT TRIAGE RECORD
+        function skipTriageDocument() {
+            if (stateTriageQueue.length === 0) return;
+            stateTriageQueue.shift();
+            showToast("Document Passé", "Le document a été ignoré temporairement.", "info");
+            loadAdminTriageWorkspace();
+        }
+
+        // OMNICHANNEL INBOX (Staff conversation view)
+        function loadAdminInboxWorkspace() {
+            const container = document.getElementById('admin-ticket-list');
+            container.innerHTML = '';
+
+            stateTickets.forEach(t => {
+                const isActive = t.id === selectedActiveAdminTicketId;
+                const button = document.createElement('button');
+                button.onclick = () => selectAdminActiveTicket(t.id);
+                button.className = `w-full text-left p-4 hover:bg-slate transition-all flex flex-col justify-between border-b border-gray-100 ${isActive ? 'bg-[#e7eeff]' : ''}`;
+                
+                let channelIcon = '<i class="fa-solid fa-desktop text-gray-400"></i>';
+                if (t.channel === 'WhatsApp') channelIcon = '<i class="fa-brands fa-whatsapp text-green-500 text-sm"></i>';
+                if (t.channel === 'Email') channelIcon = '<i class="fa-solid fa-envelope text-blue-500 text-sm"></i>';
+
+                button.innerHTML = `
+                    <div class="flex justify-between items-center w-full">
+                        <span class="text-xs font-bold text-navy truncate pr-2">${t.clientName} - ${t.title}</span>
+                        ${channelIcon}
+                    </div>
+                    <p class="text-[10px] text-gray-500 mt-1 uppercase font-sans tracking-wide">Service: ${t.service} • Canal : ${t.channel}</p>
+                `;
+                container.appendChild(button);
+            });
+
+            // Bind current chat messages
+            const currentT = stateTickets.find(t => t.id === selectedActiveAdminTicketId);
+            const chatTitle = document.getElementById('admin-active-chat-title');
+            const chatSub = document.getElementById('admin-active-chat-subtitle');
+            const chatChannel = document.getElementById('admin-active-chat-channel');
+            const chatMsgContainer = document.getElementById('admin-active-chat-messages');
+            const chatInput = document.getElementById('admin-chat-input');
+            const chatBtn = document.getElementById('admin-chat-send-btn');
+
+            if (currentT) {
+                chatTitle.innerText = `${currentT.clientName} — ${currentT.title}`;
+                chatSub.innerText = "Service : " + currentT.service;
+                chatChannel.innerText = `Via ${currentT.channel}`;
+                chatChannel.className = `text-[10px] uppercase font-bold px-2 py-0.5 rounded-sm bg-navy text-white`;
+
+                // Render stream
+                chatMsgContainer.innerHTML = '';
+                currentT.replies.forEach(r => {
+                    const isStaff = r.author === 'staff';
+                    const div = document.createElement('div');
+                    div.className = `flex ${isStaff ? 'justify-end' : 'justify-start'} w-full`;
+
+                    if (r.type === 'activity') {
+                        div.className = "flex justify-center w-full my-2";
+                        div.innerHTML = `
+                            <div class="bg-yellow-50 border border-yellow-200 p-3 rounded text-xs text-yellow-800 max-w-sm w-full flex items-start gap-3">
+                                <i class="fa-solid fa-calendar-check text-lg"></i>
+                                <div>
+                                    <p class="font-bold uppercase text-[8px] tracking-wider text-yellow-600">${r.contactType} enregistré (${r.duration})</p>
+                                    <p class="mt-1">${r.message}</p>
+                                    <p class="text-[8px] text-gray-400 mt-1">Saisi par ${r.operator} le ${r.date}</p>
+                                </div>
+                            </div>
+                        `;
+                    } else if (r.type === 'note') {
+                        div.innerHTML = `
+                            <div class="bg-yellow-100/60 border border-yellow-200 p-3 rounded text-xs text-yellow-900 max-w-sm space-y-1">
+                                <p class="font-bold uppercase text-[8px] tracking-wider text-yellow-600"><i class="fa-solid fa-user-lock"></i> Note Interne Cabinet</p>
+                                <p>${r.message}</p>
+                                <p class="text-[8px] text-yellow-700 text-right">${r.date}</p>
+                            </div>
+                        `;
+                    } else {
+                        div.innerHTML = `
+                            <div class="p-3 rounded-lg text-xs max-w-xs space-y-1 ${isStaff ? 'bg-[#0d1b3e] text-white' : 'bg-slate text-navy'}">
+                                <p class="font-bold uppercase text-[8px] tracking-wider ${isStaff ? 'text-slate-dim' : 'text-navy-tint'}">${isStaff ? 'Moi (Cabinet)' : 'Client'}</p>
+                                <p>${r.message}</p>
+                                <p class="text-[8px] text-right ${isStaff ? 'text-navy-tint' : 'text-gray-400'}">${r.date}</p>
+                            </div>
+                        `;
+                    }
+                    chatMsgContainer.appendChild(div);
+                });
+
+                chatInput.disabled = false;
+                chatBtn.disabled = false;
+                chatMsgContainer.scrollTop = chatMsgContainer.scrollHeight;
+            } else {
+                chatInput.disabled = true;
+                chatBtn.disabled = true;
+            }
+        }
+
+        function selectAdminActiveTicket(id) {
+            selectedActiveAdminTicketId = id;
+            loadAdminInboxWorkspace();
+        }
+
+        // TOGGLE CHAT INPUT INTERFACE MODES FOR STAFF
+        function switchReplyMode(mode) {
+            selectedReplyMode = mode;
+            
+            // Adjust buttons active styling
+            document.querySelectorAll('[id^="reply-mode-"]').forEach(btn => {
+                btn.className = "border-b-2 border-transparent px-4 py-2 text-xs font-bold uppercase text-gray-500 hover:text-navy";
+            });
+            document.getElementById('reply-mode-' + mode).className = "border-b-2 border-navy px-4 py-2 text-xs font-bold uppercase text-navy";
+
+            const standardInput = document.getElementById('admin-message-input-container');
+            const activityForm = document.getElementById('admin-activity-form-container');
+
+            if (mode === 'standard' || mode === 'note') {
+                standardInput.classList.remove('hidden');
+                activityForm.classList.add('hidden');
+                
+                const placeholder = mode === 'standard' 
+                    ? "Rédiger votre réponse réglementaire..." 
+                    : "Rédiger une note interne chiffrée visible uniquement par les auditeurs...";
+                document.getElementById('admin-chat-input').placeholder = placeholder;
+            } else {
+                standardInput.classList.add('hidden');
+                activityForm.classList.remove('hidden');
+            }
+        }
+
+        // POST ACTION FOR STAFF RESPONSES (2-Way routing to WhatsApp, Email, or In-App)
+        function sendStaffChatMessage() {
+            const input = document.getElementById('admin-chat-input');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const t = stateTickets.find(ticket => ticket.id === selectedActiveAdminTicketId);
+            if (t) {
+                const messageType = selectedReplyMode === 'note' ? 'note' : 'text';
+                
+                t.replies.push({
+                    author: 'staff',
+                    message: text,
+                    date: new Date().toLocaleDateString('fr-FR'),
+                    type: messageType
+                });
+
+                // Omnichannel Routing Alert simulating user destination channel
+                if (messageType === 'text') {
+                    showToast("Message Envoyé", `Réponse acheminée avec succès vers le canal du client : ${t.channel}`, "success");
+                } else {
+                    showToast("Note Ajoutée", "La note interne a été indexée dans le journal d'activité d'audit.", "info");
+                }
+
+                input.value = '';
+                refreshStateAndDOM();
+                loadAdminInboxWorkspace();
+            }
+        }
+
+        // LOG DIRECT PHONE AND MEETING ACTIVITY (OFF-SYSTEM DIALOG)
+        function logStaffManualActivity() {
+            const contactType = document.getElementById('activity-type').value;
+            const duration = document.getElementById('activity-duration').value || '10 min';
+            const notes = document.getElementById('activity-notes').value;
+
+            if (!notes) {
+                showToast("Saisie Incorrecte", "Veuillez renseigner une synthèse de l'entretien.", "error");
+                return;
+            }
+
+            const t = stateTickets.find(ticket => ticket.id === selectedActiveAdminTicketId);
+            if (t) {
+                t.replies.push({
+                    author: 'staff',
+                    type: 'activity',
+                    contactType: contactType,
+                    duration: duration,
+                    message: notes,
+                    operator: 'Arcelin Ben Mahmoud',
+                    date: new Date().toLocaleDateString('fr-FR')
+                });
+
+                // Clear fields
+                document.getElementById('activity-notes').value = '';
+                document.getElementById('activity-duration').value = '15 min';
+
+                showToast("Interaction Loggée", "L'échange verbal est consigné de façon permanente dans le registre d'audit du client.", "success");
+                
+                refreshStateAndDOM();
+                loadAdminInboxWorkspace();
+            }
+        }
+
+        // SANDBOX LEADS SUB-TAB WORKSPACE
+        function loadAdminLeadsWorkspace() {
+            const body = document.getElementById('admin-leads-table-body');
+            body.innerHTML = '';
+
+            stateLeads.forEach(lead => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate transition-all";
+                tr.innerHTML = `
+                    <td class="p-3 font-bold text-navy">${lead.name}</td>
+                    <td class="p-3 text-gray-700">${lead.company}</td>
+                    <td class="p-3 text-gray-500">${lead.phone} <br> ${lead.email}</td>
+                    <td class="p-3 font-mono text-gray-400">${lead.file}</td>
+                    <td class="p-3 text-center">
+                        <button onclick="convertLeadToClient('${lead.id}')" class="bg-navy hover:bg-navy-light text-white px-3 py-1 text-[10px] font-bold uppercase tracking-wider rounded-sm shadow">Convertir en Client</button>
+                    </td>
+                `;
+                body.appendChild(tr);
+            });
+        }
+
+        // CONVERT GUEST SANDBOX RECORD TO AN OFFICIAL REGISTERED CLIENT TENANT
+        function convertLeadToClient(leadId) {
+            const lead = stateLeads.find(l => l.id === leadId);
+            if (lead) {
+                // Add lead file to documents
+                const newDoc = {
+                    id: 'doc-imported-' + Math.random(),
+                    name: lead.file,
+                    size: '2.5 Mo',
+                    date: new Date().toLocaleDateString('fr-FR'),
+                    classification: 'Agreement-Lead',
+                    encryption: 'AES-256-GCM',
+                    bucket: 'lucap-clients' // Promoted directory
+                };
+                stateDocuments.unshift(newDoc);
+
+                // Create initial client standard support ticket from the lead's description
+                const newTicket = {
+                    id: 't-' + (stateTickets.length + 1),
+                    clientName: lead.company,
+                    title: 'Besoins d\'intégration - Prospect converti',
+                    service: 'Standard Accounting',
+                    channel: 'Email',
+                    status: 'En cours',
+                    replies: [
+                        { author: 'client', message: lead.description, date: new Date().toLocaleDateString('fr-FR'), type: 'text' }
+                    ]
+                };
+                stateTickets.unshift(newTicket);
+
+                // Remove from leads lists
+                stateLeads = stateLeads.filter(l => l.id !== leadId);
+
+                showToast("Prospect Converti", `Le prospect "${lead.name}" de la société "${lead.company}" a été promu locataire client officiel (Tenant). Dossiers migrés avec succès.`, "success");
+                
+                refreshStateAndDOM();
+                loadAdminLeadsWorkspace();
+            }
+        }
+
+
+        // ==========================================
+        // INITIAL DATA VISUALIZATION BINDING SYSTEM
+        // ==========================================
+        let barChartInstance = null;
+        let pieChartInstance = null;
+
+        // LOAD CHARTS RETRIEVED FROM screen.png DESIGN SPECIFICATIONS
+        function initializeDataCharts() {
+            const barCtx = document.getElementById('chart-ca-achats').getContext('2d');
+            const pieCtx = document.getElementById('chart-top-achats').getContext('2d');
+
+            if (barChartInstance) barChartInstance.destroy();
+            if (pieChartInstance) pieChartInstance.destroy();
+
+            // Bar chart data loading
+            barChartInstance = new Chart(barCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août'],
+                    datasets: [
+                        {
+                            label: 'Chiffre d\'Affaires',
+                            data: [35, 48, 55, 52, 65, 75, 58, 62],
+                            backgroundColor: '#0d1b3e',
+                            borderRadius: 2
+                        },
+                        {
+                            label: 'Achats HT',
+                            data: [25, 30, 42, 38, 48, 50, 40, 45],
+                            backgroundColor: '#d0daf0',
+                            borderRadius: 2
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            grid: { color: '#f1f1f1' },
+                            ticks: { font: { family: 'Hanken Grotesk', size: 10 } }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { font: { family: 'Hanken Grotesk', size: 10 } }
+                        }
+                    }
+                }
+            });
+
+            // Pie chart data loading
+            pieChartInstance = new Chart(pieCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Matières Premières', 'Logistique', 'Loyer', 'Marketing', 'Autres'],
+                    datasets: [{
+                        data: [42, 24, 16, 12, 6],
+                        backgroundColor: ['#0d1b3e', '#455a8f', '#a3905c', '#c2d1f0', '#70717a'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    cutout: '70%'
+                }
+            });
+        }
+
+        // BOOT ON WINDOW LOAD
+        window.onload = function () {
+            // Apply initial client persona
+            switchRole('client');
+            refreshStateAndDOM();
+            initializeDataCharts();
+        };
+    </script>
+</body>
+</html>
