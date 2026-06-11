@@ -21,6 +21,8 @@ export const authClient = createAuthClient({
       },
     }),
   ],
-}) as any;
+});
+
+export type AuthClient = typeof authClient;
 
 export default authClient;
