@@ -1,0 +1,179 @@
+'use server';
+
+import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
+import { auth } from '@/lib/auth';
+import { prisma } from '@/lib/prisma';
+import { PaymentFormValues } from './schema';
+import { distributePayment } from './utils';
+
+export async function getCustomerInvoices(customerId: string) {
+  try {
+    const session = await auth.api.getSession();
+    if (!session?.user?.id) {
+      redirect('/login');
+    }
+    if (!session?.user?.companyId) {
+      redirect('/select-company');
+    }
+    return await db.invoice.findMany({
+      where: {
+        customerId,
+        companyId: session.user.companyId,
+        status: {
+          in: ['PENDING', 'PARTIAL']
+        },
+        isActive: true
+      },
+      select: {
+        id: true,
+        number: true,
+        amount: true,
+        dueDate: true,
+        status: true,
+        payments: {
+          where: { isActive: true },
+          select: {
+            id: true,
+            amount: true
+          }
+        }
+      },
+      orderBy: {
+        dueDate: 'asc'
+      }
+    });
+  } catch (error) {
+    console.error('Error fetching invoices:', error);
+    return [];
+  }
+}
+
+export async function createPayment(data: PaymentFormValues) {
+  try {
+    const session = await auth.api.getSession();
+    if (!session?.user?.id) {
+      redirect('/login');
+    }
+    if (!session?.user?.companyId) {
+      redirect('/select-company');
+    }
+
+    const result = await db.$transaction(
+      async (tx) => {
+        // Fetch invoices with their snapshots
+        const invoices = await tx.invoice.findMany({
+          where: {
+            companyId: session.user.companyId,
+            id: { in: data.invoiceIds },
+            OR: [{ status: 'PENDING' }, { status: 'PARTIAL' }],
+            isActive: true
+          },
+          include: {
+            payments: {
+              where: { isActive: true },
+              select: { amount: true }
+            }
+          }
+        });
+
+        if (invoices.length !== data.invoiceIds.length) {
+          throw new Error('One or more invoices are invalid or already paid');
+        }
+
+        // Calculate payment distribution
+        const payments = distributePayment(data.amount, invoices);
+        if (payments.reduce((sum, p) => sum + p.amount, 0) !== data.amount) {
+          throw new Error('Payment distribution mismatch');
+        }
+
+        // Process each payment with snapshot tracking
+        const createdPayments = await Promise.all(
+          payments.map(async (payment) => {
+            const invoice = invoices.find(
+              (inv) => inv.id === payment.invoiceId
+            );
+            if (!invoice) return null;
+
+            const snapshot =
+              invoice.paymentEventSnapshot as PrismaJson.PaymentEventSnapshot;
+            const currentTracking = snapshot.paymentTracking ?? {
+              totalPaid: 0,
+              remainingBalance: invoice.amount,
+              numberOfPayments: 0,
+              paymentHistory: []
+            };
+
+            // Create payment record with isActive flag
+            const paymentRecord = await tx.payment.create({
+              data: {
+                companyId: session.user.companyId,
+                invoiceId: payment.invoiceId,
+                customerId: data.customerId,
+                amount: payment.amount,
+                paymentDate: data.paymentDate,
+                paymentMethod: data.paymentMethod,
+                reference: data.reference,
+                metadata: data.notes ? { notes: data.notes } : {},
+                isActive: true
+              }
+            });
+
+            // Update payment tracking
+            const totalPaid = currentTracking.totalPaid + payment.amount;
+            const remainingBalance = invoice.amount - totalPaid;
+            const newPaymentRecord = {
+              id: paymentRecord.id,
+              amount: payment.amount,
+              date: data.paymentDate.toISOString(),
+              paymentMethod: data.paymentMethod,
+              reference: data.reference || undefined,
+              balance: remainingBalance
+            };
+
+            const updatedTracking = {
+              totalPaid,
+              remainingBalance,
+              lastPaymentDate: data.paymentDate.toISOString(),
+              numberOfPayments: currentTracking.numberOfPayments + 1,
+              paymentHistory: [
+                ...currentTracking.paymentHistory,
+                newPaymentRecord
+              ]
+            };
+
+            // Update invoice status and snapshot
+            await tx.invoice.update({
+              where: { id: payment.invoiceId },
+              data: {
+                status: Math.abs(remainingBalance) < 0.01 ? 'PAID' : 'PARTIAL',
+                paymentEventSnapshot: {
+                  ...snapshot,
+                  paymentTracking: updatedTracking
+                }
+              }
+            });
+
+            return paymentRecord;
+          })
+        );
+
+        return createdPayments.filter(Boolean);
+      },
+      {
+        maxWait: 10000,
+        timeout: 30000
+      }
+    );
+
+    revalidatePath('/receivepayment');
+    return { success: true, data: result };
+  } catch (error) {
+    console.error('Error creating payment:', error);
+    return {
+      success: false,
+      error:
+        error instanceof Error ? error.message : 'Failed to process payment'
+    };
+  }
+}
