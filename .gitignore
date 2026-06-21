@@ -26,7 +26,8 @@ turbo.log
 # OS
 .DS_Store
 Thumbs.db
-
+# Local uploads
+public/uploads/
 # IDE
 .vscode/
 .idea/

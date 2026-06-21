@@ -1,0 +1,84 @@
+'use client';
+import { memo, useEffect, useRef } from 'react';
+import { cn } from '@/lib/utils';
+import { useViewStore } from '@/stores/useViewStore';
+import { EmailPreview } from '../base/preview/email';
+import { PayorPreview } from '../base/preview/payor';
+import { PdfPreview } from '../base/preview/pdf';
+import MemoizedFormContent, { formContentProps } from './form';
+import { CompanyInfo } from './types';
+
+interface ViewRendererProps {
+  company?: CompanyInfo | null;
+  formContentProps: formContentProps;
+}
+
+export const ViewRenderer = memo<ViewRendererProps>(
+  ({ company, formContentProps }) => {
+    const activeView = useViewStore((state) => state.activeView);
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+      if (containerRef.current) {
+        containerRef.current.scrollTop = 0;
+      }
+    }, [activeView]);
+
+    return (
+      <div
+        ref={containerRef}
+        className="relative w-full bg-white transition-[height] duration-200 ease-in-out dark:bg-gray-900"
+      >
+        {/* Form View */}
+        <div
+          className={cn(
+            'relative w-full transition-opacity duration-200',
+            activeView === 'form'
+              ? 'z-10 h-auto opacity-100'
+              : 'pointer-events-none z-0 h-0 overflow-hidden opacity-0'
+          )}
+        >
+          <MemoizedFormContent {...formContentProps} company={company} />
+        </div>
+
+        {/* Preview Views */}
+        <div className="relative w-full">
+          <div
+            className={cn(
+              'relative w-full transition-opacity duration-200',
+              activeView === 'payor'
+                ? 'z-10 h-auto opacity-100'
+                : 'pointer-events-none z-0 h-0 overflow-hidden opacity-0'
+            )}
+          >
+            <PayorPreview company={company} paperType="Invoice" />
+          </div>
+
+          <div
+            className={cn(
+              'relative w-full transition-opacity duration-200',
+              activeView === 'email'
+                ? 'z-10 h-auto opacity-100'
+                : 'pointer-events-none z-0 h-0 overflow-hidden opacity-0'
+            )}
+          >
+            <EmailPreview company={company} paperType="Invoice" />
+          </div>
+
+          <div
+            className={cn(
+              'relative w-full transition-opacity duration-200',
+              activeView === 'pdf'
+                ? 'z-10 h-auto opacity-100'
+                : 'pointer-events-none z-0 h-0 overflow-hidden opacity-0'
+            )}
+          >
+            <PdfPreview company={company} paperType="Invoice" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+);
+
+ViewRenderer.displayName = 'ViewRenderer';

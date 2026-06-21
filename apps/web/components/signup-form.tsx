@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
+import authClient from "@/lib/auth-client"
 
 export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
   const router = useRouter()
@@ -30,28 +31,43 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError(null)
+
+    const trimmedName = name.trim()
+    const trimmedEmail = email.trim()
+
+    if (!trimmedName || !trimmedEmail || !password) {
+      setError("Please fill in all required fields")
+      return
+    }
+
     if (password !== confirmPassword) {
       setError("Passwords do not match")
       return
     }
+
     setLoading(true)
+
     try {
-      // POST directly to the Better Auth sign-up endpoint
-      const res = await fetch('/api/auth/sign-up/email', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, password }),
+      const { data, error: signUpError } = await authClient.signUp.email({
+        name: trimmedName,
+        email: trimmedEmail,
+        password,
       })
 
-      const payload = await res.json().catch(() => null)
-
-      if (!res.ok || payload?.error) {
-        setError(payload?.error?.message ?? payload?.message ?? "Sign up failed")
+      if (signUpError || !data?.user) {
+        setError(signUpError?.message ?? "Sign up failed")
         return
       }
 
-      // On success redirect to dashboard
-      router.push("/dashboard")
+      let hasOrganizations = false
+      try {
+        const organizationRes = await authClient.organization.list()
+        hasOrganizations = (organizationRes.data?.length ?? 0) > 0
+      } catch {
+        hasOrganizations = false
+      }
+
+      router.push(hasOrganizations ? "/onboarding/select-organization" : "/onboarding/create-organization")
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err)
       setError(message || "Network error")

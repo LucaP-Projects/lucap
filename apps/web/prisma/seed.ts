@@ -1,4 +1,4 @@
-import { Role } from "@/generated/prisma/enums";
+import { Role } from "@/lib/generated/prisma/client/prisma/enums";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import { uuid } from "better-auth";
