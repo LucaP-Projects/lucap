@@ -1,11 +1,10 @@
-import { UseFormReturn } from 'react-hook-form';
-
+import { Controller, UseFormReturn } from 'react-hook-form';
 import { ImageUpload } from '@/components/image-upload/image-upload';
-import { CategorySelect } from '../../shared/category/category-selection';
+import { CategorySelect } from '@/components/shared/category/category-selection';
 import { ItemFormValues } from '../schema';
-import FormField from '@/components/lang/FormField';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 
 interface BasicInfoProps {
   form: UseFormReturn<ItemFormValues>;
@@ -16,7 +15,7 @@ export function BasicInfo({ form }: BasicInfoProps) {
     <div className="space-y-6">
       <h2 className="text-lg font-semibold">Basic Information</h2>
       <div className="space-y-3">
-        <FormLabel>Profile Image*</FormLabel>
+        <FieldLabel>Profile Image*</FieldLabel>
         <div className="flex items-start">
           <ImageUpload
             name="image"
@@ -35,72 +34,73 @@ export function BasicInfo({ form }: BasicInfoProps) {
         </div>
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
-        <FormField
+        <Controller
           control={form.control}
           name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Name*</FormLabel>
-              <FormControl>
-                <Input {...field} placeholder="Enter item name" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+          render={({ field, fieldState }) => (
+            <Field>
+              <FieldLabel>Name*</FieldLabel>
+              <Input {...field} placeholder="Enter item name" />
+              {fieldState.invalid && (
+                <FieldError errors={[fieldState.error]} />
+              )}
+            </Field>
           )}
         />
 
-        <FormField
+        <Controller
           control={form.control}
           name="sku"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>SKU</FormLabel>
-              <FormControl>
-                <Input {...field} placeholder="Enter SKU" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+          render={({ field, fieldState }) => (
+            <Field>
+              <FieldLabel>SKU</FieldLabel>
+              <Input {...field} placeholder="Enter SKU" />
+              {fieldState.invalid && (
+                <FieldError errors={[fieldState.error]} />
+              )}
+            </Field>
           )}
         />
+
       </div>
 
-      <FormField
+      <Controller
         control={form.control}
         name="description"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Description</FormLabel>
-            <FormControl>
-              <Textarea
-                {...field}
-                value={field.value || ''}
-                placeholder="Describe your item"
-                className="h-20 resize-none"
-              />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
+        render={({ field, fieldState }) => (
+          <Field>
+            <FieldLabel>Description</FieldLabel>
+            <Textarea
+              {...field}
+              value={field.value || ''}
+              placeholder="Describe your item"
+              className="h-20 resize-none"
+            />
+            {fieldState.invalid && (
+              <FieldError errors={[fieldState.error]} />
+            )}
+          </Field>
         )}
       />
 
-      <FormField
+      <Controller
         control={form.control}
         name="categoryId"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Category</FormLabel>
-            <FormControl>
-              <CategorySelect
-                selectedCategoryId={field.value}
-                onSelect={(category) => field.onChange(category.id)}
-                className="w-full"
-                showAddNew
-              />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
+        render={({ field, fieldState }) => (
+          <Field>
+            <FieldLabel>Category</FieldLabel>
+            <CategorySelect
+              selectedCategoryId={field.value}
+              onSelect={(category) => field.onChange(category.id)}
+              className="w-full"
+              showAddNew
+            />
+            {fieldState.invalid && (
+              <FieldError errors={[fieldState.error]} />
+            )}
+          </Field>
         )}
       />
-    </div>
+    </div >
   );
 }

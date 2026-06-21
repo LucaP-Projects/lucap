@@ -110,14 +110,14 @@ export async function createEstimate(
   color: string
 ): Promise<CreateEstimateResponse> {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
     if (!session?.user?.companyId) {
       redirect('/select-company');
     }
-    const estimate = await db.$transaction(async (tx) => {
+    const estimate = await prisma.$transaction(async (tx) => {
       const estimateNumber = `EST-${generateUniqueNumber()}`;
 
       await Promise.all([
@@ -283,7 +283,7 @@ export async function updateEstimate(
   color: string
 ): Promise<CreateEstimateResponse> {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
@@ -295,7 +295,7 @@ export async function updateEstimate(
       throw new Error('Missing required update data or estimate ID');
     }
 
-    const estimate = await db.$transaction(async (tx) => {
+    const estimate = await prisma.$transaction(async (tx) => {
       await validateCustomer(tx, data.customerId, session.user.companyId);
 
       const existingEstimate = await tx.estimate.findUnique({
@@ -458,14 +458,14 @@ export async function updateEstimate(
 
 export async function convertEstimateToInvoice(estimateId: string) {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
     if (!session?.user?.companyId) {
       redirect('/select-company');
     }
-    const estimate = await db.estimate.findUnique({
+    const estimate = await prisma.estimate.findUnique({
       where: { id: estimateId, companyId: session.user.companyId },
       include: {
         items: true,
@@ -480,7 +480,7 @@ export async function convertEstimateToInvoice(estimateId: string) {
       };
     }
 
-    const invoice = await db.$transaction(async (tx) => {
+    const invoice = await prisma.$transaction(async (tx) => {
       // Create new invoice from estimate data
       const invoice = await tx.invoice.create({
         data: {
@@ -582,14 +582,14 @@ export async function convertEstimateToInvoice(estimateId: string) {
 
 export async function getEstimate(id: string) {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
     if (!session?.user?.companyId) {
       redirect('/select-company');
     }
-    const estimate = await db.estimate.findUnique({
+    const estimate = await prisma.estimate.findUnique({
       where: { id, companyId: session.user.companyId },
       include: {
         items: true,

@@ -173,7 +173,7 @@ const options: BetterAuthOptions = {
       }
     }),
     customSession(async ({ user, session }: { user: any; session: any }) => {
-      const dbUser = await db.user.findUnique({
+      const dbUser = await prisma.user.findUnique({
         where: { id: user.id },
         include: {
           companies: {

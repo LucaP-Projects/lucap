@@ -1,14 +1,14 @@
-import { UseFormReturn } from 'react-hook-form';
+import { Controller, UseFormReturn } from 'react-hook-form';
 
 
 import { handleNumberInput } from '@/lib/utils';
 import { AccountSelect } from '../../shared/account/account-select';
 import { ItemFormValues } from '../schema';
-import FormField from '@/components/lang/FormField';
 import { Input } from '@/components/ui/input';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
+import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 
 interface PurchaseInfoProps {
   form: UseFormReturn<ItemFormValues>;
@@ -21,33 +21,30 @@ export function PurchaseInfo({ form }: PurchaseInfoProps) {
     <div className="space-y-4 pb-4">
       <h2 className="text-lg font-semibold">Purchase Information</h2>
 
-      <FormField
+      <Controller
         control={form.control}
         name="purchasable"
         render={({ field }) => (
-          <FormItem className="flex items-center justify-between rounded-lg border p-4">
+          <Field className="flex items-center justify-between rounded-lg border p-4">
             <div className="space-y-0.5">
-              <FormLabel className="text-base">Purchase this item</FormLabel>
+              <FieldLabel className="text-base">Purchase this item</FieldLabel>
               <p className="text-muted-foreground text-sm">
                 Enable if you purchase this item from vendors
               </p>
             </div>
-            <FormControl>
               <Switch checked={field.value} onCheckedChange={field.onChange} />
-            </FormControl>
-          </FormItem>
+          </Field>
         )}
       />
 
       {purchasable && (
         <div className="space-y-4">
-          <FormField
+          <Controller
             control={form.control}
             name="cost"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Cost</FormLabel>
-                <FormControl>
+            render={({ field, fieldState }) => (
+              <Field>
+                <FieldLabel>Cost</FieldLabel>
                   <Input
                     type="number"
                     step="0.01"
@@ -57,69 +54,71 @@ export function PurchaseInfo({ form }: PurchaseInfoProps) {
                       handleNumberInput(e.target.value, field.onChange)
                     }
                   />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
+                {fieldState.error && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
             )}
           />
 
-          <FormField
+          <Controller
             control={form.control}
             name="expenseAccountId"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Expense Account</FormLabel>
-                <FormControl>
+            render={({ field, fieldState }) => (
+              <Field>
+                <FieldLabel>Expense Account</FieldLabel>
                   <AccountSelect
                     onSelect={(account) => field.onChange(account.id)}
                     selectedAccountId={field.value}
                     showCreate
                   />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
+                {fieldState.error && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
             )}
           />
 
-          <FormField
+          <Controller
             control={form.control}
             name="purchaseDescription"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Purchase Description</FormLabel>
-                <FormControl>
+            render={({ field, fieldState }) => (
+              <Field>
+                <FieldLabel>Purchase Description</FieldLabel>
                   <Textarea
                     {...field}
                     value={field.value || ''}
                     placeholder="Description shown on purchase forms"
                     className="h-20"
                   />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
+                {fieldState.error && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
             )}
           />
 
-          <FormField
+          <Controller
             control={form.control}
             name="preferredVendorId"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Preferred Vendor</FormLabel>
+            render={({ field, fieldState }) => (
+              <Field>
+                <FieldLabel>Preferred Vendor</FieldLabel>
                 <Select onValueChange={field.onChange} value={field.value}>
-                  <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Select a vendor" />
                     </SelectTrigger>
-                  </FormControl>
                   <SelectContent>
                     <SelectItem value="dfg">None</SelectItem>
                     <SelectItem value="vendor1">Vendor 1</SelectItem>
                     <SelectItem value="vendor2">Vendor 2</SelectItem>
                   </SelectContent>
                 </Select>
-                <FormMessage />
-              </FormItem>
+                {fieldState.error && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              
+              </Field>
             )}
           />
         </div>

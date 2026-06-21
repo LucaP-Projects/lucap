@@ -9,14 +9,14 @@ import { distributePayment } from './utils';
 
 export async function getCustomerInvoices(customerId: string) {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
     if (!session?.user?.companyId) {
       redirect('/select-company');
     }
-    return await db.invoice.findMany({
+    return await prisma.invoice.findMany({
       where: {
         customerId,
         companyId: session.user.companyId,
@@ -51,7 +51,7 @@ export async function getCustomerInvoices(customerId: string) {
 
 export async function createPayment(data: PaymentFormValues) {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
@@ -59,7 +59,7 @@ export async function createPayment(data: PaymentFormValues) {
       redirect('/select-company');
     }
 
-    const result = await db.$transaction(
+    const result = await prisma.$transaction(
       async (tx) => {
         // Fetch invoices with their snapshots
         const invoices = await tx.invoice.findMany({

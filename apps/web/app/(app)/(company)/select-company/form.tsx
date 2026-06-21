@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useTransition } from 'react';
+import { useState, useTransition } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { PlusCircle } from 'lucide-react';
@@ -21,12 +21,7 @@ export function SelectCompanyForm({ companies, lng }: Props) {
   const [isPending, startTransition] = useTransition();
   const [selectedCompanyId, setSelectedCompanyId] = useState<string>('');
   const router = useRouter();
-  const [mounted, setMounted] = useState(false);
   const { data: session, status, refetch: update } = authClient.useSession();
-  console.log('Session:', session);
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const handleSelectCompany = async () => {
     if (!selectedCompanyId) {
@@ -59,10 +54,6 @@ export function SelectCompanyForm({ companies, lng }: Props) {
       }
     });
   };
-
-  if (!mounted) {
-    return <Loading variant="light" size="lg" />;
-  }
 
   if (status === 'loading') {
     return <Loading variant="light" size="lg" />;

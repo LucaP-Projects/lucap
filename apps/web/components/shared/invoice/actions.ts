@@ -34,7 +34,7 @@ export async function getInvoiceById(
   id: string
 ): Promise<SingleInvoiceResponse> {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
@@ -42,7 +42,7 @@ export async function getInvoiceById(
       redirect('/select-company');
     }
 
-    const invoice = await db.invoice.findUnique({
+    const invoice = await prisma.invoice.findUnique({
       where: {
         id,
         companyId: session.user.companyId,
@@ -73,7 +73,7 @@ export async function getInvoicesForSelect(
   search?: string
 ): Promise<InvoiceResponse> {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
@@ -81,7 +81,7 @@ export async function getInvoicesForSelect(
       redirect('/select-company');
     }
 
-    const invoices = await db.invoice.findMany({
+    const invoices = await prisma.invoice.findMany({
       where: {
         companyId: session.user.companyId,
         isActive: true,
@@ -142,7 +142,7 @@ export async function getPendingInvoicesCount(
   }
 
   try {
-    const count = await db.invoice.count({
+    const count = await prisma.invoice.count({
       where: {
         companyId: companyId,
         isActive: true,

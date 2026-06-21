@@ -28,6 +28,7 @@ import { ItemSelect } from '../../shared/item/item-selection';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { Field } from '@/components/ui/field';
 
 interface ItemSelectionHandlerProps {
   showTaxable?: boolean;
@@ -42,13 +43,13 @@ const DescriptionField = memo(({ index }: { index: number }) => {
         control={control}
         name={`items.${index}.description`}
         render={({ field }) => (
-          <FormItem className="space-y-0">
+          <Field className="space-y-0">
             <Input
               {...field}
               className="h-8 text-sm focus:ring-1"
               placeholder="Add description"
             />
-          </FormItem>
+          </Field>
         )}
       />
     </div>
@@ -113,7 +114,7 @@ const ProductField = memo(
 
     return (
       <div className="col-span-3 border-r border-gray-200 pr-4 dark:border-gray-700">
-        <FormItem className="space-y-0">
+        <Field className="space-y-0">
           <ItemSelect
             showAddNew
             onSelect={handleSelect}
@@ -125,7 +126,7 @@ const ProductField = memo(
               {itemError.message}
             </span>
           )}
-        </FormItem>
+        </Field>
       </div>
     );
   },
@@ -144,7 +145,7 @@ const QuantityField = memo(({ index }: { index: number }) => {
 
   return (
     <div className="col-span-2 border-r border-gray-200 pr-4 dark:border-gray-700">
-      <FormItem className="space-y-0">
+      <Field className="space-y-0">
         <Input
           type="number"
           step="0.01"
@@ -162,7 +163,7 @@ const QuantityField = memo(({ index }: { index: number }) => {
             {error.message}
           </span>
         )}
-      </FormItem>
+      </Field>
     </div>
   );
 });
@@ -179,7 +180,7 @@ const RateField = memo(({ index }: { index: number }) => {
 
   return (
     <div className="col-span-2 border-r border-gray-200 pr-4 dark:border-gray-700">
-      <FormItem className="space-y-0">
+      <Field className="space-y-0">
         <Input
           type="number"
           step="0.01"
@@ -197,7 +198,7 @@ const RateField = memo(({ index }: { index: number }) => {
             {error.message}
           </span>
         )}
-      </FormItem>
+      </Field>
     </div>
   );
 });
@@ -298,13 +299,13 @@ const MobileItemRow = memo(
             control={control}
             name={`items.${index}.description`}
             render={({ field }) => (
-              <FormItem>
+              <Field>
                 <Textarea
                   {...field}
                   placeholder="Description"
                   className="h-8 text-sm"
                 />
-              </FormItem>
+              </Field>
             )}
           />
 

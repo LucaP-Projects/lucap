@@ -7,7 +7,7 @@ import { PaymentEventFormValues } from '@/validation/payment-event/subscription.
 
 export async function createOneTimePaymentEvent(data: PaymentEventFormValues) {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
@@ -36,7 +36,7 @@ export async function createOneTimePaymentEvent(data: PaymentEventFormValues) {
       }
     };
 
-    const paymentEvent = await db.$transaction(async (tx) => {
+    const paymentEvent = await prisma.$transaction(async (tx) => {
       // Create the base payment event
       const event = await tx.paymentEvent.create({
         data: {
@@ -110,7 +110,7 @@ export async function createSubscriptionPaymentEvent(
   data: PaymentEventFormValues
 ) {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
@@ -151,7 +151,7 @@ export async function createSubscriptionPaymentEvent(
       }
     };
 
-    const paymentEvent = await db.$transaction(async (tx) => {
+    const paymentEvent = await prisma.$transaction(async (tx) => {
       // Create the base payment event
       const event = await tx.paymentEvent.create({
         data: {

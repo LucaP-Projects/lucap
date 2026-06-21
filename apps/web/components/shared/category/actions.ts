@@ -27,7 +27,7 @@ async function fetchCategoriesRecursively(
 ): Promise<CategorySelectData[]> {
   if (level >= 5) return [];
 
-  const categories = await db.category.findMany({
+  const categories = await prisma.category.findMany({
     where: {
       parentId,
       companyId, // Add company ID filter
@@ -70,7 +70,7 @@ export async function getCategoriesForSelect(
   search?: string
 ): Promise<CategoryResponse> {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
@@ -95,7 +95,7 @@ export async function deleteCategory(
   categoryId: string
 ): Promise<CategoryResponse> {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
@@ -104,7 +104,7 @@ export async function deleteCategory(
     }
 
     // Check if category exists and belongs to company
-    const category = await db.category.findFirst({
+    const category = await prisma.category.findFirst({
       where: {
         id: categoryId,
         companyId: session.user.companyId,
@@ -143,7 +143,7 @@ export async function deleteCategory(
     }
 
     // Soft delete the category
-    await db.category.update({
+    await prisma.category.update({
       where: {
         id: categoryId,
         companyId: session.user.companyId

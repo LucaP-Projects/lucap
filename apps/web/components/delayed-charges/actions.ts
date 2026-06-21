@@ -130,7 +130,7 @@ export async function createDelayedCharge(
   color: string
 ): Promise<CreateDelayedChargeResponse> {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
@@ -138,7 +138,7 @@ export async function createDelayedCharge(
       redirect('/select-company');
     }
 
-    const charge = await db.$transaction(async (tx) => {
+    const charge = await prisma.$transaction(async (tx) => {
       const chargeNumber = `CH-${generateUniqueNumber()}`;
       await Promise.all([
         validateCustomer(tx, data.customerId, session.user.companyId),
@@ -306,14 +306,14 @@ export async function createDelayedCharge(
 // Keep existing getDelayedCharge function
 export async function getDelayedCharge(id: string) {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
     if (!session?.user?.companyId) {
       redirect('/select-company');
     }
-    const charge = await db.delayedCharge.findUnique({
+    const charge = await prisma.delayedCharge.findUnique({
       where: {
         id,
         companyId: session.user.companyId,
@@ -373,7 +373,7 @@ export async function updateDelayedCharge(
     if (!data || !id) {
       throw new Error('Missing required update data or charge ID');
     }
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
@@ -381,7 +381,7 @@ export async function updateDelayedCharge(
       redirect('/select-company');
     }
 
-    const charge = await db.$transaction(async (tx) => {
+    const charge = await prisma.$transaction(async (tx) => {
       // Validate inputs
       await validateCustomer(tx, data.customerId, session.user.companyId);
       const totalBeforeTax = validateItems(data.items);
@@ -631,7 +631,7 @@ export async function updateDelayedCharge(
 // Add a function to soft-delete a delayed charge
 export async function deleteDelayedCharge(id: string) {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
@@ -640,7 +640,7 @@ export async function deleteDelayedCharge(id: string) {
     }
 
     // Check if the charge can be deleted
-    const charge = await db.delayedCharge.findUnique({
+    const charge = await prisma.delayedCharge.findUnique({
       where: {
         id,
         companyId: session.user.companyId,
@@ -668,7 +668,7 @@ export async function deleteDelayedCharge(id: string) {
     }
 
     // Use a transaction to ensure all operations succeed or none do
-    await db.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx) => {
       // 1. Soft delete charge attachments
       await tx.chargeAttachment.updateMany({
         where: {

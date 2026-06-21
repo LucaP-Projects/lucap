@@ -265,7 +265,7 @@ export async function deleteSalesReceipts(
 
   try {
     // Get the current session for user ID
-    const session = await auth();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       return {
         success: false,
@@ -274,7 +274,7 @@ export async function deleteSalesReceipts(
     }
 
     // Check for receipts that can't be deleted
-    const nonDeletableReceipts = await db.salesReceipt.findMany({
+    const nonDeletableReceipts = await prisma.salesReceipt.findMany({
       where: {
         id: { in: ids },
         isActive: true,
@@ -299,7 +299,7 @@ export async function deleteSalesReceipts(
     }
 
     // Use a transaction to ensure all operations succeed or none do
-    await db.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx) => {
       // 1. Soft delete receipt attachments
       await tx.receiptAttachment.updateMany({
         where: {

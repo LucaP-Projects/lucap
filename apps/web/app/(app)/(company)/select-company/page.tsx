@@ -8,10 +8,11 @@ interface PageProps {
 }
 
 export default async function SelectCompanyPage({ params }: PageProps) {
-  const pageParams = await params;
-  const session = await auth();
-
-  const companies = await getUserCompanies();
+  const [pageParams, session, companies] = await Promise.all([
+    params,
+    auth.api.getSession(),
+    getUserCompanies()
+  ]);
 
   return (
     <div className="container mx-auto max-w-2xl pt-10">

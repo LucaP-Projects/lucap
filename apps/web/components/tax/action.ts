@@ -28,7 +28,7 @@ export type TaxRateResponse = {
 
 export async function getTaxRates(search?: string): Promise<TaxRateResponse> {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
@@ -36,7 +36,7 @@ export async function getTaxRates(search?: string): Promise<TaxRateResponse> {
       redirect('/select-company');
     }
 
-    const taxRates = await db.taxRate.findMany({
+    const taxRates = await prisma.taxRate.findMany({
       where: {
         companyId: session.user.companyId,
         isActive: true,
@@ -152,7 +152,7 @@ export async function createTax(data: TaxFormValues): Promise<{
   data?: TaxRate;
 }> {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
@@ -160,7 +160,7 @@ export async function createTax(data: TaxFormValues): Promise<{
       redirect('/select-company');
     }
 
-    return await db.$transaction(async (tx) => {
+    return await prisma.$transaction(async (tx) => {
       // Check for existing tax rate within transaction
       const existingTax = await tx.taxRate.findFirst({
         where: {
@@ -179,7 +179,7 @@ export async function createTax(data: TaxFormValues): Promise<{
         };
       }
 
-      const createdTax = await db.taxRate.create({
+      const createdTax = await prisma.taxRate.create({
         data: {
           companyId: session.user.companyId,
           name: data.name,
@@ -213,7 +213,7 @@ export async function updateTax(
   data?: TaxRate;
 }> {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
@@ -221,7 +221,7 @@ export async function updateTax(
       redirect('/select-company');
     }
 
-    return await db.$transaction(async (tx) => {
+    return await prisma.$transaction(async (tx) => {
       const existingTax = await tx.taxRate.findUnique({
         where: {
           id,
@@ -287,14 +287,14 @@ export async function deleteTaxRate(
   id: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
     if (!session?.user?.companyId) {
       redirect('/select-company');
     }
-    const tax = await db.taxRate.findUnique({
+    const tax = await prisma.taxRate.findUnique({
       where: {
         id,
         companyId: session.user.companyId,
@@ -326,7 +326,7 @@ export async function deleteTaxRate(
           'Cannot delete tax rate that is used in documents. Consider setting it to inactive instead.'
       };
     }
-    await db.taxRate.update({
+    await prisma.taxRate.update({
       where: { id },
       data: {
         isActive: false,

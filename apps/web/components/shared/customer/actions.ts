@@ -23,7 +23,7 @@ export async function getCustomerById(
   id: string
 ): Promise<GetCustomerResponse> {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
@@ -146,7 +146,7 @@ export async function getCustomersForSelect(
   search?: string
 ): Promise<GetCustomersResponse> {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
@@ -202,7 +202,7 @@ export async function getCustomerCount(companyId: string): Promise<number> {
 // Add a function to soft-delete customers
 export async function deleteCustomer(customerId: string): Promise<{ success: boolean; error?: string }> {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }

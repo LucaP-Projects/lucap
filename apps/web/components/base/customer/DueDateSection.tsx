@@ -1,11 +1,13 @@
 import React, { memo, useCallback } from 'react';
 import { format } from 'date-fns';
 import { Controller, useFormContext, useWatch } from 'react-hook-form';
-import { Calendar, CalendarIcon } from 'lucide-react';
+import { CalendarIcon } from 'lucide-react';
+import { Calendar } from '@/components/ui/calendar';
 
 import { InvoiceFormValues } from '../../invoice/schema';
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
+import { Field } from '@/components/ui/field';
 export const DueDateSection: React.FC = React.memo(() => {
   const { control } = useFormContext<InvoiceFormValues>();
   const dueDate = useWatch({ control, name: 'dueDate' });
@@ -19,7 +21,7 @@ export const DueDateSection: React.FC = React.memo(() => {
         control={control}
         name="dueDate"
         render={({ field }) => (
-          <FormItem>
+          <Field>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
@@ -42,11 +44,11 @@ export const DueDateSection: React.FC = React.memo(() => {
                   mode="single"
                   selected={dueDate}
                   onSelect={field.onChange}
-                  initialFocus
+                  autoFocus
                 />
               </PopoverContent>
             </Popover>
-          </FormItem>
+          </Field>
         )}
       />
     </div>

@@ -1,17 +1,17 @@
 import React from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { Form, useForm } from 'react-hook-form';
+import { Controller, Form, useForm } from 'react-hook-form';
 
 import { toast } from 'sonner';
 import { AccountSelect } from '../shared/account/account-select';
 import { createAccount } from './actions';
 import { accountFormSchema, AccountFormValues } from './schema';
 import { Sheet } from 'lucide-react';
-import FormField from '../lang/FormField';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter } from '@/components/ui/sheet';
+import { Field, FieldError, FieldLabel } from '../ui/field';
 
 interface AccountFormProps {
   children: React.ReactNode;
@@ -94,59 +94,59 @@ const AccountForm = ({
 
         <Form {...form}>
           <form onSubmit={handleSubmit} className="space-y-6 py-6">
-            <FormField
+            <Controller
               control={form.control}
               name="title"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Account Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter account name" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
+              render={({ field, fieldState }) => (
+                <Field>
+                  <FieldLabel>Account Name</FieldLabel>
+                  <Input placeholder="Enter account name" {...field} />
+                  {fieldState.error && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
               )}
             />
 
-            <FormField
+            <Controller
               control={form.control}
               name="number"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Account Number</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="text"
-                      inputMode="numeric"
-                      pattern="[0-9]*"
-                      maxLength={6}
-                      placeholder="Enter account number"
-                      {...field}
-                      onChange={(e) =>
-                        handleNumberInput(e.target.value, field.onChange)
-                      }
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
+              render={({ field, fieldState }) => (
+                <Field>
+                  <FieldLabel>Account Number</FieldLabel>
+                  <Input
+                    type="text"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    maxLength={6}
+                    placeholder="Enter account number"
+                    {...field}
+                    onChange={(e) =>
+                      handleNumberInput(e.target.value, field.onChange)
+                    }
+                  />
+                  {fieldState.error && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
               )}
             />
 
-            <FormField
+            <Controller
               control={form.control}
               name="parentId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Parent Account</FormLabel>
-                  <FormControl>
-                    <AccountSelect
-                      showCreate={false}
-                      selectedAccountId={field.value || undefined}
-                      onSelect={(account) => field.onChange(account.id)}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
+              render={({ field, fieldState }) => (
+                <Field>
+                  <FieldLabel>Parent Account</FieldLabel>
+                  <AccountSelect
+                    showCreate={false}
+                    selectedAccountId={field.value || undefined}
+                    onSelect={(account) => field.onChange(account.id)}
+                  />
+                  {fieldState.error && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
               )}
             />
 

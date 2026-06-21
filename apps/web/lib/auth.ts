@@ -1,4 +1,5 @@
 import { betterAuth, type BetterAuthOptions } from 'better-auth';
+import { headers } from 'next/headers';
 import { prismaAdapter } from 'better-auth/adapters/prisma';
 import { createAuthMiddleware, APIError } from 'better-auth/api';
 import { nextCookies } from 'better-auth/next-js';
@@ -13,6 +14,7 @@ import {
 import { hashPassword, verifyPassword } from '@/utils/argon2';
 import { ac, roles } from '@/utils/permissions';
 import { normalizeName, VALID_DOMAINS, verifyUserEmail } from '@/utils/utils';
+import { UserCompany } from './generated/prisma/client';
 
 const options: BetterAuthOptions = {
   baseURL:
@@ -248,5 +250,25 @@ export const auth = betterAuth({
     nextCookies(),
   ]
 });
+
+export async function getCurrentCompany() {
+  const session = await auth.api.getSession({headers: await headers()});
+
+  if (!session?.user) {
+    return null;
+  }
+
+  // Use activeCompanyId which is more consistent
+  if (!session.user.activeCompanyId) {
+    return false;
+  }
+
+  // Find the active company from available companies
+  const activeCompany = session.user.availableCompanies?.find(
+    (company: UserCompany) => company.companyId === session.user.activeCompanyId
+  );
+
+  return activeCompany || false;
+}
 
 export type ErrorCode = keyof typeof auth.$ERROR_CODES | 'UNKNOWN';

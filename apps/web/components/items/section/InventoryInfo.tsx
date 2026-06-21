@@ -1,6 +1,6 @@
 import React from 'react';
 import { format } from 'date-fns';
-import { UseFormReturn } from 'react-hook-form';
+import { Controller, UseFormReturn } from 'react-hook-form';
 import {  CalendarIcon } from 'lucide-react';
 
 import { cn, handleNumberInput } from '@/lib/utils';
@@ -10,8 +10,8 @@ import FormField from '@/components/lang/FormField';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Input } from '@/components/ui/input';
-import { PopoverTrigger, PopoverContent } from '@/components/ui/popover';
-import { Popover } from 'radix-ui';
+import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
+import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 
 interface InventoryInfoProps {
   form: UseFormReturn<ItemFormValues>;
@@ -48,13 +48,13 @@ export function InventoryInfo({ form }: InventoryInfoProps) {
     <div className="space-y-4 pb-4">
       <h2 className="text-lg font-semibold">Inventory Details</h2>
       <div className="grid gap-4 sm:grid-cols-2">
-        <FormField
+        <Controller
           control={form.control}
           name="initialQuantity"
           rules={{ required: isInventoryItem }}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel
+          render={({ field, fieldState }) => (
+            <Field>
+              <FieldLabel
                 className={cn(
                   'flex items-center gap-2',
                   isInventoryItem && 'text-destructive font-medium'
@@ -62,8 +62,7 @@ export function InventoryInfo({ form }: InventoryInfoProps) {
               >
                 Initial quantity on hand
                 {isInventoryItem && '*'}
-              </FormLabel>
-              <FormControl>
+              </FieldLabel>
                 <Input
                   type="number"
                   value={field.value ?? ''}
@@ -72,19 +71,20 @@ export function InventoryInfo({ form }: InventoryInfoProps) {
                   }
                   onBlur={() => form.trigger('initialQuantity')}
                 />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+              {fieldState.error && (
+                <FieldError errors={[fieldState.error]} />
+              )}
+            </Field>
           )}
         />
 
-        <FormField
+        <Controller
           control={form.control}
           name="reorderPoint"
           rules={{ required: isInventoryItem }}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel
+          render={({ field, fieldState }) => (
+            <Field>
+              <FieldLabel
                 className={cn(
                   'flex items-center gap-2',
                   isInventoryItem && 'text-destructive font-medium'
@@ -92,8 +92,7 @@ export function InventoryInfo({ form }: InventoryInfoProps) {
               >
                 Reorder point
                 {isInventoryItem && '*'}
-              </FormLabel>
-              <FormControl>
+              </FieldLabel>
                 <Input
                   type="number"
                   value={field.value ?? ''}
@@ -102,19 +101,20 @@ export function InventoryInfo({ form }: InventoryInfoProps) {
                   }
                   onBlur={() => form.trigger('reorderPoint')}
                 />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+              {fieldState.error && (
+                <FieldError errors={[fieldState.error]} />
+              )}
+            </Field>
           )}
         />
 
-        <FormField
+        <Controller
           control={form.control}
           name="asOfDate"
           rules={{ required: isInventoryItem }}
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel
+          render={({ field, fieldState }) => (
+            <Field className="flex flex-col">
+              <FieldLabel
                 className={cn(
                   'flex items-center gap-2',
                   isInventoryItem && 'text-destructive font-medium'
@@ -122,10 +122,9 @@ export function InventoryInfo({ form }: InventoryInfoProps) {
               >
                 As of date
                 {isInventoryItem && '*'}
-              </FormLabel>
+              </FieldLabel>
               <Popover>
                 <PopoverTrigger asChild>
-                  <FormControl>
                     <Button
                       variant="outline"
                       className={cn(
@@ -141,7 +140,6 @@ export function InventoryInfo({ form }: InventoryInfoProps) {
                       )}
                       <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                     </Button>
-                  </FormControl>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="start">
                   <Calendar
@@ -151,21 +149,23 @@ export function InventoryInfo({ form }: InventoryInfoProps) {
                       field.onChange(date || new Date());
                       form.trigger('asOfDate');
                     }}
-                    initialFocus
+                    autoFocus
                   />
                 </PopoverContent>
               </Popover>
-              <FormMessage />
-            </FormItem>
+              {fieldState.error && (
+                <FieldError errors={[fieldState.error]} />
+              )}
+            </Field>
           )}
         />
 
-        <FormField
+        <Controller
           control={form.control}
           name="inventoryAssetAccountId"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel
+          render={({ field, fieldState }) => (
+            <Field>
+              <FieldLabel
                 className={cn(
                   'flex items-center gap-2',
                   isInventoryItem && 'text-destructive font-medium'
@@ -173,16 +173,16 @@ export function InventoryInfo({ form }: InventoryInfoProps) {
               >
                 Inventory Asset Account
                 {isInventoryItem && '*'}
-              </FormLabel>
-              <FormControl>
+              </FieldLabel>
                 <AccountSelect
                   onSelect={(account) => field.onChange(account.id)}
                   selectedAccountId={field.value}
                   showCreate
                 />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+              {fieldState.error && (
+                <FieldError errors={[fieldState.error]} />
+              )}
+            </Field>
           )}
         />
       </div>

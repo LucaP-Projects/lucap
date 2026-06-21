@@ -23,7 +23,7 @@ export async function assignOneTimePayment(
   input: AssignOneTimePaymentInput
 ): Promise<AssignmentResult> {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
@@ -42,7 +42,7 @@ export async function assignOneTimePayment(
     }
 
     // Get customer - add isActive filter
-    const customer = await db.customer.findUnique({
+    const customer = await prisma.customer.findUnique({
       where: {
         companyId: session.user.companyId,
         id: input.customerId,
@@ -59,7 +59,7 @@ export async function assignOneTimePayment(
     }
 
     // Get payment event with current version - add isActive filter
-    const paymentEvent = await db.paymentEvent.findUnique({
+    const paymentEvent = await prisma.paymentEvent.findUnique({
       where: {
         id: input.paymentEventId,
         companyId: session.user.companyId,
@@ -114,7 +114,7 @@ export async function assignOneTimePayment(
     const shouldCreateInvoiceNow = generateInvoiceNow || dueDate <= now;
 
     // Perform database operations in transaction
-    const result = await db.$transaction(async (tx) => {
+    const result = await prisma.$transaction(async (tx) => {
       // Create initial progress state
       const initialProgress: PrismaJson.OneTimeProgress = {
         type: 'ONE_TIME',
@@ -296,7 +296,7 @@ export async function checkCustomerAssignment(input: {
   customerId: string;
 }) {
   try {
-    const existingAssignment = await db.customerPaymentEvent.findFirst({
+    const existingAssignment = await prisma.customerPaymentEvent.findFirst({
       where: {
         paymentEventId: input.paymentEventId,
         customerId: input.customerId,
@@ -313,14 +313,14 @@ export async function checkCustomerAssignment(input: {
 
 export async function getCustomersWithHierarchy() {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
     if (!session?.user?.companyId) {
       redirect('/select-company');
     }
-    const allCustomers = await db.customer.findMany({
+    const allCustomers = await prisma.customer.findMany({
       where: {
         status: 'ACTIVE',
         companyId: session.user.companyId,
@@ -362,14 +362,14 @@ export async function getPaymentEventsWithRelations(): Promise<
   PaymentEventWithRelations[]
 > {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
     if (!session?.user?.companyId) {
       redirect('/select-company');
     }
-    const paymentEvents = await db.paymentEvent.findMany({
+    const paymentEvents = await prisma.paymentEvent.findMany({
       where: {
         active: true,
         companyId: session.user.companyId,

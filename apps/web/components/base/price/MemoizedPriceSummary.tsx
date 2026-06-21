@@ -11,7 +11,7 @@ import { TaxSection } from './TaxRow';
 import { usePriceCalculation } from './usePriceCalculation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Tooltip } from 'radix-ui';
+import { Tooltip } from '@/components/ui/tooltip';
 
 interface MemoizedPriceSummaryProps {
   onTaxChange: (tax: TaxSelectData | null) => void;

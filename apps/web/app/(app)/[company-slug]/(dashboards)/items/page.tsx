@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default async function ItemsPage() {
-  const session = await auth.api.getSession();
+  const session = await auth.api.getSession({headers: await headers()});
   const companyId = session?.user?.companyId;
 
   if (!companyId) {

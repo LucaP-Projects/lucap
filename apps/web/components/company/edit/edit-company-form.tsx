@@ -61,7 +61,7 @@ export function EditCompanyForm({ companyId }: Props) {
         state: '',
         postalCode: '',
         country: ''
-      }  
+      }
     }
   });
 
@@ -136,297 +136,297 @@ export function EditCompanyForm({ companyId }: Props) {
   return (
     <div className="mx-auto">
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <div className="grid gap-6">
-            {/* Company Profile Section */}
-            <Card>
-              <CardHeader className="space-y-1">
-                <div className="flex items-center gap-2">
-                  <Building2 className="text-muted-foreground h-5 w-5" />
-                  <CardTitle className="text-xl">Company Profile</CardTitle>
-                </div>
-              </CardHeader>
-              <CardContent className="grid gap-6">
-                <div className="flex flex-col gap-6 md:flex-row">
-                  <ImageUpload
-                    name="logo"
-                    control={form.control}
-                    defaultValue={company?.logo || undefined}
-                    className="border-muted bg-muted/50 h-40 w-40 shrink-0 rounded-lg border-2 border-dashed p-4"
-                  />
-                  <div className="flex-1 space-y-4">
-                    <FieldGroup>
-                      <Controller
-                        control={form.control}
-                        name="name"
-                        render={({ field, fieldState }) => (
-                          <Field>
-                            <FieldLabel>Company Name *</FieldLabel>
-                            <FieldContent>
-                              <Input
-                                {...field}
-                                value={field.value || ''}
-                                placeholder="Enter company name"
-                              />
-                              {fieldState.error && (
-                                <FieldError>{String(fieldState.error.message)}</FieldError>
-                              )}
-                            </FieldContent>
-                          </Field>
-                        )}
-                      />
-                      <Controller
-                        control={form.control}
-                        name="companyType"
-                        render={({ field: selField, fieldState }) => (
-                          <Field>
-                            <FieldLabel>Company Type</FieldLabel>
-                            <FieldContent>
-                              <Select
-                                onValueChange={selField.onChange}
-                                value={selField.value || undefined}
-                              >
-                                <SelectTrigger>
-                                  <SelectValue placeholder="Select company type" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                  {Object.values(CompanyType).map((type) => (
-                                    <SelectItem key={type} value={type}>
-                                      {type}
-                                    </SelectItem>
-                                  ))}
-                                </SelectContent>
-                              </Select>
-                              {fieldState.error && (
-                                <FieldError>{String(fieldState.error.message)}</FieldError>
-                              )}
-                            </FieldContent>
-                          </Field>
-                        )}
-                        />
-                      </FieldGroup>
-                      <div className="grid gap-4 md:grid-cols-2">
-                      <Controller
-                        control={form.control}
-                        name="email"
-                        render={({ field: emailField, fieldState }) => (
-                          <Field>
-                            <FieldLabel>Email Address</FieldLabel>
-                            <FieldContent>
-                              <Input
-                                {...emailField}
-                                value={emailField.value || ''}
-                                type="email"
-                                placeholder="company@example.com"
-                              />
-                              {fieldState.error && (
-                                <FieldError>{String(fieldState.error.message)}</FieldError>
-                              )}
-                            </FieldContent>
-                          </Field>
-                        )}
-                      />
-                      <Controller
-                        control={form.control}
-                        name="taxId"
-                        render={({ field: taxField, fieldState }) => (
-                          <Field>
-                            <FieldLabel>Tax ID</FieldLabel>
-                            <FieldContent>
-                              <Input
-                                {...taxField}
-                                value={taxField.value || ''}
-                                placeholder="Enter tax ID"
-                              />
-                              {fieldState.error && (
-                                <FieldError>{String(fieldState.error.message)}</FieldError>
-                              )}
-                            </FieldContent>
-                          </Field>
-                        )}
-                      />
-                    </div>
+        <div className="grid gap-6">
+          {/* Company Profile Section */}
+          <Card>
+            <CardHeader className="space-y-1">
+              <div className="flex items-center gap-2">
+                <Building2 className="text-muted-foreground h-5 w-5" />
+                <CardTitle className="text-xl">Company Profile</CardTitle>
+              </div>
+            </CardHeader>
+            <CardContent className="grid gap-6">
+              <div className="flex flex-col gap-6 md:flex-row">
+                <ImageUpload
+                  name="logo"
+                  control={form.control}
+                  defaultValue={company?.logo || undefined}
+                  className="border-muted bg-muted/50 h-40 w-40 shrink-0 rounded-lg border-2 border-dashed p-4"
+                />
+                <div className="flex-1 space-y-4">
+                  <FieldGroup>
+                    <Controller
+                      control={form.control}
+                      name="name"
+                      render={({ field, fieldState }) => (
+                        <Field>
+                          <FieldLabel>Company Name *</FieldLabel>
+                          <FieldContent>
+                            <Input
+                              {...field}
+                              value={field.value || ''}
+                              placeholder="Enter company name"
+                            />
+                            {fieldState.error && (
+                              <FieldError errors={[fieldState.error]} />
+                            )}
+                          </FieldContent>
+                        </Field>
+                      )}
+                    />
+                    <Controller
+                      control={form.control}
+                      name="companyType"
+                      render={({ field: selField, fieldState }) => (
+                        <Field>
+                          <FieldLabel>Company Type</FieldLabel>
+                          <FieldContent>
+                            <Select
+                              onValueChange={selField.onChange}
+                              value={selField.value || undefined}
+                            >
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select company type" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {Object.values(CompanyType).map((type) => (
+                                  <SelectItem key={type} value={type}>
+                                    {type}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                            {fieldState.error && (
+                              <FieldError errors={[fieldState.error]} />
+                            )}
+                          </FieldContent>
+                        </Field>
+                      )}
+                    />
+                  </FieldGroup>
+                  <div className="grid gap-4 md:grid-cols-2">
+                    <Controller
+                      control={form.control}
+                      name="email"
+                      render={({ field: emailField, fieldState }) => (
+                        <Field>
+                          <FieldLabel>Email Address</FieldLabel>
+                          <FieldContent>
+                            <Input
+                              {...emailField}
+                              value={emailField.value || ''}
+                              type="email"
+                              placeholder="company@example.com"
+                            />
+                            {fieldState.error && (
+                              <FieldError errors={[fieldState.error]} />
+                            )}
+                          </FieldContent>
+                        </Field>
+                      )}
+                    />
+                    <Controller
+                      control={form.control}
+                      name="taxId"
+                      render={({ field: taxField, fieldState }) => (
+                        <Field>
+                          <FieldLabel>Tax ID</FieldLabel>
+                          <FieldContent>
+                            <Input
+                              {...taxField}
+                              value={taxField.value || ''}
+                              placeholder="Enter tax ID"
+                            />
+                            {fieldState.error && (
+                              <FieldError errors={[fieldState.error]} />
+                            )}
+                          </FieldContent>
+                        </Field>
+                      )}
+                    />
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </CardContent>
+          </Card>
 
-            {/* Contact Information Section */}
-            <Card>
-              <CardHeader className="space-y-1">
-                <div className="flex items-center gap-2">
-                  <Phone className="text-muted-foreground h-5 w-5" />
-                  <CardTitle className="text-xl">Contact Information</CardTitle>
-                </div>
-              </CardHeader>
-              <CardContent className="grid gap-4 md:grid-cols-2">
+          {/* Contact Information Section */}
+          <Card>
+            <CardHeader className="space-y-1">
+              <div className="flex items-center gap-2">
+                <Phone className="text-muted-foreground h-5 w-5" />
+                <CardTitle className="text-xl">Contact Information</CardTitle>
+              </div>
+            </CardHeader>
+            <CardContent className="grid gap-4 md:grid-cols-2">
+              <Controller
+                control={form.control}
+                name="phone"
+                render={({ field: phoneField, fieldState }) => (
+                  <Field className="flex flex-col items-start">
+                    <FieldLabel className="pb-2.5 text-left">Phone Number</FieldLabel>
+                    <FieldContent className="w-full">
+                      <PhoneInput
+                        defaultCountry="TN"
+                        placeholder="Enter a phone number"
+                        {...phoneField}
+                      />
+                      {fieldState.error && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </FieldContent>
+                  </Field>
+                )}
+              />
+              <Controller
+                control={form.control}
+                name="website"
+                render={({ field: webField, fieldState }) => (
+                  <Field>
+                    <FieldLabel>Website</FieldLabel>
+                    <FieldContent>
+                      <Input
+                        {...webField}
+                        value={webField.value || ''}
+                        type="url"
+                        placeholder="https://example.com"
+                      />
+                      {fieldState.error && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </FieldContent>
+                  </Field>
+                )}
+              />
+            </CardContent>
+          </Card>
+
+          {/* Address Section */}
+          <Card>
+            <CardHeader className="space-y-1">
+              <div className="flex items-center gap-2">
+                <MapPin className="text-muted-foreground h-5 w-5" />
+                <CardTitle className="text-xl">Address</CardTitle>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-4">
                 <Controller
                   control={form.control}
-                  name="phone"
-                  render={({ field: phoneField, fieldState }) => (
-                    <Field className="flex flex-col items-start">
-                      <FieldLabel className="pb-2.5 text-left">Phone Number</FieldLabel>
-                      <FieldContent className="w-full">
-                        <PhoneInput
-                          defaultCountry="TN"
-                          placeholder="Enter a phone number"
-                          {...phoneField}
-                        />
-                        {fieldState.error && (
-                          <FieldError>{String(fieldState.error.message)}</FieldError>
-                        )}
-                      </FieldContent>
-                    </Field>
-                  )}
-                />
-                <Controller
-                  control={form.control}
-                  name="website"
-                  render={({ field: webField, fieldState }) => (
+                  name="address.street"
+                  render={({ field: streetField, fieldState }) => (
                     <Field>
-                      <FieldLabel>Website</FieldLabel>
+                      <FieldLabel>Street Address</FieldLabel>
                       <FieldContent>
                         <Input
-                          {...webField}
-                          value={webField.value || ''}
-                          type="url"
-                          placeholder="https://example.com"
+                          {...streetField}
+                          value={streetField.value || ''}
+                          placeholder="123 Main St"
                         />
                         {fieldState.error && (
-                          <FieldError>{String(fieldState.error.message)}</FieldError>
+                          <FieldError errors={[fieldState.error]} />
                         )}
                       </FieldContent>
                     </Field>
                   )}
                 />
-              </CardContent>
-            </Card>
-
-            {/* Address Section */}
-            <Card>
-              <CardHeader className="space-y-1">
-                <div className="flex items-center gap-2">
-                  <MapPin className="text-muted-foreground h-5 w-5" />
-                  <CardTitle className="text-xl">Address</CardTitle>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="grid gap-4">
+                <div className="grid gap-4 md:grid-cols-2">
                   <Controller
                     control={form.control}
-                    name="address.street"
-                    render={({ field: streetField, fieldState }) => (
+                    name="address.city"
+                    render={({ field: cityField, fieldState }) => (
                       <Field>
-                        <FieldLabel>Street Address</FieldLabel>
+                        <FieldLabel>City</FieldLabel>
                         <FieldContent>
                           <Input
-                            {...streetField}
-                            value={streetField.value || ''}
-                            placeholder="123 Main St"
+                            {...cityField}
+                            value={cityField.value || ''}
+                            placeholder="City"
                           />
                           {fieldState.error && (
-                            <FieldError>{String(fieldState.error.message)}</FieldError>
+                            <FieldError errors={[fieldState.error]} />
                           )}
                         </FieldContent>
                       </Field>
                     )}
                   />
-                    <div className="grid gap-4 md:grid-cols-2">
-                    <Controller
-                      control={form.control}
-                      name="address.city"
-                      render={({ field: cityField, fieldState }) => (
-                        <Field>
-                          <FieldLabel>City</FieldLabel>
-                          <FieldContent>
-                            <Input
-                              {...cityField}
-                              value={cityField.value || ''}
-                              placeholder="City"
-                            />
-                            {fieldState.error && (
-                              <FieldError>{String(fieldState.error.message)}</FieldError>
-                            )}
-                          </FieldContent>
-                        </Field>
-                      )}
-                    />
-                    <Controller
-                      control={form.control}
-                      name="address.state"
-                      render={({ field: stateField, fieldState }) => (
-                        <Field>
-                          <FieldLabel>State/Province</FieldLabel>
-                          <FieldContent>
-                            <Input
-                              {...stateField}
-                              value={stateField.value || ''}
-                              placeholder="State"
-                            />
-                            {fieldState.error && (
-                              <FieldError>{String(fieldState.error.message)}</FieldError>
-                            )}
-                          </FieldContent>
-                        </Field>
-                      )}
-                    />
-                    <Controller
-                      control={form.control}
-                      name="address.postalCode"
-                      render={({ field: postalField, fieldState }) => (
-                        <Field>
-                          <FieldLabel>Postal Code</FieldLabel>
-                          <FieldContent>
-                            <Input
-                              {...postalField}
-                              value={postalField.value || ''}
-                              placeholder="Postal Code"
-                            />
-                            {fieldState.error && (
-                              <FieldError>{String(fieldState.error.message)}</FieldError>
-                            )}
-                          </FieldContent>
-                        </Field>
-                      )}
-                    />
-                    <Controller
-                      control={form.control}
-                      name="address.country"
-                      render={({ field: countryField, fieldState }) => (
-                        <Field>
-                          <FieldLabel>Country</FieldLabel>
-                          <FieldContent>
-                            <Input
-                              {...countryField}
-                              value={countryField.value || ''}
-                              placeholder="Country"
-                            />
-                            {fieldState.error && (
-                              <FieldError>{String(fieldState.error.message)}</FieldError>
-                            )}
-                          </FieldContent>
-                        </Field>
-                      )}
-                    />
-                    </div>
-                  </div>
-              </CardContent>
-            </Card>
-          </div>
+                  <Controller
+                    control={form.control}
+                    name="address.state"
+                    render={({ field: stateField, fieldState }) => (
+                      <Field>
+                        <FieldLabel>State/Province</FieldLabel>
+                        <FieldContent>
+                          <Input
+                            {...stateField}
+                            value={stateField.value || ''}
+                            placeholder="State"
+                          />
+                          {fieldState.error && (
+                            <FieldError errors={[fieldState.error]} />
+                          )}
+                        </FieldContent>
+                      </Field>
+                    )}
+                  />
+                  <Controller
+                    control={form.control}
+                    name="address.postalCode"
+                    render={({ field: postalField, fieldState }) => (
+                      <Field>
+                        <FieldLabel>Postal Code</FieldLabel>
+                        <FieldContent>
+                          <Input
+                            {...postalField}
+                            value={postalField.value || ''}
+                            placeholder="Postal Code"
+                          />
+                          {fieldState.error && (
+                            <FieldError errors={[fieldState.error]} />
+                          )}
+                        </FieldContent>
+                      </Field>
+                    )}
+                  />
+                  <Controller
+                    control={form.control}
+                    name="address.country"
+                    render={({ field: countryField, fieldState }) => (
+                      <Field>
+                        <FieldLabel>Country</FieldLabel>
+                        <FieldContent>
+                          <Input
+                            {...countryField}
+                            value={countryField.value || ''}
+                            placeholder="Country"
+                          />
+                          {fieldState.error && (
+                            <FieldError errors={[fieldState.error]} />
+                          )}
+                        </FieldContent>
+                      </Field>
+                    )}
+                  />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
 
-          <div className="flex justify-end gap-4">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => router.back()}
-            >
-              Cancel
-            </Button>
-            <Button type="submit" disabled={isPending}>
-              {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              {isPending ? 'Updating...' : 'Update Company'}
-            </Button>
-          </div>
-        </form>
+        <div className="flex justify-end gap-4">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => router.back()}
+          >
+            Cancel
+          </Button>
+          <Button type="submit" disabled={isPending}>
+            {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            {isPending ? 'Updating...' : 'Update Company'}
+          </Button>
+        </div>
+      </form>
     </div>
   );
 }

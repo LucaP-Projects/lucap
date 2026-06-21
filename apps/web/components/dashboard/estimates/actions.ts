@@ -137,7 +137,7 @@ export async function getEstimateStats() {
     const conversionRate =
       totalCount === 0
         ? 0
-        : await db.estimate
+        : await prisma.estimate
             .count({
               where: {
                 status: 'CONVERTED'
@@ -219,7 +219,7 @@ export async function deleteEstimates(ids: string[]): Promise<DeleteResult> {
 
   try {
     // Get the current session for user ID
-    const session = await auth();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       return {
         success: false,
@@ -228,7 +228,7 @@ export async function deleteEstimates(ids: string[]): Promise<DeleteResult> {
     }
 
     // First check if any of the estimates have been converted to invoices
-    const convertedEstimates = await db.estimate.findMany({
+    const convertedEstimates = await prisma.estimate.findMany({
       where: {
         id: {
           in: ids
@@ -251,7 +251,7 @@ export async function deleteEstimates(ids: string[]): Promise<DeleteResult> {
     }
 
     // Use a transaction to ensure all operations succeed or none do
-    await db.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx) => {
       // 1. Soft delete estimate attachments
       await tx.estimateAttachment.updateMany({
         where: {

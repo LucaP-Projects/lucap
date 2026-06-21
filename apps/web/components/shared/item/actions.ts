@@ -27,14 +27,14 @@ export async function getItemsForSelect(
   search?: string
 ): Promise<ItemResponse> {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
     if (!session?.user?.companyId) {
       redirect('/select-company');
     }
-    const items = await db.item.findMany({
+    const items = await prisma.item.findMany({
       where: {
         companyId: session.user.companyId,
         isActive: true,
@@ -74,7 +74,7 @@ export async function deleteItem(
   id: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
@@ -83,7 +83,7 @@ export async function deleteItem(
     }
 
     // Check if item exists and belongs to company
-    const item = await db.item.findFirst({
+    const item = await prisma.item.findFirst({
       where: {
         id,
         companyId: session.user.companyId,
@@ -96,7 +96,7 @@ export async function deleteItem(
     }
 
     // Soft delete the item
-    await db.item.update({
+    await prisma.item.update({
       where: { id },
       data: {
         isActive: false,

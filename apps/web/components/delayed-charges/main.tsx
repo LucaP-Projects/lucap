@@ -18,6 +18,7 @@ import { createDelayedCharge, updateDelayedCharge } from './actions';
 import { DelayedChargeFormValues } from './schema';
 import { useChargeForm } from './useCharge';
 import { ChargeViewRenderer } from './ViewRenderer';
+import { toast } from 'sonner';
 
 interface DelayedChargeFormProps {
   mode?: 'create' | 'edit';
@@ -105,7 +106,7 @@ export function DelayedChargeForm({
           formMethods.reset();
         }
 
-        toast.sucess( `Delayed Charge ${
+        toast.success( `Delayed Charge ${
             mode === 'create' ? 'created' : 'updated'
           } successfully`
         );

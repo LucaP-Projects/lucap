@@ -7,6 +7,7 @@ import { z } from 'zod';
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { accountFormSchema } from './schema';
+import { headers } from 'next/headers';
 type CreateAccountResponse = {
   success: boolean;
   data?: any;
@@ -18,7 +19,7 @@ export async function createAccount(
 ): Promise<CreateAccountResponse> {
   try {
     const validatedData = accountFormSchema.parse(data);
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
@@ -27,7 +28,7 @@ export async function createAccount(
     }
 
     // Check if the number already exists in the company
-    const existingNumber = await db.account.findFirst({
+    const existingNumber = await prisma.account.findFirst({
       where: {
         companyId: session.user.companyId,
         number: validatedData.number
@@ -69,7 +70,7 @@ export async function createAccount(
       }
 
       // Find parent account
-      const parentAccount = await db.account.findUnique({
+      const parentAccount = await prisma.account.findUnique({
         where: {
           id: validatedData.parentId,
           companyId: session.user.companyId
@@ -90,7 +91,7 @@ export async function createAccount(
       createData.composed_number = composedNumber;
 
       // Check if composed number is unique within company
-      const existingComposed = await db.account.findFirst({
+      const existingComposed = await prisma.account.findFirst({
         where: {
           companyId: session.user.companyId,
           composed_number: composedNumber
@@ -106,7 +107,7 @@ export async function createAccount(
     }
 
     // Create the account
-    const account = await db.account.create({
+    const account = await prisma.account.create({
       data: createData
     });
 
@@ -162,7 +163,7 @@ async function hasCircularReference(
 
   checkedIds.add(parentId);
 
-  const parent = await db.account.findUnique({
+  const parent = await prisma.account.findUnique({
     where: { id: parentId, companyId },
     select: { parent_id: true }
   });

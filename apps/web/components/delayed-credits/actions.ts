@@ -158,7 +158,7 @@ export async function createDelayedCredit(
   color: string
 ): Promise<CreateDelayedCreditResponse> {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
@@ -166,7 +166,7 @@ export async function createDelayedCredit(
       redirect('/select-company');
     }
 
-    const credit = await db.$transaction(async (tx) => {
+    const credit = await prisma.$transaction(async (tx) => {
       const creditNumber = `CR-${generateUniqueNumber()}`;
       await Promise.all([
         validateCustomer(tx, data.customerId, session.user.companyId),
@@ -329,14 +329,14 @@ export async function createDelayedCredit(
 
 export async function getDelayedCredit(id: string) {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
     if (!session?.user?.companyId) {
       redirect('/select-company');
     }
-    const credit = await db.delayedCredit.findUnique({
+    const credit = await prisma.delayedCredit.findUnique({
       where: {
         id,
         companyId: session.user.companyId,
@@ -393,7 +393,7 @@ export async function updateDelayedCredit(
   color: string
 ): Promise<CreateDelayedCreditResponse> {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
@@ -401,7 +401,7 @@ export async function updateDelayedCredit(
       redirect('/select-company');
     }
 
-    const credit = await db.$transaction(async (tx) => {
+    const credit = await prisma.$transaction(async (tx) => {
       await validateCustomer(tx, data.customerId, session.user.companyId);
 
       const existingCredit = await tx.delayedCredit.findUnique({
@@ -685,7 +685,7 @@ export async function updateDelayedCredit(
 // Add a function to soft-delete delayed credits
 export async function deleteDelayedCredit(id: string) {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
@@ -694,7 +694,7 @@ export async function deleteDelayedCredit(id: string) {
     }
 
     // Check if the credit can be deleted
-    const credit = await db.delayedCredit.findUnique({
+    const credit = await prisma.delayedCredit.findUnique({
       where: {
         id,
         companyId: session.user.companyId,
@@ -722,7 +722,7 @@ export async function deleteDelayedCredit(id: string) {
     }
 
     // Use a transaction to ensure all operations succeed or none do
-    await db.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx) => {
       // 1. Soft delete credit attachments
       await tx.delayedCreditAttachment.updateMany({
         where: {
