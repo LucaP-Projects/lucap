@@ -1,7 +1,8 @@
 import { motion } from 'framer-motion';
-import { Label, Tabs } from 'radix-ui';
 import { Badge } from 'lucide-react';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Tabs } from '@/components/ui/tabs';
 import { TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { DiscountApplicationTime, DiscountType } from '@/lib/generated/prisma/client';
 

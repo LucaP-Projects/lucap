@@ -2,7 +2,6 @@ import { memo } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import FileUpload from '@/components/file-upload/file-upload';
 import { Textarea } from '@/components/ui/textarea';
-import { PaymentMethod, RefundReason, RefundStatus } from '@/lib/generated/prisma/client';
 import { CompanyInfo } from '../base/company/company';
 import { DetailsSection } from '../base/customer/main';
 import { RefundStatusSection } from '../base/customer/RefundStatusSection';

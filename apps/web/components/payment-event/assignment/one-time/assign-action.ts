@@ -12,6 +12,7 @@ import {
   AssignOneTimePaymentInput,
   PaymentEventWithRelations
 } from './types';
+import { headers } from 'next/headers';
 
 // Helper to check if payment settings are for one-time payments
 function isOneTimeSettings(

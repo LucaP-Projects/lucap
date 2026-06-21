@@ -168,7 +168,7 @@ export function StatusBadge({
   if (status === 'PENDING_ACTIVATION') {
     return (
       <Badge
-        variant={'nohover'}
+        variant={'link'}
         className="whitespace-nowrap bg-yellow-100 text-yellow-800"
       >
         Pending
@@ -186,7 +186,7 @@ export function StatusBadge({
 
   return (
     <Badge
-      variant={'nohover'}
+      variant={'default'}
       className="whitespace-nowrap bg-green-100 text-green-800"
     >
       <CheckCircle2 className="mr-1 h-3 w-3" />

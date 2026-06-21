@@ -95,18 +95,14 @@ export function ItemsTable({
           setTotalPages(response.totalPages);
         }
       } else {
-        toast({
-          title: 'Failed to load items',
+        toast.error('Failed to load items',{
           description:
             response.error || 'An error occurred while loading items',
-          variant: 'destructive'
         });
       }
     } catch (error) {
-      toast({
-        title: 'Error',
-        description: 'Failed to fetch items',
-        variant: 'destructive'
+      toast.error('Failed to fetch items', {
+        description: 'An error occurred while fetching items',
       });
     } finally {
       setIsLoading(false);
@@ -186,24 +182,16 @@ export function ItemsTable({
           // Add note about editing
           discountInfo += '\n(To change discount values, use the Edit option)';
         }
-        toast({
-          title: 'Status Updated',
-          description: `Status changed to ${status}${discountInfo}`,
-          variant: 'default'
-        });
+        toast.success(`Status changed to ${status}${discountInfo}`);
         fetchItems();
       } else {
-        toast({
-          title: 'Status Update Failed',
-          description: res.error || 'Failed to update status',
-          variant: 'destructive'
+        toast.error('Status Update Failed', {
+          description: res.error || 'Failed to update status'
         });
       }
     } catch (e) {
-      toast({
-        title: 'Status Update Failed',
-        description: 'Failed to update status',
-        variant: 'destructive'
+      toast.error('Status Update Failed', {
+        description: 'Failed to update status'
       });
     }
   };
@@ -284,7 +272,7 @@ export function ItemsTable({
   const getTypeBadge = (type: string) => {
     const variants: Record<
       string,
-      'default' | 'secondary' | 'outline' | 'destructive' | 'nohover'
+      'default' | 'secondary' | 'outline' | 'destructive' 
     > = {
       INVENTORY: 'default',
       NON_INVENTORY: 'secondary',

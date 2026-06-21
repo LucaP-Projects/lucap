@@ -15,6 +15,7 @@ import {
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
@@ -26,7 +27,6 @@ import {
   paymentEventFormSchema,
   PaymentEventFormValues
 } from '@/validation/payment-event/subscription.schema';
-import { Field, FieldDescription, FieldLabel } from '@/components/ui/field';
 
 interface PaymentEventDrawerProps {
   open: boolean;
@@ -142,7 +142,9 @@ export default function PaymentEventDrawer({
               <FieldDescription>
                 Select the day of the week for billing
               </FieldDescription>
-              <FormMessage />
+              {fieldState.error && (
+                <FieldError errors={[fieldState.error]} />
+              )}
             </Field>
           )}
         />
@@ -189,7 +191,9 @@ export default function PaymentEventDrawer({
               <FieldDescription>
                 Select the day of the month for billing
               </FieldDescription>
-              <FormMessage />
+              {fieldState.error && (
+                <FieldError errors={[fieldState.error]} />
+              )}
             </Field>
           )}
         />
@@ -229,7 +233,9 @@ export default function PaymentEventDrawer({
                             placeholder="Enter payment name"
                             {...field}
                           />
-                          <FormMessage />
+                          {fieldState.error && (
+                            <FieldError errors={[fieldState.error]} />
+                          )}
                         </Field>
                       )}
                     />
@@ -253,7 +259,9 @@ export default function PaymentEventDrawer({
                                 }
                                 value={field.value === 0 ? '' : field.value}
                               />
-                            <FormMessage />
+                            {fieldState.error && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
                           </Field>
                         )}
                       /> */}
@@ -270,7 +278,9 @@ export default function PaymentEventDrawer({
                             className="resize-none"
                             {...field}
                           />
-                          <FormMessage />
+                          {fieldState.error && (
+                            <FieldError errors={[fieldState.error]} />
+                          )}
                         </Field>
                       )}
                     />
@@ -284,8 +294,8 @@ export default function PaymentEventDrawer({
                               type="button"
                               onClick={() => field.onChange('ONE_TIME')}
                               className={`hover:border-primary/50 flex w-full flex-col rounded-lg border-2 p-4 transition-colors ${field.value === 'ONE_TIME'
-                                  ? 'border-primary bg-primary/5'
-                                  : 'border-border'
+                                ? 'border-primary bg-primary/5'
+                                : 'border-border'
                                 }`}
                             >
                               <div className="flex items-center gap-2">
@@ -316,8 +326,8 @@ export default function PaymentEventDrawer({
                               type="button"
                               onClick={() => field.onChange('SUBSCRIPTION')}
                               className={`hover:border-primary/50 flex w-full flex-col rounded-lg border-2 p-4 transition-colors ${field.value === 'SUBSCRIPTION'
-                                  ? 'border-primary bg-primary/5'
-                                  : 'border-border'
+                                ? 'border-primary bg-primary/5'
+                                : 'border-border'
                                 }`}
                             >
                               <div className="flex items-center gap-2">
@@ -344,7 +354,9 @@ export default function PaymentEventDrawer({
                               </span>
                             </button>
                           </div>
-                          <FormMessage />
+                          {fieldState.error && (
+                            <FieldError errors={[fieldState.error]} />
+                          )}
                         </Field>
                       )}
                     />
@@ -373,7 +385,9 @@ export default function PaymentEventDrawer({
                                   onCheckedChange={field.onChange}
                                 />
                               </div>
-                              <FormMessage />
+                              {fieldState.error && (
+                                <FieldError errors={[fieldState.error]} />
+                              )}
                             </Field>
                           )}
                         />
@@ -417,7 +431,9 @@ export default function PaymentEventDrawer({
                                     />
                                   </PopoverContent>
                                 </Popover>
-                                <FormMessage />
+                                {fieldState.error && (
+                                  <FieldError errors={[fieldState.error]} />
+                                )}
                               </Field>
                             )}
                           />
@@ -447,7 +463,9 @@ export default function PaymentEventDrawer({
                                     <SelectItem value="YEAR">Year</SelectItem>
                                   </SelectContent>
                                 </Select>
-                                <FormMessage />
+                                {fieldState.error && (
+                                  <FieldError errors={[fieldState.error]} />
+                                )}
                               </Field>
                             )}
                           />
@@ -470,7 +488,9 @@ export default function PaymentEventDrawer({
                                   }
                                   value={field.value}
                                 />
-                                <FormMessage />
+                                {fieldState.error && (
+                                  <FieldError errors={[fieldState.error]} />
+                                )}
                               </Field>
                             )}
                           />
@@ -500,7 +520,9 @@ export default function PaymentEventDrawer({
                                   }
                                 />
                               </div>
-                              <FormMessage />
+                              {fieldState.error && (
+                                <FieldError errors={[fieldState.error]} />
+                              )}
                             </Field>
                           )}
                         />
@@ -529,7 +551,9 @@ export default function PaymentEventDrawer({
                               <FieldDescription>
                                 Number of trial days before first billing
                               </FieldDescription>
-                              <FormMessage />
+                              {fieldState.error && (
+                                <FieldError errors={[fieldState.error]} />
+                              )}
                             </Field>
                           )}
                         />
@@ -551,7 +575,9 @@ export default function PaymentEventDrawer({
                                   onCheckedChange={field.onChange}
                                 />
                               </div>
-                              <FormMessage />
+                              {fieldState.error && (
+                                <FieldError errors={[fieldState.error]} />
+                              )}
                             </Field>
                           )}
                         />
@@ -581,7 +607,9 @@ export default function PaymentEventDrawer({
                                       field.value === 0 ? '' : field.value
                                     }
                                   />
-                                  <FormMessage />
+                                  {fieldState.error && (
+                                    <FieldError errors={[fieldState.error]} />
+                                  )}
                                 </Field>
                               )}
                             />
@@ -596,7 +624,9 @@ export default function PaymentEventDrawer({
                                     placeholder="Enter description"
                                     {...field}
                                   />
-                                  <FormMessage />
+                                  {fieldState.error && (
+                                    <FieldError errors={[fieldState.error]} />
+                                  )}
                                 </Field>
                               )}
                             />
@@ -667,7 +697,9 @@ export default function PaymentEventDrawer({
                                 placeholder="Enter product name"
                                 {...field}
                               />
-                              <FormMessage />
+                              {fieldState.error && (
+                                <FieldError errors={[fieldState.error]} />
+                              )}
                             </Field>
                           )}
                         />
@@ -682,7 +714,9 @@ export default function PaymentEventDrawer({
                                 placeholder="Enter description"
                                 {...field}
                               />
-                              <FormMessage />
+                              {fieldState.error && (
+                                <FieldError errors={[fieldState.error]} />
+                              )}
                             </Field>
                           )}
                         />
@@ -712,7 +746,9 @@ export default function PaymentEventDrawer({
                                 }}
                                 value={field.value}
                               />
-                              <FormMessage />
+                              {fieldState.error && (
+                                <FieldError errors={[fieldState.error]} />
+                              )}
                             </Field>
                           )}
                         />
@@ -743,7 +779,9 @@ export default function PaymentEventDrawer({
                                 }}
                                 value={field.value}
                               />
-                              <FormMessage />
+                              {fieldState.error && (
+                                <FieldError errors={[fieldState.error]} />
+                              )}
                             </Field>
                           )}
                         />
@@ -762,7 +800,9 @@ export default function PaymentEventDrawer({
                                   Apply tax to this item
                                 </span>
                               </div>
-                              <FormMessage />
+                              {fieldState.error && (
+                                <FieldError errors={[fieldState.error]} />
+                              )}
                             </Field>
                           )}
                         />

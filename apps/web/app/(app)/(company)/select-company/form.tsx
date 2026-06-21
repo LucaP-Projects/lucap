@@ -18,10 +18,10 @@ interface Props {
 }
 
 export function SelectCompanyForm({ companies, lng }: Props) {
-  const [isPending, startTransition] = useTransition();
+  const [isTransitionPending, startTransition] = useTransition();
   const [selectedCompanyId, setSelectedCompanyId] = useState<string>('');
   const router = useRouter();
-  const { data: session, status, refetch: update } = authClient.useSession();
+  const { data: session, isPending, isRefetching, refetch: update } = authClient.useSession();
 
   const handleSelectCompany = async () => {
     if (!selectedCompanyId) {
@@ -54,11 +54,11 @@ export function SelectCompanyForm({ companies, lng }: Props) {
     });
   };
 
-  if (status === 'loading') {
+  if (isPending || isRefetching) {
     return <Loading variant="light" size="lg" />;
   }
 
-  if (status !== 'authenticated' || !companies) {
+  if (!session || !companies) {
     return null;
   }
 
@@ -113,9 +113,9 @@ export function SelectCompanyForm({ companies, lng }: Props) {
       <div className="flex items-center justify-between pt-4">
         <Button
           onClick={handleSelectCompany}
-          disabled={isPending || !selectedCompanyId}
+          disabled={isTransitionPending || !selectedCompanyId}
         >
-          {isPending ? <span>Selecting...</span> : <span>Select Company</span>}
+          {isTransitionPending ? <span>Selecting...</span> : <span>Select Company</span>}
         </Button>
 
         <Link href={`/create-company`}>

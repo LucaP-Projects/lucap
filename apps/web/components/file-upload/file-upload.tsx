@@ -181,7 +181,7 @@ const FileUpload = React.memo(function FileUpload({
         setQueuedFiles((prev) =>
           prev.map((f) =>
             f.id === fileProgress.id
-              ? { ...f, status: 'complete', path: key }
+              ? { ...f, status: 'complete', path: completedFile.path }
               : f
           )
         );
