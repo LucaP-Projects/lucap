@@ -9,16 +9,11 @@ import {
   Repeat,
   XCircle
 } from 'lucide-react';
-import {
-  Badge,
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-  Separator
-} from '@silknexus/ui';
+
 import { formatCurrency } from '@/lib/utils';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
 
 export const statusColorMap: Record<VersionStatus, string> = {
   DRAFT: 'bg-gray-500',

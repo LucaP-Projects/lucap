@@ -2,22 +2,16 @@
 
 import * as React from 'react';
 import { useRouter } from 'next/navigation';
-import { ChevronsUpDown } from 'lucide-react';
-import {
-  Button,
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  Popover,
-  PopoverContent,
-  PopoverTrigger
-} from '@silknexus/ui';
+import { ChevronsUpDown, Command } from 'lucide-react';
+
 import { useDebounce } from '@/hooks/use-debounce';
 import { cn } from '@/lib/utils';
 import { ItemSheet } from '../../items/section/item-sheet';
 import { ItemSelectData, getItemsForSelect } from './actions';
 import { ItemListRow } from './item-item';
+import { Button } from '@/components/ui/button';
+import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
+import { CommandInput, CommandEmpty, CommandGroup } from 'cmdk';
 
 const itemSearchCache = new Map<string, ItemSelectData[]>();
 interface ItemSelectProps {

@@ -1,12 +1,12 @@
 import { Suspense } from 'react';
 import {
-  ScrollArea,
   Table,
   TableBody,
   TableHead,
   TableHeader,
   TableRow
-} from '@silknexus/ui';
+} from '@/components/ui/table';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 import Loading from '@/components/shared/loading';
 import {

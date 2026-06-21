@@ -10,13 +10,15 @@ import {
   XCircle
 } from 'lucide-react';
 
-import { Badge, Card, TableCell, TableRow } from '@silknexus/ui';
 import {
   PaymentEventRowProps,
   PaymentEventVersionBasic
 } from '@/types/payment-event/table';
 import AssignDialog from '../assignment/assign-dialog';
 import { PaymentEventActions } from './payment-event-actions';
+import { Card } from '@/components/ui/card';
+import { TableRow, TableCell } from '@/components/ui/table';
+import { Badge } from '@/components/ui/badge';
 
 export function getPaymentEventAmount(
   version: PaymentEventVersionBasic | null

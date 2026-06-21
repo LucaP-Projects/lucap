@@ -4,17 +4,9 @@ import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 
-import { useForm } from 'react-hook-form';
+import { Form, useForm } from 'react-hook-form';
 
-import {
-  Button,
-  Form,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  toast
-} from '@silknexus/ui';
+
 import {
   CustomerSelect,
   CustomerSelectData
@@ -26,6 +18,9 @@ import { InvoiceSelection } from './InvoiceSelection';
 import { PaymentAmount } from './payment-amount';
 import { PaymentDetails } from './paymentdetail';
 import { paymentFormSchema, PaymentFormValues } from './schema';
+import { toast } from 'sonner';
+import FormField from '../lang/FormField';
+import { Button } from '../ui/button';
 
 export function PaymentForm() {
   const [selectedCustomer, setSelectedCustomer] =
@@ -60,11 +55,7 @@ export function PaymentForm() {
       setMaxAmount(0);
     } catch (error) {
       console.error('Error fetching customer invoices:', error);
-      toast({
-        title: 'Error',
-        description: 'Failed to fetch customer invoices',
-        variant: 'destructive'
-      });
+      toast.error('Failed to fetch customer invoices');
     }
   };
 
@@ -107,34 +98,22 @@ export function PaymentForm() {
 
       if (!result.success) {
         // Handle other errors
-        toast({
-          title: 'Error',
-          description: result.error || 'Failed to process payment',
-          variant: 'destructive'
-        });
+        toast.error(result.error || 'Failed to process payment');
         return;
       }
 
       // Handle success
       form.reset();
-      toast({
-        title: 'Success',
-        description: 'Payment processed successfully'
-      });
+      toast.success('Payment processed successfully');
 
       // Redirect and refresh
       router.push('/payments');
       router.refresh();
     } catch (error) {
       console.error('Error submitting payment:', error);
-      toast({
-        title: 'Error',
-        description:
-          error instanceof Error
-            ? error.message
-            : 'An unexpected error occurred',
-        variant: 'destructive'
-      });
+      toast.error(
+        error instanceof Error ? error.message : 'An unexpected error occurred'
+      );
     } finally {
       setIsSubmitting(false);
     }

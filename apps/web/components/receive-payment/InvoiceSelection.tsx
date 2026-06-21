@@ -2,7 +2,7 @@
 
 import { Payment } from '@/lib/generated/prisma/client';
 import { format } from 'date-fns';
-import { Card, CardContent, Checkbox } from '@silknexus/ui';
+import { Card, CardContent, Checkbox } from '@/components/ui/card';
 import { formatCurrency } from '@/lib/utils';
 
 interface InvoiceSelectionProps {

@@ -10,17 +10,12 @@ import {
   AlertCircle,
   CheckCircle
 } from 'lucide-react';
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  Separator
-} from '@silknexus/ui';
+
 
 import { formatCurrency } from '@/lib/utils';
 import { PaymentStatusBreakdown } from '../shared/payment-status-breakdown';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 
 function PaymentEventStatistics({ event }: { event: any }) {
   const calculateFinancials = () =>

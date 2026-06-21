@@ -113,7 +113,7 @@ export const PayorPreview = memo(
 
         <div className="mt-8 border-t pt-4 text-center text-xs text-gray-500 dark:border-gray-700 dark:text-gray-400">
           <p>
-            © {new Date().getFullYear()} SilkNexus. All rights reserved.{' '}
+            © {new Date().getFullYear()} LucaP. All rights reserved.{' '}
             <span className="mx-1 cursor-pointer hover:text-gray-700 dark:hover:text-gray-300">
               Privacy
             </span>

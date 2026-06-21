@@ -1,7 +1,7 @@
 'use client';
 
 import { Check, FolderIcon, Wallet } from 'lucide-react';
-import { CommandItem } from '@silknexus/ui';
+import { CommandItem } from '@/components/ui/command';
 import { cn } from '@/lib/utils';
 import { AccountSelectData } from './actions';
 

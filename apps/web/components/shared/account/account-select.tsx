@@ -1,22 +1,17 @@
 import * as React from 'react';
 import { useRouter } from 'next/navigation';
-import { ChevronsUpDown } from 'lucide-react';
-import {
-  Button,
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  Popover,
-  PopoverContent,
-  PopoverTrigger
-} from '@silknexus/ui';
+import { ChevronsUpDown, Command } from 'lucide-react';
+
 import { useDebounce } from '@/hooks/use-debounce';
 import { cn } from '@/lib/utils';
 
 import { AccountForm } from '../../accounts/form';
 import { AccountItem } from './account-item';
 import { AccountSelectData, getAccountsForSelect } from './actions';
+import { Button } from '@/components/ui/button';
+import { PopoverTrigger, PopoverContent } from '@/components/ui/popover';
+import { CommandInput, CommandEmpty, CommandGroup } from 'cmdk';
+import { Popover } from 'radix-ui';
 
 interface AccountSelectProps {
   showCreate?: boolean;

@@ -75,7 +75,7 @@ export const EmailPreview = memo(
             {/* Company Information */}
             <div className="text-center">
               <h3 className="mb-2 font-semibold text-gray-800 dark:text-gray-200">
-                {company?.name || 'SilkNexus'}
+                {company?.name || 'LucaP'}
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-400">
                 {company?.address?.line1 || '123 Business Street'}
@@ -86,7 +86,7 @@ export const EmailPreview = memo(
                 {company?.address?.postalCode || 'Zip'}
               </p>
               <p className="mt-2 text-sm text-gray-800 dark:text-gray-200">
-                noreply@silknexus.com
+                noreply@lucapacioli.com.tn.com
               </p>
             </div>
           </div>
@@ -96,12 +96,12 @@ export const EmailPreview = memo(
             <p className="mb-2">
               If you receive an email that seems fraudulent, please check with
               the business owner before paying, or you can forward the email to
-              security@silknexus.com so we can look into it. Read more at
-              security.silknexus.com
+              security@lucapacioli.com.tn.com so we can look into it. Read more at
+              security.lucapacioli.com.tn.com
             </p>
-            <p>Powered by SilkNexus</p>
+            <p>Powered by LucaP</p>
             <p>
-              © {new Date().getFullYear()} SilkNexus, Inc. All rights reserved.
+              © {new Date().getFullYear()} LucaP, Inc. All rights reserved.
             </p>
             <p>
               <span className="mx-1">Privacy</span>|

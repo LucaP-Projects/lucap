@@ -1,6 +1,6 @@
 import React from 'react';
 import { Check } from 'lucide-react';
-import { CommandItem } from '@silknexus/ui';
+import { CommandItem } from '@/components/ui/command';
 import { cn } from '@/lib/utils';
 import { TaxSelectData } from './actions';
 

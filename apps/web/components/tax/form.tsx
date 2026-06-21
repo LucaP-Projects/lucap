@@ -3,28 +3,14 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { TaxRate, TaxType } from '@/lib/generated/prisma/client';
 import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  Input,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-  Textarea,
-  toast
-} from '@silknexus/ui';
-
+import { Form, useForm } from 'react-hook-form';
 import { handleNumberInput } from '@/lib/utils';
-
 import { createTax, updateTax } from './action';
 import { taxFormSchema, TaxFormValues } from './schema';
+import { toast } from 'sonner';
+import { Input } from '@/components/ui/input';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 
 interface TaxFormProps {
   onSuccess: (newTax?: TaxRate) => void;
@@ -73,14 +59,14 @@ export function TaxForm({
         : await createTax(data);
 
       if (!response.success) {
-        toast(
+        toast.error(
           response.error ||
             `Failed to ${editData ? 'update' : 'create'} tax rate`
         );
         return;
       }
 
-      toast(`Tax rate ${editData ? 'updated' : 'created'} successfully`);
+      toast.success(`Tax rate ${editData ? 'updated' : 'created'} successfully`);
       form.reset();
       onSuccess?.(response.data);
       router.refresh();
@@ -89,7 +75,7 @@ export function TaxForm({
         `Error ${editData ? 'updating' : 'creating'} tax rate:`,
         error
       );
-      toast('An unexpected error occurred');
+      toast.error('An unexpected error occurred');
     } finally {
       setIsSubmitting(false);
     }

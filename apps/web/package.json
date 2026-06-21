@@ -12,7 +12,8 @@
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev --name init",
     "db:seed": "ts-node prisma/seed.ts",
-    "auth:generate": "npx auth@latest generate"
+    "auth:generate": "npx auth@latest generate",
+    "doctor": "react-doctor"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1071.0",
@@ -54,27 +55,29 @@
     "zustand": "^5.0.14"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@next/eslint-plugin-next": "^16.2.7",
+    "@types/bcryptjs": "3.0.0",
+    "@types/jsonwebtoken": "9.0.10",
     "@types/node": "^25.9.2",
     "@types/react": "19.2.17",
     "@types/react-dom": "19.2.3",
-    "prisma": "7.8.0",
-    "ts-node": "10.9.2",
-    "tailwindcss": "^4.3.0",
-    "postcss": "^8.5.15",
     "autoprefixer": "^10.5.0",
-    "@types/jsonwebtoken": "9.0.10",
-    "@types/bcryptjs": "3.0.0",
-    "prisma-json-types-generator": "^5.1.0",
     "eslint": "^10.4.1",
-    "typescript": "6.0.3",
-    "@eslint/js": "^10.0.1",
-    "@next/eslint-plugin-next": "^16.2.7",
     "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-import-x": "^4.16.2",
     "eslint-plugin-only-warn": "^1.2.1",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-turbo": "^2.9.16",
     "globals": "^17.6.0",
+    "postcss": "^8.5.15",
+    "prisma": "7.8.0",
+    "prisma-json-types-generator": "^5.1.0",
+    "react-doctor": "^0.5.8",
+    "tailwindcss": "^4.3.0",
+    "ts-node": "10.9.2",
+    "typescript": "6.0.3",
     "typescript-eslint": "^8.60.1"
   }
 }
