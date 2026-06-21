@@ -1,13 +1,13 @@
 'use server';
 
-import { Prisma } from '@/lib/generated/prisma/client';
 import { revalidatePath } from 'next/cache';
+import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
 import { auth } from '@/lib/auth';
+import { Prisma } from '@/lib/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
 import { accountFormSchema } from './schema';
-import { headers } from 'next/headers';
 type CreateAccountResponse = {
   success: boolean;
   data?: any;

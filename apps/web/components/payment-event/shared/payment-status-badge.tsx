@@ -1,8 +1,8 @@
-import { PaymentStatus } from '@/lib/generated/prisma/client';
 
 import { CheckCircle, Clock, AlertCircle, XCircle } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
 import { getPaymentStatusConfig } from '@/app/(finance)/finance/payment-events/[id]/utils';
+import { Badge } from '@/components/ui/badge';
+import { PaymentStatus } from '@/lib/generated/prisma/client';
 
 const icons = {
   Clock,

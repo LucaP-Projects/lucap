@@ -3,6 +3,7 @@
 import { redirect } from 'next/navigation';
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
+import { headers } from 'next/headers';
 
 export type AccountSelectData = {
   id: string;
@@ -76,9 +77,8 @@ async function getAccountsWithHierarchy(
       level
     FROM account_hierarchy
     WHERE 
-      ${
-        search
-          ? `
+      ${search
+      ? `
         (
           title ILIKE $2 
           OR CAST(number AS TEXT) ILIKE $2
@@ -90,8 +90,8 @@ async function getAccountsWithHierarchy(
           )
         )
       `
-          : 'true'
-      }
+      : 'true'
+    }
     ORDER BY composed_number::numeric;
   `;
 
@@ -138,7 +138,7 @@ export async function getAccountsForSelect(
   search?: string
 ): Promise<AccountResponse> {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await auth.api.getSession({ headers: await headers() });
     if (!session?.user?.id) {
       redirect('/login');
     }

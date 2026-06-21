@@ -1,10 +1,10 @@
 import { Controller, UseFormReturn } from 'react-hook-form';
 import { ImageUpload } from '@/components/image-upload/image-upload';
 import { CategorySelect } from '@/components/shared/category/category-selection';
-import { ItemFormValues } from '../schema';
+import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Field, FieldError, FieldLabel } from '@/components/ui/field';
+import { ItemFormValues } from '../schema';
 
 interface BasicInfoProps {
   form: UseFormReturn<ItemFormValues>;

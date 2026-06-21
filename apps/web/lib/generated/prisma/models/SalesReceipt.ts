@@ -394,8 +394,8 @@ export type SalesReceiptWhereInput = {
   items?: Prisma.SalesReceiptItemListRelationFilter
   tax?: Prisma.XOR<Prisma.TaxRateNullableScalarRelationFilter, Prisma.TaxRateWhereInput> | null
   attachments?: Prisma.ReceiptAttachmentListRelationFilter
-  Transaction?: Prisma.TransactionListRelationFilter
-  Company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
+  transactions?: Prisma.TransactionListRelationFilter
+  company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
 }
 
 export type SalesReceiptOrderByWithRelationInput = {
@@ -428,8 +428,8 @@ export type SalesReceiptOrderByWithRelationInput = {
   items?: Prisma.SalesReceiptItemOrderByRelationAggregateInput
   tax?: Prisma.TaxRateOrderByWithRelationInput
   attachments?: Prisma.ReceiptAttachmentOrderByRelationAggregateInput
-  Transaction?: Prisma.TransactionOrderByRelationAggregateInput
-  Company?: Prisma.CompanyOrderByWithRelationInput
+  transactions?: Prisma.TransactionOrderByRelationAggregateInput
+  company?: Prisma.CompanyOrderByWithRelationInput
 }
 
 export type SalesReceiptWhereUniqueInput = Prisma.AtLeast<{
@@ -466,8 +466,8 @@ export type SalesReceiptWhereUniqueInput = Prisma.AtLeast<{
   items?: Prisma.SalesReceiptItemListRelationFilter
   tax?: Prisma.XOR<Prisma.TaxRateNullableScalarRelationFilter, Prisma.TaxRateWhereInput> | null
   attachments?: Prisma.ReceiptAttachmentListRelationFilter
-  Transaction?: Prisma.TransactionListRelationFilter
-  Company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
+  transactions?: Prisma.TransactionListRelationFilter
+  company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
 }, "id" | "number_companyId">
 
 export type SalesReceiptOrderByWithAggregationInput = {
@@ -559,10 +559,10 @@ export type SalesReceiptCreateInput = {
   deactivationReason?: string | null
   customer: Prisma.CustomerCreateNestedOneWithoutSalesReceiptsInput
   items?: Prisma.SalesReceiptItemCreateNestedManyWithoutReceiptInput
-  tax?: Prisma.TaxRateCreateNestedOneWithoutSalesReceiptInput
+  tax?: Prisma.TaxRateCreateNestedOneWithoutSalesReceiptsInput
   attachments?: Prisma.ReceiptAttachmentCreateNestedManyWithoutReceiptInput
-  Transaction?: Prisma.TransactionCreateNestedManyWithoutSalesReceiptInput
-  Company: Prisma.CompanyCreateNestedOneWithoutSalesReceiptsInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutSalesReceiptInput
+  company: Prisma.CompanyCreateNestedOneWithoutSalesReceiptsInput
 }
 
 export type SalesReceiptUncheckedCreateInput = {
@@ -593,7 +593,7 @@ export type SalesReceiptUncheckedCreateInput = {
   deactivationReason?: string | null
   items?: Prisma.SalesReceiptItemUncheckedCreateNestedManyWithoutReceiptInput
   attachments?: Prisma.ReceiptAttachmentUncheckedCreateNestedManyWithoutReceiptInput
-  Transaction?: Prisma.TransactionUncheckedCreateNestedManyWithoutSalesReceiptInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutSalesReceiptInput
 }
 
 export type SalesReceiptUpdateInput = {
@@ -621,10 +621,10 @@ export type SalesReceiptUpdateInput = {
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer?: Prisma.CustomerUpdateOneRequiredWithoutSalesReceiptsNestedInput
   items?: Prisma.SalesReceiptItemUpdateManyWithoutReceiptNestedInput
-  tax?: Prisma.TaxRateUpdateOneWithoutSalesReceiptNestedInput
+  tax?: Prisma.TaxRateUpdateOneWithoutSalesReceiptsNestedInput
   attachments?: Prisma.ReceiptAttachmentUpdateManyWithoutReceiptNestedInput
-  Transaction?: Prisma.TransactionUpdateManyWithoutSalesReceiptNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutSalesReceiptsNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutSalesReceiptNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutSalesReceiptsNestedInput
 }
 
 export type SalesReceiptUncheckedUpdateInput = {
@@ -655,7 +655,7 @@ export type SalesReceiptUncheckedUpdateInput = {
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   items?: Prisma.SalesReceiptItemUncheckedUpdateManyWithoutReceiptNestedInput
   attachments?: Prisma.ReceiptAttachmentUncheckedUpdateManyWithoutReceiptNestedInput
-  Transaction?: Prisma.TransactionUncheckedUpdateManyWithoutSalesReceiptNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutSalesReceiptNestedInput
 }
 
 export type SalesReceiptCreateManyInput = {
@@ -940,20 +940,20 @@ export type SalesReceiptUpdateOneRequiredWithoutAttachmentsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.SalesReceiptUpdateToOneWithWhereWithoutAttachmentsInput, Prisma.SalesReceiptUpdateWithoutAttachmentsInput>, Prisma.SalesReceiptUncheckedUpdateWithoutAttachmentsInput>
 }
 
-export type SalesReceiptCreateNestedOneWithoutTransactionInput = {
-  create?: Prisma.XOR<Prisma.SalesReceiptCreateWithoutTransactionInput, Prisma.SalesReceiptUncheckedCreateWithoutTransactionInput>
-  connectOrCreate?: Prisma.SalesReceiptCreateOrConnectWithoutTransactionInput
+export type SalesReceiptCreateNestedOneWithoutTransactionsInput = {
+  create?: Prisma.XOR<Prisma.SalesReceiptCreateWithoutTransactionsInput, Prisma.SalesReceiptUncheckedCreateWithoutTransactionsInput>
+  connectOrCreate?: Prisma.SalesReceiptCreateOrConnectWithoutTransactionsInput
   connect?: Prisma.SalesReceiptWhereUniqueInput
 }
 
-export type SalesReceiptUpdateOneWithoutTransactionNestedInput = {
-  create?: Prisma.XOR<Prisma.SalesReceiptCreateWithoutTransactionInput, Prisma.SalesReceiptUncheckedCreateWithoutTransactionInput>
-  connectOrCreate?: Prisma.SalesReceiptCreateOrConnectWithoutTransactionInput
-  upsert?: Prisma.SalesReceiptUpsertWithoutTransactionInput
+export type SalesReceiptUpdateOneWithoutTransactionsNestedInput = {
+  create?: Prisma.XOR<Prisma.SalesReceiptCreateWithoutTransactionsInput, Prisma.SalesReceiptUncheckedCreateWithoutTransactionsInput>
+  connectOrCreate?: Prisma.SalesReceiptCreateOrConnectWithoutTransactionsInput
+  upsert?: Prisma.SalesReceiptUpsertWithoutTransactionsInput
   disconnect?: Prisma.SalesReceiptWhereInput | boolean
   delete?: Prisma.SalesReceiptWhereInput | boolean
   connect?: Prisma.SalesReceiptWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.SalesReceiptUpdateToOneWithWhereWithoutTransactionInput, Prisma.SalesReceiptUpdateWithoutTransactionInput>, Prisma.SalesReceiptUncheckedUpdateWithoutTransactionInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.SalesReceiptUpdateToOneWithWhereWithoutTransactionsInput, Prisma.SalesReceiptUpdateWithoutTransactionsInput>, Prisma.SalesReceiptUncheckedUpdateWithoutTransactionsInput>
 }
 
 export type SalesReceiptCreateNestedManyWithoutTaxInput = {
@@ -1064,10 +1064,10 @@ export type SalesReceiptCreateWithoutCustomerInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   items?: Prisma.SalesReceiptItemCreateNestedManyWithoutReceiptInput
-  tax?: Prisma.TaxRateCreateNestedOneWithoutSalesReceiptInput
+  tax?: Prisma.TaxRateCreateNestedOneWithoutSalesReceiptsInput
   attachments?: Prisma.ReceiptAttachmentCreateNestedManyWithoutReceiptInput
-  Transaction?: Prisma.TransactionCreateNestedManyWithoutSalesReceiptInput
-  Company: Prisma.CompanyCreateNestedOneWithoutSalesReceiptsInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutSalesReceiptInput
+  company: Prisma.CompanyCreateNestedOneWithoutSalesReceiptsInput
 }
 
 export type SalesReceiptUncheckedCreateWithoutCustomerInput = {
@@ -1097,7 +1097,7 @@ export type SalesReceiptUncheckedCreateWithoutCustomerInput = {
   deactivationReason?: string | null
   items?: Prisma.SalesReceiptItemUncheckedCreateNestedManyWithoutReceiptInput
   attachments?: Prisma.ReceiptAttachmentUncheckedCreateNestedManyWithoutReceiptInput
-  Transaction?: Prisma.TransactionUncheckedCreateNestedManyWithoutSalesReceiptInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutSalesReceiptInput
 }
 
 export type SalesReceiptCreateOrConnectWithoutCustomerInput = {
@@ -1181,10 +1181,10 @@ export type SalesReceiptCreateWithoutItemsInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   customer: Prisma.CustomerCreateNestedOneWithoutSalesReceiptsInput
-  tax?: Prisma.TaxRateCreateNestedOneWithoutSalesReceiptInput
+  tax?: Prisma.TaxRateCreateNestedOneWithoutSalesReceiptsInput
   attachments?: Prisma.ReceiptAttachmentCreateNestedManyWithoutReceiptInput
-  Transaction?: Prisma.TransactionCreateNestedManyWithoutSalesReceiptInput
-  Company: Prisma.CompanyCreateNestedOneWithoutSalesReceiptsInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutSalesReceiptInput
+  company: Prisma.CompanyCreateNestedOneWithoutSalesReceiptsInput
 }
 
 export type SalesReceiptUncheckedCreateWithoutItemsInput = {
@@ -1214,7 +1214,7 @@ export type SalesReceiptUncheckedCreateWithoutItemsInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   attachments?: Prisma.ReceiptAttachmentUncheckedCreateNestedManyWithoutReceiptInput
-  Transaction?: Prisma.TransactionUncheckedCreateNestedManyWithoutSalesReceiptInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutSalesReceiptInput
 }
 
 export type SalesReceiptCreateOrConnectWithoutItemsInput = {
@@ -1257,10 +1257,10 @@ export type SalesReceiptUpdateWithoutItemsInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer?: Prisma.CustomerUpdateOneRequiredWithoutSalesReceiptsNestedInput
-  tax?: Prisma.TaxRateUpdateOneWithoutSalesReceiptNestedInput
+  tax?: Prisma.TaxRateUpdateOneWithoutSalesReceiptsNestedInput
   attachments?: Prisma.ReceiptAttachmentUpdateManyWithoutReceiptNestedInput
-  Transaction?: Prisma.TransactionUpdateManyWithoutSalesReceiptNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutSalesReceiptsNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutSalesReceiptNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutSalesReceiptsNestedInput
 }
 
 export type SalesReceiptUncheckedUpdateWithoutItemsInput = {
@@ -1290,7 +1290,7 @@ export type SalesReceiptUncheckedUpdateWithoutItemsInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   attachments?: Prisma.ReceiptAttachmentUncheckedUpdateManyWithoutReceiptNestedInput
-  Transaction?: Prisma.TransactionUncheckedUpdateManyWithoutSalesReceiptNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutSalesReceiptNestedInput
 }
 
 export type SalesReceiptCreateWithoutAttachmentsInput = {
@@ -1318,9 +1318,9 @@ export type SalesReceiptCreateWithoutAttachmentsInput = {
   deactivationReason?: string | null
   customer: Prisma.CustomerCreateNestedOneWithoutSalesReceiptsInput
   items?: Prisma.SalesReceiptItemCreateNestedManyWithoutReceiptInput
-  tax?: Prisma.TaxRateCreateNestedOneWithoutSalesReceiptInput
-  Transaction?: Prisma.TransactionCreateNestedManyWithoutSalesReceiptInput
-  Company: Prisma.CompanyCreateNestedOneWithoutSalesReceiptsInput
+  tax?: Prisma.TaxRateCreateNestedOneWithoutSalesReceiptsInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutSalesReceiptInput
+  company: Prisma.CompanyCreateNestedOneWithoutSalesReceiptsInput
 }
 
 export type SalesReceiptUncheckedCreateWithoutAttachmentsInput = {
@@ -1350,7 +1350,7 @@ export type SalesReceiptUncheckedCreateWithoutAttachmentsInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   items?: Prisma.SalesReceiptItemUncheckedCreateNestedManyWithoutReceiptInput
-  Transaction?: Prisma.TransactionUncheckedCreateNestedManyWithoutSalesReceiptInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutSalesReceiptInput
 }
 
 export type SalesReceiptCreateOrConnectWithoutAttachmentsInput = {
@@ -1394,9 +1394,9 @@ export type SalesReceiptUpdateWithoutAttachmentsInput = {
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer?: Prisma.CustomerUpdateOneRequiredWithoutSalesReceiptsNestedInput
   items?: Prisma.SalesReceiptItemUpdateManyWithoutReceiptNestedInput
-  tax?: Prisma.TaxRateUpdateOneWithoutSalesReceiptNestedInput
-  Transaction?: Prisma.TransactionUpdateManyWithoutSalesReceiptNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutSalesReceiptsNestedInput
+  tax?: Prisma.TaxRateUpdateOneWithoutSalesReceiptsNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutSalesReceiptNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutSalesReceiptsNestedInput
 }
 
 export type SalesReceiptUncheckedUpdateWithoutAttachmentsInput = {
@@ -1426,10 +1426,10 @@ export type SalesReceiptUncheckedUpdateWithoutAttachmentsInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   items?: Prisma.SalesReceiptItemUncheckedUpdateManyWithoutReceiptNestedInput
-  Transaction?: Prisma.TransactionUncheckedUpdateManyWithoutSalesReceiptNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutSalesReceiptNestedInput
 }
 
-export type SalesReceiptCreateWithoutTransactionInput = {
+export type SalesReceiptCreateWithoutTransactionsInput = {
   id?: string
   number: string
   dueDate: Date | string
@@ -1454,12 +1454,12 @@ export type SalesReceiptCreateWithoutTransactionInput = {
   deactivationReason?: string | null
   customer: Prisma.CustomerCreateNestedOneWithoutSalesReceiptsInput
   items?: Prisma.SalesReceiptItemCreateNestedManyWithoutReceiptInput
-  tax?: Prisma.TaxRateCreateNestedOneWithoutSalesReceiptInput
+  tax?: Prisma.TaxRateCreateNestedOneWithoutSalesReceiptsInput
   attachments?: Prisma.ReceiptAttachmentCreateNestedManyWithoutReceiptInput
-  Company: Prisma.CompanyCreateNestedOneWithoutSalesReceiptsInput
+  company: Prisma.CompanyCreateNestedOneWithoutSalesReceiptsInput
 }
 
-export type SalesReceiptUncheckedCreateWithoutTransactionInput = {
+export type SalesReceiptUncheckedCreateWithoutTransactionsInput = {
   id?: string
   number: string
   dueDate: Date | string
@@ -1489,23 +1489,23 @@ export type SalesReceiptUncheckedCreateWithoutTransactionInput = {
   attachments?: Prisma.ReceiptAttachmentUncheckedCreateNestedManyWithoutReceiptInput
 }
 
-export type SalesReceiptCreateOrConnectWithoutTransactionInput = {
+export type SalesReceiptCreateOrConnectWithoutTransactionsInput = {
   where: Prisma.SalesReceiptWhereUniqueInput
-  create: Prisma.XOR<Prisma.SalesReceiptCreateWithoutTransactionInput, Prisma.SalesReceiptUncheckedCreateWithoutTransactionInput>
+  create: Prisma.XOR<Prisma.SalesReceiptCreateWithoutTransactionsInput, Prisma.SalesReceiptUncheckedCreateWithoutTransactionsInput>
 }
 
-export type SalesReceiptUpsertWithoutTransactionInput = {
-  update: Prisma.XOR<Prisma.SalesReceiptUpdateWithoutTransactionInput, Prisma.SalesReceiptUncheckedUpdateWithoutTransactionInput>
-  create: Prisma.XOR<Prisma.SalesReceiptCreateWithoutTransactionInput, Prisma.SalesReceiptUncheckedCreateWithoutTransactionInput>
+export type SalesReceiptUpsertWithoutTransactionsInput = {
+  update: Prisma.XOR<Prisma.SalesReceiptUpdateWithoutTransactionsInput, Prisma.SalesReceiptUncheckedUpdateWithoutTransactionsInput>
+  create: Prisma.XOR<Prisma.SalesReceiptCreateWithoutTransactionsInput, Prisma.SalesReceiptUncheckedCreateWithoutTransactionsInput>
   where?: Prisma.SalesReceiptWhereInput
 }
 
-export type SalesReceiptUpdateToOneWithWhereWithoutTransactionInput = {
+export type SalesReceiptUpdateToOneWithWhereWithoutTransactionsInput = {
   where?: Prisma.SalesReceiptWhereInput
-  data: Prisma.XOR<Prisma.SalesReceiptUpdateWithoutTransactionInput, Prisma.SalesReceiptUncheckedUpdateWithoutTransactionInput>
+  data: Prisma.XOR<Prisma.SalesReceiptUpdateWithoutTransactionsInput, Prisma.SalesReceiptUncheckedUpdateWithoutTransactionsInput>
 }
 
-export type SalesReceiptUpdateWithoutTransactionInput = {
+export type SalesReceiptUpdateWithoutTransactionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   number?: Prisma.StringFieldUpdateOperationsInput | string
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1530,12 +1530,12 @@ export type SalesReceiptUpdateWithoutTransactionInput = {
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer?: Prisma.CustomerUpdateOneRequiredWithoutSalesReceiptsNestedInput
   items?: Prisma.SalesReceiptItemUpdateManyWithoutReceiptNestedInput
-  tax?: Prisma.TaxRateUpdateOneWithoutSalesReceiptNestedInput
+  tax?: Prisma.TaxRateUpdateOneWithoutSalesReceiptsNestedInput
   attachments?: Prisma.ReceiptAttachmentUpdateManyWithoutReceiptNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutSalesReceiptsNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutSalesReceiptsNestedInput
 }
 
-export type SalesReceiptUncheckedUpdateWithoutTransactionInput = {
+export type SalesReceiptUncheckedUpdateWithoutTransactionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   number?: Prisma.StringFieldUpdateOperationsInput | string
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1591,8 +1591,8 @@ export type SalesReceiptCreateWithoutTaxInput = {
   customer: Prisma.CustomerCreateNestedOneWithoutSalesReceiptsInput
   items?: Prisma.SalesReceiptItemCreateNestedManyWithoutReceiptInput
   attachments?: Prisma.ReceiptAttachmentCreateNestedManyWithoutReceiptInput
-  Transaction?: Prisma.TransactionCreateNestedManyWithoutSalesReceiptInput
-  Company: Prisma.CompanyCreateNestedOneWithoutSalesReceiptsInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutSalesReceiptInput
+  company: Prisma.CompanyCreateNestedOneWithoutSalesReceiptsInput
 }
 
 export type SalesReceiptUncheckedCreateWithoutTaxInput = {
@@ -1622,7 +1622,7 @@ export type SalesReceiptUncheckedCreateWithoutTaxInput = {
   deactivationReason?: string | null
   items?: Prisma.SalesReceiptItemUncheckedCreateNestedManyWithoutReceiptInput
   attachments?: Prisma.ReceiptAttachmentUncheckedCreateNestedManyWithoutReceiptInput
-  Transaction?: Prisma.TransactionUncheckedCreateNestedManyWithoutSalesReceiptInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutSalesReceiptInput
 }
 
 export type SalesReceiptCreateOrConnectWithoutTaxInput = {
@@ -1676,9 +1676,9 @@ export type SalesReceiptCreateWithoutCompanyInput = {
   deactivationReason?: string | null
   customer: Prisma.CustomerCreateNestedOneWithoutSalesReceiptsInput
   items?: Prisma.SalesReceiptItemCreateNestedManyWithoutReceiptInput
-  tax?: Prisma.TaxRateCreateNestedOneWithoutSalesReceiptInput
+  tax?: Prisma.TaxRateCreateNestedOneWithoutSalesReceiptsInput
   attachments?: Prisma.ReceiptAttachmentCreateNestedManyWithoutReceiptInput
-  Transaction?: Prisma.TransactionCreateNestedManyWithoutSalesReceiptInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutSalesReceiptInput
 }
 
 export type SalesReceiptUncheckedCreateWithoutCompanyInput = {
@@ -1708,7 +1708,7 @@ export type SalesReceiptUncheckedCreateWithoutCompanyInput = {
   deactivationReason?: string | null
   items?: Prisma.SalesReceiptItemUncheckedCreateNestedManyWithoutReceiptInput
   attachments?: Prisma.ReceiptAttachmentUncheckedCreateNestedManyWithoutReceiptInput
-  Transaction?: Prisma.TransactionUncheckedCreateNestedManyWithoutSalesReceiptInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutSalesReceiptInput
 }
 
 export type SalesReceiptCreateOrConnectWithoutCompanyInput = {
@@ -1788,10 +1788,10 @@ export type SalesReceiptUpdateWithoutCustomerInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   items?: Prisma.SalesReceiptItemUpdateManyWithoutReceiptNestedInput
-  tax?: Prisma.TaxRateUpdateOneWithoutSalesReceiptNestedInput
+  tax?: Prisma.TaxRateUpdateOneWithoutSalesReceiptsNestedInput
   attachments?: Prisma.ReceiptAttachmentUpdateManyWithoutReceiptNestedInput
-  Transaction?: Prisma.TransactionUpdateManyWithoutSalesReceiptNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutSalesReceiptsNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutSalesReceiptNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutSalesReceiptsNestedInput
 }
 
 export type SalesReceiptUncheckedUpdateWithoutCustomerInput = {
@@ -1821,7 +1821,7 @@ export type SalesReceiptUncheckedUpdateWithoutCustomerInput = {
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   items?: Prisma.SalesReceiptItemUncheckedUpdateManyWithoutReceiptNestedInput
   attachments?: Prisma.ReceiptAttachmentUncheckedUpdateManyWithoutReceiptNestedInput
-  Transaction?: Prisma.TransactionUncheckedUpdateManyWithoutSalesReceiptNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutSalesReceiptNestedInput
 }
 
 export type SalesReceiptUncheckedUpdateManyWithoutCustomerInput = {
@@ -1904,8 +1904,8 @@ export type SalesReceiptUpdateWithoutTaxInput = {
   customer?: Prisma.CustomerUpdateOneRequiredWithoutSalesReceiptsNestedInput
   items?: Prisma.SalesReceiptItemUpdateManyWithoutReceiptNestedInput
   attachments?: Prisma.ReceiptAttachmentUpdateManyWithoutReceiptNestedInput
-  Transaction?: Prisma.TransactionUpdateManyWithoutSalesReceiptNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutSalesReceiptsNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutSalesReceiptNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutSalesReceiptsNestedInput
 }
 
 export type SalesReceiptUncheckedUpdateWithoutTaxInput = {
@@ -1935,7 +1935,7 @@ export type SalesReceiptUncheckedUpdateWithoutTaxInput = {
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   items?: Prisma.SalesReceiptItemUncheckedUpdateManyWithoutReceiptNestedInput
   attachments?: Prisma.ReceiptAttachmentUncheckedUpdateManyWithoutReceiptNestedInput
-  Transaction?: Prisma.TransactionUncheckedUpdateManyWithoutSalesReceiptNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutSalesReceiptNestedInput
 }
 
 export type SalesReceiptUncheckedUpdateManyWithoutTaxInput = {
@@ -2017,9 +2017,9 @@ export type SalesReceiptUpdateWithoutCompanyInput = {
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer?: Prisma.CustomerUpdateOneRequiredWithoutSalesReceiptsNestedInput
   items?: Prisma.SalesReceiptItemUpdateManyWithoutReceiptNestedInput
-  tax?: Prisma.TaxRateUpdateOneWithoutSalesReceiptNestedInput
+  tax?: Prisma.TaxRateUpdateOneWithoutSalesReceiptsNestedInput
   attachments?: Prisma.ReceiptAttachmentUpdateManyWithoutReceiptNestedInput
-  Transaction?: Prisma.TransactionUpdateManyWithoutSalesReceiptNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutSalesReceiptNestedInput
 }
 
 export type SalesReceiptUncheckedUpdateWithoutCompanyInput = {
@@ -2049,7 +2049,7 @@ export type SalesReceiptUncheckedUpdateWithoutCompanyInput = {
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   items?: Prisma.SalesReceiptItemUncheckedUpdateManyWithoutReceiptNestedInput
   attachments?: Prisma.ReceiptAttachmentUncheckedUpdateManyWithoutReceiptNestedInput
-  Transaction?: Prisma.TransactionUncheckedUpdateManyWithoutSalesReceiptNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutSalesReceiptNestedInput
 }
 
 export type SalesReceiptUncheckedUpdateManyWithoutCompanyInput = {
@@ -2087,13 +2087,13 @@ export type SalesReceiptUncheckedUpdateManyWithoutCompanyInput = {
 export type SalesReceiptCountOutputType = {
   items: number
   attachments: number
-  Transaction: number
+  transactions: number
 }
 
 export type SalesReceiptCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   items?: boolean | SalesReceiptCountOutputTypeCountItemsArgs
   attachments?: boolean | SalesReceiptCountOutputTypeCountAttachmentsArgs
-  Transaction?: boolean | SalesReceiptCountOutputTypeCountTransactionArgs
+  transactions?: boolean | SalesReceiptCountOutputTypeCountTransactionsArgs
 }
 
 /**
@@ -2123,7 +2123,7 @@ export type SalesReceiptCountOutputTypeCountAttachmentsArgs<ExtArgs extends runt
 /**
  * SalesReceiptCountOutputType without action
  */
-export type SalesReceiptCountOutputTypeCountTransactionArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type SalesReceiptCountOutputTypeCountTransactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.TransactionWhereInput
 }
 
@@ -2158,8 +2158,8 @@ export type SalesReceiptSelect<ExtArgs extends runtime.Types.Extensions.Internal
   items?: boolean | Prisma.SalesReceipt$itemsArgs<ExtArgs>
   tax?: boolean | Prisma.SalesReceipt$taxArgs<ExtArgs>
   attachments?: boolean | Prisma.SalesReceipt$attachmentsArgs<ExtArgs>
-  Transaction?: boolean | Prisma.SalesReceipt$TransactionArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  transactions?: boolean | Prisma.SalesReceipt$transactionsArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.SalesReceiptCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["salesReceipt"]>
 
@@ -2191,7 +2191,7 @@ export type SalesReceiptSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   deactivationReason?: boolean
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   tax?: boolean | Prisma.SalesReceipt$taxArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["salesReceipt"]>
 
 export type SalesReceiptSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -2222,7 +2222,7 @@ export type SalesReceiptSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   deactivationReason?: boolean
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   tax?: boolean | Prisma.SalesReceipt$taxArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["salesReceipt"]>
 
 export type SalesReceiptSelectScalar = {
@@ -2259,19 +2259,19 @@ export type SalesReceiptInclude<ExtArgs extends runtime.Types.Extensions.Interna
   items?: boolean | Prisma.SalesReceipt$itemsArgs<ExtArgs>
   tax?: boolean | Prisma.SalesReceipt$taxArgs<ExtArgs>
   attachments?: boolean | Prisma.SalesReceipt$attachmentsArgs<ExtArgs>
-  Transaction?: boolean | Prisma.SalesReceipt$TransactionArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  transactions?: boolean | Prisma.SalesReceipt$transactionsArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.SalesReceiptCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type SalesReceiptIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   tax?: boolean | Prisma.SalesReceipt$taxArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }
 export type SalesReceiptIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   tax?: boolean | Prisma.SalesReceipt$taxArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }
 
 export type $SalesReceiptPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2281,8 +2281,8 @@ export type $SalesReceiptPayload<ExtArgs extends runtime.Types.Extensions.Intern
     items: Prisma.$SalesReceiptItemPayload<ExtArgs>[]
     tax: Prisma.$TaxRatePayload<ExtArgs> | null
     attachments: Prisma.$ReceiptAttachmentPayload<ExtArgs>[]
-    Transaction: Prisma.$TransactionPayload<ExtArgs>[]
-    Company: Prisma.$CompanyPayload<ExtArgs>
+    transactions: Prisma.$TransactionPayload<ExtArgs>[]
+    company: Prisma.$CompanyPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2711,8 +2711,8 @@ export interface Prisma__SalesReceiptClient<T, Null = never, ExtArgs extends run
   items<T extends Prisma.SalesReceipt$itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SalesReceipt$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SalesReceiptItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   tax<T extends Prisma.SalesReceipt$taxArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SalesReceipt$taxArgs<ExtArgs>>): Prisma.Prisma__TaxRateClient<runtime.Types.Result.GetResult<Prisma.$TaxRatePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   attachments<T extends Prisma.SalesReceipt$attachmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SalesReceipt$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReceiptAttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  Transaction<T extends Prisma.SalesReceipt$TransactionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SalesReceipt$TransactionArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  Company<T extends Prisma.CompanyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CompanyDefaultArgs<ExtArgs>>): Prisma.Prisma__CompanyClient<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  transactions<T extends Prisma.SalesReceipt$transactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SalesReceipt$transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  company<T extends Prisma.CompanyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CompanyDefaultArgs<ExtArgs>>): Prisma.Prisma__CompanyClient<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3235,9 +3235,9 @@ export type SalesReceipt$attachmentsArgs<ExtArgs extends runtime.Types.Extension
 }
 
 /**
- * SalesReceipt.Transaction
+ * SalesReceipt.transactions
  */
-export type SalesReceipt$TransactionArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type SalesReceipt$transactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Transaction
    */

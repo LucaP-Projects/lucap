@@ -4,20 +4,11 @@ import * as React from 'react';
 import { useTransition } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 import { ChevronsUpDown, Plus, Building2 } from 'lucide-react';
 
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger
-} from '@/components/ui/tooltip';
-import {
-    SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  useSidebar,
-} from '@/components/ui/sidebar';
+import { selectCompany } from '@/components/company/select/actions';
+import { Company } from '@/components/company/select/types';
 import {
     DropdownMenu,
   DropdownMenuContent,
@@ -26,8 +17,18 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { selectCompany } from '@/components/company/select/actions';
-import { Company } from '@/components/company/select/types';
+import {
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  useSidebar,
+} from '@/components/ui/sidebar';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger
+} from '@/components/ui/tooltip';
 import { authClient } from '@/lib/auth-client';
 
 export function TeamSwitcher({ companies }: { companies: Company[] }) {
@@ -57,10 +58,9 @@ export function TeamSwitcher({ companies }: { companies: Company[] }) {
         await updateSession();
         window.location.reload();
         router.refresh();
-        toast('Company selected successfully');
+        toast.success('Company selected successfully');
       } catch (error) {
-        console.error('Selection error:', error);
-        toast(
+        toast.error(
           error instanceof Error ? error.message : 'Failed to select company'
         );
       }
@@ -76,7 +76,7 @@ export function TeamSwitcher({ companies }: { companies: Company[] }) {
               <TooltipTrigger asChild>
                 <SidebarMenuButton
                   size="lg"
-                  className="group-data-[collapsible=icon]:!justify-center"
+                  className="group-data-[collapsible=icon]:justify-center!"
                   asChild
                 >
                   <Link href={`/create-company`}>
@@ -118,7 +118,7 @@ export function TeamSwitcher({ companies }: { companies: Company[] }) {
                 <DropdownMenuTrigger asChild>
                   <SidebarMenuButton
                     size="lg"
-                    className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground hover:bg-sidebar-accent/80 transition-colors group-data-[collapsible=icon]:!justify-center"
+                    className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground hover:bg-sidebar-accent/80 transition-colors group-data-[collapsible=icon]:justify-center!"
                     disabled={isPending}
                   >
                     <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">

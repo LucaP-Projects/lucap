@@ -1,4 +1,3 @@
-import { VersionStatus } from '@/lib/generated/prisma/client';
 import { format } from 'date-fns';
 import {
   CalendarDays,
@@ -10,10 +9,11 @@ import {
   XCircle
 } from 'lucide-react';
 
-import { formatCurrency } from '@/lib/utils';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { VersionStatus } from '@/lib/generated/prisma/client';
+import { formatCurrency } from '@/lib/utils';
 
 export const statusColorMap: Record<VersionStatus, string> = {
   DRAFT: 'bg-gray-500',

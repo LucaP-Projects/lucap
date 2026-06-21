@@ -1,6 +1,5 @@
 'use client';
 
-import { EstimateStatus } from '@/lib/generated/prisma/client';
 import {
   Calendar,
   Clock,
@@ -8,7 +7,6 @@ import {
   AlertCircle,
   FileText
 } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
 import {
   Attachments,
   BaseSheet,
@@ -20,6 +18,8 @@ import {
   CustomerAddress
 } from '@/components/dashboard/base/baseSheet';
 import { STATUS_COLORS } from '@/components/dashboard/base/utils';
+import { Badge } from '@/components/ui/badge';
+import { EstimateStatus } from '@/lib/generated/prisma/client';
 import { formatCurrency, formatDate } from '@/lib/utils';
 
 interface EstimateItem {

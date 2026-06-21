@@ -315,7 +315,7 @@ export type PaymentEventItemWhereInput = {
   deactivatedByUserId?: Prisma.StringNullableFilter<"PaymentEventItem"> | string | null
   deactivationReason?: Prisma.StringNullableFilter<"PaymentEventItem"> | string | null
   version?: Prisma.XOR<Prisma.PaymentEventVersionScalarRelationFilter, Prisma.PaymentEventVersionWhereInput>
-  Item?: Prisma.XOR<Prisma.ItemNullableScalarRelationFilter, Prisma.ItemWhereInput> | null
+  item?: Prisma.XOR<Prisma.ItemNullableScalarRelationFilter, Prisma.ItemWhereInput> | null
 }
 
 export type PaymentEventItemOrderByWithRelationInput = {
@@ -336,7 +336,7 @@ export type PaymentEventItemOrderByWithRelationInput = {
   deactivatedByUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   deactivationReason?: Prisma.SortOrderInput | Prisma.SortOrder
   version?: Prisma.PaymentEventVersionOrderByWithRelationInput
-  Item?: Prisma.ItemOrderByWithRelationInput
+  item?: Prisma.ItemOrderByWithRelationInput
 }
 
 export type PaymentEventItemWhereUniqueInput = Prisma.AtLeast<{
@@ -360,7 +360,7 @@ export type PaymentEventItemWhereUniqueInput = Prisma.AtLeast<{
   deactivatedByUserId?: Prisma.StringNullableFilter<"PaymentEventItem"> | string | null
   deactivationReason?: Prisma.StringNullableFilter<"PaymentEventItem"> | string | null
   version?: Prisma.XOR<Prisma.PaymentEventVersionScalarRelationFilter, Prisma.PaymentEventVersionWhereInput>
-  Item?: Prisma.XOR<Prisma.ItemNullableScalarRelationFilter, Prisma.ItemWhereInput> | null
+  item?: Prisma.XOR<Prisma.ItemNullableScalarRelationFilter, Prisma.ItemWhereInput> | null
 }, "id">
 
 export type PaymentEventItemOrderByWithAggregationInput = {
@@ -425,7 +425,7 @@ export type PaymentEventItemCreateInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   version: Prisma.PaymentEventVersionCreateNestedOneWithoutItemsInput
-  Item?: Prisma.ItemCreateNestedOneWithoutPaymentEventItemsInput
+  item?: Prisma.ItemCreateNestedOneWithoutPaymentEventItemsInput
 }
 
 export type PaymentEventItemUncheckedCreateInput = {
@@ -463,7 +463,7 @@ export type PaymentEventItemUpdateInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   version?: Prisma.PaymentEventVersionUpdateOneRequiredWithoutItemsNestedInput
-  Item?: Prisma.ItemUpdateOneWithoutPaymentEventItemsNestedInput
+  item?: Prisma.ItemUpdateOneWithoutPaymentEventItemsNestedInput
 }
 
 export type PaymentEventItemUncheckedUpdateInput = {
@@ -718,7 +718,7 @@ export type PaymentEventItemCreateWithoutVersionInput = {
   deactivatedAt?: Date | string | null
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
-  Item?: Prisma.ItemCreateNestedOneWithoutPaymentEventItemsInput
+  item?: Prisma.ItemCreateNestedOneWithoutPaymentEventItemsInput
 }
 
 export type PaymentEventItemUncheckedCreateWithoutVersionInput = {
@@ -882,7 +882,7 @@ export type PaymentEventItemUpdateWithoutVersionInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  Item?: Prisma.ItemUpdateOneWithoutPaymentEventItemsNestedInput
+  item?: Prisma.ItemUpdateOneWithoutPaymentEventItemsNestedInput
 }
 
 export type PaymentEventItemUncheckedUpdateWithoutVersionInput = {
@@ -1013,7 +1013,7 @@ export type PaymentEventItemSelect<ExtArgs extends runtime.Types.Extensions.Inte
   deactivatedByUserId?: boolean
   deactivationReason?: boolean
   version?: boolean | Prisma.PaymentEventVersionDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.PaymentEventItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.PaymentEventItem$itemArgs<ExtArgs>
 }, ExtArgs["result"]["paymentEventItem"]>
 
 export type PaymentEventItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1034,7 +1034,7 @@ export type PaymentEventItemSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   deactivatedByUserId?: boolean
   deactivationReason?: boolean
   version?: boolean | Prisma.PaymentEventVersionDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.PaymentEventItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.PaymentEventItem$itemArgs<ExtArgs>
 }, ExtArgs["result"]["paymentEventItem"]>
 
 export type PaymentEventItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1055,7 +1055,7 @@ export type PaymentEventItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   deactivatedByUserId?: boolean
   deactivationReason?: boolean
   version?: boolean | Prisma.PaymentEventVersionDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.PaymentEventItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.PaymentEventItem$itemArgs<ExtArgs>
 }, ExtArgs["result"]["paymentEventItem"]>
 
 export type PaymentEventItemSelectScalar = {
@@ -1080,22 +1080,22 @@ export type PaymentEventItemSelectScalar = {
 export type PaymentEventItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "versionId" | "productName" | "description" | "quantity" | "rate" | "sku" | "amount" | "taxable" | "createdAt" | "updatedAt" | "itemId" | "isActive" | "deactivatedAt" | "deactivatedByUserId" | "deactivationReason", ExtArgs["result"]["paymentEventItem"]>
 export type PaymentEventItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   version?: boolean | Prisma.PaymentEventVersionDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.PaymentEventItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.PaymentEventItem$itemArgs<ExtArgs>
 }
 export type PaymentEventItemIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   version?: boolean | Prisma.PaymentEventVersionDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.PaymentEventItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.PaymentEventItem$itemArgs<ExtArgs>
 }
 export type PaymentEventItemIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   version?: boolean | Prisma.PaymentEventVersionDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.PaymentEventItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.PaymentEventItem$itemArgs<ExtArgs>
 }
 
 export type $PaymentEventItemPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "PaymentEventItem"
   objects: {
     version: Prisma.$PaymentEventVersionPayload<ExtArgs>
-    Item: Prisma.$ItemPayload<ExtArgs> | null
+    item: Prisma.$ItemPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1509,7 +1509,7 @@ readonly fields: PaymentEventItemFieldRefs;
 export interface Prisma__PaymentEventItemClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   version<T extends Prisma.PaymentEventVersionDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PaymentEventVersionDefaultArgs<ExtArgs>>): Prisma.Prisma__PaymentEventVersionClient<runtime.Types.Result.GetResult<Prisma.$PaymentEventVersionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  Item<T extends Prisma.PaymentEventItem$ItemArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PaymentEventItem$ItemArgs<ExtArgs>>): Prisma.Prisma__ItemClient<runtime.Types.Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  item<T extends Prisma.PaymentEventItem$itemArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PaymentEventItem$itemArgs<ExtArgs>>): Prisma.Prisma__ItemClient<runtime.Types.Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1956,9 +1956,9 @@ export type PaymentEventItemDeleteManyArgs<ExtArgs extends runtime.Types.Extensi
 }
 
 /**
- * PaymentEventItem.Item
+ * PaymentEventItem.item
  */
-export type PaymentEventItem$ItemArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type PaymentEventItem$itemArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Item
    */

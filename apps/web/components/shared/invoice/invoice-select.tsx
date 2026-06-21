@@ -1,9 +1,12 @@
 'use client';
 
 import * as React from 'react';
+import { CommandInput, CommandEmpty, CommandGroup } from 'cmdk';
 import { useRouter } from 'next/navigation';
 import { ChevronsUpDown, Command } from 'lucide-react';
 
+import { Button } from '@/components/ui/button';
+import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
 import { useDebounce } from '@/hooks/use-debounce';
 import { cn } from '@/lib/utils';
 import {
@@ -12,9 +15,6 @@ import {
   getInvoicesForSelect
 } from './actions';
 import { InvoiceItem } from './invoice-item';
-import { Button } from '@/components/ui/button';
-import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
-import { CommandInput, CommandEmpty, CommandGroup } from 'cmdk';
 
 interface InvoiceSelectProps {
   onSelect: (invoice: InvoiceSelectData) => void;

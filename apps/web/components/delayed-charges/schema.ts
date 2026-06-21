@@ -1,9 +1,9 @@
+import { z } from 'zod';
 import {
   ChargeStatus,
   DiscountApplicationTime,
   DiscountType
 } from '@/lib/generated/prisma/client';
-import { z } from 'zod';
 import { addressSchema } from '../invoice/schema';
 
 const delayedChargeItemSchema = z.object({

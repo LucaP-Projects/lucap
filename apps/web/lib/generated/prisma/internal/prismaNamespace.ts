@@ -446,7 +446,7 @@ export const ModelName = {
   Verification: 'Verification',
   Ticket: 'Ticket',
   Message: 'Message',
-  MessageAttachement: 'MessageAttachement'
+  MessageAttachment: 'MessageAttachment'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -462,7 +462,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "userAccount" | "userCompany" | "session" | "role" | "customer" | "customerType" | "account" | "paymentEvent" | "paymentEventVersion" | "customerPaymentEvent" | "paymentEventItem" | "category" | "item" | "invoiceItem" | "invoice" | "invoiceAttachment" | "estimateItem" | "estimate" | "estimateAttachment" | "creditMemoItem" | "creditMemo" | "creditMemoAttachment" | "salesReceiptItem" | "salesReceipt" | "receiptAttachment" | "refundReceiptItem" | "refundReceipt" | "refundAttachment" | "delayedChargeItem" | "delayedCharge" | "chargeAttachment" | "delayedCreditItem" | "delayedCredit" | "delayedCreditAttachment" | "payment" | "config" | "transactionCategory" | "transactionAttachment" | "transactionHistory" | "transaction" | "product" | "productImage" | "productVariant" | "categoryProduct" | "store" | "emailTemplate" | "auditLog" | "file" | "notification" | "customField" | "customFieldForm" | "customFieldValue" | "tableConfiguration" | "accountTemplate" | "journalEntry" | "journalEntryLine" | "taxRate" | "company" | "verification" | "ticket" | "message" | "messageAttachement"
+    modelProps: "user" | "userAccount" | "userCompany" | "session" | "role" | "customer" | "customerType" | "account" | "paymentEvent" | "paymentEventVersion" | "customerPaymentEvent" | "paymentEventItem" | "category" | "item" | "invoiceItem" | "invoice" | "invoiceAttachment" | "estimateItem" | "estimate" | "estimateAttachment" | "creditMemoItem" | "creditMemo" | "creditMemoAttachment" | "salesReceiptItem" | "salesReceipt" | "receiptAttachment" | "refundReceiptItem" | "refundReceipt" | "refundAttachment" | "delayedChargeItem" | "delayedCharge" | "chargeAttachment" | "delayedCreditItem" | "delayedCredit" | "delayedCreditAttachment" | "payment" | "config" | "transactionCategory" | "transactionAttachment" | "transactionHistory" | "transaction" | "product" | "productImage" | "productVariant" | "categoryProduct" | "store" | "emailTemplate" | "auditLog" | "file" | "notification" | "customField" | "customFieldForm" | "customFieldValue" | "tableConfiguration" | "accountTemplate" | "journalEntry" | "journalEntryLine" | "taxRate" | "company" | "verification" | "ticket" | "message" | "messageAttachment"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -5054,77 +5054,77 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    MessageAttachement: {
-      payload: Prisma.$MessageAttachementPayload<ExtArgs>
-      fields: Prisma.MessageAttachementFieldRefs
+    MessageAttachment: {
+      payload: Prisma.$MessageAttachmentPayload<ExtArgs>
+      fields: Prisma.MessageAttachmentFieldRefs
       operations: {
         findUnique: {
-          args: Prisma.MessageAttachementFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MessageAttachementPayload> | null
+          args: Prisma.MessageAttachmentFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MessageAttachmentPayload> | null
         }
         findUniqueOrThrow: {
-          args: Prisma.MessageAttachementFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MessageAttachementPayload>
+          args: Prisma.MessageAttachmentFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MessageAttachmentPayload>
         }
         findFirst: {
-          args: Prisma.MessageAttachementFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MessageAttachementPayload> | null
+          args: Prisma.MessageAttachmentFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MessageAttachmentPayload> | null
         }
         findFirstOrThrow: {
-          args: Prisma.MessageAttachementFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MessageAttachementPayload>
+          args: Prisma.MessageAttachmentFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MessageAttachmentPayload>
         }
         findMany: {
-          args: Prisma.MessageAttachementFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MessageAttachementPayload>[]
+          args: Prisma.MessageAttachmentFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MessageAttachmentPayload>[]
         }
         create: {
-          args: Prisma.MessageAttachementCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MessageAttachementPayload>
+          args: Prisma.MessageAttachmentCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MessageAttachmentPayload>
         }
         createMany: {
-          args: Prisma.MessageAttachementCreateManyArgs<ExtArgs>
+          args: Prisma.MessageAttachmentCreateManyArgs<ExtArgs>
           result: BatchPayload
         }
         createManyAndReturn: {
-          args: Prisma.MessageAttachementCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MessageAttachementPayload>[]
+          args: Prisma.MessageAttachmentCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MessageAttachmentPayload>[]
         }
         delete: {
-          args: Prisma.MessageAttachementDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MessageAttachementPayload>
+          args: Prisma.MessageAttachmentDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MessageAttachmentPayload>
         }
         update: {
-          args: Prisma.MessageAttachementUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MessageAttachementPayload>
+          args: Prisma.MessageAttachmentUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MessageAttachmentPayload>
         }
         deleteMany: {
-          args: Prisma.MessageAttachementDeleteManyArgs<ExtArgs>
+          args: Prisma.MessageAttachmentDeleteManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateMany: {
-          args: Prisma.MessageAttachementUpdateManyArgs<ExtArgs>
+          args: Prisma.MessageAttachmentUpdateManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateManyAndReturn: {
-          args: Prisma.MessageAttachementUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MessageAttachementPayload>[]
+          args: Prisma.MessageAttachmentUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MessageAttachmentPayload>[]
         }
         upsert: {
-          args: Prisma.MessageAttachementUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MessageAttachementPayload>
+          args: Prisma.MessageAttachmentUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MessageAttachmentPayload>
         }
         aggregate: {
-          args: Prisma.MessageAttachementAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateMessageAttachement>
+          args: Prisma.MessageAttachmentAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMessageAttachment>
         }
         groupBy: {
-          args: Prisma.MessageAttachementGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.MessageAttachementGroupByOutputType>[]
+          args: Prisma.MessageAttachmentGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MessageAttachmentGroupByOutputType>[]
         }
         count: {
-          args: Prisma.MessageAttachementCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.MessageAttachementCountAggregateOutputType> | number
+          args: Prisma.MessageAttachmentCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MessageAttachmentCountAggregateOutputType> | number
         }
       }
     }
@@ -6390,7 +6390,7 @@ export const MessageScalarFieldEnum = {
 export type MessageScalarFieldEnum = (typeof MessageScalarFieldEnum)[keyof typeof MessageScalarFieldEnum]
 
 
-export const MessageAttachementScalarFieldEnum = {
+export const MessageAttachmentScalarFieldEnum = {
   id: 'id',
   messageId: 'messageId',
   fileUrl: 'fileUrl',
@@ -6398,7 +6398,7 @@ export const MessageAttachementScalarFieldEnum = {
   createdAt: 'createdAt'
 } as const
 
-export type MessageAttachementScalarFieldEnum = (typeof MessageAttachementScalarFieldEnum)[keyof typeof MessageAttachementScalarFieldEnum]
+export type MessageAttachmentScalarFieldEnum = (typeof MessageAttachmentScalarFieldEnum)[keyof typeof MessageAttachmentScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -7151,7 +7151,7 @@ export type GlobalOmitConfig = {
   verification?: Prisma.VerificationOmit
   ticket?: Prisma.TicketOmit
   message?: Prisma.MessageOmit
-  messageAttachement?: Prisma.MessageAttachementOmit
+  messageAttachment?: Prisma.MessageAttachmentOmit
 }
 
 /* Types for Logging */

@@ -1,5 +1,4 @@
 import React, { memo } from 'react';
-import { PaymentMethod, ReceiptStatus } from '@/lib/generated/prisma/client';
 import { Controller, useFormContext } from 'react-hook-form';
 import {
   Select,
@@ -8,6 +7,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
+import { PaymentMethod, ReceiptStatus } from '@/lib/generated/prisma/client';
 import { SalesReceiptFormValues } from '../../sales-receipt/schema';
 
 export const SalesStatusSection: React.FC = memo(() => {

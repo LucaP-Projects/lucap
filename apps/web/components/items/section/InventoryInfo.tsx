@@ -3,15 +3,15 @@ import { format } from 'date-fns';
 import { Controller, UseFormReturn } from 'react-hook-form';
 import {  CalendarIcon } from 'lucide-react';
 
-import { cn, handleNumberInput } from '@/lib/utils';
-import { AccountSelect } from '../../shared/account/account-select';
-import { ItemFormValues } from '../schema';
 import FormField from '@/components/lang/FormField';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
+import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
-import { Field, FieldError, FieldLabel } from '@/components/ui/field';
+import { cn, handleNumberInput } from '@/lib/utils';
+import { AccountSelect } from '../../shared/account/account-select';
+import { ItemFormValues } from '../schema';
 
 interface InventoryInfoProps {
   form: UseFormReturn<ItemFormValues>;

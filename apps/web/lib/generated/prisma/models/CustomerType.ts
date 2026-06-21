@@ -192,8 +192,8 @@ export type CustomerTypeWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"CustomerType"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CustomerType"> | Date | string
   companyId?: Prisma.StringFilter<"CustomerType"> | string
-  Customer?: Prisma.CustomerListRelationFilter
-  Company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
+  customer?: Prisma.CustomerListRelationFilter
+  company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
 }
 
 export type CustomerTypeOrderByWithRelationInput = {
@@ -203,8 +203,8 @@ export type CustomerTypeOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   companyId?: Prisma.SortOrder
-  Customer?: Prisma.CustomerOrderByRelationAggregateInput
-  Company?: Prisma.CompanyOrderByWithRelationInput
+  customer?: Prisma.CustomerOrderByRelationAggregateInput
+  company?: Prisma.CompanyOrderByWithRelationInput
 }
 
 export type CustomerTypeWhereUniqueInput = Prisma.AtLeast<{
@@ -218,8 +218,8 @@ export type CustomerTypeWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"CustomerType"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CustomerType"> | Date | string
   companyId?: Prisma.StringFilter<"CustomerType"> | string
-  Customer?: Prisma.CustomerListRelationFilter
-  Company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
+  customer?: Prisma.CustomerListRelationFilter
+  company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
 }, "id" | "name_companyId">
 
 export type CustomerTypeOrderByWithAggregationInput = {
@@ -252,8 +252,8 @@ export type CustomerTypeCreateInput = {
   active?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  Customer?: Prisma.CustomerCreateNestedManyWithoutCustomerTypeInput
-  Company: Prisma.CompanyCreateNestedOneWithoutCustomerTypesInput
+  customer?: Prisma.CustomerCreateNestedManyWithoutCustomerTypeInput
+  company: Prisma.CompanyCreateNestedOneWithoutCustomerTypesInput
 }
 
 export type CustomerTypeUncheckedCreateInput = {
@@ -263,7 +263,7 @@ export type CustomerTypeUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   companyId: string
-  Customer?: Prisma.CustomerUncheckedCreateNestedManyWithoutCustomerTypeInput
+  customer?: Prisma.CustomerUncheckedCreateNestedManyWithoutCustomerTypeInput
 }
 
 export type CustomerTypeUpdateInput = {
@@ -272,8 +272,8 @@ export type CustomerTypeUpdateInput = {
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  Customer?: Prisma.CustomerUpdateManyWithoutCustomerTypeNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutCustomerTypesNestedInput
+  customer?: Prisma.CustomerUpdateManyWithoutCustomerTypeNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutCustomerTypesNestedInput
 }
 
 export type CustomerTypeUncheckedUpdateInput = {
@@ -283,7 +283,7 @@ export type CustomerTypeUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.StringFieldUpdateOperationsInput | string
-  Customer?: Prisma.CustomerUncheckedUpdateManyWithoutCustomerTypeNestedInput
+  customer?: Prisma.CustomerUncheckedUpdateManyWithoutCustomerTypeNestedInput
 }
 
 export type CustomerTypeCreateManyInput = {
@@ -423,7 +423,7 @@ export type CustomerTypeCreateWithoutCustomerInput = {
   active?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  Company: Prisma.CompanyCreateNestedOneWithoutCustomerTypesInput
+  company: Prisma.CompanyCreateNestedOneWithoutCustomerTypesInput
 }
 
 export type CustomerTypeUncheckedCreateWithoutCustomerInput = {
@@ -457,7 +457,7 @@ export type CustomerTypeUpdateWithoutCustomerInput = {
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutCustomerTypesNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutCustomerTypesNestedInput
 }
 
 export type CustomerTypeUncheckedUpdateWithoutCustomerInput = {
@@ -475,7 +475,7 @@ export type CustomerTypeCreateWithoutCompanyInput = {
   active?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  Customer?: Prisma.CustomerCreateNestedManyWithoutCustomerTypeInput
+  customer?: Prisma.CustomerCreateNestedManyWithoutCustomerTypeInput
 }
 
 export type CustomerTypeUncheckedCreateWithoutCompanyInput = {
@@ -484,7 +484,7 @@ export type CustomerTypeUncheckedCreateWithoutCompanyInput = {
   active?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  Customer?: Prisma.CustomerUncheckedCreateNestedManyWithoutCustomerTypeInput
+  customer?: Prisma.CustomerUncheckedCreateNestedManyWithoutCustomerTypeInput
 }
 
 export type CustomerTypeCreateOrConnectWithoutCompanyInput = {
@@ -539,7 +539,7 @@ export type CustomerTypeUpdateWithoutCompanyInput = {
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  Customer?: Prisma.CustomerUpdateManyWithoutCustomerTypeNestedInput
+  customer?: Prisma.CustomerUpdateManyWithoutCustomerTypeNestedInput
 }
 
 export type CustomerTypeUncheckedUpdateWithoutCompanyInput = {
@@ -548,7 +548,7 @@ export type CustomerTypeUncheckedUpdateWithoutCompanyInput = {
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  Customer?: Prisma.CustomerUncheckedUpdateManyWithoutCustomerTypeNestedInput
+  customer?: Prisma.CustomerUncheckedUpdateManyWithoutCustomerTypeNestedInput
 }
 
 export type CustomerTypeUncheckedUpdateManyWithoutCompanyInput = {
@@ -565,11 +565,11 @@ export type CustomerTypeUncheckedUpdateManyWithoutCompanyInput = {
  */
 
 export type CustomerTypeCountOutputType = {
-  Customer: number
+  customer: number
 }
 
 export type CustomerTypeCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  Customer?: boolean | CustomerTypeCountOutputTypeCountCustomerArgs
+  customer?: boolean | CustomerTypeCountOutputTypeCountCustomerArgs
 }
 
 /**
@@ -597,8 +597,8 @@ export type CustomerTypeSelect<ExtArgs extends runtime.Types.Extensions.Internal
   createdAt?: boolean
   updatedAt?: boolean
   companyId?: boolean
-  Customer?: boolean | Prisma.CustomerType$CustomerArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  customer?: boolean | Prisma.CustomerType$customerArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.CustomerTypeCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["customerType"]>
 
@@ -609,7 +609,7 @@ export type CustomerTypeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   createdAt?: boolean
   updatedAt?: boolean
   companyId?: boolean
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["customerType"]>
 
 export type CustomerTypeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -619,7 +619,7 @@ export type CustomerTypeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   createdAt?: boolean
   updatedAt?: boolean
   companyId?: boolean
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["customerType"]>
 
 export type CustomerTypeSelectScalar = {
@@ -633,22 +633,22 @@ export type CustomerTypeSelectScalar = {
 
 export type CustomerTypeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "active" | "createdAt" | "updatedAt" | "companyId", ExtArgs["result"]["customerType"]>
 export type CustomerTypeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  Customer?: boolean | Prisma.CustomerType$CustomerArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  customer?: boolean | Prisma.CustomerType$customerArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.CustomerTypeCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CustomerTypeIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }
 export type CustomerTypeIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }
 
 export type $CustomerTypePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "CustomerType"
   objects: {
-    Customer: Prisma.$CustomerPayload<ExtArgs>[]
-    Company: Prisma.$CompanyPayload<ExtArgs>
+    customer: Prisma.$CustomerPayload<ExtArgs>[]
+    company: Prisma.$CompanyPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1051,8 +1051,8 @@ readonly fields: CustomerTypeFieldRefs;
  */
 export interface Prisma__CustomerTypeClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  Customer<T extends Prisma.CustomerType$CustomerArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CustomerType$CustomerArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  Company<T extends Prisma.CompanyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CompanyDefaultArgs<ExtArgs>>): Prisma.Prisma__CompanyClient<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  customer<T extends Prisma.CustomerType$customerArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CustomerType$customerArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  company<T extends Prisma.CompanyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CompanyDefaultArgs<ExtArgs>>): Prisma.Prisma__CompanyClient<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1489,9 +1489,9 @@ export type CustomerTypeDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.
 }
 
 /**
- * CustomerType.Customer
+ * CustomerType.customer
  */
-export type CustomerType$CustomerArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type CustomerType$customerArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Customer
    */

@@ -1,14 +1,14 @@
-import { createAuthClient } from "better-auth/react";
 import { adminClient, customSessionClient, inferAdditionalFields, magicLinkClient,  } from "better-auth/client/plugins";
-import { ac, owner, admin, member } from "./permissions";
+import { createAuthClient } from "better-auth/react";
 import { roles } from "@/utils/permissions";
 import { auth } from "./auth";
+import { ac } from "./permissions";
 
 /**
  * Client instance for Better Auth. Adjust `baseURL` if your API route is mounted
  * at a different path.
  */
-export const authClient = createAuthClient({
+export const authClient: ReturnType<typeof createAuthClient> = createAuthClient({
   baseURL: process.env.NEXT_PUBLIC_APP_URL + '/api/auth',
   plugins: [
     inferAdditionalFields<typeof auth>(),

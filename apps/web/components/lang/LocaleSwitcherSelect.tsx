@@ -1,9 +1,9 @@
 'use client';
 
+import { useTransition } from 'react';
+import clsx from 'clsx';
 import { CheckIcon, Languages } from 'lucide-react';
 import { Select, SelectTrigger, SelectContent, SelectItem } from '@/components/ui/select';
-import clsx from 'clsx';
-import { useTransition } from 'react';
 import { Locale } from '@/i18n/config';
 import { setUserLocale } from '@/services/locale';
 

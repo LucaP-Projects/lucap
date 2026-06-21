@@ -1,5 +1,6 @@
 "use client"
 import { useState } from "react"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import {
@@ -16,8 +17,8 @@ import {
   FieldLabel,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import Link from "next/link"
 import authClient from "@/lib/auth-client"
+import { getUserCompanies } from "./company/select/actions"
 
 export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
   const router = useRouter()
@@ -59,15 +60,15 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
         return
       }
 
-      let hasOrganizations = false
+      let hasCompanies = false
       try {
-        const organizationRes = await authClient.organization.list()
-        hasOrganizations = (organizationRes.data?.length ?? 0) > 0
+        const companyRes = await getUserCompanies()
+        hasCompanies = (companyRes.length ?? 0) > 0
       } catch {
-        hasOrganizations = false
+        hasCompanies = false
       }
 
-      router.push(hasOrganizations ? "/onboarding/select-organization" : "/onboarding/create-organization")
+      router.push(hasCompanies ? "/select-company" : "/create-company")
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err)
       setError(message || "Network error")

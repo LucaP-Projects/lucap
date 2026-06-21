@@ -15,6 +15,7 @@ import {
   Zap,
   LucideIcon
 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import {
   CommandDialog,
   CommandEmpty,
@@ -23,7 +24,6 @@ import {
   CommandItem,
   CommandList,
 } from '@/components/ui/command';
-import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 type ActionItem = {

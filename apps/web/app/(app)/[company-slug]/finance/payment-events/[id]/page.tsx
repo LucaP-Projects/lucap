@@ -1,17 +1,14 @@
-import { PaymentStatus } from '@/lib/generated/prisma/client';
 import { format } from 'date-fns';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { CalendarDays, ChevronLeft, PlusCircle } from 'lucide-react';
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger
-} from '@/components/ui/tabs';
-import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import PaymentEventOverview, {
+  statusColorMap
+} from '@/components/payment-event/details/payment-event-overview';
+import PaymentEventStatistics from '@/components/payment-event/details/payment-event-statistics';
+import InvoicesList from '@/components/payment-event/invoices/invoice-list';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -19,11 +16,14 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import PaymentEventOverview, {
-  statusColorMap
-} from '@/components/payment-event/details/payment-event-overview';
-import PaymentEventStatistics from '@/components/payment-event/details/payment-event-statistics';
-import InvoicesList from '@/components/payment-event/invoices/invoice-list';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger
+} from '@/components/ui/tabs';
+import { PaymentStatus } from '@/lib/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
 
 import { formatCurrency } from '@/lib/utils';

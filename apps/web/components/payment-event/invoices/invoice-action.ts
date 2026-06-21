@@ -1,7 +1,7 @@
 'use server';
 
-import { Invoice, PaymentStatus } from '@/lib/generated/prisma/client';
 import { revalidatePath } from 'next/cache';
+import { Invoice, PaymentStatus } from '@/lib/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
 
 import { PaymentFormData } from './invoice-list';

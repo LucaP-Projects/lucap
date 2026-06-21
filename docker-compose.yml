@@ -10,9 +10,20 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/18/docker
-
+  storage:
+    image: dxos/garage:layout-v9 # Or minio/minio
+    container_name: lucap_storage
+    restart: unless-stopped
+    volumes:
+      - lucap_meta:/var/lib/garage/meta
+      - lucap_data:/var/lib/garage/data
+    ports:
+      - "3900:3900" # S3 API Endpoint
+    environment:
+      - GARAGE_RPC_SECRET=${GARAGE_RPC_SECRET:-lucap_secret}
 
 
 volumes:
   pgdata:
-
+  lucap_meta:
+  lucap_data:

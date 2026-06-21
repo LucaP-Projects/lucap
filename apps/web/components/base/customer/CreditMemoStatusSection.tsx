@@ -1,5 +1,4 @@
 import React, { memo } from 'react';
-import { CreditMemoStatus, CreditMemoReason } from '@/lib/generated/prisma/client';
 import { Controller, useFormContext } from 'react-hook-form';
 import {
   Select,
@@ -8,6 +7,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
+import { CreditMemoStatus, CreditMemoReason } from '@/lib/generated/prisma/client';
 import { CreditMemoFormValues } from '../../credit-memo/schema';
 
 export const CreditMemoStatusSection: React.FC = memo(() => {

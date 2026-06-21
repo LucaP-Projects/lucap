@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default async function EditCompanyPage({ params }: PageProps) {
   const [session, pageParams] = await Promise.all([
-    auth.api.getSession(),
+    auth.api.getSession({headers: await headers()}),
     params
   ]);
 

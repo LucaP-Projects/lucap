@@ -1,6 +1,6 @@
 import { memo } from 'react';
-import { RefundStatus } from '@/lib/generated/prisma/client';
 import { Card, CardContent } from '@/components/ui/card';
+import { RefundStatus } from '@/lib/generated/prisma/client';
 
 interface RefundReceiptStatsProps {
   stats: {

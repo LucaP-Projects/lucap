@@ -1,10 +1,10 @@
+import { z } from 'zod';
 import {
   DiscountApplicationTime,
   DiscountType,
   PaymentMethod,
   ReceiptStatus
 } from '@/lib/generated/prisma/client';
-import { z } from 'zod';
 import { addressSchema } from '../invoice/schema';
 
 export const salesReceiptFormSchema = z.object({

@@ -4,6 +4,7 @@ import { PaymentStatus } from '@/lib/generated/prisma/client';
 import { redirect } from 'next/navigation';
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
+import { headers } from 'next/headers';
 
 export type InvoiceSelectData = {
   id: string;

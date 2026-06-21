@@ -1,16 +1,16 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Invoice, PaymentMethod } from '@/lib/generated/prisma/client';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 import { Badge, Receipt } from 'lucide-react';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { TabsContent } from '@/components/ui/tabs';
+import { Invoice, PaymentMethod } from '@/lib/generated/prisma/client';
 
 import { processPayment } from './invoice-action';
 import InvoicePaymentSheet from './invoice-payment-sheet';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
-import { TabsContent } from '@/components/ui/tabs';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { toast } from 'sonner';
 
 interface InvoiceListProps {
   event: any;
@@ -68,7 +68,7 @@ const InvoicesList: React.FC<InvoiceListProps> = ({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <ScrollArea className="h-[400px] w-full sm:h-[600px]">
+          <ScrollArea className="h-100 w-full sm:h-[600px]">
             <div className="space-y-4">
               {event.customerPaymentEvents.flatMap((mpe: any) =>
                 mpe.invoices.map((invoice: Invoice) => (

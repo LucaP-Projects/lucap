@@ -1,12 +1,12 @@
 import js from "@eslint/js";
+import pluginNext from "@next/eslint-plugin-next";
 import { globalIgnores } from "eslint/config";
 import eslintConfigPrettier from "eslint-config-prettier";
-import tseslint from "typescript-eslint";
-import pluginReactHooks from "eslint-plugin-react-hooks";
-import pluginReact from "eslint-plugin-react";
-import globals from "globals";
-import pluginNext from "@next/eslint-plugin-next";
 import pluginImportX from "eslint-plugin-import-x";
+import pluginReact from "eslint-plugin-react";
+import pluginReactHooks from "eslint-plugin-react-hooks";
+import globals from "globals";
+import tseslint from "typescript-eslint";
 
 /**
  * A custom ESLint configuration for libraries that use Next.js.

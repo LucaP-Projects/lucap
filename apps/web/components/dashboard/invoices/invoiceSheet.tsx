@@ -1,6 +1,5 @@
 'use client';
 
-import { PaymentStatus, PaymentMethod } from '@/lib/generated/prisma/client';
 import {
   Calendar,
   Clock,
@@ -8,7 +7,6 @@ import {
   Receipt,
   AlertCircle
 } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
 import {
   Attachments,
   BaseSheet,
@@ -19,6 +17,8 @@ import {
   DiscountInformation
 } from '@/components/dashboard/base/baseSheet';
 import { STATUS_COLORS } from '@/components/dashboard/base/utils';
+import { Badge } from '@/components/ui/badge';
+import { PaymentStatus, PaymentMethod } from '@/lib/generated/prisma/client';
 import { formatCurrency, formatDate } from '@/lib/utils';
 
 interface InvoiceItem {

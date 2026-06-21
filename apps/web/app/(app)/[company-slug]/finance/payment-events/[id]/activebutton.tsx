@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
-import { PaymentEventVersion } from '@/lib/generated/prisma/client';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 import { Info } from 'lucide-react';
 import {
   AlertDialog,
@@ -14,7 +14,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
-import { toast } from 'sonner';
+import { PaymentEventVersion } from '@/lib/generated/prisma/client';
 // import { activateVersionButtonTrigger } from "./one_time/newactions";
 
 export interface ExtendedCustomerPaymentEvent {

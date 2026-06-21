@@ -1,13 +1,9 @@
 'use client';
 
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { BadgeCheck, ChevronsUpDown, LogOut } from 'lucide-react';
 
-import {
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  useSidebar
-} from '@/components/ui/sidebar';
 import {
   Avatar,
   AvatarFallback,
@@ -22,13 +18,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import {
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  useSidebar
+} from '@/components/ui/sidebar';
 
 import {
   signOut,
   useSession as useBetterAuthSession
 } from '@/utils/auth-client';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
 
 export function NavUser() {
   const { isMobile } = useSidebar();

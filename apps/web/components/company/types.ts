@@ -1,6 +1,6 @@
-import { CompanyType } from '@/lib/generated/prisma/enums';
 import { isValidPhoneNumber } from 'react-phone-number-input';
 import { z } from 'zod';
+import { CompanyType } from '@/lib/generated/prisma/enums';
 
 export const addressSchema = z
   .object({

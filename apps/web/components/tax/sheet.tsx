@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import { TaxRate } from '@/lib/generated/prisma/client';
+import { Button } from '@/components/ui/button';
 import {
   Sheet,
   SheetContent,
@@ -11,7 +11,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import { Button } from '@/components/ui/button';
+import { TaxRate } from '@/lib/generated/prisma/client';
 import { TaxForm } from './form';
 
 interface TaxSheetProps {

@@ -1,8 +1,9 @@
 'use client';
 import { useCallback, useMemo, useState } from 'react';
-import { DiscountApplicationTime } from '@/lib/generated/prisma/client';
 import { useRouter } from 'next/navigation';
 import { FormProvider } from 'react-hook-form';
+import { toast } from 'sonner';
+import { DiscountApplicationTime } from '@/lib/generated/prisma/client';
 import { useSidebarStore } from '@/stores/useSidePaper';
 import { useUploadStore } from '@/stores/useViewStore';
 import MemoizedNavigation from '../base/navBar';
@@ -19,7 +20,6 @@ import { SalesReceiptFormValues } from './schema';
 import { FileWithPreview, SalesReceipt } from './types';
 import { useSalesForm } from './useSalesForm';
 import { ViewRenderer } from './ViewRenderer';
-import { toast } from 'sonner';
 
 export interface SalesReceiptFormProps {
   mode?: 'create' | 'edit';

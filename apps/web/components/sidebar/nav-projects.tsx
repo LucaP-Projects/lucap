@@ -1,6 +1,5 @@
 'use client';
 
-import { useSidebar } from '@/stores/useSidebar';
 import {
   Folder,
   Forward,
@@ -10,8 +9,8 @@ import {
 } from 'lucide-react';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarMenuAction } from '@/components/ui/sidebar';
-
-
+import { useIsMobile } from '@/hooks/use-mobile';
+import { useSidebar } from '@/stores/useSidebar';
 
 export function NavProjects({
   projects
@@ -22,7 +21,7 @@ export function NavProjects({
     icon: LucideIcon;
   }[];
 }) {
-  const { isMobile } = useSidebar();
+  const isMobile = useIsMobile();
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">

@@ -2,11 +2,11 @@ import React, { memo, useCallback, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { Mail } from 'lucide-react';
 
-import { InvoiceFormValues } from '../invoice/schema';
 import { Button } from '@/components/ui/button';
+import { FieldGroup } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
-import { FieldGroup } from '@/components/ui/field';
+import { InvoiceFormValues } from '../invoice/schema';
 
 const validateEmail = (email: string): boolean => {
   if (!email) return true;

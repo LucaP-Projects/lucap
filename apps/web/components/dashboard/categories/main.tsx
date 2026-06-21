@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { toast } from 'sonner';
 import {
   ChevronRight,
   Eye,
@@ -18,8 +19,6 @@ import {
 
 
 import { CategorySheet } from '@/components/category/sheet';
-import { deleteCategory } from './actions';
-import { CategoryWithItems } from './types';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
@@ -27,7 +26,8 @@ import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuIte
 import { Input } from '@/components/ui/input';
 import { SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet';
 import { TableRow, TableCell, TableHeader, TableHead, TableBody } from '@/components/ui/table';
-import { toast } from 'sonner';
+import { deleteCategory } from './actions';
+import { CategoryWithItems } from './types';
 
 // Types
 interface Item {

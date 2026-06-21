@@ -402,8 +402,8 @@ export type EstimateWhereInput = {
   tax?: Prisma.XOR<Prisma.TaxRateNullableScalarRelationFilter, Prisma.TaxRateWhereInput> | null
   items?: Prisma.EstimateItemListRelationFilter
   attachments?: Prisma.EstimateAttachmentListRelationFilter
-  Invoice?: Prisma.InvoiceListRelationFilter
-  Company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
+  invoices?: Prisma.InvoiceListRelationFilter
+  company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
 }
 
 export type EstimateOrderByWithRelationInput = {
@@ -437,8 +437,8 @@ export type EstimateOrderByWithRelationInput = {
   tax?: Prisma.TaxRateOrderByWithRelationInput
   items?: Prisma.EstimateItemOrderByRelationAggregateInput
   attachments?: Prisma.EstimateAttachmentOrderByRelationAggregateInput
-  Invoice?: Prisma.InvoiceOrderByRelationAggregateInput
-  Company?: Prisma.CompanyOrderByWithRelationInput
+  invoices?: Prisma.InvoiceOrderByRelationAggregateInput
+  company?: Prisma.CompanyOrderByWithRelationInput
 }
 
 export type EstimateWhereUniqueInput = Prisma.AtLeast<{
@@ -476,8 +476,8 @@ export type EstimateWhereUniqueInput = Prisma.AtLeast<{
   tax?: Prisma.XOR<Prisma.TaxRateNullableScalarRelationFilter, Prisma.TaxRateWhereInput> | null
   items?: Prisma.EstimateItemListRelationFilter
   attachments?: Prisma.EstimateAttachmentListRelationFilter
-  Invoice?: Prisma.InvoiceListRelationFilter
-  Company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
+  invoices?: Prisma.InvoiceListRelationFilter
+  company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
 }, "id" | "number_companyId">
 
 export type EstimateOrderByWithAggregationInput = {
@@ -571,11 +571,11 @@ export type EstimateCreateInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   customer: Prisma.CustomerCreateNestedOneWithoutEstimatesInput
-  tax?: Prisma.TaxRateCreateNestedOneWithoutEstimateInput
+  tax?: Prisma.TaxRateCreateNestedOneWithoutEstimatesInput
   items?: Prisma.EstimateItemCreateNestedManyWithoutEstimateInput
   attachments?: Prisma.EstimateAttachmentCreateNestedManyWithoutEstimateInput
-  Invoice?: Prisma.InvoiceCreateNestedManyWithoutEstimateInput
-  Company: Prisma.CompanyCreateNestedOneWithoutEstimatesInput
+  invoices?: Prisma.InvoiceCreateNestedManyWithoutEstimateInput
+  company: Prisma.CompanyCreateNestedOneWithoutEstimatesInput
 }
 
 export type EstimateUncheckedCreateInput = {
@@ -607,7 +607,7 @@ export type EstimateUncheckedCreateInput = {
   deactivationReason?: string | null
   items?: Prisma.EstimateItemUncheckedCreateNestedManyWithoutEstimateInput
   attachments?: Prisma.EstimateAttachmentUncheckedCreateNestedManyWithoutEstimateInput
-  Invoice?: Prisma.InvoiceUncheckedCreateNestedManyWithoutEstimateInput
+  invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutEstimateInput
 }
 
 export type EstimateUpdateInput = {
@@ -635,11 +635,11 @@ export type EstimateUpdateInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer?: Prisma.CustomerUpdateOneRequiredWithoutEstimatesNestedInput
-  tax?: Prisma.TaxRateUpdateOneWithoutEstimateNestedInput
+  tax?: Prisma.TaxRateUpdateOneWithoutEstimatesNestedInput
   items?: Prisma.EstimateItemUpdateManyWithoutEstimateNestedInput
   attachments?: Prisma.EstimateAttachmentUpdateManyWithoutEstimateNestedInput
-  Invoice?: Prisma.InvoiceUpdateManyWithoutEstimateNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutEstimatesNestedInput
+  invoices?: Prisma.InvoiceUpdateManyWithoutEstimateNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutEstimatesNestedInput
 }
 
 export type EstimateUncheckedUpdateInput = {
@@ -671,7 +671,7 @@ export type EstimateUncheckedUpdateInput = {
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   items?: Prisma.EstimateItemUncheckedUpdateManyWithoutEstimateNestedInput
   attachments?: Prisma.EstimateAttachmentUncheckedUpdateManyWithoutEstimateNestedInput
-  Invoice?: Prisma.InvoiceUncheckedUpdateManyWithoutEstimateNestedInput
+  invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutEstimateNestedInput
 }
 
 export type EstimateCreateManyInput = {
@@ -926,20 +926,20 @@ export type EstimateUncheckedUpdateManyWithoutCustomerNestedInput = {
   deleteMany?: Prisma.EstimateScalarWhereInput | Prisma.EstimateScalarWhereInput[]
 }
 
-export type EstimateCreateNestedOneWithoutInvoiceInput = {
-  create?: Prisma.XOR<Prisma.EstimateCreateWithoutInvoiceInput, Prisma.EstimateUncheckedCreateWithoutInvoiceInput>
-  connectOrCreate?: Prisma.EstimateCreateOrConnectWithoutInvoiceInput
+export type EstimateCreateNestedOneWithoutInvoicesInput = {
+  create?: Prisma.XOR<Prisma.EstimateCreateWithoutInvoicesInput, Prisma.EstimateUncheckedCreateWithoutInvoicesInput>
+  connectOrCreate?: Prisma.EstimateCreateOrConnectWithoutInvoicesInput
   connect?: Prisma.EstimateWhereUniqueInput
 }
 
-export type EstimateUpdateOneWithoutInvoiceNestedInput = {
-  create?: Prisma.XOR<Prisma.EstimateCreateWithoutInvoiceInput, Prisma.EstimateUncheckedCreateWithoutInvoiceInput>
-  connectOrCreate?: Prisma.EstimateCreateOrConnectWithoutInvoiceInput
-  upsert?: Prisma.EstimateUpsertWithoutInvoiceInput
+export type EstimateUpdateOneWithoutInvoicesNestedInput = {
+  create?: Prisma.XOR<Prisma.EstimateCreateWithoutInvoicesInput, Prisma.EstimateUncheckedCreateWithoutInvoicesInput>
+  connectOrCreate?: Prisma.EstimateCreateOrConnectWithoutInvoicesInput
+  upsert?: Prisma.EstimateUpsertWithoutInvoicesInput
   disconnect?: Prisma.EstimateWhereInput | boolean
   delete?: Prisma.EstimateWhereInput | boolean
   connect?: Prisma.EstimateWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.EstimateUpdateToOneWithWhereWithoutInvoiceInput, Prisma.EstimateUpdateWithoutInvoiceInput>, Prisma.EstimateUncheckedUpdateWithoutInvoiceInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.EstimateUpdateToOneWithWhereWithoutInvoicesInput, Prisma.EstimateUpdateWithoutInvoicesInput>, Prisma.EstimateUncheckedUpdateWithoutInvoicesInput>
 }
 
 export type EstimateCreateNestedOneWithoutItemsInput = {
@@ -1082,11 +1082,11 @@ export type EstimateCreateWithoutCustomerInput = {
   deactivatedAt?: Date | string | null
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
-  tax?: Prisma.TaxRateCreateNestedOneWithoutEstimateInput
+  tax?: Prisma.TaxRateCreateNestedOneWithoutEstimatesInput
   items?: Prisma.EstimateItemCreateNestedManyWithoutEstimateInput
   attachments?: Prisma.EstimateAttachmentCreateNestedManyWithoutEstimateInput
-  Invoice?: Prisma.InvoiceCreateNestedManyWithoutEstimateInput
-  Company: Prisma.CompanyCreateNestedOneWithoutEstimatesInput
+  invoices?: Prisma.InvoiceCreateNestedManyWithoutEstimateInput
+  company: Prisma.CompanyCreateNestedOneWithoutEstimatesInput
 }
 
 export type EstimateUncheckedCreateWithoutCustomerInput = {
@@ -1117,7 +1117,7 @@ export type EstimateUncheckedCreateWithoutCustomerInput = {
   deactivationReason?: string | null
   items?: Prisma.EstimateItemUncheckedCreateNestedManyWithoutEstimateInput
   attachments?: Prisma.EstimateAttachmentUncheckedCreateNestedManyWithoutEstimateInput
-  Invoice?: Prisma.InvoiceUncheckedCreateNestedManyWithoutEstimateInput
+  invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutEstimateInput
 }
 
 export type EstimateCreateOrConnectWithoutCustomerInput = {
@@ -1178,7 +1178,7 @@ export type EstimateScalarWhereInput = {
   deactivationReason?: Prisma.StringNullableFilter<"Estimate"> | string | null
 }
 
-export type EstimateCreateWithoutInvoiceInput = {
+export type EstimateCreateWithoutInvoicesInput = {
   id?: string
   number: string
   amount: number
@@ -1203,13 +1203,13 @@ export type EstimateCreateWithoutInvoiceInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   customer: Prisma.CustomerCreateNestedOneWithoutEstimatesInput
-  tax?: Prisma.TaxRateCreateNestedOneWithoutEstimateInput
+  tax?: Prisma.TaxRateCreateNestedOneWithoutEstimatesInput
   items?: Prisma.EstimateItemCreateNestedManyWithoutEstimateInput
   attachments?: Prisma.EstimateAttachmentCreateNestedManyWithoutEstimateInput
-  Company: Prisma.CompanyCreateNestedOneWithoutEstimatesInput
+  company: Prisma.CompanyCreateNestedOneWithoutEstimatesInput
 }
 
-export type EstimateUncheckedCreateWithoutInvoiceInput = {
+export type EstimateUncheckedCreateWithoutInvoicesInput = {
   id?: string
   number: string
   customerId: string
@@ -1240,23 +1240,23 @@ export type EstimateUncheckedCreateWithoutInvoiceInput = {
   attachments?: Prisma.EstimateAttachmentUncheckedCreateNestedManyWithoutEstimateInput
 }
 
-export type EstimateCreateOrConnectWithoutInvoiceInput = {
+export type EstimateCreateOrConnectWithoutInvoicesInput = {
   where: Prisma.EstimateWhereUniqueInput
-  create: Prisma.XOR<Prisma.EstimateCreateWithoutInvoiceInput, Prisma.EstimateUncheckedCreateWithoutInvoiceInput>
+  create: Prisma.XOR<Prisma.EstimateCreateWithoutInvoicesInput, Prisma.EstimateUncheckedCreateWithoutInvoicesInput>
 }
 
-export type EstimateUpsertWithoutInvoiceInput = {
-  update: Prisma.XOR<Prisma.EstimateUpdateWithoutInvoiceInput, Prisma.EstimateUncheckedUpdateWithoutInvoiceInput>
-  create: Prisma.XOR<Prisma.EstimateCreateWithoutInvoiceInput, Prisma.EstimateUncheckedCreateWithoutInvoiceInput>
+export type EstimateUpsertWithoutInvoicesInput = {
+  update: Prisma.XOR<Prisma.EstimateUpdateWithoutInvoicesInput, Prisma.EstimateUncheckedUpdateWithoutInvoicesInput>
+  create: Prisma.XOR<Prisma.EstimateCreateWithoutInvoicesInput, Prisma.EstimateUncheckedCreateWithoutInvoicesInput>
   where?: Prisma.EstimateWhereInput
 }
 
-export type EstimateUpdateToOneWithWhereWithoutInvoiceInput = {
+export type EstimateUpdateToOneWithWhereWithoutInvoicesInput = {
   where?: Prisma.EstimateWhereInput
-  data: Prisma.XOR<Prisma.EstimateUpdateWithoutInvoiceInput, Prisma.EstimateUncheckedUpdateWithoutInvoiceInput>
+  data: Prisma.XOR<Prisma.EstimateUpdateWithoutInvoicesInput, Prisma.EstimateUncheckedUpdateWithoutInvoicesInput>
 }
 
-export type EstimateUpdateWithoutInvoiceInput = {
+export type EstimateUpdateWithoutInvoicesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   number?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1281,13 +1281,13 @@ export type EstimateUpdateWithoutInvoiceInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer?: Prisma.CustomerUpdateOneRequiredWithoutEstimatesNestedInput
-  tax?: Prisma.TaxRateUpdateOneWithoutEstimateNestedInput
+  tax?: Prisma.TaxRateUpdateOneWithoutEstimatesNestedInput
   items?: Prisma.EstimateItemUpdateManyWithoutEstimateNestedInput
   attachments?: Prisma.EstimateAttachmentUpdateManyWithoutEstimateNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutEstimatesNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutEstimatesNestedInput
 }
 
-export type EstimateUncheckedUpdateWithoutInvoiceInput = {
+export type EstimateUncheckedUpdateWithoutInvoicesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   number?: Prisma.StringFieldUpdateOperationsInput | string
   customerId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1343,10 +1343,10 @@ export type EstimateCreateWithoutItemsInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   customer: Prisma.CustomerCreateNestedOneWithoutEstimatesInput
-  tax?: Prisma.TaxRateCreateNestedOneWithoutEstimateInput
+  tax?: Prisma.TaxRateCreateNestedOneWithoutEstimatesInput
   attachments?: Prisma.EstimateAttachmentCreateNestedManyWithoutEstimateInput
-  Invoice?: Prisma.InvoiceCreateNestedManyWithoutEstimateInput
-  Company: Prisma.CompanyCreateNestedOneWithoutEstimatesInput
+  invoices?: Prisma.InvoiceCreateNestedManyWithoutEstimateInput
+  company: Prisma.CompanyCreateNestedOneWithoutEstimatesInput
 }
 
 export type EstimateUncheckedCreateWithoutItemsInput = {
@@ -1377,7 +1377,7 @@ export type EstimateUncheckedCreateWithoutItemsInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   attachments?: Prisma.EstimateAttachmentUncheckedCreateNestedManyWithoutEstimateInput
-  Invoice?: Prisma.InvoiceUncheckedCreateNestedManyWithoutEstimateInput
+  invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutEstimateInput
 }
 
 export type EstimateCreateOrConnectWithoutItemsInput = {
@@ -1421,10 +1421,10 @@ export type EstimateUpdateWithoutItemsInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer?: Prisma.CustomerUpdateOneRequiredWithoutEstimatesNestedInput
-  tax?: Prisma.TaxRateUpdateOneWithoutEstimateNestedInput
+  tax?: Prisma.TaxRateUpdateOneWithoutEstimatesNestedInput
   attachments?: Prisma.EstimateAttachmentUpdateManyWithoutEstimateNestedInput
-  Invoice?: Prisma.InvoiceUpdateManyWithoutEstimateNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutEstimatesNestedInput
+  invoices?: Prisma.InvoiceUpdateManyWithoutEstimateNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutEstimatesNestedInput
 }
 
 export type EstimateUncheckedUpdateWithoutItemsInput = {
@@ -1455,7 +1455,7 @@ export type EstimateUncheckedUpdateWithoutItemsInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   attachments?: Prisma.EstimateAttachmentUncheckedUpdateManyWithoutEstimateNestedInput
-  Invoice?: Prisma.InvoiceUncheckedUpdateManyWithoutEstimateNestedInput
+  invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutEstimateNestedInput
 }
 
 export type EstimateCreateWithoutAttachmentsInput = {
@@ -1483,10 +1483,10 @@ export type EstimateCreateWithoutAttachmentsInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   customer: Prisma.CustomerCreateNestedOneWithoutEstimatesInput
-  tax?: Prisma.TaxRateCreateNestedOneWithoutEstimateInput
+  tax?: Prisma.TaxRateCreateNestedOneWithoutEstimatesInput
   items?: Prisma.EstimateItemCreateNestedManyWithoutEstimateInput
-  Invoice?: Prisma.InvoiceCreateNestedManyWithoutEstimateInput
-  Company: Prisma.CompanyCreateNestedOneWithoutEstimatesInput
+  invoices?: Prisma.InvoiceCreateNestedManyWithoutEstimateInput
+  company: Prisma.CompanyCreateNestedOneWithoutEstimatesInput
 }
 
 export type EstimateUncheckedCreateWithoutAttachmentsInput = {
@@ -1517,7 +1517,7 @@ export type EstimateUncheckedCreateWithoutAttachmentsInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   items?: Prisma.EstimateItemUncheckedCreateNestedManyWithoutEstimateInput
-  Invoice?: Prisma.InvoiceUncheckedCreateNestedManyWithoutEstimateInput
+  invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutEstimateInput
 }
 
 export type EstimateCreateOrConnectWithoutAttachmentsInput = {
@@ -1561,10 +1561,10 @@ export type EstimateUpdateWithoutAttachmentsInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer?: Prisma.CustomerUpdateOneRequiredWithoutEstimatesNestedInput
-  tax?: Prisma.TaxRateUpdateOneWithoutEstimateNestedInput
+  tax?: Prisma.TaxRateUpdateOneWithoutEstimatesNestedInput
   items?: Prisma.EstimateItemUpdateManyWithoutEstimateNestedInput
-  Invoice?: Prisma.InvoiceUpdateManyWithoutEstimateNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutEstimatesNestedInput
+  invoices?: Prisma.InvoiceUpdateManyWithoutEstimateNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutEstimatesNestedInput
 }
 
 export type EstimateUncheckedUpdateWithoutAttachmentsInput = {
@@ -1595,7 +1595,7 @@ export type EstimateUncheckedUpdateWithoutAttachmentsInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   items?: Prisma.EstimateItemUncheckedUpdateManyWithoutEstimateNestedInput
-  Invoice?: Prisma.InvoiceUncheckedUpdateManyWithoutEstimateNestedInput
+  invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutEstimateNestedInput
 }
 
 export type EstimateCreateWithoutTaxInput = {
@@ -1625,8 +1625,8 @@ export type EstimateCreateWithoutTaxInput = {
   customer: Prisma.CustomerCreateNestedOneWithoutEstimatesInput
   items?: Prisma.EstimateItemCreateNestedManyWithoutEstimateInput
   attachments?: Prisma.EstimateAttachmentCreateNestedManyWithoutEstimateInput
-  Invoice?: Prisma.InvoiceCreateNestedManyWithoutEstimateInput
-  Company: Prisma.CompanyCreateNestedOneWithoutEstimatesInput
+  invoices?: Prisma.InvoiceCreateNestedManyWithoutEstimateInput
+  company: Prisma.CompanyCreateNestedOneWithoutEstimatesInput
 }
 
 export type EstimateUncheckedCreateWithoutTaxInput = {
@@ -1657,7 +1657,7 @@ export type EstimateUncheckedCreateWithoutTaxInput = {
   deactivationReason?: string | null
   items?: Prisma.EstimateItemUncheckedCreateNestedManyWithoutEstimateInput
   attachments?: Prisma.EstimateAttachmentUncheckedCreateNestedManyWithoutEstimateInput
-  Invoice?: Prisma.InvoiceUncheckedCreateNestedManyWithoutEstimateInput
+  invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutEstimateInput
 }
 
 export type EstimateCreateOrConnectWithoutTaxInput = {
@@ -1711,10 +1711,10 @@ export type EstimateCreateWithoutCompanyInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   customer: Prisma.CustomerCreateNestedOneWithoutEstimatesInput
-  tax?: Prisma.TaxRateCreateNestedOneWithoutEstimateInput
+  tax?: Prisma.TaxRateCreateNestedOneWithoutEstimatesInput
   items?: Prisma.EstimateItemCreateNestedManyWithoutEstimateInput
   attachments?: Prisma.EstimateAttachmentCreateNestedManyWithoutEstimateInput
-  Invoice?: Prisma.InvoiceCreateNestedManyWithoutEstimateInput
+  invoices?: Prisma.InvoiceCreateNestedManyWithoutEstimateInput
 }
 
 export type EstimateUncheckedCreateWithoutCompanyInput = {
@@ -1745,7 +1745,7 @@ export type EstimateUncheckedCreateWithoutCompanyInput = {
   deactivationReason?: string | null
   items?: Prisma.EstimateItemUncheckedCreateNestedManyWithoutEstimateInput
   attachments?: Prisma.EstimateAttachmentUncheckedCreateNestedManyWithoutEstimateInput
-  Invoice?: Prisma.InvoiceUncheckedCreateNestedManyWithoutEstimateInput
+  invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutEstimateInput
 }
 
 export type EstimateCreateOrConnectWithoutCompanyInput = {
@@ -1826,11 +1826,11 @@ export type EstimateUpdateWithoutCustomerInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tax?: Prisma.TaxRateUpdateOneWithoutEstimateNestedInput
+  tax?: Prisma.TaxRateUpdateOneWithoutEstimatesNestedInput
   items?: Prisma.EstimateItemUpdateManyWithoutEstimateNestedInput
   attachments?: Prisma.EstimateAttachmentUpdateManyWithoutEstimateNestedInput
-  Invoice?: Prisma.InvoiceUpdateManyWithoutEstimateNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutEstimatesNestedInput
+  invoices?: Prisma.InvoiceUpdateManyWithoutEstimateNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutEstimatesNestedInput
 }
 
 export type EstimateUncheckedUpdateWithoutCustomerInput = {
@@ -1861,7 +1861,7 @@ export type EstimateUncheckedUpdateWithoutCustomerInput = {
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   items?: Prisma.EstimateItemUncheckedUpdateManyWithoutEstimateNestedInput
   attachments?: Prisma.EstimateAttachmentUncheckedUpdateManyWithoutEstimateNestedInput
-  Invoice?: Prisma.InvoiceUncheckedUpdateManyWithoutEstimateNestedInput
+  invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutEstimateNestedInput
 }
 
 export type EstimateUncheckedUpdateManyWithoutCustomerInput = {
@@ -1947,8 +1947,8 @@ export type EstimateUpdateWithoutTaxInput = {
   customer?: Prisma.CustomerUpdateOneRequiredWithoutEstimatesNestedInput
   items?: Prisma.EstimateItemUpdateManyWithoutEstimateNestedInput
   attachments?: Prisma.EstimateAttachmentUpdateManyWithoutEstimateNestedInput
-  Invoice?: Prisma.InvoiceUpdateManyWithoutEstimateNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutEstimatesNestedInput
+  invoices?: Prisma.InvoiceUpdateManyWithoutEstimateNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutEstimatesNestedInput
 }
 
 export type EstimateUncheckedUpdateWithoutTaxInput = {
@@ -1979,7 +1979,7 @@ export type EstimateUncheckedUpdateWithoutTaxInput = {
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   items?: Prisma.EstimateItemUncheckedUpdateManyWithoutEstimateNestedInput
   attachments?: Prisma.EstimateAttachmentUncheckedUpdateManyWithoutEstimateNestedInput
-  Invoice?: Prisma.InvoiceUncheckedUpdateManyWithoutEstimateNestedInput
+  invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutEstimateNestedInput
 }
 
 export type EstimateUncheckedUpdateManyWithoutTaxInput = {
@@ -2063,10 +2063,10 @@ export type EstimateUpdateWithoutCompanyInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer?: Prisma.CustomerUpdateOneRequiredWithoutEstimatesNestedInput
-  tax?: Prisma.TaxRateUpdateOneWithoutEstimateNestedInput
+  tax?: Prisma.TaxRateUpdateOneWithoutEstimatesNestedInput
   items?: Prisma.EstimateItemUpdateManyWithoutEstimateNestedInput
   attachments?: Prisma.EstimateAttachmentUpdateManyWithoutEstimateNestedInput
-  Invoice?: Prisma.InvoiceUpdateManyWithoutEstimateNestedInput
+  invoices?: Prisma.InvoiceUpdateManyWithoutEstimateNestedInput
 }
 
 export type EstimateUncheckedUpdateWithoutCompanyInput = {
@@ -2097,7 +2097,7 @@ export type EstimateUncheckedUpdateWithoutCompanyInput = {
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   items?: Prisma.EstimateItemUncheckedUpdateManyWithoutEstimateNestedInput
   attachments?: Prisma.EstimateAttachmentUncheckedUpdateManyWithoutEstimateNestedInput
-  Invoice?: Prisma.InvoiceUncheckedUpdateManyWithoutEstimateNestedInput
+  invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutEstimateNestedInput
 }
 
 export type EstimateUncheckedUpdateManyWithoutCompanyInput = {
@@ -2136,13 +2136,13 @@ export type EstimateUncheckedUpdateManyWithoutCompanyInput = {
 export type EstimateCountOutputType = {
   items: number
   attachments: number
-  Invoice: number
+  invoices: number
 }
 
 export type EstimateCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   items?: boolean | EstimateCountOutputTypeCountItemsArgs
   attachments?: boolean | EstimateCountOutputTypeCountAttachmentsArgs
-  Invoice?: boolean | EstimateCountOutputTypeCountInvoiceArgs
+  invoices?: boolean | EstimateCountOutputTypeCountInvoicesArgs
 }
 
 /**
@@ -2172,7 +2172,7 @@ export type EstimateCountOutputTypeCountAttachmentsArgs<ExtArgs extends runtime.
 /**
  * EstimateCountOutputType without action
  */
-export type EstimateCountOutputTypeCountInvoiceArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type EstimateCountOutputTypeCountInvoicesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.InvoiceWhereInput
 }
 
@@ -2208,8 +2208,8 @@ export type EstimateSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   tax?: boolean | Prisma.Estimate$taxArgs<ExtArgs>
   items?: boolean | Prisma.Estimate$itemsArgs<ExtArgs>
   attachments?: boolean | Prisma.Estimate$attachmentsArgs<ExtArgs>
-  Invoice?: boolean | Prisma.Estimate$InvoiceArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  invoices?: boolean | Prisma.Estimate$invoicesArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.EstimateCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["estimate"]>
 
@@ -2242,7 +2242,7 @@ export type EstimateSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   deactivationReason?: boolean
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   tax?: boolean | Prisma.Estimate$taxArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["estimate"]>
 
 export type EstimateSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -2274,7 +2274,7 @@ export type EstimateSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   deactivationReason?: boolean
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   tax?: boolean | Prisma.Estimate$taxArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["estimate"]>
 
 export type EstimateSelectScalar = {
@@ -2312,19 +2312,19 @@ export type EstimateInclude<ExtArgs extends runtime.Types.Extensions.InternalArg
   tax?: boolean | Prisma.Estimate$taxArgs<ExtArgs>
   items?: boolean | Prisma.Estimate$itemsArgs<ExtArgs>
   attachments?: boolean | Prisma.Estimate$attachmentsArgs<ExtArgs>
-  Invoice?: boolean | Prisma.Estimate$InvoiceArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  invoices?: boolean | Prisma.Estimate$invoicesArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.EstimateCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type EstimateIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   tax?: boolean | Prisma.Estimate$taxArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }
 export type EstimateIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   tax?: boolean | Prisma.Estimate$taxArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }
 
 export type $EstimatePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2334,8 +2334,8 @@ export type $EstimatePayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     tax: Prisma.$TaxRatePayload<ExtArgs> | null
     items: Prisma.$EstimateItemPayload<ExtArgs>[]
     attachments: Prisma.$EstimateAttachmentPayload<ExtArgs>[]
-    Invoice: Prisma.$InvoicePayload<ExtArgs>[]
-    Company: Prisma.$CompanyPayload<ExtArgs>
+    invoices: Prisma.$InvoicePayload<ExtArgs>[]
+    company: Prisma.$CompanyPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2765,8 +2765,8 @@ export interface Prisma__EstimateClient<T, Null = never, ExtArgs extends runtime
   tax<T extends Prisma.Estimate$taxArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Estimate$taxArgs<ExtArgs>>): Prisma.Prisma__TaxRateClient<runtime.Types.Result.GetResult<Prisma.$TaxRatePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   items<T extends Prisma.Estimate$itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Estimate$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EstimateItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   attachments<T extends Prisma.Estimate$attachmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Estimate$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EstimateAttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  Invoice<T extends Prisma.Estimate$InvoiceArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Estimate$InvoiceArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  Company<T extends Prisma.CompanyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CompanyDefaultArgs<ExtArgs>>): Prisma.Prisma__CompanyClient<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  invoices<T extends Prisma.Estimate$invoicesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Estimate$invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  company<T extends Prisma.CompanyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CompanyDefaultArgs<ExtArgs>>): Prisma.Prisma__CompanyClient<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3290,9 +3290,9 @@ export type Estimate$attachmentsArgs<ExtArgs extends runtime.Types.Extensions.In
 }
 
 /**
- * Estimate.Invoice
+ * Estimate.invoices
  */
-export type Estimate$InvoiceArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Estimate$invoicesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Invoice
    */

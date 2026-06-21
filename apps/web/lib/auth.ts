@@ -1,19 +1,19 @@
 import { betterAuth, type BetterAuthOptions } from 'better-auth';
-import { headers } from 'next/headers';
 import { prismaAdapter } from 'better-auth/adapters/prisma';
 import { createAuthMiddleware, APIError } from 'better-auth/api';
 import { nextCookies } from 'better-auth/next-js';
 import { admin, customSession, magicLink } from 'better-auth/plugins';
+import { headers } from 'next/headers';
 
-import { prisma } from '@/lib/prisma';
 import {
   sendVerificationEmail,
   sendPasswordResetEmail,
   sendMagicLinkEmail
 } from '@/lib/email-service';
+import { prisma } from '@/lib/prisma';
 import { hashPassword, verifyPassword } from '@/utils/argon2';
 import { ac, roles } from '@/utils/permissions';
-import { normalizeName, VALID_DOMAINS, verifyUserEmail } from '@/utils/utils';
+import { normalizeName, verifyUserEmail } from '@/utils/utils';
 import { UserCompany } from './generated/prisma/client';
 
 const options: BetterAuthOptions = {

@@ -413,8 +413,8 @@ export type InvoiceWhereInput = {
   payments?: Prisma.PaymentListRelationFilter
   items?: Prisma.InvoiceItemListRelationFilter
   attachments?: Prisma.InvoiceAttachmentListRelationFilter
-  Company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
-  CreditMemo?: Prisma.CreditMemoListRelationFilter
+  company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
+  creditMemo?: Prisma.CreditMemoListRelationFilter
 }
 
 export type InvoiceOrderByWithRelationInput = {
@@ -452,8 +452,8 @@ export type InvoiceOrderByWithRelationInput = {
   payments?: Prisma.PaymentOrderByRelationAggregateInput
   items?: Prisma.InvoiceItemOrderByRelationAggregateInput
   attachments?: Prisma.InvoiceAttachmentOrderByRelationAggregateInput
-  Company?: Prisma.CompanyOrderByWithRelationInput
-  CreditMemo?: Prisma.CreditMemoOrderByRelationAggregateInput
+  company?: Prisma.CompanyOrderByWithRelationInput
+  creditMemo?: Prisma.CreditMemoOrderByRelationAggregateInput
 }
 
 export type InvoiceWhereUniqueInput = Prisma.AtLeast<{
@@ -495,8 +495,8 @@ export type InvoiceWhereUniqueInput = Prisma.AtLeast<{
   payments?: Prisma.PaymentListRelationFilter
   items?: Prisma.InvoiceItemListRelationFilter
   attachments?: Prisma.InvoiceAttachmentListRelationFilter
-  Company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
-  CreditMemo?: Prisma.CreditMemoListRelationFilter
+  company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
+  creditMemo?: Prisma.CreditMemoListRelationFilter
 }, "id" | "number_companyId">
 
 export type InvoiceOrderByWithAggregationInput = {
@@ -590,15 +590,15 @@ export type InvoiceCreateInput = {
   deactivatedAt?: Date | string | null
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
-  estimate?: Prisma.EstimateCreateNestedOneWithoutInvoiceInput
+  estimate?: Prisma.EstimateCreateNestedOneWithoutInvoicesInput
   customer: Prisma.CustomerCreateNestedOneWithoutInvoicesInput
   customerPaymentEvent?: Prisma.CustomerPaymentEventCreateNestedOneWithoutInvoicesInput
-  tax?: Prisma.TaxRateCreateNestedOneWithoutInvoiceInput
+  tax?: Prisma.TaxRateCreateNestedOneWithoutInvoicesInput
   payments?: Prisma.PaymentCreateNestedManyWithoutInvoiceInput
   items?: Prisma.InvoiceItemCreateNestedManyWithoutInvoiceInput
   attachments?: Prisma.InvoiceAttachmentCreateNestedManyWithoutInvoiceInput
-  Company: Prisma.CompanyCreateNestedOneWithoutInvoicesInput
-  CreditMemo?: Prisma.CreditMemoCreateNestedManyWithoutInvoiceInput
+  company: Prisma.CompanyCreateNestedOneWithoutInvoicesInput
+  creditMemo?: Prisma.CreditMemoCreateNestedManyWithoutInvoiceInput
 }
 
 export type InvoiceUncheckedCreateInput = {
@@ -632,7 +632,7 @@ export type InvoiceUncheckedCreateInput = {
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutInvoiceInput
   items?: Prisma.InvoiceItemUncheckedCreateNestedManyWithoutInvoiceInput
   attachments?: Prisma.InvoiceAttachmentUncheckedCreateNestedManyWithoutInvoiceInput
-  CreditMemo?: Prisma.CreditMemoUncheckedCreateNestedManyWithoutInvoiceInput
+  creditMemo?: Prisma.CreditMemoUncheckedCreateNestedManyWithoutInvoiceInput
 }
 
 export type InvoiceUpdateInput = {
@@ -658,15 +658,15 @@ export type InvoiceUpdateInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  estimate?: Prisma.EstimateUpdateOneWithoutInvoiceNestedInput
+  estimate?: Prisma.EstimateUpdateOneWithoutInvoicesNestedInput
   customer?: Prisma.CustomerUpdateOneRequiredWithoutInvoicesNestedInput
   customerPaymentEvent?: Prisma.CustomerPaymentEventUpdateOneWithoutInvoicesNestedInput
-  tax?: Prisma.TaxRateUpdateOneWithoutInvoiceNestedInput
+  tax?: Prisma.TaxRateUpdateOneWithoutInvoicesNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutInvoiceNestedInput
   items?: Prisma.InvoiceItemUpdateManyWithoutInvoiceNestedInput
   attachments?: Prisma.InvoiceAttachmentUpdateManyWithoutInvoiceNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutInvoicesNestedInput
-  CreditMemo?: Prisma.CreditMemoUpdateManyWithoutInvoiceNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutInvoicesNestedInput
+  creditMemo?: Prisma.CreditMemoUpdateManyWithoutInvoiceNestedInput
 }
 
 export type InvoiceUncheckedUpdateInput = {
@@ -700,7 +700,7 @@ export type InvoiceUncheckedUpdateInput = {
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutInvoiceNestedInput
   items?: Prisma.InvoiceItemUncheckedUpdateManyWithoutInvoiceNestedInput
   attachments?: Prisma.InvoiceAttachmentUncheckedUpdateManyWithoutInvoiceNestedInput
-  CreditMemo?: Prisma.CreditMemoUncheckedUpdateManyWithoutInvoiceNestedInput
+  creditMemo?: Prisma.CreditMemoUncheckedUpdateManyWithoutInvoiceNestedInput
 }
 
 export type InvoiceCreateManyInput = {
@@ -1208,14 +1208,14 @@ export type InvoiceCreateWithoutCustomerInput = {
   deactivatedAt?: Date | string | null
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
-  estimate?: Prisma.EstimateCreateNestedOneWithoutInvoiceInput
+  estimate?: Prisma.EstimateCreateNestedOneWithoutInvoicesInput
   customerPaymentEvent?: Prisma.CustomerPaymentEventCreateNestedOneWithoutInvoicesInput
-  tax?: Prisma.TaxRateCreateNestedOneWithoutInvoiceInput
+  tax?: Prisma.TaxRateCreateNestedOneWithoutInvoicesInput
   payments?: Prisma.PaymentCreateNestedManyWithoutInvoiceInput
   items?: Prisma.InvoiceItemCreateNestedManyWithoutInvoiceInput
   attachments?: Prisma.InvoiceAttachmentCreateNestedManyWithoutInvoiceInput
-  Company: Prisma.CompanyCreateNestedOneWithoutInvoicesInput
-  CreditMemo?: Prisma.CreditMemoCreateNestedManyWithoutInvoiceInput
+  company: Prisma.CompanyCreateNestedOneWithoutInvoicesInput
+  creditMemo?: Prisma.CreditMemoCreateNestedManyWithoutInvoiceInput
 }
 
 export type InvoiceUncheckedCreateWithoutCustomerInput = {
@@ -1248,7 +1248,7 @@ export type InvoiceUncheckedCreateWithoutCustomerInput = {
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutInvoiceInput
   items?: Prisma.InvoiceItemUncheckedCreateNestedManyWithoutInvoiceInput
   attachments?: Prisma.InvoiceAttachmentUncheckedCreateNestedManyWithoutInvoiceInput
-  CreditMemo?: Prisma.CreditMemoUncheckedCreateNestedManyWithoutInvoiceInput
+  creditMemo?: Prisma.CreditMemoUncheckedCreateNestedManyWithoutInvoiceInput
 }
 
 export type InvoiceCreateOrConnectWithoutCustomerInput = {
@@ -1333,14 +1333,14 @@ export type InvoiceCreateWithoutCustomerPaymentEventInput = {
   deactivatedAt?: Date | string | null
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
-  estimate?: Prisma.EstimateCreateNestedOneWithoutInvoiceInput
+  estimate?: Prisma.EstimateCreateNestedOneWithoutInvoicesInput
   customer: Prisma.CustomerCreateNestedOneWithoutInvoicesInput
-  tax?: Prisma.TaxRateCreateNestedOneWithoutInvoiceInput
+  tax?: Prisma.TaxRateCreateNestedOneWithoutInvoicesInput
   payments?: Prisma.PaymentCreateNestedManyWithoutInvoiceInput
   items?: Prisma.InvoiceItemCreateNestedManyWithoutInvoiceInput
   attachments?: Prisma.InvoiceAttachmentCreateNestedManyWithoutInvoiceInput
-  Company: Prisma.CompanyCreateNestedOneWithoutInvoicesInput
-  CreditMemo?: Prisma.CreditMemoCreateNestedManyWithoutInvoiceInput
+  company: Prisma.CompanyCreateNestedOneWithoutInvoicesInput
+  creditMemo?: Prisma.CreditMemoCreateNestedManyWithoutInvoiceInput
 }
 
 export type InvoiceUncheckedCreateWithoutCustomerPaymentEventInput = {
@@ -1373,7 +1373,7 @@ export type InvoiceUncheckedCreateWithoutCustomerPaymentEventInput = {
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutInvoiceInput
   items?: Prisma.InvoiceItemUncheckedCreateNestedManyWithoutInvoiceInput
   attachments?: Prisma.InvoiceAttachmentUncheckedCreateNestedManyWithoutInvoiceInput
-  CreditMemo?: Prisma.CreditMemoUncheckedCreateNestedManyWithoutInvoiceInput
+  creditMemo?: Prisma.CreditMemoUncheckedCreateNestedManyWithoutInvoiceInput
 }
 
 export type InvoiceCreateOrConnectWithoutCustomerPaymentEventInput = {
@@ -1425,14 +1425,14 @@ export type InvoiceCreateWithoutItemsInput = {
   deactivatedAt?: Date | string | null
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
-  estimate?: Prisma.EstimateCreateNestedOneWithoutInvoiceInput
+  estimate?: Prisma.EstimateCreateNestedOneWithoutInvoicesInput
   customer: Prisma.CustomerCreateNestedOneWithoutInvoicesInput
   customerPaymentEvent?: Prisma.CustomerPaymentEventCreateNestedOneWithoutInvoicesInput
-  tax?: Prisma.TaxRateCreateNestedOneWithoutInvoiceInput
+  tax?: Prisma.TaxRateCreateNestedOneWithoutInvoicesInput
   payments?: Prisma.PaymentCreateNestedManyWithoutInvoiceInput
   attachments?: Prisma.InvoiceAttachmentCreateNestedManyWithoutInvoiceInput
-  Company: Prisma.CompanyCreateNestedOneWithoutInvoicesInput
-  CreditMemo?: Prisma.CreditMemoCreateNestedManyWithoutInvoiceInput
+  company: Prisma.CompanyCreateNestedOneWithoutInvoicesInput
+  creditMemo?: Prisma.CreditMemoCreateNestedManyWithoutInvoiceInput
 }
 
 export type InvoiceUncheckedCreateWithoutItemsInput = {
@@ -1465,7 +1465,7 @@ export type InvoiceUncheckedCreateWithoutItemsInput = {
   deactivationReason?: string | null
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutInvoiceInput
   attachments?: Prisma.InvoiceAttachmentUncheckedCreateNestedManyWithoutInvoiceInput
-  CreditMemo?: Prisma.CreditMemoUncheckedCreateNestedManyWithoutInvoiceInput
+  creditMemo?: Prisma.CreditMemoUncheckedCreateNestedManyWithoutInvoiceInput
 }
 
 export type InvoiceCreateOrConnectWithoutItemsInput = {
@@ -1507,14 +1507,14 @@ export type InvoiceUpdateWithoutItemsInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  estimate?: Prisma.EstimateUpdateOneWithoutInvoiceNestedInput
+  estimate?: Prisma.EstimateUpdateOneWithoutInvoicesNestedInput
   customer?: Prisma.CustomerUpdateOneRequiredWithoutInvoicesNestedInput
   customerPaymentEvent?: Prisma.CustomerPaymentEventUpdateOneWithoutInvoicesNestedInput
-  tax?: Prisma.TaxRateUpdateOneWithoutInvoiceNestedInput
+  tax?: Prisma.TaxRateUpdateOneWithoutInvoicesNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutInvoiceNestedInput
   attachments?: Prisma.InvoiceAttachmentUpdateManyWithoutInvoiceNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutInvoicesNestedInput
-  CreditMemo?: Prisma.CreditMemoUpdateManyWithoutInvoiceNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutInvoicesNestedInput
+  creditMemo?: Prisma.CreditMemoUpdateManyWithoutInvoiceNestedInput
 }
 
 export type InvoiceUncheckedUpdateWithoutItemsInput = {
@@ -1547,7 +1547,7 @@ export type InvoiceUncheckedUpdateWithoutItemsInput = {
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutInvoiceNestedInput
   attachments?: Prisma.InvoiceAttachmentUncheckedUpdateManyWithoutInvoiceNestedInput
-  CreditMemo?: Prisma.CreditMemoUncheckedUpdateManyWithoutInvoiceNestedInput
+  creditMemo?: Prisma.CreditMemoUncheckedUpdateManyWithoutInvoiceNestedInput
 }
 
 export type InvoiceCreateWithoutAttachmentsInput = {
@@ -1573,14 +1573,14 @@ export type InvoiceCreateWithoutAttachmentsInput = {
   deactivatedAt?: Date | string | null
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
-  estimate?: Prisma.EstimateCreateNestedOneWithoutInvoiceInput
+  estimate?: Prisma.EstimateCreateNestedOneWithoutInvoicesInput
   customer: Prisma.CustomerCreateNestedOneWithoutInvoicesInput
   customerPaymentEvent?: Prisma.CustomerPaymentEventCreateNestedOneWithoutInvoicesInput
-  tax?: Prisma.TaxRateCreateNestedOneWithoutInvoiceInput
+  tax?: Prisma.TaxRateCreateNestedOneWithoutInvoicesInput
   payments?: Prisma.PaymentCreateNestedManyWithoutInvoiceInput
   items?: Prisma.InvoiceItemCreateNestedManyWithoutInvoiceInput
-  Company: Prisma.CompanyCreateNestedOneWithoutInvoicesInput
-  CreditMemo?: Prisma.CreditMemoCreateNestedManyWithoutInvoiceInput
+  company: Prisma.CompanyCreateNestedOneWithoutInvoicesInput
+  creditMemo?: Prisma.CreditMemoCreateNestedManyWithoutInvoiceInput
 }
 
 export type InvoiceUncheckedCreateWithoutAttachmentsInput = {
@@ -1613,7 +1613,7 @@ export type InvoiceUncheckedCreateWithoutAttachmentsInput = {
   deactivationReason?: string | null
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutInvoiceInput
   items?: Prisma.InvoiceItemUncheckedCreateNestedManyWithoutInvoiceInput
-  CreditMemo?: Prisma.CreditMemoUncheckedCreateNestedManyWithoutInvoiceInput
+  creditMemo?: Prisma.CreditMemoUncheckedCreateNestedManyWithoutInvoiceInput
 }
 
 export type InvoiceCreateOrConnectWithoutAttachmentsInput = {
@@ -1655,14 +1655,14 @@ export type InvoiceUpdateWithoutAttachmentsInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  estimate?: Prisma.EstimateUpdateOneWithoutInvoiceNestedInput
+  estimate?: Prisma.EstimateUpdateOneWithoutInvoicesNestedInput
   customer?: Prisma.CustomerUpdateOneRequiredWithoutInvoicesNestedInput
   customerPaymentEvent?: Prisma.CustomerPaymentEventUpdateOneWithoutInvoicesNestedInput
-  tax?: Prisma.TaxRateUpdateOneWithoutInvoiceNestedInput
+  tax?: Prisma.TaxRateUpdateOneWithoutInvoicesNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutInvoiceNestedInput
   items?: Prisma.InvoiceItemUpdateManyWithoutInvoiceNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutInvoicesNestedInput
-  CreditMemo?: Prisma.CreditMemoUpdateManyWithoutInvoiceNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutInvoicesNestedInput
+  creditMemo?: Prisma.CreditMemoUpdateManyWithoutInvoiceNestedInput
 }
 
 export type InvoiceUncheckedUpdateWithoutAttachmentsInput = {
@@ -1695,7 +1695,7 @@ export type InvoiceUncheckedUpdateWithoutAttachmentsInput = {
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutInvoiceNestedInput
   items?: Prisma.InvoiceItemUncheckedUpdateManyWithoutInvoiceNestedInput
-  CreditMemo?: Prisma.CreditMemoUncheckedUpdateManyWithoutInvoiceNestedInput
+  creditMemo?: Prisma.CreditMemoUncheckedUpdateManyWithoutInvoiceNestedInput
 }
 
 export type InvoiceCreateWithoutEstimateInput = {
@@ -1723,12 +1723,12 @@ export type InvoiceCreateWithoutEstimateInput = {
   deactivationReason?: string | null
   customer: Prisma.CustomerCreateNestedOneWithoutInvoicesInput
   customerPaymentEvent?: Prisma.CustomerPaymentEventCreateNestedOneWithoutInvoicesInput
-  tax?: Prisma.TaxRateCreateNestedOneWithoutInvoiceInput
+  tax?: Prisma.TaxRateCreateNestedOneWithoutInvoicesInput
   payments?: Prisma.PaymentCreateNestedManyWithoutInvoiceInput
   items?: Prisma.InvoiceItemCreateNestedManyWithoutInvoiceInput
   attachments?: Prisma.InvoiceAttachmentCreateNestedManyWithoutInvoiceInput
-  Company: Prisma.CompanyCreateNestedOneWithoutInvoicesInput
-  CreditMemo?: Prisma.CreditMemoCreateNestedManyWithoutInvoiceInput
+  company: Prisma.CompanyCreateNestedOneWithoutInvoicesInput
+  creditMemo?: Prisma.CreditMemoCreateNestedManyWithoutInvoiceInput
 }
 
 export type InvoiceUncheckedCreateWithoutEstimateInput = {
@@ -1761,7 +1761,7 @@ export type InvoiceUncheckedCreateWithoutEstimateInput = {
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutInvoiceInput
   items?: Prisma.InvoiceItemUncheckedCreateNestedManyWithoutInvoiceInput
   attachments?: Prisma.InvoiceAttachmentUncheckedCreateNestedManyWithoutInvoiceInput
-  CreditMemo?: Prisma.CreditMemoUncheckedCreateNestedManyWithoutInvoiceInput
+  creditMemo?: Prisma.CreditMemoUncheckedCreateNestedManyWithoutInvoiceInput
 }
 
 export type InvoiceCreateOrConnectWithoutEstimateInput = {
@@ -1813,14 +1813,14 @@ export type InvoiceCreateWithoutCreditMemoInput = {
   deactivatedAt?: Date | string | null
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
-  estimate?: Prisma.EstimateCreateNestedOneWithoutInvoiceInput
+  estimate?: Prisma.EstimateCreateNestedOneWithoutInvoicesInput
   customer: Prisma.CustomerCreateNestedOneWithoutInvoicesInput
   customerPaymentEvent?: Prisma.CustomerPaymentEventCreateNestedOneWithoutInvoicesInput
-  tax?: Prisma.TaxRateCreateNestedOneWithoutInvoiceInput
+  tax?: Prisma.TaxRateCreateNestedOneWithoutInvoicesInput
   payments?: Prisma.PaymentCreateNestedManyWithoutInvoiceInput
   items?: Prisma.InvoiceItemCreateNestedManyWithoutInvoiceInput
   attachments?: Prisma.InvoiceAttachmentCreateNestedManyWithoutInvoiceInput
-  Company: Prisma.CompanyCreateNestedOneWithoutInvoicesInput
+  company: Prisma.CompanyCreateNestedOneWithoutInvoicesInput
 }
 
 export type InvoiceUncheckedCreateWithoutCreditMemoInput = {
@@ -1895,14 +1895,14 @@ export type InvoiceUpdateWithoutCreditMemoInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  estimate?: Prisma.EstimateUpdateOneWithoutInvoiceNestedInput
+  estimate?: Prisma.EstimateUpdateOneWithoutInvoicesNestedInput
   customer?: Prisma.CustomerUpdateOneRequiredWithoutInvoicesNestedInput
   customerPaymentEvent?: Prisma.CustomerPaymentEventUpdateOneWithoutInvoicesNestedInput
-  tax?: Prisma.TaxRateUpdateOneWithoutInvoiceNestedInput
+  tax?: Prisma.TaxRateUpdateOneWithoutInvoicesNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutInvoiceNestedInput
   items?: Prisma.InvoiceItemUpdateManyWithoutInvoiceNestedInput
   attachments?: Prisma.InvoiceAttachmentUpdateManyWithoutInvoiceNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutInvoicesNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutInvoicesNestedInput
 }
 
 export type InvoiceUncheckedUpdateWithoutCreditMemoInput = {
@@ -1961,14 +1961,14 @@ export type InvoiceCreateWithoutPaymentsInput = {
   deactivatedAt?: Date | string | null
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
-  estimate?: Prisma.EstimateCreateNestedOneWithoutInvoiceInput
+  estimate?: Prisma.EstimateCreateNestedOneWithoutInvoicesInput
   customer: Prisma.CustomerCreateNestedOneWithoutInvoicesInput
   customerPaymentEvent?: Prisma.CustomerPaymentEventCreateNestedOneWithoutInvoicesInput
-  tax?: Prisma.TaxRateCreateNestedOneWithoutInvoiceInput
+  tax?: Prisma.TaxRateCreateNestedOneWithoutInvoicesInput
   items?: Prisma.InvoiceItemCreateNestedManyWithoutInvoiceInput
   attachments?: Prisma.InvoiceAttachmentCreateNestedManyWithoutInvoiceInput
-  Company: Prisma.CompanyCreateNestedOneWithoutInvoicesInput
-  CreditMemo?: Prisma.CreditMemoCreateNestedManyWithoutInvoiceInput
+  company: Prisma.CompanyCreateNestedOneWithoutInvoicesInput
+  creditMemo?: Prisma.CreditMemoCreateNestedManyWithoutInvoiceInput
 }
 
 export type InvoiceUncheckedCreateWithoutPaymentsInput = {
@@ -2001,7 +2001,7 @@ export type InvoiceUncheckedCreateWithoutPaymentsInput = {
   deactivationReason?: string | null
   items?: Prisma.InvoiceItemUncheckedCreateNestedManyWithoutInvoiceInput
   attachments?: Prisma.InvoiceAttachmentUncheckedCreateNestedManyWithoutInvoiceInput
-  CreditMemo?: Prisma.CreditMemoUncheckedCreateNestedManyWithoutInvoiceInput
+  creditMemo?: Prisma.CreditMemoUncheckedCreateNestedManyWithoutInvoiceInput
 }
 
 export type InvoiceCreateOrConnectWithoutPaymentsInput = {
@@ -2043,14 +2043,14 @@ export type InvoiceUpdateWithoutPaymentsInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  estimate?: Prisma.EstimateUpdateOneWithoutInvoiceNestedInput
+  estimate?: Prisma.EstimateUpdateOneWithoutInvoicesNestedInput
   customer?: Prisma.CustomerUpdateOneRequiredWithoutInvoicesNestedInput
   customerPaymentEvent?: Prisma.CustomerPaymentEventUpdateOneWithoutInvoicesNestedInput
-  tax?: Prisma.TaxRateUpdateOneWithoutInvoiceNestedInput
+  tax?: Prisma.TaxRateUpdateOneWithoutInvoicesNestedInput
   items?: Prisma.InvoiceItemUpdateManyWithoutInvoiceNestedInput
   attachments?: Prisma.InvoiceAttachmentUpdateManyWithoutInvoiceNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutInvoicesNestedInput
-  CreditMemo?: Prisma.CreditMemoUpdateManyWithoutInvoiceNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutInvoicesNestedInput
+  creditMemo?: Prisma.CreditMemoUpdateManyWithoutInvoiceNestedInput
 }
 
 export type InvoiceUncheckedUpdateWithoutPaymentsInput = {
@@ -2083,7 +2083,7 @@ export type InvoiceUncheckedUpdateWithoutPaymentsInput = {
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   items?: Prisma.InvoiceItemUncheckedUpdateManyWithoutInvoiceNestedInput
   attachments?: Prisma.InvoiceAttachmentUncheckedUpdateManyWithoutInvoiceNestedInput
-  CreditMemo?: Prisma.CreditMemoUncheckedUpdateManyWithoutInvoiceNestedInput
+  creditMemo?: Prisma.CreditMemoUncheckedUpdateManyWithoutInvoiceNestedInput
 }
 
 export type InvoiceCreateWithoutTaxInput = {
@@ -2109,14 +2109,14 @@ export type InvoiceCreateWithoutTaxInput = {
   deactivatedAt?: Date | string | null
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
-  estimate?: Prisma.EstimateCreateNestedOneWithoutInvoiceInput
+  estimate?: Prisma.EstimateCreateNestedOneWithoutInvoicesInput
   customer: Prisma.CustomerCreateNestedOneWithoutInvoicesInput
   customerPaymentEvent?: Prisma.CustomerPaymentEventCreateNestedOneWithoutInvoicesInput
   payments?: Prisma.PaymentCreateNestedManyWithoutInvoiceInput
   items?: Prisma.InvoiceItemCreateNestedManyWithoutInvoiceInput
   attachments?: Prisma.InvoiceAttachmentCreateNestedManyWithoutInvoiceInput
-  Company: Prisma.CompanyCreateNestedOneWithoutInvoicesInput
-  CreditMemo?: Prisma.CreditMemoCreateNestedManyWithoutInvoiceInput
+  company: Prisma.CompanyCreateNestedOneWithoutInvoicesInput
+  creditMemo?: Prisma.CreditMemoCreateNestedManyWithoutInvoiceInput
 }
 
 export type InvoiceUncheckedCreateWithoutTaxInput = {
@@ -2149,7 +2149,7 @@ export type InvoiceUncheckedCreateWithoutTaxInput = {
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutInvoiceInput
   items?: Prisma.InvoiceItemUncheckedCreateNestedManyWithoutInvoiceInput
   attachments?: Prisma.InvoiceAttachmentUncheckedCreateNestedManyWithoutInvoiceInput
-  CreditMemo?: Prisma.CreditMemoUncheckedCreateNestedManyWithoutInvoiceInput
+  creditMemo?: Prisma.CreditMemoUncheckedCreateNestedManyWithoutInvoiceInput
 }
 
 export type InvoiceCreateOrConnectWithoutTaxInput = {
@@ -2201,14 +2201,14 @@ export type InvoiceCreateWithoutCompanyInput = {
   deactivatedAt?: Date | string | null
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
-  estimate?: Prisma.EstimateCreateNestedOneWithoutInvoiceInput
+  estimate?: Prisma.EstimateCreateNestedOneWithoutInvoicesInput
   customer: Prisma.CustomerCreateNestedOneWithoutInvoicesInput
   customerPaymentEvent?: Prisma.CustomerPaymentEventCreateNestedOneWithoutInvoicesInput
-  tax?: Prisma.TaxRateCreateNestedOneWithoutInvoiceInput
+  tax?: Prisma.TaxRateCreateNestedOneWithoutInvoicesInput
   payments?: Prisma.PaymentCreateNestedManyWithoutInvoiceInput
   items?: Prisma.InvoiceItemCreateNestedManyWithoutInvoiceInput
   attachments?: Prisma.InvoiceAttachmentCreateNestedManyWithoutInvoiceInput
-  CreditMemo?: Prisma.CreditMemoCreateNestedManyWithoutInvoiceInput
+  creditMemo?: Prisma.CreditMemoCreateNestedManyWithoutInvoiceInput
 }
 
 export type InvoiceUncheckedCreateWithoutCompanyInput = {
@@ -2241,7 +2241,7 @@ export type InvoiceUncheckedCreateWithoutCompanyInput = {
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutInvoiceInput
   items?: Prisma.InvoiceItemUncheckedCreateNestedManyWithoutInvoiceInput
   attachments?: Prisma.InvoiceAttachmentUncheckedCreateNestedManyWithoutInvoiceInput
-  CreditMemo?: Prisma.CreditMemoUncheckedCreateNestedManyWithoutInvoiceInput
+  creditMemo?: Prisma.CreditMemoUncheckedCreateNestedManyWithoutInvoiceInput
 }
 
 export type InvoiceCreateOrConnectWithoutCompanyInput = {
@@ -2322,14 +2322,14 @@ export type InvoiceUpdateWithoutCustomerInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  estimate?: Prisma.EstimateUpdateOneWithoutInvoiceNestedInput
+  estimate?: Prisma.EstimateUpdateOneWithoutInvoicesNestedInput
   customerPaymentEvent?: Prisma.CustomerPaymentEventUpdateOneWithoutInvoicesNestedInput
-  tax?: Prisma.TaxRateUpdateOneWithoutInvoiceNestedInput
+  tax?: Prisma.TaxRateUpdateOneWithoutInvoicesNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutInvoiceNestedInput
   items?: Prisma.InvoiceItemUpdateManyWithoutInvoiceNestedInput
   attachments?: Prisma.InvoiceAttachmentUpdateManyWithoutInvoiceNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutInvoicesNestedInput
-  CreditMemo?: Prisma.CreditMemoUpdateManyWithoutInvoiceNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutInvoicesNestedInput
+  creditMemo?: Prisma.CreditMemoUpdateManyWithoutInvoiceNestedInput
 }
 
 export type InvoiceUncheckedUpdateWithoutCustomerInput = {
@@ -2362,7 +2362,7 @@ export type InvoiceUncheckedUpdateWithoutCustomerInput = {
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutInvoiceNestedInput
   items?: Prisma.InvoiceItemUncheckedUpdateManyWithoutInvoiceNestedInput
   attachments?: Prisma.InvoiceAttachmentUncheckedUpdateManyWithoutInvoiceNestedInput
-  CreditMemo?: Prisma.CreditMemoUncheckedUpdateManyWithoutInvoiceNestedInput
+  creditMemo?: Prisma.CreditMemoUncheckedUpdateManyWithoutInvoiceNestedInput
 }
 
 export type InvoiceUncheckedUpdateManyWithoutCustomerInput = {
@@ -2446,14 +2446,14 @@ export type InvoiceUpdateWithoutCustomerPaymentEventInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  estimate?: Prisma.EstimateUpdateOneWithoutInvoiceNestedInput
+  estimate?: Prisma.EstimateUpdateOneWithoutInvoicesNestedInput
   customer?: Prisma.CustomerUpdateOneRequiredWithoutInvoicesNestedInput
-  tax?: Prisma.TaxRateUpdateOneWithoutInvoiceNestedInput
+  tax?: Prisma.TaxRateUpdateOneWithoutInvoicesNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutInvoiceNestedInput
   items?: Prisma.InvoiceItemUpdateManyWithoutInvoiceNestedInput
   attachments?: Prisma.InvoiceAttachmentUpdateManyWithoutInvoiceNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutInvoicesNestedInput
-  CreditMemo?: Prisma.CreditMemoUpdateManyWithoutInvoiceNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutInvoicesNestedInput
+  creditMemo?: Prisma.CreditMemoUpdateManyWithoutInvoiceNestedInput
 }
 
 export type InvoiceUncheckedUpdateWithoutCustomerPaymentEventInput = {
@@ -2486,7 +2486,7 @@ export type InvoiceUncheckedUpdateWithoutCustomerPaymentEventInput = {
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutInvoiceNestedInput
   items?: Prisma.InvoiceItemUncheckedUpdateManyWithoutInvoiceNestedInput
   attachments?: Prisma.InvoiceAttachmentUncheckedUpdateManyWithoutInvoiceNestedInput
-  CreditMemo?: Prisma.CreditMemoUncheckedUpdateManyWithoutInvoiceNestedInput
+  creditMemo?: Prisma.CreditMemoUncheckedUpdateManyWithoutInvoiceNestedInput
 }
 
 export type InvoiceUncheckedUpdateManyWithoutCustomerPaymentEventInput = {
@@ -2572,12 +2572,12 @@ export type InvoiceUpdateWithoutEstimateInput = {
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer?: Prisma.CustomerUpdateOneRequiredWithoutInvoicesNestedInput
   customerPaymentEvent?: Prisma.CustomerPaymentEventUpdateOneWithoutInvoicesNestedInput
-  tax?: Prisma.TaxRateUpdateOneWithoutInvoiceNestedInput
+  tax?: Prisma.TaxRateUpdateOneWithoutInvoicesNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutInvoiceNestedInput
   items?: Prisma.InvoiceItemUpdateManyWithoutInvoiceNestedInput
   attachments?: Prisma.InvoiceAttachmentUpdateManyWithoutInvoiceNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutInvoicesNestedInput
-  CreditMemo?: Prisma.CreditMemoUpdateManyWithoutInvoiceNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutInvoicesNestedInput
+  creditMemo?: Prisma.CreditMemoUpdateManyWithoutInvoiceNestedInput
 }
 
 export type InvoiceUncheckedUpdateWithoutEstimateInput = {
@@ -2610,7 +2610,7 @@ export type InvoiceUncheckedUpdateWithoutEstimateInput = {
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutInvoiceNestedInput
   items?: Prisma.InvoiceItemUncheckedUpdateManyWithoutInvoiceNestedInput
   attachments?: Prisma.InvoiceAttachmentUncheckedUpdateManyWithoutInvoiceNestedInput
-  CreditMemo?: Prisma.CreditMemoUncheckedUpdateManyWithoutInvoiceNestedInput
+  creditMemo?: Prisma.CreditMemoUncheckedUpdateManyWithoutInvoiceNestedInput
 }
 
 export type InvoiceUncheckedUpdateManyWithoutEstimateInput = {
@@ -2694,14 +2694,14 @@ export type InvoiceUpdateWithoutTaxInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  estimate?: Prisma.EstimateUpdateOneWithoutInvoiceNestedInput
+  estimate?: Prisma.EstimateUpdateOneWithoutInvoicesNestedInput
   customer?: Prisma.CustomerUpdateOneRequiredWithoutInvoicesNestedInput
   customerPaymentEvent?: Prisma.CustomerPaymentEventUpdateOneWithoutInvoicesNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutInvoiceNestedInput
   items?: Prisma.InvoiceItemUpdateManyWithoutInvoiceNestedInput
   attachments?: Prisma.InvoiceAttachmentUpdateManyWithoutInvoiceNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutInvoicesNestedInput
-  CreditMemo?: Prisma.CreditMemoUpdateManyWithoutInvoiceNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutInvoicesNestedInput
+  creditMemo?: Prisma.CreditMemoUpdateManyWithoutInvoiceNestedInput
 }
 
 export type InvoiceUncheckedUpdateWithoutTaxInput = {
@@ -2734,7 +2734,7 @@ export type InvoiceUncheckedUpdateWithoutTaxInput = {
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutInvoiceNestedInput
   items?: Prisma.InvoiceItemUncheckedUpdateManyWithoutInvoiceNestedInput
   attachments?: Prisma.InvoiceAttachmentUncheckedUpdateManyWithoutInvoiceNestedInput
-  CreditMemo?: Prisma.CreditMemoUncheckedUpdateManyWithoutInvoiceNestedInput
+  creditMemo?: Prisma.CreditMemoUncheckedUpdateManyWithoutInvoiceNestedInput
 }
 
 export type InvoiceUncheckedUpdateManyWithoutTaxInput = {
@@ -2818,14 +2818,14 @@ export type InvoiceUpdateWithoutCompanyInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  estimate?: Prisma.EstimateUpdateOneWithoutInvoiceNestedInput
+  estimate?: Prisma.EstimateUpdateOneWithoutInvoicesNestedInput
   customer?: Prisma.CustomerUpdateOneRequiredWithoutInvoicesNestedInput
   customerPaymentEvent?: Prisma.CustomerPaymentEventUpdateOneWithoutInvoicesNestedInput
-  tax?: Prisma.TaxRateUpdateOneWithoutInvoiceNestedInput
+  tax?: Prisma.TaxRateUpdateOneWithoutInvoicesNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutInvoiceNestedInput
   items?: Prisma.InvoiceItemUpdateManyWithoutInvoiceNestedInput
   attachments?: Prisma.InvoiceAttachmentUpdateManyWithoutInvoiceNestedInput
-  CreditMemo?: Prisma.CreditMemoUpdateManyWithoutInvoiceNestedInput
+  creditMemo?: Prisma.CreditMemoUpdateManyWithoutInvoiceNestedInput
 }
 
 export type InvoiceUncheckedUpdateWithoutCompanyInput = {
@@ -2858,7 +2858,7 @@ export type InvoiceUncheckedUpdateWithoutCompanyInput = {
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutInvoiceNestedInput
   items?: Prisma.InvoiceItemUncheckedUpdateManyWithoutInvoiceNestedInput
   attachments?: Prisma.InvoiceAttachmentUncheckedUpdateManyWithoutInvoiceNestedInput
-  CreditMemo?: Prisma.CreditMemoUncheckedUpdateManyWithoutInvoiceNestedInput
+  creditMemo?: Prisma.CreditMemoUncheckedUpdateManyWithoutInvoiceNestedInput
 }
 
 export type InvoiceUncheckedUpdateManyWithoutCompanyInput = {
@@ -2899,14 +2899,14 @@ export type InvoiceCountOutputType = {
   payments: number
   items: number
   attachments: number
-  CreditMemo: number
+  creditMemo: number
 }
 
 export type InvoiceCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   payments?: boolean | InvoiceCountOutputTypeCountPaymentsArgs
   items?: boolean | InvoiceCountOutputTypeCountItemsArgs
   attachments?: boolean | InvoiceCountOutputTypeCountAttachmentsArgs
-  CreditMemo?: boolean | InvoiceCountOutputTypeCountCreditMemoArgs
+  creditMemo?: boolean | InvoiceCountOutputTypeCountCreditMemoArgs
 }
 
 /**
@@ -2983,8 +2983,8 @@ export type InvoiceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   payments?: boolean | Prisma.Invoice$paymentsArgs<ExtArgs>
   items?: boolean | Prisma.Invoice$itemsArgs<ExtArgs>
   attachments?: boolean | Prisma.Invoice$attachmentsArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
-  CreditMemo?: boolean | Prisma.Invoice$CreditMemoArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  creditMemo?: boolean | Prisma.Invoice$creditMemoArgs<ExtArgs>
   _count?: boolean | Prisma.InvoiceCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["invoice"]>
 
@@ -3020,7 +3020,7 @@ export type InvoiceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   customerPaymentEvent?: boolean | Prisma.Invoice$customerPaymentEventArgs<ExtArgs>
   tax?: boolean | Prisma.Invoice$taxArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["invoice"]>
 
 export type InvoiceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -3055,7 +3055,7 @@ export type InvoiceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   customerPaymentEvent?: boolean | Prisma.Invoice$customerPaymentEventArgs<ExtArgs>
   tax?: boolean | Prisma.Invoice$taxArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["invoice"]>
 
 export type InvoiceSelectScalar = {
@@ -3097,8 +3097,8 @@ export type InvoiceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   payments?: boolean | Prisma.Invoice$paymentsArgs<ExtArgs>
   items?: boolean | Prisma.Invoice$itemsArgs<ExtArgs>
   attachments?: boolean | Prisma.Invoice$attachmentsArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
-  CreditMemo?: boolean | Prisma.Invoice$CreditMemoArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  creditMemo?: boolean | Prisma.Invoice$creditMemoArgs<ExtArgs>
   _count?: boolean | Prisma.InvoiceCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type InvoiceIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3106,14 +3106,14 @@ export type InvoiceIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   customerPaymentEvent?: boolean | Prisma.Invoice$customerPaymentEventArgs<ExtArgs>
   tax?: boolean | Prisma.Invoice$taxArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }
 export type InvoiceIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   estimate?: boolean | Prisma.Invoice$estimateArgs<ExtArgs>
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   customerPaymentEvent?: boolean | Prisma.Invoice$customerPaymentEventArgs<ExtArgs>
   tax?: boolean | Prisma.Invoice$taxArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }
 
 export type $InvoicePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3126,8 +3126,8 @@ export type $InvoicePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     payments: Prisma.$PaymentPayload<ExtArgs>[]
     items: Prisma.$InvoiceItemPayload<ExtArgs>[]
     attachments: Prisma.$InvoiceAttachmentPayload<ExtArgs>[]
-    Company: Prisma.$CompanyPayload<ExtArgs>
-    CreditMemo: Prisma.$CreditMemoPayload<ExtArgs>[]
+    company: Prisma.$CompanyPayload<ExtArgs>
+    creditMemo: Prisma.$CreditMemoPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -3561,8 +3561,8 @@ export interface Prisma__InvoiceClient<T, Null = never, ExtArgs extends runtime.
   payments<T extends Prisma.Invoice$paymentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Invoice$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   items<T extends Prisma.Invoice$itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Invoice$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InvoiceItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   attachments<T extends Prisma.Invoice$attachmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Invoice$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InvoiceAttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  Company<T extends Prisma.CompanyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CompanyDefaultArgs<ExtArgs>>): Prisma.Prisma__CompanyClient<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  CreditMemo<T extends Prisma.Invoice$CreditMemoArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Invoice$CreditMemoArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CreditMemoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  company<T extends Prisma.CompanyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CompanyDefaultArgs<ExtArgs>>): Prisma.Prisma__CompanyClient<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  creditMemo<T extends Prisma.Invoice$creditMemoArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Invoice$creditMemoArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CreditMemoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4149,9 +4149,9 @@ export type Invoice$attachmentsArgs<ExtArgs extends runtime.Types.Extensions.Int
 }
 
 /**
- * Invoice.CreditMemo
+ * Invoice.creditMemo
  */
-export type Invoice$CreditMemoArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Invoice$creditMemoArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the CreditMemo
    */

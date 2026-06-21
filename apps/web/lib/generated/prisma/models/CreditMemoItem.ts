@@ -315,7 +315,7 @@ export type CreditMemoItemWhereInput = {
   deactivatedByUserId?: Prisma.StringNullableFilter<"CreditMemoItem"> | string | null
   deactivationReason?: Prisma.StringNullableFilter<"CreditMemoItem"> | string | null
   creditMemo?: Prisma.XOR<Prisma.CreditMemoScalarRelationFilter, Prisma.CreditMemoWhereInput>
-  Item?: Prisma.XOR<Prisma.ItemNullableScalarRelationFilter, Prisma.ItemWhereInput> | null
+  item?: Prisma.XOR<Prisma.ItemNullableScalarRelationFilter, Prisma.ItemWhereInput> | null
 }
 
 export type CreditMemoItemOrderByWithRelationInput = {
@@ -336,7 +336,7 @@ export type CreditMemoItemOrderByWithRelationInput = {
   deactivatedByUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   deactivationReason?: Prisma.SortOrderInput | Prisma.SortOrder
   creditMemo?: Prisma.CreditMemoOrderByWithRelationInput
-  Item?: Prisma.ItemOrderByWithRelationInput
+  item?: Prisma.ItemOrderByWithRelationInput
 }
 
 export type CreditMemoItemWhereUniqueInput = Prisma.AtLeast<{
@@ -360,7 +360,7 @@ export type CreditMemoItemWhereUniqueInput = Prisma.AtLeast<{
   deactivatedByUserId?: Prisma.StringNullableFilter<"CreditMemoItem"> | string | null
   deactivationReason?: Prisma.StringNullableFilter<"CreditMemoItem"> | string | null
   creditMemo?: Prisma.XOR<Prisma.CreditMemoScalarRelationFilter, Prisma.CreditMemoWhereInput>
-  Item?: Prisma.XOR<Prisma.ItemNullableScalarRelationFilter, Prisma.ItemWhereInput> | null
+  item?: Prisma.XOR<Prisma.ItemNullableScalarRelationFilter, Prisma.ItemWhereInput> | null
 }, "id">
 
 export type CreditMemoItemOrderByWithAggregationInput = {
@@ -425,7 +425,7 @@ export type CreditMemoItemCreateInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   creditMemo: Prisma.CreditMemoCreateNestedOneWithoutItemsInput
-  Item?: Prisma.ItemCreateNestedOneWithoutCreditMemoItemsInput
+  item?: Prisma.ItemCreateNestedOneWithoutCreditMemoItemsInput
 }
 
 export type CreditMemoItemUncheckedCreateInput = {
@@ -463,7 +463,7 @@ export type CreditMemoItemUpdateInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   creditMemo?: Prisma.CreditMemoUpdateOneRequiredWithoutItemsNestedInput
-  Item?: Prisma.ItemUpdateOneWithoutCreditMemoItemsNestedInput
+  item?: Prisma.ItemUpdateOneWithoutCreditMemoItemsNestedInput
 }
 
 export type CreditMemoItemUncheckedUpdateInput = {
@@ -802,7 +802,7 @@ export type CreditMemoItemCreateWithoutCreditMemoInput = {
   deactivatedAt?: Date | string | null
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
-  Item?: Prisma.ItemCreateNestedOneWithoutCreditMemoItemsInput
+  item?: Prisma.ItemCreateNestedOneWithoutCreditMemoItemsInput
 }
 
 export type CreditMemoItemUncheckedCreateWithoutCreditMemoInput = {
@@ -954,7 +954,7 @@ export type CreditMemoItemUpdateWithoutCreditMemoInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  Item?: Prisma.ItemUpdateOneWithoutCreditMemoItemsNestedInput
+  item?: Prisma.ItemUpdateOneWithoutCreditMemoItemsNestedInput
 }
 
 export type CreditMemoItemUncheckedUpdateWithoutCreditMemoInput = {
@@ -1013,7 +1013,7 @@ export type CreditMemoItemSelect<ExtArgs extends runtime.Types.Extensions.Intern
   deactivatedByUserId?: boolean
   deactivationReason?: boolean
   creditMemo?: boolean | Prisma.CreditMemoDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.CreditMemoItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.CreditMemoItem$itemArgs<ExtArgs>
 }, ExtArgs["result"]["creditMemoItem"]>
 
 export type CreditMemoItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1034,7 +1034,7 @@ export type CreditMemoItemSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   deactivatedByUserId?: boolean
   deactivationReason?: boolean
   creditMemo?: boolean | Prisma.CreditMemoDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.CreditMemoItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.CreditMemoItem$itemArgs<ExtArgs>
 }, ExtArgs["result"]["creditMemoItem"]>
 
 export type CreditMemoItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1055,7 +1055,7 @@ export type CreditMemoItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   deactivatedByUserId?: boolean
   deactivationReason?: boolean
   creditMemo?: boolean | Prisma.CreditMemoDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.CreditMemoItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.CreditMemoItem$itemArgs<ExtArgs>
 }, ExtArgs["result"]["creditMemoItem"]>
 
 export type CreditMemoItemSelectScalar = {
@@ -1080,22 +1080,22 @@ export type CreditMemoItemSelectScalar = {
 export type CreditMemoItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "creditMemoId" | "productName" | "description" | "quantity" | "sku" | "rate" | "amount" | "taxable" | "createdAt" | "updatedAt" | "itemId" | "isActive" | "deactivatedAt" | "deactivatedByUserId" | "deactivationReason", ExtArgs["result"]["creditMemoItem"]>
 export type CreditMemoItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   creditMemo?: boolean | Prisma.CreditMemoDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.CreditMemoItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.CreditMemoItem$itemArgs<ExtArgs>
 }
 export type CreditMemoItemIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   creditMemo?: boolean | Prisma.CreditMemoDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.CreditMemoItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.CreditMemoItem$itemArgs<ExtArgs>
 }
 export type CreditMemoItemIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   creditMemo?: boolean | Prisma.CreditMemoDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.CreditMemoItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.CreditMemoItem$itemArgs<ExtArgs>
 }
 
 export type $CreditMemoItemPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "CreditMemoItem"
   objects: {
     creditMemo: Prisma.$CreditMemoPayload<ExtArgs>
-    Item: Prisma.$ItemPayload<ExtArgs> | null
+    item: Prisma.$ItemPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1509,7 +1509,7 @@ readonly fields: CreditMemoItemFieldRefs;
 export interface Prisma__CreditMemoItemClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   creditMemo<T extends Prisma.CreditMemoDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CreditMemoDefaultArgs<ExtArgs>>): Prisma.Prisma__CreditMemoClient<runtime.Types.Result.GetResult<Prisma.$CreditMemoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  Item<T extends Prisma.CreditMemoItem$ItemArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CreditMemoItem$ItemArgs<ExtArgs>>): Prisma.Prisma__ItemClient<runtime.Types.Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  item<T extends Prisma.CreditMemoItem$itemArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CreditMemoItem$itemArgs<ExtArgs>>): Prisma.Prisma__ItemClient<runtime.Types.Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1956,9 +1956,9 @@ export type CreditMemoItemDeleteManyArgs<ExtArgs extends runtime.Types.Extension
 }
 
 /**
- * CreditMemoItem.Item
+ * CreditMemoItem.item
  */
-export type CreditMemoItem$ItemArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type CreditMemoItem$itemArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Item
    */

@@ -13,7 +13,7 @@ import {
 
 
 import { BatchActions } from './BatchActions';
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table';
+import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell,  } from '@/components/ui/table';
 import { toast } from 'sonner';
 
 export interface DeleteResult {

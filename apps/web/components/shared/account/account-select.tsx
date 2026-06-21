@@ -1,17 +1,16 @@
 import * as React from 'react';
+import { CommandInput, CommandEmpty, CommandGroup } from 'cmdk';
 import { useRouter } from 'next/navigation';
 import { ChevronsUpDown, Command } from 'lucide-react';
 
+import { Button } from '@/components/ui/button';
+import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
 import { useDebounce } from '@/hooks/use-debounce';
 import { cn } from '@/lib/utils';
 
 import { AccountForm } from '../../accounts/form';
 import { AccountItem } from './account-item';
 import { AccountSelectData, getAccountsForSelect } from './actions';
-import { Button } from '@/components/ui/button';
-import { PopoverTrigger, PopoverContent } from '@/components/ui/popover';
-import { CommandInput, CommandEmpty, CommandGroup } from 'cmdk';
-import { Popover } from 'radix-ui';
 
 interface AccountSelectProps {
   showCreate?: boolean;

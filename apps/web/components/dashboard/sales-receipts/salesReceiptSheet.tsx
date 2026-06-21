@@ -1,4 +1,3 @@
-import { ReceiptStatus, PaymentMethod } from '@/lib/generated/prisma/client';
 import {
   Calendar,
   DollarSign,
@@ -7,6 +6,7 @@ import {
   Clock
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { ReceiptStatus, PaymentMethod } from '@/lib/generated/prisma/client';
 import {
   BaseSheet,
   CustomerInfo,

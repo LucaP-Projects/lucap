@@ -2,6 +2,7 @@
 
 import { useCallback, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 import {
   Copy,
   Edit,
@@ -13,16 +14,15 @@ import {
   Trash
 } from 'lucide-react';
 
+import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction } from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuItem, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import { ActionResult } from '../assignment/one-time/types';
 import {
   activatePaymentEvent,
   deactivatePaymentEvent,
   deletePaymentEvent
 } from './payment-event-action';
-import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction } from '@/components/ui/alert-dialog';
-import { Button } from '@/components/ui/button';
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuItem, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
-import { toast } from 'sonner';
 
 type PaymentEventWithRelations = {
   id: string;
@@ -36,9 +36,6 @@ type PaymentEventWithRelations = {
   versionId?: string;
 };
 
-interface PaymentEventActionsProps {
-  event: PaymentEventWithRelations;
-}
 
 export function PaymentEventActions({ event }: any) {
   const router = useRouter();
@@ -62,11 +59,7 @@ export function PaymentEventActions({ event }: any) {
     errorTitle: string
   ) => {
     if (!event?.id) {
-      toast({
-        title: 'Error',
-        description: 'Invalid payment event ID',
-        variant: 'destructive'
-      });
+      toast.error('Invalid payment event ID');
       return;
     }
 
@@ -75,28 +68,17 @@ export function PaymentEventActions({ event }: any) {
       const result = await action(event.id);
 
       if (result.error) {
-        toast({
-          title: errorTitle,
-          description: result.error,
-          variant: 'destructive'
-        });
+        toast.error(result.error);
         return;
       }
 
-      toast({
-        title: 'Success',
-        description: successMessage
-      });
+      toast.success(successMessage);
 
       resetState();
       router.refresh();
     } catch (error) {
       console.error('Action error:', error);
-      toast({
-        title: 'Error',
-        description: 'An unexpected error occurred',
-        variant: 'destructive'
-      });
+      toast.error('An unexpected error occurred');
     } finally {
       setIsLoading(false);
     }

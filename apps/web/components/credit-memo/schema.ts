@@ -1,10 +1,10 @@
+import { z } from 'zod';
 import {
   CreditMemoStatus,
   CreditMemoReason,
   DiscountType,
   DiscountApplicationTime
 } from '@/lib/generated/prisma/client';
-import { z } from 'zod';
 import { addressSchema } from '../invoice/schema';
 
 export const creditMemoFormSchema = z.object({

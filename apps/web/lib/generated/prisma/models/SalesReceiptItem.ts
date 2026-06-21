@@ -315,7 +315,7 @@ export type SalesReceiptItemWhereInput = {
   deactivatedByUserId?: Prisma.StringNullableFilter<"SalesReceiptItem"> | string | null
   deactivationReason?: Prisma.StringNullableFilter<"SalesReceiptItem"> | string | null
   receipt?: Prisma.XOR<Prisma.SalesReceiptScalarRelationFilter, Prisma.SalesReceiptWhereInput>
-  Item?: Prisma.XOR<Prisma.ItemNullableScalarRelationFilter, Prisma.ItemWhereInput> | null
+  item?: Prisma.XOR<Prisma.ItemNullableScalarRelationFilter, Prisma.ItemWhereInput> | null
 }
 
 export type SalesReceiptItemOrderByWithRelationInput = {
@@ -336,7 +336,7 @@ export type SalesReceiptItemOrderByWithRelationInput = {
   deactivatedByUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   deactivationReason?: Prisma.SortOrderInput | Prisma.SortOrder
   receipt?: Prisma.SalesReceiptOrderByWithRelationInput
-  Item?: Prisma.ItemOrderByWithRelationInput
+  item?: Prisma.ItemOrderByWithRelationInput
 }
 
 export type SalesReceiptItemWhereUniqueInput = Prisma.AtLeast<{
@@ -360,7 +360,7 @@ export type SalesReceiptItemWhereUniqueInput = Prisma.AtLeast<{
   deactivatedByUserId?: Prisma.StringNullableFilter<"SalesReceiptItem"> | string | null
   deactivationReason?: Prisma.StringNullableFilter<"SalesReceiptItem"> | string | null
   receipt?: Prisma.XOR<Prisma.SalesReceiptScalarRelationFilter, Prisma.SalesReceiptWhereInput>
-  Item?: Prisma.XOR<Prisma.ItemNullableScalarRelationFilter, Prisma.ItemWhereInput> | null
+  item?: Prisma.XOR<Prisma.ItemNullableScalarRelationFilter, Prisma.ItemWhereInput> | null
 }, "id">
 
 export type SalesReceiptItemOrderByWithAggregationInput = {
@@ -425,7 +425,7 @@ export type SalesReceiptItemCreateInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   receipt: Prisma.SalesReceiptCreateNestedOneWithoutItemsInput
-  Item?: Prisma.ItemCreateNestedOneWithoutSalesReceiptItemsInput
+  item?: Prisma.ItemCreateNestedOneWithoutSalesReceiptItemsInput
 }
 
 export type SalesReceiptItemUncheckedCreateInput = {
@@ -463,7 +463,7 @@ export type SalesReceiptItemUpdateInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   receipt?: Prisma.SalesReceiptUpdateOneRequiredWithoutItemsNestedInput
-  Item?: Prisma.ItemUpdateOneWithoutSalesReceiptItemsNestedInput
+  item?: Prisma.ItemUpdateOneWithoutSalesReceiptItemsNestedInput
 }
 
 export type SalesReceiptItemUncheckedUpdateInput = {
@@ -802,7 +802,7 @@ export type SalesReceiptItemCreateWithoutReceiptInput = {
   deactivatedAt?: Date | string | null
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
-  Item?: Prisma.ItemCreateNestedOneWithoutSalesReceiptItemsInput
+  item?: Prisma.ItemCreateNestedOneWithoutSalesReceiptItemsInput
 }
 
 export type SalesReceiptItemUncheckedCreateWithoutReceiptInput = {
@@ -954,7 +954,7 @@ export type SalesReceiptItemUpdateWithoutReceiptInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  Item?: Prisma.ItemUpdateOneWithoutSalesReceiptItemsNestedInput
+  item?: Prisma.ItemUpdateOneWithoutSalesReceiptItemsNestedInput
 }
 
 export type SalesReceiptItemUncheckedUpdateWithoutReceiptInput = {
@@ -1013,7 +1013,7 @@ export type SalesReceiptItemSelect<ExtArgs extends runtime.Types.Extensions.Inte
   deactivatedByUserId?: boolean
   deactivationReason?: boolean
   receipt?: boolean | Prisma.SalesReceiptDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.SalesReceiptItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.SalesReceiptItem$itemArgs<ExtArgs>
 }, ExtArgs["result"]["salesReceiptItem"]>
 
 export type SalesReceiptItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1034,7 +1034,7 @@ export type SalesReceiptItemSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   deactivatedByUserId?: boolean
   deactivationReason?: boolean
   receipt?: boolean | Prisma.SalesReceiptDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.SalesReceiptItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.SalesReceiptItem$itemArgs<ExtArgs>
 }, ExtArgs["result"]["salesReceiptItem"]>
 
 export type SalesReceiptItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1055,7 +1055,7 @@ export type SalesReceiptItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   deactivatedByUserId?: boolean
   deactivationReason?: boolean
   receipt?: boolean | Prisma.SalesReceiptDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.SalesReceiptItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.SalesReceiptItem$itemArgs<ExtArgs>
 }, ExtArgs["result"]["salesReceiptItem"]>
 
 export type SalesReceiptItemSelectScalar = {
@@ -1080,22 +1080,22 @@ export type SalesReceiptItemSelectScalar = {
 export type SalesReceiptItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "receiptId" | "productName" | "description" | "quantity" | "rate" | "sku" | "amount" | "taxable" | "createdAt" | "updatedAt" | "itemId" | "isActive" | "deactivatedAt" | "deactivatedByUserId" | "deactivationReason", ExtArgs["result"]["salesReceiptItem"]>
 export type SalesReceiptItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   receipt?: boolean | Prisma.SalesReceiptDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.SalesReceiptItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.SalesReceiptItem$itemArgs<ExtArgs>
 }
 export type SalesReceiptItemIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   receipt?: boolean | Prisma.SalesReceiptDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.SalesReceiptItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.SalesReceiptItem$itemArgs<ExtArgs>
 }
 export type SalesReceiptItemIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   receipt?: boolean | Prisma.SalesReceiptDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.SalesReceiptItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.SalesReceiptItem$itemArgs<ExtArgs>
 }
 
 export type $SalesReceiptItemPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "SalesReceiptItem"
   objects: {
     receipt: Prisma.$SalesReceiptPayload<ExtArgs>
-    Item: Prisma.$ItemPayload<ExtArgs> | null
+    item: Prisma.$ItemPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1509,7 +1509,7 @@ readonly fields: SalesReceiptItemFieldRefs;
 export interface Prisma__SalesReceiptItemClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   receipt<T extends Prisma.SalesReceiptDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SalesReceiptDefaultArgs<ExtArgs>>): Prisma.Prisma__SalesReceiptClient<runtime.Types.Result.GetResult<Prisma.$SalesReceiptPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  Item<T extends Prisma.SalesReceiptItem$ItemArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SalesReceiptItem$ItemArgs<ExtArgs>>): Prisma.Prisma__ItemClient<runtime.Types.Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  item<T extends Prisma.SalesReceiptItem$itemArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SalesReceiptItem$itemArgs<ExtArgs>>): Prisma.Prisma__ItemClient<runtime.Types.Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1956,9 +1956,9 @@ export type SalesReceiptItemDeleteManyArgs<ExtArgs extends runtime.Types.Extensi
 }
 
 /**
- * SalesReceiptItem.Item
+ * SalesReceiptItem.item
  */
-export type SalesReceiptItem$ItemArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type SalesReceiptItem$itemArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Item
    */

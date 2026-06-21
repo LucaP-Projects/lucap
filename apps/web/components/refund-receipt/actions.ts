@@ -1,10 +1,11 @@
 'use server';
 
-import { Prisma, RefundStatus } from '@/lib/generated/prisma/client';
 import { Decimal } from 'decimal.js';
 import { revalidatePath } from 'next/cache';
+import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { auth } from '@/lib/auth';
+import { Prisma, RefundStatus } from '@/lib/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
 import { generateUniqueNumber } from '@/lib/utils';
 import { CustomizationSettingsInput } from '../base/sideBar/customize/types';
@@ -540,7 +541,7 @@ export async function updateRefundReceipt(
               type: 'individual',
               address: data.customerAddress
             },
-            type: 'RefundReceipt',
+            type: 'REFUND_RECEIPT',
             cc: data.ccEmail,
             snapshotTimestamp: new Date().toISOString(),
             amount: totalAmount,

@@ -2,14 +2,14 @@ import { memo, useCallback, useEffect, useRef } from 'react';
 import { debounce } from 'lodash';
 import { useFormContext } from 'react-hook-form';
 
+import { LucideIcon, PenLine, CreditCard, Mail, FileText, Settings } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 import { useFormCacheStore } from '@/stores/useInvoice';
 import { useSidebarStore } from '@/stores/useSidePaper';
 import { useViewStore } from '@/stores/useViewStore';
 import type { InvoiceFormValues } from '../invoice/schema';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { LucideIcon, PenLine, CreditCard, Mail, FileText, Settings } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 
 export type ViewType = 'form' | 'payor' | 'email' | 'pdf';
 

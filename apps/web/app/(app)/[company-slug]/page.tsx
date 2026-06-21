@@ -1,8 +1,8 @@
-import { getCustomerCount } from '@/components/shared/customer/actions';
-import { getPendingInvoicesCount } from '@/components/shared/invoice/actions';
-import { getActiveSubscriptionsCount } from '@/components/payment-event/assignment/subscription/assign-action';
-import { auth } from '@/lib/auth';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { env } from 'process';
+import { headers } from 'next/headers';
+import Link from 'next/link';
+import { redirect } from 'next/navigation';
+import { getTranslations } from 'next-intl/server';
 import {
   Activity,
   ArrowRightCircle,
@@ -19,12 +19,12 @@ import {
   DollarSign,
   Receipt
 } from 'lucide-react';
+import { getActiveSubscriptionsCount } from '@/components/payment-event/assignment/subscription/assign-action';
+import { getCustomerCount } from '@/components/shared/customer/actions';
+import { getPendingInvoicesCount } from '@/components/shared/invoice/actions';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { auth } from '@/lib/auth';
 
-import { getTranslations } from 'next-intl/server';
-import Link from 'next/link';
-import { redirect } from 'next/navigation';
-import { env } from 'process';
-import { headers } from 'next/headers';
 
 async function WelcomePage() {
   const session = await auth.api.getSession({headers: await headers()});
@@ -45,7 +45,6 @@ async function WelcomePage() {
       customerCount = count.toString();
     }
   } catch (error) {
-    console.error('Error fetching customer count:', error);
     customerCount = 'Error';
   }
 
@@ -56,7 +55,6 @@ async function WelcomePage() {
       subscriptionsCount = count.toString();
     }
   } catch (error) {
-    console.error('Error fetching subscriptions count:', error);
     subscriptionsCount = 'Error';
   }
 
@@ -67,7 +65,6 @@ async function WelcomePage() {
       pendingInvoicesCount = count.toString();
     }
   } catch (error) {
-    console.error('Error fetching pending invoices count:', error);
     pendingInvoicesCount = 'Error';
   }
 

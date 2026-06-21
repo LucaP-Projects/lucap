@@ -1,7 +1,9 @@
 'use client';
 
-import { UseFormReturn } from 'react-hook-form';
+import { Controller, UseFormReturn } from 'react-hook-form';
 
+import { Card, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 import { formatCurrency } from '@/lib/utils';
 import { PaymentFormValues } from './schema';
 import {
@@ -9,8 +11,7 @@ import {
   calculateRemainingAmount,
   distributePayment
 } from './utils';
-import { Card, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
+import { Field, FieldError, FieldLabel } from '../ui/field';
 
 // export function calculateRemainingAmount(invoice: Invoice): number {
 //   const paidAmount = invoice.payments.reduce((sum, p) => sum + p.amount, 0);
@@ -70,13 +71,12 @@ export function PaymentAmount({
 
   return (
     <>
-      <FormField
+      <Controller
         control={form.control}
         name="amount"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Payment Amount</FormLabel>
-            <FormControl>
+        render={({ field, fieldState }) => (
+          <Field>
+            <FieldLabel>Payment Amount</FieldLabel>
               <Input
                 type="number"
                 step="0.01"
@@ -92,9 +92,10 @@ export function PaymentAmount({
                   }
                 }}
               />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
+            {fieldState.error && (
+              <FieldError errors={[fieldState.error]} />
+            )}
+          </Field>
         )}
       />
 

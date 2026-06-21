@@ -1,17 +1,17 @@
 import React, { memo, useCallback, useEffect } from 'react';
-import { DiscountApplicationTime, DiscountType } from '@/lib/generated/prisma/client';
 import { motion } from 'framer-motion';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { ArrowDownUp } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Tooltip } from '@/components/ui/tooltip';
+import { DiscountApplicationTime, DiscountType } from '@/lib/generated/prisma/client';
 import { formatCurrency } from '@/lib/utils';
 
 import { TaxSelectData } from '../../shared/tax/actions';
 import { DiscountSection } from './DiscountInput';
 import { TaxSection } from './TaxRow';
 import { usePriceCalculation } from './usePriceCalculation';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Tooltip } from '@/components/ui/tooltip';
 
 interface MemoizedPriceSummaryProps {
   onTaxChange: (tax: TaxSelectData | null) => void;

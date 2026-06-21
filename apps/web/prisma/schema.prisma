@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client"
   output   = "../lib/generated/prisma"
@@ -364,8 +363,8 @@ model Session {
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@map("sessions")
   @@index([userId])
+  @@map("sessions")
 }
 
 model Role {
@@ -456,9 +455,9 @@ model Customer {
   refundReceipts        RefundReceipt[]
   delayedCharges        DelayedCharge[]
   delayedCredits        DelayedCredit[]
-  Company               Company                @relation(fields: [companyId], references: [id])
+  company               Company                @relation(fields: [companyId], references: [id])
   companyId             String
-  JournalEntry          JournalEntry[]
+  journalEntry          JournalEntry[]
 
   isActive            Boolean   @default(true)
   deactivatedAt       DateTime?
@@ -477,8 +476,8 @@ model CustomerType {
   active    Boolean    @default(true)
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
-  Customer  Customer[] @relation("CustomerType")
-  Company   Company    @relation(fields: [companyId], references: [id])
+  customer  Customer[] @relation("CustomerType")
+  company   Company    @relation(fields: [companyId], references: [id])
   companyId String
 
   @@unique([name, companyId])
@@ -511,7 +510,7 @@ model Account {
   incomeItems         Item[]             @relation("ItemIncomeAccount")
   expenseItems        Item[]             @relation("ItemExpenseAccount")
   inventoryAssetItems Item[]             @relation("ItemInventoryAssetAccount")
-  JournalEntryLine    JournalEntryLine[]
+  journalEntryLine    JournalEntryLine[]
   isActive            Boolean            @default(true)
   deactivatedAt       DateTime?
   deactivatedByUserId String?
@@ -534,7 +533,7 @@ model PaymentEvent {
   versions              PaymentEventVersion[]  @relation("AllVersions")
   updatedAt             DateTime               @updatedAt
   createdAt             DateTime               @default(now())
-  Company               Company                @relation(fields: [companyId], references: [id])
+  company               Company                @relation(fields: [companyId], references: [id])
   companyId             String
   isActive              Boolean                @default(true)
   deactivatedAt         DateTime?
@@ -619,7 +618,7 @@ model PaymentEventItem {
   taxable     Boolean             @default(true)
   createdAt   DateTime            @default(now())
   updatedAt   DateTime            @updatedAt
-  Item        Item?               @relation(fields: [itemId], references: [id])
+  item        Item?               @relation(fields: [itemId], references: [id])
   itemId      String?
 
   isActive            Boolean   @default(true)
@@ -649,14 +648,14 @@ model Category {
   active    Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  Company   Company  @relation(fields: [companyId], references: [id])
+  company   Company  @relation(fields: [companyId], references: [id])
   companyId String
 
   isActive            Boolean           @default(true)
   deactivatedAt       DateTime?
   deactivatedByUserId String?
   deactivationReason  String?
-  CategoryProduct     CategoryProduct[]
+  categoryProduct     CategoryProduct[]
 
   @@index([name, companyId])
   @@index([parentId])
@@ -731,14 +730,14 @@ model Item {
   status    ItemStatus @default(ACTIVE)
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
-  Company   Company    @relation(fields: [companyId], references: [id])
+  company   Company    @relation(fields: [companyId], references: [id])
   companyId String
 
   isActive            Boolean   @default(true)
   deactivatedAt       DateTime?
   deactivatedByUserId String?
   deactivationReason  String?
-  Product             Product[]
+  product             Product[]
 
   @@unique([sku, companyId])
   @@index([type])
@@ -767,7 +766,7 @@ model InvoiceItem {
   // status      PaymentStatus @default(PENDING)
   // paidAmount  Float         @default(0) 
   updatedAt           DateTime  @updatedAt
-  Item                Item?     @relation(fields: [itemId], references: [id])
+  item                Item?     @relation(fields: [itemId], references: [id])
   itemId              String?
   isActive            Boolean   @default(true)
   deactivatedAt       DateTime?
@@ -810,9 +809,9 @@ model Invoice {
   attachments             InvoiceAttachment[]
 
   // refunds               RefundReceipt[]
-  Company    Company      @relation(fields: [companyId], references: [id])
+  company    Company      @relation(fields: [companyId], references: [id])
   companyId  String
-  CreditMemo CreditMemo[]
+  creditMemo CreditMemo[]
 
   isActive            Boolean   @default(true)
   deactivatedAt       DateTime?
@@ -857,7 +856,7 @@ model EstimateItem {
   taxable             Boolean   @default(true)
   createdAt           DateTime  @default(now())
   updatedAt           DateTime  @updatedAt
-  Item                Item?     @relation(fields: [itemId], references: [id])
+  item                Item?     @relation(fields: [itemId], references: [id])
   itemId              String?
   isActive            Boolean   @default(true)
   deactivatedAt       DateTime?
@@ -894,8 +893,8 @@ model Estimate {
   attachments             EstimateAttachment[]
   /// [PaymentEventSnapshot]
   paymentEventSnapshot    Json
-  Invoice                 Invoice[]
-  Company                 Company                  @relation(fields: [companyId], references: [id])
+  invoices                Invoice[]
+  company                 Company                  @relation(fields: [companyId], references: [id])
   companyId               String
 
   isActive            Boolean   @default(true)
@@ -940,7 +939,7 @@ model CreditMemoItem {
   taxable             Boolean    @default(true)
   createdAt           DateTime   @default(now())
   updatedAt           DateTime   @updatedAt
-  Item                Item?      @relation(fields: [itemId], references: [id])
+  item                Item?      @relation(fields: [itemId], references: [id])
   itemId              String?
   isActive            Boolean    @default(true)
   deactivatedAt       DateTime?
@@ -977,10 +976,10 @@ model CreditMemo {
   attachments          CreditMemoAttachment[]
   createdAt            DateTime               @default(now())
   updatedAt            DateTime               @updatedAt
-  Transaction          Transaction[]
-  Company              Company                @relation(fields: [companyId], references: [id])
+  transactions         Transaction[]
+  company              Company                @relation(fields: [companyId], references: [id])
   companyId            String
-  Invoice              Invoice?               @relation(fields: [invoiceId], references: [id])
+  invoice              Invoice?               @relation(fields: [invoiceId], references: [id])
   invoiceId            String?
 
   isActive            Boolean   @default(true)
@@ -1026,7 +1025,7 @@ model SalesReceiptItem {
   taxable             Boolean   @default(true)
   createdAt           DateTime  @default(now())
   updatedAt           DateTime  @updatedAt
-  Item                Item?     @relation(fields: [itemId], references: [id])
+  item                Item?     @relation(fields: [itemId], references: [id])
   itemId              String?
   isActive            Boolean   @default(true)
   deactivatedAt       DateTime?
@@ -1063,8 +1062,8 @@ model SalesReceipt {
   createdAt               DateTime                 @default(now())
   updatedAt               DateTime                 @updatedAt
   // refunds       RefundReceipt[]
-  Transaction             Transaction[]
-  Company                 Company                  @relation(fields: [companyId], references: [id])
+  transactions            Transaction[]
+  company                 Company                  @relation(fields: [companyId], references: [id])
   companyId               String
   isActive                Boolean                  @default(true)
   deactivatedAt           DateTime?
@@ -1107,7 +1106,7 @@ model RefundReceiptItem {
   taxable             Boolean       @default(true)
   createdAt           DateTime      @default(now())
   updatedAt           DateTime      @default(now())
-  Item                Item?         @relation(fields: [itemId], references: [id])
+  item                Item?         @relation(fields: [itemId], references: [id])
   itemId              String?
   isActive            Boolean       @default(true)
   deactivatedAt       DateTime?
@@ -1152,8 +1151,8 @@ model RefundReceipt {
   attachments           RefundAttachment[]
   createdAt             DateTime            @default(now())
   updatedAt             DateTime            @updatedAt
-  Transaction           Transaction[]
-  Company               Company             @relation(fields: [companyId], references: [id])
+  transactions          Transaction[]
+  company               Company             @relation(fields: [companyId], references: [id])
   companyId             String
   isActive              Boolean             @default(true)
   deactivatedAt         DateTime?
@@ -1198,7 +1197,7 @@ model DelayedChargeItem {
   taxable             Boolean       @default(true)
   createdAt           DateTime      @default(now())
   updatedAt           DateTime      @default(now())
-  Item                Item?         @relation(fields: [itemId], references: [id])
+  item                Item?         @relation(fields: [itemId], references: [id])
   itemId              String?
   isActive            Boolean       @default(true)
   deactivatedAt       DateTime?
@@ -1232,7 +1231,7 @@ model DelayedCharge {
   attachments             ChargeAttachment[]
   createdAt               DateTime                 @default(now())
   updatedAt               DateTime                 @updatedAt
-  Company                 Company                  @relation(fields: [companyId], references: [id])
+  company                 Company                  @relation(fields: [companyId], references: [id])
   companyId               String
   isActive                Boolean                  @default(true)
   deactivatedAt           DateTime?
@@ -1275,7 +1274,7 @@ model DelayedCreditItem {
   taxable             Boolean       @default(true)
   createdAt           DateTime      @default(now())
   updatedAt           DateTime      @default(now())
-  Item                Item?         @relation(fields: [itemId], references: [id])
+  item                Item?         @relation(fields: [itemId], references: [id])
   itemId              String?
   isActive            Boolean       @default(true)
   deactivatedAt       DateTime?
@@ -1309,7 +1308,7 @@ model DelayedCredit {
   attachments             DelayedCreditAttachment[]
   createdAt               DateTime                  @default(now())
   updatedAt               DateTime                  @updatedAt
-  Company                 Company                   @relation(fields: [companyId], references: [id])
+  company                 Company                   @relation(fields: [companyId], references: [id])
   companyId               String
   isActive                Boolean                   @default(true)
   deactivatedAt           DateTime?
@@ -1361,8 +1360,8 @@ model Payment {
 
   createdAt           DateTime      @default(now())
   updatedAt           DateTime      @updatedAt
-  Transaction         Transaction[]
-  Company             Company       @relation(fields: [companyId], references: [id])
+  transactions        Transaction[]
+  company             Company       @relation(fields: [companyId], references: [id])
   companyId           String
   isActive            Boolean       @default(true)
   deactivatedAt       DateTime?
@@ -1473,13 +1472,13 @@ model Transaction {
   refundReceipt       RefundReceipt?       @relation(fields: [refundReceiptId], references: [id])
   createdAt           DateTime             @default(now())
   updatedAt           DateTime             @updatedAt
-  Company             Company              @relation(fields: [companyId], references: [id])
+  company             Company              @relation(fields: [companyId], references: [id])
   companyId           String
   isActive            Boolean              @default(true)
   deactivatedAt       DateTime?
   deactivatedByUserId String?
   deactivationReason  String?
-  TransactionHistory  TransactionHistory[]
+  transactionHistory  TransactionHistory[]
 
   @@index([type])
   @@index([categoryId])
@@ -1621,7 +1620,7 @@ model EmailTemplate {
   active    Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  Company   Company  @relation(fields: [companyId], references: [id])
+  company   Company  @relation(fields: [companyId], references: [id])
   companyId String
 
   @@unique([name, companyId])
@@ -1656,14 +1655,14 @@ model File {
   createdAt                DateTime                  @default(now())
   updatedAt                DateTime                  @updatedAt
   estimateAttachments      EstimateAttachment[]
-  TransactionAttachment    TransactionAttachment[]
-  InvoiceAttachment        InvoiceAttachment[]
+  transactionAttachments   TransactionAttachment[]
+  invoiceAttachments       InvoiceAttachment[]
   creditMemoAttachments    CreditMemoAttachment[]
-  receiptAttachment        ReceiptAttachment[]
+  receiptAttachments       ReceiptAttachment[]
   refundAttachments        RefundAttachment[]
   chargeAttachments        ChargeAttachment[]
   delayedCreditAttachments DelayedCreditAttachment[]
-  Company                  Company                   @relation(fields: [companyId], references: [id])
+  company                  Company                   @relation(fields: [companyId], references: [id])
   companyId                String
   isActive                 Boolean                   @default(true)
   deactivatedAt            DateTime?
@@ -1704,7 +1703,7 @@ model CustomField {
   updatedAt DateTime            @updatedAt
   // Store the values for this custom field
   values    CustomFieldValue[]
-  Company   Company             @relation(fields: [companyId], references: [id])
+  company   Company             @relation(fields: [companyId], references: [id])
   companyId String
 
   @@unique([name, category, companyId])
@@ -1713,10 +1712,10 @@ model CustomField {
 }
 
 model CustomFieldForm {
-  id          String              @id @default(cuid())
-  name        CustomFieldFormType
-  printOnForm Boolean             @default(false)
-  customField CustomField[]       @relation("CustomFieldForm")
+  id           String              @id @default(cuid())
+  name         CustomFieldFormType
+  printOnForm  Boolean             @default(false)
+  customFields CustomField[]       @relation("CustomFieldForm")
 }
 
 model CustomFieldValue {
@@ -1836,15 +1835,15 @@ model TaxRate {
   effectiveDate DateTime  @default(now())
   endDate       DateTime?
 
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
-  Invoice       Invoice[]
-  Estimate      Estimate[]
-  CreditMemo    CreditMemo[]
-  SalesReceipt  SalesReceipt[]
-  RefundReceipt RefundReceipt[]
-  DelayedCharge DelayedCharge[]
-  DelayedCredit DelayedCredit[]
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  invoices       Invoice[]
+  estimates      Estimate[]
+  creditMemos    CreditMemo[]
+  salesReceipts  SalesReceipt[]
+  refundReceipts RefundReceipt[]
+  delayedCharges DelayedCharge[]
+  delayedCredits DelayedCredit[]
 
   isActive            Boolean   @default(true)
   deactivatedAt       DateTime?
@@ -1904,10 +1903,10 @@ model Company {
   customFields   CustomField[]
   emailTemplates EmailTemplate[]
   files          File[]
-  JournalEntry   JournalEntry[]
+  journalEntry   JournalEntry[]
   taxRates       TaxRate[]
-  Product        Product[]
-  Store          Store?
+  products       Product[]
+  store          Store?
   tickets        Ticket[]
 
   @@index([isActive])
@@ -1922,8 +1921,8 @@ model Verification {
   createdAt  DateTime?
   updatedAt  DateTime?
 
-  @@map("verification")
   @@index([identifier])
+  @@map("verification")
 }
 
 model Ticket {
@@ -1944,17 +1943,17 @@ model Ticket {
 }
 
 model Message {
-  id                  String               @id @default(uuid())
-  ticketId            String
-  ticket              Ticket               @relation(fields: [ticketId], references: [id], onDelete: Cascade)
-  author              String?
-  message             String
-  type                String               @default("text")
-  date                DateTime             @default(now())
-  messageAttachements MessageAttachement[]
+  id                 String              @id @default(uuid())
+  ticketId           String
+  ticket             Ticket              @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  author             String?
+  message            String
+  type               String              @default("text")
+  date               DateTime            @default(now())
+  messageAttachments MessageAttachment[]
 }
 
-model MessageAttachement {
+model MessageAttachment {
   id        String   @id @default(uuid())
   messageId String
   message   Message  @relation(fields: [messageId], references: [id], onDelete: Cascade)

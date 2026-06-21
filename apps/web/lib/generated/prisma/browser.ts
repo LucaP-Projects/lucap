@@ -328,7 +328,7 @@ export type Ticket = Prisma.TicketModel
  */
 export type Message = Prisma.MessageModel
 /**
- * Model MessageAttachement
+ * Model MessageAttachment
  * 
  */
-export type MessageAttachement = Prisma.MessageAttachementModel
+export type MessageAttachment = Prisma.MessageAttachmentModel

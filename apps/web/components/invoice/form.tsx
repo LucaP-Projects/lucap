@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { Textarea } from '@/components/ui/textarea'; 
 import FileUpload from '@/components/file-upload/file-upload';
+import { Textarea } from '@/components/ui/textarea'; 
 import { CompanyInfo } from '../base/company/company';
 import { DetailsSection } from '../base/customer/main';
 import MemoizedItemSelectionHandler from '../base/items/MemoizedItemSelectionHandler';
@@ -11,9 +11,9 @@ import {
   ValidationWarningDialog
 } from '../base/validationWarning';
 import { TaxSelectData } from '../shared/tax/actions';
+import { FieldError } from '../ui/field';
 import { InvoiceFormValues } from './schema';
 import { CompanyInfo as Company, Invoice } from './types';
-import { FieldError } from '../ui/field';
 
 export interface formContentProps {
   onTaxChange: (tax: TaxSelectData | null) => void;

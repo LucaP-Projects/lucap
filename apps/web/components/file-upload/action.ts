@@ -1,8 +1,8 @@
 'use server';
 
+import { existsSync } from 'fs';
 import { writeFile, mkdir } from 'fs/promises';
 import { join } from 'path';
-import { existsSync } from 'fs';
 
 const uploadDir = join(process.cwd(), 'public', 'uploads');
 

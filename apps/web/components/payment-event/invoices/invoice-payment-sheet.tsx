@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { PaymentMethod, PaymentStatus } from '@/lib/generated/prisma/client';
-import { Form, useForm } from 'react-hook-form';
-import { Calendar, InfoIcon, Receipt, Sheet } from 'lucide-react';
+import { Controller, Form, useForm } from 'react-hook-form';
+import { Calendar, InfoIcon, Receipt } from 'lucide-react';
 
-import { handleNumberInput } from '@/lib/utils';
-import FormField from '@/components/lang/FormField';
 import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
+import { Sheet } from '@/components/ui/sheet';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
 import { SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { PaymentMethod, PaymentStatus } from '@/lib/generated/prisma/client';
+import { handleNumberInput } from '@/lib/utils';
+import { Field, FieldLabel } from '@/components/ui/field';
 
 interface PaymentFormData {
   amount: number;
@@ -64,7 +65,7 @@ const InvoicePaymentSheet: React.FC<InvoicePaymentSheetProps> = ({
       ?.isPartialPeriod
       ? invoiceData.paymentEventSnapshot.snapshotData.partialAmount || 0
       : invoiceData.paymentEventSnapshot.snapshotData?.customAmount ||
-        invoiceData.paymentEventSnapshot.amount;
+      invoiceData.paymentEventSnapshot.amount;
 
     const initialFee =
       invoiceData.paymentEventSnapshot?.initialFee?.amount || 0;
@@ -97,7 +98,7 @@ const InvoicePaymentSheet: React.FC<InvoicePaymentSheetProps> = ({
         ?.isPartialPeriod
         ? invoiceData.paymentEventSnapshot.snapshotData.partialAmount || 0
         : invoiceData.paymentEventSnapshot.snapshotData?.customAmount ||
-          invoiceData.paymentEventSnapshot.amount;
+        invoiceData.paymentEventSnapshot.amount;
 
       // Add initial fee for first payment only
       const initialFee =
@@ -205,18 +206,18 @@ const InvoicePaymentSheet: React.FC<InvoicePaymentSheetProps> = ({
 
                   {invoiceData.paymentEventSnapshot.snapshotData
                     ?.isPartialPeriod && (
-                    <Alert>
-                      <InfoIcon className="h-4 w-4" />
-                      <AlertDescription>
-                        Partial period:{' '}
-                        {
-                          invoiceData.paymentEventSnapshot.snapshotData
-                            .partialPeriodDays
-                        }{' '}
-                        days
-                      </AlertDescription>
-                    </Alert>
-                  )}
+                      <AlertDialog>
+                        <InfoIcon className="h-4 w-4" />
+                        <AlertDialogDescription>
+                          Partial period:{' '}
+                          {
+                            invoiceData.paymentEventSnapshot.snapshotData
+                              .partialPeriodDays
+                          }{' '}
+                          days
+                        </AlertDialogDescription>
+                      </AlertDialog>
+                    )}
                 </CardContent>
               </Card>
               {/* Payment History */}
@@ -325,108 +326,100 @@ const InvoicePaymentSheet: React.FC<InvoicePaymentSheetProps> = ({
 
               {/* Payment Form */}
               {invoiceData.status !== 'PAID' && (
-                <Form {...form}>
-                  <form
-                    onSubmit={form.handleSubmit(onSubmit)}
-                    className="space-y-4"
-                  >
-                    <FormField
-                      control={form.control}
-                      name="amount"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Payment Amount</FormLabel>
-                          <FormControl>
-                            <div className="relative">
-                              <span className="text-muted-foreground absolute left-3 top-2.5">
-                                $
-                              </span>
-                              <Input
-                                type="number"
-                                step="0.01"
-                                min="0.01"
-                                max={totals.remaining}
-                                className="pl-7"
-                                {...field}
-                                value={field.value}
-                                onChange={(e) =>
-                                  handleNumberInput(
-                                    e.target.value,
-                                    field.onChange
-                                  )
-                                }
-                                disabled={invoiceData.status === 'PAID'}
-                                placeholder={
-                                  invoiceData.status === 'PAID'
-                                    ? 'Invoice is fully paid'
-                                    : `0.00 (max: $${totals.remaining.toFixed(2)})`
-                                }
-                              />
-                            </div>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="space-y-4"
+                >
+                  <Controller
+                    control={form.control}
+                    name="amount"
+                    render={({ field, fieldState }) => (
+                      <Field>
+                        <FieldLabel>Payment Amount</FieldLabel>
+                          <div className="relative">
+                            <span className="text-muted-foreground absolute left-3 top-2.5">
+                              $
+                            </span>
+                            <Input
+                              type="number"
+                              step="0.01"
+                              min="0.01"
+                              max={totals.remaining}
+                              className="pl-7"
+                              {...field}
+                              value={field.value}
+                              onChange={(e) =>
+                                handleNumberInput(
+                                  e.target.value,
+                                  field.onChange
+                                )
+                              }
+                              disabled={invoiceData.status === 'PAID'}
+                              placeholder={
+                                invoiceData.status === 'PAID'
+                                  ? 'Invoice is fully paid'
+                                  : `0.00 (max: $${totals.remaining.toFixed(2)})`
+                              }
+                            />
+                          </div>
+                        <FormMessage />
+                      </Field>
+                    )}
+                  />
 
-                    <FormField
-                      control={form.control}
-                      name="paymentMethod"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Payment Method</FormLabel>
-                          <Select
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
+                  <Controller
+                    control={form.control}
+                    name="paymentMethod"
+                    render={({ field, fieldState }) => (
+                      <Field>
+                        <FieldLabel>Payment Method</FieldLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                          disabled={
+                            isProcessing || invoiceData.status === 'PAID'
+                          }
+                        >
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select payment method" />
+                            </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="CREDIT_CARD">
+                              Credit Card
+                            </SelectItem>
+                            <SelectItem value="BANK_TRANSFER">
+                              Bank Transfer
+                            </SelectItem>
+                            <SelectItem value="CASH">Cash</SelectItem>
+                            <SelectItem value="CHECK">Check</SelectItem>
+                            <SelectItem value="DIGITAL_WALLET">
+                              Digital Wallet
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </Field>
+                    )}
+                  />
+
+                  <Controller
+                    control={form.control}
+                    name="reference"
+                    render={({ field, fieldState }) => (
+                      <Field>
+                        <FieldLabel>Reference (Optional)</FieldLabel>
+                          <Input
+                            {...field}
                             disabled={
                               isProcessing || invoiceData.status === 'PAID'
                             }
-                          >
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select payment method" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              <SelectItem value="CREDIT_CARD">
-                                Credit Card
-                              </SelectItem>
-                              <SelectItem value="BANK_TRANSFER">
-                                Bank Transfer
-                              </SelectItem>
-                              <SelectItem value="CASH">Cash</SelectItem>
-                              <SelectItem value="CHECK">Check</SelectItem>
-                              <SelectItem value="DIGITAL_WALLET">
-                                Digital Wallet
-                              </SelectItem>
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="reference"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Reference (Optional)</FormLabel>
-                          <FormControl>
-                            <Input
-                              {...field}
-                              disabled={
-                                isProcessing || invoiceData.status === 'PAID'
-                              }
-                              placeholder="Enter reference number or description"
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </form>
-                </Form>
+                            placeholder="Enter reference number or description"
+                          />
+                        <FormMessage />
+                      </Field>
+                    )}
+                  />
+                </form>
               )}
             </div>
           </ScrollArea>

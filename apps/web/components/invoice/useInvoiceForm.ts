@@ -2,9 +2,9 @@
 
 import { useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { DiscountApplicationTime, DiscountType } from '@/lib/generated/prisma/client';
 import { useForm } from 'react-hook-form';
 import { ColorName } from '@/components/base/sideBar/color/types';
+import { DiscountApplicationTime, DiscountType } from '@/lib/generated/prisma/client';
 import { useSidebarStore } from '@/stores/useSidePaper';
 import { invoiceFormSchema, InvoiceFormValues } from './schema';
 import { InvoiceFormProps } from './types';

@@ -390,8 +390,8 @@ export type TransactionWhereInput = {
   salesReceipt?: Prisma.XOR<Prisma.SalesReceiptNullableScalarRelationFilter, Prisma.SalesReceiptWhereInput> | null
   creditMemo?: Prisma.XOR<Prisma.CreditMemoNullableScalarRelationFilter, Prisma.CreditMemoWhereInput> | null
   refundReceipt?: Prisma.XOR<Prisma.RefundReceiptNullableScalarRelationFilter, Prisma.RefundReceiptWhereInput> | null
-  Company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
-  TransactionHistory?: Prisma.TransactionHistoryListRelationFilter
+  company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
+  transactionHistory?: Prisma.TransactionHistoryListRelationFilter
 }
 
 export type TransactionOrderByWithRelationInput = {
@@ -429,8 +429,8 @@ export type TransactionOrderByWithRelationInput = {
   salesReceipt?: Prisma.SalesReceiptOrderByWithRelationInput
   creditMemo?: Prisma.CreditMemoOrderByWithRelationInput
   refundReceipt?: Prisma.RefundReceiptOrderByWithRelationInput
-  Company?: Prisma.CompanyOrderByWithRelationInput
-  TransactionHistory?: Prisma.TransactionHistoryOrderByRelationAggregateInput
+  company?: Prisma.CompanyOrderByWithRelationInput
+  transactionHistory?: Prisma.TransactionHistoryOrderByRelationAggregateInput
 }
 
 export type TransactionWhereUniqueInput = Prisma.AtLeast<{
@@ -471,8 +471,8 @@ export type TransactionWhereUniqueInput = Prisma.AtLeast<{
   salesReceipt?: Prisma.XOR<Prisma.SalesReceiptNullableScalarRelationFilter, Prisma.SalesReceiptWhereInput> | null
   creditMemo?: Prisma.XOR<Prisma.CreditMemoNullableScalarRelationFilter, Prisma.CreditMemoWhereInput> | null
   refundReceipt?: Prisma.XOR<Prisma.RefundReceiptNullableScalarRelationFilter, Prisma.RefundReceiptWhereInput> | null
-  Company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
-  TransactionHistory?: Prisma.TransactionHistoryListRelationFilter
+  company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
+  transactionHistory?: Prisma.TransactionHistoryListRelationFilter
 }, "id">
 
 export type TransactionOrderByWithAggregationInput = {
@@ -564,12 +564,12 @@ export type TransactionCreateInput = {
   createdByUser: Prisma.UserCreateNestedOneWithoutCreatedTransactionsInput
   approvedByUser?: Prisma.UserCreateNestedOneWithoutApprovedTransactionsInput
   attachments?: Prisma.TransactionAttachmentCreateNestedManyWithoutTransactionInput
-  invoicePayment?: Prisma.PaymentCreateNestedOneWithoutTransactionInput
-  salesReceipt?: Prisma.SalesReceiptCreateNestedOneWithoutTransactionInput
-  creditMemo?: Prisma.CreditMemoCreateNestedOneWithoutTransactionInput
-  refundReceipt?: Prisma.RefundReceiptCreateNestedOneWithoutTransactionInput
-  Company: Prisma.CompanyCreateNestedOneWithoutTransactionsInput
-  TransactionHistory?: Prisma.TransactionHistoryCreateNestedManyWithoutTransactionInput
+  invoicePayment?: Prisma.PaymentCreateNestedOneWithoutTransactionsInput
+  salesReceipt?: Prisma.SalesReceiptCreateNestedOneWithoutTransactionsInput
+  creditMemo?: Prisma.CreditMemoCreateNestedOneWithoutTransactionsInput
+  refundReceipt?: Prisma.RefundReceiptCreateNestedOneWithoutTransactionsInput
+  company: Prisma.CompanyCreateNestedOneWithoutTransactionsInput
+  transactionHistory?: Prisma.TransactionHistoryCreateNestedManyWithoutTransactionInput
 }
 
 export type TransactionUncheckedCreateInput = {
@@ -600,7 +600,7 @@ export type TransactionUncheckedCreateInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   attachments?: Prisma.TransactionAttachmentUncheckedCreateNestedManyWithoutTransactionInput
-  TransactionHistory?: Prisma.TransactionHistoryUncheckedCreateNestedManyWithoutTransactionInput
+  transactionHistory?: Prisma.TransactionHistoryUncheckedCreateNestedManyWithoutTransactionInput
 }
 
 export type TransactionUpdateInput = {
@@ -626,12 +626,12 @@ export type TransactionUpdateInput = {
   createdByUser?: Prisma.UserUpdateOneRequiredWithoutCreatedTransactionsNestedInput
   approvedByUser?: Prisma.UserUpdateOneWithoutApprovedTransactionsNestedInput
   attachments?: Prisma.TransactionAttachmentUpdateManyWithoutTransactionNestedInput
-  invoicePayment?: Prisma.PaymentUpdateOneWithoutTransactionNestedInput
-  salesReceipt?: Prisma.SalesReceiptUpdateOneWithoutTransactionNestedInput
-  creditMemo?: Prisma.CreditMemoUpdateOneWithoutTransactionNestedInput
-  refundReceipt?: Prisma.RefundReceiptUpdateOneWithoutTransactionNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutTransactionsNestedInput
-  TransactionHistory?: Prisma.TransactionHistoryUpdateManyWithoutTransactionNestedInput
+  invoicePayment?: Prisma.PaymentUpdateOneWithoutTransactionsNestedInput
+  salesReceipt?: Prisma.SalesReceiptUpdateOneWithoutTransactionsNestedInput
+  creditMemo?: Prisma.CreditMemoUpdateOneWithoutTransactionsNestedInput
+  refundReceipt?: Prisma.RefundReceiptUpdateOneWithoutTransactionsNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutTransactionsNestedInput
+  transactionHistory?: Prisma.TransactionHistoryUpdateManyWithoutTransactionNestedInput
 }
 
 export type TransactionUncheckedUpdateInput = {
@@ -662,7 +662,7 @@ export type TransactionUncheckedUpdateInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   attachments?: Prisma.TransactionAttachmentUncheckedUpdateManyWithoutTransactionNestedInput
-  TransactionHistory?: Prisma.TransactionHistoryUncheckedUpdateManyWithoutTransactionNestedInput
+  transactionHistory?: Prisma.TransactionHistoryUncheckedUpdateManyWithoutTransactionNestedInput
 }
 
 export type TransactionCreateManyInput = {
@@ -1242,12 +1242,12 @@ export type TransactionCreateWithoutCreatedByUserInput = {
   category?: Prisma.TransactionCategoryCreateNestedOneWithoutTransactionsInput
   approvedByUser?: Prisma.UserCreateNestedOneWithoutApprovedTransactionsInput
   attachments?: Prisma.TransactionAttachmentCreateNestedManyWithoutTransactionInput
-  invoicePayment?: Prisma.PaymentCreateNestedOneWithoutTransactionInput
-  salesReceipt?: Prisma.SalesReceiptCreateNestedOneWithoutTransactionInput
-  creditMemo?: Prisma.CreditMemoCreateNestedOneWithoutTransactionInput
-  refundReceipt?: Prisma.RefundReceiptCreateNestedOneWithoutTransactionInput
-  Company: Prisma.CompanyCreateNestedOneWithoutTransactionsInput
-  TransactionHistory?: Prisma.TransactionHistoryCreateNestedManyWithoutTransactionInput
+  invoicePayment?: Prisma.PaymentCreateNestedOneWithoutTransactionsInput
+  salesReceipt?: Prisma.SalesReceiptCreateNestedOneWithoutTransactionsInput
+  creditMemo?: Prisma.CreditMemoCreateNestedOneWithoutTransactionsInput
+  refundReceipt?: Prisma.RefundReceiptCreateNestedOneWithoutTransactionsInput
+  company: Prisma.CompanyCreateNestedOneWithoutTransactionsInput
+  transactionHistory?: Prisma.TransactionHistoryCreateNestedManyWithoutTransactionInput
 }
 
 export type TransactionUncheckedCreateWithoutCreatedByUserInput = {
@@ -1277,7 +1277,7 @@ export type TransactionUncheckedCreateWithoutCreatedByUserInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   attachments?: Prisma.TransactionAttachmentUncheckedCreateNestedManyWithoutTransactionInput
-  TransactionHistory?: Prisma.TransactionHistoryUncheckedCreateNestedManyWithoutTransactionInput
+  transactionHistory?: Prisma.TransactionHistoryUncheckedCreateNestedManyWithoutTransactionInput
 }
 
 export type TransactionCreateOrConnectWithoutCreatedByUserInput = {
@@ -1312,12 +1312,12 @@ export type TransactionCreateWithoutApprovedByUserInput = {
   category?: Prisma.TransactionCategoryCreateNestedOneWithoutTransactionsInput
   createdByUser: Prisma.UserCreateNestedOneWithoutCreatedTransactionsInput
   attachments?: Prisma.TransactionAttachmentCreateNestedManyWithoutTransactionInput
-  invoicePayment?: Prisma.PaymentCreateNestedOneWithoutTransactionInput
-  salesReceipt?: Prisma.SalesReceiptCreateNestedOneWithoutTransactionInput
-  creditMemo?: Prisma.CreditMemoCreateNestedOneWithoutTransactionInput
-  refundReceipt?: Prisma.RefundReceiptCreateNestedOneWithoutTransactionInput
-  Company: Prisma.CompanyCreateNestedOneWithoutTransactionsInput
-  TransactionHistory?: Prisma.TransactionHistoryCreateNestedManyWithoutTransactionInput
+  invoicePayment?: Prisma.PaymentCreateNestedOneWithoutTransactionsInput
+  salesReceipt?: Prisma.SalesReceiptCreateNestedOneWithoutTransactionsInput
+  creditMemo?: Prisma.CreditMemoCreateNestedOneWithoutTransactionsInput
+  refundReceipt?: Prisma.RefundReceiptCreateNestedOneWithoutTransactionsInput
+  company: Prisma.CompanyCreateNestedOneWithoutTransactionsInput
+  transactionHistory?: Prisma.TransactionHistoryCreateNestedManyWithoutTransactionInput
 }
 
 export type TransactionUncheckedCreateWithoutApprovedByUserInput = {
@@ -1347,7 +1347,7 @@ export type TransactionUncheckedCreateWithoutApprovedByUserInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   attachments?: Prisma.TransactionAttachmentUncheckedCreateNestedManyWithoutTransactionInput
-  TransactionHistory?: Prisma.TransactionHistoryUncheckedCreateNestedManyWithoutTransactionInput
+  transactionHistory?: Prisma.TransactionHistoryUncheckedCreateNestedManyWithoutTransactionInput
 }
 
 export type TransactionCreateOrConnectWithoutApprovedByUserInput = {
@@ -1447,11 +1447,11 @@ export type TransactionCreateWithoutCreditMemoInput = {
   createdByUser: Prisma.UserCreateNestedOneWithoutCreatedTransactionsInput
   approvedByUser?: Prisma.UserCreateNestedOneWithoutApprovedTransactionsInput
   attachments?: Prisma.TransactionAttachmentCreateNestedManyWithoutTransactionInput
-  invoicePayment?: Prisma.PaymentCreateNestedOneWithoutTransactionInput
-  salesReceipt?: Prisma.SalesReceiptCreateNestedOneWithoutTransactionInput
-  refundReceipt?: Prisma.RefundReceiptCreateNestedOneWithoutTransactionInput
-  Company: Prisma.CompanyCreateNestedOneWithoutTransactionsInput
-  TransactionHistory?: Prisma.TransactionHistoryCreateNestedManyWithoutTransactionInput
+  invoicePayment?: Prisma.PaymentCreateNestedOneWithoutTransactionsInput
+  salesReceipt?: Prisma.SalesReceiptCreateNestedOneWithoutTransactionsInput
+  refundReceipt?: Prisma.RefundReceiptCreateNestedOneWithoutTransactionsInput
+  company: Prisma.CompanyCreateNestedOneWithoutTransactionsInput
+  transactionHistory?: Prisma.TransactionHistoryCreateNestedManyWithoutTransactionInput
 }
 
 export type TransactionUncheckedCreateWithoutCreditMemoInput = {
@@ -1481,7 +1481,7 @@ export type TransactionUncheckedCreateWithoutCreditMemoInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   attachments?: Prisma.TransactionAttachmentUncheckedCreateNestedManyWithoutTransactionInput
-  TransactionHistory?: Prisma.TransactionHistoryUncheckedCreateNestedManyWithoutTransactionInput
+  transactionHistory?: Prisma.TransactionHistoryUncheckedCreateNestedManyWithoutTransactionInput
 }
 
 export type TransactionCreateOrConnectWithoutCreditMemoInput = {
@@ -1533,11 +1533,11 @@ export type TransactionCreateWithoutSalesReceiptInput = {
   createdByUser: Prisma.UserCreateNestedOneWithoutCreatedTransactionsInput
   approvedByUser?: Prisma.UserCreateNestedOneWithoutApprovedTransactionsInput
   attachments?: Prisma.TransactionAttachmentCreateNestedManyWithoutTransactionInput
-  invoicePayment?: Prisma.PaymentCreateNestedOneWithoutTransactionInput
-  creditMemo?: Prisma.CreditMemoCreateNestedOneWithoutTransactionInput
-  refundReceipt?: Prisma.RefundReceiptCreateNestedOneWithoutTransactionInput
-  Company: Prisma.CompanyCreateNestedOneWithoutTransactionsInput
-  TransactionHistory?: Prisma.TransactionHistoryCreateNestedManyWithoutTransactionInput
+  invoicePayment?: Prisma.PaymentCreateNestedOneWithoutTransactionsInput
+  creditMemo?: Prisma.CreditMemoCreateNestedOneWithoutTransactionsInput
+  refundReceipt?: Prisma.RefundReceiptCreateNestedOneWithoutTransactionsInput
+  company: Prisma.CompanyCreateNestedOneWithoutTransactionsInput
+  transactionHistory?: Prisma.TransactionHistoryCreateNestedManyWithoutTransactionInput
 }
 
 export type TransactionUncheckedCreateWithoutSalesReceiptInput = {
@@ -1567,7 +1567,7 @@ export type TransactionUncheckedCreateWithoutSalesReceiptInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   attachments?: Prisma.TransactionAttachmentUncheckedCreateNestedManyWithoutTransactionInput
-  TransactionHistory?: Prisma.TransactionHistoryUncheckedCreateNestedManyWithoutTransactionInput
+  transactionHistory?: Prisma.TransactionHistoryUncheckedCreateNestedManyWithoutTransactionInput
 }
 
 export type TransactionCreateOrConnectWithoutSalesReceiptInput = {
@@ -1619,11 +1619,11 @@ export type TransactionCreateWithoutRefundReceiptInput = {
   createdByUser: Prisma.UserCreateNestedOneWithoutCreatedTransactionsInput
   approvedByUser?: Prisma.UserCreateNestedOneWithoutApprovedTransactionsInput
   attachments?: Prisma.TransactionAttachmentCreateNestedManyWithoutTransactionInput
-  invoicePayment?: Prisma.PaymentCreateNestedOneWithoutTransactionInput
-  salesReceipt?: Prisma.SalesReceiptCreateNestedOneWithoutTransactionInput
-  creditMemo?: Prisma.CreditMemoCreateNestedOneWithoutTransactionInput
-  Company: Prisma.CompanyCreateNestedOneWithoutTransactionsInput
-  TransactionHistory?: Prisma.TransactionHistoryCreateNestedManyWithoutTransactionInput
+  invoicePayment?: Prisma.PaymentCreateNestedOneWithoutTransactionsInput
+  salesReceipt?: Prisma.SalesReceiptCreateNestedOneWithoutTransactionsInput
+  creditMemo?: Prisma.CreditMemoCreateNestedOneWithoutTransactionsInput
+  company: Prisma.CompanyCreateNestedOneWithoutTransactionsInput
+  transactionHistory?: Prisma.TransactionHistoryCreateNestedManyWithoutTransactionInput
 }
 
 export type TransactionUncheckedCreateWithoutRefundReceiptInput = {
@@ -1653,7 +1653,7 @@ export type TransactionUncheckedCreateWithoutRefundReceiptInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   attachments?: Prisma.TransactionAttachmentUncheckedCreateNestedManyWithoutTransactionInput
-  TransactionHistory?: Prisma.TransactionHistoryUncheckedCreateNestedManyWithoutTransactionInput
+  transactionHistory?: Prisma.TransactionHistoryUncheckedCreateNestedManyWithoutTransactionInput
 }
 
 export type TransactionCreateOrConnectWithoutRefundReceiptInput = {
@@ -1705,11 +1705,11 @@ export type TransactionCreateWithoutInvoicePaymentInput = {
   createdByUser: Prisma.UserCreateNestedOneWithoutCreatedTransactionsInput
   approvedByUser?: Prisma.UserCreateNestedOneWithoutApprovedTransactionsInput
   attachments?: Prisma.TransactionAttachmentCreateNestedManyWithoutTransactionInput
-  salesReceipt?: Prisma.SalesReceiptCreateNestedOneWithoutTransactionInput
-  creditMemo?: Prisma.CreditMemoCreateNestedOneWithoutTransactionInput
-  refundReceipt?: Prisma.RefundReceiptCreateNestedOneWithoutTransactionInput
-  Company: Prisma.CompanyCreateNestedOneWithoutTransactionsInput
-  TransactionHistory?: Prisma.TransactionHistoryCreateNestedManyWithoutTransactionInput
+  salesReceipt?: Prisma.SalesReceiptCreateNestedOneWithoutTransactionsInput
+  creditMemo?: Prisma.CreditMemoCreateNestedOneWithoutTransactionsInput
+  refundReceipt?: Prisma.RefundReceiptCreateNestedOneWithoutTransactionsInput
+  company: Prisma.CompanyCreateNestedOneWithoutTransactionsInput
+  transactionHistory?: Prisma.TransactionHistoryCreateNestedManyWithoutTransactionInput
 }
 
 export type TransactionUncheckedCreateWithoutInvoicePaymentInput = {
@@ -1739,7 +1739,7 @@ export type TransactionUncheckedCreateWithoutInvoicePaymentInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   attachments?: Prisma.TransactionAttachmentUncheckedCreateNestedManyWithoutTransactionInput
-  TransactionHistory?: Prisma.TransactionHistoryUncheckedCreateNestedManyWithoutTransactionInput
+  transactionHistory?: Prisma.TransactionHistoryUncheckedCreateNestedManyWithoutTransactionInput
 }
 
 export type TransactionCreateOrConnectWithoutInvoicePaymentInput = {
@@ -1790,12 +1790,12 @@ export type TransactionCreateWithoutCategoryInput = {
   createdByUser: Prisma.UserCreateNestedOneWithoutCreatedTransactionsInput
   approvedByUser?: Prisma.UserCreateNestedOneWithoutApprovedTransactionsInput
   attachments?: Prisma.TransactionAttachmentCreateNestedManyWithoutTransactionInput
-  invoicePayment?: Prisma.PaymentCreateNestedOneWithoutTransactionInput
-  salesReceipt?: Prisma.SalesReceiptCreateNestedOneWithoutTransactionInput
-  creditMemo?: Prisma.CreditMemoCreateNestedOneWithoutTransactionInput
-  refundReceipt?: Prisma.RefundReceiptCreateNestedOneWithoutTransactionInput
-  Company: Prisma.CompanyCreateNestedOneWithoutTransactionsInput
-  TransactionHistory?: Prisma.TransactionHistoryCreateNestedManyWithoutTransactionInput
+  invoicePayment?: Prisma.PaymentCreateNestedOneWithoutTransactionsInput
+  salesReceipt?: Prisma.SalesReceiptCreateNestedOneWithoutTransactionsInput
+  creditMemo?: Prisma.CreditMemoCreateNestedOneWithoutTransactionsInput
+  refundReceipt?: Prisma.RefundReceiptCreateNestedOneWithoutTransactionsInput
+  company: Prisma.CompanyCreateNestedOneWithoutTransactionsInput
+  transactionHistory?: Prisma.TransactionHistoryCreateNestedManyWithoutTransactionInput
 }
 
 export type TransactionUncheckedCreateWithoutCategoryInput = {
@@ -1825,7 +1825,7 @@ export type TransactionUncheckedCreateWithoutCategoryInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   attachments?: Prisma.TransactionAttachmentUncheckedCreateNestedManyWithoutTransactionInput
-  TransactionHistory?: Prisma.TransactionHistoryUncheckedCreateNestedManyWithoutTransactionInput
+  transactionHistory?: Prisma.TransactionHistoryUncheckedCreateNestedManyWithoutTransactionInput
 }
 
 export type TransactionCreateOrConnectWithoutCategoryInput = {
@@ -1876,12 +1876,12 @@ export type TransactionCreateWithoutAttachmentsInput = {
   category?: Prisma.TransactionCategoryCreateNestedOneWithoutTransactionsInput
   createdByUser: Prisma.UserCreateNestedOneWithoutCreatedTransactionsInput
   approvedByUser?: Prisma.UserCreateNestedOneWithoutApprovedTransactionsInput
-  invoicePayment?: Prisma.PaymentCreateNestedOneWithoutTransactionInput
-  salesReceipt?: Prisma.SalesReceiptCreateNestedOneWithoutTransactionInput
-  creditMemo?: Prisma.CreditMemoCreateNestedOneWithoutTransactionInput
-  refundReceipt?: Prisma.RefundReceiptCreateNestedOneWithoutTransactionInput
-  Company: Prisma.CompanyCreateNestedOneWithoutTransactionsInput
-  TransactionHistory?: Prisma.TransactionHistoryCreateNestedManyWithoutTransactionInput
+  invoicePayment?: Prisma.PaymentCreateNestedOneWithoutTransactionsInput
+  salesReceipt?: Prisma.SalesReceiptCreateNestedOneWithoutTransactionsInput
+  creditMemo?: Prisma.CreditMemoCreateNestedOneWithoutTransactionsInput
+  refundReceipt?: Prisma.RefundReceiptCreateNestedOneWithoutTransactionsInput
+  company: Prisma.CompanyCreateNestedOneWithoutTransactionsInput
+  transactionHistory?: Prisma.TransactionHistoryCreateNestedManyWithoutTransactionInput
 }
 
 export type TransactionUncheckedCreateWithoutAttachmentsInput = {
@@ -1911,7 +1911,7 @@ export type TransactionUncheckedCreateWithoutAttachmentsInput = {
   deactivatedAt?: Date | string | null
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
-  TransactionHistory?: Prisma.TransactionHistoryUncheckedCreateNestedManyWithoutTransactionInput
+  transactionHistory?: Prisma.TransactionHistoryUncheckedCreateNestedManyWithoutTransactionInput
 }
 
 export type TransactionCreateOrConnectWithoutAttachmentsInput = {
@@ -1952,12 +1952,12 @@ export type TransactionUpdateWithoutAttachmentsInput = {
   category?: Prisma.TransactionCategoryUpdateOneWithoutTransactionsNestedInput
   createdByUser?: Prisma.UserUpdateOneRequiredWithoutCreatedTransactionsNestedInput
   approvedByUser?: Prisma.UserUpdateOneWithoutApprovedTransactionsNestedInput
-  invoicePayment?: Prisma.PaymentUpdateOneWithoutTransactionNestedInput
-  salesReceipt?: Prisma.SalesReceiptUpdateOneWithoutTransactionNestedInput
-  creditMemo?: Prisma.CreditMemoUpdateOneWithoutTransactionNestedInput
-  refundReceipt?: Prisma.RefundReceiptUpdateOneWithoutTransactionNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutTransactionsNestedInput
-  TransactionHistory?: Prisma.TransactionHistoryUpdateManyWithoutTransactionNestedInput
+  invoicePayment?: Prisma.PaymentUpdateOneWithoutTransactionsNestedInput
+  salesReceipt?: Prisma.SalesReceiptUpdateOneWithoutTransactionsNestedInput
+  creditMemo?: Prisma.CreditMemoUpdateOneWithoutTransactionsNestedInput
+  refundReceipt?: Prisma.RefundReceiptUpdateOneWithoutTransactionsNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutTransactionsNestedInput
+  transactionHistory?: Prisma.TransactionHistoryUpdateManyWithoutTransactionNestedInput
 }
 
 export type TransactionUncheckedUpdateWithoutAttachmentsInput = {
@@ -1987,7 +1987,7 @@ export type TransactionUncheckedUpdateWithoutAttachmentsInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  TransactionHistory?: Prisma.TransactionHistoryUncheckedUpdateManyWithoutTransactionNestedInput
+  transactionHistory?: Prisma.TransactionHistoryUncheckedUpdateManyWithoutTransactionNestedInput
 }
 
 export type TransactionCreateWithoutTransactionHistoryInput = {
@@ -2013,11 +2013,11 @@ export type TransactionCreateWithoutTransactionHistoryInput = {
   createdByUser: Prisma.UserCreateNestedOneWithoutCreatedTransactionsInput
   approvedByUser?: Prisma.UserCreateNestedOneWithoutApprovedTransactionsInput
   attachments?: Prisma.TransactionAttachmentCreateNestedManyWithoutTransactionInput
-  invoicePayment?: Prisma.PaymentCreateNestedOneWithoutTransactionInput
-  salesReceipt?: Prisma.SalesReceiptCreateNestedOneWithoutTransactionInput
-  creditMemo?: Prisma.CreditMemoCreateNestedOneWithoutTransactionInput
-  refundReceipt?: Prisma.RefundReceiptCreateNestedOneWithoutTransactionInput
-  Company: Prisma.CompanyCreateNestedOneWithoutTransactionsInput
+  invoicePayment?: Prisma.PaymentCreateNestedOneWithoutTransactionsInput
+  salesReceipt?: Prisma.SalesReceiptCreateNestedOneWithoutTransactionsInput
+  creditMemo?: Prisma.CreditMemoCreateNestedOneWithoutTransactionsInput
+  refundReceipt?: Prisma.RefundReceiptCreateNestedOneWithoutTransactionsInput
+  company: Prisma.CompanyCreateNestedOneWithoutTransactionsInput
 }
 
 export type TransactionUncheckedCreateWithoutTransactionHistoryInput = {
@@ -2089,11 +2089,11 @@ export type TransactionUpdateWithoutTransactionHistoryInput = {
   createdByUser?: Prisma.UserUpdateOneRequiredWithoutCreatedTransactionsNestedInput
   approvedByUser?: Prisma.UserUpdateOneWithoutApprovedTransactionsNestedInput
   attachments?: Prisma.TransactionAttachmentUpdateManyWithoutTransactionNestedInput
-  invoicePayment?: Prisma.PaymentUpdateOneWithoutTransactionNestedInput
-  salesReceipt?: Prisma.SalesReceiptUpdateOneWithoutTransactionNestedInput
-  creditMemo?: Prisma.CreditMemoUpdateOneWithoutTransactionNestedInput
-  refundReceipt?: Prisma.RefundReceiptUpdateOneWithoutTransactionNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutTransactionsNestedInput
+  invoicePayment?: Prisma.PaymentUpdateOneWithoutTransactionsNestedInput
+  salesReceipt?: Prisma.SalesReceiptUpdateOneWithoutTransactionsNestedInput
+  creditMemo?: Prisma.CreditMemoUpdateOneWithoutTransactionsNestedInput
+  refundReceipt?: Prisma.RefundReceiptUpdateOneWithoutTransactionsNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutTransactionsNestedInput
 }
 
 export type TransactionUncheckedUpdateWithoutTransactionHistoryInput = {
@@ -2149,11 +2149,11 @@ export type TransactionCreateWithoutCompanyInput = {
   createdByUser: Prisma.UserCreateNestedOneWithoutCreatedTransactionsInput
   approvedByUser?: Prisma.UserCreateNestedOneWithoutApprovedTransactionsInput
   attachments?: Prisma.TransactionAttachmentCreateNestedManyWithoutTransactionInput
-  invoicePayment?: Prisma.PaymentCreateNestedOneWithoutTransactionInput
-  salesReceipt?: Prisma.SalesReceiptCreateNestedOneWithoutTransactionInput
-  creditMemo?: Prisma.CreditMemoCreateNestedOneWithoutTransactionInput
-  refundReceipt?: Prisma.RefundReceiptCreateNestedOneWithoutTransactionInput
-  TransactionHistory?: Prisma.TransactionHistoryCreateNestedManyWithoutTransactionInput
+  invoicePayment?: Prisma.PaymentCreateNestedOneWithoutTransactionsInput
+  salesReceipt?: Prisma.SalesReceiptCreateNestedOneWithoutTransactionsInput
+  creditMemo?: Prisma.CreditMemoCreateNestedOneWithoutTransactionsInput
+  refundReceipt?: Prisma.RefundReceiptCreateNestedOneWithoutTransactionsInput
+  transactionHistory?: Prisma.TransactionHistoryCreateNestedManyWithoutTransactionInput
 }
 
 export type TransactionUncheckedCreateWithoutCompanyInput = {
@@ -2183,7 +2183,7 @@ export type TransactionUncheckedCreateWithoutCompanyInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   attachments?: Prisma.TransactionAttachmentUncheckedCreateNestedManyWithoutTransactionInput
-  TransactionHistory?: Prisma.TransactionHistoryUncheckedCreateNestedManyWithoutTransactionInput
+  transactionHistory?: Prisma.TransactionHistoryUncheckedCreateNestedManyWithoutTransactionInput
 }
 
 export type TransactionCreateOrConnectWithoutCompanyInput = {
@@ -2290,12 +2290,12 @@ export type TransactionUpdateWithoutCreatedByUserInput = {
   category?: Prisma.TransactionCategoryUpdateOneWithoutTransactionsNestedInput
   approvedByUser?: Prisma.UserUpdateOneWithoutApprovedTransactionsNestedInput
   attachments?: Prisma.TransactionAttachmentUpdateManyWithoutTransactionNestedInput
-  invoicePayment?: Prisma.PaymentUpdateOneWithoutTransactionNestedInput
-  salesReceipt?: Prisma.SalesReceiptUpdateOneWithoutTransactionNestedInput
-  creditMemo?: Prisma.CreditMemoUpdateOneWithoutTransactionNestedInput
-  refundReceipt?: Prisma.RefundReceiptUpdateOneWithoutTransactionNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutTransactionsNestedInput
-  TransactionHistory?: Prisma.TransactionHistoryUpdateManyWithoutTransactionNestedInput
+  invoicePayment?: Prisma.PaymentUpdateOneWithoutTransactionsNestedInput
+  salesReceipt?: Prisma.SalesReceiptUpdateOneWithoutTransactionsNestedInput
+  creditMemo?: Prisma.CreditMemoUpdateOneWithoutTransactionsNestedInput
+  refundReceipt?: Prisma.RefundReceiptUpdateOneWithoutTransactionsNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutTransactionsNestedInput
+  transactionHistory?: Prisma.TransactionHistoryUpdateManyWithoutTransactionNestedInput
 }
 
 export type TransactionUncheckedUpdateWithoutCreatedByUserInput = {
@@ -2325,7 +2325,7 @@ export type TransactionUncheckedUpdateWithoutCreatedByUserInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   attachments?: Prisma.TransactionAttachmentUncheckedUpdateManyWithoutTransactionNestedInput
-  TransactionHistory?: Prisma.TransactionHistoryUncheckedUpdateManyWithoutTransactionNestedInput
+  transactionHistory?: Prisma.TransactionHistoryUncheckedUpdateManyWithoutTransactionNestedInput
 }
 
 export type TransactionUncheckedUpdateManyWithoutCreatedByUserInput = {
@@ -2378,12 +2378,12 @@ export type TransactionUpdateWithoutApprovedByUserInput = {
   category?: Prisma.TransactionCategoryUpdateOneWithoutTransactionsNestedInput
   createdByUser?: Prisma.UserUpdateOneRequiredWithoutCreatedTransactionsNestedInput
   attachments?: Prisma.TransactionAttachmentUpdateManyWithoutTransactionNestedInput
-  invoicePayment?: Prisma.PaymentUpdateOneWithoutTransactionNestedInput
-  salesReceipt?: Prisma.SalesReceiptUpdateOneWithoutTransactionNestedInput
-  creditMemo?: Prisma.CreditMemoUpdateOneWithoutTransactionNestedInput
-  refundReceipt?: Prisma.RefundReceiptUpdateOneWithoutTransactionNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutTransactionsNestedInput
-  TransactionHistory?: Prisma.TransactionHistoryUpdateManyWithoutTransactionNestedInput
+  invoicePayment?: Prisma.PaymentUpdateOneWithoutTransactionsNestedInput
+  salesReceipt?: Prisma.SalesReceiptUpdateOneWithoutTransactionsNestedInput
+  creditMemo?: Prisma.CreditMemoUpdateOneWithoutTransactionsNestedInput
+  refundReceipt?: Prisma.RefundReceiptUpdateOneWithoutTransactionsNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutTransactionsNestedInput
+  transactionHistory?: Prisma.TransactionHistoryUpdateManyWithoutTransactionNestedInput
 }
 
 export type TransactionUncheckedUpdateWithoutApprovedByUserInput = {
@@ -2413,7 +2413,7 @@ export type TransactionUncheckedUpdateWithoutApprovedByUserInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   attachments?: Prisma.TransactionAttachmentUncheckedUpdateManyWithoutTransactionNestedInput
-  TransactionHistory?: Prisma.TransactionHistoryUncheckedUpdateManyWithoutTransactionNestedInput
+  transactionHistory?: Prisma.TransactionHistoryUncheckedUpdateManyWithoutTransactionNestedInput
 }
 
 export type TransactionUncheckedUpdateManyWithoutApprovedByUserInput = {
@@ -2495,11 +2495,11 @@ export type TransactionUpdateWithoutCreditMemoInput = {
   createdByUser?: Prisma.UserUpdateOneRequiredWithoutCreatedTransactionsNestedInput
   approvedByUser?: Prisma.UserUpdateOneWithoutApprovedTransactionsNestedInput
   attachments?: Prisma.TransactionAttachmentUpdateManyWithoutTransactionNestedInput
-  invoicePayment?: Prisma.PaymentUpdateOneWithoutTransactionNestedInput
-  salesReceipt?: Prisma.SalesReceiptUpdateOneWithoutTransactionNestedInput
-  refundReceipt?: Prisma.RefundReceiptUpdateOneWithoutTransactionNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutTransactionsNestedInput
-  TransactionHistory?: Prisma.TransactionHistoryUpdateManyWithoutTransactionNestedInput
+  invoicePayment?: Prisma.PaymentUpdateOneWithoutTransactionsNestedInput
+  salesReceipt?: Prisma.SalesReceiptUpdateOneWithoutTransactionsNestedInput
+  refundReceipt?: Prisma.RefundReceiptUpdateOneWithoutTransactionsNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutTransactionsNestedInput
+  transactionHistory?: Prisma.TransactionHistoryUpdateManyWithoutTransactionNestedInput
 }
 
 export type TransactionUncheckedUpdateWithoutCreditMemoInput = {
@@ -2529,7 +2529,7 @@ export type TransactionUncheckedUpdateWithoutCreditMemoInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   attachments?: Prisma.TransactionAttachmentUncheckedUpdateManyWithoutTransactionNestedInput
-  TransactionHistory?: Prisma.TransactionHistoryUncheckedUpdateManyWithoutTransactionNestedInput
+  transactionHistory?: Prisma.TransactionHistoryUncheckedUpdateManyWithoutTransactionNestedInput
 }
 
 export type TransactionUncheckedUpdateManyWithoutCreditMemoInput = {
@@ -2611,11 +2611,11 @@ export type TransactionUpdateWithoutSalesReceiptInput = {
   createdByUser?: Prisma.UserUpdateOneRequiredWithoutCreatedTransactionsNestedInput
   approvedByUser?: Prisma.UserUpdateOneWithoutApprovedTransactionsNestedInput
   attachments?: Prisma.TransactionAttachmentUpdateManyWithoutTransactionNestedInput
-  invoicePayment?: Prisma.PaymentUpdateOneWithoutTransactionNestedInput
-  creditMemo?: Prisma.CreditMemoUpdateOneWithoutTransactionNestedInput
-  refundReceipt?: Prisma.RefundReceiptUpdateOneWithoutTransactionNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutTransactionsNestedInput
-  TransactionHistory?: Prisma.TransactionHistoryUpdateManyWithoutTransactionNestedInput
+  invoicePayment?: Prisma.PaymentUpdateOneWithoutTransactionsNestedInput
+  creditMemo?: Prisma.CreditMemoUpdateOneWithoutTransactionsNestedInput
+  refundReceipt?: Prisma.RefundReceiptUpdateOneWithoutTransactionsNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutTransactionsNestedInput
+  transactionHistory?: Prisma.TransactionHistoryUpdateManyWithoutTransactionNestedInput
 }
 
 export type TransactionUncheckedUpdateWithoutSalesReceiptInput = {
@@ -2645,7 +2645,7 @@ export type TransactionUncheckedUpdateWithoutSalesReceiptInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   attachments?: Prisma.TransactionAttachmentUncheckedUpdateManyWithoutTransactionNestedInput
-  TransactionHistory?: Prisma.TransactionHistoryUncheckedUpdateManyWithoutTransactionNestedInput
+  transactionHistory?: Prisma.TransactionHistoryUncheckedUpdateManyWithoutTransactionNestedInput
 }
 
 export type TransactionUncheckedUpdateManyWithoutSalesReceiptInput = {
@@ -2727,11 +2727,11 @@ export type TransactionUpdateWithoutRefundReceiptInput = {
   createdByUser?: Prisma.UserUpdateOneRequiredWithoutCreatedTransactionsNestedInput
   approvedByUser?: Prisma.UserUpdateOneWithoutApprovedTransactionsNestedInput
   attachments?: Prisma.TransactionAttachmentUpdateManyWithoutTransactionNestedInput
-  invoicePayment?: Prisma.PaymentUpdateOneWithoutTransactionNestedInput
-  salesReceipt?: Prisma.SalesReceiptUpdateOneWithoutTransactionNestedInput
-  creditMemo?: Prisma.CreditMemoUpdateOneWithoutTransactionNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutTransactionsNestedInput
-  TransactionHistory?: Prisma.TransactionHistoryUpdateManyWithoutTransactionNestedInput
+  invoicePayment?: Prisma.PaymentUpdateOneWithoutTransactionsNestedInput
+  salesReceipt?: Prisma.SalesReceiptUpdateOneWithoutTransactionsNestedInput
+  creditMemo?: Prisma.CreditMemoUpdateOneWithoutTransactionsNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutTransactionsNestedInput
+  transactionHistory?: Prisma.TransactionHistoryUpdateManyWithoutTransactionNestedInput
 }
 
 export type TransactionUncheckedUpdateWithoutRefundReceiptInput = {
@@ -2761,7 +2761,7 @@ export type TransactionUncheckedUpdateWithoutRefundReceiptInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   attachments?: Prisma.TransactionAttachmentUncheckedUpdateManyWithoutTransactionNestedInput
-  TransactionHistory?: Prisma.TransactionHistoryUncheckedUpdateManyWithoutTransactionNestedInput
+  transactionHistory?: Prisma.TransactionHistoryUncheckedUpdateManyWithoutTransactionNestedInput
 }
 
 export type TransactionUncheckedUpdateManyWithoutRefundReceiptInput = {
@@ -2843,11 +2843,11 @@ export type TransactionUpdateWithoutInvoicePaymentInput = {
   createdByUser?: Prisma.UserUpdateOneRequiredWithoutCreatedTransactionsNestedInput
   approvedByUser?: Prisma.UserUpdateOneWithoutApprovedTransactionsNestedInput
   attachments?: Prisma.TransactionAttachmentUpdateManyWithoutTransactionNestedInput
-  salesReceipt?: Prisma.SalesReceiptUpdateOneWithoutTransactionNestedInput
-  creditMemo?: Prisma.CreditMemoUpdateOneWithoutTransactionNestedInput
-  refundReceipt?: Prisma.RefundReceiptUpdateOneWithoutTransactionNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutTransactionsNestedInput
-  TransactionHistory?: Prisma.TransactionHistoryUpdateManyWithoutTransactionNestedInput
+  salesReceipt?: Prisma.SalesReceiptUpdateOneWithoutTransactionsNestedInput
+  creditMemo?: Prisma.CreditMemoUpdateOneWithoutTransactionsNestedInput
+  refundReceipt?: Prisma.RefundReceiptUpdateOneWithoutTransactionsNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutTransactionsNestedInput
+  transactionHistory?: Prisma.TransactionHistoryUpdateManyWithoutTransactionNestedInput
 }
 
 export type TransactionUncheckedUpdateWithoutInvoicePaymentInput = {
@@ -2877,7 +2877,7 @@ export type TransactionUncheckedUpdateWithoutInvoicePaymentInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   attachments?: Prisma.TransactionAttachmentUncheckedUpdateManyWithoutTransactionNestedInput
-  TransactionHistory?: Prisma.TransactionHistoryUncheckedUpdateManyWithoutTransactionNestedInput
+  transactionHistory?: Prisma.TransactionHistoryUncheckedUpdateManyWithoutTransactionNestedInput
 }
 
 export type TransactionUncheckedUpdateManyWithoutInvoicePaymentInput = {
@@ -2958,12 +2958,12 @@ export type TransactionUpdateWithoutCategoryInput = {
   createdByUser?: Prisma.UserUpdateOneRequiredWithoutCreatedTransactionsNestedInput
   approvedByUser?: Prisma.UserUpdateOneWithoutApprovedTransactionsNestedInput
   attachments?: Prisma.TransactionAttachmentUpdateManyWithoutTransactionNestedInput
-  invoicePayment?: Prisma.PaymentUpdateOneWithoutTransactionNestedInput
-  salesReceipt?: Prisma.SalesReceiptUpdateOneWithoutTransactionNestedInput
-  creditMemo?: Prisma.CreditMemoUpdateOneWithoutTransactionNestedInput
-  refundReceipt?: Prisma.RefundReceiptUpdateOneWithoutTransactionNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutTransactionsNestedInput
-  TransactionHistory?: Prisma.TransactionHistoryUpdateManyWithoutTransactionNestedInput
+  invoicePayment?: Prisma.PaymentUpdateOneWithoutTransactionsNestedInput
+  salesReceipt?: Prisma.SalesReceiptUpdateOneWithoutTransactionsNestedInput
+  creditMemo?: Prisma.CreditMemoUpdateOneWithoutTransactionsNestedInput
+  refundReceipt?: Prisma.RefundReceiptUpdateOneWithoutTransactionsNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutTransactionsNestedInput
+  transactionHistory?: Prisma.TransactionHistoryUpdateManyWithoutTransactionNestedInput
 }
 
 export type TransactionUncheckedUpdateWithoutCategoryInput = {
@@ -2993,7 +2993,7 @@ export type TransactionUncheckedUpdateWithoutCategoryInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   attachments?: Prisma.TransactionAttachmentUncheckedUpdateManyWithoutTransactionNestedInput
-  TransactionHistory?: Prisma.TransactionHistoryUncheckedUpdateManyWithoutTransactionNestedInput
+  transactionHistory?: Prisma.TransactionHistoryUncheckedUpdateManyWithoutTransactionNestedInput
 }
 
 export type TransactionUncheckedUpdateManyWithoutCategoryInput = {
@@ -3075,11 +3075,11 @@ export type TransactionUpdateWithoutCompanyInput = {
   createdByUser?: Prisma.UserUpdateOneRequiredWithoutCreatedTransactionsNestedInput
   approvedByUser?: Prisma.UserUpdateOneWithoutApprovedTransactionsNestedInput
   attachments?: Prisma.TransactionAttachmentUpdateManyWithoutTransactionNestedInput
-  invoicePayment?: Prisma.PaymentUpdateOneWithoutTransactionNestedInput
-  salesReceipt?: Prisma.SalesReceiptUpdateOneWithoutTransactionNestedInput
-  creditMemo?: Prisma.CreditMemoUpdateOneWithoutTransactionNestedInput
-  refundReceipt?: Prisma.RefundReceiptUpdateOneWithoutTransactionNestedInput
-  TransactionHistory?: Prisma.TransactionHistoryUpdateManyWithoutTransactionNestedInput
+  invoicePayment?: Prisma.PaymentUpdateOneWithoutTransactionsNestedInput
+  salesReceipt?: Prisma.SalesReceiptUpdateOneWithoutTransactionsNestedInput
+  creditMemo?: Prisma.CreditMemoUpdateOneWithoutTransactionsNestedInput
+  refundReceipt?: Prisma.RefundReceiptUpdateOneWithoutTransactionsNestedInput
+  transactionHistory?: Prisma.TransactionHistoryUpdateManyWithoutTransactionNestedInput
 }
 
 export type TransactionUncheckedUpdateWithoutCompanyInput = {
@@ -3109,7 +3109,7 @@ export type TransactionUncheckedUpdateWithoutCompanyInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   attachments?: Prisma.TransactionAttachmentUncheckedUpdateManyWithoutTransactionNestedInput
-  TransactionHistory?: Prisma.TransactionHistoryUncheckedUpdateManyWithoutTransactionNestedInput
+  transactionHistory?: Prisma.TransactionHistoryUncheckedUpdateManyWithoutTransactionNestedInput
 }
 
 export type TransactionUncheckedUpdateManyWithoutCompanyInput = {
@@ -3147,12 +3147,12 @@ export type TransactionUncheckedUpdateManyWithoutCompanyInput = {
 
 export type TransactionCountOutputType = {
   attachments: number
-  TransactionHistory: number
+  transactionHistory: number
 }
 
 export type TransactionCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   attachments?: boolean | TransactionCountOutputTypeCountAttachmentsArgs
-  TransactionHistory?: boolean | TransactionCountOutputTypeCountTransactionHistoryArgs
+  transactionHistory?: boolean | TransactionCountOutputTypeCountTransactionHistoryArgs
 }
 
 /**
@@ -3215,8 +3215,8 @@ export type TransactionSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   salesReceipt?: boolean | Prisma.Transaction$salesReceiptArgs<ExtArgs>
   creditMemo?: boolean | Prisma.Transaction$creditMemoArgs<ExtArgs>
   refundReceipt?: boolean | Prisma.Transaction$refundReceiptArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
-  TransactionHistory?: boolean | Prisma.Transaction$TransactionHistoryArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  transactionHistory?: boolean | Prisma.Transaction$transactionHistoryArgs<ExtArgs>
   _count?: boolean | Prisma.TransactionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["transaction"]>
 
@@ -3254,7 +3254,7 @@ export type TransactionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   salesReceipt?: boolean | Prisma.Transaction$salesReceiptArgs<ExtArgs>
   creditMemo?: boolean | Prisma.Transaction$creditMemoArgs<ExtArgs>
   refundReceipt?: boolean | Prisma.Transaction$refundReceiptArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["transaction"]>
 
 export type TransactionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -3291,7 +3291,7 @@ export type TransactionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   salesReceipt?: boolean | Prisma.Transaction$salesReceiptArgs<ExtArgs>
   creditMemo?: boolean | Prisma.Transaction$creditMemoArgs<ExtArgs>
   refundReceipt?: boolean | Prisma.Transaction$refundReceiptArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["transaction"]>
 
 export type TransactionSelectScalar = {
@@ -3333,8 +3333,8 @@ export type TransactionInclude<ExtArgs extends runtime.Types.Extensions.Internal
   salesReceipt?: boolean | Prisma.Transaction$salesReceiptArgs<ExtArgs>
   creditMemo?: boolean | Prisma.Transaction$creditMemoArgs<ExtArgs>
   refundReceipt?: boolean | Prisma.Transaction$refundReceiptArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
-  TransactionHistory?: boolean | Prisma.Transaction$TransactionHistoryArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  transactionHistory?: boolean | Prisma.Transaction$transactionHistoryArgs<ExtArgs>
   _count?: boolean | Prisma.TransactionCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TransactionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3345,7 +3345,7 @@ export type TransactionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.
   salesReceipt?: boolean | Prisma.Transaction$salesReceiptArgs<ExtArgs>
   creditMemo?: boolean | Prisma.Transaction$creditMemoArgs<ExtArgs>
   refundReceipt?: boolean | Prisma.Transaction$refundReceiptArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }
 export type TransactionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   category?: boolean | Prisma.Transaction$categoryArgs<ExtArgs>
@@ -3355,7 +3355,7 @@ export type TransactionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.
   salesReceipt?: boolean | Prisma.Transaction$salesReceiptArgs<ExtArgs>
   creditMemo?: boolean | Prisma.Transaction$creditMemoArgs<ExtArgs>
   refundReceipt?: boolean | Prisma.Transaction$refundReceiptArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }
 
 export type $TransactionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3369,8 +3369,8 @@ export type $TransactionPayload<ExtArgs extends runtime.Types.Extensions.Interna
     salesReceipt: Prisma.$SalesReceiptPayload<ExtArgs> | null
     creditMemo: Prisma.$CreditMemoPayload<ExtArgs> | null
     refundReceipt: Prisma.$RefundReceiptPayload<ExtArgs> | null
-    Company: Prisma.$CompanyPayload<ExtArgs>
-    TransactionHistory: Prisma.$TransactionHistoryPayload<ExtArgs>[]
+    company: Prisma.$CompanyPayload<ExtArgs>
+    transactionHistory: Prisma.$TransactionHistoryPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -3801,8 +3801,8 @@ export interface Prisma__TransactionClient<T, Null = never, ExtArgs extends runt
   salesReceipt<T extends Prisma.Transaction$salesReceiptArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Transaction$salesReceiptArgs<ExtArgs>>): Prisma.Prisma__SalesReceiptClient<runtime.Types.Result.GetResult<Prisma.$SalesReceiptPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   creditMemo<T extends Prisma.Transaction$creditMemoArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Transaction$creditMemoArgs<ExtArgs>>): Prisma.Prisma__CreditMemoClient<runtime.Types.Result.GetResult<Prisma.$CreditMemoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   refundReceipt<T extends Prisma.Transaction$refundReceiptArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Transaction$refundReceiptArgs<ExtArgs>>): Prisma.Prisma__RefundReceiptClient<runtime.Types.Result.GetResult<Prisma.$RefundReceiptPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  Company<T extends Prisma.CompanyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CompanyDefaultArgs<ExtArgs>>): Prisma.Prisma__CompanyClient<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  TransactionHistory<T extends Prisma.Transaction$TransactionHistoryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Transaction$TransactionHistoryArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransactionHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  company<T extends Prisma.CompanyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CompanyDefaultArgs<ExtArgs>>): Prisma.Prisma__CompanyClient<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  transactionHistory<T extends Prisma.Transaction$transactionHistoryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Transaction$transactionHistoryArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransactionHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4397,9 +4397,9 @@ export type Transaction$refundReceiptArgs<ExtArgs extends runtime.Types.Extensio
 }
 
 /**
- * Transaction.TransactionHistory
+ * Transaction.transactionHistory
  */
-export type Transaction$TransactionHistoryArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Transaction$transactionHistoryArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the TransactionHistory
    */

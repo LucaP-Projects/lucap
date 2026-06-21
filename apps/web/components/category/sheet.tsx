@@ -1,6 +1,8 @@
 'use client';
 
 import { useRef, useState } from 'react';
+import { CategoryWithItems } from '@/components/dashboard/categories/types';
+import { Button } from '@/components/ui/button';
 import {
   Sheet,
   SheetContent,
@@ -10,8 +12,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import { Button } from '@/components/ui/button';
-import { CategoryWithItems } from '@/components/dashboard/categories/types';
 import { CategoryForm } from './form';
 
 interface CategorySheetProps {

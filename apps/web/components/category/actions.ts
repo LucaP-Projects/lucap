@@ -1,11 +1,11 @@
 'use server';
 
+import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { CategoryWithItems } from '@/components/dashboard/categories/types';
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { CategoryFormValues } from './schema';
-import { headers } from 'next/headers';
 
 export async function createCategory(data: CategoryFormValues): Promise<{
   success: boolean;

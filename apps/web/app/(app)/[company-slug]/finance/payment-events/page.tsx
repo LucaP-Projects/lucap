@@ -1,8 +1,8 @@
 import { Suspense } from 'react';
 
-import { Card } from '@/components/ui/card';
 import CreatePaymentEventDialog from '@/components/payment-event/shared/payment-event-button';
 import PaymentEventsTable from '@/components/payment-event/shared/payment-event-table';
+import { Card } from '@/components/ui/card';
 
 export default async function PaymentEventsPage() {
   return (

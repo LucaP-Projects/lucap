@@ -307,13 +307,13 @@ export type TaxRateWhereInput = {
   deactivatedByUserId?: Prisma.StringNullableFilter<"TaxRate"> | string | null
   deactivationReason?: Prisma.StringNullableFilter<"TaxRate"> | string | null
   company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
-  Invoice?: Prisma.InvoiceListRelationFilter
-  Estimate?: Prisma.EstimateListRelationFilter
-  CreditMemo?: Prisma.CreditMemoListRelationFilter
-  SalesReceipt?: Prisma.SalesReceiptListRelationFilter
-  RefundReceipt?: Prisma.RefundReceiptListRelationFilter
-  DelayedCharge?: Prisma.DelayedChargeListRelationFilter
-  DelayedCredit?: Prisma.DelayedCreditListRelationFilter
+  invoices?: Prisma.InvoiceListRelationFilter
+  estimates?: Prisma.EstimateListRelationFilter
+  creditMemos?: Prisma.CreditMemoListRelationFilter
+  salesReceipts?: Prisma.SalesReceiptListRelationFilter
+  refundReceipts?: Prisma.RefundReceiptListRelationFilter
+  delayedCharges?: Prisma.DelayedChargeListRelationFilter
+  delayedCredits?: Prisma.DelayedCreditListRelationFilter
 }
 
 export type TaxRateOrderByWithRelationInput = {
@@ -334,13 +334,13 @@ export type TaxRateOrderByWithRelationInput = {
   deactivatedByUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   deactivationReason?: Prisma.SortOrderInput | Prisma.SortOrder
   company?: Prisma.CompanyOrderByWithRelationInput
-  Invoice?: Prisma.InvoiceOrderByRelationAggregateInput
-  Estimate?: Prisma.EstimateOrderByRelationAggregateInput
-  CreditMemo?: Prisma.CreditMemoOrderByRelationAggregateInput
-  SalesReceipt?: Prisma.SalesReceiptOrderByRelationAggregateInput
-  RefundReceipt?: Prisma.RefundReceiptOrderByRelationAggregateInput
-  DelayedCharge?: Prisma.DelayedChargeOrderByRelationAggregateInput
-  DelayedCredit?: Prisma.DelayedCreditOrderByRelationAggregateInput
+  invoices?: Prisma.InvoiceOrderByRelationAggregateInput
+  estimates?: Prisma.EstimateOrderByRelationAggregateInput
+  creditMemos?: Prisma.CreditMemoOrderByRelationAggregateInput
+  salesReceipts?: Prisma.SalesReceiptOrderByRelationAggregateInput
+  refundReceipts?: Prisma.RefundReceiptOrderByRelationAggregateInput
+  delayedCharges?: Prisma.DelayedChargeOrderByRelationAggregateInput
+  delayedCredits?: Prisma.DelayedCreditOrderByRelationAggregateInput
 }
 
 export type TaxRateWhereUniqueInput = Prisma.AtLeast<{
@@ -365,13 +365,13 @@ export type TaxRateWhereUniqueInput = Prisma.AtLeast<{
   deactivatedByUserId?: Prisma.StringNullableFilter<"TaxRate"> | string | null
   deactivationReason?: Prisma.StringNullableFilter<"TaxRate"> | string | null
   company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
-  Invoice?: Prisma.InvoiceListRelationFilter
-  Estimate?: Prisma.EstimateListRelationFilter
-  CreditMemo?: Prisma.CreditMemoListRelationFilter
-  SalesReceipt?: Prisma.SalesReceiptListRelationFilter
-  RefundReceipt?: Prisma.RefundReceiptListRelationFilter
-  DelayedCharge?: Prisma.DelayedChargeListRelationFilter
-  DelayedCredit?: Prisma.DelayedCreditListRelationFilter
+  invoices?: Prisma.InvoiceListRelationFilter
+  estimates?: Prisma.EstimateListRelationFilter
+  creditMemos?: Prisma.CreditMemoListRelationFilter
+  salesReceipts?: Prisma.SalesReceiptListRelationFilter
+  refundReceipts?: Prisma.RefundReceiptListRelationFilter
+  delayedCharges?: Prisma.DelayedChargeListRelationFilter
+  delayedCredits?: Prisma.DelayedCreditListRelationFilter
 }, "id" | "name_companyId">
 
 export type TaxRateOrderByWithAggregationInput = {
@@ -437,13 +437,13 @@ export type TaxRateCreateInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   company: Prisma.CompanyCreateNestedOneWithoutTaxRatesInput
-  Invoice?: Prisma.InvoiceCreateNestedManyWithoutTaxInput
-  Estimate?: Prisma.EstimateCreateNestedManyWithoutTaxInput
-  CreditMemo?: Prisma.CreditMemoCreateNestedManyWithoutTaxInput
-  SalesReceipt?: Prisma.SalesReceiptCreateNestedManyWithoutTaxInput
-  RefundReceipt?: Prisma.RefundReceiptCreateNestedManyWithoutTaxInput
-  DelayedCharge?: Prisma.DelayedChargeCreateNestedManyWithoutTaxInput
-  DelayedCredit?: Prisma.DelayedCreditCreateNestedManyWithoutTaxInput
+  invoices?: Prisma.InvoiceCreateNestedManyWithoutTaxInput
+  estimates?: Prisma.EstimateCreateNestedManyWithoutTaxInput
+  creditMemos?: Prisma.CreditMemoCreateNestedManyWithoutTaxInput
+  salesReceipts?: Prisma.SalesReceiptCreateNestedManyWithoutTaxInput
+  refundReceipts?: Prisma.RefundReceiptCreateNestedManyWithoutTaxInput
+  delayedCharges?: Prisma.DelayedChargeCreateNestedManyWithoutTaxInput
+  delayedCredits?: Prisma.DelayedCreditCreateNestedManyWithoutTaxInput
 }
 
 export type TaxRateUncheckedCreateInput = {
@@ -463,13 +463,13 @@ export type TaxRateUncheckedCreateInput = {
   deactivatedAt?: Date | string | null
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
-  Invoice?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTaxInput
-  Estimate?: Prisma.EstimateUncheckedCreateNestedManyWithoutTaxInput
-  CreditMemo?: Prisma.CreditMemoUncheckedCreateNestedManyWithoutTaxInput
-  SalesReceipt?: Prisma.SalesReceiptUncheckedCreateNestedManyWithoutTaxInput
-  RefundReceipt?: Prisma.RefundReceiptUncheckedCreateNestedManyWithoutTaxInput
-  DelayedCharge?: Prisma.DelayedChargeUncheckedCreateNestedManyWithoutTaxInput
-  DelayedCredit?: Prisma.DelayedCreditUncheckedCreateNestedManyWithoutTaxInput
+  invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTaxInput
+  estimates?: Prisma.EstimateUncheckedCreateNestedManyWithoutTaxInput
+  creditMemos?: Prisma.CreditMemoUncheckedCreateNestedManyWithoutTaxInput
+  salesReceipts?: Prisma.SalesReceiptUncheckedCreateNestedManyWithoutTaxInput
+  refundReceipts?: Prisma.RefundReceiptUncheckedCreateNestedManyWithoutTaxInput
+  delayedCharges?: Prisma.DelayedChargeUncheckedCreateNestedManyWithoutTaxInput
+  delayedCredits?: Prisma.DelayedCreditUncheckedCreateNestedManyWithoutTaxInput
 }
 
 export type TaxRateUpdateInput = {
@@ -489,13 +489,13 @@ export type TaxRateUpdateInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   company?: Prisma.CompanyUpdateOneRequiredWithoutTaxRatesNestedInput
-  Invoice?: Prisma.InvoiceUpdateManyWithoutTaxNestedInput
-  Estimate?: Prisma.EstimateUpdateManyWithoutTaxNestedInput
-  CreditMemo?: Prisma.CreditMemoUpdateManyWithoutTaxNestedInput
-  SalesReceipt?: Prisma.SalesReceiptUpdateManyWithoutTaxNestedInput
-  RefundReceipt?: Prisma.RefundReceiptUpdateManyWithoutTaxNestedInput
-  DelayedCharge?: Prisma.DelayedChargeUpdateManyWithoutTaxNestedInput
-  DelayedCredit?: Prisma.DelayedCreditUpdateManyWithoutTaxNestedInput
+  invoices?: Prisma.InvoiceUpdateManyWithoutTaxNestedInput
+  estimates?: Prisma.EstimateUpdateManyWithoutTaxNestedInput
+  creditMemos?: Prisma.CreditMemoUpdateManyWithoutTaxNestedInput
+  salesReceipts?: Prisma.SalesReceiptUpdateManyWithoutTaxNestedInput
+  refundReceipts?: Prisma.RefundReceiptUpdateManyWithoutTaxNestedInput
+  delayedCharges?: Prisma.DelayedChargeUpdateManyWithoutTaxNestedInput
+  delayedCredits?: Prisma.DelayedCreditUpdateManyWithoutTaxNestedInput
 }
 
 export type TaxRateUncheckedUpdateInput = {
@@ -515,13 +515,13 @@ export type TaxRateUncheckedUpdateInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  Invoice?: Prisma.InvoiceUncheckedUpdateManyWithoutTaxNestedInput
-  Estimate?: Prisma.EstimateUncheckedUpdateManyWithoutTaxNestedInput
-  CreditMemo?: Prisma.CreditMemoUncheckedUpdateManyWithoutTaxNestedInput
-  SalesReceipt?: Prisma.SalesReceiptUncheckedUpdateManyWithoutTaxNestedInput
-  RefundReceipt?: Prisma.RefundReceiptUncheckedUpdateManyWithoutTaxNestedInput
-  DelayedCharge?: Prisma.DelayedChargeUncheckedUpdateManyWithoutTaxNestedInput
-  DelayedCredit?: Prisma.DelayedCreditUncheckedUpdateManyWithoutTaxNestedInput
+  invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTaxNestedInput
+  estimates?: Prisma.EstimateUncheckedUpdateManyWithoutTaxNestedInput
+  creditMemos?: Prisma.CreditMemoUncheckedUpdateManyWithoutTaxNestedInput
+  salesReceipts?: Prisma.SalesReceiptUncheckedUpdateManyWithoutTaxNestedInput
+  refundReceipts?: Prisma.RefundReceiptUncheckedUpdateManyWithoutTaxNestedInput
+  delayedCharges?: Prisma.DelayedChargeUncheckedUpdateManyWithoutTaxNestedInput
+  delayedCredits?: Prisma.DelayedCreditUncheckedUpdateManyWithoutTaxNestedInput
 }
 
 export type TaxRateCreateManyInput = {
@@ -665,116 +665,116 @@ export type TaxRateOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type TaxRateCreateNestedOneWithoutInvoiceInput = {
-  create?: Prisma.XOR<Prisma.TaxRateCreateWithoutInvoiceInput, Prisma.TaxRateUncheckedCreateWithoutInvoiceInput>
-  connectOrCreate?: Prisma.TaxRateCreateOrConnectWithoutInvoiceInput
+export type TaxRateCreateNestedOneWithoutInvoicesInput = {
+  create?: Prisma.XOR<Prisma.TaxRateCreateWithoutInvoicesInput, Prisma.TaxRateUncheckedCreateWithoutInvoicesInput>
+  connectOrCreate?: Prisma.TaxRateCreateOrConnectWithoutInvoicesInput
   connect?: Prisma.TaxRateWhereUniqueInput
 }
 
-export type TaxRateUpdateOneWithoutInvoiceNestedInput = {
-  create?: Prisma.XOR<Prisma.TaxRateCreateWithoutInvoiceInput, Prisma.TaxRateUncheckedCreateWithoutInvoiceInput>
-  connectOrCreate?: Prisma.TaxRateCreateOrConnectWithoutInvoiceInput
-  upsert?: Prisma.TaxRateUpsertWithoutInvoiceInput
+export type TaxRateUpdateOneWithoutInvoicesNestedInput = {
+  create?: Prisma.XOR<Prisma.TaxRateCreateWithoutInvoicesInput, Prisma.TaxRateUncheckedCreateWithoutInvoicesInput>
+  connectOrCreate?: Prisma.TaxRateCreateOrConnectWithoutInvoicesInput
+  upsert?: Prisma.TaxRateUpsertWithoutInvoicesInput
   disconnect?: Prisma.TaxRateWhereInput | boolean
   delete?: Prisma.TaxRateWhereInput | boolean
   connect?: Prisma.TaxRateWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.TaxRateUpdateToOneWithWhereWithoutInvoiceInput, Prisma.TaxRateUpdateWithoutInvoiceInput>, Prisma.TaxRateUncheckedUpdateWithoutInvoiceInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TaxRateUpdateToOneWithWhereWithoutInvoicesInput, Prisma.TaxRateUpdateWithoutInvoicesInput>, Prisma.TaxRateUncheckedUpdateWithoutInvoicesInput>
 }
 
-export type TaxRateCreateNestedOneWithoutEstimateInput = {
-  create?: Prisma.XOR<Prisma.TaxRateCreateWithoutEstimateInput, Prisma.TaxRateUncheckedCreateWithoutEstimateInput>
-  connectOrCreate?: Prisma.TaxRateCreateOrConnectWithoutEstimateInput
+export type TaxRateCreateNestedOneWithoutEstimatesInput = {
+  create?: Prisma.XOR<Prisma.TaxRateCreateWithoutEstimatesInput, Prisma.TaxRateUncheckedCreateWithoutEstimatesInput>
+  connectOrCreate?: Prisma.TaxRateCreateOrConnectWithoutEstimatesInput
   connect?: Prisma.TaxRateWhereUniqueInput
 }
 
-export type TaxRateUpdateOneWithoutEstimateNestedInput = {
-  create?: Prisma.XOR<Prisma.TaxRateCreateWithoutEstimateInput, Prisma.TaxRateUncheckedCreateWithoutEstimateInput>
-  connectOrCreate?: Prisma.TaxRateCreateOrConnectWithoutEstimateInput
-  upsert?: Prisma.TaxRateUpsertWithoutEstimateInput
+export type TaxRateUpdateOneWithoutEstimatesNestedInput = {
+  create?: Prisma.XOR<Prisma.TaxRateCreateWithoutEstimatesInput, Prisma.TaxRateUncheckedCreateWithoutEstimatesInput>
+  connectOrCreate?: Prisma.TaxRateCreateOrConnectWithoutEstimatesInput
+  upsert?: Prisma.TaxRateUpsertWithoutEstimatesInput
   disconnect?: Prisma.TaxRateWhereInput | boolean
   delete?: Prisma.TaxRateWhereInput | boolean
   connect?: Prisma.TaxRateWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.TaxRateUpdateToOneWithWhereWithoutEstimateInput, Prisma.TaxRateUpdateWithoutEstimateInput>, Prisma.TaxRateUncheckedUpdateWithoutEstimateInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TaxRateUpdateToOneWithWhereWithoutEstimatesInput, Prisma.TaxRateUpdateWithoutEstimatesInput>, Prisma.TaxRateUncheckedUpdateWithoutEstimatesInput>
 }
 
-export type TaxRateCreateNestedOneWithoutCreditMemoInput = {
-  create?: Prisma.XOR<Prisma.TaxRateCreateWithoutCreditMemoInput, Prisma.TaxRateUncheckedCreateWithoutCreditMemoInput>
-  connectOrCreate?: Prisma.TaxRateCreateOrConnectWithoutCreditMemoInput
+export type TaxRateCreateNestedOneWithoutCreditMemosInput = {
+  create?: Prisma.XOR<Prisma.TaxRateCreateWithoutCreditMemosInput, Prisma.TaxRateUncheckedCreateWithoutCreditMemosInput>
+  connectOrCreate?: Prisma.TaxRateCreateOrConnectWithoutCreditMemosInput
   connect?: Prisma.TaxRateWhereUniqueInput
 }
 
-export type TaxRateUpdateOneWithoutCreditMemoNestedInput = {
-  create?: Prisma.XOR<Prisma.TaxRateCreateWithoutCreditMemoInput, Prisma.TaxRateUncheckedCreateWithoutCreditMemoInput>
-  connectOrCreate?: Prisma.TaxRateCreateOrConnectWithoutCreditMemoInput
-  upsert?: Prisma.TaxRateUpsertWithoutCreditMemoInput
+export type TaxRateUpdateOneWithoutCreditMemosNestedInput = {
+  create?: Prisma.XOR<Prisma.TaxRateCreateWithoutCreditMemosInput, Prisma.TaxRateUncheckedCreateWithoutCreditMemosInput>
+  connectOrCreate?: Prisma.TaxRateCreateOrConnectWithoutCreditMemosInput
+  upsert?: Prisma.TaxRateUpsertWithoutCreditMemosInput
   disconnect?: Prisma.TaxRateWhereInput | boolean
   delete?: Prisma.TaxRateWhereInput | boolean
   connect?: Prisma.TaxRateWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.TaxRateUpdateToOneWithWhereWithoutCreditMemoInput, Prisma.TaxRateUpdateWithoutCreditMemoInput>, Prisma.TaxRateUncheckedUpdateWithoutCreditMemoInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TaxRateUpdateToOneWithWhereWithoutCreditMemosInput, Prisma.TaxRateUpdateWithoutCreditMemosInput>, Prisma.TaxRateUncheckedUpdateWithoutCreditMemosInput>
 }
 
-export type TaxRateCreateNestedOneWithoutSalesReceiptInput = {
-  create?: Prisma.XOR<Prisma.TaxRateCreateWithoutSalesReceiptInput, Prisma.TaxRateUncheckedCreateWithoutSalesReceiptInput>
-  connectOrCreate?: Prisma.TaxRateCreateOrConnectWithoutSalesReceiptInput
+export type TaxRateCreateNestedOneWithoutSalesReceiptsInput = {
+  create?: Prisma.XOR<Prisma.TaxRateCreateWithoutSalesReceiptsInput, Prisma.TaxRateUncheckedCreateWithoutSalesReceiptsInput>
+  connectOrCreate?: Prisma.TaxRateCreateOrConnectWithoutSalesReceiptsInput
   connect?: Prisma.TaxRateWhereUniqueInput
 }
 
-export type TaxRateUpdateOneWithoutSalesReceiptNestedInput = {
-  create?: Prisma.XOR<Prisma.TaxRateCreateWithoutSalesReceiptInput, Prisma.TaxRateUncheckedCreateWithoutSalesReceiptInput>
-  connectOrCreate?: Prisma.TaxRateCreateOrConnectWithoutSalesReceiptInput
-  upsert?: Prisma.TaxRateUpsertWithoutSalesReceiptInput
+export type TaxRateUpdateOneWithoutSalesReceiptsNestedInput = {
+  create?: Prisma.XOR<Prisma.TaxRateCreateWithoutSalesReceiptsInput, Prisma.TaxRateUncheckedCreateWithoutSalesReceiptsInput>
+  connectOrCreate?: Prisma.TaxRateCreateOrConnectWithoutSalesReceiptsInput
+  upsert?: Prisma.TaxRateUpsertWithoutSalesReceiptsInput
   disconnect?: Prisma.TaxRateWhereInput | boolean
   delete?: Prisma.TaxRateWhereInput | boolean
   connect?: Prisma.TaxRateWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.TaxRateUpdateToOneWithWhereWithoutSalesReceiptInput, Prisma.TaxRateUpdateWithoutSalesReceiptInput>, Prisma.TaxRateUncheckedUpdateWithoutSalesReceiptInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TaxRateUpdateToOneWithWhereWithoutSalesReceiptsInput, Prisma.TaxRateUpdateWithoutSalesReceiptsInput>, Prisma.TaxRateUncheckedUpdateWithoutSalesReceiptsInput>
 }
 
-export type TaxRateCreateNestedOneWithoutRefundReceiptInput = {
-  create?: Prisma.XOR<Prisma.TaxRateCreateWithoutRefundReceiptInput, Prisma.TaxRateUncheckedCreateWithoutRefundReceiptInput>
-  connectOrCreate?: Prisma.TaxRateCreateOrConnectWithoutRefundReceiptInput
+export type TaxRateCreateNestedOneWithoutRefundReceiptsInput = {
+  create?: Prisma.XOR<Prisma.TaxRateCreateWithoutRefundReceiptsInput, Prisma.TaxRateUncheckedCreateWithoutRefundReceiptsInput>
+  connectOrCreate?: Prisma.TaxRateCreateOrConnectWithoutRefundReceiptsInput
   connect?: Prisma.TaxRateWhereUniqueInput
 }
 
-export type TaxRateUpdateOneWithoutRefundReceiptNestedInput = {
-  create?: Prisma.XOR<Prisma.TaxRateCreateWithoutRefundReceiptInput, Prisma.TaxRateUncheckedCreateWithoutRefundReceiptInput>
-  connectOrCreate?: Prisma.TaxRateCreateOrConnectWithoutRefundReceiptInput
-  upsert?: Prisma.TaxRateUpsertWithoutRefundReceiptInput
+export type TaxRateUpdateOneWithoutRefundReceiptsNestedInput = {
+  create?: Prisma.XOR<Prisma.TaxRateCreateWithoutRefundReceiptsInput, Prisma.TaxRateUncheckedCreateWithoutRefundReceiptsInput>
+  connectOrCreate?: Prisma.TaxRateCreateOrConnectWithoutRefundReceiptsInput
+  upsert?: Prisma.TaxRateUpsertWithoutRefundReceiptsInput
   disconnect?: Prisma.TaxRateWhereInput | boolean
   delete?: Prisma.TaxRateWhereInput | boolean
   connect?: Prisma.TaxRateWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.TaxRateUpdateToOneWithWhereWithoutRefundReceiptInput, Prisma.TaxRateUpdateWithoutRefundReceiptInput>, Prisma.TaxRateUncheckedUpdateWithoutRefundReceiptInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TaxRateUpdateToOneWithWhereWithoutRefundReceiptsInput, Prisma.TaxRateUpdateWithoutRefundReceiptsInput>, Prisma.TaxRateUncheckedUpdateWithoutRefundReceiptsInput>
 }
 
-export type TaxRateCreateNestedOneWithoutDelayedChargeInput = {
-  create?: Prisma.XOR<Prisma.TaxRateCreateWithoutDelayedChargeInput, Prisma.TaxRateUncheckedCreateWithoutDelayedChargeInput>
-  connectOrCreate?: Prisma.TaxRateCreateOrConnectWithoutDelayedChargeInput
+export type TaxRateCreateNestedOneWithoutDelayedChargesInput = {
+  create?: Prisma.XOR<Prisma.TaxRateCreateWithoutDelayedChargesInput, Prisma.TaxRateUncheckedCreateWithoutDelayedChargesInput>
+  connectOrCreate?: Prisma.TaxRateCreateOrConnectWithoutDelayedChargesInput
   connect?: Prisma.TaxRateWhereUniqueInput
 }
 
-export type TaxRateUpdateOneWithoutDelayedChargeNestedInput = {
-  create?: Prisma.XOR<Prisma.TaxRateCreateWithoutDelayedChargeInput, Prisma.TaxRateUncheckedCreateWithoutDelayedChargeInput>
-  connectOrCreate?: Prisma.TaxRateCreateOrConnectWithoutDelayedChargeInput
-  upsert?: Prisma.TaxRateUpsertWithoutDelayedChargeInput
+export type TaxRateUpdateOneWithoutDelayedChargesNestedInput = {
+  create?: Prisma.XOR<Prisma.TaxRateCreateWithoutDelayedChargesInput, Prisma.TaxRateUncheckedCreateWithoutDelayedChargesInput>
+  connectOrCreate?: Prisma.TaxRateCreateOrConnectWithoutDelayedChargesInput
+  upsert?: Prisma.TaxRateUpsertWithoutDelayedChargesInput
   disconnect?: Prisma.TaxRateWhereInput | boolean
   delete?: Prisma.TaxRateWhereInput | boolean
   connect?: Prisma.TaxRateWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.TaxRateUpdateToOneWithWhereWithoutDelayedChargeInput, Prisma.TaxRateUpdateWithoutDelayedChargeInput>, Prisma.TaxRateUncheckedUpdateWithoutDelayedChargeInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TaxRateUpdateToOneWithWhereWithoutDelayedChargesInput, Prisma.TaxRateUpdateWithoutDelayedChargesInput>, Prisma.TaxRateUncheckedUpdateWithoutDelayedChargesInput>
 }
 
-export type TaxRateCreateNestedOneWithoutDelayedCreditInput = {
-  create?: Prisma.XOR<Prisma.TaxRateCreateWithoutDelayedCreditInput, Prisma.TaxRateUncheckedCreateWithoutDelayedCreditInput>
-  connectOrCreate?: Prisma.TaxRateCreateOrConnectWithoutDelayedCreditInput
+export type TaxRateCreateNestedOneWithoutDelayedCreditsInput = {
+  create?: Prisma.XOR<Prisma.TaxRateCreateWithoutDelayedCreditsInput, Prisma.TaxRateUncheckedCreateWithoutDelayedCreditsInput>
+  connectOrCreate?: Prisma.TaxRateCreateOrConnectWithoutDelayedCreditsInput
   connect?: Prisma.TaxRateWhereUniqueInput
 }
 
-export type TaxRateUpdateOneWithoutDelayedCreditNestedInput = {
-  create?: Prisma.XOR<Prisma.TaxRateCreateWithoutDelayedCreditInput, Prisma.TaxRateUncheckedCreateWithoutDelayedCreditInput>
-  connectOrCreate?: Prisma.TaxRateCreateOrConnectWithoutDelayedCreditInput
-  upsert?: Prisma.TaxRateUpsertWithoutDelayedCreditInput
+export type TaxRateUpdateOneWithoutDelayedCreditsNestedInput = {
+  create?: Prisma.XOR<Prisma.TaxRateCreateWithoutDelayedCreditsInput, Prisma.TaxRateUncheckedCreateWithoutDelayedCreditsInput>
+  connectOrCreate?: Prisma.TaxRateCreateOrConnectWithoutDelayedCreditsInput
+  upsert?: Prisma.TaxRateUpsertWithoutDelayedCreditsInput
   disconnect?: Prisma.TaxRateWhereInput | boolean
   delete?: Prisma.TaxRateWhereInput | boolean
   connect?: Prisma.TaxRateWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.TaxRateUpdateToOneWithWhereWithoutDelayedCreditInput, Prisma.TaxRateUpdateWithoutDelayedCreditInput>, Prisma.TaxRateUncheckedUpdateWithoutDelayedCreditInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TaxRateUpdateToOneWithWhereWithoutDelayedCreditsInput, Prisma.TaxRateUpdateWithoutDelayedCreditsInput>, Prisma.TaxRateUncheckedUpdateWithoutDelayedCreditsInput>
 }
 
 export type EnumTaxTypeFieldUpdateOperationsInput = {
@@ -827,7 +827,7 @@ export type TaxRateUncheckedUpdateManyWithoutCompanyNestedInput = {
   deleteMany?: Prisma.TaxRateScalarWhereInput | Prisma.TaxRateScalarWhereInput[]
 }
 
-export type TaxRateCreateWithoutInvoiceInput = {
+export type TaxRateCreateWithoutInvoicesInput = {
   id?: string
   name: string
   description?: string | null
@@ -844,15 +844,15 @@ export type TaxRateCreateWithoutInvoiceInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   company: Prisma.CompanyCreateNestedOneWithoutTaxRatesInput
-  Estimate?: Prisma.EstimateCreateNestedManyWithoutTaxInput
-  CreditMemo?: Prisma.CreditMemoCreateNestedManyWithoutTaxInput
-  SalesReceipt?: Prisma.SalesReceiptCreateNestedManyWithoutTaxInput
-  RefundReceipt?: Prisma.RefundReceiptCreateNestedManyWithoutTaxInput
-  DelayedCharge?: Prisma.DelayedChargeCreateNestedManyWithoutTaxInput
-  DelayedCredit?: Prisma.DelayedCreditCreateNestedManyWithoutTaxInput
+  estimates?: Prisma.EstimateCreateNestedManyWithoutTaxInput
+  creditMemos?: Prisma.CreditMemoCreateNestedManyWithoutTaxInput
+  salesReceipts?: Prisma.SalesReceiptCreateNestedManyWithoutTaxInput
+  refundReceipts?: Prisma.RefundReceiptCreateNestedManyWithoutTaxInput
+  delayedCharges?: Prisma.DelayedChargeCreateNestedManyWithoutTaxInput
+  delayedCredits?: Prisma.DelayedCreditCreateNestedManyWithoutTaxInput
 }
 
-export type TaxRateUncheckedCreateWithoutInvoiceInput = {
+export type TaxRateUncheckedCreateWithoutInvoicesInput = {
   id?: string
   name: string
   description?: string | null
@@ -869,31 +869,31 @@ export type TaxRateUncheckedCreateWithoutInvoiceInput = {
   deactivatedAt?: Date | string | null
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
-  Estimate?: Prisma.EstimateUncheckedCreateNestedManyWithoutTaxInput
-  CreditMemo?: Prisma.CreditMemoUncheckedCreateNestedManyWithoutTaxInput
-  SalesReceipt?: Prisma.SalesReceiptUncheckedCreateNestedManyWithoutTaxInput
-  RefundReceipt?: Prisma.RefundReceiptUncheckedCreateNestedManyWithoutTaxInput
-  DelayedCharge?: Prisma.DelayedChargeUncheckedCreateNestedManyWithoutTaxInput
-  DelayedCredit?: Prisma.DelayedCreditUncheckedCreateNestedManyWithoutTaxInput
+  estimates?: Prisma.EstimateUncheckedCreateNestedManyWithoutTaxInput
+  creditMemos?: Prisma.CreditMemoUncheckedCreateNestedManyWithoutTaxInput
+  salesReceipts?: Prisma.SalesReceiptUncheckedCreateNestedManyWithoutTaxInput
+  refundReceipts?: Prisma.RefundReceiptUncheckedCreateNestedManyWithoutTaxInput
+  delayedCharges?: Prisma.DelayedChargeUncheckedCreateNestedManyWithoutTaxInput
+  delayedCredits?: Prisma.DelayedCreditUncheckedCreateNestedManyWithoutTaxInput
 }
 
-export type TaxRateCreateOrConnectWithoutInvoiceInput = {
+export type TaxRateCreateOrConnectWithoutInvoicesInput = {
   where: Prisma.TaxRateWhereUniqueInput
-  create: Prisma.XOR<Prisma.TaxRateCreateWithoutInvoiceInput, Prisma.TaxRateUncheckedCreateWithoutInvoiceInput>
+  create: Prisma.XOR<Prisma.TaxRateCreateWithoutInvoicesInput, Prisma.TaxRateUncheckedCreateWithoutInvoicesInput>
 }
 
-export type TaxRateUpsertWithoutInvoiceInput = {
-  update: Prisma.XOR<Prisma.TaxRateUpdateWithoutInvoiceInput, Prisma.TaxRateUncheckedUpdateWithoutInvoiceInput>
-  create: Prisma.XOR<Prisma.TaxRateCreateWithoutInvoiceInput, Prisma.TaxRateUncheckedCreateWithoutInvoiceInput>
+export type TaxRateUpsertWithoutInvoicesInput = {
+  update: Prisma.XOR<Prisma.TaxRateUpdateWithoutInvoicesInput, Prisma.TaxRateUncheckedUpdateWithoutInvoicesInput>
+  create: Prisma.XOR<Prisma.TaxRateCreateWithoutInvoicesInput, Prisma.TaxRateUncheckedCreateWithoutInvoicesInput>
   where?: Prisma.TaxRateWhereInput
 }
 
-export type TaxRateUpdateToOneWithWhereWithoutInvoiceInput = {
+export type TaxRateUpdateToOneWithWhereWithoutInvoicesInput = {
   where?: Prisma.TaxRateWhereInput
-  data: Prisma.XOR<Prisma.TaxRateUpdateWithoutInvoiceInput, Prisma.TaxRateUncheckedUpdateWithoutInvoiceInput>
+  data: Prisma.XOR<Prisma.TaxRateUpdateWithoutInvoicesInput, Prisma.TaxRateUncheckedUpdateWithoutInvoicesInput>
 }
 
-export type TaxRateUpdateWithoutInvoiceInput = {
+export type TaxRateUpdateWithoutInvoicesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -910,15 +910,15 @@ export type TaxRateUpdateWithoutInvoiceInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   company?: Prisma.CompanyUpdateOneRequiredWithoutTaxRatesNestedInput
-  Estimate?: Prisma.EstimateUpdateManyWithoutTaxNestedInput
-  CreditMemo?: Prisma.CreditMemoUpdateManyWithoutTaxNestedInput
-  SalesReceipt?: Prisma.SalesReceiptUpdateManyWithoutTaxNestedInput
-  RefundReceipt?: Prisma.RefundReceiptUpdateManyWithoutTaxNestedInput
-  DelayedCharge?: Prisma.DelayedChargeUpdateManyWithoutTaxNestedInput
-  DelayedCredit?: Prisma.DelayedCreditUpdateManyWithoutTaxNestedInput
+  estimates?: Prisma.EstimateUpdateManyWithoutTaxNestedInput
+  creditMemos?: Prisma.CreditMemoUpdateManyWithoutTaxNestedInput
+  salesReceipts?: Prisma.SalesReceiptUpdateManyWithoutTaxNestedInput
+  refundReceipts?: Prisma.RefundReceiptUpdateManyWithoutTaxNestedInput
+  delayedCharges?: Prisma.DelayedChargeUpdateManyWithoutTaxNestedInput
+  delayedCredits?: Prisma.DelayedCreditUpdateManyWithoutTaxNestedInput
 }
 
-export type TaxRateUncheckedUpdateWithoutInvoiceInput = {
+export type TaxRateUncheckedUpdateWithoutInvoicesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -935,15 +935,15 @@ export type TaxRateUncheckedUpdateWithoutInvoiceInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  Estimate?: Prisma.EstimateUncheckedUpdateManyWithoutTaxNestedInput
-  CreditMemo?: Prisma.CreditMemoUncheckedUpdateManyWithoutTaxNestedInput
-  SalesReceipt?: Prisma.SalesReceiptUncheckedUpdateManyWithoutTaxNestedInput
-  RefundReceipt?: Prisma.RefundReceiptUncheckedUpdateManyWithoutTaxNestedInput
-  DelayedCharge?: Prisma.DelayedChargeUncheckedUpdateManyWithoutTaxNestedInput
-  DelayedCredit?: Prisma.DelayedCreditUncheckedUpdateManyWithoutTaxNestedInput
+  estimates?: Prisma.EstimateUncheckedUpdateManyWithoutTaxNestedInput
+  creditMemos?: Prisma.CreditMemoUncheckedUpdateManyWithoutTaxNestedInput
+  salesReceipts?: Prisma.SalesReceiptUncheckedUpdateManyWithoutTaxNestedInput
+  refundReceipts?: Prisma.RefundReceiptUncheckedUpdateManyWithoutTaxNestedInput
+  delayedCharges?: Prisma.DelayedChargeUncheckedUpdateManyWithoutTaxNestedInput
+  delayedCredits?: Prisma.DelayedCreditUncheckedUpdateManyWithoutTaxNestedInput
 }
 
-export type TaxRateCreateWithoutEstimateInput = {
+export type TaxRateCreateWithoutEstimatesInput = {
   id?: string
   name: string
   description?: string | null
@@ -960,15 +960,15 @@ export type TaxRateCreateWithoutEstimateInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   company: Prisma.CompanyCreateNestedOneWithoutTaxRatesInput
-  Invoice?: Prisma.InvoiceCreateNestedManyWithoutTaxInput
-  CreditMemo?: Prisma.CreditMemoCreateNestedManyWithoutTaxInput
-  SalesReceipt?: Prisma.SalesReceiptCreateNestedManyWithoutTaxInput
-  RefundReceipt?: Prisma.RefundReceiptCreateNestedManyWithoutTaxInput
-  DelayedCharge?: Prisma.DelayedChargeCreateNestedManyWithoutTaxInput
-  DelayedCredit?: Prisma.DelayedCreditCreateNestedManyWithoutTaxInput
+  invoices?: Prisma.InvoiceCreateNestedManyWithoutTaxInput
+  creditMemos?: Prisma.CreditMemoCreateNestedManyWithoutTaxInput
+  salesReceipts?: Prisma.SalesReceiptCreateNestedManyWithoutTaxInput
+  refundReceipts?: Prisma.RefundReceiptCreateNestedManyWithoutTaxInput
+  delayedCharges?: Prisma.DelayedChargeCreateNestedManyWithoutTaxInput
+  delayedCredits?: Prisma.DelayedCreditCreateNestedManyWithoutTaxInput
 }
 
-export type TaxRateUncheckedCreateWithoutEstimateInput = {
+export type TaxRateUncheckedCreateWithoutEstimatesInput = {
   id?: string
   name: string
   description?: string | null
@@ -985,31 +985,31 @@ export type TaxRateUncheckedCreateWithoutEstimateInput = {
   deactivatedAt?: Date | string | null
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
-  Invoice?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTaxInput
-  CreditMemo?: Prisma.CreditMemoUncheckedCreateNestedManyWithoutTaxInput
-  SalesReceipt?: Prisma.SalesReceiptUncheckedCreateNestedManyWithoutTaxInput
-  RefundReceipt?: Prisma.RefundReceiptUncheckedCreateNestedManyWithoutTaxInput
-  DelayedCharge?: Prisma.DelayedChargeUncheckedCreateNestedManyWithoutTaxInput
-  DelayedCredit?: Prisma.DelayedCreditUncheckedCreateNestedManyWithoutTaxInput
+  invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTaxInput
+  creditMemos?: Prisma.CreditMemoUncheckedCreateNestedManyWithoutTaxInput
+  salesReceipts?: Prisma.SalesReceiptUncheckedCreateNestedManyWithoutTaxInput
+  refundReceipts?: Prisma.RefundReceiptUncheckedCreateNestedManyWithoutTaxInput
+  delayedCharges?: Prisma.DelayedChargeUncheckedCreateNestedManyWithoutTaxInput
+  delayedCredits?: Prisma.DelayedCreditUncheckedCreateNestedManyWithoutTaxInput
 }
 
-export type TaxRateCreateOrConnectWithoutEstimateInput = {
+export type TaxRateCreateOrConnectWithoutEstimatesInput = {
   where: Prisma.TaxRateWhereUniqueInput
-  create: Prisma.XOR<Prisma.TaxRateCreateWithoutEstimateInput, Prisma.TaxRateUncheckedCreateWithoutEstimateInput>
+  create: Prisma.XOR<Prisma.TaxRateCreateWithoutEstimatesInput, Prisma.TaxRateUncheckedCreateWithoutEstimatesInput>
 }
 
-export type TaxRateUpsertWithoutEstimateInput = {
-  update: Prisma.XOR<Prisma.TaxRateUpdateWithoutEstimateInput, Prisma.TaxRateUncheckedUpdateWithoutEstimateInput>
-  create: Prisma.XOR<Prisma.TaxRateCreateWithoutEstimateInput, Prisma.TaxRateUncheckedCreateWithoutEstimateInput>
+export type TaxRateUpsertWithoutEstimatesInput = {
+  update: Prisma.XOR<Prisma.TaxRateUpdateWithoutEstimatesInput, Prisma.TaxRateUncheckedUpdateWithoutEstimatesInput>
+  create: Prisma.XOR<Prisma.TaxRateCreateWithoutEstimatesInput, Prisma.TaxRateUncheckedCreateWithoutEstimatesInput>
   where?: Prisma.TaxRateWhereInput
 }
 
-export type TaxRateUpdateToOneWithWhereWithoutEstimateInput = {
+export type TaxRateUpdateToOneWithWhereWithoutEstimatesInput = {
   where?: Prisma.TaxRateWhereInput
-  data: Prisma.XOR<Prisma.TaxRateUpdateWithoutEstimateInput, Prisma.TaxRateUncheckedUpdateWithoutEstimateInput>
+  data: Prisma.XOR<Prisma.TaxRateUpdateWithoutEstimatesInput, Prisma.TaxRateUncheckedUpdateWithoutEstimatesInput>
 }
 
-export type TaxRateUpdateWithoutEstimateInput = {
+export type TaxRateUpdateWithoutEstimatesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1026,15 +1026,15 @@ export type TaxRateUpdateWithoutEstimateInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   company?: Prisma.CompanyUpdateOneRequiredWithoutTaxRatesNestedInput
-  Invoice?: Prisma.InvoiceUpdateManyWithoutTaxNestedInput
-  CreditMemo?: Prisma.CreditMemoUpdateManyWithoutTaxNestedInput
-  SalesReceipt?: Prisma.SalesReceiptUpdateManyWithoutTaxNestedInput
-  RefundReceipt?: Prisma.RefundReceiptUpdateManyWithoutTaxNestedInput
-  DelayedCharge?: Prisma.DelayedChargeUpdateManyWithoutTaxNestedInput
-  DelayedCredit?: Prisma.DelayedCreditUpdateManyWithoutTaxNestedInput
+  invoices?: Prisma.InvoiceUpdateManyWithoutTaxNestedInput
+  creditMemos?: Prisma.CreditMemoUpdateManyWithoutTaxNestedInput
+  salesReceipts?: Prisma.SalesReceiptUpdateManyWithoutTaxNestedInput
+  refundReceipts?: Prisma.RefundReceiptUpdateManyWithoutTaxNestedInput
+  delayedCharges?: Prisma.DelayedChargeUpdateManyWithoutTaxNestedInput
+  delayedCredits?: Prisma.DelayedCreditUpdateManyWithoutTaxNestedInput
 }
 
-export type TaxRateUncheckedUpdateWithoutEstimateInput = {
+export type TaxRateUncheckedUpdateWithoutEstimatesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1051,15 +1051,15 @@ export type TaxRateUncheckedUpdateWithoutEstimateInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  Invoice?: Prisma.InvoiceUncheckedUpdateManyWithoutTaxNestedInput
-  CreditMemo?: Prisma.CreditMemoUncheckedUpdateManyWithoutTaxNestedInput
-  SalesReceipt?: Prisma.SalesReceiptUncheckedUpdateManyWithoutTaxNestedInput
-  RefundReceipt?: Prisma.RefundReceiptUncheckedUpdateManyWithoutTaxNestedInput
-  DelayedCharge?: Prisma.DelayedChargeUncheckedUpdateManyWithoutTaxNestedInput
-  DelayedCredit?: Prisma.DelayedCreditUncheckedUpdateManyWithoutTaxNestedInput
+  invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTaxNestedInput
+  creditMemos?: Prisma.CreditMemoUncheckedUpdateManyWithoutTaxNestedInput
+  salesReceipts?: Prisma.SalesReceiptUncheckedUpdateManyWithoutTaxNestedInput
+  refundReceipts?: Prisma.RefundReceiptUncheckedUpdateManyWithoutTaxNestedInput
+  delayedCharges?: Prisma.DelayedChargeUncheckedUpdateManyWithoutTaxNestedInput
+  delayedCredits?: Prisma.DelayedCreditUncheckedUpdateManyWithoutTaxNestedInput
 }
 
-export type TaxRateCreateWithoutCreditMemoInput = {
+export type TaxRateCreateWithoutCreditMemosInput = {
   id?: string
   name: string
   description?: string | null
@@ -1076,15 +1076,15 @@ export type TaxRateCreateWithoutCreditMemoInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   company: Prisma.CompanyCreateNestedOneWithoutTaxRatesInput
-  Invoice?: Prisma.InvoiceCreateNestedManyWithoutTaxInput
-  Estimate?: Prisma.EstimateCreateNestedManyWithoutTaxInput
-  SalesReceipt?: Prisma.SalesReceiptCreateNestedManyWithoutTaxInput
-  RefundReceipt?: Prisma.RefundReceiptCreateNestedManyWithoutTaxInput
-  DelayedCharge?: Prisma.DelayedChargeCreateNestedManyWithoutTaxInput
-  DelayedCredit?: Prisma.DelayedCreditCreateNestedManyWithoutTaxInput
+  invoices?: Prisma.InvoiceCreateNestedManyWithoutTaxInput
+  estimates?: Prisma.EstimateCreateNestedManyWithoutTaxInput
+  salesReceipts?: Prisma.SalesReceiptCreateNestedManyWithoutTaxInput
+  refundReceipts?: Prisma.RefundReceiptCreateNestedManyWithoutTaxInput
+  delayedCharges?: Prisma.DelayedChargeCreateNestedManyWithoutTaxInput
+  delayedCredits?: Prisma.DelayedCreditCreateNestedManyWithoutTaxInput
 }
 
-export type TaxRateUncheckedCreateWithoutCreditMemoInput = {
+export type TaxRateUncheckedCreateWithoutCreditMemosInput = {
   id?: string
   name: string
   description?: string | null
@@ -1101,31 +1101,31 @@ export type TaxRateUncheckedCreateWithoutCreditMemoInput = {
   deactivatedAt?: Date | string | null
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
-  Invoice?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTaxInput
-  Estimate?: Prisma.EstimateUncheckedCreateNestedManyWithoutTaxInput
-  SalesReceipt?: Prisma.SalesReceiptUncheckedCreateNestedManyWithoutTaxInput
-  RefundReceipt?: Prisma.RefundReceiptUncheckedCreateNestedManyWithoutTaxInput
-  DelayedCharge?: Prisma.DelayedChargeUncheckedCreateNestedManyWithoutTaxInput
-  DelayedCredit?: Prisma.DelayedCreditUncheckedCreateNestedManyWithoutTaxInput
+  invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTaxInput
+  estimates?: Prisma.EstimateUncheckedCreateNestedManyWithoutTaxInput
+  salesReceipts?: Prisma.SalesReceiptUncheckedCreateNestedManyWithoutTaxInput
+  refundReceipts?: Prisma.RefundReceiptUncheckedCreateNestedManyWithoutTaxInput
+  delayedCharges?: Prisma.DelayedChargeUncheckedCreateNestedManyWithoutTaxInput
+  delayedCredits?: Prisma.DelayedCreditUncheckedCreateNestedManyWithoutTaxInput
 }
 
-export type TaxRateCreateOrConnectWithoutCreditMemoInput = {
+export type TaxRateCreateOrConnectWithoutCreditMemosInput = {
   where: Prisma.TaxRateWhereUniqueInput
-  create: Prisma.XOR<Prisma.TaxRateCreateWithoutCreditMemoInput, Prisma.TaxRateUncheckedCreateWithoutCreditMemoInput>
+  create: Prisma.XOR<Prisma.TaxRateCreateWithoutCreditMemosInput, Prisma.TaxRateUncheckedCreateWithoutCreditMemosInput>
 }
 
-export type TaxRateUpsertWithoutCreditMemoInput = {
-  update: Prisma.XOR<Prisma.TaxRateUpdateWithoutCreditMemoInput, Prisma.TaxRateUncheckedUpdateWithoutCreditMemoInput>
-  create: Prisma.XOR<Prisma.TaxRateCreateWithoutCreditMemoInput, Prisma.TaxRateUncheckedCreateWithoutCreditMemoInput>
+export type TaxRateUpsertWithoutCreditMemosInput = {
+  update: Prisma.XOR<Prisma.TaxRateUpdateWithoutCreditMemosInput, Prisma.TaxRateUncheckedUpdateWithoutCreditMemosInput>
+  create: Prisma.XOR<Prisma.TaxRateCreateWithoutCreditMemosInput, Prisma.TaxRateUncheckedCreateWithoutCreditMemosInput>
   where?: Prisma.TaxRateWhereInput
 }
 
-export type TaxRateUpdateToOneWithWhereWithoutCreditMemoInput = {
+export type TaxRateUpdateToOneWithWhereWithoutCreditMemosInput = {
   where?: Prisma.TaxRateWhereInput
-  data: Prisma.XOR<Prisma.TaxRateUpdateWithoutCreditMemoInput, Prisma.TaxRateUncheckedUpdateWithoutCreditMemoInput>
+  data: Prisma.XOR<Prisma.TaxRateUpdateWithoutCreditMemosInput, Prisma.TaxRateUncheckedUpdateWithoutCreditMemosInput>
 }
 
-export type TaxRateUpdateWithoutCreditMemoInput = {
+export type TaxRateUpdateWithoutCreditMemosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1142,15 +1142,15 @@ export type TaxRateUpdateWithoutCreditMemoInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   company?: Prisma.CompanyUpdateOneRequiredWithoutTaxRatesNestedInput
-  Invoice?: Prisma.InvoiceUpdateManyWithoutTaxNestedInput
-  Estimate?: Prisma.EstimateUpdateManyWithoutTaxNestedInput
-  SalesReceipt?: Prisma.SalesReceiptUpdateManyWithoutTaxNestedInput
-  RefundReceipt?: Prisma.RefundReceiptUpdateManyWithoutTaxNestedInput
-  DelayedCharge?: Prisma.DelayedChargeUpdateManyWithoutTaxNestedInput
-  DelayedCredit?: Prisma.DelayedCreditUpdateManyWithoutTaxNestedInput
+  invoices?: Prisma.InvoiceUpdateManyWithoutTaxNestedInput
+  estimates?: Prisma.EstimateUpdateManyWithoutTaxNestedInput
+  salesReceipts?: Prisma.SalesReceiptUpdateManyWithoutTaxNestedInput
+  refundReceipts?: Prisma.RefundReceiptUpdateManyWithoutTaxNestedInput
+  delayedCharges?: Prisma.DelayedChargeUpdateManyWithoutTaxNestedInput
+  delayedCredits?: Prisma.DelayedCreditUpdateManyWithoutTaxNestedInput
 }
 
-export type TaxRateUncheckedUpdateWithoutCreditMemoInput = {
+export type TaxRateUncheckedUpdateWithoutCreditMemosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1167,15 +1167,15 @@ export type TaxRateUncheckedUpdateWithoutCreditMemoInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  Invoice?: Prisma.InvoiceUncheckedUpdateManyWithoutTaxNestedInput
-  Estimate?: Prisma.EstimateUncheckedUpdateManyWithoutTaxNestedInput
-  SalesReceipt?: Prisma.SalesReceiptUncheckedUpdateManyWithoutTaxNestedInput
-  RefundReceipt?: Prisma.RefundReceiptUncheckedUpdateManyWithoutTaxNestedInput
-  DelayedCharge?: Prisma.DelayedChargeUncheckedUpdateManyWithoutTaxNestedInput
-  DelayedCredit?: Prisma.DelayedCreditUncheckedUpdateManyWithoutTaxNestedInput
+  invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTaxNestedInput
+  estimates?: Prisma.EstimateUncheckedUpdateManyWithoutTaxNestedInput
+  salesReceipts?: Prisma.SalesReceiptUncheckedUpdateManyWithoutTaxNestedInput
+  refundReceipts?: Prisma.RefundReceiptUncheckedUpdateManyWithoutTaxNestedInput
+  delayedCharges?: Prisma.DelayedChargeUncheckedUpdateManyWithoutTaxNestedInput
+  delayedCredits?: Prisma.DelayedCreditUncheckedUpdateManyWithoutTaxNestedInput
 }
 
-export type TaxRateCreateWithoutSalesReceiptInput = {
+export type TaxRateCreateWithoutSalesReceiptsInput = {
   id?: string
   name: string
   description?: string | null
@@ -1192,15 +1192,15 @@ export type TaxRateCreateWithoutSalesReceiptInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   company: Prisma.CompanyCreateNestedOneWithoutTaxRatesInput
-  Invoice?: Prisma.InvoiceCreateNestedManyWithoutTaxInput
-  Estimate?: Prisma.EstimateCreateNestedManyWithoutTaxInput
-  CreditMemo?: Prisma.CreditMemoCreateNestedManyWithoutTaxInput
-  RefundReceipt?: Prisma.RefundReceiptCreateNestedManyWithoutTaxInput
-  DelayedCharge?: Prisma.DelayedChargeCreateNestedManyWithoutTaxInput
-  DelayedCredit?: Prisma.DelayedCreditCreateNestedManyWithoutTaxInput
+  invoices?: Prisma.InvoiceCreateNestedManyWithoutTaxInput
+  estimates?: Prisma.EstimateCreateNestedManyWithoutTaxInput
+  creditMemos?: Prisma.CreditMemoCreateNestedManyWithoutTaxInput
+  refundReceipts?: Prisma.RefundReceiptCreateNestedManyWithoutTaxInput
+  delayedCharges?: Prisma.DelayedChargeCreateNestedManyWithoutTaxInput
+  delayedCredits?: Prisma.DelayedCreditCreateNestedManyWithoutTaxInput
 }
 
-export type TaxRateUncheckedCreateWithoutSalesReceiptInput = {
+export type TaxRateUncheckedCreateWithoutSalesReceiptsInput = {
   id?: string
   name: string
   description?: string | null
@@ -1217,31 +1217,31 @@ export type TaxRateUncheckedCreateWithoutSalesReceiptInput = {
   deactivatedAt?: Date | string | null
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
-  Invoice?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTaxInput
-  Estimate?: Prisma.EstimateUncheckedCreateNestedManyWithoutTaxInput
-  CreditMemo?: Prisma.CreditMemoUncheckedCreateNestedManyWithoutTaxInput
-  RefundReceipt?: Prisma.RefundReceiptUncheckedCreateNestedManyWithoutTaxInput
-  DelayedCharge?: Prisma.DelayedChargeUncheckedCreateNestedManyWithoutTaxInput
-  DelayedCredit?: Prisma.DelayedCreditUncheckedCreateNestedManyWithoutTaxInput
+  invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTaxInput
+  estimates?: Prisma.EstimateUncheckedCreateNestedManyWithoutTaxInput
+  creditMemos?: Prisma.CreditMemoUncheckedCreateNestedManyWithoutTaxInput
+  refundReceipts?: Prisma.RefundReceiptUncheckedCreateNestedManyWithoutTaxInput
+  delayedCharges?: Prisma.DelayedChargeUncheckedCreateNestedManyWithoutTaxInput
+  delayedCredits?: Prisma.DelayedCreditUncheckedCreateNestedManyWithoutTaxInput
 }
 
-export type TaxRateCreateOrConnectWithoutSalesReceiptInput = {
+export type TaxRateCreateOrConnectWithoutSalesReceiptsInput = {
   where: Prisma.TaxRateWhereUniqueInput
-  create: Prisma.XOR<Prisma.TaxRateCreateWithoutSalesReceiptInput, Prisma.TaxRateUncheckedCreateWithoutSalesReceiptInput>
+  create: Prisma.XOR<Prisma.TaxRateCreateWithoutSalesReceiptsInput, Prisma.TaxRateUncheckedCreateWithoutSalesReceiptsInput>
 }
 
-export type TaxRateUpsertWithoutSalesReceiptInput = {
-  update: Prisma.XOR<Prisma.TaxRateUpdateWithoutSalesReceiptInput, Prisma.TaxRateUncheckedUpdateWithoutSalesReceiptInput>
-  create: Prisma.XOR<Prisma.TaxRateCreateWithoutSalesReceiptInput, Prisma.TaxRateUncheckedCreateWithoutSalesReceiptInput>
+export type TaxRateUpsertWithoutSalesReceiptsInput = {
+  update: Prisma.XOR<Prisma.TaxRateUpdateWithoutSalesReceiptsInput, Prisma.TaxRateUncheckedUpdateWithoutSalesReceiptsInput>
+  create: Prisma.XOR<Prisma.TaxRateCreateWithoutSalesReceiptsInput, Prisma.TaxRateUncheckedCreateWithoutSalesReceiptsInput>
   where?: Prisma.TaxRateWhereInput
 }
 
-export type TaxRateUpdateToOneWithWhereWithoutSalesReceiptInput = {
+export type TaxRateUpdateToOneWithWhereWithoutSalesReceiptsInput = {
   where?: Prisma.TaxRateWhereInput
-  data: Prisma.XOR<Prisma.TaxRateUpdateWithoutSalesReceiptInput, Prisma.TaxRateUncheckedUpdateWithoutSalesReceiptInput>
+  data: Prisma.XOR<Prisma.TaxRateUpdateWithoutSalesReceiptsInput, Prisma.TaxRateUncheckedUpdateWithoutSalesReceiptsInput>
 }
 
-export type TaxRateUpdateWithoutSalesReceiptInput = {
+export type TaxRateUpdateWithoutSalesReceiptsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1258,15 +1258,15 @@ export type TaxRateUpdateWithoutSalesReceiptInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   company?: Prisma.CompanyUpdateOneRequiredWithoutTaxRatesNestedInput
-  Invoice?: Prisma.InvoiceUpdateManyWithoutTaxNestedInput
-  Estimate?: Prisma.EstimateUpdateManyWithoutTaxNestedInput
-  CreditMemo?: Prisma.CreditMemoUpdateManyWithoutTaxNestedInput
-  RefundReceipt?: Prisma.RefundReceiptUpdateManyWithoutTaxNestedInput
-  DelayedCharge?: Prisma.DelayedChargeUpdateManyWithoutTaxNestedInput
-  DelayedCredit?: Prisma.DelayedCreditUpdateManyWithoutTaxNestedInput
+  invoices?: Prisma.InvoiceUpdateManyWithoutTaxNestedInput
+  estimates?: Prisma.EstimateUpdateManyWithoutTaxNestedInput
+  creditMemos?: Prisma.CreditMemoUpdateManyWithoutTaxNestedInput
+  refundReceipts?: Prisma.RefundReceiptUpdateManyWithoutTaxNestedInput
+  delayedCharges?: Prisma.DelayedChargeUpdateManyWithoutTaxNestedInput
+  delayedCredits?: Prisma.DelayedCreditUpdateManyWithoutTaxNestedInput
 }
 
-export type TaxRateUncheckedUpdateWithoutSalesReceiptInput = {
+export type TaxRateUncheckedUpdateWithoutSalesReceiptsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1283,15 +1283,15 @@ export type TaxRateUncheckedUpdateWithoutSalesReceiptInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  Invoice?: Prisma.InvoiceUncheckedUpdateManyWithoutTaxNestedInput
-  Estimate?: Prisma.EstimateUncheckedUpdateManyWithoutTaxNestedInput
-  CreditMemo?: Prisma.CreditMemoUncheckedUpdateManyWithoutTaxNestedInput
-  RefundReceipt?: Prisma.RefundReceiptUncheckedUpdateManyWithoutTaxNestedInput
-  DelayedCharge?: Prisma.DelayedChargeUncheckedUpdateManyWithoutTaxNestedInput
-  DelayedCredit?: Prisma.DelayedCreditUncheckedUpdateManyWithoutTaxNestedInput
+  invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTaxNestedInput
+  estimates?: Prisma.EstimateUncheckedUpdateManyWithoutTaxNestedInput
+  creditMemos?: Prisma.CreditMemoUncheckedUpdateManyWithoutTaxNestedInput
+  refundReceipts?: Prisma.RefundReceiptUncheckedUpdateManyWithoutTaxNestedInput
+  delayedCharges?: Prisma.DelayedChargeUncheckedUpdateManyWithoutTaxNestedInput
+  delayedCredits?: Prisma.DelayedCreditUncheckedUpdateManyWithoutTaxNestedInput
 }
 
-export type TaxRateCreateWithoutRefundReceiptInput = {
+export type TaxRateCreateWithoutRefundReceiptsInput = {
   id?: string
   name: string
   description?: string | null
@@ -1308,15 +1308,15 @@ export type TaxRateCreateWithoutRefundReceiptInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   company: Prisma.CompanyCreateNestedOneWithoutTaxRatesInput
-  Invoice?: Prisma.InvoiceCreateNestedManyWithoutTaxInput
-  Estimate?: Prisma.EstimateCreateNestedManyWithoutTaxInput
-  CreditMemo?: Prisma.CreditMemoCreateNestedManyWithoutTaxInput
-  SalesReceipt?: Prisma.SalesReceiptCreateNestedManyWithoutTaxInput
-  DelayedCharge?: Prisma.DelayedChargeCreateNestedManyWithoutTaxInput
-  DelayedCredit?: Prisma.DelayedCreditCreateNestedManyWithoutTaxInput
+  invoices?: Prisma.InvoiceCreateNestedManyWithoutTaxInput
+  estimates?: Prisma.EstimateCreateNestedManyWithoutTaxInput
+  creditMemos?: Prisma.CreditMemoCreateNestedManyWithoutTaxInput
+  salesReceipts?: Prisma.SalesReceiptCreateNestedManyWithoutTaxInput
+  delayedCharges?: Prisma.DelayedChargeCreateNestedManyWithoutTaxInput
+  delayedCredits?: Prisma.DelayedCreditCreateNestedManyWithoutTaxInput
 }
 
-export type TaxRateUncheckedCreateWithoutRefundReceiptInput = {
+export type TaxRateUncheckedCreateWithoutRefundReceiptsInput = {
   id?: string
   name: string
   description?: string | null
@@ -1333,31 +1333,31 @@ export type TaxRateUncheckedCreateWithoutRefundReceiptInput = {
   deactivatedAt?: Date | string | null
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
-  Invoice?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTaxInput
-  Estimate?: Prisma.EstimateUncheckedCreateNestedManyWithoutTaxInput
-  CreditMemo?: Prisma.CreditMemoUncheckedCreateNestedManyWithoutTaxInput
-  SalesReceipt?: Prisma.SalesReceiptUncheckedCreateNestedManyWithoutTaxInput
-  DelayedCharge?: Prisma.DelayedChargeUncheckedCreateNestedManyWithoutTaxInput
-  DelayedCredit?: Prisma.DelayedCreditUncheckedCreateNestedManyWithoutTaxInput
+  invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTaxInput
+  estimates?: Prisma.EstimateUncheckedCreateNestedManyWithoutTaxInput
+  creditMemos?: Prisma.CreditMemoUncheckedCreateNestedManyWithoutTaxInput
+  salesReceipts?: Prisma.SalesReceiptUncheckedCreateNestedManyWithoutTaxInput
+  delayedCharges?: Prisma.DelayedChargeUncheckedCreateNestedManyWithoutTaxInput
+  delayedCredits?: Prisma.DelayedCreditUncheckedCreateNestedManyWithoutTaxInput
 }
 
-export type TaxRateCreateOrConnectWithoutRefundReceiptInput = {
+export type TaxRateCreateOrConnectWithoutRefundReceiptsInput = {
   where: Prisma.TaxRateWhereUniqueInput
-  create: Prisma.XOR<Prisma.TaxRateCreateWithoutRefundReceiptInput, Prisma.TaxRateUncheckedCreateWithoutRefundReceiptInput>
+  create: Prisma.XOR<Prisma.TaxRateCreateWithoutRefundReceiptsInput, Prisma.TaxRateUncheckedCreateWithoutRefundReceiptsInput>
 }
 
-export type TaxRateUpsertWithoutRefundReceiptInput = {
-  update: Prisma.XOR<Prisma.TaxRateUpdateWithoutRefundReceiptInput, Prisma.TaxRateUncheckedUpdateWithoutRefundReceiptInput>
-  create: Prisma.XOR<Prisma.TaxRateCreateWithoutRefundReceiptInput, Prisma.TaxRateUncheckedCreateWithoutRefundReceiptInput>
+export type TaxRateUpsertWithoutRefundReceiptsInput = {
+  update: Prisma.XOR<Prisma.TaxRateUpdateWithoutRefundReceiptsInput, Prisma.TaxRateUncheckedUpdateWithoutRefundReceiptsInput>
+  create: Prisma.XOR<Prisma.TaxRateCreateWithoutRefundReceiptsInput, Prisma.TaxRateUncheckedCreateWithoutRefundReceiptsInput>
   where?: Prisma.TaxRateWhereInput
 }
 
-export type TaxRateUpdateToOneWithWhereWithoutRefundReceiptInput = {
+export type TaxRateUpdateToOneWithWhereWithoutRefundReceiptsInput = {
   where?: Prisma.TaxRateWhereInput
-  data: Prisma.XOR<Prisma.TaxRateUpdateWithoutRefundReceiptInput, Prisma.TaxRateUncheckedUpdateWithoutRefundReceiptInput>
+  data: Prisma.XOR<Prisma.TaxRateUpdateWithoutRefundReceiptsInput, Prisma.TaxRateUncheckedUpdateWithoutRefundReceiptsInput>
 }
 
-export type TaxRateUpdateWithoutRefundReceiptInput = {
+export type TaxRateUpdateWithoutRefundReceiptsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1374,15 +1374,15 @@ export type TaxRateUpdateWithoutRefundReceiptInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   company?: Prisma.CompanyUpdateOneRequiredWithoutTaxRatesNestedInput
-  Invoice?: Prisma.InvoiceUpdateManyWithoutTaxNestedInput
-  Estimate?: Prisma.EstimateUpdateManyWithoutTaxNestedInput
-  CreditMemo?: Prisma.CreditMemoUpdateManyWithoutTaxNestedInput
-  SalesReceipt?: Prisma.SalesReceiptUpdateManyWithoutTaxNestedInput
-  DelayedCharge?: Prisma.DelayedChargeUpdateManyWithoutTaxNestedInput
-  DelayedCredit?: Prisma.DelayedCreditUpdateManyWithoutTaxNestedInput
+  invoices?: Prisma.InvoiceUpdateManyWithoutTaxNestedInput
+  estimates?: Prisma.EstimateUpdateManyWithoutTaxNestedInput
+  creditMemos?: Prisma.CreditMemoUpdateManyWithoutTaxNestedInput
+  salesReceipts?: Prisma.SalesReceiptUpdateManyWithoutTaxNestedInput
+  delayedCharges?: Prisma.DelayedChargeUpdateManyWithoutTaxNestedInput
+  delayedCredits?: Prisma.DelayedCreditUpdateManyWithoutTaxNestedInput
 }
 
-export type TaxRateUncheckedUpdateWithoutRefundReceiptInput = {
+export type TaxRateUncheckedUpdateWithoutRefundReceiptsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1399,15 +1399,15 @@ export type TaxRateUncheckedUpdateWithoutRefundReceiptInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  Invoice?: Prisma.InvoiceUncheckedUpdateManyWithoutTaxNestedInput
-  Estimate?: Prisma.EstimateUncheckedUpdateManyWithoutTaxNestedInput
-  CreditMemo?: Prisma.CreditMemoUncheckedUpdateManyWithoutTaxNestedInput
-  SalesReceipt?: Prisma.SalesReceiptUncheckedUpdateManyWithoutTaxNestedInput
-  DelayedCharge?: Prisma.DelayedChargeUncheckedUpdateManyWithoutTaxNestedInput
-  DelayedCredit?: Prisma.DelayedCreditUncheckedUpdateManyWithoutTaxNestedInput
+  invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTaxNestedInput
+  estimates?: Prisma.EstimateUncheckedUpdateManyWithoutTaxNestedInput
+  creditMemos?: Prisma.CreditMemoUncheckedUpdateManyWithoutTaxNestedInput
+  salesReceipts?: Prisma.SalesReceiptUncheckedUpdateManyWithoutTaxNestedInput
+  delayedCharges?: Prisma.DelayedChargeUncheckedUpdateManyWithoutTaxNestedInput
+  delayedCredits?: Prisma.DelayedCreditUncheckedUpdateManyWithoutTaxNestedInput
 }
 
-export type TaxRateCreateWithoutDelayedChargeInput = {
+export type TaxRateCreateWithoutDelayedChargesInput = {
   id?: string
   name: string
   description?: string | null
@@ -1424,15 +1424,15 @@ export type TaxRateCreateWithoutDelayedChargeInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   company: Prisma.CompanyCreateNestedOneWithoutTaxRatesInput
-  Invoice?: Prisma.InvoiceCreateNestedManyWithoutTaxInput
-  Estimate?: Prisma.EstimateCreateNestedManyWithoutTaxInput
-  CreditMemo?: Prisma.CreditMemoCreateNestedManyWithoutTaxInput
-  SalesReceipt?: Prisma.SalesReceiptCreateNestedManyWithoutTaxInput
-  RefundReceipt?: Prisma.RefundReceiptCreateNestedManyWithoutTaxInput
-  DelayedCredit?: Prisma.DelayedCreditCreateNestedManyWithoutTaxInput
+  invoices?: Prisma.InvoiceCreateNestedManyWithoutTaxInput
+  estimates?: Prisma.EstimateCreateNestedManyWithoutTaxInput
+  creditMemos?: Prisma.CreditMemoCreateNestedManyWithoutTaxInput
+  salesReceipts?: Prisma.SalesReceiptCreateNestedManyWithoutTaxInput
+  refundReceipts?: Prisma.RefundReceiptCreateNestedManyWithoutTaxInput
+  delayedCredits?: Prisma.DelayedCreditCreateNestedManyWithoutTaxInput
 }
 
-export type TaxRateUncheckedCreateWithoutDelayedChargeInput = {
+export type TaxRateUncheckedCreateWithoutDelayedChargesInput = {
   id?: string
   name: string
   description?: string | null
@@ -1449,31 +1449,31 @@ export type TaxRateUncheckedCreateWithoutDelayedChargeInput = {
   deactivatedAt?: Date | string | null
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
-  Invoice?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTaxInput
-  Estimate?: Prisma.EstimateUncheckedCreateNestedManyWithoutTaxInput
-  CreditMemo?: Prisma.CreditMemoUncheckedCreateNestedManyWithoutTaxInput
-  SalesReceipt?: Prisma.SalesReceiptUncheckedCreateNestedManyWithoutTaxInput
-  RefundReceipt?: Prisma.RefundReceiptUncheckedCreateNestedManyWithoutTaxInput
-  DelayedCredit?: Prisma.DelayedCreditUncheckedCreateNestedManyWithoutTaxInput
+  invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTaxInput
+  estimates?: Prisma.EstimateUncheckedCreateNestedManyWithoutTaxInput
+  creditMemos?: Prisma.CreditMemoUncheckedCreateNestedManyWithoutTaxInput
+  salesReceipts?: Prisma.SalesReceiptUncheckedCreateNestedManyWithoutTaxInput
+  refundReceipts?: Prisma.RefundReceiptUncheckedCreateNestedManyWithoutTaxInput
+  delayedCredits?: Prisma.DelayedCreditUncheckedCreateNestedManyWithoutTaxInput
 }
 
-export type TaxRateCreateOrConnectWithoutDelayedChargeInput = {
+export type TaxRateCreateOrConnectWithoutDelayedChargesInput = {
   where: Prisma.TaxRateWhereUniqueInput
-  create: Prisma.XOR<Prisma.TaxRateCreateWithoutDelayedChargeInput, Prisma.TaxRateUncheckedCreateWithoutDelayedChargeInput>
+  create: Prisma.XOR<Prisma.TaxRateCreateWithoutDelayedChargesInput, Prisma.TaxRateUncheckedCreateWithoutDelayedChargesInput>
 }
 
-export type TaxRateUpsertWithoutDelayedChargeInput = {
-  update: Prisma.XOR<Prisma.TaxRateUpdateWithoutDelayedChargeInput, Prisma.TaxRateUncheckedUpdateWithoutDelayedChargeInput>
-  create: Prisma.XOR<Prisma.TaxRateCreateWithoutDelayedChargeInput, Prisma.TaxRateUncheckedCreateWithoutDelayedChargeInput>
+export type TaxRateUpsertWithoutDelayedChargesInput = {
+  update: Prisma.XOR<Prisma.TaxRateUpdateWithoutDelayedChargesInput, Prisma.TaxRateUncheckedUpdateWithoutDelayedChargesInput>
+  create: Prisma.XOR<Prisma.TaxRateCreateWithoutDelayedChargesInput, Prisma.TaxRateUncheckedCreateWithoutDelayedChargesInput>
   where?: Prisma.TaxRateWhereInput
 }
 
-export type TaxRateUpdateToOneWithWhereWithoutDelayedChargeInput = {
+export type TaxRateUpdateToOneWithWhereWithoutDelayedChargesInput = {
   where?: Prisma.TaxRateWhereInput
-  data: Prisma.XOR<Prisma.TaxRateUpdateWithoutDelayedChargeInput, Prisma.TaxRateUncheckedUpdateWithoutDelayedChargeInput>
+  data: Prisma.XOR<Prisma.TaxRateUpdateWithoutDelayedChargesInput, Prisma.TaxRateUncheckedUpdateWithoutDelayedChargesInput>
 }
 
-export type TaxRateUpdateWithoutDelayedChargeInput = {
+export type TaxRateUpdateWithoutDelayedChargesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1490,15 +1490,15 @@ export type TaxRateUpdateWithoutDelayedChargeInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   company?: Prisma.CompanyUpdateOneRequiredWithoutTaxRatesNestedInput
-  Invoice?: Prisma.InvoiceUpdateManyWithoutTaxNestedInput
-  Estimate?: Prisma.EstimateUpdateManyWithoutTaxNestedInput
-  CreditMemo?: Prisma.CreditMemoUpdateManyWithoutTaxNestedInput
-  SalesReceipt?: Prisma.SalesReceiptUpdateManyWithoutTaxNestedInput
-  RefundReceipt?: Prisma.RefundReceiptUpdateManyWithoutTaxNestedInput
-  DelayedCredit?: Prisma.DelayedCreditUpdateManyWithoutTaxNestedInput
+  invoices?: Prisma.InvoiceUpdateManyWithoutTaxNestedInput
+  estimates?: Prisma.EstimateUpdateManyWithoutTaxNestedInput
+  creditMemos?: Prisma.CreditMemoUpdateManyWithoutTaxNestedInput
+  salesReceipts?: Prisma.SalesReceiptUpdateManyWithoutTaxNestedInput
+  refundReceipts?: Prisma.RefundReceiptUpdateManyWithoutTaxNestedInput
+  delayedCredits?: Prisma.DelayedCreditUpdateManyWithoutTaxNestedInput
 }
 
-export type TaxRateUncheckedUpdateWithoutDelayedChargeInput = {
+export type TaxRateUncheckedUpdateWithoutDelayedChargesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1515,15 +1515,15 @@ export type TaxRateUncheckedUpdateWithoutDelayedChargeInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  Invoice?: Prisma.InvoiceUncheckedUpdateManyWithoutTaxNestedInput
-  Estimate?: Prisma.EstimateUncheckedUpdateManyWithoutTaxNestedInput
-  CreditMemo?: Prisma.CreditMemoUncheckedUpdateManyWithoutTaxNestedInput
-  SalesReceipt?: Prisma.SalesReceiptUncheckedUpdateManyWithoutTaxNestedInput
-  RefundReceipt?: Prisma.RefundReceiptUncheckedUpdateManyWithoutTaxNestedInput
-  DelayedCredit?: Prisma.DelayedCreditUncheckedUpdateManyWithoutTaxNestedInput
+  invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTaxNestedInput
+  estimates?: Prisma.EstimateUncheckedUpdateManyWithoutTaxNestedInput
+  creditMemos?: Prisma.CreditMemoUncheckedUpdateManyWithoutTaxNestedInput
+  salesReceipts?: Prisma.SalesReceiptUncheckedUpdateManyWithoutTaxNestedInput
+  refundReceipts?: Prisma.RefundReceiptUncheckedUpdateManyWithoutTaxNestedInput
+  delayedCredits?: Prisma.DelayedCreditUncheckedUpdateManyWithoutTaxNestedInput
 }
 
-export type TaxRateCreateWithoutDelayedCreditInput = {
+export type TaxRateCreateWithoutDelayedCreditsInput = {
   id?: string
   name: string
   description?: string | null
@@ -1540,15 +1540,15 @@ export type TaxRateCreateWithoutDelayedCreditInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   company: Prisma.CompanyCreateNestedOneWithoutTaxRatesInput
-  Invoice?: Prisma.InvoiceCreateNestedManyWithoutTaxInput
-  Estimate?: Prisma.EstimateCreateNestedManyWithoutTaxInput
-  CreditMemo?: Prisma.CreditMemoCreateNestedManyWithoutTaxInput
-  SalesReceipt?: Prisma.SalesReceiptCreateNestedManyWithoutTaxInput
-  RefundReceipt?: Prisma.RefundReceiptCreateNestedManyWithoutTaxInput
-  DelayedCharge?: Prisma.DelayedChargeCreateNestedManyWithoutTaxInput
+  invoices?: Prisma.InvoiceCreateNestedManyWithoutTaxInput
+  estimates?: Prisma.EstimateCreateNestedManyWithoutTaxInput
+  creditMemos?: Prisma.CreditMemoCreateNestedManyWithoutTaxInput
+  salesReceipts?: Prisma.SalesReceiptCreateNestedManyWithoutTaxInput
+  refundReceipts?: Prisma.RefundReceiptCreateNestedManyWithoutTaxInput
+  delayedCharges?: Prisma.DelayedChargeCreateNestedManyWithoutTaxInput
 }
 
-export type TaxRateUncheckedCreateWithoutDelayedCreditInput = {
+export type TaxRateUncheckedCreateWithoutDelayedCreditsInput = {
   id?: string
   name: string
   description?: string | null
@@ -1565,31 +1565,31 @@ export type TaxRateUncheckedCreateWithoutDelayedCreditInput = {
   deactivatedAt?: Date | string | null
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
-  Invoice?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTaxInput
-  Estimate?: Prisma.EstimateUncheckedCreateNestedManyWithoutTaxInput
-  CreditMemo?: Prisma.CreditMemoUncheckedCreateNestedManyWithoutTaxInput
-  SalesReceipt?: Prisma.SalesReceiptUncheckedCreateNestedManyWithoutTaxInput
-  RefundReceipt?: Prisma.RefundReceiptUncheckedCreateNestedManyWithoutTaxInput
-  DelayedCharge?: Prisma.DelayedChargeUncheckedCreateNestedManyWithoutTaxInput
+  invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTaxInput
+  estimates?: Prisma.EstimateUncheckedCreateNestedManyWithoutTaxInput
+  creditMemos?: Prisma.CreditMemoUncheckedCreateNestedManyWithoutTaxInput
+  salesReceipts?: Prisma.SalesReceiptUncheckedCreateNestedManyWithoutTaxInput
+  refundReceipts?: Prisma.RefundReceiptUncheckedCreateNestedManyWithoutTaxInput
+  delayedCharges?: Prisma.DelayedChargeUncheckedCreateNestedManyWithoutTaxInput
 }
 
-export type TaxRateCreateOrConnectWithoutDelayedCreditInput = {
+export type TaxRateCreateOrConnectWithoutDelayedCreditsInput = {
   where: Prisma.TaxRateWhereUniqueInput
-  create: Prisma.XOR<Prisma.TaxRateCreateWithoutDelayedCreditInput, Prisma.TaxRateUncheckedCreateWithoutDelayedCreditInput>
+  create: Prisma.XOR<Prisma.TaxRateCreateWithoutDelayedCreditsInput, Prisma.TaxRateUncheckedCreateWithoutDelayedCreditsInput>
 }
 
-export type TaxRateUpsertWithoutDelayedCreditInput = {
-  update: Prisma.XOR<Prisma.TaxRateUpdateWithoutDelayedCreditInput, Prisma.TaxRateUncheckedUpdateWithoutDelayedCreditInput>
-  create: Prisma.XOR<Prisma.TaxRateCreateWithoutDelayedCreditInput, Prisma.TaxRateUncheckedCreateWithoutDelayedCreditInput>
+export type TaxRateUpsertWithoutDelayedCreditsInput = {
+  update: Prisma.XOR<Prisma.TaxRateUpdateWithoutDelayedCreditsInput, Prisma.TaxRateUncheckedUpdateWithoutDelayedCreditsInput>
+  create: Prisma.XOR<Prisma.TaxRateCreateWithoutDelayedCreditsInput, Prisma.TaxRateUncheckedCreateWithoutDelayedCreditsInput>
   where?: Prisma.TaxRateWhereInput
 }
 
-export type TaxRateUpdateToOneWithWhereWithoutDelayedCreditInput = {
+export type TaxRateUpdateToOneWithWhereWithoutDelayedCreditsInput = {
   where?: Prisma.TaxRateWhereInput
-  data: Prisma.XOR<Prisma.TaxRateUpdateWithoutDelayedCreditInput, Prisma.TaxRateUncheckedUpdateWithoutDelayedCreditInput>
+  data: Prisma.XOR<Prisma.TaxRateUpdateWithoutDelayedCreditsInput, Prisma.TaxRateUncheckedUpdateWithoutDelayedCreditsInput>
 }
 
-export type TaxRateUpdateWithoutDelayedCreditInput = {
+export type TaxRateUpdateWithoutDelayedCreditsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1606,15 +1606,15 @@ export type TaxRateUpdateWithoutDelayedCreditInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   company?: Prisma.CompanyUpdateOneRequiredWithoutTaxRatesNestedInput
-  Invoice?: Prisma.InvoiceUpdateManyWithoutTaxNestedInput
-  Estimate?: Prisma.EstimateUpdateManyWithoutTaxNestedInput
-  CreditMemo?: Prisma.CreditMemoUpdateManyWithoutTaxNestedInput
-  SalesReceipt?: Prisma.SalesReceiptUpdateManyWithoutTaxNestedInput
-  RefundReceipt?: Prisma.RefundReceiptUpdateManyWithoutTaxNestedInput
-  DelayedCharge?: Prisma.DelayedChargeUpdateManyWithoutTaxNestedInput
+  invoices?: Prisma.InvoiceUpdateManyWithoutTaxNestedInput
+  estimates?: Prisma.EstimateUpdateManyWithoutTaxNestedInput
+  creditMemos?: Prisma.CreditMemoUpdateManyWithoutTaxNestedInput
+  salesReceipts?: Prisma.SalesReceiptUpdateManyWithoutTaxNestedInput
+  refundReceipts?: Prisma.RefundReceiptUpdateManyWithoutTaxNestedInput
+  delayedCharges?: Prisma.DelayedChargeUpdateManyWithoutTaxNestedInput
 }
 
-export type TaxRateUncheckedUpdateWithoutDelayedCreditInput = {
+export type TaxRateUncheckedUpdateWithoutDelayedCreditsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1631,12 +1631,12 @@ export type TaxRateUncheckedUpdateWithoutDelayedCreditInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  Invoice?: Prisma.InvoiceUncheckedUpdateManyWithoutTaxNestedInput
-  Estimate?: Prisma.EstimateUncheckedUpdateManyWithoutTaxNestedInput
-  CreditMemo?: Prisma.CreditMemoUncheckedUpdateManyWithoutTaxNestedInput
-  SalesReceipt?: Prisma.SalesReceiptUncheckedUpdateManyWithoutTaxNestedInput
-  RefundReceipt?: Prisma.RefundReceiptUncheckedUpdateManyWithoutTaxNestedInput
-  DelayedCharge?: Prisma.DelayedChargeUncheckedUpdateManyWithoutTaxNestedInput
+  invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTaxNestedInput
+  estimates?: Prisma.EstimateUncheckedUpdateManyWithoutTaxNestedInput
+  creditMemos?: Prisma.CreditMemoUncheckedUpdateManyWithoutTaxNestedInput
+  salesReceipts?: Prisma.SalesReceiptUncheckedUpdateManyWithoutTaxNestedInput
+  refundReceipts?: Prisma.RefundReceiptUncheckedUpdateManyWithoutTaxNestedInput
+  delayedCharges?: Prisma.DelayedChargeUncheckedUpdateManyWithoutTaxNestedInput
 }
 
 export type TaxRateCreateWithoutCompanyInput = {
@@ -1655,13 +1655,13 @@ export type TaxRateCreateWithoutCompanyInput = {
   deactivatedAt?: Date | string | null
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
-  Invoice?: Prisma.InvoiceCreateNestedManyWithoutTaxInput
-  Estimate?: Prisma.EstimateCreateNestedManyWithoutTaxInput
-  CreditMemo?: Prisma.CreditMemoCreateNestedManyWithoutTaxInput
-  SalesReceipt?: Prisma.SalesReceiptCreateNestedManyWithoutTaxInput
-  RefundReceipt?: Prisma.RefundReceiptCreateNestedManyWithoutTaxInput
-  DelayedCharge?: Prisma.DelayedChargeCreateNestedManyWithoutTaxInput
-  DelayedCredit?: Prisma.DelayedCreditCreateNestedManyWithoutTaxInput
+  invoices?: Prisma.InvoiceCreateNestedManyWithoutTaxInput
+  estimates?: Prisma.EstimateCreateNestedManyWithoutTaxInput
+  creditMemos?: Prisma.CreditMemoCreateNestedManyWithoutTaxInput
+  salesReceipts?: Prisma.SalesReceiptCreateNestedManyWithoutTaxInput
+  refundReceipts?: Prisma.RefundReceiptCreateNestedManyWithoutTaxInput
+  delayedCharges?: Prisma.DelayedChargeCreateNestedManyWithoutTaxInput
+  delayedCredits?: Prisma.DelayedCreditCreateNestedManyWithoutTaxInput
 }
 
 export type TaxRateUncheckedCreateWithoutCompanyInput = {
@@ -1680,13 +1680,13 @@ export type TaxRateUncheckedCreateWithoutCompanyInput = {
   deactivatedAt?: Date | string | null
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
-  Invoice?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTaxInput
-  Estimate?: Prisma.EstimateUncheckedCreateNestedManyWithoutTaxInput
-  CreditMemo?: Prisma.CreditMemoUncheckedCreateNestedManyWithoutTaxInput
-  SalesReceipt?: Prisma.SalesReceiptUncheckedCreateNestedManyWithoutTaxInput
-  RefundReceipt?: Prisma.RefundReceiptUncheckedCreateNestedManyWithoutTaxInput
-  DelayedCharge?: Prisma.DelayedChargeUncheckedCreateNestedManyWithoutTaxInput
-  DelayedCredit?: Prisma.DelayedCreditUncheckedCreateNestedManyWithoutTaxInput
+  invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTaxInput
+  estimates?: Prisma.EstimateUncheckedCreateNestedManyWithoutTaxInput
+  creditMemos?: Prisma.CreditMemoUncheckedCreateNestedManyWithoutTaxInput
+  salesReceipts?: Prisma.SalesReceiptUncheckedCreateNestedManyWithoutTaxInput
+  refundReceipts?: Prisma.RefundReceiptUncheckedCreateNestedManyWithoutTaxInput
+  delayedCharges?: Prisma.DelayedChargeUncheckedCreateNestedManyWithoutTaxInput
+  delayedCredits?: Prisma.DelayedCreditUncheckedCreateNestedManyWithoutTaxInput
 }
 
 export type TaxRateCreateOrConnectWithoutCompanyInput = {
@@ -1771,13 +1771,13 @@ export type TaxRateUpdateWithoutCompanyInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  Invoice?: Prisma.InvoiceUpdateManyWithoutTaxNestedInput
-  Estimate?: Prisma.EstimateUpdateManyWithoutTaxNestedInput
-  CreditMemo?: Prisma.CreditMemoUpdateManyWithoutTaxNestedInput
-  SalesReceipt?: Prisma.SalesReceiptUpdateManyWithoutTaxNestedInput
-  RefundReceipt?: Prisma.RefundReceiptUpdateManyWithoutTaxNestedInput
-  DelayedCharge?: Prisma.DelayedChargeUpdateManyWithoutTaxNestedInput
-  DelayedCredit?: Prisma.DelayedCreditUpdateManyWithoutTaxNestedInput
+  invoices?: Prisma.InvoiceUpdateManyWithoutTaxNestedInput
+  estimates?: Prisma.EstimateUpdateManyWithoutTaxNestedInput
+  creditMemos?: Prisma.CreditMemoUpdateManyWithoutTaxNestedInput
+  salesReceipts?: Prisma.SalesReceiptUpdateManyWithoutTaxNestedInput
+  refundReceipts?: Prisma.RefundReceiptUpdateManyWithoutTaxNestedInput
+  delayedCharges?: Prisma.DelayedChargeUpdateManyWithoutTaxNestedInput
+  delayedCredits?: Prisma.DelayedCreditUpdateManyWithoutTaxNestedInput
 }
 
 export type TaxRateUncheckedUpdateWithoutCompanyInput = {
@@ -1796,13 +1796,13 @@ export type TaxRateUncheckedUpdateWithoutCompanyInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  Invoice?: Prisma.InvoiceUncheckedUpdateManyWithoutTaxNestedInput
-  Estimate?: Prisma.EstimateUncheckedUpdateManyWithoutTaxNestedInput
-  CreditMemo?: Prisma.CreditMemoUncheckedUpdateManyWithoutTaxNestedInput
-  SalesReceipt?: Prisma.SalesReceiptUncheckedUpdateManyWithoutTaxNestedInput
-  RefundReceipt?: Prisma.RefundReceiptUncheckedUpdateManyWithoutTaxNestedInput
-  DelayedCharge?: Prisma.DelayedChargeUncheckedUpdateManyWithoutTaxNestedInput
-  DelayedCredit?: Prisma.DelayedCreditUncheckedUpdateManyWithoutTaxNestedInput
+  invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTaxNestedInput
+  estimates?: Prisma.EstimateUncheckedUpdateManyWithoutTaxNestedInput
+  creditMemos?: Prisma.CreditMemoUncheckedUpdateManyWithoutTaxNestedInput
+  salesReceipts?: Prisma.SalesReceiptUncheckedUpdateManyWithoutTaxNestedInput
+  refundReceipts?: Prisma.RefundReceiptUncheckedUpdateManyWithoutTaxNestedInput
+  delayedCharges?: Prisma.DelayedChargeUncheckedUpdateManyWithoutTaxNestedInput
+  delayedCredits?: Prisma.DelayedCreditUncheckedUpdateManyWithoutTaxNestedInput
 }
 
 export type TaxRateUncheckedUpdateManyWithoutCompanyInput = {
@@ -1829,23 +1829,23 @@ export type TaxRateUncheckedUpdateManyWithoutCompanyInput = {
  */
 
 export type TaxRateCountOutputType = {
-  Invoice: number
-  Estimate: number
-  CreditMemo: number
-  SalesReceipt: number
-  RefundReceipt: number
-  DelayedCharge: number
-  DelayedCredit: number
+  invoices: number
+  estimates: number
+  creditMemos: number
+  salesReceipts: number
+  refundReceipts: number
+  delayedCharges: number
+  delayedCredits: number
 }
 
 export type TaxRateCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  Invoice?: boolean | TaxRateCountOutputTypeCountInvoiceArgs
-  Estimate?: boolean | TaxRateCountOutputTypeCountEstimateArgs
-  CreditMemo?: boolean | TaxRateCountOutputTypeCountCreditMemoArgs
-  SalesReceipt?: boolean | TaxRateCountOutputTypeCountSalesReceiptArgs
-  RefundReceipt?: boolean | TaxRateCountOutputTypeCountRefundReceiptArgs
-  DelayedCharge?: boolean | TaxRateCountOutputTypeCountDelayedChargeArgs
-  DelayedCredit?: boolean | TaxRateCountOutputTypeCountDelayedCreditArgs
+  invoices?: boolean | TaxRateCountOutputTypeCountInvoicesArgs
+  estimates?: boolean | TaxRateCountOutputTypeCountEstimatesArgs
+  creditMemos?: boolean | TaxRateCountOutputTypeCountCreditMemosArgs
+  salesReceipts?: boolean | TaxRateCountOutputTypeCountSalesReceiptsArgs
+  refundReceipts?: boolean | TaxRateCountOutputTypeCountRefundReceiptsArgs
+  delayedCharges?: boolean | TaxRateCountOutputTypeCountDelayedChargesArgs
+  delayedCredits?: boolean | TaxRateCountOutputTypeCountDelayedCreditsArgs
 }
 
 /**
@@ -1861,49 +1861,49 @@ export type TaxRateCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Exte
 /**
  * TaxRateCountOutputType without action
  */
-export type TaxRateCountOutputTypeCountInvoiceArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type TaxRateCountOutputTypeCountInvoicesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.InvoiceWhereInput
 }
 
 /**
  * TaxRateCountOutputType without action
  */
-export type TaxRateCountOutputTypeCountEstimateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type TaxRateCountOutputTypeCountEstimatesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.EstimateWhereInput
 }
 
 /**
  * TaxRateCountOutputType without action
  */
-export type TaxRateCountOutputTypeCountCreditMemoArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type TaxRateCountOutputTypeCountCreditMemosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.CreditMemoWhereInput
 }
 
 /**
  * TaxRateCountOutputType without action
  */
-export type TaxRateCountOutputTypeCountSalesReceiptArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type TaxRateCountOutputTypeCountSalesReceiptsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.SalesReceiptWhereInput
 }
 
 /**
  * TaxRateCountOutputType without action
  */
-export type TaxRateCountOutputTypeCountRefundReceiptArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type TaxRateCountOutputTypeCountRefundReceiptsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.RefundReceiptWhereInput
 }
 
 /**
  * TaxRateCountOutputType without action
  */
-export type TaxRateCountOutputTypeCountDelayedChargeArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type TaxRateCountOutputTypeCountDelayedChargesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.DelayedChargeWhereInput
 }
 
 /**
  * TaxRateCountOutputType without action
  */
-export type TaxRateCountOutputTypeCountDelayedCreditArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type TaxRateCountOutputTypeCountDelayedCreditsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.DelayedCreditWhereInput
 }
 
@@ -1926,13 +1926,13 @@ export type TaxRateSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   deactivatedByUserId?: boolean
   deactivationReason?: boolean
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
-  Invoice?: boolean | Prisma.TaxRate$InvoiceArgs<ExtArgs>
-  Estimate?: boolean | Prisma.TaxRate$EstimateArgs<ExtArgs>
-  CreditMemo?: boolean | Prisma.TaxRate$CreditMemoArgs<ExtArgs>
-  SalesReceipt?: boolean | Prisma.TaxRate$SalesReceiptArgs<ExtArgs>
-  RefundReceipt?: boolean | Prisma.TaxRate$RefundReceiptArgs<ExtArgs>
-  DelayedCharge?: boolean | Prisma.TaxRate$DelayedChargeArgs<ExtArgs>
-  DelayedCredit?: boolean | Prisma.TaxRate$DelayedCreditArgs<ExtArgs>
+  invoices?: boolean | Prisma.TaxRate$invoicesArgs<ExtArgs>
+  estimates?: boolean | Prisma.TaxRate$estimatesArgs<ExtArgs>
+  creditMemos?: boolean | Prisma.TaxRate$creditMemosArgs<ExtArgs>
+  salesReceipts?: boolean | Prisma.TaxRate$salesReceiptsArgs<ExtArgs>
+  refundReceipts?: boolean | Prisma.TaxRate$refundReceiptsArgs<ExtArgs>
+  delayedCharges?: boolean | Prisma.TaxRate$delayedChargesArgs<ExtArgs>
+  delayedCredits?: boolean | Prisma.TaxRate$delayedCreditsArgs<ExtArgs>
   _count?: boolean | Prisma.TaxRateCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["taxRate"]>
 
@@ -1998,13 +1998,13 @@ export type TaxRateSelectScalar = {
 export type TaxRateOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "agencyName" | "type" | "rate" | "companyId" | "status" | "effectiveDate" | "endDate" | "createdAt" | "updatedAt" | "isActive" | "deactivatedAt" | "deactivatedByUserId" | "deactivationReason", ExtArgs["result"]["taxRate"]>
 export type TaxRateInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
-  Invoice?: boolean | Prisma.TaxRate$InvoiceArgs<ExtArgs>
-  Estimate?: boolean | Prisma.TaxRate$EstimateArgs<ExtArgs>
-  CreditMemo?: boolean | Prisma.TaxRate$CreditMemoArgs<ExtArgs>
-  SalesReceipt?: boolean | Prisma.TaxRate$SalesReceiptArgs<ExtArgs>
-  RefundReceipt?: boolean | Prisma.TaxRate$RefundReceiptArgs<ExtArgs>
-  DelayedCharge?: boolean | Prisma.TaxRate$DelayedChargeArgs<ExtArgs>
-  DelayedCredit?: boolean | Prisma.TaxRate$DelayedCreditArgs<ExtArgs>
+  invoices?: boolean | Prisma.TaxRate$invoicesArgs<ExtArgs>
+  estimates?: boolean | Prisma.TaxRate$estimatesArgs<ExtArgs>
+  creditMemos?: boolean | Prisma.TaxRate$creditMemosArgs<ExtArgs>
+  salesReceipts?: boolean | Prisma.TaxRate$salesReceiptsArgs<ExtArgs>
+  refundReceipts?: boolean | Prisma.TaxRate$refundReceiptsArgs<ExtArgs>
+  delayedCharges?: boolean | Prisma.TaxRate$delayedChargesArgs<ExtArgs>
+  delayedCredits?: boolean | Prisma.TaxRate$delayedCreditsArgs<ExtArgs>
   _count?: boolean | Prisma.TaxRateCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TaxRateIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2018,13 +2018,13 @@ export type $TaxRatePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   name: "TaxRate"
   objects: {
     company: Prisma.$CompanyPayload<ExtArgs>
-    Invoice: Prisma.$InvoicePayload<ExtArgs>[]
-    Estimate: Prisma.$EstimatePayload<ExtArgs>[]
-    CreditMemo: Prisma.$CreditMemoPayload<ExtArgs>[]
-    SalesReceipt: Prisma.$SalesReceiptPayload<ExtArgs>[]
-    RefundReceipt: Prisma.$RefundReceiptPayload<ExtArgs>[]
-    DelayedCharge: Prisma.$DelayedChargePayload<ExtArgs>[]
-    DelayedCredit: Prisma.$DelayedCreditPayload<ExtArgs>[]
+    invoices: Prisma.$InvoicePayload<ExtArgs>[]
+    estimates: Prisma.$EstimatePayload<ExtArgs>[]
+    creditMemos: Prisma.$CreditMemoPayload<ExtArgs>[]
+    salesReceipts: Prisma.$SalesReceiptPayload<ExtArgs>[]
+    refundReceipts: Prisma.$RefundReceiptPayload<ExtArgs>[]
+    delayedCharges: Prisma.$DelayedChargePayload<ExtArgs>[]
+    delayedCredits: Prisma.$DelayedCreditPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2438,13 +2438,13 @@ readonly fields: TaxRateFieldRefs;
 export interface Prisma__TaxRateClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   company<T extends Prisma.CompanyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CompanyDefaultArgs<ExtArgs>>): Prisma.Prisma__CompanyClient<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  Invoice<T extends Prisma.TaxRate$InvoiceArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TaxRate$InvoiceArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  Estimate<T extends Prisma.TaxRate$EstimateArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TaxRate$EstimateArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EstimatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  CreditMemo<T extends Prisma.TaxRate$CreditMemoArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TaxRate$CreditMemoArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CreditMemoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  SalesReceipt<T extends Prisma.TaxRate$SalesReceiptArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TaxRate$SalesReceiptArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SalesReceiptPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  RefundReceipt<T extends Prisma.TaxRate$RefundReceiptArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TaxRate$RefundReceiptArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RefundReceiptPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  DelayedCharge<T extends Prisma.TaxRate$DelayedChargeArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TaxRate$DelayedChargeArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DelayedChargePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  DelayedCredit<T extends Prisma.TaxRate$DelayedCreditArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TaxRate$DelayedCreditArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DelayedCreditPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  invoices<T extends Prisma.TaxRate$invoicesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TaxRate$invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  estimates<T extends Prisma.TaxRate$estimatesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TaxRate$estimatesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EstimatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  creditMemos<T extends Prisma.TaxRate$creditMemosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TaxRate$creditMemosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CreditMemoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  salesReceipts<T extends Prisma.TaxRate$salesReceiptsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TaxRate$salesReceiptsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SalesReceiptPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  refundReceipts<T extends Prisma.TaxRate$refundReceiptsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TaxRate$refundReceiptsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RefundReceiptPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  delayedCharges<T extends Prisma.TaxRate$delayedChargesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TaxRate$delayedChargesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DelayedChargePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  delayedCredits<T extends Prisma.TaxRate$delayedCreditsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TaxRate$delayedCreditsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DelayedCreditPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2891,9 +2891,9 @@ export type TaxRateDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
- * TaxRate.Invoice
+ * TaxRate.invoices
  */
-export type TaxRate$InvoiceArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type TaxRate$invoicesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Invoice
    */
@@ -2915,9 +2915,9 @@ export type TaxRate$InvoiceArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 /**
- * TaxRate.Estimate
+ * TaxRate.estimates
  */
-export type TaxRate$EstimateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type TaxRate$estimatesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Estimate
    */
@@ -2939,9 +2939,9 @@ export type TaxRate$EstimateArgs<ExtArgs extends runtime.Types.Extensions.Intern
 }
 
 /**
- * TaxRate.CreditMemo
+ * TaxRate.creditMemos
  */
-export type TaxRate$CreditMemoArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type TaxRate$creditMemosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the CreditMemo
    */
@@ -2963,9 +2963,9 @@ export type TaxRate$CreditMemoArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 /**
- * TaxRate.SalesReceipt
+ * TaxRate.salesReceipts
  */
-export type TaxRate$SalesReceiptArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type TaxRate$salesReceiptsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the SalesReceipt
    */
@@ -2987,9 +2987,9 @@ export type TaxRate$SalesReceiptArgs<ExtArgs extends runtime.Types.Extensions.In
 }
 
 /**
- * TaxRate.RefundReceipt
+ * TaxRate.refundReceipts
  */
-export type TaxRate$RefundReceiptArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type TaxRate$refundReceiptsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the RefundReceipt
    */
@@ -3011,9 +3011,9 @@ export type TaxRate$RefundReceiptArgs<ExtArgs extends runtime.Types.Extensions.I
 }
 
 /**
- * TaxRate.DelayedCharge
+ * TaxRate.delayedCharges
  */
-export type TaxRate$DelayedChargeArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type TaxRate$delayedChargesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the DelayedCharge
    */
@@ -3035,9 +3035,9 @@ export type TaxRate$DelayedChargeArgs<ExtArgs extends runtime.Types.Extensions.I
 }
 
 /**
- * TaxRate.DelayedCredit
+ * TaxRate.delayedCredits
  */
-export type TaxRate$DelayedCreditArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type TaxRate$delayedCreditsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the DelayedCredit
    */

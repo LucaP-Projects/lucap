@@ -315,7 +315,7 @@ export type DelayedChargeItemWhereInput = {
   deactivatedByUserId?: Prisma.StringNullableFilter<"DelayedChargeItem"> | string | null
   deactivationReason?: Prisma.StringNullableFilter<"DelayedChargeItem"> | string | null
   charge?: Prisma.XOR<Prisma.DelayedChargeScalarRelationFilter, Prisma.DelayedChargeWhereInput>
-  Item?: Prisma.XOR<Prisma.ItemNullableScalarRelationFilter, Prisma.ItemWhereInput> | null
+  item?: Prisma.XOR<Prisma.ItemNullableScalarRelationFilter, Prisma.ItemWhereInput> | null
 }
 
 export type DelayedChargeItemOrderByWithRelationInput = {
@@ -336,7 +336,7 @@ export type DelayedChargeItemOrderByWithRelationInput = {
   deactivatedByUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   deactivationReason?: Prisma.SortOrderInput | Prisma.SortOrder
   charge?: Prisma.DelayedChargeOrderByWithRelationInput
-  Item?: Prisma.ItemOrderByWithRelationInput
+  item?: Prisma.ItemOrderByWithRelationInput
 }
 
 export type DelayedChargeItemWhereUniqueInput = Prisma.AtLeast<{
@@ -360,7 +360,7 @@ export type DelayedChargeItemWhereUniqueInput = Prisma.AtLeast<{
   deactivatedByUserId?: Prisma.StringNullableFilter<"DelayedChargeItem"> | string | null
   deactivationReason?: Prisma.StringNullableFilter<"DelayedChargeItem"> | string | null
   charge?: Prisma.XOR<Prisma.DelayedChargeScalarRelationFilter, Prisma.DelayedChargeWhereInput>
-  Item?: Prisma.XOR<Prisma.ItemNullableScalarRelationFilter, Prisma.ItemWhereInput> | null
+  item?: Prisma.XOR<Prisma.ItemNullableScalarRelationFilter, Prisma.ItemWhereInput> | null
 }, "id">
 
 export type DelayedChargeItemOrderByWithAggregationInput = {
@@ -425,7 +425,7 @@ export type DelayedChargeItemCreateInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   charge: Prisma.DelayedChargeCreateNestedOneWithoutItemsInput
-  Item?: Prisma.ItemCreateNestedOneWithoutChargeItemsInput
+  item?: Prisma.ItemCreateNestedOneWithoutChargeItemsInput
 }
 
 export type DelayedChargeItemUncheckedCreateInput = {
@@ -463,7 +463,7 @@ export type DelayedChargeItemUpdateInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   charge?: Prisma.DelayedChargeUpdateOneRequiredWithoutItemsNestedInput
-  Item?: Prisma.ItemUpdateOneWithoutChargeItemsNestedInput
+  item?: Prisma.ItemUpdateOneWithoutChargeItemsNestedInput
 }
 
 export type DelayedChargeItemUncheckedUpdateInput = {
@@ -802,7 +802,7 @@ export type DelayedChargeItemCreateWithoutChargeInput = {
   deactivatedAt?: Date | string | null
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
-  Item?: Prisma.ItemCreateNestedOneWithoutChargeItemsInput
+  item?: Prisma.ItemCreateNestedOneWithoutChargeItemsInput
 }
 
 export type DelayedChargeItemUncheckedCreateWithoutChargeInput = {
@@ -954,7 +954,7 @@ export type DelayedChargeItemUpdateWithoutChargeInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  Item?: Prisma.ItemUpdateOneWithoutChargeItemsNestedInput
+  item?: Prisma.ItemUpdateOneWithoutChargeItemsNestedInput
 }
 
 export type DelayedChargeItemUncheckedUpdateWithoutChargeInput = {
@@ -1013,7 +1013,7 @@ export type DelayedChargeItemSelect<ExtArgs extends runtime.Types.Extensions.Int
   deactivatedByUserId?: boolean
   deactivationReason?: boolean
   charge?: boolean | Prisma.DelayedChargeDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.DelayedChargeItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.DelayedChargeItem$itemArgs<ExtArgs>
 }, ExtArgs["result"]["delayedChargeItem"]>
 
 export type DelayedChargeItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1034,7 +1034,7 @@ export type DelayedChargeItemSelectCreateManyAndReturn<ExtArgs extends runtime.T
   deactivatedByUserId?: boolean
   deactivationReason?: boolean
   charge?: boolean | Prisma.DelayedChargeDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.DelayedChargeItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.DelayedChargeItem$itemArgs<ExtArgs>
 }, ExtArgs["result"]["delayedChargeItem"]>
 
 export type DelayedChargeItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1055,7 +1055,7 @@ export type DelayedChargeItemSelectUpdateManyAndReturn<ExtArgs extends runtime.T
   deactivatedByUserId?: boolean
   deactivationReason?: boolean
   charge?: boolean | Prisma.DelayedChargeDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.DelayedChargeItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.DelayedChargeItem$itemArgs<ExtArgs>
 }, ExtArgs["result"]["delayedChargeItem"]>
 
 export type DelayedChargeItemSelectScalar = {
@@ -1080,22 +1080,22 @@ export type DelayedChargeItemSelectScalar = {
 export type DelayedChargeItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "chargeId" | "productName" | "description" | "quantity" | "rate" | "amount" | "sku" | "taxable" | "createdAt" | "updatedAt" | "itemId" | "isActive" | "deactivatedAt" | "deactivatedByUserId" | "deactivationReason", ExtArgs["result"]["delayedChargeItem"]>
 export type DelayedChargeItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   charge?: boolean | Prisma.DelayedChargeDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.DelayedChargeItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.DelayedChargeItem$itemArgs<ExtArgs>
 }
 export type DelayedChargeItemIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   charge?: boolean | Prisma.DelayedChargeDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.DelayedChargeItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.DelayedChargeItem$itemArgs<ExtArgs>
 }
 export type DelayedChargeItemIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   charge?: boolean | Prisma.DelayedChargeDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.DelayedChargeItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.DelayedChargeItem$itemArgs<ExtArgs>
 }
 
 export type $DelayedChargeItemPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "DelayedChargeItem"
   objects: {
     charge: Prisma.$DelayedChargePayload<ExtArgs>
-    Item: Prisma.$ItemPayload<ExtArgs> | null
+    item: Prisma.$ItemPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1509,7 +1509,7 @@ readonly fields: DelayedChargeItemFieldRefs;
 export interface Prisma__DelayedChargeItemClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   charge<T extends Prisma.DelayedChargeDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DelayedChargeDefaultArgs<ExtArgs>>): Prisma.Prisma__DelayedChargeClient<runtime.Types.Result.GetResult<Prisma.$DelayedChargePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  Item<T extends Prisma.DelayedChargeItem$ItemArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DelayedChargeItem$ItemArgs<ExtArgs>>): Prisma.Prisma__ItemClient<runtime.Types.Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  item<T extends Prisma.DelayedChargeItem$itemArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DelayedChargeItem$itemArgs<ExtArgs>>): Prisma.Prisma__ItemClient<runtime.Types.Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1956,9 +1956,9 @@ export type DelayedChargeItemDeleteManyArgs<ExtArgs extends runtime.Types.Extens
 }
 
 /**
- * DelayedChargeItem.Item
+ * DelayedChargeItem.item
  */
-export type DelayedChargeItem$ItemArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type DelayedChargeItem$itemArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Item
    */

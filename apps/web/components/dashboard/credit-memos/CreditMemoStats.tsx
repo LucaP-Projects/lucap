@@ -1,6 +1,6 @@
 import { memo } from 'react';
-import { CreditMemoStatus } from '@/lib/generated/prisma/client';
 import { Card, CardContent } from '@/components/ui/card';
+import { CreditMemoStatus } from '@/lib/generated/prisma/client';
 
 interface CreditMemoStatsProps {
   stats: {

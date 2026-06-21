@@ -1,16 +1,17 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { TaxRate, TaxType } from '@/lib/generated/prisma/client';
 import { useRouter } from 'next/navigation';
-import { Form, useForm } from 'react-hook-form';
-import { handleNumberInput } from '@/lib/utils';
-import { createTax, updateTax } from './action';
-import { taxFormSchema, TaxFormValues } from './schema';
+import { Controller, Form, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { Input } from '@/components/ui/input';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
+import { TaxRate, TaxType } from '@/lib/generated/prisma/client';
+import { handleNumberInput } from '@/lib/utils';
+import { Field, FieldError, FieldLabel } from '../ui/field';
+import { createTax, updateTax } from './action';
+import { taxFormSchema, TaxFormValues } from './schema';
 
 interface TaxFormProps {
   onSuccess: (newTax?: TaxRate) => void;
@@ -61,7 +62,7 @@ export function TaxForm({
       if (!response.success) {
         toast.error(
           response.error ||
-            `Failed to ${editData ? 'update' : 'create'} tax rate`
+          `Failed to ${editData ? 'update' : 'create'} tax rate`
         );
         return;
       }
@@ -92,64 +93,62 @@ export function TaxForm({
   return (
     <Form {...form}>
       <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
-        <FormField
+        <Controller
           control={form.control}
           name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Name*</FormLabel>
-              <FormControl>
-                <Input {...field} placeholder="Enter tax rate name" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+          render={({ field, fieldState }) => (
+            <Field>
+              <FieldLabel>Name*</FieldLabel>
+              <Input {...field} placeholder="Enter tax rate name" />
+              {fieldState.error && (
+                <FieldError errors={[fieldState.error]} />
+              )}
+            </Field>
           )}
         />
 
-        <FormField
+        <Controller
           control={form.control}
           name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Description</FormLabel>
-              <FormControl>
-                <Textarea
-                  {...field}
-                  placeholder="Enter tax rate description"
-                  className="resize-none"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+          render={({ field, fieldState }) => (
+            <Field>
+              <FieldLabel>Description</FieldLabel>
+              <Textarea
+                {...field}
+                placeholder="Enter tax rate description"
+                className="resize-none"
+              />
+              {fieldState.error && (
+                <FieldError errors={[fieldState.error]} />
+              )}
+            </Field>
           )}
         />
 
-        <FormField
+        <Controller
           control={form.control}
           name="agencyName"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Tax Agency*</FormLabel>
-              <FormControl>
-                <Input {...field} placeholder="Enter tax agency name" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+          render={({ field, fieldState }) => (
+            <Field>
+              <FieldLabel>Tax Agency*</FieldLabel>
+              <Input {...field} placeholder="Enter tax agency name" />
+              {fieldState.error && (
+                <FieldError errors={[fieldState.error]} />
+              )}
+            </Field>
           )}
         />
 
-        <FormField
+        <Controller
           control={form.control}
           name="type"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Tax Type*</FormLabel>
+          render={({ field, fieldState }) => (
+            <Field>
+              <FieldLabel>Tax Type*</FieldLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select tax type" />
-                  </SelectTrigger>
-                </FormControl>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select tax type" />
+                </SelectTrigger>
                 <SelectContent>
                   <SelectItem value={TaxType.SALES}>Sales Tax</SelectItem>
                   <SelectItem value={TaxType.VAT}>VAT</SelectItem>
@@ -158,32 +157,34 @@ export function TaxForm({
                   <SelectItem value={TaxType.OTHER}>Other</SelectItem>
                 </SelectContent>
               </Select>
-              <FormMessage />
-            </FormItem>
+              {fieldState.error && (
+                <FieldError errors={[fieldState.error]} />
+              )}
+            </Field>
           )}
         />
 
-        <FormField
+        <Controller
           control={form.control}
           name="rate"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Rate (%)*</FormLabel>
-              <FormControl>
-                <Input
-                  type="number"
-                  step="0.01"
-                  min="0"
-                  max="100"
-                  onChange={(e) =>
-                    handleNumberInput(e.target.value, field.onChange)
-                  }
-                  value={field.value}
-                />
-              </FormControl>
+          render={({ field, fieldState }) => (
+            <Field>
+              <FieldLabel>Rate (%)*</FieldLabel>
+              <Input
+                type="number"
+                step="0.01"
+                min="0"
+                max="100"
+                onChange={(e) =>
+                  handleNumberInput(e.target.value, field.onChange)
+                }
+                value={field.value}
+              />
 
-              <FormMessage />
-            </FormItem>
+              {fieldState.error && (
+                <FieldError errors={[fieldState.error]} />
+              )}
+            </Field>
           )}
         />
       </form>

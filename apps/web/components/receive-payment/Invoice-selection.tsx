@@ -1,8 +1,9 @@
 'use client';
 
-import { Payment } from '@/lib/generated/prisma/client';
 import { format } from 'date-fns';
-import { Card, CardContent, Checkbox } from '@/components/ui/card';
+import { Card, CardContent,  } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Payment } from '@/lib/generated/prisma/client';
 import { formatCurrency } from '@/lib/utils';
 
 interface InvoiceSelectionProps {

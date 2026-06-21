@@ -1,6 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@/lib/auth";
 import { getSessionCookie } from 'better-auth/cookies';
+import { NextRequest, NextResponse } from "next/server";
 
 const protectedRoutes = [
   '/profile',
