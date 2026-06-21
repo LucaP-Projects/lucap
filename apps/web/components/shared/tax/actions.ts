@@ -24,7 +24,7 @@ export type TaxResponse = {
 
 export async function getTaxesForSelect(search?: string): Promise<TaxResponse> {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
@@ -32,7 +32,7 @@ export async function getTaxesForSelect(search?: string): Promise<TaxResponse> {
       redirect('/select-company');
     }
 
-    const taxes = await db.taxRate.findMany({
+    const taxes = await prisma.taxRate.findMany({
       where: {
         companyId: session.user.companyId,
         status: TaxStatus.ACTIVE,
@@ -80,7 +80,7 @@ export async function deleteTax(
   id: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
@@ -89,7 +89,7 @@ export async function deleteTax(
     }
 
     // Check if tax exists and belongs to the company
-    const tax = await db.taxRate.findUnique({
+    const tax = await prisma.taxRate.findUnique({
       where: {
         id,
         companyId: session.user.companyId,
@@ -123,7 +123,7 @@ export async function deleteTax(
     }
 
     // Perform soft delete
-    await db.taxRate.update({
+    await prisma.taxRate.update({
       where: { id },
       data: {
         isActive: false,

@@ -1,12 +1,13 @@
 import React, { memo } from 'react';
 import { format } from 'date-fns';
 import { Controller, useFormContext, useWatch } from 'react-hook-form';
-import { Calendar, CalendarIcon } from 'lucide-react';
+import {  CalendarIcon } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { EstimateFormValues } from '../../estimate/schema';
 import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
+import { Calendar } from '@/components/ui/calendar';
 
 export const EstimateStatusSection: React.FC = memo(() => {
   const { control } = useFormContext<EstimateFormValues>();
@@ -51,7 +52,7 @@ export const EstimateStatusSection: React.FC = memo(() => {
                 mode="single"
                 selected={validUntil}
                 onSelect={field.onChange}
-                initialFocus
+                autoFocus
               />
             </PopoverContent>
           </Popover>

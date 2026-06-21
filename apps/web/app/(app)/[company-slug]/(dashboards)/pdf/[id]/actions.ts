@@ -16,7 +16,7 @@ type CreditMemoResponse = InvoiceResponse;
 
 export async function getInvoiceById(id: string): Promise<InvoiceResponse> {
   try {
-    const invoice = await db.invoice.findUnique({
+    const invoice = await prisma.invoice.findUnique({
       where: { id },
       include: {
         customer: true,
@@ -79,7 +79,7 @@ export async function getDelayedCreditById(
   id: string
 ): Promise<DelayedCreditResponse> {
   try {
-    const delayedCredit = await db.delayedCredit.findUnique({
+    const delayedCredit = await prisma.delayedCredit.findUnique({
       where: { id },
       include: {
         customer: true,
@@ -133,7 +133,7 @@ export async function getDelayedChargesById(
   id: string
 ): Promise<DelayedChargesResponse> {
   try {
-    const delayedCharges = await db.delayedCharge.findUnique({
+    const delayedCharges = await prisma.delayedCharge.findUnique({
       where: { id },
       include: {
         customer: true,
@@ -186,7 +186,7 @@ export async function getDelayedChargesById(
 
 export async function getEstimateById(id: string): Promise<EstimateResponse> {
   try {
-    const estimate = await db.estimate.findUnique({
+    const estimate = await prisma.estimate.findUnique({
       where: { id },
       include: {
         customer: true,
@@ -242,7 +242,7 @@ export async function getSalesReceiptById(
   id: string
 ): Promise<SalesReceiptResponse> {
   try {
-    const salesReceipt = await db.salesReceipt.findUnique({
+    const salesReceipt = await prisma.salesReceipt.findUnique({
       where: { id },
       include: {
         customer: true,
@@ -299,7 +299,7 @@ export async function getRefundReceiptById(
   id: string
 ): Promise<RefundReceiptResponse> {
   try {
-    const refundReceipt = await db.refundReceipt.findUnique({
+    const refundReceipt = await prisma.refundReceipt.findUnique({
       where: { id },
       include: {
         customer: true,
@@ -355,7 +355,7 @@ export async function getCreditMemoById(
   id: string
 ): Promise<CreditMemoResponse> {
   try {
-    const creditMemo = await db.creditMemo.findUnique({
+    const creditMemo = await prisma.creditMemo.findUnique({
       where: { id },
       include: {
         customer: true,

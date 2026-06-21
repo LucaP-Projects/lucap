@@ -1,7 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import {
   AlertTriangle,
-  Badge,
   ChevronDown,
   ChevronRight,
   Search,
@@ -21,6 +20,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
+import { Badge } from '@/components/ui/badge';
 
 // Add loading skeleton for better UX
 export const CustomerSkeleton = () => (
@@ -156,11 +156,7 @@ export const OneTimeAssignForm: React.FC<OneTimeAssignFormProps> = ({
         await processAssignment();
       }
     } catch (error) {
-      toast({
-        title: 'Error',
-        description: 'Failed to check existing assignments',
-        variant: 'destructive'
-      });
+      toast.error('Failed to check existing assignments');
     } finally {
       setIsLoading(false);
     }
@@ -182,20 +178,14 @@ export const OneTimeAssignForm: React.FC<OneTimeAssignFormProps> = ({
         throw new Error(response.error?.message);
       }
 
-      toast({
-        title: 'Success',
-        description: 'Payment event assigned successfully'
-      });
+      toast.success('Payment event assigned successfully');
       onClose();
     } catch (error) {
-      toast({
-        title: 'Error',
-        description:
-          error instanceof Error
-            ? error.message
-            : 'Failed to assign payment event',
-        variant: 'destructive'
-      });
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : 'Failed to assign payment event'
+      );
     } finally {
       setIsLoading(false);
       setShowWarning(false);

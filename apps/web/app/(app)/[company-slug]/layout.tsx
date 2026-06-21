@@ -1,4 +1,4 @@
-import { cookies } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 import {
   SidebarInset,
   SidebarProvider,
@@ -21,7 +21,7 @@ export default async function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await auth.api.getSession();
+  const session = await auth.api.getSession({headers: await headers()});
   const cookieStore = await cookies();
   const locale = await getLocale();
   const sidebarState = cookieStore.get('sidebar:state')?.value;

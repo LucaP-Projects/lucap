@@ -6,6 +6,7 @@ import { redirect } from 'next/navigation';
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { generateUniqueNumber } from '@/lib/utils';
+import { headers } from 'next/headers';
 
 type SubscriptionAssignmentInput = {
   paymentEventId: string;
@@ -53,7 +54,7 @@ export async function assignSubscription(
   input: SubscriptionAssignmentInput
 ): Promise<AssignmentResult> {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }

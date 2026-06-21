@@ -22,7 +22,7 @@ interface CategoryFormProps {
   isSubmitting: boolean;
   setIsSubmitting: (value: boolean) => void;
   isNestedForm?: boolean;
-  category?: CategoryWithItems; // Add this for editing
+  category?: CategoryWithItems; 
 }
 
 export function CategoryForm({
@@ -31,7 +31,7 @@ export function CategoryForm({
   isSubmitting,
   setIsSubmitting,
   isNestedForm = false,
-  category // New prop for editing
+  category 
 }: CategoryFormProps) {
   const router = useRouter();
   const isEditMode = !!category;

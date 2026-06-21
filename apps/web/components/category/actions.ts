@@ -5,6 +5,7 @@ import { CategoryWithItems } from '@/components/dashboard/categories/types';
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { CategoryFormValues } from './schema';
+import { headers } from 'next/headers';
 
 export async function createCategory(data: CategoryFormValues): Promise<{
   success: boolean;
@@ -12,7 +13,7 @@ export async function createCategory(data: CategoryFormValues): Promise<{
   data?: CategoryWithItems;
 }> {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
@@ -20,7 +21,7 @@ export async function createCategory(data: CategoryFormValues): Promise<{
       redirect('/select-company');
     }
 
-    return await db.$transaction(async (tx) => {
+    return await prisma.$transaction(async (tx) => {
       // Check for existing category within transaction
       const existingCategory = await tx.category.findFirst({
         where: {
@@ -49,7 +50,7 @@ export async function createCategory(data: CategoryFormValues): Promise<{
         }
       }
 
-      const createdCategory = await db.category.create({
+      const createdCategory = await prisma.category.create({
         data: {
           companyId: session.user.companyId,
           name: data.name,
@@ -98,7 +99,7 @@ export async function updateCategory(
   data?: CategoryWithItems;
 }> {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
@@ -106,7 +107,7 @@ export async function updateCategory(
       redirect('/select-company');
     }
 
-    return await db.$transaction(async (tx) => {
+    return await prisma.$transaction(async (tx) => {
       // Check for existing category with same name (excluding current category)
       const existingCategory = await tx.category.findFirst({
         where: {

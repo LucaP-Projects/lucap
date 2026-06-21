@@ -64,7 +64,7 @@ export async function uploadFile(file: File, folder: string): Promise<string> {
 
   try {
     // Validate file size (e.g., 5MB limit)
-    const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+    const MAX_FILE_SIZE = parseInt(process.env.FILE_UPLOAD_MAX_SIZE || '5242880', 10); 
     if (file.size > MAX_FILE_SIZE) {
       throw new Error('File size exceeds 5MB limit');
     }

@@ -36,6 +36,7 @@
     "framer-motion": "^12.40.0",
     "immer": "^11.1.8",
     "jsonwebtoken": "9.0.3",
+    "loadsh": "^0.0.4",
     "lucide-react": "^1.17.0",
     "next": "16.2.7",
     "next-intl": "^4.13.0",

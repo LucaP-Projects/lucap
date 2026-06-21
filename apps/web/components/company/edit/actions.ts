@@ -6,6 +6,7 @@ import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { EditCompanyInput } from '../types';
 import { Prisma } from '@/lib/generated/prisma/client';
+import { headers } from 'next/headers';
 
 export type EditCompanyResponse = {
   success: boolean;
@@ -15,7 +16,7 @@ export type EditCompanyResponse = {
 
 export async function getCompany(companyId: string) {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       return { success: false, error: 'Not authenticated' };
     }
@@ -63,7 +64,7 @@ export async function editCompany(
   data: EditCompanyInput
 ): Promise<EditCompanyResponse> {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       return { success: false, error: 'Not authenticated' };
     }

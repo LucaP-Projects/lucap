@@ -63,7 +63,7 @@ export async function createRefundReceipt(
   color: string
 ): Promise<CreateRefundReceiptResponse> {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
@@ -72,7 +72,7 @@ export async function createRefundReceipt(
     }
 
     // Create refund receipt and handle file uploads in transaction
-    const refund = await db.$transaction(async (tx) => {
+    const refund = await prisma.$transaction(async (tx) => {
       // Step 1: Generate refund number and validate inputs
       const refundNumber = `RF-${generateUniqueNumber()}`;
 
@@ -281,7 +281,7 @@ export async function createRefundReceipt(
 
 export async function getRefundReceipt(id: string) {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
@@ -289,7 +289,7 @@ export async function getRefundReceipt(id: string) {
       redirect('/select-company');
     }
 
-    const refund = await db.refundReceipt.findUnique({
+    const refund = await prisma.refundReceipt.findUnique({
       where: {
         id,
         companyId: session.user.companyId,
@@ -355,7 +355,7 @@ export async function updateRefundReceipt(
   color: string
 ) {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
@@ -367,7 +367,7 @@ export async function updateRefundReceipt(
       throw new Error('Missing required update data or refund ID');
     }
 
-    const refund = await db.$transaction(async (tx) => {
+    const refund = await prisma.$transaction(async (tx) => {
       // Step 1: Validate customer and fetch existing refund
       await validateCustomer(tx, data.customerId, session.user.companyId);
 
@@ -719,7 +719,7 @@ export async function deleteRefundReceipt(
   id: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
@@ -728,7 +728,7 @@ export async function deleteRefundReceipt(
     }
 
     // Check if the refund can be deleted
-    const refund = await db.refundReceipt.findUnique({
+    const refund = await prisma.refundReceipt.findUnique({
       where: {
         id,
         companyId: session.user.companyId,
@@ -757,7 +757,7 @@ export async function deleteRefundReceipt(
     }
 
     // Use a transaction to ensure all operations succeed or none do
-    await db.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx) => {
       // 1. Soft delete refund attachments
       await tx.refundAttachment.updateMany({
         where: {

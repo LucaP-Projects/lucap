@@ -1,12 +1,12 @@
 'use server';
 import { revalidatePath } from 'next/cache';
-import { cookies } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { auth,  } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 export async function getUserCompanies() {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
@@ -64,7 +64,7 @@ export async function getUserCompanies() {
 
 export async function selectCompany(companyId: string) {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
 
     if (!session?.user?.id) {
       throw new Error('Not authenticated');

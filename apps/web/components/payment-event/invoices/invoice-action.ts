@@ -11,7 +11,7 @@ export async function processPayment(
   pathToRevalidate: string
 ) {
   try {
-    const invoice = await db.invoice.findUnique({
+    const invoice = await prisma.invoice.findUnique({
       where: { id: data.invoiceId },
       include: {
         payments: true,
@@ -47,7 +47,7 @@ export async function processPayment(
     };
 
     // Create the new payment record
-    const payment = await db.payment.create({
+    const payment = await prisma.payment.create({
       data: {
         amount: data.amount,
         paymentMethod: data.paymentMethod,
@@ -88,7 +88,7 @@ export async function processPayment(
           ? 'PARTIAL'
           : 'PENDING';
 
-    await db.invoice.update({
+    await prisma.invoice.update({
       where: { id: data.invoiceId },
       data: {
         status: newStatus,
@@ -130,7 +130,7 @@ export async function processPayment(
 }
 
 async function updatePaymentEventStatus(customerPaymentEventId: string) {
-  const customerPaymentEvent = await db.customerPaymentEvent.findUnique({
+  const customerPaymentEvent = await prisma.customerPaymentEvent.findUnique({
     where: { id: customerPaymentEventId },
     include: {
       invoices: true,
@@ -158,7 +158,7 @@ async function updateOneTimePaymentStatus(customerPaymentEvent: any) {
     (invoice: Invoice) => invoice.status === 'PAID'
   );
 
-  await db.customerPaymentEvent.update({
+  await prisma.customerPaymentEvent.update({
     where: { id: customerPaymentEvent.id },
     data: {
       status: isPaid ? 'PAID' : 'PENDING'
@@ -268,7 +268,7 @@ async function updateStatus(
   reason: string
 ) {
   // First get the current progress
-  const customerPaymentEvent = await db.customerPaymentEvent.findUnique({
+  const customerPaymentEvent = await prisma.customerPaymentEvent.findUnique({
     where: { id: customerPaymentEventId }
   });
 
@@ -295,7 +295,7 @@ async function updateStatus(
     lastProcessedDate: new Date().toISOString()
   };
 
-  await db.customerPaymentEvent.update({
+  await prisma.customerPaymentEvent.update({
     where: { id: customerPaymentEventId },
     data: {
       status: paymentStatus,
@@ -325,7 +325,7 @@ function mapPaymentToSubscriptionStatus(
 // Add this new function to fetch the latest invoice data
 export async function getLatestInvoiceData(invoiceId: string) {
   try {
-    const invoice = await db.invoice.findUnique({
+    const invoice = await prisma.invoice.findUnique({
       where: { id: invoiceId }
     });
 

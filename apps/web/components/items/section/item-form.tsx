@@ -12,6 +12,7 @@ import { PurchaseInfo } from './purchase-info';
 import { SalesInfo } from './sales-info';
 import { TypeSelector } from './type-selector';
 import { toast } from 'sonner';
+import { FieldGroup } from '@/components/ui/field';
 
 interface ItemFormProps {
   initialData?: Partial<ItemFormValues> & { id?: string };
@@ -241,31 +242,33 @@ export default function ItemForm({
   };
 
   return (
-    <Form {...form}>
-      <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
+    <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
+      <FieldGroup>
+      <div className="space-y-6">
+
+        <TypeSelector
+          value={form.watch('type')}
+          onChange={(value) => {
+            form.setValue('type', value as ItemFormValues['type']);
+            // Reset inventory specific fields when changing type
+            if (value !== 'INVENTORY') {
+              form.setValue('initialQuantity', 0);
+              form.setValue('reorderPoint', 0);
+              form.setValue('inventoryAssetAccountId', '');
+            }
+          }}
+        />
         <div className="space-y-6">
-          <TypeSelector
-            value={form.watch('type')}
-            onChange={(value) => {
-              form.setValue('type', value as ItemFormValues['type']);
-              // Reset inventory specific fields when changing type
-              if (value !== 'INVENTORY') {
-                form.setValue('initialQuantity', 0);
-                form.setValue('reorderPoint', 0);
-                form.setValue('inventoryAssetAccountId', '');
-              }
-            }}
-          />
-          <div className="space-y-6">
-            <BasicInfo form={form} />
-            {form.watch('type') === 'INVENTORY' && (
-              <InventoryInfo form={form} />
-            )}
-            <SalesInfo form={form} />
-            <PurchaseInfo form={form} />
-          </div>
+          <BasicInfo form={form} />
+          {form.watch('type') === 'INVENTORY' && (
+            <InventoryInfo form={form} />
+          )}
+          <SalesInfo form={form} />
+          <PurchaseInfo form={form} />
         </div>
-      </form>
-    </Form>
+      </div>
+      </FieldGroup>
+
+    </form>
   );
 }

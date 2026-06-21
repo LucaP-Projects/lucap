@@ -56,7 +56,7 @@ export async function createTransactionRecord({
   creditMemoId?: string;
   refundReceiptId?: string;
 }) {
-  const session = await auth.api.getSession();
+  const session = await auth.api.getSession({headers: await headers()});
   if (!session?.user?.id) {
     redirect('/login');
   }
@@ -64,7 +64,7 @@ export async function createTransactionRecord({
     redirect('/select-company');
   }
 
-  return await db.transaction.create({
+  return await prisma.transaction.create({
     data: {
       type,
       amount,
@@ -90,14 +90,14 @@ export async function createTransactionRecord({
 // Modified createPayment action
 export async function createPayment(data: CreatePaymentData) {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
     if (!session?.user?.companyId) {
       redirect('/select-company');
     }
-    const payment = await db.$transaction(async (tx) => {
+    const payment = await prisma.$transaction(async (tx) => {
       // Create the payment record
       const payment = await tx.payment.create({
         data: {
@@ -143,7 +143,7 @@ export async function activatePaymentEvent(id: string): Promise<ActionResult> {
       return { error: 'Payment event ID is required' };
     }
 
-    const paymentEvent = await db.paymentEvent.findUnique({
+    const paymentEvent = await prisma.paymentEvent.findUnique({
       where: {
         id,
         isActive: true
@@ -174,7 +174,7 @@ export async function activatePaymentEvent(id: string): Promise<ActionResult> {
       return { error: 'Payment settings not configured' };
     }
 
-    await db.paymentEvent.update({
+    await prisma.paymentEvent.update({
       where: { id },
       data: { active: true }
     });
@@ -195,7 +195,7 @@ export async function deactivatePaymentEvent(
       return { error: 'Payment event ID is required' };
     }
 
-    const paymentEvent = await db.paymentEvent.findUnique({
+    const paymentEvent = await prisma.paymentEvent.findUnique({
       where: {
         id,
         isActive: true
@@ -214,7 +214,7 @@ export async function deactivatePaymentEvent(
       return { error: 'Payment event not found' };
     }
 
-    await db.paymentEvent.update({
+    await prisma.paymentEvent.update({
       where: { id },
       data: { active: false }
     });
@@ -232,13 +232,13 @@ export async function deletePaymentEvent(id: string): Promise<ActionResult> {
   }
 
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       return { error: 'Authentication required' };
     }
 
     // First check if the event exists and can be deleted
-    const paymentEvent = await db.paymentEvent.findUnique({
+    const paymentEvent = await prisma.paymentEvent.findUnique({
       where: {
         id,
         isActive: true
@@ -265,7 +265,7 @@ export async function deletePaymentEvent(id: string): Promise<ActionResult> {
     }
 
     // Perform soft deletion in correct order within a transaction
-    await db.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx) => {
       // 1. First null out the versionId reference to break the circular dependency
       await tx.paymentEvent.update({
         where: { id },

@@ -100,10 +100,10 @@ export async function getDelayedCreditsPage(
   }
 
   // Get total count for pagination
-  const total = await db.delayedCredit.count({ where });
+  const total = await prisma.delayedCredit.count({ where });
 
   // Get credits for current page
-  const data = await db.delayedCredit.findMany({
+  const data = await prisma.delayedCredit.findMany({
     where,
     take: pageSize,
     skip,
@@ -138,7 +138,7 @@ export async function getDelayedCreditsPage(
 
 export async function getDelayedCreditStats() {
   // Get credits grouped by status
-  const statusGroups = await db.delayedCredit.groupBy({
+  const statusGroups = await prisma.delayedCredit.groupBy({
     by: ['status'],
     _count: {
       _all: true
@@ -150,7 +150,7 @@ export async function getDelayedCreditStats() {
   });
 
   // Calculate totals
-  const totals = await db.delayedCredit.aggregate({
+  const totals = await prisma.delayedCredit.aggregate({
     _sum: {
       taxAmount: true,
       amount: true
@@ -240,7 +240,7 @@ export async function deleteDelayedCredits(
 
   try {
     // Get the current session for user ID
-    const session = await auth();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       return {
         success: false,
@@ -249,7 +249,7 @@ export async function deleteDelayedCredits(
     }
 
     // Check if any credits are already processed
-    const processedCredits = await db.delayedCredit.findMany({
+    const processedCredits = await prisma.delayedCredit.findMany({
       where: {
         id: {
           in: ids
@@ -272,7 +272,7 @@ export async function deleteDelayedCredits(
     }
 
     // Use a transaction to ensure all operations succeed or none do
-    await db.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx) => {
       // 1. Soft delete credit attachments
       await tx.delayedCreditAttachment.updateMany({
         where: {

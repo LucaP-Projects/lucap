@@ -9,9 +9,10 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { auth } from '@/lib/auth';
+import { headers } from 'next/headers';
 
 export async function User() {
-  const session = await auth.api.getSession();
+  const session = await auth.api.getSession({headers: await headers()});
   const user = session?.user;
 
   return (

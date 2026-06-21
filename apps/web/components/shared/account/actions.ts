@@ -96,7 +96,7 @@ async function getAccountsWithHierarchy(
   `;
 
   const searchParams = search ? [`${companyId}`, `%${search}%`] : [companyId];
-  const results = await db.$queryRawUnsafe<AccountQueryResult[]>(
+  const results = await prisma.$queryRawUnsafe<AccountQueryResult[]>(
     query,
     ...searchParams
   );
@@ -138,7 +138,7 @@ export async function getAccountsForSelect(
   search?: string
 ): Promise<AccountResponse> {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }

@@ -107,10 +107,10 @@ export async function getRefundReceiptsPage(
   }
 
   // Get total count for pagination
-  const total = await db.refundReceipt.count({ where });
+  const total = await prisma.refundReceipt.count({ where });
 
   // Get refunds for current page
-  const data = await db.refundReceipt.findMany({
+  const data = await prisma.refundReceipt.findMany({
     where,
     take: pageSize,
     skip,
@@ -145,7 +145,7 @@ export async function getRefundReceiptsPage(
 
 export async function getRefundReceiptStats() {
   // Get refunds grouped by status
-  const statusGroups = await db.refundReceipt.groupBy({
+  const statusGroups = await prisma.refundReceipt.groupBy({
     by: ['status'],
     _count: {
       _all: true
@@ -157,7 +157,7 @@ export async function getRefundReceiptStats() {
   });
 
   // Calculate totals
-  const totals = await db.refundReceipt.aggregate({
+  const totals = await prisma.refundReceipt.aggregate({
     _sum: {
       taxAmount: true,
       amount: true
@@ -248,7 +248,7 @@ export async function deleteRefundReceipts(
 
   try {
     // Get the current session for user ID
-    const session = await auth();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       return {
         success: false,
@@ -257,7 +257,7 @@ export async function deleteRefundReceipts(
     }
 
     // Check if any refunds are already processed
-    const processedRefunds = await db.refundReceipt.findMany({
+    const processedRefunds = await prisma.refundReceipt.findMany({
       where: {
         id: {
           in: ids
@@ -280,7 +280,7 @@ export async function deleteRefundReceipts(
     }
 
     // Use a transaction to ensure all operations succeed or none do
-    await db.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx) => {
       // 1. Soft delete refund attachments
       await tx.refundAttachment.updateMany({
         where: {

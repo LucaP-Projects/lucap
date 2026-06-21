@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { UseFormReturn } from 'react-hook-form';
+import { Controller, UseFormReturn } from 'react-hook-form';
 
 
 import { handleNumberInput } from '@/lib/utils';
@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
+import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 
 interface SalesInfoProps {
   form: UseFormReturn<ItemFormValues>;
@@ -66,33 +67,30 @@ export function SalesInfo({ form }: SalesInfoProps) {
     <div className="space-y-4 pb-4">
       <h2 className="text-lg font-semibold">Sales Information</h2>
 
-      <FormField
+      <Controller
         control={form.control}
         name="sellable"
-        render={({ field }) => (
-          <FormItem className="flex items-center justify-between rounded-lg border p-3 sm:p-4">
+        render={({ field, fieldState }) => (
+          <Field className="flex items-center justify-between rounded-lg border p-3 sm:p-4">
             <div className="space-y-0.5">
-              <FormLabel className="text-base">Sell this item</FormLabel>
+              <FieldLabel className="text-base">Sell this item</FieldLabel>
               <p className="text-muted-foreground text-sm">
                 Enable if you sell this item to customers
               </p>
             </div>
-            <FormControl>
-              <Switch checked={field.value} onCheckedChange={field.onChange} />
-            </FormControl>
-          </FormItem>
+            <Switch checked={field.value} onCheckedChange={field.onChange} />
+          </Field>
         )}
       />
 
       {sellable && (
         <div className="space-y-4">
-          <FormField
+          <Controller
             control={form.control}
             name="salesPrice"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Sales Price</FormLabel>
-                <FormControl>
+            render={({ field, fieldState }) => (
+              <Field>
+                <FieldLabel>Sales Price</FieldLabel>
                   <Input
                     type="number"
                     step="0.01"
@@ -102,39 +100,40 @@ export function SalesInfo({ form }: SalesInfoProps) {
                       handleNumberInput(e.target.value, field.onChange)
                     }
                   />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
+                {fieldState.error && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
             )}
           />
-          <FormField
+          <Controller
             control={form.control}
             name="incomeAccountId"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Income Account</FormLabel>
-                <FormControl>
+            render={({ field, fieldState }) => (
+              <Field>
+                <FieldLabel>Income Account</FieldLabel>
                   <AccountSelect
                     onSelect={(account) => field.onChange(account.id)}
                     selectedAccountId={field.value}
                     showCreate
                   />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
+                {fieldState.error && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
             )}
           />
 
           {/* Discount Toggle */}
-          <FormField
+          <Controller
             control={form.control}
             name="discountEnabled"
-            render={({ field }) => (
-              <FormItem className="flex items-center justify-between rounded-lg border p-3">
+            render={({ field, fieldState }) => (
+              <Field className="flex items-center justify-between rounded-lg border p-3">
                 <div>
-                  <FormLabel className="text-base">
+                  <FieldLabel className="text-base">
                     Discount this item
-                  </FormLabel>
+                  </FieldLabel>
                   <p className="text-muted-foreground text-sm">
                     Enable to apply a discount to this item
                   </p>
@@ -157,7 +156,6 @@ export function SalesInfo({ form }: SalesInfoProps) {
                     )}
                   </div>
                 </div>
-                <FormControl>
                   <Switch
                     checked={field.value}
                     onCheckedChange={(checked) => {
@@ -183,29 +181,30 @@ export function SalesInfo({ form }: SalesInfoProps) {
                     }}
                     // Remove the disabled attribute to allow toggling back
                   />
-                </FormControl>
-              </FormItem>
+                {fieldState.error && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
             )}
           />
 
           {/* Discount Fields */}
           {(discountEnabled || itemStatus === 'DISCONTINUED') && (
             <div className="grid gap-4 sm:grid-cols-2">
-              <FormField
+              <Controller
                 control={form.control}
                 name="discountType"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Discount Type</FormLabel>
+                render={({ field, fieldState }) => (
+                  <Field>
+                    <FieldLabel>Discount Type</FieldLabel>
                     <Select
                       value={field.value || ''}
                       onValueChange={field.onChange}
                     >
-                      <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder="Select type" />
                         </SelectTrigger>
-                      </FormControl>
+                     
                       <SelectContent>
                         <SelectItem value="PERCENTAGE">Percentage</SelectItem>
                         <SelectItem value="FIXED_AMOUNT">
@@ -213,18 +212,19 @@ export function SalesInfo({ form }: SalesInfoProps) {
                         </SelectItem>
                       </SelectContent>
                     </Select>
-                    <FormMessage />
-                  </FormItem>
+                    {fieldState.error && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
                 )}
               />
-              <FormField
+              <Controller
                 control={form.control}
                 name="discountValue"
                 rules={{ validate: validateDiscountValue }}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Discount Value</FormLabel>
-                    <FormControl>
+                render={({ field, fieldState }) => (
+                  <Field>
+                    <FieldLabel>Discount Value</FieldLabel>
                       <Input
                         type="number"
                         step="0.01"
@@ -236,30 +236,31 @@ export function SalesInfo({ form }: SalesInfoProps) {
                         min={0}
                         max={discountType === 'PERCENTAGE' ? 100 : salesPrice}
                       />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
+                    {fieldState.error && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
                 )}
               />
             </div>
           )}
 
-          <FormField
+          <Controller
             control={form.control}
             name="salesDescription"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Sales Description</FormLabel>
-                <FormControl>
+            render={({ field, fieldState }) => (
+              <Field>
+                <FieldLabel>Sales Description</FieldLabel>
                   <Textarea
                     {...field}
                     value={field.value || ''}
                     placeholder="Description shown on sales forms"
                     className="h-20"
                   />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
+                {fieldState.error && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
             )}
           />
         </div>

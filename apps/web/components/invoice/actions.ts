@@ -62,7 +62,7 @@ export async function createInvoice(
   color: string
 ): Promise<CreateInvoiceResponse> {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
 
     if (!session?.user?.id) {
       redirect('/login');
@@ -71,7 +71,7 @@ export async function createInvoice(
       redirect('/select-company');
     }
 
-    const invoice = await db.$transaction(async (tx) => {
+    const invoice = await prisma.$transaction(async (tx) => {
       const invoiceNumber = `IN-${generateUniqueNumber()}`;
 
       await Promise.all([
@@ -236,7 +236,7 @@ export async function createInvoice(
 
 export async function getInvoice(id: string) {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
@@ -244,7 +244,7 @@ export async function getInvoice(id: string) {
       redirect('/select-company');
     }
 
-    const invoice = await db.invoice.findUnique({
+    const invoice = await prisma.invoice.findUnique({
       where: {
         id,
         companyId: session.user.companyId,
@@ -306,7 +306,7 @@ export async function updateInvoice(
   color: string
 ): Promise<CreateInvoiceResponse> {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
 
     if (!session?.user?.id) {
       redirect('/login');
@@ -315,7 +315,7 @@ export async function updateInvoice(
       redirect('/select-company');
     }
 
-    const invoice = await db.$transaction(async (tx) => {
+    const invoice = await prisma.$transaction(async (tx) => {
       // Step 1: Validate customer and fetch existing invoice
       await validateCustomer(tx, data.customerId, session.user.companyId);
 
@@ -672,7 +672,7 @@ export async function deleteInvoice(
   id: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
@@ -681,7 +681,7 @@ export async function deleteInvoice(
     }
 
     // Check if the invoice can be deleted
-    const invoice = await db.invoice.findUnique({
+    const invoice = await prisma.invoice.findUnique({
       where: {
         id,
         companyId: session.user.companyId,
@@ -714,7 +714,7 @@ export async function deleteInvoice(
     }
 
     // Use a transaction to ensure all operations succeed or none do
-    await db.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx) => {
       // 1. Soft delete invoice attachments
       await tx.invoiceAttachment.updateMany({
         where: {

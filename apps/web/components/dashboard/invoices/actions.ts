@@ -105,7 +105,7 @@ export async function getInvoicesPage(
   pageSize: number = 10,
   filters: InvoiceFilters = {}
 ) {
-  const session = await auth();
+  const session = await auth.api.getSession({headers: await headers()});
   if (!session?.user?.id) {
     redirect('/login');
   }
@@ -206,7 +206,7 @@ export async function getInvoicesPage(
 
 export async function getInvoiceStats() {
   try {
-    const session = await auth();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
@@ -215,7 +215,7 @@ export async function getInvoiceStats() {
     }
 
     // Get all invoices with their payments to calculate accurate amounts
-    const invoices = await db.invoice.findMany({
+    const invoices = await prisma.invoice.findMany({
       where: {
         companyId: session.user.companyId,
         isActive: true
@@ -300,7 +300,7 @@ export async function getInvoiceStats() {
 export async function getInvoiceDetails(
   id: string
 ): Promise<InvoiceWithRelations | null> {
-  const session = await auth();
+  const session = await auth.api.getSession({headers: await headers()});
   if (!session?.user?.id) {
     redirect('/login');
   }
@@ -382,7 +382,7 @@ export async function deleteInvoices(ids: string[]): Promise<DeleteResult> {
   }
 
   try {
-    const session = await auth();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
@@ -391,7 +391,7 @@ export async function deleteInvoices(ids: string[]): Promise<DeleteResult> {
     }
 
     // Check for invoices that can't be deleted
-    const nonDeletableInvoices = await db.invoice.findMany({
+    const nonDeletableInvoices = await prisma.invoice.findMany({
       where: {
         companyId: session.user.companyId,
         id: { in: ids },
@@ -422,7 +422,7 @@ export async function deleteInvoices(ids: string[]): Promise<DeleteResult> {
     }
 
     // Use a transaction to ensure all operations succeed or none do
-    await db.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx) => {
       // 1. Soft delete invoice attachments
       await tx.invoiceAttachment.updateMany({
         where: {

@@ -38,7 +38,7 @@ export async function getCustomers(params?: {
 
   try {
     const [parents, statistics] = await Promise.all([
-      db.customer.findMany({
+      prisma.customer.findMany({
         where: { ...baseWhereInput, parentId: null, isActive: true },
         orderBy: params?.sort
           ? { [params.sort.field]: params.sort.orderBy }
@@ -48,7 +48,7 @@ export async function getCustomers(params?: {
       getCustomerStatistics()
     ]);
 
-    const children = await db.customer.findMany({
+    const children = await prisma.customer.findMany({
       where: {
         ...baseWhereInput,
         isActive: true,
@@ -62,7 +62,7 @@ export async function getCustomers(params?: {
       ...children.filter((c) => c.parentId === parent.id).map((c) => c.id)
     ]);
 
-    const customers = await db.customer.findMany({
+    const customers = await prisma.customer.findMany({
       where: { isActive: true, id: { in: orderedIds } },
       select: {
         id: true,
@@ -151,7 +151,7 @@ export async function getCustomers(params?: {
         };
       });
 
-    const total = await db.customer.count({ where: baseWhereInput });
+    const total = await prisma.customer.count({ where: baseWhereInput });
 
     return {
       customers: sortedCustomers,
@@ -197,12 +197,12 @@ export async function getCustomersShort(params: {
   };
 
   try {
-    const parents = await db.customer.findMany({
+    const parents = await prisma.customer.findMany({
       where: { ...baseWhereInput, parentId: null, isActive: true },
       orderBy: { displayName: 'asc' },
       select: { id: true }
     });
-    const children = await db.customer.findMany({
+    const children = await prisma.customer.findMany({
       where: {
         ...baseWhereInput,
         parentId: { in: parents.map((p) => p.id) },
@@ -216,7 +216,7 @@ export async function getCustomersShort(params: {
       ...children.filter((c) => c.parentId === parent.id).map((c) => c.id)
     ]);
 
-    const customers = await db.customer.findMany({
+    const customers = await prisma.customer.findMany({
       where: { id: { in: orderedIds }, isActive: true },
       select: {
         id: true,
@@ -245,7 +245,7 @@ export async function getCustomersShort(params: {
       .filter((c): c is NonNullable<typeof c> => c != null);
 
     // const parentIds = customers.map(c => c.parentId).filter((id): id is string => id != null);
-    // const parents = await db.customer.findMany({
+    // const parents = await prisma.customer.findMany({
     //   where: { id: { in: parentIds } },
     //   select: { id: true, displayName: true }
     // });
@@ -257,7 +257,7 @@ export async function getCustomersShort(params: {
   }
 }
 export const getFullCustomer = async (id: string) =>
-  await db.customer.findUnique({
+  await prisma.customer.findUnique({
     where: { id }
   });
 
@@ -267,7 +267,7 @@ async function getCustomerStatistics(): Promise<CustomerStatistics> {
 
   const [unbilledIncome, overdue, openInvoices, recentlyPaid] =
     await Promise.all([
-      db.customer.aggregate({
+      prisma.customer.aggregate({
         _count: {
           id: true
         },
@@ -283,7 +283,7 @@ async function getCustomerStatistics(): Promise<CustomerStatistics> {
         }
       }),
 
-      db.customer.aggregate({
+      prisma.customer.aggregate({
         _count: {
           id: true
         },
@@ -299,7 +299,7 @@ async function getCustomerStatistics(): Promise<CustomerStatistics> {
         }
       }),
 
-      db.invoice.aggregate({
+      prisma.invoice.aggregate({
         _count: {
           id: true
         },
@@ -311,7 +311,7 @@ async function getCustomerStatistics(): Promise<CustomerStatistics> {
         }
       }),
 
-      db.invoice.aggregate({
+      prisma.invoice.aggregate({
         _count: {
           id: true
         },
@@ -413,7 +413,7 @@ export async function createCustomer(formData: CustomerFormData) {
     const companyId = await getCurrentCompany();
     if (!companyId) return;
     // if (formData.shouldCreateUser === "true") {
-    const customerRoleId = await db.role.findFirst({
+    const customerRoleId = await prisma.role.findFirst({
       select: { id: true },
       where: { name: 'CUSTOMER' }
     });
@@ -422,7 +422,7 @@ export async function createCustomer(formData: CustomerFormData) {
     }
     // }
 
-    // await db.customer.create({
+    // await prisma.customer.create({
     //   data: {
     //     ...formData,
     //     displayName: formData.displayName,
@@ -472,7 +472,7 @@ export async function updateCustomer(id: string, formData: FormData) {
       status: JSON.parse(formData.get('status') as string)
     };
 
-    await db.customer.update({
+    await prisma.customer.update({
       where: { id },
       data
     });
@@ -541,7 +541,7 @@ export async function sparseUpdateCustomer(
       data.parentCustomer = { connect: { id: formData.parentId as string } };
     }
 
-    await db.customer.update({
+    await prisma.customer.update({
       where: { id },
       data
     });
@@ -553,7 +553,7 @@ export async function sparseUpdateCustomer(
   }
 }
 export async function getCustomer(id: string) {
-  return await db.customer.findUnique({
+  return await prisma.customer.findUnique({
     where: { id },
     include: {
       subCustomers: {
@@ -578,16 +578,16 @@ export async function getCustomer(id: string) {
 }
 
 export async function deleteCustomer(id: string) {
-  const hasTransactions = await db.$transaction([
-    db.invoice.count({ where: { customerId: id } }),
-    db.payment.count({ where: { customerId: id } })
+  const hasTransactions = await prisma.$transaction([
+    prisma.invoice.count({ where: { customerId: id } }),
+    prisma.payment.count({ where: { customerId: id } })
   ]);
 
   if (hasTransactions[0] || hasTransactions[1]) {
     return { error: 'Customer has invoices or payments' };
   }
 
-  await db.customer.update({
+  await prisma.customer.update({
     where: { id },
     data: { status: 'INACTIVE' }
   });

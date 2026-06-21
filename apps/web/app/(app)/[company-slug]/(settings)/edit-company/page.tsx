@@ -11,8 +11,10 @@ export const metadata: Metadata = {
 };
 
 export default async function EditCompanyPage({ params }: PageProps) {
-  const session = await auth.api.getSession();
-  const pageParams = await params;
+  const [session, pageParams] = await Promise.all([
+    auth.api.getSession(),
+    params
+  ]);
 
   if (!session?.user?.companyId) {
     return (

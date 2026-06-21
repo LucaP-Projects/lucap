@@ -1,11 +1,12 @@
 'use server';
-import { CreditMemoStatus, Prisma } from '@/lib/generated/prisma/client';
+import { ChargeStatus, Prisma } from '@/lib/generated/prisma/client';
 import { startOfDay, endOfDay } from 'date-fns';
 import { revalidatePath } from 'next/cache';
 import { auth } from '@/lib/auth';
 import { db } from '@/lib/db';
-export type CreditMemoFilters = {
-  status?: CreditMemoStatus | undefined;
+
+export type DelayedChargeFilters = {
+  status?: ChargeStatus | undefined;
   dateFrom?: Date | undefined;
   dateTo?: Date | undefined;
   search?: string | undefined;
@@ -16,7 +17,7 @@ export interface DeleteResult {
   error?: string;
 }
 
-export type CreditMemoBasic = Prisma.CreditMemoGetPayload<{
+export type DelayedChargeBasic = Prisma.DelayedChargeGetPayload<{
   include: {
     customer: {
       select: {
@@ -24,10 +25,11 @@ export type CreditMemoBasic = Prisma.CreditMemoGetPayload<{
         primaryEmail: true;
       };
     };
+    items: true;
   };
 }>;
 
-export type CreditMemoWithRelations = Prisma.CreditMemoGetPayload<{
+export type DelayedChargeWithRelations = Prisma.DelayedChargeGetPayload<{
   include: {
     customer: {
       select: {
@@ -48,33 +50,31 @@ export type CreditMemoWithRelations = Prisma.CreditMemoGetPayload<{
         };
       };
     };
+    tax: true;
   };
 }>;
 
-export async function getCreditMemosPage(
+export async function getDelayedChargesPage(
   page: number = 1,
   pageSize: number = 10,
-  filters: CreditMemoFilters = {}
+  filters: DelayedChargeFilters = {}
 ) {
   const validPage = Math.max(1, page);
   const validPageSize = Math.min(Math.max(1, pageSize), 100);
   const skip = (validPage - 1) * validPageSize;
 
-  const where: Prisma.CreditMemoWhereInput = {
+  const where: Prisma.DelayedChargeWhereInput = {
     isActive: true
   };
 
-  if (
-    filters.status &&
-    Object.values(CreditMemoStatus).includes(filters.status)
-  ) {
+  if (filters.status && Object.values(ChargeStatus).includes(filters.status)) {
     where.status = filters.status;
   }
 
   if (filters.dateFrom || filters.dateTo) {
-    where.issueDate = {};
-    if (filters.dateFrom) where.issueDate.gte = startOfDay(filters.dateFrom);
-    if (filters.dateTo) where.issueDate.lte = endOfDay(filters.dateTo);
+    where.dueDate = {};
+    if (filters.dateFrom) where.dueDate.gte = startOfDay(filters.dateFrom);
+    if (filters.dateTo) where.dueDate.lte = endOfDay(filters.dateTo);
   }
 
   if (filters.search?.trim()) {
@@ -91,9 +91,9 @@ export async function getCreditMemosPage(
     ];
   }
 
-  const [total, creditMemos] = await Promise.all([
-    db.creditMemo.count({ where }),
-    db.creditMemo.findMany({
+  const [total, charges] = await Promise.all([
+    db.delayedCharge.count({ where }),
+    db.delayedCharge.findMany({
       where,
       include: {
         customer: {
@@ -101,7 +101,8 @@ export async function getCreditMemosPage(
             displayName: true,
             primaryEmail: true
           }
-        }
+        },
+        items: true
       },
       orderBy: { createdAt: 'desc' },
       skip,
@@ -110,7 +111,7 @@ export async function getCreditMemosPage(
   ]);
 
   return {
-    data: creditMemos,
+    data: charges,
     metadata: {
       total,
       page: validPage,
@@ -120,52 +121,73 @@ export async function getCreditMemosPage(
   };
 }
 
-export async function getCreditMemoStats() {
+export async function getDelayedChargeStats() {
   try {
-    const [totalCount, totalAmount, statusBreakdown] = await Promise.all([
-      db.creditMemo.count({ where: { isActive: true } }),
-      db.creditMemo.aggregate({
+    const [totalCount, totals, statusBreakdown] = await Promise.all([
+      db.delayedCharge.count({ where: { isActive: true } }),
+      db.delayedCharge.aggregate({
         where: { isActive: true },
+        _sum: {
+          amount: true,
+          taxAmount: true,
+          discountAmount: true
+        }
+      }),
+      db.delayedCharge.groupBy({
+        where: { isActive: true },
+        by: ['status'],
+        _count: true,
         _sum: {
           amount: true
         }
-      }),
-      db.creditMemo.groupBy({
-        where: { isActive: true },
-        by: ['status'],
-        _count: true
       })
     ]);
 
-    const initialStatusBreakdown: Record<CreditMemoStatus, number> = {
-      DRAFT: 0,
-      ISSUED: 0,
-      APPLIED: 0,
-      VOID: 0
+    const initialStatusBreakdown: Record<
+      ChargeStatus,
+      { count: number; amount: number }
+    > = {
+      PENDING: { count: 0, amount: 0 },
+      INVOICED: { count: 0, amount: 0 },
+      CANCELED: { count: 0, amount: 0 }
     };
 
-    // Update with actual counts
-    statusBreakdown.forEach(({ status, _count }) => {
+    // Update with actual counts and amounts
+    statusBreakdown.forEach(({ status, _count, _sum }) => {
       if (status in initialStatusBreakdown) {
-        initialStatusBreakdown[status as CreditMemoStatus] = _count;
+        initialStatusBreakdown[status as ChargeStatus] = {
+          count: _count,
+          amount: Number(_sum.amount || 0)
+        };
       }
     });
 
+    // Calculate subtotal (amount - taxAmount + discountAmount)
+    const subtotal =
+      Number(totals._sum.amount || 0) -
+      Number(totals._sum.taxAmount || 0) +
+      Number(totals._sum.discountAmount || 0);
+
     return {
-      totalCreditMemos: totalCount,
-      totalAmount: Number(totalAmount._sum.amount || 0),
-      statusBreakdown: initialStatusBreakdown
+      totalCharges: totalCount,
+      totals: {
+        subtotal: subtotal,
+        tax: Number(totals._sum.taxAmount || 0),
+        total: Number(totals._sum.amount || 0)
+      },
+      statusBreakdown: initialStatusBreakdown,
+      pendingAmount: initialStatusBreakdown.PENDING.amount
     };
   } catch (error) {
-    console.error('Error fetching credit memo stats:', error);
-    throw new Error('Failed to fetch credit memo statistics');
+    console.error('Error fetching delayed charge stats:', error);
+    throw new Error('Failed to fetch delayed charge statistics');
   }
 }
 
-export async function getCreditMemoDetails(
+export async function getDelayedChargeDetails(
   id: string
-): Promise<CreditMemoWithRelations | null> {
-  return db.creditMemo.findUnique({
+): Promise<DelayedChargeWithRelations | null> {
+  return db.delayedCharge.findUnique({
     where: {
       id,
       isActive: true
@@ -192,22 +214,25 @@ export async function getCreditMemoDetails(
             }
           }
         }
-      }
+      },
+      tax: true
     }
   });
 }
 
-export async function deleteCreditMemos(ids: string[]): Promise<DeleteResult> {
+export async function deleteDelayedCharges(
+  ids: string[]
+): Promise<DeleteResult> {
   if (!ids || !Array.isArray(ids) || ids.length === 0) {
     return {
       success: false,
-      error: 'No credit memos selected for deletion'
+      error: 'No delayed charges selected for deletion'
     };
   }
 
   try {
     // Get the current session for user ID
-    const session = await auth();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       return {
         success: false,
@@ -215,13 +240,11 @@ export async function deleteCreditMemos(ids: string[]): Promise<DeleteResult> {
       };
     }
 
-    // Check if any credit memos are already applied
-    const appliedMemos = await db.creditMemo.findMany({
+    // Check if any charges are already invoiced
+    const nonDeletableCharges = await prisma.delayedCharge.findMany({
       where: {
-        id: {
-          in: ids
-        },
-        status: 'APPLIED',
+        id: { in: ids },
+        status: 'INVOICED',
         isActive: true
       },
       select: {
@@ -229,21 +252,21 @@ export async function deleteCreditMemos(ids: string[]): Promise<DeleteResult> {
       }
     });
 
-    if (appliedMemos.length > 0) {
+    if (nonDeletableCharges.length > 0) {
       return {
         success: false,
-        error: `Cannot delete credit memos that have been applied: ${appliedMemos
-          .map((cm) => cm.number)
+        error: `Cannot delete charges that have been invoiced: ${nonDeletableCharges
+          .map((c) => c.number)
           .join(', ')}`
       };
     }
 
     // Use a transaction to ensure all operations succeed or none do
-    await db.$transaction(async (tx) => {
-      // 1. Soft delete credit memo attachments
-      await tx.creditMemoAttachment.updateMany({
+    await prisma.$transaction(async (tx) => {
+      // 1. Soft delete charge attachments
+      await tx.chargeAttachment.updateMany({
         where: {
-          creditMemoId: {
+          chargeId: {
             in: ids
           },
           isActive: true
@@ -252,14 +275,14 @@ export async function deleteCreditMemos(ids: string[]): Promise<DeleteResult> {
           isActive: false,
           deactivatedAt: new Date(),
           deactivatedByUserId: session.user.id,
-          deactivationReason: 'Parent credit memo deactivated'
+          deactivationReason: 'Parent charge deactivated'
         }
       });
 
-      // 2. Soft delete credit memo items
-      await tx.creditMemoItem.updateMany({
+      // 2. Soft delete charge items
+      await tx.delayedChargeItem.updateMany({
         where: {
-          creditMemoId: {
+          chargeId: {
             in: ids
           },
           isActive: true
@@ -268,12 +291,12 @@ export async function deleteCreditMemos(ids: string[]): Promise<DeleteResult> {
           isActive: false,
           deactivatedAt: new Date(),
           deactivatedByUserId: session.user.id,
-          deactivationReason: 'Parent credit memo deactivated'
+          deactivationReason: 'Parent charge deactivated'
         }
       });
 
-      // 3. Soft delete the credit memos themselves
-      await tx.creditMemo.updateMany({
+      // 3. Soft delete the charges themselves
+      await tx.delayedCharge.updateMany({
         where: {
           id: {
             in: ids
@@ -284,25 +307,25 @@ export async function deleteCreditMemos(ids: string[]): Promise<DeleteResult> {
           isActive: false,
           deactivatedAt: new Date(),
           deactivatedByUserId: session.user.id,
-          deactivationReason: 'Credit memo deactivated by user'
+          deactivationReason: 'Delayed charge deactivated by user'
         }
       });
     });
 
-    // Revalidate the credit memos page
-    revalidatePath('/credit-memos');
+    // Revalidate the delayed charges page
+    revalidatePath('/delayedcharges');
 
     return {
       success: true
     };
   } catch (error) {
-    console.error('Error deactivating credit memos:', error);
+    console.error('Error deactivating delayed charges:', error);
     return {
       success: false,
       error:
         error instanceof Error
           ? error.message
-          : 'Failed to deactivate credit memos'
+          : 'Failed to deactivate delayed charges'
     };
   }
 }

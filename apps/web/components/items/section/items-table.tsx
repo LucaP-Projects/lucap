@@ -13,10 +13,10 @@ import {
   Plus,
   Package,
   Trash2,
-  Badge,
   Table
 } from 'lucide-react';
 
+import { Badge } from '@/components/ui/badge';
 import { useDebounce } from '@/hooks/use-debounce';
 import { useMediaQuery } from '@/hooks/use-media-query';
 import { formatCurrency, formatDate } from '@/lib/utils';

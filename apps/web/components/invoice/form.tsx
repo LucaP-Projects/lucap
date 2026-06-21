@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { useFormContext } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 import { Textarea } from '@/components/ui/textarea'; 
 import FileUpload from '@/components/file-upload/file-upload';
 import { CompanyInfo } from '../base/company/company';
@@ -13,6 +13,7 @@ import {
 import { TaxSelectData } from '../shared/tax/actions';
 import { InvoiceFormValues } from './schema';
 import { CompanyInfo as Company, Invoice } from './types';
+import { FieldError } from '../ui/field';
 
 export interface formContentProps {
   onTaxChange: (tax: TaxSelectData | null) => void;
@@ -44,7 +45,6 @@ const MemoizedFormContent = ({
 
   return (
     <div className="flex w-full flex-col bg-white dark:bg-gray-900">
-      <Form {...formMethods}>
         <form
           id="invoice-form"
           onSubmit={handleSubmit(onSubmit)}
@@ -79,18 +79,23 @@ const MemoizedFormContent = ({
                 <h3 className="mb-1 text-sm font-medium text-gray-900 dark:text-gray-100">
                   Notes
                 </h3>
-                <FormField
+                <Controller
                   control={control}
                   name="notes"
-                  render={({ field }) => (
-                    <Textarea
-                      {...field}
-                      className="h-24 resize-none border-none bg-transparent p-0 text-sm text-gray-900 placeholder:text-gray-500 focus-visible:ring-0 dark:text-gray-100 dark:placeholder:text-gray-400"
-                      placeholder="Add any additional notes..."
-                      onChange={(e) => {
-                        field.onChange(e);
-                      }}
-                    />
+                  render={({ field, fieldState }) => (
+                    <>
+                      <Textarea
+                        {...field}
+                        className="h-24 resize-none border-none bg-transparent p-0 text-sm text-gray-900 placeholder:text-gray-500 focus-visible:ring-0 dark:text-gray-100 dark:placeholder:text-gray-400"
+                        placeholder="Add any additional notes..."
+                        onChange={(e) => {
+                          field.onChange(e);
+                        }}
+                      />
+                      {fieldState.error && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </>
                   )}
                 />
               </div>
@@ -115,7 +120,6 @@ const MemoizedFormContent = ({
             open={showWarnings}
           />
         </form>
-      </Form>
     </div>
   );
 };

@@ -14,13 +14,11 @@ interface PageProps {
   params: Promise<{ lng: string }>;
 }
 export default async function CreateCompanyPage({ params }: PageProps) {
-  const pageParams = await params;
-  const session = await auth();
+  const [pageParams, session] = await Promise.all([params, auth.api.getSession()]);
 
   if (!session) {
     redirect(`/${pageParams.lng}/login`);
   }
-  await headers();
 
   return (
     <Card>
@@ -29,7 +27,7 @@ export default async function CreateCompanyPage({ params }: PageProps) {
         <CardDescription>Set up your company profile</CardDescription>
       </CardHeader>
       <CardContent>
-        <CreateCompanyForm lng={pageParams.lng} />
+        <CreateCompanyForm  />
       </CardContent>
     </Card>
   );

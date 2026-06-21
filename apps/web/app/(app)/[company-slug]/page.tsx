@@ -24,9 +24,10 @@ import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { env } from 'process';
+import { headers } from 'next/headers';
 
 async function WelcomePage() {
-  const session = await auth.api.getSession();
+  const session = await auth.api.getSession({headers: await headers()});
   const t = await getTranslations('AppLayout');
   // Redirect if no session
   if (!session?.user) {

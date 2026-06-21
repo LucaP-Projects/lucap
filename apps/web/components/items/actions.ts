@@ -25,7 +25,7 @@ export async function createItem(
   data: ItemFormValues
 ): Promise<CreateItemResponse> {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
@@ -106,12 +106,12 @@ export async function createItem(
       isActive: true // Add isActive field for soft delete
     };
     try {
-      const item = await db.item.create({ data: itemData });
+      const item = await prisma.item.create({ data: itemData });
 
       if (data.image instanceof File) {
         try {
           const imageUrl = await handleItemImage(data.image);
-          await db.item.update({
+          await prisma.item.update({
             where: { id: item.id },
             data: { imageUrl }
           });
@@ -164,7 +164,7 @@ export async function updateItemStatus(
   status: 'ACTIVE' | 'INACTIVE' | 'DISCONTINUED'
 ): Promise<UpdateItemStatusResponse> {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
@@ -172,7 +172,7 @@ export async function updateItemStatus(
       redirect('/select-company');
     }
 
-    const item = await db.item.findFirst({
+    const item = await prisma.item.findFirst({
       where: {
         id: itemId,
         companyId: session.user.companyId,
@@ -184,7 +184,7 @@ export async function updateItemStatus(
       return { success: false, error: 'Item not found' };
     }
 
-    const updatedItem = await db.item.update({
+    const updatedItem = await prisma.item.update({
       where: { id: itemId },
       data: {
         status
@@ -222,7 +222,7 @@ export async function updateItem(
   data: ItemFormValues
 ): Promise<CreateItemResponse> {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
 
     if (!session?.user?.id) {
       redirect('/login');
@@ -260,7 +260,7 @@ export async function updateItem(
       }
     }
 
-    const existingItem = await db.item.findFirst({
+    const existingItem = await prisma.item.findFirst({
       where: {
         id: itemId,
         companyId: session.user.companyId,
@@ -313,14 +313,14 @@ export async function updateItem(
       // Ensure status is synced with discount
       status: data.discountEnabled ? 'DISCONTINUED' : data.status || 'ACTIVE'
     };
-    const updatedItem = await db.item.update({
+    const updatedItem = await prisma.item.update({
       where: { id: itemId },
       data: itemData
     });
     if (data.image instanceof File) {
       try {
         const imageUrl = await handleItemImage(data.image);
-        await db.item.update({
+        await prisma.item.update({
           where: { id: itemId },
           data: { imageUrl }
         });
@@ -375,7 +375,7 @@ export async function getItems(
   search: string = ''
 ): Promise<GetItemsResponse> {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
@@ -423,7 +423,7 @@ export async function getItems(
     };
 
     // Get total count for pagination
-    const totalItems = await db.item.count({
+    const totalItems = await prisma.item.count({
       where: whereClause
     });
 
@@ -431,7 +431,7 @@ export async function getItems(
     const totalPages = Math.ceil(totalItems / pageSize);
 
     // Get paginated items
-    const items = await db.item.findMany({
+    const items = await prisma.item.findMany({
       where: whereClause,
       include: {
         category: {
@@ -466,7 +466,7 @@ export async function deleteItem(
   itemId: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    const session = await auth.api.getSession();
+    const session = await auth.api.getSession({headers: await headers()});
     if (!session?.user?.id) {
       redirect('/login');
     }
@@ -475,7 +475,7 @@ export async function deleteItem(
     }
 
     // Check if item exists and belongs to the company
-    const item = await db.item.findFirst({
+    const item = await prisma.item.findFirst({
       where: {
         id: itemId,
         companyId: session.user.companyId,
@@ -509,7 +509,7 @@ export async function deleteItem(
     }
 
     // Perform soft delete
-    await db.item.update({
+    await prisma.item.update({
       where: { id: itemId },
       data: {
         isActive: false,

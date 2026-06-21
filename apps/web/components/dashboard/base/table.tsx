@@ -1,5 +1,6 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useIsMobile } from '@/hooks/use-mobile';
 import {
   ColumnDef,
   flexRender,
@@ -52,7 +53,7 @@ export function DataTable<TBasic extends { id: string }, TDetailed>({
   const [isDeleting, setIsDeleting] = useState(false);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [rowSelection, setRowSelection] = useState({});
-  const [isMobile, setIsMobile] = useState(false);
+  const isMobile = useIsMobile();
   const [selectedItem, setSelectedItem] = useState<TDetailed | null>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -77,12 +78,7 @@ export function DataTable<TBasic extends { id: string }, TDetailed>({
     }
   };
 
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
+  
 
   const table = useReactTable({
     data,

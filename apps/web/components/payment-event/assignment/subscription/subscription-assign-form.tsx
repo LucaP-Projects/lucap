@@ -3,13 +3,13 @@ import { addDays, format, isSameDay, startOfDay } from 'date-fns';
 import {
   AlertTriangle,
   Badge,
-  Calendar,
   CalendarIcon,
   Clock,
   DollarSign,
   Search,
   Users
 } from 'lucide-react';
+import { Calendar } from "@/components/ui/calendar";
 import { cn } from '@/lib/utils';
 import { OneTimeAssignFormProps } from '@/types/payment-event/assignment';
 import { FormattedCustomer } from '@/types/payment-event/table';
@@ -28,6 +28,7 @@ import { Input } from '@/components/ui/input';
 import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { toast } from 'sonner';
+import { Label } from '@/components/ui/label';
 
 export const SubscriptionAssignForm: React.FC<OneTimeAssignFormProps> = ({
   event,
@@ -287,7 +288,7 @@ export const SubscriptionAssignForm: React.FC<OneTimeAssignFormProps> = ({
                               );
                               return startOfDay(date) < earliestAllowed;
                             }}
-                            initialFocus
+                            autoFocus
                           />
                         </PopoverContent>
                       </Popover>
