@@ -1,18 +1,6 @@
 import React, { memo, useCallback } from 'react';
-import {
-  SortableContext,
-  sortableKeyboardCoordinates,
-  useSortable,
-  verticalListSortingStrategy
-} from '@dnd-kit/dom/sortable';
-import {
-  closestCenter,
-  DndContext,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors
-} from '@dnd-kit/react';
+import { DragDropProvider } from '@dnd-kit/react';
+import { useSortable } from '@dnd-kit/react/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import {
   Controller,
@@ -203,17 +191,17 @@ const RateField = memo(({ index }: { index: number }) => {
   );
 });
 
-const SortableItem = memo(({ id, children }: { id: string; children: any }) => {
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id });
+const SortableItem = memo(({ id, children }: { id: number; children: any }) => {
+  const sortable = useSortable({ id, index: id }); ;
+  const { ref, listeners, transform, transition } = sortable || {};
 
   const style = {
-    transform: CSS.Transform.toString(transform),
+    transform: transform ? CSS.Transform.toString(transform) : undefined,
     transition
   };
 
   return (
-    <div ref={setNodeRef} style={style} {...attributes}>
+    <div ref={ref as any} style={style}>
       {children(listeners)}
     </div>
   );
@@ -340,12 +328,6 @@ const ItemSelectionHandler = memo(
   ({ itemLabel = 'product or service' }: ItemSelectionHandlerProps) => {
     const { control } = useFormContext<InvoiceFormValues>();
 
-    const sensors = useSensors(
-      useSensor(PointerSensor),
-      useSensor(KeyboardSensor, {
-        coordinateGetter: sortableKeyboardCoordinates
-      })
-    );
     const {
       fields: items,
       append,
@@ -375,12 +357,18 @@ const ItemSelectionHandler = memo(
     }, [append]);
     const handleDragEnd = useCallback(
       (event: any) => {
-        const { active, over } = event;
-        if (active.id !== over.id) {
-          const oldIndex = items.findIndex((item) => item.id === active.id);
-          const newIndex = items.findIndex((item) => item.id === over.id);
-          move(oldIndex, newIndex);
-        }
+        const { operation, canceled } = event;
+        if (canceled) return;
+
+        const sourceId = operation?.source?.id;
+        const targetId = operation?.target?.id;
+        if (!sourceId || !targetId || sourceId === targetId) return;
+
+        const oldIndex = items.findIndex((item) => item.id === sourceId);
+        const newIndex = items.findIndex((item) => item.id === targetId);
+        if (oldIndex === -1 || newIndex === -1) return;
+
+        move(oldIndex, newIndex);
       },
       [items, move]
     );
@@ -407,31 +395,22 @@ const ItemSelectionHandler = memo(
           </div>
 
           <div className="overflow-hidden">
-            <DndContext
-              sensors={sensors}
-              collisionDetection={closestCenter}
-              onDragEnd={handleDragEnd}
-            >
-              <SortableContext
-                items={items}
-                strategy={verticalListSortingStrategy}
-              >
-                <div className="divide-y divide-gray-200 dark:divide-gray-700">
-                  {items.map((item, index) => (
-                    <SortableItem key={item.id} id={item.id}>
-                      {(listeners: any) => (
-                        <ItemRow
-                          index={index}
-                          onRemove={handleRemove(index)}
-                          listeners={listeners}
-                          totalItems={items.length}
-                        />
-                      )}
-                    </SortableItem>
-                  ))}
-                </div>
-              </SortableContext>
-            </DndContext>
+            <DragDropProvider onDragEnd={handleDragEnd}>
+              <div className="divide-y divide-gray-200 dark:divide-gray-700">
+                {items.map((item, index) => (
+                  <SortableItem key={item.id} id={item.id}>
+                    {(listeners: any) => (
+                      <ItemRow
+                        index={index}
+                        onRemove={handleRemove(index)}
+                        listeners={listeners}
+                        totalItems={items.length}
+                      />
+                    )}
+                  </SortableItem>
+                ))}
+              </div>
+            </DragDropProvider>
           </div>
         </div>
 

@@ -5,14 +5,14 @@ import { Calendar, InfoIcon, Receipt } from 'lucide-react';
 import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
-import { Sheet } from '@/components/ui/sheet';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
+import { Sheet } from '@/components/ui/sheet';
 import { SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet';
 import { PaymentMethod, PaymentStatus } from '@/lib/generated/prisma/client';
 import { handleNumberInput } from '@/lib/utils';
-import { Field, FieldLabel } from '@/components/ui/field';
 
 interface PaymentFormData {
   amount: number;
@@ -362,7 +362,9 @@ const InvoicePaymentSheet: React.FC<InvoicePaymentSheetProps> = ({
                               }
                             />
                           </div>
-                        <FormMessage />
+                        {fieldState.error && (
+                          <FieldError errors={[fieldState.error]} />
+                        )}
                       </Field>
                     )}
                   />
@@ -397,7 +399,9 @@ const InvoicePaymentSheet: React.FC<InvoicePaymentSheetProps> = ({
                             </SelectItem>
                           </SelectContent>
                         </Select>
-                        <FormMessage />
+                        {fieldState.error && (
+                          <FieldError errors={[fieldState.error]} />
+                        )}
                       </Field>
                     )}
                   />
@@ -415,7 +419,9 @@ const InvoicePaymentSheet: React.FC<InvoicePaymentSheetProps> = ({
                             }
                             placeholder="Enter reference number or description"
                           />
-                        <FormMessage />
+                        {fieldState.error && (
+                          <FieldError errors={[fieldState.error]} />
+                        )}
                       </Field>
                     )}
                   />

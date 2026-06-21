@@ -5,13 +5,13 @@ import { Controller, UseFormReturn } from 'react-hook-form';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { formatCurrency } from '@/lib/utils';
+import { Field, FieldError, FieldLabel } from '../ui/field';
 import { PaymentFormValues } from './schema';
 import {
   calculateMaxPaymentAmount,
   calculateRemainingAmount,
   distributePayment
 } from './utils';
-import { Field, FieldError, FieldLabel } from '../ui/field';
 
 // export function calculateRemainingAmount(invoice: Invoice): number {
 //   const paidAmount = invoice.payments.reduce((sum, p) => sum + p.amount, 0);

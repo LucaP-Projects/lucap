@@ -118,7 +118,7 @@ export function SubCustomersList({ subCustomers }: SubCustomersListProps) {
                           {subCustomer.paymentEvents.map((event) => (
                             <TableRow key={event.id}>
                               <TableCell>
-                                {event.paymentEvent.versions[0].name}
+                                {event.paymentEvent.versions?.[0]?.name ?? '-'}
                               </TableCell>
                               <TableCell>
                                 <Badge
@@ -130,7 +130,7 @@ export function SubCustomersList({ subCustomers }: SubCustomersListProps) {
                               </TableCell>
                               <TableCell>
                                 $
-                                {event.paymentEvent.versions[0].amount.toFixed(
+                                {(event.paymentEvent.versions?.[0]?.amount ?? 0).toFixed(
                                   2
                                 )}
                               </TableCell>

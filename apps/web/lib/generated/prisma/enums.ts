@@ -82,7 +82,7 @@ export type TaxType = (typeof TaxType)[keyof typeof TaxType]
 export const ReceiptStatus = {
   COMPLETED: 'COMPLETED',
   VOIDED: 'VOIDED',
-  REFINDED: 'REFINDED'
+  REFUNDED: 'REFUNDED'
 } as const
 
 export type ReceiptStatus = (typeof ReceiptStatus)[keyof typeof ReceiptStatus]

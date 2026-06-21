@@ -65,7 +65,7 @@ export function PaymentEventsTable({ paymentEvents }: PaymentEventsTableProps) {
             <TableBody>
               {paymentEvents.map((event) => (
                 <TableRow key={event.id}>
-                  <TableCell>{event.paymentEvent.versions[0].name}</TableCell>
+                  <TableCell>{event.paymentEvent.versions?.[0]?.name ?? '-'}</TableCell>
                   <TableCell>
                     <Badge
                       variant="outline"
@@ -75,7 +75,7 @@ export function PaymentEventsTable({ paymentEvents }: PaymentEventsTableProps) {
                     </Badge>
                   </TableCell>
                   <TableCell>
-                    ${event.paymentEvent.versions[0].amount.toFixed(2)}
+                    ${(event.paymentEvent.versions?.[0]?.amount ?? 0).toFixed(2)}
                   </TableCell>
                   <TableCell>{formatDate(event.startDate)}</TableCell>
                   <TableCell>

@@ -1,6 +1,5 @@
 'use client';
 import { useState } from 'react';
-import { useIsMobile } from '@/hooks/use-mobile';
 import {
   ColumnDef,
   flexRender,
@@ -10,11 +9,20 @@ import {
   SortingState,
   useReactTable
 } from '@tanstack/react-table';
+import { toast } from 'sonner';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationPrevious,
+  PaginationLink,
+  PaginationNext
+} from '@/components/ui/pagination';
+import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell,  } from '@/components/ui/table';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 
 import { BatchActions } from './BatchActions';
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell,  } from '@/components/ui/table';
-import { toast } from 'sonner';
 
 export interface DeleteResult {
   success: boolean;

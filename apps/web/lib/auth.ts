@@ -19,7 +19,7 @@ import { UserCompany } from './generated/prisma/client';
 const options: BetterAuthOptions = {
   baseURL:
     process.env.BETTER_AUTH_URL ||
-    process.env.NEXTAUTH_URL ||
+
     'http://localhost:3000',
   database: prismaAdapter(prisma, {
     provider: 'postgresql'
@@ -32,7 +32,7 @@ const options: BetterAuthOptions = {
       // Ensure we have an absolute URL
       const baseUrl =
         process.env.BETTER_AUTH_URL ||
-        process.env.NEXTAUTH_URL ||
+
         'http://localhost:3000';
       const absoluteUrl = url.startsWith('http')
         ? url
@@ -155,7 +155,6 @@ const options: BetterAuthOptions = {
         // Ensure we have an absolute URL
         const baseUrl =
           process.env.BETTER_AUTH_URL ||
-          process.env.NEXTAUTH_URL ||
           'http://localhost:3000';
         const absoluteUrl = url.startsWith('http')
           ? url

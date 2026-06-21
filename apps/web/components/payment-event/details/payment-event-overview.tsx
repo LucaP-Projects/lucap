@@ -205,7 +205,7 @@ function PaymentEventOverview({ event }: { event: any }) {
           </div>
           <div className="space-y-1">
             <p className="text-muted-foreground text-sm font-medium">Type</p>
-            <Badge variant="nohover">{event.currentVersion?.type}</Badge>
+            <Badge variant="default">{event.currentVersion?.type}</Badge>
           </div>
           <div className="space-y-1">
             <p className="text-muted-foreground text-sm font-medium">Amount</p>

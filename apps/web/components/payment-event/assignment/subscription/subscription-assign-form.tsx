@@ -3,7 +3,6 @@ import { addDays, format, isSameDay, startOfDay } from 'date-fns';
 import { toast } from 'sonner';
 import {
   AlertTriangle,
-  Badge,
   CalendarIcon,
   Clock,
   DollarSign,
@@ -11,6 +10,7 @@ import {
   Users
 } from 'lucide-react';
 import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction } from '@/components/ui/alert-dialog';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Calendar } from "@/components/ui/calendar";
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -44,7 +44,7 @@ export const SubscriptionAssignForm: React.FC<OneTimeAssignFormProps> = ({
   const [showWarning, setShowWarning] = useState(false);
 
   // Date handling
-  const today = new Date().toISOString().split('T')[0];
+  const today = new Date();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [startDate, setStartDate] = useState<Date>(new Date());
 
@@ -99,10 +99,8 @@ export const SubscriptionAssignForm: React.FC<OneTimeAssignFormProps> = ({
         await processAssignment();
       }
     } catch (error) {
-      toast({
-        title: 'Error',
-        description: 'Failed to check existing assignments',
-        variant: 'destructive'
+      toast.error('Error', {
+        description: 'Failed to check existing assignments'
       });
     } finally {
       setIsSubmitting(false);
@@ -272,11 +270,9 @@ export const SubscriptionAssignForm: React.FC<OneTimeAssignFormProps> = ({
                                 ) {
                                   setStartDate(date);
                                 } else {
-                                  toast({
-                                    title: 'Invalid Date',
+                                  toast.error('Invalid Date', {
                                     description:
-                                      'Start date cannot be earlier than one billing cycle',
-                                    variant: 'destructive'
+                                      'Start date cannot be earlier than one billing cycle'
                                   });
                                 }
                               }
