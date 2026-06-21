@@ -2,42 +2,29 @@
 
 import * as React from 'react';
 import {
-  AudioWaveform,
-  Receipt,
-  FileText,
-  CreditCard,
-  Users,
   Settings,
   Building2,
-  ScrollText,
   Calculator,
   LayoutDashboard,
   BookOpen,
-  Building,
   FilePlus,
   Home,
-  RefreshCw,
   TrendingUp,
-  Store,
-  Command,
-  GalleryVerticalEnd
-} from 'lucide-react';
+  Store} from 'lucide-react';
 
+import { Company } from '@/components/company/select/types';
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
-  SidebarRail,
   useSidebar
 } from '@/components/ui/sidebar';
-import { Company } from '@/components/company/select/types';
 import ActionButton from './action-button';
 import { NavMain } from './nav-main';
 import { NavProjects } from './nav-projects';
 import { NavUser } from './nav-user';
 import { TeamSwitcher } from './team-switcher';
-import LocaleSwitcher from '../lang/LocaleSwitcher';
 
 const data = {
   user: {

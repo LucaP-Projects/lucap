@@ -1,7 +1,7 @@
 import { memo } from 'react';
-import { useFormContext } from 'react-hook-form';
-import { Textarea } from '@/components/ui/textarea';
+import { Controller, useFormContext } from 'react-hook-form';
 import FileUpload from '@/components/file-upload/file-upload';
+import { Textarea } from '@/components/ui/textarea';
 import { CompanyInfo } from '../base/company/company';
 import { EstimateStatusSection } from '../base/customer/EstimateStatusSection';
 import { DetailsSection } from '../base/customer/main';
@@ -47,78 +47,76 @@ const MemoizedFormContent = ({
 
   return (
     <div className="flex w-full flex-col bg-white dark:bg-gray-900">
-      <Form {...formMethods}>
-        <form
-          id="estimate-form"
-          onSubmit={handleSubmit(onSubmit)}
-          className="m-0 space-y-8 p-4"
-        >
-          {/* Company Information */}
-          {company && (
-            <div className="mb-6 border-b pb-6 dark:border-gray-700">
-              <CompanyInfo
-                doc="Estimate"
-                company={company}
-                variant="desktop"
-                className="hidden lg:block"
-              />
-              <CompanyInfo
-                doc="Estimate"
-                company={company}
-                variant="mobile"
-                className="lg:hidden"
-              />
-            </div>
-          )}
-          <EstimateStatusSection />
-          <DetailsSection initialData={initialData} />
-          {/* Items Table */}
-          <div className="rounded-lg border p-4 dark:border-gray-700 dark:bg-gray-800">
-            <MemoizedItemSelectionHandler />
+      <form
+        id="estimate-form"
+        onSubmit={handleSubmit(onSubmit)}
+        className="m-0 space-y-8 p-4"
+      >
+        {/* Company Information */}
+        {company && (
+          <div className="mb-6 border-b pb-6 dark:border-gray-700">
+            <CompanyInfo
+              doc="Estimate"
+              company={company}
+              variant="desktop"
+              className="hidden lg:block"
+            />
+            <CompanyInfo
+              doc="Estimate"
+              company={company}
+              variant="mobile"
+              className="lg:hidden"
+            />
           </div>
-          {/* Notes & Summary Section */}
-          <div className="grid grid-cols-1 gap-4 2xl:grid-cols-12">
-            <div className="space-y-4 xl:col-span-7">
-              <div className="max-w-[500px] rounded-lg border bg-white p-3 dark:border-gray-700 dark:bg-gray-800">
-                <h3 className="mb-1 text-sm font-medium text-gray-900 dark:text-gray-100">
-                  Notes
-                </h3>
-                <FormField
-                  control={control}
-                  name="notes"
-                  render={({ field }) => (
-                    <Textarea
-                      {...field}
-                      className="h-24 resize-none border-none bg-transparent p-0 text-sm text-gray-900 placeholder:text-gray-500 focus-visible:ring-0 dark:text-gray-100 dark:placeholder:text-gray-400"
-                      placeholder="Add any additional notes..."
-                      onChange={(e) => {
-                        field.onChange(e);
-                      }}
-                    />
-                  )}
-                />
-              </div>
-
-              {/* Attachments */}
-              <div className="max-w-[500px] rounded-lg border bg-white p-2 dark:border-gray-700 dark:bg-gray-800">
-                <FileUpload maxFiles={10} maxSizeInMB={10} />
-              </div>
+        )}
+        <EstimateStatusSection />
+        <DetailsSection initialData={initialData} />
+        {/* Items Table */}
+        <div className="rounded-lg border p-4 dark:border-gray-700 dark:bg-gray-800">
+          <MemoizedItemSelectionHandler />
+        </div>
+        {/* Notes & Summary Section */}
+        <div className="grid grid-cols-1 gap-4 2xl:grid-cols-12">
+          <div className="space-y-4 xl:col-span-7">
+            <div className="max-w-[500px] rounded-lg border bg-white p-3 dark:border-gray-700 dark:bg-gray-800">
+              <h3 className="mb-1 text-sm font-medium text-gray-900 dark:text-gray-100">
+                Notes
+              </h3>
+              <Controller
+                control={control}
+                name="notes"
+                render={({ field }) => (
+                  <Textarea
+                    {...field}
+                    className="h-24 resize-none border-none bg-transparent p-0 text-sm text-gray-900 placeholder:text-gray-500 focus-visible:ring-0 dark:text-gray-100 dark:placeholder:text-gray-400"
+                    placeholder="Add any additional notes..."
+                    onChange={(e) => {
+                      field.onChange(e);
+                    }}
+                  />
+                )}
+              />
             </div>
 
-            {/* Price Summary */}
-            <div className="xl:col-span-5">
-              <MemoizedPriceSummary onTaxChange={onTaxChange} />
+            {/* Attachments */}
+            <div className="max-w-[500px] rounded-lg border bg-white p-2 dark:border-gray-700 dark:bg-gray-800">
+              <FileUpload maxFiles={10} maxSizeInMB={10} />
             </div>
           </div>
-          {/* Warning Dialog */}
-          <ValidationWarningDialog
-            warnings={warnings}
-            onConfirm={handleWarningConfirm}
-            onCancel={handleWarningCancel}
-            open={showWarnings}
-          />
-        </form>
-      </Form>
+
+          {/* Price Summary */}
+          <div className="xl:col-span-5">
+            <MemoizedPriceSummary onTaxChange={onTaxChange} />
+          </div>
+        </div>
+        {/* Warning Dialog */}
+        <ValidationWarningDialog
+          warnings={warnings}
+          onConfirm={handleWarningConfirm}
+          onCancel={handleWarningCancel}
+          open={showWarnings}
+        />
+      </form>
     </div>
   );
 };

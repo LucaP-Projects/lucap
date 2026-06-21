@@ -1,5 +1,5 @@
-import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
+import { Textarea } from '@/components/ui/textarea';
 import { CustomizationProps } from './types';
 
 const CustomizationSettings = ({

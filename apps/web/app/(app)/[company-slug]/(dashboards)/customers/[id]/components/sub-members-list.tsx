@@ -6,6 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Badge } from '@/components/ui/badge';
 import {
   Card,
   CardContent,
@@ -20,7 +21,6 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
 import { formatDate } from '@/lib/utils';
 
 interface SubCustomersListProps {

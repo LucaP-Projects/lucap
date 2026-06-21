@@ -1,7 +1,7 @@
 import { memo } from 'react';
-import { useFormContext } from 'react-hook-form';
-import { Textarea } from '@/components/ui/textarea';
+import { Controller, useFormContext } from 'react-hook-form';
 import FileUpload from '@/components/file-upload/file-upload';
+import { Textarea } from '@/components/ui/textarea';
 import { CompanyInfo } from '../base/company/company';
 import { DelayedChargeStatusSection } from '../base/customer/DelayedChargeStatusSection';
 import { DetailsSection } from '../base/customer/main';
@@ -86,7 +86,7 @@ const MemoizedFormContent = ({
                 <h3 className="mb-1 text-sm font-medium text-gray-900 dark:text-gray-100">
                   Notes
                 </h3>
-                <FormField
+                <Controller
                   control={control}
                   name="notes"
                   render={({ field }) => (

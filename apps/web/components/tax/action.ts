@@ -1,8 +1,9 @@
 'use server';
 
-import { TaxRate, TaxStatus, TaxType } from '@/lib/generated/prisma/client';
+import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { auth } from '@/lib/auth';
+import { TaxRate, TaxStatus, TaxType } from '@/lib/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
 import { TaxFormValues } from './schema';
 
@@ -80,37 +81,37 @@ export async function getTaxRates(search?: string): Promise<TaxRateResponse> {
         effectiveDate: true,
         endDate: true,
         // Check if tax rate is used in any documents
-        Invoice: {
+        invoices: {
           select: { id: true },
           take: 1,
           where: { isActive: true }
         },
-        Estimate: {
+        estimates: {
           select: { id: true },
           take: 1,
           where: { isActive: true }
         },
-        CreditMemo: {
+        creditMemos: {
           select: { id: true },
           take: 1,
           where: { isActive: true }
         },
-        SalesReceipt: {
+        salesReceipts: {
           select: { id: true },
           take: 1,
           where: { isActive: true }
         },
-        RefundReceipt: {
+        refundReceipts: {
           select: { id: true },
           take: 1,
           where: { isActive: true }
         },
-        DelayedCharge: {
+        delayedCharges: {
           select: { id: true },
           take: 1,
           where: { isActive: true }
         },
-        DelayedCredit: {
+        delayedCredits: {
           select: { id: true },
           take: 1,
           where: { isActive: true }
@@ -129,13 +130,13 @@ export async function getTaxRates(search?: string): Promise<TaxRateResponse> {
       effectiveDate: taxRate.effectiveDate.toISOString(),
       endDate: taxRate.endDate?.toISOString() || null,
       isUsed: !!(
-        taxRate.Invoice.length ||
-        taxRate.Estimate.length ||
-        taxRate.CreditMemo.length ||
-        taxRate.SalesReceipt.length ||
-        taxRate.RefundReceipt.length ||
-        taxRate.DelayedCharge.length ||
-        taxRate.DelayedCredit.length
+        taxRate.invoices.length ||
+        taxRate.estimates.length ||
+        taxRate.creditMemos.length ||
+        taxRate.salesReceipts.length ||
+        taxRate.refundReceipts.length ||
+        taxRate.delayedCharges.length ||
+        taxRate.delayedCredits.length
       )
     }));
 
@@ -222,6 +223,9 @@ export async function updateTax(
     }
 
     return await prisma.$transaction(async (tx) => {
+      if (!session.user.companyId) {
+        return { success: false, error: 'User is not associated with a company' };
+      }
       const existingTax = await tx.taxRate.findUnique({
         where: {
           id,
@@ -307,15 +311,15 @@ export async function deleteTaxRate(
     }
 
     // Check if the tax is being used in any documents
-    const usageCount = await db
+    const usageCount = await prisma
       .$transaction([
-        db.invoice.count({ where: { taxId: id, isActive: true } }),
-        db.estimate.count({ where: { taxId: id, isActive: true } }),
-        db.salesReceipt.count({ where: { taxId: id, isActive: true } }),
-        db.refundReceipt.count({ where: { taxId: id, isActive: true } }),
-        db.creditMemo.count({ where: { taxId: id, isActive: true } }),
-        db.delayedCharge.count({ where: { taxId: id, isActive: true } }),
-        db.delayedCredit.count({ where: { taxId: id, isActive: true } })
+        prisma.invoice.count({ where: { taxId: id, isActive: true } }),
+        prisma.estimate.count({ where: { taxId: id, isActive: true } }),
+        prisma.salesReceipt.count({ where: { taxId: id, isActive: true } }),
+        prisma.refundReceipt.count({ where: { taxId: id, isActive: true } }),
+        prisma.creditMemo.count({ where: { taxId: id, isActive: true } }),
+        prisma.delayedCharge.count({ where: { taxId: id, isActive: true } }),
+        prisma.delayedCredit.count({ where: { taxId: id, isActive: true } })
       ])
       .then((counts) => counts.reduce((sum, count) => sum + count, 0));
 

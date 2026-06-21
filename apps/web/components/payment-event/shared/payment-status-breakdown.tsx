@@ -1,7 +1,7 @@
 import React from 'react';
-import { PaymentStatus } from '@/lib/generated/prisma/client';
 import { Calendar, CreditCard } from 'lucide-react';
 import { getBaseScheduleInfo } from '@/app/(finance)/finance/payment-events/[id]/utils';
+import { PaymentStatus } from '@/lib/generated/prisma/client';
 import { cn } from '@/lib/utils';
 
 // Types
@@ -164,35 +164,6 @@ export function ScheduleInfoDisplay({ baseSchedule }: { baseSchedule: any }) {
     (info) => info.type === 'installment'
   );
 
-  const InfoSection = ({
-    items,
-    title
-  }: {
-    items: ScheduleInfo[];
-    title: string;
-  }) => (
-    <div>
-      <h4 className="text-muted-foreground mb-2 text-sm font-medium">
-        {title}
-      </h4>
-      <div className="grid gap-2">
-        {items.map((info, index) => (
-          <div
-            key={index}
-            className="text-muted-foreground flex items-center gap-2 text-sm"
-          >
-            {info.icon === 'calendar' ? (
-              <Calendar className="h-4 w-4 shrink-0" />
-            ) : (
-              <CreditCard className="h-4 w-4 shrink-0" />
-            )}
-            <span>{info.text}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-
   return (
     <div className="space-y-4">
       {mainScheduleInfo.length > 0 && (
@@ -204,3 +175,32 @@ export function ScheduleInfoDisplay({ baseSchedule }: { baseSchedule: any }) {
     </div>
   );
 }
+
+const InfoSection = ({
+  items,
+  title
+}: {
+  items: ScheduleInfo[];
+  title: string;
+}) => (
+  <div>
+    <h4 className="text-muted-foreground mb-2 text-sm font-medium">
+      {title}
+    </h4>
+    <div className="grid gap-2">
+      {items.map((info, index) => (
+        <div
+          key={index}
+          className="text-muted-foreground flex items-center gap-2 text-sm"
+        >
+          {info.icon === 'calendar' ? (
+            <Calendar className="h-4 w-4 shrink-0" />
+          ) : (
+            <CreditCard className="h-4 w-4 shrink-0" />
+          )}
+          <span>{info.text}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+);

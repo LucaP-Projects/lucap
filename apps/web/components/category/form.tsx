@@ -2,19 +2,18 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { Form, useForm } from 'react-hook-form';
+import { Controller, Form, useForm } from 'react-hook-form';
 
-
+import { toast } from 'sonner';
 import { CategoryWithItems } from '@/components/dashboard/categories/types';
+import { Input } from '@/components/ui/input';
+import { Switch } from '@/components/ui/switch';
+import { Textarea } from '@/components/ui/textarea';
 import { handleNumberInput } from '@/lib/utils';
 import { CategorySelect } from '../shared/category/category-selection';
+import { Field, FieldDescription, FieldError, FieldLabel } from '../ui/field';
 import { createCategory, updateCategory } from './actions';
 import { categoryFormSchema, CategoryFormValues } from './schema';
-import { toast } from 'sonner';
-import { Switch } from '@/components/ui/switch';
-import FormField from '../lang/FormField';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 
 interface CategoryFormProps {
   onSuccess: (newCategory?: CategoryWithItems) => void;
@@ -22,7 +21,7 @@ interface CategoryFormProps {
   isSubmitting: boolean;
   setIsSubmitting: (value: boolean) => void;
   isNestedForm?: boolean;
-  category?: CategoryWithItems; 
+  category?: CategoryWithItems;
 }
 
 export function CategoryForm({
@@ -31,7 +30,7 @@ export function CategoryForm({
   isSubmitting,
   setIsSubmitting,
   isNestedForm = false,
-  category 
+  category
 }: CategoryFormProps) {
   const router = useRouter();
   const isEditMode = !!category;
@@ -64,7 +63,7 @@ export function CategoryForm({
         // Handle validation or other errors
         toast(
           response.error ||
-            `Failed to ${isEditMode ? 'update' : 'create'} category`
+          `Failed to ${isEditMode ? 'update' : 'create'} category`
         );
         return;
       }
@@ -95,104 +94,102 @@ export function CategoryForm({
     form.handleSubmit(onSubmit)(e);
   };
   return (
-    <Form {...form}>
-      <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Name*</FormLabel>
-              <FormControl>
-                <Input {...field} placeholder="Enter category name" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+    <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
+      <Controller
+        control={form.control}
+        name="name"
+        render={({ field, fieldState }) => (
+          <Field>
+            <FieldLabel>Name*</FieldLabel>
+            <Input {...field} placeholder="Enter category name" />
+            {fieldState.error && (
+              <FieldError errors={[fieldState.error]} />
+            )}
+          </Field>
+        )}
+      />
 
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Description</FormLabel>
-              <FormControl>
-                <Textarea
-                  {...field}
-                  placeholder="Enter category description"
-                  className="resize-none"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+      <Controller
+        control={form.control}
+        name="description"
+        render={({ field, fieldState }) => (
+          <Field>
+            <FieldLabel>Description</FieldLabel>
+            <Textarea
+              {...field}
+              placeholder="Enter category description"
+              className="resize-none"
+            />
+            {fieldState.error && (
+              <FieldError errors={[fieldState.error]} />
+            )}
+          </Field>
+        )}
+      />
 
-        <FormField
-          control={form.control}
-          name="parentId"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Parent Category</FormLabel>
-              <CategorySelect
-                showAddNew={false}
-                onSelect={(category) => {
-                  form.setValue('parentId', category.id);
-                }}
-                selectedCategoryId={field.value}
-              />
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+      <Controller
+        control={form.control}
+        name="parentId"
+        render={({ field, fieldState }) => (
+          <Field>
+            <FieldLabel>Parent Category</FieldLabel>
+            <CategorySelect
+              showAddNew={false}
+              onSelect={(category) => {
+                form.setValue('parentId', category.id);
+              }}
+              selectedCategoryId={field.value}
+            />
+            {fieldState.error && (
+              <FieldError errors={[fieldState.error]} />
+            )}
+          </Field>
+        )}
+      />
 
-        <FormField
-          control={form.control}
-          name="active"
-          render={({ field }) => (
-            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-              <div className="space-y-0.5">
-                <FormLabel>Active</FormLabel>
-                <FormDescription>
-                  Disable to hide this category from lists
-                </FormDescription>
-              </div>
-              <FormControl>
-                <Switch
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        />
+      <Controller
+        control={form.control}
+        name="active"
+        render={({ field, fieldState }) => (
+          <Field className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+            <div className="space-y-0.5">
+              <FieldLabel>Active</FieldLabel>
+              <FieldDescription>
+                Disable to hide this category from lists
+              </FieldDescription>
+            </div>
+            <Switch
+              checked={field.value}
+              onCheckedChange={field.onChange}
+            />
+          </Field>
+        )}
+      />
 
-        <FormField
-          control={form.control}
-          name="sortOrder"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Sort Order</FormLabel>
-              <FormControl>
-                <Input
-                  min="0"
-                  step="1"
-                  type="number"
-                  onChange={(e) =>
-                    handleNumberInput(e.target.value, field.onChange, 0)
-                  }
-                  value={field.value || ''}
-                />
-              </FormControl>
-              <FormDescription>
-                Categories are sorted in ascending order
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      </form>
-    </Form>
+      <Controller
+        control={form.control}
+        name="sortOrder"
+        render={({ field, fieldState }) => (
+          <Field>
+            <FieldLabel>Sort Order</FieldLabel>
+            <Input
+              min="0"
+              step="1"
+              type="number"
+              onChange={(e) =>
+                handleNumberInput(e.target.value, field.onChange, 0)
+              }
+              value={field.value || ''}
+            />
+            <FieldDescription>
+              Categories are sorted in ascending order
+            </FieldDescription>
+            {fieldState.error && (
+              <FieldError errors={[fieldState.error]} />
+            )}
+          </Field>
+        )}
+      />
+    </form>
   );
 }

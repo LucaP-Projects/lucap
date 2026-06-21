@@ -1,5 +1,4 @@
 import React, { memo } from 'react';
-import { PaymentMethod, RefundReason, RefundStatus } from '@/lib/generated/prisma/client';
 import { Controller, useFormContext } from 'react-hook-form';
 import {
   Select,
@@ -8,6 +7,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
+import { PaymentMethod, RefundReason, RefundStatus } from '@/lib/generated/prisma/client';
 import { RefundReceiptFormValues } from '../../refund-receipt/schema';
 
 export const RefundStatusSection: React.FC = memo(() => {

@@ -1,8 +1,9 @@
 'use server';
 
-import { TaxStatus, TaxType } from '@/lib/generated/prisma/client';
+import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { auth } from '@/lib/auth';
+import { TaxStatus, TaxType } from '@/lib/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
 
 export type TaxSelectData = {
@@ -102,15 +103,15 @@ export async function deleteTax(
     }
 
     // Check if the tax is being used in any documents
-    const usageCount = await db
+    const usageCount = await prisma
       .$transaction([
-        db.invoice.count({ where: { taxId: id, isActive: true } }),
-        db.estimate.count({ where: { taxId: id, isActive: true } }),
-        db.salesReceipt.count({ where: { taxId: id, isActive: true } }),
-        db.refundReceipt.count({ where: { taxId: id, isActive: true } }),
-        db.creditMemo.count({ where: { taxId: id, isActive: true } }),
-        db.delayedCharge.count({ where: { taxId: id, isActive: true } }),
-        db.delayedCredit.count({ where: { taxId: id, isActive: true } })
+        prisma.invoice.count({ where: { taxId: id, isActive: true } }),
+        prisma.estimate.count({ where: { taxId: id, isActive: true } }),
+        prisma.salesReceipt.count({ where: { taxId: id, isActive: true } }),
+        prisma.refundReceipt.count({ where: { taxId: id, isActive: true } }),
+        prisma.creditMemo.count({ where: { taxId: id, isActive: true } }),
+        prisma.delayedCharge.count({ where: { taxId: id, isActive: true } }),
+        prisma.delayedCredit.count({ where: { taxId: id, isActive: true } })
       ])
       .then((counts) => counts.reduce((sum, count) => sum + count, 0));
 

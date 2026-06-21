@@ -1,8 +1,8 @@
 'use server';
 
-import { CustomerStatus, Prisma } from '@/lib/generated/prisma/client';
 import { revalidatePath } from 'next/cache';
 import { getCurrentCompany } from '@/lib/auth';
+import { CustomerStatus, Prisma } from '@/lib/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
 import {
   CustomerFilterType,
@@ -159,7 +159,6 @@ export async function getCustomers(params?: {
       statistics
     };
   } catch (err) {
-    console.error(err);
     return {
       customers: [],
       total: 0,
@@ -252,7 +251,6 @@ export async function getCustomersShort(params: {
 
     return sortedCustomers;
   } catch (err) {
-    console.error(err);
     return [];
   }
 }

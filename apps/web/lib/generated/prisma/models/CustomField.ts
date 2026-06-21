@@ -214,7 +214,7 @@ export type CustomFieldWhereInput = {
   companyId?: Prisma.StringFilter<"CustomField"> | string
   forms?: Prisma.CustomFieldFormListRelationFilter
   values?: Prisma.CustomFieldValueListRelationFilter
-  Company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
+  company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
 }
 
 export type CustomFieldOrderByWithRelationInput = {
@@ -229,7 +229,7 @@ export type CustomFieldOrderByWithRelationInput = {
   companyId?: Prisma.SortOrder
   forms?: Prisma.CustomFieldFormOrderByRelationAggregateInput
   values?: Prisma.CustomFieldValueOrderByRelationAggregateInput
-  Company?: Prisma.CompanyOrderByWithRelationInput
+  company?: Prisma.CompanyOrderByWithRelationInput
 }
 
 export type CustomFieldWhereUniqueInput = Prisma.AtLeast<{
@@ -248,7 +248,7 @@ export type CustomFieldWhereUniqueInput = Prisma.AtLeast<{
   companyId?: Prisma.StringFilter<"CustomField"> | string
   forms?: Prisma.CustomFieldFormListRelationFilter
   values?: Prisma.CustomFieldValueListRelationFilter
-  Company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
+  company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
 }, "id" | "name_category_companyId">
 
 export type CustomFieldOrderByWithAggregationInput = {
@@ -290,9 +290,9 @@ export type CustomFieldCreateInput = {
   active?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  forms?: Prisma.CustomFieldFormCreateNestedManyWithoutCustomFieldInput
+  forms?: Prisma.CustomFieldFormCreateNestedManyWithoutCustomFieldsInput
   values?: Prisma.CustomFieldValueCreateNestedManyWithoutCustomFieldInput
-  Company: Prisma.CompanyCreateNestedOneWithoutCustomFieldsInput
+  company: Prisma.CompanyCreateNestedOneWithoutCustomFieldsInput
 }
 
 export type CustomFieldUncheckedCreateInput = {
@@ -305,7 +305,7 @@ export type CustomFieldUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   companyId: string
-  forms?: Prisma.CustomFieldFormUncheckedCreateNestedManyWithoutCustomFieldInput
+  forms?: Prisma.CustomFieldFormUncheckedCreateNestedManyWithoutCustomFieldsInput
   values?: Prisma.CustomFieldValueUncheckedCreateNestedManyWithoutCustomFieldInput
 }
 
@@ -318,9 +318,9 @@ export type CustomFieldUpdateInput = {
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  forms?: Prisma.CustomFieldFormUpdateManyWithoutCustomFieldNestedInput
+  forms?: Prisma.CustomFieldFormUpdateManyWithoutCustomFieldsNestedInput
   values?: Prisma.CustomFieldValueUpdateManyWithoutCustomFieldNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutCustomFieldsNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutCustomFieldsNestedInput
 }
 
 export type CustomFieldUncheckedUpdateInput = {
@@ -333,7 +333,7 @@ export type CustomFieldUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.StringFieldUpdateOperationsInput | string
-  forms?: Prisma.CustomFieldFormUncheckedUpdateManyWithoutCustomFieldNestedInput
+  forms?: Prisma.CustomFieldFormUncheckedUpdateManyWithoutCustomFieldsNestedInput
   values?: Prisma.CustomFieldValueUncheckedUpdateManyWithoutCustomFieldNestedInput
 }
 
@@ -548,7 +548,7 @@ export type CustomFieldCreateWithoutFormsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   values?: Prisma.CustomFieldValueCreateNestedManyWithoutCustomFieldInput
-  Company: Prisma.CompanyCreateNestedOneWithoutCustomFieldsInput
+  company: Prisma.CompanyCreateNestedOneWithoutCustomFieldsInput
 }
 
 export type CustomFieldUncheckedCreateWithoutFormsInput = {
@@ -609,8 +609,8 @@ export type CustomFieldCreateWithoutValuesInput = {
   active?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  forms?: Prisma.CustomFieldFormCreateNestedManyWithoutCustomFieldInput
-  Company: Prisma.CompanyCreateNestedOneWithoutCustomFieldsInput
+  forms?: Prisma.CustomFieldFormCreateNestedManyWithoutCustomFieldsInput
+  company: Prisma.CompanyCreateNestedOneWithoutCustomFieldsInput
 }
 
 export type CustomFieldUncheckedCreateWithoutValuesInput = {
@@ -623,7 +623,7 @@ export type CustomFieldUncheckedCreateWithoutValuesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   companyId: string
-  forms?: Prisma.CustomFieldFormUncheckedCreateNestedManyWithoutCustomFieldInput
+  forms?: Prisma.CustomFieldFormUncheckedCreateNestedManyWithoutCustomFieldsInput
 }
 
 export type CustomFieldCreateOrConnectWithoutValuesInput = {
@@ -651,8 +651,8 @@ export type CustomFieldUpdateWithoutValuesInput = {
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  forms?: Prisma.CustomFieldFormUpdateManyWithoutCustomFieldNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutCustomFieldsNestedInput
+  forms?: Prisma.CustomFieldFormUpdateManyWithoutCustomFieldsNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutCustomFieldsNestedInput
 }
 
 export type CustomFieldUncheckedUpdateWithoutValuesInput = {
@@ -665,7 +665,7 @@ export type CustomFieldUncheckedUpdateWithoutValuesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.StringFieldUpdateOperationsInput | string
-  forms?: Prisma.CustomFieldFormUncheckedUpdateManyWithoutCustomFieldNestedInput
+  forms?: Prisma.CustomFieldFormUncheckedUpdateManyWithoutCustomFieldsNestedInput
 }
 
 export type CustomFieldCreateWithoutCompanyInput = {
@@ -677,7 +677,7 @@ export type CustomFieldCreateWithoutCompanyInput = {
   active?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  forms?: Prisma.CustomFieldFormCreateNestedManyWithoutCustomFieldInput
+  forms?: Prisma.CustomFieldFormCreateNestedManyWithoutCustomFieldsInput
   values?: Prisma.CustomFieldValueCreateNestedManyWithoutCustomFieldInput
 }
 
@@ -690,7 +690,7 @@ export type CustomFieldUncheckedCreateWithoutCompanyInput = {
   active?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  forms?: Prisma.CustomFieldFormUncheckedCreateNestedManyWithoutCustomFieldInput
+  forms?: Prisma.CustomFieldFormUncheckedCreateNestedManyWithoutCustomFieldsInput
   values?: Prisma.CustomFieldValueUncheckedCreateNestedManyWithoutCustomFieldInput
 }
 
@@ -730,7 +730,7 @@ export type CustomFieldUpdateWithoutFormsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   values?: Prisma.CustomFieldValueUpdateManyWithoutCustomFieldNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutCustomFieldsNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutCustomFieldsNestedInput
 }
 
 export type CustomFieldUncheckedUpdateWithoutFormsInput = {
@@ -778,7 +778,7 @@ export type CustomFieldUpdateWithoutCompanyInput = {
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  forms?: Prisma.CustomFieldFormUpdateManyWithoutCustomFieldNestedInput
+  forms?: Prisma.CustomFieldFormUpdateManyWithoutCustomFieldsNestedInput
   values?: Prisma.CustomFieldValueUpdateManyWithoutCustomFieldNestedInput
 }
 
@@ -791,7 +791,7 @@ export type CustomFieldUncheckedUpdateWithoutCompanyInput = {
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  forms?: Prisma.CustomFieldFormUncheckedUpdateManyWithoutCustomFieldNestedInput
+  forms?: Prisma.CustomFieldFormUncheckedUpdateManyWithoutCustomFieldsNestedInput
   values?: Prisma.CustomFieldValueUncheckedUpdateManyWithoutCustomFieldNestedInput
 }
 
@@ -858,7 +858,7 @@ export type CustomFieldSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   companyId?: boolean
   forms?: boolean | Prisma.CustomField$formsArgs<ExtArgs>
   values?: boolean | Prisma.CustomField$valuesArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.CustomFieldCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["customField"]>
 
@@ -872,7 +872,7 @@ export type CustomFieldSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   createdAt?: boolean
   updatedAt?: boolean
   companyId?: boolean
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["customField"]>
 
 export type CustomFieldSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -885,7 +885,7 @@ export type CustomFieldSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   createdAt?: boolean
   updatedAt?: boolean
   companyId?: boolean
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["customField"]>
 
 export type CustomFieldSelectScalar = {
@@ -904,14 +904,14 @@ export type CustomFieldOmit<ExtArgs extends runtime.Types.Extensions.InternalArg
 export type CustomFieldInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   forms?: boolean | Prisma.CustomField$formsArgs<ExtArgs>
   values?: boolean | Prisma.CustomField$valuesArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.CustomFieldCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CustomFieldIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }
 export type CustomFieldIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }
 
 export type $CustomFieldPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -919,7 +919,7 @@ export type $CustomFieldPayload<ExtArgs extends runtime.Types.Extensions.Interna
   objects: {
     forms: Prisma.$CustomFieldFormPayload<ExtArgs>[]
     values: Prisma.$CustomFieldValuePayload<ExtArgs>[]
-    Company: Prisma.$CompanyPayload<ExtArgs>
+    company: Prisma.$CompanyPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1327,7 +1327,7 @@ export interface Prisma__CustomFieldClient<T, Null = never, ExtArgs extends runt
   readonly [Symbol.toStringTag]: "PrismaPromise"
   forms<T extends Prisma.CustomField$formsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CustomField$formsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CustomFieldFormPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   values<T extends Prisma.CustomField$valuesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CustomField$valuesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CustomFieldValuePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  Company<T extends Prisma.CompanyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CompanyDefaultArgs<ExtArgs>>): Prisma.Prisma__CompanyClient<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  company<T extends Prisma.CompanyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CompanyDefaultArgs<ExtArgs>>): Prisma.Prisma__CompanyClient<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

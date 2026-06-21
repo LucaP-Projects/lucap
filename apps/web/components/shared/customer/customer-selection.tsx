@@ -1,20 +1,20 @@
 'use client';
 
 import * as React from 'react';
+import { CommandInput, CommandEmpty, CommandGroup } from 'cmdk';
 import { useRouter } from 'next/navigation';
 import { ChevronsUpDown, Command } from 'lucide-react';
 
-import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
 import { useDebounce } from '@/hooks/use-debounce';
+import { cn } from '@/lib/utils';
 import {
   CustomerSelectData,
   getCustomerById,
   getCustomersForSelect
 } from './actions';
 import { CustomerItem } from './cubtomer-item';
-import { Button } from '@/components/ui/button';
-import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
-import { CommandInput, CommandEmpty, CommandGroup } from 'cmdk';
 
 const customerSearchCache = new Map<string, CustomerSelectData[]>();
 

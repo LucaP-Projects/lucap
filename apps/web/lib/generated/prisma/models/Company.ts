@@ -283,10 +283,10 @@ export type CompanyWhereInput = {
   customFields?: Prisma.CustomFieldListRelationFilter
   emailTemplates?: Prisma.EmailTemplateListRelationFilter
   files?: Prisma.FileListRelationFilter
-  JournalEntry?: Prisma.JournalEntryListRelationFilter
+  journalEntry?: Prisma.JournalEntryListRelationFilter
   taxRates?: Prisma.TaxRateListRelationFilter
-  Product?: Prisma.ProductListRelationFilter
-  Store?: Prisma.XOR<Prisma.StoreNullableScalarRelationFilter, Prisma.StoreWhereInput> | null
+  products?: Prisma.ProductListRelationFilter
+  store?: Prisma.XOR<Prisma.StoreNullableScalarRelationFilter, Prisma.StoreWhereInput> | null
   tickets?: Prisma.TicketListRelationFilter
 }
 
@@ -330,10 +330,10 @@ export type CompanyOrderByWithRelationInput = {
   customFields?: Prisma.CustomFieldOrderByRelationAggregateInput
   emailTemplates?: Prisma.EmailTemplateOrderByRelationAggregateInput
   files?: Prisma.FileOrderByRelationAggregateInput
-  JournalEntry?: Prisma.JournalEntryOrderByRelationAggregateInput
+  journalEntry?: Prisma.JournalEntryOrderByRelationAggregateInput
   taxRates?: Prisma.TaxRateOrderByRelationAggregateInput
-  Product?: Prisma.ProductOrderByRelationAggregateInput
-  Store?: Prisma.StoreOrderByWithRelationInput
+  products?: Prisma.ProductOrderByRelationAggregateInput
+  store?: Prisma.StoreOrderByWithRelationInput
   tickets?: Prisma.TicketOrderByRelationAggregateInput
 }
 
@@ -380,10 +380,10 @@ export type CompanyWhereUniqueInput = Prisma.AtLeast<{
   customFields?: Prisma.CustomFieldListRelationFilter
   emailTemplates?: Prisma.EmailTemplateListRelationFilter
   files?: Prisma.FileListRelationFilter
-  JournalEntry?: Prisma.JournalEntryListRelationFilter
+  journalEntry?: Prisma.JournalEntryListRelationFilter
   taxRates?: Prisma.TaxRateListRelationFilter
-  Product?: Prisma.ProductListRelationFilter
-  Store?: Prisma.XOR<Prisma.StoreNullableScalarRelationFilter, Prisma.StoreWhereInput> | null
+  products?: Prisma.ProductListRelationFilter
+  store?: Prisma.XOR<Prisma.StoreNullableScalarRelationFilter, Prisma.StoreWhereInput> | null
   tickets?: Prisma.TicketListRelationFilter
 }, "id" | "name">
 
@@ -470,10 +470,10 @@ export type CompanyCreateInput = {
   customFields?: Prisma.CustomFieldCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketCreateNestedManyWithoutCompanyInput
 }
 
@@ -516,10 +516,10 @@ export type CompanyUncheckedCreateInput = {
   customFields?: Prisma.CustomFieldUncheckedCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileUncheckedCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateUncheckedCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutCompanyInput
 }
 
@@ -562,10 +562,10 @@ export type CompanyUpdateInput = {
   customFields?: Prisma.CustomFieldUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUpdateManyWithoutCompanyNestedInput
 }
 
@@ -608,10 +608,10 @@ export type CompanyUncheckedUpdateInput = {
   customFields?: Prisma.CustomFieldUncheckedUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUncheckedUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutCompanyNestedInput
 }
 
@@ -996,18 +996,18 @@ export type CompanyUpdateOneRequiredWithoutTransactionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CompanyUpdateToOneWithWhereWithoutTransactionsInput, Prisma.CompanyUpdateWithoutTransactionsInput>, Prisma.CompanyUncheckedUpdateWithoutTransactionsInput>
 }
 
-export type CompanyCreateNestedOneWithoutProductInput = {
-  create?: Prisma.XOR<Prisma.CompanyCreateWithoutProductInput, Prisma.CompanyUncheckedCreateWithoutProductInput>
-  connectOrCreate?: Prisma.CompanyCreateOrConnectWithoutProductInput
+export type CompanyCreateNestedOneWithoutProductsInput = {
+  create?: Prisma.XOR<Prisma.CompanyCreateWithoutProductsInput, Prisma.CompanyUncheckedCreateWithoutProductsInput>
+  connectOrCreate?: Prisma.CompanyCreateOrConnectWithoutProductsInput
   connect?: Prisma.CompanyWhereUniqueInput
 }
 
-export type CompanyUpdateOneRequiredWithoutProductNestedInput = {
-  create?: Prisma.XOR<Prisma.CompanyCreateWithoutProductInput, Prisma.CompanyUncheckedCreateWithoutProductInput>
-  connectOrCreate?: Prisma.CompanyCreateOrConnectWithoutProductInput
-  upsert?: Prisma.CompanyUpsertWithoutProductInput
+export type CompanyUpdateOneRequiredWithoutProductsNestedInput = {
+  create?: Prisma.XOR<Prisma.CompanyCreateWithoutProductsInput, Prisma.CompanyUncheckedCreateWithoutProductsInput>
+  connectOrCreate?: Prisma.CompanyCreateOrConnectWithoutProductsInput
+  upsert?: Prisma.CompanyUpsertWithoutProductsInput
   connect?: Prisma.CompanyWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.CompanyUpdateToOneWithWhereWithoutProductInput, Prisma.CompanyUpdateWithoutProductInput>, Prisma.CompanyUncheckedUpdateWithoutProductInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CompanyUpdateToOneWithWhereWithoutProductsInput, Prisma.CompanyUpdateWithoutProductsInput>, Prisma.CompanyUncheckedUpdateWithoutProductsInput>
 }
 
 export type CompanyCreateNestedOneWithoutStoreInput = {
@@ -1210,10 +1210,10 @@ export type CompanyCreateWithoutActiveUsersInput = {
   customFields?: Prisma.CustomFieldCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketCreateNestedManyWithoutCompanyInput
 }
 
@@ -1255,10 +1255,10 @@ export type CompanyUncheckedCreateWithoutActiveUsersInput = {
   customFields?: Prisma.CustomFieldUncheckedCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileUncheckedCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateUncheckedCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutCompanyInput
 }
 
@@ -1316,10 +1316,10 @@ export type CompanyUpdateWithoutActiveUsersInput = {
   customFields?: Prisma.CustomFieldUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUpdateManyWithoutCompanyNestedInput
 }
 
@@ -1361,10 +1361,10 @@ export type CompanyUncheckedUpdateWithoutActiveUsersInput = {
   customFields?: Prisma.CustomFieldUncheckedUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUncheckedUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutCompanyNestedInput
 }
 
@@ -1406,10 +1406,10 @@ export type CompanyCreateWithoutUsersInput = {
   customFields?: Prisma.CustomFieldCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketCreateNestedManyWithoutCompanyInput
 }
 
@@ -1451,10 +1451,10 @@ export type CompanyUncheckedCreateWithoutUsersInput = {
   customFields?: Prisma.CustomFieldUncheckedCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileUncheckedCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateUncheckedCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutCompanyInput
 }
 
@@ -1512,10 +1512,10 @@ export type CompanyUpdateWithoutUsersInput = {
   customFields?: Prisma.CustomFieldUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUpdateManyWithoutCompanyNestedInput
 }
 
@@ -1557,10 +1557,10 @@ export type CompanyUncheckedUpdateWithoutUsersInput = {
   customFields?: Prisma.CustomFieldUncheckedUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUncheckedUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutCompanyNestedInput
 }
 
@@ -1602,10 +1602,10 @@ export type CompanyCreateWithoutRolesInput = {
   customFields?: Prisma.CustomFieldCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketCreateNestedManyWithoutCompanyInput
 }
 
@@ -1647,10 +1647,10 @@ export type CompanyUncheckedCreateWithoutRolesInput = {
   customFields?: Prisma.CustomFieldUncheckedCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileUncheckedCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateUncheckedCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutCompanyInput
 }
 
@@ -1708,10 +1708,10 @@ export type CompanyUpdateWithoutRolesInput = {
   customFields?: Prisma.CustomFieldUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUpdateManyWithoutCompanyNestedInput
 }
 
@@ -1753,10 +1753,10 @@ export type CompanyUncheckedUpdateWithoutRolesInput = {
   customFields?: Prisma.CustomFieldUncheckedUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUncheckedUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutCompanyNestedInput
 }
 
@@ -1798,10 +1798,10 @@ export type CompanyCreateWithoutCustomersInput = {
   customFields?: Prisma.CustomFieldCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketCreateNestedManyWithoutCompanyInput
 }
 
@@ -1843,10 +1843,10 @@ export type CompanyUncheckedCreateWithoutCustomersInput = {
   customFields?: Prisma.CustomFieldUncheckedCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileUncheckedCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateUncheckedCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutCompanyInput
 }
 
@@ -1904,10 +1904,10 @@ export type CompanyUpdateWithoutCustomersInput = {
   customFields?: Prisma.CustomFieldUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUpdateManyWithoutCompanyNestedInput
 }
 
@@ -1949,10 +1949,10 @@ export type CompanyUncheckedUpdateWithoutCustomersInput = {
   customFields?: Prisma.CustomFieldUncheckedUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUncheckedUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutCompanyNestedInput
 }
 
@@ -1994,10 +1994,10 @@ export type CompanyCreateWithoutCustomerTypesInput = {
   customFields?: Prisma.CustomFieldCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketCreateNestedManyWithoutCompanyInput
 }
 
@@ -2039,10 +2039,10 @@ export type CompanyUncheckedCreateWithoutCustomerTypesInput = {
   customFields?: Prisma.CustomFieldUncheckedCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileUncheckedCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateUncheckedCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutCompanyInput
 }
 
@@ -2100,10 +2100,10 @@ export type CompanyUpdateWithoutCustomerTypesInput = {
   customFields?: Prisma.CustomFieldUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUpdateManyWithoutCompanyNestedInput
 }
 
@@ -2145,10 +2145,10 @@ export type CompanyUncheckedUpdateWithoutCustomerTypesInput = {
   customFields?: Prisma.CustomFieldUncheckedUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUncheckedUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutCompanyNestedInput
 }
 
@@ -2190,10 +2190,10 @@ export type CompanyCreateWithoutAccountsInput = {
   customFields?: Prisma.CustomFieldCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketCreateNestedManyWithoutCompanyInput
 }
 
@@ -2235,10 +2235,10 @@ export type CompanyUncheckedCreateWithoutAccountsInput = {
   customFields?: Prisma.CustomFieldUncheckedCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileUncheckedCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateUncheckedCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutCompanyInput
 }
 
@@ -2296,10 +2296,10 @@ export type CompanyUpdateWithoutAccountsInput = {
   customFields?: Prisma.CustomFieldUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUpdateManyWithoutCompanyNestedInput
 }
 
@@ -2341,10 +2341,10 @@ export type CompanyUncheckedUpdateWithoutAccountsInput = {
   customFields?: Prisma.CustomFieldUncheckedUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUncheckedUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutCompanyNestedInput
 }
 
@@ -2386,10 +2386,10 @@ export type CompanyCreateWithoutPaymentEventsInput = {
   customFields?: Prisma.CustomFieldCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketCreateNestedManyWithoutCompanyInput
 }
 
@@ -2431,10 +2431,10 @@ export type CompanyUncheckedCreateWithoutPaymentEventsInput = {
   customFields?: Prisma.CustomFieldUncheckedCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileUncheckedCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateUncheckedCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutCompanyInput
 }
 
@@ -2492,10 +2492,10 @@ export type CompanyUpdateWithoutPaymentEventsInput = {
   customFields?: Prisma.CustomFieldUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUpdateManyWithoutCompanyNestedInput
 }
 
@@ -2537,10 +2537,10 @@ export type CompanyUncheckedUpdateWithoutPaymentEventsInput = {
   customFields?: Prisma.CustomFieldUncheckedUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUncheckedUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutCompanyNestedInput
 }
 
@@ -2582,10 +2582,10 @@ export type CompanyCreateWithoutCategoriesInput = {
   customFields?: Prisma.CustomFieldCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketCreateNestedManyWithoutCompanyInput
 }
 
@@ -2627,10 +2627,10 @@ export type CompanyUncheckedCreateWithoutCategoriesInput = {
   customFields?: Prisma.CustomFieldUncheckedCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileUncheckedCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateUncheckedCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutCompanyInput
 }
 
@@ -2688,10 +2688,10 @@ export type CompanyUpdateWithoutCategoriesInput = {
   customFields?: Prisma.CustomFieldUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUpdateManyWithoutCompanyNestedInput
 }
 
@@ -2733,10 +2733,10 @@ export type CompanyUncheckedUpdateWithoutCategoriesInput = {
   customFields?: Prisma.CustomFieldUncheckedUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUncheckedUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutCompanyNestedInput
 }
 
@@ -2778,10 +2778,10 @@ export type CompanyCreateWithoutItemsInput = {
   customFields?: Prisma.CustomFieldCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketCreateNestedManyWithoutCompanyInput
 }
 
@@ -2823,10 +2823,10 @@ export type CompanyUncheckedCreateWithoutItemsInput = {
   customFields?: Prisma.CustomFieldUncheckedCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileUncheckedCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateUncheckedCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutCompanyInput
 }
 
@@ -2884,10 +2884,10 @@ export type CompanyUpdateWithoutItemsInput = {
   customFields?: Prisma.CustomFieldUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUpdateManyWithoutCompanyNestedInput
 }
 
@@ -2929,10 +2929,10 @@ export type CompanyUncheckedUpdateWithoutItemsInput = {
   customFields?: Prisma.CustomFieldUncheckedUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUncheckedUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutCompanyNestedInput
 }
 
@@ -2974,10 +2974,10 @@ export type CompanyCreateWithoutInvoicesInput = {
   customFields?: Prisma.CustomFieldCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketCreateNestedManyWithoutCompanyInput
 }
 
@@ -3019,10 +3019,10 @@ export type CompanyUncheckedCreateWithoutInvoicesInput = {
   customFields?: Prisma.CustomFieldUncheckedCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileUncheckedCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateUncheckedCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutCompanyInput
 }
 
@@ -3080,10 +3080,10 @@ export type CompanyUpdateWithoutInvoicesInput = {
   customFields?: Prisma.CustomFieldUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUpdateManyWithoutCompanyNestedInput
 }
 
@@ -3125,10 +3125,10 @@ export type CompanyUncheckedUpdateWithoutInvoicesInput = {
   customFields?: Prisma.CustomFieldUncheckedUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUncheckedUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutCompanyNestedInput
 }
 
@@ -3170,10 +3170,10 @@ export type CompanyCreateWithoutEstimatesInput = {
   customFields?: Prisma.CustomFieldCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketCreateNestedManyWithoutCompanyInput
 }
 
@@ -3215,10 +3215,10 @@ export type CompanyUncheckedCreateWithoutEstimatesInput = {
   customFields?: Prisma.CustomFieldUncheckedCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileUncheckedCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateUncheckedCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutCompanyInput
 }
 
@@ -3276,10 +3276,10 @@ export type CompanyUpdateWithoutEstimatesInput = {
   customFields?: Prisma.CustomFieldUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUpdateManyWithoutCompanyNestedInput
 }
 
@@ -3321,10 +3321,10 @@ export type CompanyUncheckedUpdateWithoutEstimatesInput = {
   customFields?: Prisma.CustomFieldUncheckedUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUncheckedUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutCompanyNestedInput
 }
 
@@ -3366,10 +3366,10 @@ export type CompanyCreateWithoutCreditMemosInput = {
   customFields?: Prisma.CustomFieldCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketCreateNestedManyWithoutCompanyInput
 }
 
@@ -3411,10 +3411,10 @@ export type CompanyUncheckedCreateWithoutCreditMemosInput = {
   customFields?: Prisma.CustomFieldUncheckedCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileUncheckedCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateUncheckedCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutCompanyInput
 }
 
@@ -3472,10 +3472,10 @@ export type CompanyUpdateWithoutCreditMemosInput = {
   customFields?: Prisma.CustomFieldUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUpdateManyWithoutCompanyNestedInput
 }
 
@@ -3517,10 +3517,10 @@ export type CompanyUncheckedUpdateWithoutCreditMemosInput = {
   customFields?: Prisma.CustomFieldUncheckedUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUncheckedUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutCompanyNestedInput
 }
 
@@ -3562,10 +3562,10 @@ export type CompanyCreateWithoutSalesReceiptsInput = {
   customFields?: Prisma.CustomFieldCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketCreateNestedManyWithoutCompanyInput
 }
 
@@ -3607,10 +3607,10 @@ export type CompanyUncheckedCreateWithoutSalesReceiptsInput = {
   customFields?: Prisma.CustomFieldUncheckedCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileUncheckedCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateUncheckedCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutCompanyInput
 }
 
@@ -3668,10 +3668,10 @@ export type CompanyUpdateWithoutSalesReceiptsInput = {
   customFields?: Prisma.CustomFieldUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUpdateManyWithoutCompanyNestedInput
 }
 
@@ -3713,10 +3713,10 @@ export type CompanyUncheckedUpdateWithoutSalesReceiptsInput = {
   customFields?: Prisma.CustomFieldUncheckedUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUncheckedUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutCompanyNestedInput
 }
 
@@ -3758,10 +3758,10 @@ export type CompanyCreateWithoutRefundReceiptsInput = {
   customFields?: Prisma.CustomFieldCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketCreateNestedManyWithoutCompanyInput
 }
 
@@ -3803,10 +3803,10 @@ export type CompanyUncheckedCreateWithoutRefundReceiptsInput = {
   customFields?: Prisma.CustomFieldUncheckedCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileUncheckedCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateUncheckedCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutCompanyInput
 }
 
@@ -3864,10 +3864,10 @@ export type CompanyUpdateWithoutRefundReceiptsInput = {
   customFields?: Prisma.CustomFieldUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUpdateManyWithoutCompanyNestedInput
 }
 
@@ -3909,10 +3909,10 @@ export type CompanyUncheckedUpdateWithoutRefundReceiptsInput = {
   customFields?: Prisma.CustomFieldUncheckedUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUncheckedUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutCompanyNestedInput
 }
 
@@ -3954,10 +3954,10 @@ export type CompanyCreateWithoutDelayedChargesInput = {
   customFields?: Prisma.CustomFieldCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketCreateNestedManyWithoutCompanyInput
 }
 
@@ -3999,10 +3999,10 @@ export type CompanyUncheckedCreateWithoutDelayedChargesInput = {
   customFields?: Prisma.CustomFieldUncheckedCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileUncheckedCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateUncheckedCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutCompanyInput
 }
 
@@ -4060,10 +4060,10 @@ export type CompanyUpdateWithoutDelayedChargesInput = {
   customFields?: Prisma.CustomFieldUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUpdateManyWithoutCompanyNestedInput
 }
 
@@ -4105,10 +4105,10 @@ export type CompanyUncheckedUpdateWithoutDelayedChargesInput = {
   customFields?: Prisma.CustomFieldUncheckedUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUncheckedUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutCompanyNestedInput
 }
 
@@ -4150,10 +4150,10 @@ export type CompanyCreateWithoutDelayedCreditsInput = {
   customFields?: Prisma.CustomFieldCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketCreateNestedManyWithoutCompanyInput
 }
 
@@ -4195,10 +4195,10 @@ export type CompanyUncheckedCreateWithoutDelayedCreditsInput = {
   customFields?: Prisma.CustomFieldUncheckedCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileUncheckedCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateUncheckedCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutCompanyInput
 }
 
@@ -4256,10 +4256,10 @@ export type CompanyUpdateWithoutDelayedCreditsInput = {
   customFields?: Prisma.CustomFieldUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUpdateManyWithoutCompanyNestedInput
 }
 
@@ -4301,10 +4301,10 @@ export type CompanyUncheckedUpdateWithoutDelayedCreditsInput = {
   customFields?: Prisma.CustomFieldUncheckedUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUncheckedUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutCompanyNestedInput
 }
 
@@ -4346,10 +4346,10 @@ export type CompanyCreateWithoutPaymentsInput = {
   customFields?: Prisma.CustomFieldCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketCreateNestedManyWithoutCompanyInput
 }
 
@@ -4391,10 +4391,10 @@ export type CompanyUncheckedCreateWithoutPaymentsInput = {
   customFields?: Prisma.CustomFieldUncheckedCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileUncheckedCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateUncheckedCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutCompanyInput
 }
 
@@ -4452,10 +4452,10 @@ export type CompanyUpdateWithoutPaymentsInput = {
   customFields?: Prisma.CustomFieldUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUpdateManyWithoutCompanyNestedInput
 }
 
@@ -4497,10 +4497,10 @@ export type CompanyUncheckedUpdateWithoutPaymentsInput = {
   customFields?: Prisma.CustomFieldUncheckedUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUncheckedUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutCompanyNestedInput
 }
 
@@ -4542,10 +4542,10 @@ export type CompanyCreateWithoutTransactionsInput = {
   customFields?: Prisma.CustomFieldCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketCreateNestedManyWithoutCompanyInput
 }
 
@@ -4587,10 +4587,10 @@ export type CompanyUncheckedCreateWithoutTransactionsInput = {
   customFields?: Prisma.CustomFieldUncheckedCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileUncheckedCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateUncheckedCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutCompanyInput
 }
 
@@ -4648,10 +4648,10 @@ export type CompanyUpdateWithoutTransactionsInput = {
   customFields?: Prisma.CustomFieldUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUpdateManyWithoutCompanyNestedInput
 }
 
@@ -4693,14 +4693,14 @@ export type CompanyUncheckedUpdateWithoutTransactionsInput = {
   customFields?: Prisma.CustomFieldUncheckedUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUncheckedUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutCompanyNestedInput
 }
 
-export type CompanyCreateWithoutProductInput = {
+export type CompanyCreateWithoutProductsInput = {
   id?: string
   name: string
   companyType?: $Enums.CompanyType | null
@@ -4739,13 +4739,13 @@ export type CompanyCreateWithoutProductInput = {
   customFields?: Prisma.CustomFieldCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
+  store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketCreateNestedManyWithoutCompanyInput
 }
 
-export type CompanyUncheckedCreateWithoutProductInput = {
+export type CompanyUncheckedCreateWithoutProductsInput = {
   id?: string
   name: string
   companyType?: $Enums.CompanyType | null
@@ -4784,29 +4784,29 @@ export type CompanyUncheckedCreateWithoutProductInput = {
   customFields?: Prisma.CustomFieldUncheckedCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileUncheckedCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateUncheckedCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutCompanyInput
 }
 
-export type CompanyCreateOrConnectWithoutProductInput = {
+export type CompanyCreateOrConnectWithoutProductsInput = {
   where: Prisma.CompanyWhereUniqueInput
-  create: Prisma.XOR<Prisma.CompanyCreateWithoutProductInput, Prisma.CompanyUncheckedCreateWithoutProductInput>
+  create: Prisma.XOR<Prisma.CompanyCreateWithoutProductsInput, Prisma.CompanyUncheckedCreateWithoutProductsInput>
 }
 
-export type CompanyUpsertWithoutProductInput = {
-  update: Prisma.XOR<Prisma.CompanyUpdateWithoutProductInput, Prisma.CompanyUncheckedUpdateWithoutProductInput>
-  create: Prisma.XOR<Prisma.CompanyCreateWithoutProductInput, Prisma.CompanyUncheckedCreateWithoutProductInput>
+export type CompanyUpsertWithoutProductsInput = {
+  update: Prisma.XOR<Prisma.CompanyUpdateWithoutProductsInput, Prisma.CompanyUncheckedUpdateWithoutProductsInput>
+  create: Prisma.XOR<Prisma.CompanyCreateWithoutProductsInput, Prisma.CompanyUncheckedCreateWithoutProductsInput>
   where?: Prisma.CompanyWhereInput
 }
 
-export type CompanyUpdateToOneWithWhereWithoutProductInput = {
+export type CompanyUpdateToOneWithWhereWithoutProductsInput = {
   where?: Prisma.CompanyWhereInput
-  data: Prisma.XOR<Prisma.CompanyUpdateWithoutProductInput, Prisma.CompanyUncheckedUpdateWithoutProductInput>
+  data: Prisma.XOR<Prisma.CompanyUpdateWithoutProductsInput, Prisma.CompanyUncheckedUpdateWithoutProductsInput>
 }
 
-export type CompanyUpdateWithoutProductInput = {
+export type CompanyUpdateWithoutProductsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
@@ -4845,13 +4845,13 @@ export type CompanyUpdateWithoutProductInput = {
   customFields?: Prisma.CustomFieldUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
+  store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUpdateManyWithoutCompanyNestedInput
 }
 
-export type CompanyUncheckedUpdateWithoutProductInput = {
+export type CompanyUncheckedUpdateWithoutProductsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
@@ -4890,9 +4890,9 @@ export type CompanyUncheckedUpdateWithoutProductInput = {
   customFields?: Prisma.CustomFieldUncheckedUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUncheckedUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
+  store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutCompanyNestedInput
 }
 
@@ -4935,9 +4935,9 @@ export type CompanyCreateWithoutStoreInput = {
   customFields?: Prisma.CustomFieldCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductCreateNestedManyWithoutCompanyInput
+  products?: Prisma.ProductCreateNestedManyWithoutCompanyInput
   tickets?: Prisma.TicketCreateNestedManyWithoutCompanyInput
 }
 
@@ -4980,9 +4980,9 @@ export type CompanyUncheckedCreateWithoutStoreInput = {
   customFields?: Prisma.CustomFieldUncheckedCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileUncheckedCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateUncheckedCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutCompanyInput
 }
 
@@ -5041,9 +5041,9 @@ export type CompanyUpdateWithoutStoreInput = {
   customFields?: Prisma.CustomFieldUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
+  products?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
   tickets?: Prisma.TicketUpdateManyWithoutCompanyNestedInput
 }
 
@@ -5086,9 +5086,9 @@ export type CompanyUncheckedUpdateWithoutStoreInput = {
   customFields?: Prisma.CustomFieldUncheckedUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUncheckedUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
+  products?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutCompanyNestedInput
 }
 
@@ -5130,10 +5130,10 @@ export type CompanyCreateWithoutEmailTemplatesInput = {
   paymentEvents?: Prisma.PaymentEventCreateNestedManyWithoutCompanyInput
   customFields?: Prisma.CustomFieldCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketCreateNestedManyWithoutCompanyInput
 }
 
@@ -5175,10 +5175,10 @@ export type CompanyUncheckedCreateWithoutEmailTemplatesInput = {
   paymentEvents?: Prisma.PaymentEventUncheckedCreateNestedManyWithoutCompanyInput
   customFields?: Prisma.CustomFieldUncheckedCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileUncheckedCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateUncheckedCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutCompanyInput
 }
 
@@ -5236,10 +5236,10 @@ export type CompanyUpdateWithoutEmailTemplatesInput = {
   paymentEvents?: Prisma.PaymentEventUpdateManyWithoutCompanyNestedInput
   customFields?: Prisma.CustomFieldUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUpdateManyWithoutCompanyNestedInput
 }
 
@@ -5281,10 +5281,10 @@ export type CompanyUncheckedUpdateWithoutEmailTemplatesInput = {
   paymentEvents?: Prisma.PaymentEventUncheckedUpdateManyWithoutCompanyNestedInput
   customFields?: Prisma.CustomFieldUncheckedUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUncheckedUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutCompanyNestedInput
 }
 
@@ -5326,10 +5326,10 @@ export type CompanyCreateWithoutFilesInput = {
   paymentEvents?: Prisma.PaymentEventCreateNestedManyWithoutCompanyInput
   customFields?: Prisma.CustomFieldCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketCreateNestedManyWithoutCompanyInput
 }
 
@@ -5371,10 +5371,10 @@ export type CompanyUncheckedCreateWithoutFilesInput = {
   paymentEvents?: Prisma.PaymentEventUncheckedCreateNestedManyWithoutCompanyInput
   customFields?: Prisma.CustomFieldUncheckedCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateUncheckedCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutCompanyInput
 }
 
@@ -5432,10 +5432,10 @@ export type CompanyUpdateWithoutFilesInput = {
   paymentEvents?: Prisma.PaymentEventUpdateManyWithoutCompanyNestedInput
   customFields?: Prisma.CustomFieldUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUpdateManyWithoutCompanyNestedInput
 }
 
@@ -5477,10 +5477,10 @@ export type CompanyUncheckedUpdateWithoutFilesInput = {
   paymentEvents?: Prisma.PaymentEventUncheckedUpdateManyWithoutCompanyNestedInput
   customFields?: Prisma.CustomFieldUncheckedUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUncheckedUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutCompanyNestedInput
 }
 
@@ -5522,10 +5522,10 @@ export type CompanyCreateWithoutCustomFieldsInput = {
   paymentEvents?: Prisma.PaymentEventCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketCreateNestedManyWithoutCompanyInput
 }
 
@@ -5567,10 +5567,10 @@ export type CompanyUncheckedCreateWithoutCustomFieldsInput = {
   paymentEvents?: Prisma.PaymentEventUncheckedCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileUncheckedCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateUncheckedCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutCompanyInput
 }
 
@@ -5628,10 +5628,10 @@ export type CompanyUpdateWithoutCustomFieldsInput = {
   paymentEvents?: Prisma.PaymentEventUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUpdateManyWithoutCompanyNestedInput
 }
 
@@ -5673,10 +5673,10 @@ export type CompanyUncheckedUpdateWithoutCustomFieldsInput = {
   paymentEvents?: Prisma.PaymentEventUncheckedUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUncheckedUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutCompanyNestedInput
 }
 
@@ -5720,8 +5720,8 @@ export type CompanyCreateWithoutJournalEntryInput = {
   emailTemplates?: Prisma.EmailTemplateCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketCreateNestedManyWithoutCompanyInput
 }
 
@@ -5765,8 +5765,8 @@ export type CompanyUncheckedCreateWithoutJournalEntryInput = {
   emailTemplates?: Prisma.EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileUncheckedCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateUncheckedCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutCompanyInput
 }
 
@@ -5826,8 +5826,8 @@ export type CompanyUpdateWithoutJournalEntryInput = {
   emailTemplates?: Prisma.EmailTemplateUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUpdateManyWithoutCompanyNestedInput
 }
 
@@ -5871,8 +5871,8 @@ export type CompanyUncheckedUpdateWithoutJournalEntryInput = {
   emailTemplates?: Prisma.EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUncheckedUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutCompanyNestedInput
 }
 
@@ -5915,9 +5915,9 @@ export type CompanyCreateWithoutTaxRatesInput = {
   customFields?: Prisma.CustomFieldCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
+  products?: Prisma.ProductCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketCreateNestedManyWithoutCompanyInput
 }
 
@@ -5960,9 +5960,9 @@ export type CompanyUncheckedCreateWithoutTaxRatesInput = {
   customFields?: Prisma.CustomFieldUncheckedCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileUncheckedCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutCompanyInput
 }
 
@@ -6021,9 +6021,9 @@ export type CompanyUpdateWithoutTaxRatesInput = {
   customFields?: Prisma.CustomFieldUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
+  products?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUpdateManyWithoutCompanyNestedInput
 }
 
@@ -6066,9 +6066,9 @@ export type CompanyUncheckedUpdateWithoutTaxRatesInput = {
   customFields?: Prisma.CustomFieldUncheckedUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
+  products?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutCompanyNestedInput
 }
 
@@ -6110,10 +6110,10 @@ export type CompanyCreateWithoutSubsidiariesInput = {
   customFields?: Prisma.CustomFieldCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketCreateNestedManyWithoutCompanyInput
 }
 
@@ -6155,10 +6155,10 @@ export type CompanyUncheckedCreateWithoutSubsidiariesInput = {
   customFields?: Prisma.CustomFieldUncheckedCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileUncheckedCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateUncheckedCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutCompanyInput
 }
 
@@ -6205,10 +6205,10 @@ export type CompanyCreateWithoutParentCompanyInput = {
   customFields?: Prisma.CustomFieldCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketCreateNestedManyWithoutCompanyInput
 }
 
@@ -6250,10 +6250,10 @@ export type CompanyUncheckedCreateWithoutParentCompanyInput = {
   customFields?: Prisma.CustomFieldUncheckedCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileUncheckedCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateUncheckedCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutCompanyInput
 }
 
@@ -6316,10 +6316,10 @@ export type CompanyUpdateWithoutSubsidiariesInput = {
   customFields?: Prisma.CustomFieldUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUpdateManyWithoutCompanyNestedInput
 }
 
@@ -6361,10 +6361,10 @@ export type CompanyUncheckedUpdateWithoutSubsidiariesInput = {
   customFields?: Prisma.CustomFieldUncheckedUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUncheckedUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutCompanyNestedInput
 }
 
@@ -6445,10 +6445,10 @@ export type CompanyCreateWithoutTicketsInput = {
   customFields?: Prisma.CustomFieldCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreCreateNestedOneWithoutCompanyInput
 }
 
 export type CompanyUncheckedCreateWithoutTicketsInput = {
@@ -6490,10 +6490,10 @@ export type CompanyUncheckedCreateWithoutTicketsInput = {
   customFields?: Prisma.CustomFieldUncheckedCreateNestedManyWithoutCompanyInput
   emailTemplates?: Prisma.EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
   files?: Prisma.FileUncheckedCreateNestedManyWithoutCompanyInput
-  JournalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
+  journalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCompanyInput
   taxRates?: Prisma.TaxRateUncheckedCreateNestedManyWithoutCompanyInput
-  Product?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
-  Store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutCompanyInput
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutCompanyInput
 }
 
 export type CompanyCreateOrConnectWithoutTicketsInput = {
@@ -6551,10 +6551,10 @@ export type CompanyUpdateWithoutTicketsInput = {
   customFields?: Prisma.CustomFieldUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
 }
 
 export type CompanyUncheckedUpdateWithoutTicketsInput = {
@@ -6596,10 +6596,10 @@ export type CompanyUncheckedUpdateWithoutTicketsInput = {
   customFields?: Prisma.CustomFieldUncheckedUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUncheckedUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
 }
 
 export type CompanyCreateManyParentCompanyInput = {
@@ -6658,10 +6658,10 @@ export type CompanyUpdateWithoutParentCompanyInput = {
   customFields?: Prisma.CustomFieldUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUpdateManyWithoutCompanyNestedInput
 }
 
@@ -6703,10 +6703,10 @@ export type CompanyUncheckedUpdateWithoutParentCompanyInput = {
   customFields?: Prisma.CustomFieldUncheckedUpdateManyWithoutCompanyNestedInput
   emailTemplates?: Prisma.EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutCompanyNestedInput
-  JournalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
+  journalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCompanyNestedInput
   taxRates?: Prisma.TaxRateUncheckedUpdateManyWithoutCompanyNestedInput
-  Product?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
-  Store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
+  products?: Prisma.ProductUncheckedUpdateManyWithoutCompanyNestedInput
+  store?: Prisma.StoreUncheckedUpdateOneWithoutCompanyNestedInput
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutCompanyNestedInput
 }
 
@@ -6756,9 +6756,9 @@ export type CompanyCountOutputType = {
   customFields: number
   emailTemplates: number
   files: number
-  JournalEntry: number
+  journalEntry: number
   taxRates: number
-  Product: number
+  products: number
   tickets: number
 }
 
@@ -6785,9 +6785,9 @@ export type CompanyCountOutputTypeSelect<ExtArgs extends runtime.Types.Extension
   customFields?: boolean | CompanyCountOutputTypeCountCustomFieldsArgs
   emailTemplates?: boolean | CompanyCountOutputTypeCountEmailTemplatesArgs
   files?: boolean | CompanyCountOutputTypeCountFilesArgs
-  JournalEntry?: boolean | CompanyCountOutputTypeCountJournalEntryArgs
+  journalEntry?: boolean | CompanyCountOutputTypeCountJournalEntryArgs
   taxRates?: boolean | CompanyCountOutputTypeCountTaxRatesArgs
-  Product?: boolean | CompanyCountOutputTypeCountProductArgs
+  products?: boolean | CompanyCountOutputTypeCountProductsArgs
   tickets?: boolean | CompanyCountOutputTypeCountTicketsArgs
 }
 
@@ -6972,7 +6972,7 @@ export type CompanyCountOutputTypeCountTaxRatesArgs<ExtArgs extends runtime.Type
 /**
  * CompanyCountOutputType without action
  */
-export type CompanyCountOutputTypeCountProductArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type CompanyCountOutputTypeCountProductsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.ProductWhereInput
 }
 
@@ -7024,10 +7024,10 @@ export type CompanySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   customFields?: boolean | Prisma.Company$customFieldsArgs<ExtArgs>
   emailTemplates?: boolean | Prisma.Company$emailTemplatesArgs<ExtArgs>
   files?: boolean | Prisma.Company$filesArgs<ExtArgs>
-  JournalEntry?: boolean | Prisma.Company$JournalEntryArgs<ExtArgs>
+  journalEntry?: boolean | Prisma.Company$journalEntryArgs<ExtArgs>
   taxRates?: boolean | Prisma.Company$taxRatesArgs<ExtArgs>
-  Product?: boolean | Prisma.Company$ProductArgs<ExtArgs>
-  Store?: boolean | Prisma.Company$StoreArgs<ExtArgs>
+  products?: boolean | Prisma.Company$productsArgs<ExtArgs>
+  store?: boolean | Prisma.Company$storeArgs<ExtArgs>
   tickets?: boolean | Prisma.Company$ticketsArgs<ExtArgs>
   _count?: boolean | Prisma.CompanyCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["company"]>
@@ -7116,10 +7116,10 @@ export type CompanyInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   customFields?: boolean | Prisma.Company$customFieldsArgs<ExtArgs>
   emailTemplates?: boolean | Prisma.Company$emailTemplatesArgs<ExtArgs>
   files?: boolean | Prisma.Company$filesArgs<ExtArgs>
-  JournalEntry?: boolean | Prisma.Company$JournalEntryArgs<ExtArgs>
+  journalEntry?: boolean | Prisma.Company$journalEntryArgs<ExtArgs>
   taxRates?: boolean | Prisma.Company$taxRatesArgs<ExtArgs>
-  Product?: boolean | Prisma.Company$ProductArgs<ExtArgs>
-  Store?: boolean | Prisma.Company$StoreArgs<ExtArgs>
+  products?: boolean | Prisma.Company$productsArgs<ExtArgs>
+  store?: boolean | Prisma.Company$storeArgs<ExtArgs>
   tickets?: boolean | Prisma.Company$ticketsArgs<ExtArgs>
   _count?: boolean | Prisma.CompanyCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -7156,10 +7156,10 @@ export type $CompanyPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     customFields: Prisma.$CustomFieldPayload<ExtArgs>[]
     emailTemplates: Prisma.$EmailTemplatePayload<ExtArgs>[]
     files: Prisma.$FilePayload<ExtArgs>[]
-    JournalEntry: Prisma.$JournalEntryPayload<ExtArgs>[]
+    journalEntry: Prisma.$JournalEntryPayload<ExtArgs>[]
     taxRates: Prisma.$TaxRatePayload<ExtArgs>[]
-    Product: Prisma.$ProductPayload<ExtArgs>[]
-    Store: Prisma.$StorePayload<ExtArgs> | null
+    products: Prisma.$ProductPayload<ExtArgs>[]
+    store: Prisma.$StorePayload<ExtArgs> | null
     tickets: Prisma.$TicketPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -7596,10 +7596,10 @@ export interface Prisma__CompanyClient<T, Null = never, ExtArgs extends runtime.
   customFields<T extends Prisma.Company$customFieldsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Company$customFieldsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CustomFieldPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   emailTemplates<T extends Prisma.Company$emailTemplatesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Company$emailTemplatesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EmailTemplatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   files<T extends Prisma.Company$filesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Company$filesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  JournalEntry<T extends Prisma.Company$JournalEntryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Company$JournalEntryArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JournalEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  journalEntry<T extends Prisma.Company$journalEntryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Company$journalEntryArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JournalEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   taxRates<T extends Prisma.Company$taxRatesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Company$taxRatesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TaxRatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  Product<T extends Prisma.Company$ProductArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Company$ProductArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  Store<T extends Prisma.Company$StoreArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Company$StoreArgs<ExtArgs>>): Prisma.Prisma__StoreClient<runtime.Types.Result.GetResult<Prisma.$StorePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  products<T extends Prisma.Company$productsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Company$productsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  store<T extends Prisma.Company$storeArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Company$storeArgs<ExtArgs>>): Prisma.Prisma__StoreClient<runtime.Types.Result.GetResult<Prisma.$StorePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   tickets<T extends Prisma.Company$ticketsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Company$ticketsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -8594,9 +8594,9 @@ export type Company$filesArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 }
 
 /**
- * Company.JournalEntry
+ * Company.journalEntry
  */
-export type Company$JournalEntryArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Company$journalEntryArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the JournalEntry
    */
@@ -8642,9 +8642,9 @@ export type Company$taxRatesArgs<ExtArgs extends runtime.Types.Extensions.Intern
 }
 
 /**
- * Company.Product
+ * Company.products
  */
-export type Company$ProductArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Company$productsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Product
    */
@@ -8666,9 +8666,9 @@ export type Company$ProductArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 /**
- * Company.Store
+ * Company.store
  */
-export type Company$StoreArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Company$storeArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Store
    */

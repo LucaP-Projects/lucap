@@ -2,14 +2,14 @@
 import { useState } from 'react';
 import { Calendar as CalendarIcon, Check, Command } from 'lucide-react';
 
-import { cn } from '@/lib/utils';
-
-import { dateRanges } from './utils';
 import { Button } from '@/components/ui/button';
+import { CommandEmpty, CommandGroup, CommandItem } from '@/components/ui/command';
 import { Input } from '@/components/ui/input';
 import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
-import { CommandEmpty, CommandGroup, CommandItem } from '@/components/ui/command';
+import { cn } from '@/lib/utils';
+
+import { dateRanges } from './utils';
 
 const DOCUMENT_TYPES = {
   ESTIMATE: 'Estimate',

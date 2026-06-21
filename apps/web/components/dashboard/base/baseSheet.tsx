@@ -7,6 +7,8 @@ import {
   Landmark,
   AlertCircle
 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
 import {
   Sheet,
   SheetContent,
@@ -14,8 +16,6 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@/components/ui/sheet';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
 
 interface BaseSheetProps {
   isOpen: boolean;

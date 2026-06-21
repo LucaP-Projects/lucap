@@ -315,7 +315,7 @@ export type DelayedCreditItemWhereInput = {
   deactivatedByUserId?: Prisma.StringNullableFilter<"DelayedCreditItem"> | string | null
   deactivationReason?: Prisma.StringNullableFilter<"DelayedCreditItem"> | string | null
   credit?: Prisma.XOR<Prisma.DelayedCreditScalarRelationFilter, Prisma.DelayedCreditWhereInput>
-  Item?: Prisma.XOR<Prisma.ItemNullableScalarRelationFilter, Prisma.ItemWhereInput> | null
+  item?: Prisma.XOR<Prisma.ItemNullableScalarRelationFilter, Prisma.ItemWhereInput> | null
 }
 
 export type DelayedCreditItemOrderByWithRelationInput = {
@@ -336,7 +336,7 @@ export type DelayedCreditItemOrderByWithRelationInput = {
   deactivatedByUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   deactivationReason?: Prisma.SortOrderInput | Prisma.SortOrder
   credit?: Prisma.DelayedCreditOrderByWithRelationInput
-  Item?: Prisma.ItemOrderByWithRelationInput
+  item?: Prisma.ItemOrderByWithRelationInput
 }
 
 export type DelayedCreditItemWhereUniqueInput = Prisma.AtLeast<{
@@ -360,7 +360,7 @@ export type DelayedCreditItemWhereUniqueInput = Prisma.AtLeast<{
   deactivatedByUserId?: Prisma.StringNullableFilter<"DelayedCreditItem"> | string | null
   deactivationReason?: Prisma.StringNullableFilter<"DelayedCreditItem"> | string | null
   credit?: Prisma.XOR<Prisma.DelayedCreditScalarRelationFilter, Prisma.DelayedCreditWhereInput>
-  Item?: Prisma.XOR<Prisma.ItemNullableScalarRelationFilter, Prisma.ItemWhereInput> | null
+  item?: Prisma.XOR<Prisma.ItemNullableScalarRelationFilter, Prisma.ItemWhereInput> | null
 }, "id">
 
 export type DelayedCreditItemOrderByWithAggregationInput = {
@@ -425,7 +425,7 @@ export type DelayedCreditItemCreateInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   credit: Prisma.DelayedCreditCreateNestedOneWithoutItemsInput
-  Item?: Prisma.ItemCreateNestedOneWithoutCreditItemsInput
+  item?: Prisma.ItemCreateNestedOneWithoutCreditItemsInput
 }
 
 export type DelayedCreditItemUncheckedCreateInput = {
@@ -463,7 +463,7 @@ export type DelayedCreditItemUpdateInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   credit?: Prisma.DelayedCreditUpdateOneRequiredWithoutItemsNestedInput
-  Item?: Prisma.ItemUpdateOneWithoutCreditItemsNestedInput
+  item?: Prisma.ItemUpdateOneWithoutCreditItemsNestedInput
 }
 
 export type DelayedCreditItemUncheckedUpdateInput = {
@@ -802,7 +802,7 @@ export type DelayedCreditItemCreateWithoutCreditInput = {
   deactivatedAt?: Date | string | null
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
-  Item?: Prisma.ItemCreateNestedOneWithoutCreditItemsInput
+  item?: Prisma.ItemCreateNestedOneWithoutCreditItemsInput
 }
 
 export type DelayedCreditItemUncheckedCreateWithoutCreditInput = {
@@ -954,7 +954,7 @@ export type DelayedCreditItemUpdateWithoutCreditInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  Item?: Prisma.ItemUpdateOneWithoutCreditItemsNestedInput
+  item?: Prisma.ItemUpdateOneWithoutCreditItemsNestedInput
 }
 
 export type DelayedCreditItemUncheckedUpdateWithoutCreditInput = {
@@ -1013,7 +1013,7 @@ export type DelayedCreditItemSelect<ExtArgs extends runtime.Types.Extensions.Int
   deactivatedByUserId?: boolean
   deactivationReason?: boolean
   credit?: boolean | Prisma.DelayedCreditDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.DelayedCreditItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.DelayedCreditItem$itemArgs<ExtArgs>
 }, ExtArgs["result"]["delayedCreditItem"]>
 
 export type DelayedCreditItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1034,7 +1034,7 @@ export type DelayedCreditItemSelectCreateManyAndReturn<ExtArgs extends runtime.T
   deactivatedByUserId?: boolean
   deactivationReason?: boolean
   credit?: boolean | Prisma.DelayedCreditDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.DelayedCreditItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.DelayedCreditItem$itemArgs<ExtArgs>
 }, ExtArgs["result"]["delayedCreditItem"]>
 
 export type DelayedCreditItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1055,7 +1055,7 @@ export type DelayedCreditItemSelectUpdateManyAndReturn<ExtArgs extends runtime.T
   deactivatedByUserId?: boolean
   deactivationReason?: boolean
   credit?: boolean | Prisma.DelayedCreditDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.DelayedCreditItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.DelayedCreditItem$itemArgs<ExtArgs>
 }, ExtArgs["result"]["delayedCreditItem"]>
 
 export type DelayedCreditItemSelectScalar = {
@@ -1080,22 +1080,22 @@ export type DelayedCreditItemSelectScalar = {
 export type DelayedCreditItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "creditId" | "productName" | "description" | "quantity" | "rate" | "amount" | "sku" | "taxable" | "createdAt" | "updatedAt" | "itemId" | "isActive" | "deactivatedAt" | "deactivatedByUserId" | "deactivationReason", ExtArgs["result"]["delayedCreditItem"]>
 export type DelayedCreditItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   credit?: boolean | Prisma.DelayedCreditDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.DelayedCreditItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.DelayedCreditItem$itemArgs<ExtArgs>
 }
 export type DelayedCreditItemIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   credit?: boolean | Prisma.DelayedCreditDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.DelayedCreditItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.DelayedCreditItem$itemArgs<ExtArgs>
 }
 export type DelayedCreditItemIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   credit?: boolean | Prisma.DelayedCreditDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.DelayedCreditItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.DelayedCreditItem$itemArgs<ExtArgs>
 }
 
 export type $DelayedCreditItemPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "DelayedCreditItem"
   objects: {
     credit: Prisma.$DelayedCreditPayload<ExtArgs>
-    Item: Prisma.$ItemPayload<ExtArgs> | null
+    item: Prisma.$ItemPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1509,7 +1509,7 @@ readonly fields: DelayedCreditItemFieldRefs;
 export interface Prisma__DelayedCreditItemClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   credit<T extends Prisma.DelayedCreditDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DelayedCreditDefaultArgs<ExtArgs>>): Prisma.Prisma__DelayedCreditClient<runtime.Types.Result.GetResult<Prisma.$DelayedCreditPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  Item<T extends Prisma.DelayedCreditItem$ItemArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DelayedCreditItem$ItemArgs<ExtArgs>>): Prisma.Prisma__ItemClient<runtime.Types.Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  item<T extends Prisma.DelayedCreditItem$itemArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DelayedCreditItem$itemArgs<ExtArgs>>): Prisma.Prisma__ItemClient<runtime.Types.Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1956,9 +1956,9 @@ export type DelayedCreditItemDeleteManyArgs<ExtArgs extends runtime.Types.Extens
 }
 
 /**
- * DelayedCreditItem.Item
+ * DelayedCreditItem.item
  */
-export type DelayedCreditItem$ItemArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type DelayedCreditItem$itemArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Item
    */

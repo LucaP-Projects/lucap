@@ -3,14 +3,14 @@
 import { useState, useTransition } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 import { PlusCircle } from 'lucide-react';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Button } from '@/components/ui/button';
 import { selectCompany } from '@/components/company/select/actions';
 import { Company } from '@/components/company/select/types';
 import Loading from '@/components/shared/loading';
+import { Button } from '@/components/ui/button';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { authClient } from '@/lib/auth-client';
-import { toast } from 'sonner';
 
 interface Props {
   companies: Company[];
@@ -47,7 +47,6 @@ export function SelectCompanyForm({ companies, lng }: Props) {
 
         router.push(`/`);
       } catch (error) {
-        console.error('Selection error:', error);
         toast.error(
           error instanceof Error ? error.message : 'Failed to select company'
         );

@@ -12,10 +12,10 @@ import {
 } from 'lucide-react';
 
 
-import { formatCurrency } from '@/lib/utils';
-import { PaymentStatusBreakdown } from '../shared/payment-status-breakdown';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { formatCurrency } from '@/lib/utils';
+import { PaymentStatusBreakdown } from '../shared/payment-status-breakdown';
 
 function PaymentEventStatistics({ event }: { event: any }) {
   const calculateFinancials = () =>

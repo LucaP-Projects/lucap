@@ -284,10 +284,10 @@ export type UserWhereInput = {
   createdTransactions?: Prisma.TransactionListRelationFilter
   approvedTransactions?: Prisma.TransactionListRelationFilter
   companies?: Prisma.UserCompanyListRelationFilter
-  accounts?: Prisma.UserAccountListRelationFilter
   sessions?: Prisma.SessionListRelationFilter
   activeCompany?: Prisma.XOR<Prisma.CompanyNullableScalarRelationFilter, Prisma.CompanyWhereInput> | null
   tickets?: Prisma.TicketListRelationFilter
+  useraccounts?: Prisma.UserAccountListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -312,10 +312,10 @@ export type UserOrderByWithRelationInput = {
   createdTransactions?: Prisma.TransactionOrderByRelationAggregateInput
   approvedTransactions?: Prisma.TransactionOrderByRelationAggregateInput
   companies?: Prisma.UserCompanyOrderByRelationAggregateInput
-  accounts?: Prisma.UserAccountOrderByRelationAggregateInput
   sessions?: Prisma.SessionOrderByRelationAggregateInput
   activeCompany?: Prisma.CompanyOrderByWithRelationInput
   tickets?: Prisma.TicketOrderByRelationAggregateInput
+  useraccounts?: Prisma.UserAccountOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -343,10 +343,10 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   createdTransactions?: Prisma.TransactionListRelationFilter
   approvedTransactions?: Prisma.TransactionListRelationFilter
   companies?: Prisma.UserCompanyListRelationFilter
-  accounts?: Prisma.UserAccountListRelationFilter
   sessions?: Prisma.SessionListRelationFilter
   activeCompany?: Prisma.XOR<Prisma.CompanyNullableScalarRelationFilter, Prisma.CompanyWhereInput> | null
   tickets?: Prisma.TicketListRelationFilter
+  useraccounts?: Prisma.UserAccountListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -416,10 +416,10 @@ export type UserCreateInput = {
   createdTransactions?: Prisma.TransactionCreateNestedManyWithoutCreatedByUserInput
   approvedTransactions?: Prisma.TransactionCreateNestedManyWithoutApprovedByUserInput
   companies?: Prisma.UserCompanyCreateNestedManyWithoutUserInput
-  accounts?: Prisma.UserAccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   activeCompany?: Prisma.CompanyCreateNestedOneWithoutActiveUsersInput
   tickets?: Prisma.TicketCreateNestedManyWithoutCreatedByInput
+  useraccounts?: Prisma.UserAccountCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -444,9 +444,9 @@ export type UserUncheckedCreateInput = {
   createdTransactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutCreatedByUserInput
   approvedTransactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutApprovedByUserInput
   companies?: Prisma.UserCompanyUncheckedCreateNestedManyWithoutUserInput
-  accounts?: Prisma.UserAccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutCreatedByInput
+  useraccounts?: Prisma.UserAccountUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -470,10 +470,10 @@ export type UserUpdateInput = {
   createdTransactions?: Prisma.TransactionUpdateManyWithoutCreatedByUserNestedInput
   approvedTransactions?: Prisma.TransactionUpdateManyWithoutApprovedByUserNestedInput
   companies?: Prisma.UserCompanyUpdateManyWithoutUserNestedInput
-  accounts?: Prisma.UserAccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   activeCompany?: Prisma.CompanyUpdateOneWithoutActiveUsersNestedInput
   tickets?: Prisma.TicketUpdateManyWithoutCreatedByNestedInput
+  useraccounts?: Prisma.UserAccountUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -498,9 +498,9 @@ export type UserUncheckedUpdateInput = {
   createdTransactions?: Prisma.TransactionUncheckedUpdateManyWithoutCreatedByUserNestedInput
   approvedTransactions?: Prisma.TransactionUncheckedUpdateManyWithoutApprovedByUserNestedInput
   companies?: Prisma.UserCompanyUncheckedUpdateManyWithoutUserNestedInput
-  accounts?: Prisma.UserAccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutCreatedByNestedInput
+  useraccounts?: Prisma.UserAccountUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -670,18 +670,18 @@ export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
 }
 
-export type UserCreateNestedOneWithoutAccountsInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutAccountsInput, Prisma.UserUncheckedCreateWithoutAccountsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAccountsInput
+export type UserCreateNestedOneWithoutUseraccountsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutUseraccountsInput, Prisma.UserUncheckedCreateWithoutUseraccountsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutUseraccountsInput
   connect?: Prisma.UserWhereUniqueInput
 }
 
-export type UserUpdateOneRequiredWithoutAccountsNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutAccountsInput, Prisma.UserUncheckedCreateWithoutAccountsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAccountsInput
-  upsert?: Prisma.UserUpsertWithoutAccountsInput
+export type UserUpdateOneRequiredWithoutUseraccountsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutUseraccountsInput, Prisma.UserUncheckedCreateWithoutUseraccountsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutUseraccountsInput
+  upsert?: Prisma.UserUpsertWithoutUseraccountsInput
   connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAccountsInput, Prisma.UserUpdateWithoutAccountsInput>, Prisma.UserUncheckedUpdateWithoutAccountsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutUseraccountsInput, Prisma.UserUpdateWithoutUseraccountsInput>, Prisma.UserUncheckedUpdateWithoutUseraccountsInput>
 }
 
 export type UserCreateNestedOneWithoutCompaniesInput = {
@@ -816,7 +816,7 @@ export type UserUpdateOneWithoutTicketsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutTicketsInput, Prisma.UserUpdateWithoutTicketsInput>, Prisma.UserUncheckedUpdateWithoutTicketsInput>
 }
 
-export type UserCreateWithoutAccountsInput = {
+export type UserCreateWithoutUseraccountsInput = {
   id?: string
   email: string
   name: string
@@ -842,7 +842,7 @@ export type UserCreateWithoutAccountsInput = {
   tickets?: Prisma.TicketCreateNestedManyWithoutCreatedByInput
 }
 
-export type UserUncheckedCreateWithoutAccountsInput = {
+export type UserUncheckedCreateWithoutUseraccountsInput = {
   id?: string
   email: string
   name: string
@@ -868,23 +868,23 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutCreatedByInput
 }
 
-export type UserCreateOrConnectWithoutAccountsInput = {
+export type UserCreateOrConnectWithoutUseraccountsInput = {
   where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutAccountsInput, Prisma.UserUncheckedCreateWithoutAccountsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutUseraccountsInput, Prisma.UserUncheckedCreateWithoutUseraccountsInput>
 }
 
-export type UserUpsertWithoutAccountsInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutAccountsInput, Prisma.UserUncheckedUpdateWithoutAccountsInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutAccountsInput, Prisma.UserUncheckedCreateWithoutAccountsInput>
+export type UserUpsertWithoutUseraccountsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutUseraccountsInput, Prisma.UserUncheckedUpdateWithoutUseraccountsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutUseraccountsInput, Prisma.UserUncheckedCreateWithoutUseraccountsInput>
   where?: Prisma.UserWhereInput
 }
 
-export type UserUpdateToOneWithWhereWithoutAccountsInput = {
+export type UserUpdateToOneWithWhereWithoutUseraccountsInput = {
   where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutAccountsInput, Prisma.UserUncheckedUpdateWithoutAccountsInput>
+  data: Prisma.XOR<Prisma.UserUpdateWithoutUseraccountsInput, Prisma.UserUncheckedUpdateWithoutUseraccountsInput>
 }
 
-export type UserUpdateWithoutAccountsInput = {
+export type UserUpdateWithoutUseraccountsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
@@ -910,7 +910,7 @@ export type UserUpdateWithoutAccountsInput = {
   tickets?: Prisma.TicketUpdateManyWithoutCreatedByNestedInput
 }
 
-export type UserUncheckedUpdateWithoutAccountsInput = {
+export type UserUncheckedUpdateWithoutUseraccountsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
@@ -956,10 +956,10 @@ export type UserCreateWithoutCompaniesInput = {
   customer?: Prisma.CustomerCreateNestedOneWithoutUserInput
   createdTransactions?: Prisma.TransactionCreateNestedManyWithoutCreatedByUserInput
   approvedTransactions?: Prisma.TransactionCreateNestedManyWithoutApprovedByUserInput
-  accounts?: Prisma.UserAccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   activeCompany?: Prisma.CompanyCreateNestedOneWithoutActiveUsersInput
   tickets?: Prisma.TicketCreateNestedManyWithoutCreatedByInput
+  useraccounts?: Prisma.UserAccountCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCompaniesInput = {
@@ -983,9 +983,9 @@ export type UserUncheckedCreateWithoutCompaniesInput = {
   customer?: Prisma.CustomerUncheckedCreateNestedOneWithoutUserInput
   createdTransactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutCreatedByUserInput
   approvedTransactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutApprovedByUserInput
-  accounts?: Prisma.UserAccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutCreatedByInput
+  useraccounts?: Prisma.UserAccountUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCompaniesInput = {
@@ -1024,10 +1024,10 @@ export type UserUpdateWithoutCompaniesInput = {
   customer?: Prisma.CustomerUpdateOneWithoutUserNestedInput
   createdTransactions?: Prisma.TransactionUpdateManyWithoutCreatedByUserNestedInput
   approvedTransactions?: Prisma.TransactionUpdateManyWithoutApprovedByUserNestedInput
-  accounts?: Prisma.UserAccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   activeCompany?: Prisma.CompanyUpdateOneWithoutActiveUsersNestedInput
   tickets?: Prisma.TicketUpdateManyWithoutCreatedByNestedInput
+  useraccounts?: Prisma.UserAccountUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCompaniesInput = {
@@ -1051,9 +1051,9 @@ export type UserUncheckedUpdateWithoutCompaniesInput = {
   customer?: Prisma.CustomerUncheckedUpdateOneWithoutUserNestedInput
   createdTransactions?: Prisma.TransactionUncheckedUpdateManyWithoutCreatedByUserNestedInput
   approvedTransactions?: Prisma.TransactionUncheckedUpdateManyWithoutApprovedByUserNestedInput
-  accounts?: Prisma.UserAccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutCreatedByNestedInput
+  useraccounts?: Prisma.UserAccountUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSessionsInput = {
@@ -1077,9 +1077,9 @@ export type UserCreateWithoutSessionsInput = {
   createdTransactions?: Prisma.TransactionCreateNestedManyWithoutCreatedByUserInput
   approvedTransactions?: Prisma.TransactionCreateNestedManyWithoutApprovedByUserInput
   companies?: Prisma.UserCompanyCreateNestedManyWithoutUserInput
-  accounts?: Prisma.UserAccountCreateNestedManyWithoutUserInput
   activeCompany?: Prisma.CompanyCreateNestedOneWithoutActiveUsersInput
   tickets?: Prisma.TicketCreateNestedManyWithoutCreatedByInput
+  useraccounts?: Prisma.UserAccountCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -1104,8 +1104,8 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   createdTransactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutCreatedByUserInput
   approvedTransactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutApprovedByUserInput
   companies?: Prisma.UserCompanyUncheckedCreateNestedManyWithoutUserInput
-  accounts?: Prisma.UserAccountUncheckedCreateNestedManyWithoutUserInput
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutCreatedByInput
+  useraccounts?: Prisma.UserAccountUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -1145,9 +1145,9 @@ export type UserUpdateWithoutSessionsInput = {
   createdTransactions?: Prisma.TransactionUpdateManyWithoutCreatedByUserNestedInput
   approvedTransactions?: Prisma.TransactionUpdateManyWithoutApprovedByUserNestedInput
   companies?: Prisma.UserCompanyUpdateManyWithoutUserNestedInput
-  accounts?: Prisma.UserAccountUpdateManyWithoutUserNestedInput
   activeCompany?: Prisma.CompanyUpdateOneWithoutActiveUsersNestedInput
   tickets?: Prisma.TicketUpdateManyWithoutCreatedByNestedInput
+  useraccounts?: Prisma.UserAccountUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -1172,8 +1172,8 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   createdTransactions?: Prisma.TransactionUncheckedUpdateManyWithoutCreatedByUserNestedInput
   approvedTransactions?: Prisma.TransactionUncheckedUpdateManyWithoutApprovedByUserNestedInput
   companies?: Prisma.UserCompanyUncheckedUpdateManyWithoutUserNestedInput
-  accounts?: Prisma.UserAccountUncheckedUpdateManyWithoutUserNestedInput
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutCreatedByNestedInput
+  useraccounts?: Prisma.UserAccountUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCustomerInput = {
@@ -1196,10 +1196,10 @@ export type UserCreateWithoutCustomerInput = {
   createdTransactions?: Prisma.TransactionCreateNestedManyWithoutCreatedByUserInput
   approvedTransactions?: Prisma.TransactionCreateNestedManyWithoutApprovedByUserInput
   companies?: Prisma.UserCompanyCreateNestedManyWithoutUserInput
-  accounts?: Prisma.UserAccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   activeCompany?: Prisma.CompanyCreateNestedOneWithoutActiveUsersInput
   tickets?: Prisma.TicketCreateNestedManyWithoutCreatedByInput
+  useraccounts?: Prisma.UserAccountCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCustomerInput = {
@@ -1223,9 +1223,9 @@ export type UserUncheckedCreateWithoutCustomerInput = {
   createdTransactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutCreatedByUserInput
   approvedTransactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutApprovedByUserInput
   companies?: Prisma.UserCompanyUncheckedCreateNestedManyWithoutUserInput
-  accounts?: Prisma.UserAccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutCreatedByInput
+  useraccounts?: Prisma.UserAccountUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCustomerInput = {
@@ -1264,10 +1264,10 @@ export type UserUpdateWithoutCustomerInput = {
   createdTransactions?: Prisma.TransactionUpdateManyWithoutCreatedByUserNestedInput
   approvedTransactions?: Prisma.TransactionUpdateManyWithoutApprovedByUserNestedInput
   companies?: Prisma.UserCompanyUpdateManyWithoutUserNestedInput
-  accounts?: Prisma.UserAccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   activeCompany?: Prisma.CompanyUpdateOneWithoutActiveUsersNestedInput
   tickets?: Prisma.TicketUpdateManyWithoutCreatedByNestedInput
+  useraccounts?: Prisma.UserAccountUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCustomerInput = {
@@ -1291,9 +1291,9 @@ export type UserUncheckedUpdateWithoutCustomerInput = {
   createdTransactions?: Prisma.TransactionUncheckedUpdateManyWithoutCreatedByUserNestedInput
   approvedTransactions?: Prisma.TransactionUncheckedUpdateManyWithoutApprovedByUserNestedInput
   companies?: Prisma.UserCompanyUncheckedUpdateManyWithoutUserNestedInput
-  accounts?: Prisma.UserAccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutCreatedByNestedInput
+  useraccounts?: Prisma.UserAccountUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCreatedTransactionsInput = {
@@ -1316,10 +1316,10 @@ export type UserCreateWithoutCreatedTransactionsInput = {
   customer?: Prisma.CustomerCreateNestedOneWithoutUserInput
   approvedTransactions?: Prisma.TransactionCreateNestedManyWithoutApprovedByUserInput
   companies?: Prisma.UserCompanyCreateNestedManyWithoutUserInput
-  accounts?: Prisma.UserAccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   activeCompany?: Prisma.CompanyCreateNestedOneWithoutActiveUsersInput
   tickets?: Prisma.TicketCreateNestedManyWithoutCreatedByInput
+  useraccounts?: Prisma.UserAccountCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCreatedTransactionsInput = {
@@ -1343,9 +1343,9 @@ export type UserUncheckedCreateWithoutCreatedTransactionsInput = {
   customer?: Prisma.CustomerUncheckedCreateNestedOneWithoutUserInput
   approvedTransactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutApprovedByUserInput
   companies?: Prisma.UserCompanyUncheckedCreateNestedManyWithoutUserInput
-  accounts?: Prisma.UserAccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutCreatedByInput
+  useraccounts?: Prisma.UserAccountUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCreatedTransactionsInput = {
@@ -1373,10 +1373,10 @@ export type UserCreateWithoutApprovedTransactionsInput = {
   customer?: Prisma.CustomerCreateNestedOneWithoutUserInput
   createdTransactions?: Prisma.TransactionCreateNestedManyWithoutCreatedByUserInput
   companies?: Prisma.UserCompanyCreateNestedManyWithoutUserInput
-  accounts?: Prisma.UserAccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   activeCompany?: Prisma.CompanyCreateNestedOneWithoutActiveUsersInput
   tickets?: Prisma.TicketCreateNestedManyWithoutCreatedByInput
+  useraccounts?: Prisma.UserAccountCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutApprovedTransactionsInput = {
@@ -1400,9 +1400,9 @@ export type UserUncheckedCreateWithoutApprovedTransactionsInput = {
   customer?: Prisma.CustomerUncheckedCreateNestedOneWithoutUserInput
   createdTransactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutCreatedByUserInput
   companies?: Prisma.UserCompanyUncheckedCreateNestedManyWithoutUserInput
-  accounts?: Prisma.UserAccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutCreatedByInput
+  useraccounts?: Prisma.UserAccountUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutApprovedTransactionsInput = {
@@ -1441,10 +1441,10 @@ export type UserUpdateWithoutCreatedTransactionsInput = {
   customer?: Prisma.CustomerUpdateOneWithoutUserNestedInput
   approvedTransactions?: Prisma.TransactionUpdateManyWithoutApprovedByUserNestedInput
   companies?: Prisma.UserCompanyUpdateManyWithoutUserNestedInput
-  accounts?: Prisma.UserAccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   activeCompany?: Prisma.CompanyUpdateOneWithoutActiveUsersNestedInput
   tickets?: Prisma.TicketUpdateManyWithoutCreatedByNestedInput
+  useraccounts?: Prisma.UserAccountUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedTransactionsInput = {
@@ -1468,9 +1468,9 @@ export type UserUncheckedUpdateWithoutCreatedTransactionsInput = {
   customer?: Prisma.CustomerUncheckedUpdateOneWithoutUserNestedInput
   approvedTransactions?: Prisma.TransactionUncheckedUpdateManyWithoutApprovedByUserNestedInput
   companies?: Prisma.UserCompanyUncheckedUpdateManyWithoutUserNestedInput
-  accounts?: Prisma.UserAccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutCreatedByNestedInput
+  useraccounts?: Prisma.UserAccountUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutApprovedTransactionsInput = {
@@ -1504,10 +1504,10 @@ export type UserUpdateWithoutApprovedTransactionsInput = {
   customer?: Prisma.CustomerUpdateOneWithoutUserNestedInput
   createdTransactions?: Prisma.TransactionUpdateManyWithoutCreatedByUserNestedInput
   companies?: Prisma.UserCompanyUpdateManyWithoutUserNestedInput
-  accounts?: Prisma.UserAccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   activeCompany?: Prisma.CompanyUpdateOneWithoutActiveUsersNestedInput
   tickets?: Prisma.TicketUpdateManyWithoutCreatedByNestedInput
+  useraccounts?: Prisma.UserAccountUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutApprovedTransactionsInput = {
@@ -1531,9 +1531,9 @@ export type UserUncheckedUpdateWithoutApprovedTransactionsInput = {
   customer?: Prisma.CustomerUncheckedUpdateOneWithoutUserNestedInput
   createdTransactions?: Prisma.TransactionUncheckedUpdateManyWithoutCreatedByUserNestedInput
   companies?: Prisma.UserCompanyUncheckedUpdateManyWithoutUserNestedInput
-  accounts?: Prisma.UserAccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutCreatedByNestedInput
+  useraccounts?: Prisma.UserAccountUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutActiveCompanyInput = {
@@ -1557,9 +1557,9 @@ export type UserCreateWithoutActiveCompanyInput = {
   createdTransactions?: Prisma.TransactionCreateNestedManyWithoutCreatedByUserInput
   approvedTransactions?: Prisma.TransactionCreateNestedManyWithoutApprovedByUserInput
   companies?: Prisma.UserCompanyCreateNestedManyWithoutUserInput
-  accounts?: Prisma.UserAccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   tickets?: Prisma.TicketCreateNestedManyWithoutCreatedByInput
+  useraccounts?: Prisma.UserAccountCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutActiveCompanyInput = {
@@ -1583,9 +1583,9 @@ export type UserUncheckedCreateWithoutActiveCompanyInput = {
   createdTransactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutCreatedByUserInput
   approvedTransactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutApprovedByUserInput
   companies?: Prisma.UserCompanyUncheckedCreateNestedManyWithoutUserInput
-  accounts?: Prisma.UserAccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutCreatedByInput
+  useraccounts?: Prisma.UserAccountUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutActiveCompanyInput = {
@@ -1658,9 +1658,9 @@ export type UserCreateWithoutTicketsInput = {
   createdTransactions?: Prisma.TransactionCreateNestedManyWithoutCreatedByUserInput
   approvedTransactions?: Prisma.TransactionCreateNestedManyWithoutApprovedByUserInput
   companies?: Prisma.UserCompanyCreateNestedManyWithoutUserInput
-  accounts?: Prisma.UserAccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   activeCompany?: Prisma.CompanyCreateNestedOneWithoutActiveUsersInput
+  useraccounts?: Prisma.UserAccountCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTicketsInput = {
@@ -1685,8 +1685,8 @@ export type UserUncheckedCreateWithoutTicketsInput = {
   createdTransactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutCreatedByUserInput
   approvedTransactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutApprovedByUserInput
   companies?: Prisma.UserCompanyUncheckedCreateNestedManyWithoutUserInput
-  accounts?: Prisma.UserAccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  useraccounts?: Prisma.UserAccountUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTicketsInput = {
@@ -1726,9 +1726,9 @@ export type UserUpdateWithoutTicketsInput = {
   createdTransactions?: Prisma.TransactionUpdateManyWithoutCreatedByUserNestedInput
   approvedTransactions?: Prisma.TransactionUpdateManyWithoutApprovedByUserNestedInput
   companies?: Prisma.UserCompanyUpdateManyWithoutUserNestedInput
-  accounts?: Prisma.UserAccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   activeCompany?: Prisma.CompanyUpdateOneWithoutActiveUsersNestedInput
+  useraccounts?: Prisma.UserAccountUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTicketsInput = {
@@ -1753,8 +1753,8 @@ export type UserUncheckedUpdateWithoutTicketsInput = {
   createdTransactions?: Prisma.TransactionUncheckedUpdateManyWithoutCreatedByUserNestedInput
   approvedTransactions?: Prisma.TransactionUncheckedUpdateManyWithoutApprovedByUserNestedInput
   companies?: Prisma.UserCompanyUncheckedUpdateManyWithoutUserNestedInput
-  accounts?: Prisma.UserAccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  useraccounts?: Prisma.UserAccountUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyActiveCompanyInput = {
@@ -1797,9 +1797,9 @@ export type UserUpdateWithoutActiveCompanyInput = {
   createdTransactions?: Prisma.TransactionUpdateManyWithoutCreatedByUserNestedInput
   approvedTransactions?: Prisma.TransactionUpdateManyWithoutApprovedByUserNestedInput
   companies?: Prisma.UserCompanyUpdateManyWithoutUserNestedInput
-  accounts?: Prisma.UserAccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   tickets?: Prisma.TicketUpdateManyWithoutCreatedByNestedInput
+  useraccounts?: Prisma.UserAccountUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutActiveCompanyInput = {
@@ -1823,9 +1823,9 @@ export type UserUncheckedUpdateWithoutActiveCompanyInput = {
   createdTransactions?: Prisma.TransactionUncheckedUpdateManyWithoutCreatedByUserNestedInput
   approvedTransactions?: Prisma.TransactionUncheckedUpdateManyWithoutApprovedByUserNestedInput
   companies?: Prisma.UserCompanyUncheckedUpdateManyWithoutUserNestedInput
-  accounts?: Prisma.UserAccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutCreatedByNestedInput
+  useraccounts?: Prisma.UserAccountUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateManyWithoutActiveCompanyInput = {
@@ -1856,18 +1856,18 @@ export type UserCountOutputType = {
   createdTransactions: number
   approvedTransactions: number
   companies: number
-  accounts: number
   sessions: number
   tickets: number
+  useraccounts: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   createdTransactions?: boolean | UserCountOutputTypeCountCreatedTransactionsArgs
   approvedTransactions?: boolean | UserCountOutputTypeCountApprovedTransactionsArgs
   companies?: boolean | UserCountOutputTypeCountCompaniesArgs
-  accounts?: boolean | UserCountOutputTypeCountAccountsArgs
   sessions?: boolean | UserCountOutputTypeCountSessionsArgs
   tickets?: boolean | UserCountOutputTypeCountTicketsArgs
+  useraccounts?: boolean | UserCountOutputTypeCountUseraccountsArgs
 }
 
 /**
@@ -1904,13 +1904,6 @@ export type UserCountOutputTypeCountCompaniesArgs<ExtArgs extends runtime.Types.
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountAccountsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.UserAccountWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
 export type UserCountOutputTypeCountSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.SessionWhereInput
 }
@@ -1920,6 +1913,13 @@ export type UserCountOutputTypeCountSessionsArgs<ExtArgs extends runtime.Types.E
  */
 export type UserCountOutputTypeCountTicketsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.TicketWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountUseraccountsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UserAccountWhereInput
 }
 
 
@@ -1945,10 +1945,10 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   createdTransactions?: boolean | Prisma.User$createdTransactionsArgs<ExtArgs>
   approvedTransactions?: boolean | Prisma.User$approvedTransactionsArgs<ExtArgs>
   companies?: boolean | Prisma.User$companiesArgs<ExtArgs>
-  accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   activeCompany?: boolean | Prisma.User$activeCompanyArgs<ExtArgs>
   tickets?: boolean | Prisma.User$ticketsArgs<ExtArgs>
+  useraccounts?: boolean | Prisma.User$useraccountsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -2020,10 +2020,10 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   createdTransactions?: boolean | Prisma.User$createdTransactionsArgs<ExtArgs>
   approvedTransactions?: boolean | Prisma.User$approvedTransactionsArgs<ExtArgs>
   companies?: boolean | Prisma.User$companiesArgs<ExtArgs>
-  accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   activeCompany?: boolean | Prisma.User$activeCompanyArgs<ExtArgs>
   tickets?: boolean | Prisma.User$ticketsArgs<ExtArgs>
+  useraccounts?: boolean | Prisma.User$useraccountsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2040,10 +2040,10 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     createdTransactions: Prisma.$TransactionPayload<ExtArgs>[]
     approvedTransactions: Prisma.$TransactionPayload<ExtArgs>[]
     companies: Prisma.$UserCompanyPayload<ExtArgs>[]
-    accounts: Prisma.$UserAccountPayload<ExtArgs>[]
     sessions: Prisma.$SessionPayload<ExtArgs>[]
     activeCompany: Prisma.$CompanyPayload<ExtArgs> | null
     tickets: Prisma.$TicketPayload<ExtArgs>[]
+    useraccounts: Prisma.$UserAccountPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2461,10 +2461,10 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   createdTransactions<T extends Prisma.User$createdTransactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$createdTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   approvedTransactions<T extends Prisma.User$approvedTransactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$approvedTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   companies<T extends Prisma.User$companiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$companiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserCompanyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  accounts<T extends Prisma.User$accountsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserAccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sessions<T extends Prisma.User$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   activeCompany<T extends Prisma.User$activeCompanyArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$activeCompanyArgs<ExtArgs>>): Prisma.Prisma__CompanyClient<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   tickets<T extends Prisma.User$ticketsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ticketsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  useraccounts<T extends Prisma.User$useraccountsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$useraccountsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserAccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3003,30 +3003,6 @@ export type User$companiesArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
- * User.accounts
- */
-export type User$accountsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the UserAccount
-   */
-  select?: Prisma.UserAccountSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the UserAccount
-   */
-  omit?: Prisma.UserAccountOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.UserAccountInclude<ExtArgs> | null
-  where?: Prisma.UserAccountWhereInput
-  orderBy?: Prisma.UserAccountOrderByWithRelationInput | Prisma.UserAccountOrderByWithRelationInput[]
-  cursor?: Prisma.UserAccountWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.UserAccountScalarFieldEnum | Prisma.UserAccountScalarFieldEnum[]
-}
-
-/**
  * User.sessions
  */
 export type User$sessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3091,6 +3067,30 @@ export type User$ticketsArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   distinct?: Prisma.TicketScalarFieldEnum | Prisma.TicketScalarFieldEnum[]
+}
+
+/**
+ * User.useraccounts
+ */
+export type User$useraccountsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserAccount
+   */
+  select?: Prisma.UserAccountSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserAccount
+   */
+  omit?: Prisma.UserAccountOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserAccountInclude<ExtArgs> | null
+  where?: Prisma.UserAccountWhereInput
+  orderBy?: Prisma.UserAccountOrderByWithRelationInput | Prisma.UserAccountOrderByWithRelationInput[]
+  cursor?: Prisma.UserAccountWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UserAccountScalarFieldEnum | Prisma.UserAccountScalarFieldEnum[]
 }
 
 /**

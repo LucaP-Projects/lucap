@@ -1,19 +1,19 @@
 import { cookies, headers } from 'next/headers';
+import { getLocale } from 'next-intl/server';
+import { getUserCompanies } from '@/components/company/select/actions';
+import { Company } from '@/components/company/select/types';
+import LocaleSwitcher from '@/components/lang/LocaleSwitcher';
+import { AppSidebar } from '@/components/sidebar/app-sidebar';
+import { ThemeToggle } from '@/components/theme-toggle';
+import { Separator } from '@/components/ui/separator';
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger
 } from '@/components/ui/sidebar';
 
-import { getUserCompanies } from '@/components/company/select/actions';
-import { Company } from '@/components/company/select/types';
-import { AppSidebar } from '@/components/sidebar/app-sidebar';
-import { ThemeToggle } from '@/components/theme-toggle';
 import { auth } from '@/lib/auth';
 import { Providers } from './providers';
-import { getLocale } from 'next-intl/server';
-import LocaleSwitcher from '@/components/lang/LocaleSwitcher';
-import { Separator } from '@/components/ui/separator';
 
 // DashboardLayout.tsx
 export default async function DashboardLayout({

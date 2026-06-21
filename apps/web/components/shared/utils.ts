@@ -1,116 +1,174 @@
+import crypto from 'crypto';
 import path from 'path';
-import { Storage } from '@google-cloud/storage';
+import { S3Client, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { Decimal } from 'decimal.js';
 
-const keyFilename = path.join(process.cwd(), 'key.json');
-
-export const storage = new Storage({
-  projectId: 'lucapacioli.com.tn',
-  keyFilename: keyFilename
+// --- GARAGE S3 CONFIGISTRATION ---
+export const s3Client = new S3Client({
+  endpoint: process.env.GARAGE_ENDPOINT || 'http://localhost:3900',
+  region: process.env.GARAGE_REGION || 'garage', // Garage accepts any string layout
+  credentials: {
+    accessKeyId: process.env.GARAGE_ACCESS_KEY_ID || 'your-access-key',
+    secretAccessKey: process.env.GARAGE_SECRET_ACCESS_KEY || 'your-secret-key',
+  },
+  forcePathStyle: true, // CRITICAL: Garage and MinIO require Path-Style addressing
 });
 
-const bucketName = 'lucapacioli.com.tn';
-export const bucket = storage.bucket(bucketName);
+const bucketName = process.env.GARAGE_BUCKET_NAME || 'lucapacioli.com.tn';
+const publicBaseUrl = process.env.GARAGE_PUBLIC_URL || `http://localhost:3900/${bucketName}`;
 
-export function validateItems(
-  items: Array<{ quantity: number; rate: number }>
-) {
+// --- ENCRYPTION CONFIGURATION (Andersen Security Standard) ---
+// STORAGE_ENCRYPTION_KEY must be a cryptographically secure 32-byte hex string (64 characters)
+const ENCRYPTION_KEY = process.env.STORAGE_ENCRYPTION_KEY || ''; 
+const IV_LENGTH = 12; // Standard initialization vector length for AES-GCM
+const AUTH_TAG_LENGTH = 16;
+
+/**
+ * Encrypts a binary buffer using AES-256-GCM.
+ * Prepends the IV and Auth Tag to the payload for self-contained decryption.
+ */
+function encryptPayload(buffer: Buffer): Buffer {
+  if (!ENCRYPTION_KEY || ENCRYPTION_KEY.length !== 64) {
+    throw new Error('Secure storage requires a valid 32-byte hexadecimal ENCRYPTION_KEY.');
+  }
+  
+  const iv = crypto.randomBytes(IV_LENGTH);
+  const cipher = crypto.createCipheriv('aes-256-gcm', Buffer.from(ENCRYPTION_KEY, 'hex'), iv);
+  
+  const encrypted = Buffer.concat([cipher.update(buffer), cipher.final()]);
+  const authTag = cipher.getAuthTag();
+
+  // Structure: [IV (12B)] + [AuthTag (16B)] + [Encrypted Data]
+  return Buffer.concat([iv, authTag, encrypted]);
+}
+
+/**
+ * Decrypts an envelope payload extracted from storage back into raw usable binary.
+ */
+export function decryptPayload(packedBuffer: Buffer): Buffer {
+  if (!ENCRYPTION_KEY || ENCRYPTION_KEY.length !== 64) {
+    throw new Error('Secure decryption requires a valid 32-byte hexadecimal ENCRYPTION_KEY.');
+  }
+
+  const iv = packedBuffer.subarray(0, IV_LENGTH);
+  const authTag = packedBuffer.subarray(IV_LENGTH, IV_LENGTH + AUTH_TAG_LENGTH);
+  const encryptedData = packedBuffer.subarray(IV_LENGTH + AUTH_TAG_LENGTH);
+
+  const decipher = crypto.createDecipheriv('aes-256-gcm', Buffer.from(ENCRYPTION_KEY, 'hex'), iv);
+  decipher.setAuthTag(authTag);
+
+  return Buffer.concat([decipher.update(encryptedData), decipher.final()]);
+}
+
+// --- ITEM ACCUMULATION VALIDATOR ---
+export function validateItems(items: Array<{ quantity: number; rate: number }>) {
   if (!items.length) throw new Error('At least one item is required');
-
   const MAX_AMOUNT = new Decimal(999999999.99);
   let totalAmount = new Decimal(0);
 
   for (const item of items) {
-    if (item.quantity <= 0) {
-      throw new Error('Item quantity must be greater than 0');
-    }
-    if (item.rate < 0) {
-      throw new Error('Item rate cannot be negative');
-    }
+    if (item.quantity <= 0) throw new Error('Item quantity must be greater than 0');
+    if (item.rate < 0) throw new Error('Item rate cannot be negative');
 
     const itemAmount = new Decimal(item.quantity).mul(item.rate);
     totalAmount = totalAmount.add(itemAmount);
 
-    if (totalAmount.gt(MAX_AMOUNT)) {
-      throw new Error('Total amount exceeds maximum limit');
-    }
+    if (totalAmount.gt(MAX_AMOUNT)) throw new Error('Total amount exceeds maximum limit');
   }
-
   return totalAmount.toNumber();
 }
 
-// Unified file upload utility for both items and company logos
-export async function uploadFile(file: File, folder: string): Promise<string> {
+// --- UNIFIED FILE UPLOAD ENGINE ---
+export async function uploadFile(
+  file: File, 
+  folder: string, 
+  isSecure: boolean = false
+): Promise<string> {
   if (!file) return '';
 
   try {
-    // Validate file size (e.g., 5MB limit)
     const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
-    if (file.size > MAX_FILE_SIZE) {
-      throw new Error('File size exceeds 5MB limit');
-    }
+    if (file.size > MAX_FILE_SIZE) throw new Error('File size exceeds 5MB limit');
 
-    // Validate file type
-    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'];
     if (!allowedTypes.includes(file.type)) {
-      throw new Error(
-        'Invalid file type. Only JPEG, PNG, and WebP are allowed'
-      );
+      throw new Error('Invalid file type.');
     }
 
-    // Generate unique filename
     const fileExt = file.name.split('.').pop()?.toLowerCase();
     const uniqueId = `${Date.now()}-${Math.random().toString(36).substring(7)}`;
     const fileName = `${uniqueId}.${fileExt}`;
     const filePath = `${folder}/${fileName}`;
 
-    // Convert File to Buffer
     const arrayBuffer = await file.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
+    let buffer = Buffer.from(arrayBuffer);
 
-    // Upload to Google Cloud Storage
-    const gcsFile = bucket.file(filePath);
-    await gcsFile.save(buffer, {
-      metadata: {
-        contentType: file.type,
-        cacheControl: 'public, max-age=31536000',
-        contentDisposition: 'inline'
-      },
-      resumable: false,
-      gzip: true
+    // If requested, transparently encrypt payload before streaming it to the VPS filesystem/Garage
+    if (isSecure) {
+      buffer = encryptPayload(buffer);
+    }
+
+    const command = new PutObjectCommand({
+      Bucket: bucketName,
+      Key: filePath,
+      Body: buffer,
+      ContentType: isSecure ? 'application/octet-stream' : file.type, 
+      CacheControl: isSecure ? 'private, no-store' : 'public, max-age=31536000',
+      // Public access in Garage is handled either via standard S3 ACLs or Bucket Layout Policies
+      ACL: isSecure ? 'private' : 'public-read', 
     });
 
-    // Make file public
-    await gcsFile.makePublic();
+    await s3Client.send(command);
 
-    // Return the public URL
-    return `https://storage.googleapis.com/${bucketName}/${filePath}`;
+    // Return reference identifier path
+    return isSecure ? filePath : `${publicBaseUrl}/${filePath}`;
   } catch (error) {
     console.error('File upload error:', error);
     throw error instanceof Error ? error : new Error('Failed to upload file');
   }
 }
 
-// Usage in item creation
+// --- PIPELINE HANDLERS ---
+
 export async function handleItemImage(file: File): Promise<string> {
-  try {
-    return await uploadFile(file, 'items');
-  } catch (error) {
-    console.error('Item image upload failed:', error);
-    throw new Error('Failed to upload item image');
-  }
+  return uploadFile(file, 'items', false); // Public access
 }
 
-// Usage in company logo upload
 export async function handleCompanyLogo(file: File): Promise<string> {
-  try {
-    return await uploadFile(file, 'companies');
-  } catch (error) {
-    console.error('Company logo upload failed:', error);
-    throw new Error('Failed to upload company logo');
-  }
+  return uploadFile(file, 'companies', false); // Public access
 }
 
+/**
+ * Handles highly sensitive user documents (e.g., invoices, corporate vaults, tax records)
+ */
+export async function handleSecureDocument(file: File): Promise<string> {
+  return uploadFile(file, 'vault', true); // Encrypted payload path
+}
+
+/**
+ * Fetches an encrypted file from Garage, decrypts it dynamically via the runtime master key, 
+ * and streams it back to the business domain.
+ */
+export async function downloadSecureFile(filePath: string): Promise<Buffer> {
+  const command = new GetObjectCommand({
+    Bucket: bucketName,
+    Key: filePath,
+  });
+
+  const response = await s3Client.send(command);
+  if (!response.Body) throw new Error('Empty storage response body');
+  
+  const chunks = [];
+  for await (const chunk of response.Body as any) {
+    chunks.push(chunk);
+  }
+  const encryptedBuffer = Buffer.concat(chunks);
+  
+  return decryptPayload(encryptedBuffer);
+}
+
+// --- PRESIGNED DIRECT INGESTION URLS ---
 export interface FileUploadResult {
   url: string;
   key: string;
@@ -125,18 +183,18 @@ export async function getPresignedUrl(
   const fileExt = fileName.split('.').pop();
   const key = `${folderPath}/${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
 
-  // Generate signed URL for upload
-  const gcsFile = bucket.file(key);
-  const [signedUrl] = await gcsFile.getSignedUrl({
-    version: 'v4',
-    action: 'write',
-    expires: Date.now() + 60 * 60 * 1000, // 1 hour
-    contentType: fileType
+  const command = new PutObjectCommand({
+    Bucket: bucketName,
+    Key: key,
+    ContentType: fileType,
   });
 
+  // Generate an S3 standard V4 presigned signature configuration
+  const signedUrl = await getSignedUrl(s3Client, command, { expiresIn: 3600 });
+
   return {
-    url: `https://storage.googleapis.com/${bucketName}/${key}`,
+    url: `${publicBaseUrl}/${key}`,
     key,
-    signedUrl
+    signedUrl,
   };
 }

@@ -534,8 +534,8 @@ export type ItemWhereInput = {
   chargeItems?: Prisma.DelayedChargeItemListRelationFilter
   creditItems?: Prisma.DelayedCreditItemListRelationFilter
   paymentEventItems?: Prisma.PaymentEventItemListRelationFilter
-  Company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
-  Product?: Prisma.ProductListRelationFilter
+  company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
+  product?: Prisma.ProductListRelationFilter
 }
 
 export type ItemOrderByWithRelationInput = {
@@ -591,8 +591,8 @@ export type ItemOrderByWithRelationInput = {
   chargeItems?: Prisma.DelayedChargeItemOrderByRelationAggregateInput
   creditItems?: Prisma.DelayedCreditItemOrderByRelationAggregateInput
   paymentEventItems?: Prisma.PaymentEventItemOrderByRelationAggregateInput
-  Company?: Prisma.CompanyOrderByWithRelationInput
-  Product?: Prisma.ProductOrderByRelationAggregateInput
+  company?: Prisma.CompanyOrderByWithRelationInput
+  product?: Prisma.ProductOrderByRelationAggregateInput
 }
 
 export type ItemWhereUniqueInput = Prisma.AtLeast<{
@@ -652,8 +652,8 @@ export type ItemWhereUniqueInput = Prisma.AtLeast<{
   chargeItems?: Prisma.DelayedChargeItemListRelationFilter
   creditItems?: Prisma.DelayedCreditItemListRelationFilter
   paymentEventItems?: Prisma.PaymentEventItemListRelationFilter
-  Company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
-  Product?: Prisma.ProductListRelationFilter
+  company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
+  product?: Prisma.ProductListRelationFilter
 }, "id" | "sku_companyId">
 
 export type ItemOrderByWithAggregationInput = {
@@ -798,8 +798,8 @@ export type ItemCreateInput = {
   chargeItems?: Prisma.DelayedChargeItemCreateNestedManyWithoutItemInput
   creditItems?: Prisma.DelayedCreditItemCreateNestedManyWithoutItemInput
   paymentEventItems?: Prisma.PaymentEventItemCreateNestedManyWithoutItemInput
-  Company: Prisma.CompanyCreateNestedOneWithoutItemsInput
-  Product?: Prisma.ProductCreateNestedManyWithoutItemInput
+  company: Prisma.CompanyCreateNestedOneWithoutItemsInput
+  product?: Prisma.ProductCreateNestedManyWithoutItemInput
 }
 
 export type ItemUncheckedCreateInput = {
@@ -851,7 +851,7 @@ export type ItemUncheckedCreateInput = {
   chargeItems?: Prisma.DelayedChargeItemUncheckedCreateNestedManyWithoutItemInput
   creditItems?: Prisma.DelayedCreditItemUncheckedCreateNestedManyWithoutItemInput
   paymentEventItems?: Prisma.PaymentEventItemUncheckedCreateNestedManyWithoutItemInput
-  Product?: Prisma.ProductUncheckedCreateNestedManyWithoutItemInput
+  product?: Prisma.ProductUncheckedCreateNestedManyWithoutItemInput
 }
 
 export type ItemUpdateInput = {
@@ -902,8 +902,8 @@ export type ItemUpdateInput = {
   chargeItems?: Prisma.DelayedChargeItemUpdateManyWithoutItemNestedInput
   creditItems?: Prisma.DelayedCreditItemUpdateManyWithoutItemNestedInput
   paymentEventItems?: Prisma.PaymentEventItemUpdateManyWithoutItemNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutItemsNestedInput
-  Product?: Prisma.ProductUpdateManyWithoutItemNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutItemsNestedInput
+  product?: Prisma.ProductUpdateManyWithoutItemNestedInput
 }
 
 export type ItemUncheckedUpdateInput = {
@@ -955,7 +955,7 @@ export type ItemUncheckedUpdateInput = {
   chargeItems?: Prisma.DelayedChargeItemUncheckedUpdateManyWithoutItemNestedInput
   creditItems?: Prisma.DelayedCreditItemUncheckedUpdateManyWithoutItemNestedInput
   paymentEventItems?: Prisma.PaymentEventItemUncheckedUpdateManyWithoutItemNestedInput
-  Product?: Prisma.ProductUncheckedUpdateManyWithoutItemNestedInput
+  product?: Prisma.ProductUncheckedUpdateManyWithoutItemNestedInput
 }
 
 export type ItemCreateManyInput = {
@@ -1676,8 +1676,8 @@ export type ItemCreateWithoutIncomeAccountInput = {
   chargeItems?: Prisma.DelayedChargeItemCreateNestedManyWithoutItemInput
   creditItems?: Prisma.DelayedCreditItemCreateNestedManyWithoutItemInput
   paymentEventItems?: Prisma.PaymentEventItemCreateNestedManyWithoutItemInput
-  Company: Prisma.CompanyCreateNestedOneWithoutItemsInput
-  Product?: Prisma.ProductCreateNestedManyWithoutItemInput
+  company: Prisma.CompanyCreateNestedOneWithoutItemsInput
+  product?: Prisma.ProductCreateNestedManyWithoutItemInput
 }
 
 export type ItemUncheckedCreateWithoutIncomeAccountInput = {
@@ -1728,7 +1728,7 @@ export type ItemUncheckedCreateWithoutIncomeAccountInput = {
   chargeItems?: Prisma.DelayedChargeItemUncheckedCreateNestedManyWithoutItemInput
   creditItems?: Prisma.DelayedCreditItemUncheckedCreateNestedManyWithoutItemInput
   paymentEventItems?: Prisma.PaymentEventItemUncheckedCreateNestedManyWithoutItemInput
-  Product?: Prisma.ProductUncheckedCreateNestedManyWithoutItemInput
+  product?: Prisma.ProductUncheckedCreateNestedManyWithoutItemInput
 }
 
 export type ItemCreateOrConnectWithoutIncomeAccountInput = {
@@ -1788,8 +1788,8 @@ export type ItemCreateWithoutExpenseAccountInput = {
   chargeItems?: Prisma.DelayedChargeItemCreateNestedManyWithoutItemInput
   creditItems?: Prisma.DelayedCreditItemCreateNestedManyWithoutItemInput
   paymentEventItems?: Prisma.PaymentEventItemCreateNestedManyWithoutItemInput
-  Company: Prisma.CompanyCreateNestedOneWithoutItemsInput
-  Product?: Prisma.ProductCreateNestedManyWithoutItemInput
+  company: Prisma.CompanyCreateNestedOneWithoutItemsInput
+  product?: Prisma.ProductCreateNestedManyWithoutItemInput
 }
 
 export type ItemUncheckedCreateWithoutExpenseAccountInput = {
@@ -1840,7 +1840,7 @@ export type ItemUncheckedCreateWithoutExpenseAccountInput = {
   chargeItems?: Prisma.DelayedChargeItemUncheckedCreateNestedManyWithoutItemInput
   creditItems?: Prisma.DelayedCreditItemUncheckedCreateNestedManyWithoutItemInput
   paymentEventItems?: Prisma.PaymentEventItemUncheckedCreateNestedManyWithoutItemInput
-  Product?: Prisma.ProductUncheckedCreateNestedManyWithoutItemInput
+  product?: Prisma.ProductUncheckedCreateNestedManyWithoutItemInput
 }
 
 export type ItemCreateOrConnectWithoutExpenseAccountInput = {
@@ -1900,8 +1900,8 @@ export type ItemCreateWithoutInventoryAssetAccountInput = {
   chargeItems?: Prisma.DelayedChargeItemCreateNestedManyWithoutItemInput
   creditItems?: Prisma.DelayedCreditItemCreateNestedManyWithoutItemInput
   paymentEventItems?: Prisma.PaymentEventItemCreateNestedManyWithoutItemInput
-  Company: Prisma.CompanyCreateNestedOneWithoutItemsInput
-  Product?: Prisma.ProductCreateNestedManyWithoutItemInput
+  company: Prisma.CompanyCreateNestedOneWithoutItemsInput
+  product?: Prisma.ProductCreateNestedManyWithoutItemInput
 }
 
 export type ItemUncheckedCreateWithoutInventoryAssetAccountInput = {
@@ -1952,7 +1952,7 @@ export type ItemUncheckedCreateWithoutInventoryAssetAccountInput = {
   chargeItems?: Prisma.DelayedChargeItemUncheckedCreateNestedManyWithoutItemInput
   creditItems?: Prisma.DelayedCreditItemUncheckedCreateNestedManyWithoutItemInput
   paymentEventItems?: Prisma.PaymentEventItemUncheckedCreateNestedManyWithoutItemInput
-  Product?: Prisma.ProductUncheckedCreateNestedManyWithoutItemInput
+  product?: Prisma.ProductUncheckedCreateNestedManyWithoutItemInput
 }
 
 export type ItemCreateOrConnectWithoutInventoryAssetAccountInput = {
@@ -2106,8 +2106,8 @@ export type ItemCreateWithoutPaymentEventItemsInput = {
   refundItems?: Prisma.RefundReceiptItemCreateNestedManyWithoutItemInput
   chargeItems?: Prisma.DelayedChargeItemCreateNestedManyWithoutItemInput
   creditItems?: Prisma.DelayedCreditItemCreateNestedManyWithoutItemInput
-  Company: Prisma.CompanyCreateNestedOneWithoutItemsInput
-  Product?: Prisma.ProductCreateNestedManyWithoutItemInput
+  company: Prisma.CompanyCreateNestedOneWithoutItemsInput
+  product?: Prisma.ProductCreateNestedManyWithoutItemInput
 }
 
 export type ItemUncheckedCreateWithoutPaymentEventItemsInput = {
@@ -2158,7 +2158,7 @@ export type ItemUncheckedCreateWithoutPaymentEventItemsInput = {
   refundItems?: Prisma.RefundReceiptItemUncheckedCreateNestedManyWithoutItemInput
   chargeItems?: Prisma.DelayedChargeItemUncheckedCreateNestedManyWithoutItemInput
   creditItems?: Prisma.DelayedCreditItemUncheckedCreateNestedManyWithoutItemInput
-  Product?: Prisma.ProductUncheckedCreateNestedManyWithoutItemInput
+  product?: Prisma.ProductUncheckedCreateNestedManyWithoutItemInput
 }
 
 export type ItemCreateOrConnectWithoutPaymentEventItemsInput = {
@@ -2224,8 +2224,8 @@ export type ItemUpdateWithoutPaymentEventItemsInput = {
   refundItems?: Prisma.RefundReceiptItemUpdateManyWithoutItemNestedInput
   chargeItems?: Prisma.DelayedChargeItemUpdateManyWithoutItemNestedInput
   creditItems?: Prisma.DelayedCreditItemUpdateManyWithoutItemNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutItemsNestedInput
-  Product?: Prisma.ProductUpdateManyWithoutItemNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutItemsNestedInput
+  product?: Prisma.ProductUpdateManyWithoutItemNestedInput
 }
 
 export type ItemUncheckedUpdateWithoutPaymentEventItemsInput = {
@@ -2276,7 +2276,7 @@ export type ItemUncheckedUpdateWithoutPaymentEventItemsInput = {
   refundItems?: Prisma.RefundReceiptItemUncheckedUpdateManyWithoutItemNestedInput
   chargeItems?: Prisma.DelayedChargeItemUncheckedUpdateManyWithoutItemNestedInput
   creditItems?: Prisma.DelayedCreditItemUncheckedUpdateManyWithoutItemNestedInput
-  Product?: Prisma.ProductUncheckedUpdateManyWithoutItemNestedInput
+  product?: Prisma.ProductUncheckedUpdateManyWithoutItemNestedInput
 }
 
 export type ItemCreateWithoutCategoryInput = {
@@ -2326,8 +2326,8 @@ export type ItemCreateWithoutCategoryInput = {
   chargeItems?: Prisma.DelayedChargeItemCreateNestedManyWithoutItemInput
   creditItems?: Prisma.DelayedCreditItemCreateNestedManyWithoutItemInput
   paymentEventItems?: Prisma.PaymentEventItemCreateNestedManyWithoutItemInput
-  Company: Prisma.CompanyCreateNestedOneWithoutItemsInput
-  Product?: Prisma.ProductCreateNestedManyWithoutItemInput
+  company: Prisma.CompanyCreateNestedOneWithoutItemsInput
+  product?: Prisma.ProductCreateNestedManyWithoutItemInput
 }
 
 export type ItemUncheckedCreateWithoutCategoryInput = {
@@ -2378,7 +2378,7 @@ export type ItemUncheckedCreateWithoutCategoryInput = {
   chargeItems?: Prisma.DelayedChargeItemUncheckedCreateNestedManyWithoutItemInput
   creditItems?: Prisma.DelayedCreditItemUncheckedCreateNestedManyWithoutItemInput
   paymentEventItems?: Prisma.PaymentEventItemUncheckedCreateNestedManyWithoutItemInput
-  Product?: Prisma.ProductUncheckedCreateNestedManyWithoutItemInput
+  product?: Prisma.ProductUncheckedCreateNestedManyWithoutItemInput
 }
 
 export type ItemCreateOrConnectWithoutCategoryInput = {
@@ -2454,8 +2454,8 @@ export type ItemCreateWithoutInvoiceItemsInput = {
   chargeItems?: Prisma.DelayedChargeItemCreateNestedManyWithoutItemInput
   creditItems?: Prisma.DelayedCreditItemCreateNestedManyWithoutItemInput
   paymentEventItems?: Prisma.PaymentEventItemCreateNestedManyWithoutItemInput
-  Company: Prisma.CompanyCreateNestedOneWithoutItemsInput
-  Product?: Prisma.ProductCreateNestedManyWithoutItemInput
+  company: Prisma.CompanyCreateNestedOneWithoutItemsInput
+  product?: Prisma.ProductCreateNestedManyWithoutItemInput
 }
 
 export type ItemUncheckedCreateWithoutInvoiceItemsInput = {
@@ -2506,7 +2506,7 @@ export type ItemUncheckedCreateWithoutInvoiceItemsInput = {
   chargeItems?: Prisma.DelayedChargeItemUncheckedCreateNestedManyWithoutItemInput
   creditItems?: Prisma.DelayedCreditItemUncheckedCreateNestedManyWithoutItemInput
   paymentEventItems?: Prisma.PaymentEventItemUncheckedCreateNestedManyWithoutItemInput
-  Product?: Prisma.ProductUncheckedCreateNestedManyWithoutItemInput
+  product?: Prisma.ProductUncheckedCreateNestedManyWithoutItemInput
 }
 
 export type ItemCreateOrConnectWithoutInvoiceItemsInput = {
@@ -2572,8 +2572,8 @@ export type ItemUpdateWithoutInvoiceItemsInput = {
   chargeItems?: Prisma.DelayedChargeItemUpdateManyWithoutItemNestedInput
   creditItems?: Prisma.DelayedCreditItemUpdateManyWithoutItemNestedInput
   paymentEventItems?: Prisma.PaymentEventItemUpdateManyWithoutItemNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutItemsNestedInput
-  Product?: Prisma.ProductUpdateManyWithoutItemNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutItemsNestedInput
+  product?: Prisma.ProductUpdateManyWithoutItemNestedInput
 }
 
 export type ItemUncheckedUpdateWithoutInvoiceItemsInput = {
@@ -2624,7 +2624,7 @@ export type ItemUncheckedUpdateWithoutInvoiceItemsInput = {
   chargeItems?: Prisma.DelayedChargeItemUncheckedUpdateManyWithoutItemNestedInput
   creditItems?: Prisma.DelayedCreditItemUncheckedUpdateManyWithoutItemNestedInput
   paymentEventItems?: Prisma.PaymentEventItemUncheckedUpdateManyWithoutItemNestedInput
-  Product?: Prisma.ProductUncheckedUpdateManyWithoutItemNestedInput
+  product?: Prisma.ProductUncheckedUpdateManyWithoutItemNestedInput
 }
 
 export type ItemCreateWithoutEstimateItemsInput = {
@@ -2674,8 +2674,8 @@ export type ItemCreateWithoutEstimateItemsInput = {
   chargeItems?: Prisma.DelayedChargeItemCreateNestedManyWithoutItemInput
   creditItems?: Prisma.DelayedCreditItemCreateNestedManyWithoutItemInput
   paymentEventItems?: Prisma.PaymentEventItemCreateNestedManyWithoutItemInput
-  Company: Prisma.CompanyCreateNestedOneWithoutItemsInput
-  Product?: Prisma.ProductCreateNestedManyWithoutItemInput
+  company: Prisma.CompanyCreateNestedOneWithoutItemsInput
+  product?: Prisma.ProductCreateNestedManyWithoutItemInput
 }
 
 export type ItemUncheckedCreateWithoutEstimateItemsInput = {
@@ -2726,7 +2726,7 @@ export type ItemUncheckedCreateWithoutEstimateItemsInput = {
   chargeItems?: Prisma.DelayedChargeItemUncheckedCreateNestedManyWithoutItemInput
   creditItems?: Prisma.DelayedCreditItemUncheckedCreateNestedManyWithoutItemInput
   paymentEventItems?: Prisma.PaymentEventItemUncheckedCreateNestedManyWithoutItemInput
-  Product?: Prisma.ProductUncheckedCreateNestedManyWithoutItemInput
+  product?: Prisma.ProductUncheckedCreateNestedManyWithoutItemInput
 }
 
 export type ItemCreateOrConnectWithoutEstimateItemsInput = {
@@ -2792,8 +2792,8 @@ export type ItemUpdateWithoutEstimateItemsInput = {
   chargeItems?: Prisma.DelayedChargeItemUpdateManyWithoutItemNestedInput
   creditItems?: Prisma.DelayedCreditItemUpdateManyWithoutItemNestedInput
   paymentEventItems?: Prisma.PaymentEventItemUpdateManyWithoutItemNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutItemsNestedInput
-  Product?: Prisma.ProductUpdateManyWithoutItemNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutItemsNestedInput
+  product?: Prisma.ProductUpdateManyWithoutItemNestedInput
 }
 
 export type ItemUncheckedUpdateWithoutEstimateItemsInput = {
@@ -2844,7 +2844,7 @@ export type ItemUncheckedUpdateWithoutEstimateItemsInput = {
   chargeItems?: Prisma.DelayedChargeItemUncheckedUpdateManyWithoutItemNestedInput
   creditItems?: Prisma.DelayedCreditItemUncheckedUpdateManyWithoutItemNestedInput
   paymentEventItems?: Prisma.PaymentEventItemUncheckedUpdateManyWithoutItemNestedInput
-  Product?: Prisma.ProductUncheckedUpdateManyWithoutItemNestedInput
+  product?: Prisma.ProductUncheckedUpdateManyWithoutItemNestedInput
 }
 
 export type ItemCreateWithoutCreditMemoItemsInput = {
@@ -2894,8 +2894,8 @@ export type ItemCreateWithoutCreditMemoItemsInput = {
   chargeItems?: Prisma.DelayedChargeItemCreateNestedManyWithoutItemInput
   creditItems?: Prisma.DelayedCreditItemCreateNestedManyWithoutItemInput
   paymentEventItems?: Prisma.PaymentEventItemCreateNestedManyWithoutItemInput
-  Company: Prisma.CompanyCreateNestedOneWithoutItemsInput
-  Product?: Prisma.ProductCreateNestedManyWithoutItemInput
+  company: Prisma.CompanyCreateNestedOneWithoutItemsInput
+  product?: Prisma.ProductCreateNestedManyWithoutItemInput
 }
 
 export type ItemUncheckedCreateWithoutCreditMemoItemsInput = {
@@ -2946,7 +2946,7 @@ export type ItemUncheckedCreateWithoutCreditMemoItemsInput = {
   chargeItems?: Prisma.DelayedChargeItemUncheckedCreateNestedManyWithoutItemInput
   creditItems?: Prisma.DelayedCreditItemUncheckedCreateNestedManyWithoutItemInput
   paymentEventItems?: Prisma.PaymentEventItemUncheckedCreateNestedManyWithoutItemInput
-  Product?: Prisma.ProductUncheckedCreateNestedManyWithoutItemInput
+  product?: Prisma.ProductUncheckedCreateNestedManyWithoutItemInput
 }
 
 export type ItemCreateOrConnectWithoutCreditMemoItemsInput = {
@@ -3012,8 +3012,8 @@ export type ItemUpdateWithoutCreditMemoItemsInput = {
   chargeItems?: Prisma.DelayedChargeItemUpdateManyWithoutItemNestedInput
   creditItems?: Prisma.DelayedCreditItemUpdateManyWithoutItemNestedInput
   paymentEventItems?: Prisma.PaymentEventItemUpdateManyWithoutItemNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutItemsNestedInput
-  Product?: Prisma.ProductUpdateManyWithoutItemNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutItemsNestedInput
+  product?: Prisma.ProductUpdateManyWithoutItemNestedInput
 }
 
 export type ItemUncheckedUpdateWithoutCreditMemoItemsInput = {
@@ -3064,7 +3064,7 @@ export type ItemUncheckedUpdateWithoutCreditMemoItemsInput = {
   chargeItems?: Prisma.DelayedChargeItemUncheckedUpdateManyWithoutItemNestedInput
   creditItems?: Prisma.DelayedCreditItemUncheckedUpdateManyWithoutItemNestedInput
   paymentEventItems?: Prisma.PaymentEventItemUncheckedUpdateManyWithoutItemNestedInput
-  Product?: Prisma.ProductUncheckedUpdateManyWithoutItemNestedInput
+  product?: Prisma.ProductUncheckedUpdateManyWithoutItemNestedInput
 }
 
 export type ItemCreateWithoutSalesReceiptItemsInput = {
@@ -3114,8 +3114,8 @@ export type ItemCreateWithoutSalesReceiptItemsInput = {
   chargeItems?: Prisma.DelayedChargeItemCreateNestedManyWithoutItemInput
   creditItems?: Prisma.DelayedCreditItemCreateNestedManyWithoutItemInput
   paymentEventItems?: Prisma.PaymentEventItemCreateNestedManyWithoutItemInput
-  Company: Prisma.CompanyCreateNestedOneWithoutItemsInput
-  Product?: Prisma.ProductCreateNestedManyWithoutItemInput
+  company: Prisma.CompanyCreateNestedOneWithoutItemsInput
+  product?: Prisma.ProductCreateNestedManyWithoutItemInput
 }
 
 export type ItemUncheckedCreateWithoutSalesReceiptItemsInput = {
@@ -3166,7 +3166,7 @@ export type ItemUncheckedCreateWithoutSalesReceiptItemsInput = {
   chargeItems?: Prisma.DelayedChargeItemUncheckedCreateNestedManyWithoutItemInput
   creditItems?: Prisma.DelayedCreditItemUncheckedCreateNestedManyWithoutItemInput
   paymentEventItems?: Prisma.PaymentEventItemUncheckedCreateNestedManyWithoutItemInput
-  Product?: Prisma.ProductUncheckedCreateNestedManyWithoutItemInput
+  product?: Prisma.ProductUncheckedCreateNestedManyWithoutItemInput
 }
 
 export type ItemCreateOrConnectWithoutSalesReceiptItemsInput = {
@@ -3232,8 +3232,8 @@ export type ItemUpdateWithoutSalesReceiptItemsInput = {
   chargeItems?: Prisma.DelayedChargeItemUpdateManyWithoutItemNestedInput
   creditItems?: Prisma.DelayedCreditItemUpdateManyWithoutItemNestedInput
   paymentEventItems?: Prisma.PaymentEventItemUpdateManyWithoutItemNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutItemsNestedInput
-  Product?: Prisma.ProductUpdateManyWithoutItemNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutItemsNestedInput
+  product?: Prisma.ProductUpdateManyWithoutItemNestedInput
 }
 
 export type ItemUncheckedUpdateWithoutSalesReceiptItemsInput = {
@@ -3284,7 +3284,7 @@ export type ItemUncheckedUpdateWithoutSalesReceiptItemsInput = {
   chargeItems?: Prisma.DelayedChargeItemUncheckedUpdateManyWithoutItemNestedInput
   creditItems?: Prisma.DelayedCreditItemUncheckedUpdateManyWithoutItemNestedInput
   paymentEventItems?: Prisma.PaymentEventItemUncheckedUpdateManyWithoutItemNestedInput
-  Product?: Prisma.ProductUncheckedUpdateManyWithoutItemNestedInput
+  product?: Prisma.ProductUncheckedUpdateManyWithoutItemNestedInput
 }
 
 export type ItemCreateWithoutRefundItemsInput = {
@@ -3334,8 +3334,8 @@ export type ItemCreateWithoutRefundItemsInput = {
   chargeItems?: Prisma.DelayedChargeItemCreateNestedManyWithoutItemInput
   creditItems?: Prisma.DelayedCreditItemCreateNestedManyWithoutItemInput
   paymentEventItems?: Prisma.PaymentEventItemCreateNestedManyWithoutItemInput
-  Company: Prisma.CompanyCreateNestedOneWithoutItemsInput
-  Product?: Prisma.ProductCreateNestedManyWithoutItemInput
+  company: Prisma.CompanyCreateNestedOneWithoutItemsInput
+  product?: Prisma.ProductCreateNestedManyWithoutItemInput
 }
 
 export type ItemUncheckedCreateWithoutRefundItemsInput = {
@@ -3386,7 +3386,7 @@ export type ItemUncheckedCreateWithoutRefundItemsInput = {
   chargeItems?: Prisma.DelayedChargeItemUncheckedCreateNestedManyWithoutItemInput
   creditItems?: Prisma.DelayedCreditItemUncheckedCreateNestedManyWithoutItemInput
   paymentEventItems?: Prisma.PaymentEventItemUncheckedCreateNestedManyWithoutItemInput
-  Product?: Prisma.ProductUncheckedCreateNestedManyWithoutItemInput
+  product?: Prisma.ProductUncheckedCreateNestedManyWithoutItemInput
 }
 
 export type ItemCreateOrConnectWithoutRefundItemsInput = {
@@ -3452,8 +3452,8 @@ export type ItemUpdateWithoutRefundItemsInput = {
   chargeItems?: Prisma.DelayedChargeItemUpdateManyWithoutItemNestedInput
   creditItems?: Prisma.DelayedCreditItemUpdateManyWithoutItemNestedInput
   paymentEventItems?: Prisma.PaymentEventItemUpdateManyWithoutItemNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutItemsNestedInput
-  Product?: Prisma.ProductUpdateManyWithoutItemNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutItemsNestedInput
+  product?: Prisma.ProductUpdateManyWithoutItemNestedInput
 }
 
 export type ItemUncheckedUpdateWithoutRefundItemsInput = {
@@ -3504,7 +3504,7 @@ export type ItemUncheckedUpdateWithoutRefundItemsInput = {
   chargeItems?: Prisma.DelayedChargeItemUncheckedUpdateManyWithoutItemNestedInput
   creditItems?: Prisma.DelayedCreditItemUncheckedUpdateManyWithoutItemNestedInput
   paymentEventItems?: Prisma.PaymentEventItemUncheckedUpdateManyWithoutItemNestedInput
-  Product?: Prisma.ProductUncheckedUpdateManyWithoutItemNestedInput
+  product?: Prisma.ProductUncheckedUpdateManyWithoutItemNestedInput
 }
 
 export type ItemCreateWithoutChargeItemsInput = {
@@ -3554,8 +3554,8 @@ export type ItemCreateWithoutChargeItemsInput = {
   refundItems?: Prisma.RefundReceiptItemCreateNestedManyWithoutItemInput
   creditItems?: Prisma.DelayedCreditItemCreateNestedManyWithoutItemInput
   paymentEventItems?: Prisma.PaymentEventItemCreateNestedManyWithoutItemInput
-  Company: Prisma.CompanyCreateNestedOneWithoutItemsInput
-  Product?: Prisma.ProductCreateNestedManyWithoutItemInput
+  company: Prisma.CompanyCreateNestedOneWithoutItemsInput
+  product?: Prisma.ProductCreateNestedManyWithoutItemInput
 }
 
 export type ItemUncheckedCreateWithoutChargeItemsInput = {
@@ -3606,7 +3606,7 @@ export type ItemUncheckedCreateWithoutChargeItemsInput = {
   refundItems?: Prisma.RefundReceiptItemUncheckedCreateNestedManyWithoutItemInput
   creditItems?: Prisma.DelayedCreditItemUncheckedCreateNestedManyWithoutItemInput
   paymentEventItems?: Prisma.PaymentEventItemUncheckedCreateNestedManyWithoutItemInput
-  Product?: Prisma.ProductUncheckedCreateNestedManyWithoutItemInput
+  product?: Prisma.ProductUncheckedCreateNestedManyWithoutItemInput
 }
 
 export type ItemCreateOrConnectWithoutChargeItemsInput = {
@@ -3672,8 +3672,8 @@ export type ItemUpdateWithoutChargeItemsInput = {
   refundItems?: Prisma.RefundReceiptItemUpdateManyWithoutItemNestedInput
   creditItems?: Prisma.DelayedCreditItemUpdateManyWithoutItemNestedInput
   paymentEventItems?: Prisma.PaymentEventItemUpdateManyWithoutItemNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutItemsNestedInput
-  Product?: Prisma.ProductUpdateManyWithoutItemNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutItemsNestedInput
+  product?: Prisma.ProductUpdateManyWithoutItemNestedInput
 }
 
 export type ItemUncheckedUpdateWithoutChargeItemsInput = {
@@ -3724,7 +3724,7 @@ export type ItemUncheckedUpdateWithoutChargeItemsInput = {
   refundItems?: Prisma.RefundReceiptItemUncheckedUpdateManyWithoutItemNestedInput
   creditItems?: Prisma.DelayedCreditItemUncheckedUpdateManyWithoutItemNestedInput
   paymentEventItems?: Prisma.PaymentEventItemUncheckedUpdateManyWithoutItemNestedInput
-  Product?: Prisma.ProductUncheckedUpdateManyWithoutItemNestedInput
+  product?: Prisma.ProductUncheckedUpdateManyWithoutItemNestedInput
 }
 
 export type ItemCreateWithoutCreditItemsInput = {
@@ -3774,8 +3774,8 @@ export type ItemCreateWithoutCreditItemsInput = {
   refundItems?: Prisma.RefundReceiptItemCreateNestedManyWithoutItemInput
   chargeItems?: Prisma.DelayedChargeItemCreateNestedManyWithoutItemInput
   paymentEventItems?: Prisma.PaymentEventItemCreateNestedManyWithoutItemInput
-  Company: Prisma.CompanyCreateNestedOneWithoutItemsInput
-  Product?: Prisma.ProductCreateNestedManyWithoutItemInput
+  company: Prisma.CompanyCreateNestedOneWithoutItemsInput
+  product?: Prisma.ProductCreateNestedManyWithoutItemInput
 }
 
 export type ItemUncheckedCreateWithoutCreditItemsInput = {
@@ -3826,7 +3826,7 @@ export type ItemUncheckedCreateWithoutCreditItemsInput = {
   refundItems?: Prisma.RefundReceiptItemUncheckedCreateNestedManyWithoutItemInput
   chargeItems?: Prisma.DelayedChargeItemUncheckedCreateNestedManyWithoutItemInput
   paymentEventItems?: Prisma.PaymentEventItemUncheckedCreateNestedManyWithoutItemInput
-  Product?: Prisma.ProductUncheckedCreateNestedManyWithoutItemInput
+  product?: Prisma.ProductUncheckedCreateNestedManyWithoutItemInput
 }
 
 export type ItemCreateOrConnectWithoutCreditItemsInput = {
@@ -3892,8 +3892,8 @@ export type ItemUpdateWithoutCreditItemsInput = {
   refundItems?: Prisma.RefundReceiptItemUpdateManyWithoutItemNestedInput
   chargeItems?: Prisma.DelayedChargeItemUpdateManyWithoutItemNestedInput
   paymentEventItems?: Prisma.PaymentEventItemUpdateManyWithoutItemNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutItemsNestedInput
-  Product?: Prisma.ProductUpdateManyWithoutItemNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutItemsNestedInput
+  product?: Prisma.ProductUpdateManyWithoutItemNestedInput
 }
 
 export type ItemUncheckedUpdateWithoutCreditItemsInput = {
@@ -3944,7 +3944,7 @@ export type ItemUncheckedUpdateWithoutCreditItemsInput = {
   refundItems?: Prisma.RefundReceiptItemUncheckedUpdateManyWithoutItemNestedInput
   chargeItems?: Prisma.DelayedChargeItemUncheckedUpdateManyWithoutItemNestedInput
   paymentEventItems?: Prisma.PaymentEventItemUncheckedUpdateManyWithoutItemNestedInput
-  Product?: Prisma.ProductUncheckedUpdateManyWithoutItemNestedInput
+  product?: Prisma.ProductUncheckedUpdateManyWithoutItemNestedInput
 }
 
 export type ItemCreateWithoutProductInput = {
@@ -3995,7 +3995,7 @@ export type ItemCreateWithoutProductInput = {
   chargeItems?: Prisma.DelayedChargeItemCreateNestedManyWithoutItemInput
   creditItems?: Prisma.DelayedCreditItemCreateNestedManyWithoutItemInput
   paymentEventItems?: Prisma.PaymentEventItemCreateNestedManyWithoutItemInput
-  Company: Prisma.CompanyCreateNestedOneWithoutItemsInput
+  company: Prisma.CompanyCreateNestedOneWithoutItemsInput
 }
 
 export type ItemUncheckedCreateWithoutProductInput = {
@@ -4113,7 +4113,7 @@ export type ItemUpdateWithoutProductInput = {
   chargeItems?: Prisma.DelayedChargeItemUpdateManyWithoutItemNestedInput
   creditItems?: Prisma.DelayedCreditItemUpdateManyWithoutItemNestedInput
   paymentEventItems?: Prisma.PaymentEventItemUpdateManyWithoutItemNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutItemsNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutItemsNestedInput
 }
 
 export type ItemUncheckedUpdateWithoutProductInput = {
@@ -4215,7 +4215,7 @@ export type ItemCreateWithoutCompanyInput = {
   chargeItems?: Prisma.DelayedChargeItemCreateNestedManyWithoutItemInput
   creditItems?: Prisma.DelayedCreditItemCreateNestedManyWithoutItemInput
   paymentEventItems?: Prisma.PaymentEventItemCreateNestedManyWithoutItemInput
-  Product?: Prisma.ProductCreateNestedManyWithoutItemInput
+  product?: Prisma.ProductCreateNestedManyWithoutItemInput
 }
 
 export type ItemUncheckedCreateWithoutCompanyInput = {
@@ -4266,7 +4266,7 @@ export type ItemUncheckedCreateWithoutCompanyInput = {
   chargeItems?: Prisma.DelayedChargeItemUncheckedCreateNestedManyWithoutItemInput
   creditItems?: Prisma.DelayedCreditItemUncheckedCreateNestedManyWithoutItemInput
   paymentEventItems?: Prisma.PaymentEventItemUncheckedCreateNestedManyWithoutItemInput
-  Product?: Prisma.ProductUncheckedCreateNestedManyWithoutItemInput
+  product?: Prisma.ProductUncheckedCreateNestedManyWithoutItemInput
 }
 
 export type ItemCreateOrConnectWithoutCompanyInput = {
@@ -4468,8 +4468,8 @@ export type ItemUpdateWithoutIncomeAccountInput = {
   chargeItems?: Prisma.DelayedChargeItemUpdateManyWithoutItemNestedInput
   creditItems?: Prisma.DelayedCreditItemUpdateManyWithoutItemNestedInput
   paymentEventItems?: Prisma.PaymentEventItemUpdateManyWithoutItemNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutItemsNestedInput
-  Product?: Prisma.ProductUpdateManyWithoutItemNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutItemsNestedInput
+  product?: Prisma.ProductUpdateManyWithoutItemNestedInput
 }
 
 export type ItemUncheckedUpdateWithoutIncomeAccountInput = {
@@ -4520,7 +4520,7 @@ export type ItemUncheckedUpdateWithoutIncomeAccountInput = {
   chargeItems?: Prisma.DelayedChargeItemUncheckedUpdateManyWithoutItemNestedInput
   creditItems?: Prisma.DelayedCreditItemUncheckedUpdateManyWithoutItemNestedInput
   paymentEventItems?: Prisma.PaymentEventItemUncheckedUpdateManyWithoutItemNestedInput
-  Product?: Prisma.ProductUncheckedUpdateManyWithoutItemNestedInput
+  product?: Prisma.ProductUncheckedUpdateManyWithoutItemNestedInput
 }
 
 export type ItemUncheckedUpdateManyWithoutIncomeAccountInput = {
@@ -4612,8 +4612,8 @@ export type ItemUpdateWithoutExpenseAccountInput = {
   chargeItems?: Prisma.DelayedChargeItemUpdateManyWithoutItemNestedInput
   creditItems?: Prisma.DelayedCreditItemUpdateManyWithoutItemNestedInput
   paymentEventItems?: Prisma.PaymentEventItemUpdateManyWithoutItemNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutItemsNestedInput
-  Product?: Prisma.ProductUpdateManyWithoutItemNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutItemsNestedInput
+  product?: Prisma.ProductUpdateManyWithoutItemNestedInput
 }
 
 export type ItemUncheckedUpdateWithoutExpenseAccountInput = {
@@ -4664,7 +4664,7 @@ export type ItemUncheckedUpdateWithoutExpenseAccountInput = {
   chargeItems?: Prisma.DelayedChargeItemUncheckedUpdateManyWithoutItemNestedInput
   creditItems?: Prisma.DelayedCreditItemUncheckedUpdateManyWithoutItemNestedInput
   paymentEventItems?: Prisma.PaymentEventItemUncheckedUpdateManyWithoutItemNestedInput
-  Product?: Prisma.ProductUncheckedUpdateManyWithoutItemNestedInput
+  product?: Prisma.ProductUncheckedUpdateManyWithoutItemNestedInput
 }
 
 export type ItemUncheckedUpdateManyWithoutExpenseAccountInput = {
@@ -4756,8 +4756,8 @@ export type ItemUpdateWithoutInventoryAssetAccountInput = {
   chargeItems?: Prisma.DelayedChargeItemUpdateManyWithoutItemNestedInput
   creditItems?: Prisma.DelayedCreditItemUpdateManyWithoutItemNestedInput
   paymentEventItems?: Prisma.PaymentEventItemUpdateManyWithoutItemNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutItemsNestedInput
-  Product?: Prisma.ProductUpdateManyWithoutItemNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutItemsNestedInput
+  product?: Prisma.ProductUpdateManyWithoutItemNestedInput
 }
 
 export type ItemUncheckedUpdateWithoutInventoryAssetAccountInput = {
@@ -4808,7 +4808,7 @@ export type ItemUncheckedUpdateWithoutInventoryAssetAccountInput = {
   chargeItems?: Prisma.DelayedChargeItemUncheckedUpdateManyWithoutItemNestedInput
   creditItems?: Prisma.DelayedCreditItemUncheckedUpdateManyWithoutItemNestedInput
   paymentEventItems?: Prisma.PaymentEventItemUncheckedUpdateManyWithoutItemNestedInput
-  Product?: Prisma.ProductUncheckedUpdateManyWithoutItemNestedInput
+  product?: Prisma.ProductUncheckedUpdateManyWithoutItemNestedInput
 }
 
 export type ItemUncheckedUpdateManyWithoutInventoryAssetAccountInput = {
@@ -4942,8 +4942,8 @@ export type ItemUpdateWithoutCategoryInput = {
   chargeItems?: Prisma.DelayedChargeItemUpdateManyWithoutItemNestedInput
   creditItems?: Prisma.DelayedCreditItemUpdateManyWithoutItemNestedInput
   paymentEventItems?: Prisma.PaymentEventItemUpdateManyWithoutItemNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutItemsNestedInput
-  Product?: Prisma.ProductUpdateManyWithoutItemNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutItemsNestedInput
+  product?: Prisma.ProductUpdateManyWithoutItemNestedInput
 }
 
 export type ItemUncheckedUpdateWithoutCategoryInput = {
@@ -4994,7 +4994,7 @@ export type ItemUncheckedUpdateWithoutCategoryInput = {
   chargeItems?: Prisma.DelayedChargeItemUncheckedUpdateManyWithoutItemNestedInput
   creditItems?: Prisma.DelayedCreditItemUncheckedUpdateManyWithoutItemNestedInput
   paymentEventItems?: Prisma.PaymentEventItemUncheckedUpdateManyWithoutItemNestedInput
-  Product?: Prisma.ProductUncheckedUpdateManyWithoutItemNestedInput
+  product?: Prisma.ProductUncheckedUpdateManyWithoutItemNestedInput
 }
 
 export type ItemUncheckedUpdateManyWithoutCategoryInput = {
@@ -5129,7 +5129,7 @@ export type ItemUpdateWithoutCompanyInput = {
   chargeItems?: Prisma.DelayedChargeItemUpdateManyWithoutItemNestedInput
   creditItems?: Prisma.DelayedCreditItemUpdateManyWithoutItemNestedInput
   paymentEventItems?: Prisma.PaymentEventItemUpdateManyWithoutItemNestedInput
-  Product?: Prisma.ProductUpdateManyWithoutItemNestedInput
+  product?: Prisma.ProductUpdateManyWithoutItemNestedInput
 }
 
 export type ItemUncheckedUpdateWithoutCompanyInput = {
@@ -5180,7 +5180,7 @@ export type ItemUncheckedUpdateWithoutCompanyInput = {
   chargeItems?: Prisma.DelayedChargeItemUncheckedUpdateManyWithoutItemNestedInput
   creditItems?: Prisma.DelayedCreditItemUncheckedUpdateManyWithoutItemNestedInput
   paymentEventItems?: Prisma.PaymentEventItemUncheckedUpdateManyWithoutItemNestedInput
-  Product?: Prisma.ProductUncheckedUpdateManyWithoutItemNestedInput
+  product?: Prisma.ProductUncheckedUpdateManyWithoutItemNestedInput
 }
 
 export type ItemUncheckedUpdateManyWithoutCompanyInput = {
@@ -5239,7 +5239,7 @@ export type ItemCountOutputType = {
   chargeItems: number
   creditItems: number
   paymentEventItems: number
-  Product: number
+  product: number
 }
 
 export type ItemCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -5251,7 +5251,7 @@ export type ItemCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   chargeItems?: boolean | ItemCountOutputTypeCountChargeItemsArgs
   creditItems?: boolean | ItemCountOutputTypeCountCreditItemsArgs
   paymentEventItems?: boolean | ItemCountOutputTypeCountPaymentEventItemsArgs
-  Product?: boolean | ItemCountOutputTypeCountProductArgs
+  product?: boolean | ItemCountOutputTypeCountProductArgs
 }
 
 /**
@@ -5381,8 +5381,8 @@ export type ItemSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   chargeItems?: boolean | Prisma.Item$chargeItemsArgs<ExtArgs>
   creditItems?: boolean | Prisma.Item$creditItemsArgs<ExtArgs>
   paymentEventItems?: boolean | Prisma.Item$paymentEventItemsArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
-  Product?: boolean | Prisma.Item$ProductArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  product?: boolean | Prisma.Item$productArgs<ExtArgs>
   _count?: boolean | Prisma.ItemCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["item"]>
 
@@ -5431,7 +5431,7 @@ export type ItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   incomeAccount?: boolean | Prisma.Item$incomeAccountArgs<ExtArgs>
   expenseAccount?: boolean | Prisma.Item$expenseAccountArgs<ExtArgs>
   inventoryAssetAccount?: boolean | Prisma.Item$inventoryAssetAccountArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["item"]>
 
 export type ItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -5479,7 +5479,7 @@ export type ItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   incomeAccount?: boolean | Prisma.Item$incomeAccountArgs<ExtArgs>
   expenseAccount?: boolean | Prisma.Item$expenseAccountArgs<ExtArgs>
   inventoryAssetAccount?: boolean | Prisma.Item$inventoryAssetAccountArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["item"]>
 
 export type ItemSelectScalar = {
@@ -5539,8 +5539,8 @@ export type ItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   chargeItems?: boolean | Prisma.Item$chargeItemsArgs<ExtArgs>
   creditItems?: boolean | Prisma.Item$creditItemsArgs<ExtArgs>
   paymentEventItems?: boolean | Prisma.Item$paymentEventItemsArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
-  Product?: boolean | Prisma.Item$ProductArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  product?: boolean | Prisma.Item$productArgs<ExtArgs>
   _count?: boolean | Prisma.ItemCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ItemIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -5548,14 +5548,14 @@ export type ItemIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   incomeAccount?: boolean | Prisma.Item$incomeAccountArgs<ExtArgs>
   expenseAccount?: boolean | Prisma.Item$expenseAccountArgs<ExtArgs>
   inventoryAssetAccount?: boolean | Prisma.Item$inventoryAssetAccountArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }
 export type ItemIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   category?: boolean | Prisma.Item$categoryArgs<ExtArgs>
   incomeAccount?: boolean | Prisma.Item$incomeAccountArgs<ExtArgs>
   expenseAccount?: boolean | Prisma.Item$expenseAccountArgs<ExtArgs>
   inventoryAssetAccount?: boolean | Prisma.Item$inventoryAssetAccountArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }
 
 export type $ItemPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -5573,8 +5573,8 @@ export type $ItemPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     chargeItems: Prisma.$DelayedChargeItemPayload<ExtArgs>[]
     creditItems: Prisma.$DelayedCreditItemPayload<ExtArgs>[]
     paymentEventItems: Prisma.$PaymentEventItemPayload<ExtArgs>[]
-    Company: Prisma.$CompanyPayload<ExtArgs>
-    Product: Prisma.$ProductPayload<ExtArgs>[]
+    company: Prisma.$CompanyPayload<ExtArgs>
+    product: Prisma.$ProductPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -6026,8 +6026,8 @@ export interface Prisma__ItemClient<T, Null = never, ExtArgs extends runtime.Typ
   chargeItems<T extends Prisma.Item$chargeItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Item$chargeItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DelayedChargeItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   creditItems<T extends Prisma.Item$creditItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Item$creditItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DelayedCreditItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   paymentEventItems<T extends Prisma.Item$paymentEventItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Item$paymentEventItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaymentEventItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  Company<T extends Prisma.CompanyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CompanyDefaultArgs<ExtArgs>>): Prisma.Prisma__CompanyClient<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  Product<T extends Prisma.Item$ProductArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Item$ProductArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  company<T extends Prisma.CompanyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CompanyDefaultArgs<ExtArgs>>): Prisma.Prisma__CompanyClient<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  product<T extends Prisma.Item$productArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Item$productArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6766,9 +6766,9 @@ export type Item$paymentEventItemsArgs<ExtArgs extends runtime.Types.Extensions.
 }
 
 /**
- * Item.Product
+ * Item.product
  */
-export type Item$ProductArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Item$productArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Product
    */

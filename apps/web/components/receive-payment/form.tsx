@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 
-import { Form, useForm } from 'react-hook-form';
+import { Controller, Form, useForm } from 'react-hook-form';
 
 
 import {
@@ -14,13 +14,14 @@ import {
 
 import { createPayment, getCustomerInvoices } from './action';
 
-import { InvoiceSelection } from './InvoiceSelection';
+import { InvoiceSelection } from './Invoice-selection';
 import { PaymentAmount } from './payment-amount';
-import { PaymentDetails } from './paymentdetail';
+import { PaymentDetails } from './payment-detail';
 import { paymentFormSchema, PaymentFormValues } from './schema';
 import { toast } from 'sonner';
 import FormField from '../lang/FormField';
 import { Button } from '../ui/button';
+import { Field, FieldLabel, FieldError } from '../ui/field';
 
 export function PaymentForm() {
   const [selectedCustomer, setSelectedCustomer] =
@@ -130,18 +131,20 @@ export function PaymentForm() {
             Record payments received from customers
           </p>
         </div>
-        <FormField
+        <Controller
           control={form.control}
           name="customerId"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Customer</FormLabel>
+          render={({ field, fieldState }) => (
+            <Field>
+              <FieldLabel>Customer</FieldLabel>
               <CustomerSelect
                 onSelect={handleCustomerSelect}
                 selectedCustomerId={field.value}
               />
-              <FormMessage />
-            </FormItem>
+              {fieldState.error && (
+                <FieldError errors={[fieldState.error]} />
+              )}
+            </Field>
           )}
         />
 

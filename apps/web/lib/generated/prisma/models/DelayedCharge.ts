@@ -378,7 +378,7 @@ export type DelayedChargeWhereInput = {
   items?: Prisma.DelayedChargeItemListRelationFilter
   tax?: Prisma.XOR<Prisma.TaxRateNullableScalarRelationFilter, Prisma.TaxRateWhereInput> | null
   attachments?: Prisma.ChargeAttachmentListRelationFilter
-  Company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
+  company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
 }
 
 export type DelayedChargeOrderByWithRelationInput = {
@@ -409,7 +409,7 @@ export type DelayedChargeOrderByWithRelationInput = {
   items?: Prisma.DelayedChargeItemOrderByRelationAggregateInput
   tax?: Prisma.TaxRateOrderByWithRelationInput
   attachments?: Prisma.ChargeAttachmentOrderByRelationAggregateInput
-  Company?: Prisma.CompanyOrderByWithRelationInput
+  company?: Prisma.CompanyOrderByWithRelationInput
 }
 
 export type DelayedChargeWhereUniqueInput = Prisma.AtLeast<{
@@ -444,7 +444,7 @@ export type DelayedChargeWhereUniqueInput = Prisma.AtLeast<{
   items?: Prisma.DelayedChargeItemListRelationFilter
   tax?: Prisma.XOR<Prisma.TaxRateNullableScalarRelationFilter, Prisma.TaxRateWhereInput> | null
   attachments?: Prisma.ChargeAttachmentListRelationFilter
-  Company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
+  company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
 }, "id" | "number_companyId">
 
 export type DelayedChargeOrderByWithAggregationInput = {
@@ -530,9 +530,9 @@ export type DelayedChargeCreateInput = {
   deactivationReason?: string | null
   customer: Prisma.CustomerCreateNestedOneWithoutDelayedChargesInput
   items?: Prisma.DelayedChargeItemCreateNestedManyWithoutChargeInput
-  tax?: Prisma.TaxRateCreateNestedOneWithoutDelayedChargeInput
+  tax?: Prisma.TaxRateCreateNestedOneWithoutDelayedChargesInput
   attachments?: Prisma.ChargeAttachmentCreateNestedManyWithoutChargeInput
-  Company: Prisma.CompanyCreateNestedOneWithoutDelayedChargesInput
+  company: Prisma.CompanyCreateNestedOneWithoutDelayedChargesInput
 }
 
 export type DelayedChargeUncheckedCreateInput = {
@@ -586,9 +586,9 @@ export type DelayedChargeUpdateInput = {
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer?: Prisma.CustomerUpdateOneRequiredWithoutDelayedChargesNestedInput
   items?: Prisma.DelayedChargeItemUpdateManyWithoutChargeNestedInput
-  tax?: Prisma.TaxRateUpdateOneWithoutDelayedChargeNestedInput
+  tax?: Prisma.TaxRateUpdateOneWithoutDelayedChargesNestedInput
   attachments?: Prisma.ChargeAttachmentUpdateManyWithoutChargeNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutDelayedChargesNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutDelayedChargesNestedInput
 }
 
 export type DelayedChargeUncheckedUpdateInput = {
@@ -986,9 +986,9 @@ export type DelayedChargeCreateWithoutCustomerInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   items?: Prisma.DelayedChargeItemCreateNestedManyWithoutChargeInput
-  tax?: Prisma.TaxRateCreateNestedOneWithoutDelayedChargeInput
+  tax?: Prisma.TaxRateCreateNestedOneWithoutDelayedChargesInput
   attachments?: Prisma.ChargeAttachmentCreateNestedManyWithoutChargeInput
-  Company: Prisma.CompanyCreateNestedOneWithoutDelayedChargesInput
+  company: Prisma.CompanyCreateNestedOneWithoutDelayedChargesInput
 }
 
 export type DelayedChargeUncheckedCreateWithoutCustomerInput = {
@@ -1095,9 +1095,9 @@ export type DelayedChargeCreateWithoutItemsInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   customer: Prisma.CustomerCreateNestedOneWithoutDelayedChargesInput
-  tax?: Prisma.TaxRateCreateNestedOneWithoutDelayedChargeInput
+  tax?: Prisma.TaxRateCreateNestedOneWithoutDelayedChargesInput
   attachments?: Prisma.ChargeAttachmentCreateNestedManyWithoutChargeInput
-  Company: Prisma.CompanyCreateNestedOneWithoutDelayedChargesInput
+  company: Prisma.CompanyCreateNestedOneWithoutDelayedChargesInput
 }
 
 export type DelayedChargeUncheckedCreateWithoutItemsInput = {
@@ -1165,9 +1165,9 @@ export type DelayedChargeUpdateWithoutItemsInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer?: Prisma.CustomerUpdateOneRequiredWithoutDelayedChargesNestedInput
-  tax?: Prisma.TaxRateUpdateOneWithoutDelayedChargeNestedInput
+  tax?: Prisma.TaxRateUpdateOneWithoutDelayedChargesNestedInput
   attachments?: Prisma.ChargeAttachmentUpdateManyWithoutChargeNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutDelayedChargesNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutDelayedChargesNestedInput
 }
 
 export type DelayedChargeUncheckedUpdateWithoutItemsInput = {
@@ -1220,8 +1220,8 @@ export type DelayedChargeCreateWithoutAttachmentsInput = {
   deactivationReason?: string | null
   customer: Prisma.CustomerCreateNestedOneWithoutDelayedChargesInput
   items?: Prisma.DelayedChargeItemCreateNestedManyWithoutChargeInput
-  tax?: Prisma.TaxRateCreateNestedOneWithoutDelayedChargeInput
-  Company: Prisma.CompanyCreateNestedOneWithoutDelayedChargesInput
+  tax?: Prisma.TaxRateCreateNestedOneWithoutDelayedChargesInput
+  company: Prisma.CompanyCreateNestedOneWithoutDelayedChargesInput
 }
 
 export type DelayedChargeUncheckedCreateWithoutAttachmentsInput = {
@@ -1290,8 +1290,8 @@ export type DelayedChargeUpdateWithoutAttachmentsInput = {
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer?: Prisma.CustomerUpdateOneRequiredWithoutDelayedChargesNestedInput
   items?: Prisma.DelayedChargeItemUpdateManyWithoutChargeNestedInput
-  tax?: Prisma.TaxRateUpdateOneWithoutDelayedChargeNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutDelayedChargesNestedInput
+  tax?: Prisma.TaxRateUpdateOneWithoutDelayedChargesNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutDelayedChargesNestedInput
 }
 
 export type DelayedChargeUncheckedUpdateWithoutAttachmentsInput = {
@@ -1345,7 +1345,7 @@ export type DelayedChargeCreateWithoutTaxInput = {
   customer: Prisma.CustomerCreateNestedOneWithoutDelayedChargesInput
   items?: Prisma.DelayedChargeItemCreateNestedManyWithoutChargeInput
   attachments?: Prisma.ChargeAttachmentCreateNestedManyWithoutChargeInput
-  Company: Prisma.CompanyCreateNestedOneWithoutDelayedChargesInput
+  company: Prisma.CompanyCreateNestedOneWithoutDelayedChargesInput
 }
 
 export type DelayedChargeUncheckedCreateWithoutTaxInput = {
@@ -1424,7 +1424,7 @@ export type DelayedChargeCreateWithoutCompanyInput = {
   deactivationReason?: string | null
   customer: Prisma.CustomerCreateNestedOneWithoutDelayedChargesInput
   items?: Prisma.DelayedChargeItemCreateNestedManyWithoutChargeInput
-  tax?: Prisma.TaxRateCreateNestedOneWithoutDelayedChargeInput
+  tax?: Prisma.TaxRateCreateNestedOneWithoutDelayedChargesInput
   attachments?: Prisma.ChargeAttachmentCreateNestedManyWithoutChargeInput
 }
 
@@ -1528,9 +1528,9 @@ export type DelayedChargeUpdateWithoutCustomerInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   items?: Prisma.DelayedChargeItemUpdateManyWithoutChargeNestedInput
-  tax?: Prisma.TaxRateUpdateOneWithoutDelayedChargeNestedInput
+  tax?: Prisma.TaxRateUpdateOneWithoutDelayedChargesNestedInput
   attachments?: Prisma.ChargeAttachmentUpdateManyWithoutChargeNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutDelayedChargesNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutDelayedChargesNestedInput
 }
 
 export type DelayedChargeUncheckedUpdateWithoutCustomerInput = {
@@ -1634,7 +1634,7 @@ export type DelayedChargeUpdateWithoutTaxInput = {
   customer?: Prisma.CustomerUpdateOneRequiredWithoutDelayedChargesNestedInput
   items?: Prisma.DelayedChargeItemUpdateManyWithoutChargeNestedInput
   attachments?: Prisma.ChargeAttachmentUpdateManyWithoutChargeNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutDelayedChargesNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutDelayedChargesNestedInput
 }
 
 export type DelayedChargeUncheckedUpdateWithoutTaxInput = {
@@ -1737,7 +1737,7 @@ export type DelayedChargeUpdateWithoutCompanyInput = {
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer?: Prisma.CustomerUpdateOneRequiredWithoutDelayedChargesNestedInput
   items?: Prisma.DelayedChargeItemUpdateManyWithoutChargeNestedInput
-  tax?: Prisma.TaxRateUpdateOneWithoutDelayedChargeNestedInput
+  tax?: Prisma.TaxRateUpdateOneWithoutDelayedChargesNestedInput
   attachments?: Prisma.ChargeAttachmentUpdateManyWithoutChargeNestedInput
 }
 
@@ -1861,7 +1861,7 @@ export type DelayedChargeSelect<ExtArgs extends runtime.Types.Extensions.Interna
   items?: boolean | Prisma.DelayedCharge$itemsArgs<ExtArgs>
   tax?: boolean | Prisma.DelayedCharge$taxArgs<ExtArgs>
   attachments?: boolean | Prisma.DelayedCharge$attachmentsArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.DelayedChargeCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["delayedCharge"]>
 
@@ -1891,7 +1891,7 @@ export type DelayedChargeSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   deactivationReason?: boolean
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   tax?: boolean | Prisma.DelayedCharge$taxArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["delayedCharge"]>
 
 export type DelayedChargeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1920,7 +1920,7 @@ export type DelayedChargeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   deactivationReason?: boolean
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   tax?: boolean | Prisma.DelayedCharge$taxArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["delayedCharge"]>
 
 export type DelayedChargeSelectScalar = {
@@ -1955,18 +1955,18 @@ export type DelayedChargeInclude<ExtArgs extends runtime.Types.Extensions.Intern
   items?: boolean | Prisma.DelayedCharge$itemsArgs<ExtArgs>
   tax?: boolean | Prisma.DelayedCharge$taxArgs<ExtArgs>
   attachments?: boolean | Prisma.DelayedCharge$attachmentsArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.DelayedChargeCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type DelayedChargeIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   tax?: boolean | Prisma.DelayedCharge$taxArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }
 export type DelayedChargeIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   tax?: boolean | Prisma.DelayedCharge$taxArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }
 
 export type $DelayedChargePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1976,7 +1976,7 @@ export type $DelayedChargePayload<ExtArgs extends runtime.Types.Extensions.Inter
     items: Prisma.$DelayedChargeItemPayload<ExtArgs>[]
     tax: Prisma.$TaxRatePayload<ExtArgs> | null
     attachments: Prisma.$ChargeAttachmentPayload<ExtArgs>[]
-    Company: Prisma.$CompanyPayload<ExtArgs>
+    company: Prisma.$CompanyPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2403,7 +2403,7 @@ export interface Prisma__DelayedChargeClient<T, Null = never, ExtArgs extends ru
   items<T extends Prisma.DelayedCharge$itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DelayedCharge$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DelayedChargeItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   tax<T extends Prisma.DelayedCharge$taxArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DelayedCharge$taxArgs<ExtArgs>>): Prisma.Prisma__TaxRateClient<runtime.Types.Result.GetResult<Prisma.$TaxRatePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   attachments<T extends Prisma.DelayedCharge$attachmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DelayedCharge$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChargeAttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  Company<T extends Prisma.CompanyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CompanyDefaultArgs<ExtArgs>>): Prisma.Prisma__CompanyClient<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  company<T extends Prisma.CompanyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CompanyDefaultArgs<ExtArgs>>): Prisma.Prisma__CompanyClient<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

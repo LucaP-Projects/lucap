@@ -1,5 +1,11 @@
 import React, { memo, useCallback } from 'react';
 import {
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy
+} from '@dnd-kit/dom/sortable';
+import {
   closestCenter,
   DndContext,
   KeyboardSensor,
@@ -7,12 +13,6 @@ import {
   useSensor,
   useSensors
 } from '@dnd-kit/react';
-import {
-  SortableContext,
-  sortableKeyboardCoordinates,
-  useSortable,
-  verticalListSortingStrategy
-} from '@dnd-kit/dom/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import {
   Controller,
@@ -22,13 +22,13 @@ import {
   useController
 } from 'react-hook-form';
 import { GripVertical, Plus, Trash2 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Field } from '@/components/ui/field';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { cn, formatCurrency, handleNumberInput } from '@/lib/utils';
 import { InvoiceFormValues } from '../../invoice/schema';
 import { ItemSelect } from '../../shared/item/item-selection';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Field } from '@/components/ui/field';
 
 interface ItemSelectionHandlerProps {
   showTaxable?: boolean;

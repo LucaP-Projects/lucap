@@ -2,15 +2,16 @@
 
 import { useTransition, useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { CompanyType } from '@/lib/generated/prisma/client';
 import { useRouter } from 'next/navigation';
 import { Controller, useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+import { z } from 'zod';
 import { Building2, Loader2, MapPin, Phone } from 'lucide-react';
 
-import {
-  Input,
-
-} from '@/components/ui/input';
+import { ImageUpload } from '@/components/image-upload/image-upload';
+import { PhoneInput } from '@/components/shared/mobile';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Field,
   FieldContent,
@@ -18,9 +19,10 @@ import {
   FieldError,
   FieldGroup,
 } from '@/components/ui/field';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { z } from 'zod';
-import { Button } from '@/components/ui/button';
+import {
+  Input,
+
+} from '@/components/ui/input';
 import {
   Select,
   SelectContent,
@@ -28,11 +30,9 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
-import { toast } from 'sonner';
-import { ImageUpload } from '@/components/image-upload/image-upload';
-import { PhoneInput } from '@/components/shared/mobile';
-import { editCompany, getCompany } from './actions';
+import { CompanyType } from '@/lib/generated/prisma/client';
 import { EditCompanyInput, editCompanySchema, CompanyResponse } from '../types';
+import { editCompany, getCompany } from './actions';
 
 interface Props {
   companyId: string;

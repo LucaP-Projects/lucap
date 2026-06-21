@@ -168,14 +168,14 @@ export type CustomFieldFormWhereInput = {
   id?: Prisma.StringFilter<"CustomFieldForm"> | string
   name?: Prisma.EnumCustomFieldFormTypeFilter<"CustomFieldForm"> | $Enums.CustomFieldFormType
   printOnForm?: Prisma.BoolFilter<"CustomFieldForm"> | boolean
-  customField?: Prisma.CustomFieldListRelationFilter
+  customFields?: Prisma.CustomFieldListRelationFilter
 }
 
 export type CustomFieldFormOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   printOnForm?: Prisma.SortOrder
-  customField?: Prisma.CustomFieldOrderByRelationAggregateInput
+  customFields?: Prisma.CustomFieldOrderByRelationAggregateInput
 }
 
 export type CustomFieldFormWhereUniqueInput = Prisma.AtLeast<{
@@ -185,7 +185,7 @@ export type CustomFieldFormWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.CustomFieldFormWhereInput | Prisma.CustomFieldFormWhereInput[]
   name?: Prisma.EnumCustomFieldFormTypeFilter<"CustomFieldForm"> | $Enums.CustomFieldFormType
   printOnForm?: Prisma.BoolFilter<"CustomFieldForm"> | boolean
-  customField?: Prisma.CustomFieldListRelationFilter
+  customFields?: Prisma.CustomFieldListRelationFilter
 }, "id">
 
 export type CustomFieldFormOrderByWithAggregationInput = {
@@ -210,28 +210,28 @@ export type CustomFieldFormCreateInput = {
   id?: string
   name: $Enums.CustomFieldFormType
   printOnForm?: boolean
-  customField?: Prisma.CustomFieldCreateNestedManyWithoutFormsInput
+  customFields?: Prisma.CustomFieldCreateNestedManyWithoutFormsInput
 }
 
 export type CustomFieldFormUncheckedCreateInput = {
   id?: string
   name: $Enums.CustomFieldFormType
   printOnForm?: boolean
-  customField?: Prisma.CustomFieldUncheckedCreateNestedManyWithoutFormsInput
+  customFields?: Prisma.CustomFieldUncheckedCreateNestedManyWithoutFormsInput
 }
 
 export type CustomFieldFormUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.EnumCustomFieldFormTypeFieldUpdateOperationsInput | $Enums.CustomFieldFormType
   printOnForm?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  customField?: Prisma.CustomFieldUpdateManyWithoutFormsNestedInput
+  customFields?: Prisma.CustomFieldUpdateManyWithoutFormsNestedInput
 }
 
 export type CustomFieldFormUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.EnumCustomFieldFormTypeFieldUpdateOperationsInput | $Enums.CustomFieldFormType
   printOnForm?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  customField?: Prisma.CustomFieldUncheckedUpdateManyWithoutFormsNestedInput
+  customFields?: Prisma.CustomFieldUncheckedUpdateManyWithoutFormsNestedInput
 }
 
 export type CustomFieldFormCreateManyInput = {
@@ -280,41 +280,41 @@ export type CustomFieldFormMinOrderByAggregateInput = {
   printOnForm?: Prisma.SortOrder
 }
 
-export type CustomFieldFormCreateNestedManyWithoutCustomFieldInput = {
-  create?: Prisma.XOR<Prisma.CustomFieldFormCreateWithoutCustomFieldInput, Prisma.CustomFieldFormUncheckedCreateWithoutCustomFieldInput> | Prisma.CustomFieldFormCreateWithoutCustomFieldInput[] | Prisma.CustomFieldFormUncheckedCreateWithoutCustomFieldInput[]
-  connectOrCreate?: Prisma.CustomFieldFormCreateOrConnectWithoutCustomFieldInput | Prisma.CustomFieldFormCreateOrConnectWithoutCustomFieldInput[]
+export type CustomFieldFormCreateNestedManyWithoutCustomFieldsInput = {
+  create?: Prisma.XOR<Prisma.CustomFieldFormCreateWithoutCustomFieldsInput, Prisma.CustomFieldFormUncheckedCreateWithoutCustomFieldsInput> | Prisma.CustomFieldFormCreateWithoutCustomFieldsInput[] | Prisma.CustomFieldFormUncheckedCreateWithoutCustomFieldsInput[]
+  connectOrCreate?: Prisma.CustomFieldFormCreateOrConnectWithoutCustomFieldsInput | Prisma.CustomFieldFormCreateOrConnectWithoutCustomFieldsInput[]
   connect?: Prisma.CustomFieldFormWhereUniqueInput | Prisma.CustomFieldFormWhereUniqueInput[]
 }
 
-export type CustomFieldFormUncheckedCreateNestedManyWithoutCustomFieldInput = {
-  create?: Prisma.XOR<Prisma.CustomFieldFormCreateWithoutCustomFieldInput, Prisma.CustomFieldFormUncheckedCreateWithoutCustomFieldInput> | Prisma.CustomFieldFormCreateWithoutCustomFieldInput[] | Prisma.CustomFieldFormUncheckedCreateWithoutCustomFieldInput[]
-  connectOrCreate?: Prisma.CustomFieldFormCreateOrConnectWithoutCustomFieldInput | Prisma.CustomFieldFormCreateOrConnectWithoutCustomFieldInput[]
+export type CustomFieldFormUncheckedCreateNestedManyWithoutCustomFieldsInput = {
+  create?: Prisma.XOR<Prisma.CustomFieldFormCreateWithoutCustomFieldsInput, Prisma.CustomFieldFormUncheckedCreateWithoutCustomFieldsInput> | Prisma.CustomFieldFormCreateWithoutCustomFieldsInput[] | Prisma.CustomFieldFormUncheckedCreateWithoutCustomFieldsInput[]
+  connectOrCreate?: Prisma.CustomFieldFormCreateOrConnectWithoutCustomFieldsInput | Prisma.CustomFieldFormCreateOrConnectWithoutCustomFieldsInput[]
   connect?: Prisma.CustomFieldFormWhereUniqueInput | Prisma.CustomFieldFormWhereUniqueInput[]
 }
 
-export type CustomFieldFormUpdateManyWithoutCustomFieldNestedInput = {
-  create?: Prisma.XOR<Prisma.CustomFieldFormCreateWithoutCustomFieldInput, Prisma.CustomFieldFormUncheckedCreateWithoutCustomFieldInput> | Prisma.CustomFieldFormCreateWithoutCustomFieldInput[] | Prisma.CustomFieldFormUncheckedCreateWithoutCustomFieldInput[]
-  connectOrCreate?: Prisma.CustomFieldFormCreateOrConnectWithoutCustomFieldInput | Prisma.CustomFieldFormCreateOrConnectWithoutCustomFieldInput[]
-  upsert?: Prisma.CustomFieldFormUpsertWithWhereUniqueWithoutCustomFieldInput | Prisma.CustomFieldFormUpsertWithWhereUniqueWithoutCustomFieldInput[]
+export type CustomFieldFormUpdateManyWithoutCustomFieldsNestedInput = {
+  create?: Prisma.XOR<Prisma.CustomFieldFormCreateWithoutCustomFieldsInput, Prisma.CustomFieldFormUncheckedCreateWithoutCustomFieldsInput> | Prisma.CustomFieldFormCreateWithoutCustomFieldsInput[] | Prisma.CustomFieldFormUncheckedCreateWithoutCustomFieldsInput[]
+  connectOrCreate?: Prisma.CustomFieldFormCreateOrConnectWithoutCustomFieldsInput | Prisma.CustomFieldFormCreateOrConnectWithoutCustomFieldsInput[]
+  upsert?: Prisma.CustomFieldFormUpsertWithWhereUniqueWithoutCustomFieldsInput | Prisma.CustomFieldFormUpsertWithWhereUniqueWithoutCustomFieldsInput[]
   set?: Prisma.CustomFieldFormWhereUniqueInput | Prisma.CustomFieldFormWhereUniqueInput[]
   disconnect?: Prisma.CustomFieldFormWhereUniqueInput | Prisma.CustomFieldFormWhereUniqueInput[]
   delete?: Prisma.CustomFieldFormWhereUniqueInput | Prisma.CustomFieldFormWhereUniqueInput[]
   connect?: Prisma.CustomFieldFormWhereUniqueInput | Prisma.CustomFieldFormWhereUniqueInput[]
-  update?: Prisma.CustomFieldFormUpdateWithWhereUniqueWithoutCustomFieldInput | Prisma.CustomFieldFormUpdateWithWhereUniqueWithoutCustomFieldInput[]
-  updateMany?: Prisma.CustomFieldFormUpdateManyWithWhereWithoutCustomFieldInput | Prisma.CustomFieldFormUpdateManyWithWhereWithoutCustomFieldInput[]
+  update?: Prisma.CustomFieldFormUpdateWithWhereUniqueWithoutCustomFieldsInput | Prisma.CustomFieldFormUpdateWithWhereUniqueWithoutCustomFieldsInput[]
+  updateMany?: Prisma.CustomFieldFormUpdateManyWithWhereWithoutCustomFieldsInput | Prisma.CustomFieldFormUpdateManyWithWhereWithoutCustomFieldsInput[]
   deleteMany?: Prisma.CustomFieldFormScalarWhereInput | Prisma.CustomFieldFormScalarWhereInput[]
 }
 
-export type CustomFieldFormUncheckedUpdateManyWithoutCustomFieldNestedInput = {
-  create?: Prisma.XOR<Prisma.CustomFieldFormCreateWithoutCustomFieldInput, Prisma.CustomFieldFormUncheckedCreateWithoutCustomFieldInput> | Prisma.CustomFieldFormCreateWithoutCustomFieldInput[] | Prisma.CustomFieldFormUncheckedCreateWithoutCustomFieldInput[]
-  connectOrCreate?: Prisma.CustomFieldFormCreateOrConnectWithoutCustomFieldInput | Prisma.CustomFieldFormCreateOrConnectWithoutCustomFieldInput[]
-  upsert?: Prisma.CustomFieldFormUpsertWithWhereUniqueWithoutCustomFieldInput | Prisma.CustomFieldFormUpsertWithWhereUniqueWithoutCustomFieldInput[]
+export type CustomFieldFormUncheckedUpdateManyWithoutCustomFieldsNestedInput = {
+  create?: Prisma.XOR<Prisma.CustomFieldFormCreateWithoutCustomFieldsInput, Prisma.CustomFieldFormUncheckedCreateWithoutCustomFieldsInput> | Prisma.CustomFieldFormCreateWithoutCustomFieldsInput[] | Prisma.CustomFieldFormUncheckedCreateWithoutCustomFieldsInput[]
+  connectOrCreate?: Prisma.CustomFieldFormCreateOrConnectWithoutCustomFieldsInput | Prisma.CustomFieldFormCreateOrConnectWithoutCustomFieldsInput[]
+  upsert?: Prisma.CustomFieldFormUpsertWithWhereUniqueWithoutCustomFieldsInput | Prisma.CustomFieldFormUpsertWithWhereUniqueWithoutCustomFieldsInput[]
   set?: Prisma.CustomFieldFormWhereUniqueInput | Prisma.CustomFieldFormWhereUniqueInput[]
   disconnect?: Prisma.CustomFieldFormWhereUniqueInput | Prisma.CustomFieldFormWhereUniqueInput[]
   delete?: Prisma.CustomFieldFormWhereUniqueInput | Prisma.CustomFieldFormWhereUniqueInput[]
   connect?: Prisma.CustomFieldFormWhereUniqueInput | Prisma.CustomFieldFormWhereUniqueInput[]
-  update?: Prisma.CustomFieldFormUpdateWithWhereUniqueWithoutCustomFieldInput | Prisma.CustomFieldFormUpdateWithWhereUniqueWithoutCustomFieldInput[]
-  updateMany?: Prisma.CustomFieldFormUpdateManyWithWhereWithoutCustomFieldInput | Prisma.CustomFieldFormUpdateManyWithWhereWithoutCustomFieldInput[]
+  update?: Prisma.CustomFieldFormUpdateWithWhereUniqueWithoutCustomFieldsInput | Prisma.CustomFieldFormUpdateWithWhereUniqueWithoutCustomFieldsInput[]
+  updateMany?: Prisma.CustomFieldFormUpdateManyWithWhereWithoutCustomFieldsInput | Prisma.CustomFieldFormUpdateManyWithWhereWithoutCustomFieldsInput[]
   deleteMany?: Prisma.CustomFieldFormScalarWhereInput | Prisma.CustomFieldFormScalarWhereInput[]
 }
 
@@ -322,37 +322,37 @@ export type EnumCustomFieldFormTypeFieldUpdateOperationsInput = {
   set?: $Enums.CustomFieldFormType
 }
 
-export type CustomFieldFormCreateWithoutCustomFieldInput = {
+export type CustomFieldFormCreateWithoutCustomFieldsInput = {
   id?: string
   name: $Enums.CustomFieldFormType
   printOnForm?: boolean
 }
 
-export type CustomFieldFormUncheckedCreateWithoutCustomFieldInput = {
+export type CustomFieldFormUncheckedCreateWithoutCustomFieldsInput = {
   id?: string
   name: $Enums.CustomFieldFormType
   printOnForm?: boolean
 }
 
-export type CustomFieldFormCreateOrConnectWithoutCustomFieldInput = {
+export type CustomFieldFormCreateOrConnectWithoutCustomFieldsInput = {
   where: Prisma.CustomFieldFormWhereUniqueInput
-  create: Prisma.XOR<Prisma.CustomFieldFormCreateWithoutCustomFieldInput, Prisma.CustomFieldFormUncheckedCreateWithoutCustomFieldInput>
+  create: Prisma.XOR<Prisma.CustomFieldFormCreateWithoutCustomFieldsInput, Prisma.CustomFieldFormUncheckedCreateWithoutCustomFieldsInput>
 }
 
-export type CustomFieldFormUpsertWithWhereUniqueWithoutCustomFieldInput = {
+export type CustomFieldFormUpsertWithWhereUniqueWithoutCustomFieldsInput = {
   where: Prisma.CustomFieldFormWhereUniqueInput
-  update: Prisma.XOR<Prisma.CustomFieldFormUpdateWithoutCustomFieldInput, Prisma.CustomFieldFormUncheckedUpdateWithoutCustomFieldInput>
-  create: Prisma.XOR<Prisma.CustomFieldFormCreateWithoutCustomFieldInput, Prisma.CustomFieldFormUncheckedCreateWithoutCustomFieldInput>
+  update: Prisma.XOR<Prisma.CustomFieldFormUpdateWithoutCustomFieldsInput, Prisma.CustomFieldFormUncheckedUpdateWithoutCustomFieldsInput>
+  create: Prisma.XOR<Prisma.CustomFieldFormCreateWithoutCustomFieldsInput, Prisma.CustomFieldFormUncheckedCreateWithoutCustomFieldsInput>
 }
 
-export type CustomFieldFormUpdateWithWhereUniqueWithoutCustomFieldInput = {
+export type CustomFieldFormUpdateWithWhereUniqueWithoutCustomFieldsInput = {
   where: Prisma.CustomFieldFormWhereUniqueInput
-  data: Prisma.XOR<Prisma.CustomFieldFormUpdateWithoutCustomFieldInput, Prisma.CustomFieldFormUncheckedUpdateWithoutCustomFieldInput>
+  data: Prisma.XOR<Prisma.CustomFieldFormUpdateWithoutCustomFieldsInput, Prisma.CustomFieldFormUncheckedUpdateWithoutCustomFieldsInput>
 }
 
-export type CustomFieldFormUpdateManyWithWhereWithoutCustomFieldInput = {
+export type CustomFieldFormUpdateManyWithWhereWithoutCustomFieldsInput = {
   where: Prisma.CustomFieldFormScalarWhereInput
-  data: Prisma.XOR<Prisma.CustomFieldFormUpdateManyMutationInput, Prisma.CustomFieldFormUncheckedUpdateManyWithoutCustomFieldInput>
+  data: Prisma.XOR<Prisma.CustomFieldFormUpdateManyMutationInput, Prisma.CustomFieldFormUncheckedUpdateManyWithoutCustomFieldsInput>
 }
 
 export type CustomFieldFormScalarWhereInput = {
@@ -364,19 +364,19 @@ export type CustomFieldFormScalarWhereInput = {
   printOnForm?: Prisma.BoolFilter<"CustomFieldForm"> | boolean
 }
 
-export type CustomFieldFormUpdateWithoutCustomFieldInput = {
+export type CustomFieldFormUpdateWithoutCustomFieldsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.EnumCustomFieldFormTypeFieldUpdateOperationsInput | $Enums.CustomFieldFormType
   printOnForm?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
-export type CustomFieldFormUncheckedUpdateWithoutCustomFieldInput = {
+export type CustomFieldFormUncheckedUpdateWithoutCustomFieldsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.EnumCustomFieldFormTypeFieldUpdateOperationsInput | $Enums.CustomFieldFormType
   printOnForm?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
-export type CustomFieldFormUncheckedUpdateManyWithoutCustomFieldInput = {
+export type CustomFieldFormUncheckedUpdateManyWithoutCustomFieldsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.EnumCustomFieldFormTypeFieldUpdateOperationsInput | $Enums.CustomFieldFormType
   printOnForm?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -388,11 +388,11 @@ export type CustomFieldFormUncheckedUpdateManyWithoutCustomFieldInput = {
  */
 
 export type CustomFieldFormCountOutputType = {
-  customField: number
+  customFields: number
 }
 
 export type CustomFieldFormCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  customField?: boolean | CustomFieldFormCountOutputTypeCountCustomFieldArgs
+  customFields?: boolean | CustomFieldFormCountOutputTypeCountCustomFieldsArgs
 }
 
 /**
@@ -408,7 +408,7 @@ export type CustomFieldFormCountOutputTypeDefaultArgs<ExtArgs extends runtime.Ty
 /**
  * CustomFieldFormCountOutputType without action
  */
-export type CustomFieldFormCountOutputTypeCountCustomFieldArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type CustomFieldFormCountOutputTypeCountCustomFieldsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.CustomFieldWhereInput
 }
 
@@ -417,7 +417,7 @@ export type CustomFieldFormSelect<ExtArgs extends runtime.Types.Extensions.Inter
   id?: boolean
   name?: boolean
   printOnForm?: boolean
-  customField?: boolean | Prisma.CustomFieldForm$customFieldArgs<ExtArgs>
+  customFields?: boolean | Prisma.CustomFieldForm$customFieldsArgs<ExtArgs>
   _count?: boolean | Prisma.CustomFieldFormCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["customFieldForm"]>
 
@@ -441,7 +441,7 @@ export type CustomFieldFormSelectScalar = {
 
 export type CustomFieldFormOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "printOnForm", ExtArgs["result"]["customFieldForm"]>
 export type CustomFieldFormInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  customField?: boolean | Prisma.CustomFieldForm$customFieldArgs<ExtArgs>
+  customFields?: boolean | Prisma.CustomFieldForm$customFieldsArgs<ExtArgs>
   _count?: boolean | Prisma.CustomFieldFormCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CustomFieldFormIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -450,7 +450,7 @@ export type CustomFieldFormIncludeUpdateManyAndReturn<ExtArgs extends runtime.Ty
 export type $CustomFieldFormPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "CustomFieldForm"
   objects: {
-    customField: Prisma.$CustomFieldPayload<ExtArgs>[]
+    customFields: Prisma.$CustomFieldPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -850,7 +850,7 @@ readonly fields: CustomFieldFormFieldRefs;
  */
 export interface Prisma__CustomFieldFormClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  customField<T extends Prisma.CustomFieldForm$customFieldArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CustomFieldForm$customFieldArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CustomFieldPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  customFields<T extends Prisma.CustomFieldForm$customFieldsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CustomFieldForm$customFieldsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CustomFieldPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1276,9 +1276,9 @@ export type CustomFieldFormDeleteManyArgs<ExtArgs extends runtime.Types.Extensio
 }
 
 /**
- * CustomFieldForm.customField
+ * CustomFieldForm.customFields
  */
-export type CustomFieldForm$customFieldArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type CustomFieldForm$customFieldsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the CustomField
    */

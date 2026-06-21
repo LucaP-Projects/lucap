@@ -1,4 +1,3 @@
-import { CreditMemoStatus, CreditMemoReason } from '@/lib/generated/prisma/client';
 import {
   Calendar,
   Clock,
@@ -7,7 +6,6 @@ import {
   RotateCcw,
   FileText
 } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
 import {
   Attachments,
   BaseSheet,
@@ -19,6 +17,8 @@ import {
   CustomerAddress
 } from '@/components/dashboard/base/baseSheet';
 import { STATUS_COLORS } from '@/components/dashboard/base/utils';
+import { Badge } from '@/components/ui/badge';
+import { CreditMemoStatus, CreditMemoReason } from '@/lib/generated/prisma/client';
 import { formatCurrency, formatDate } from '@/lib/utils';
 
 interface CreditMemoItem {

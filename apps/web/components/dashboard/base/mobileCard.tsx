@@ -2,10 +2,10 @@ import { Table } from '@tanstack/react-table';
 import { format } from 'date-fns';
 import { Badge, MoreHorizontal } from 'lucide-react';
 
-import { getStatusColor } from '../base/utils';
 import { Button } from '@/components/ui/button';
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { Checkbox } from '@/components/ui/checkbox';
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuItem } from '@/components/ui/dropdown-menu';
+import { getStatusColor } from '../base/utils';
 
 // Base interfaces
 interface BaseDocument {

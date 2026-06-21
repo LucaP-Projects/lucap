@@ -277,7 +277,7 @@ export type TransactionAttachmentCreateInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   transaction: Prisma.TransactionCreateNestedOneWithoutAttachmentsInput
-  file: Prisma.FileCreateNestedOneWithoutTransactionAttachmentInput
+  file: Prisma.FileCreateNestedOneWithoutTransactionAttachmentsInput
 }
 
 export type TransactionAttachmentUncheckedCreateInput = {
@@ -299,7 +299,7 @@ export type TransactionAttachmentUpdateInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transaction?: Prisma.TransactionUpdateOneRequiredWithoutAttachmentsNestedInput
-  file?: Prisma.FileUpdateOneRequiredWithoutTransactionAttachmentNestedInput
+  file?: Prisma.FileUpdateOneRequiredWithoutTransactionAttachmentsNestedInput
 }
 
 export type TransactionAttachmentUncheckedUpdateInput = {
@@ -478,7 +478,7 @@ export type TransactionAttachmentCreateWithoutTransactionInput = {
   deactivatedAt?: Date | string | null
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
-  file: Prisma.FileCreateNestedOneWithoutTransactionAttachmentInput
+  file: Prisma.FileCreateNestedOneWithoutTransactionAttachmentsInput
 }
 
 export type TransactionAttachmentUncheckedCreateWithoutTransactionInput = {
@@ -594,7 +594,7 @@ export type TransactionAttachmentUpdateWithoutTransactionInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  file?: Prisma.FileUpdateOneRequiredWithoutTransactionAttachmentNestedInput
+  file?: Prisma.FileUpdateOneRequiredWithoutTransactionAttachmentsNestedInput
 }
 
 export type TransactionAttachmentUncheckedUpdateWithoutTransactionInput = {

@@ -1,10 +1,10 @@
+import { CustomizationSettingsInput } from '@/components/base/sideBar/customize/types';
 import {
   CustomFieldValue,
   DiscountApplicationTime,
   DiscountType,
   PaymentMethod
 } from '@/lib/generated/prisma/client';
-import { CustomizationSettingsInput } from '@/components/base/sideBar/customize/types';
 
 declare global {
   namespace PrismaJson {

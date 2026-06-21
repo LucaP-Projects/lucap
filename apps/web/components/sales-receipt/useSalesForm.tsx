@@ -1,13 +1,13 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 import {
   DiscountApplicationTime,
   DiscountType,
   PaymentMethod,
   ReceiptStatus
 } from '@/lib/generated/prisma/client';
-import { useForm } from 'react-hook-form';
 import { salesReceiptFormSchema, SalesReceiptFormValues } from './schema';
 import { SalesReceipt } from './types';
 

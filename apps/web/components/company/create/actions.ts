@@ -3,11 +3,11 @@
 import { revalidatePath } from 'next/cache';
 import { cookies, headers } from 'next/headers';
 import { redirect } from 'next/navigation';
+import { handleCompanyLogo } from '@/components/shared/utils';
 import { auth } from '@/lib/auth';
-import { createCompanySchema, CreateCompanyInput } from '../types';
 import { Permission, Prisma, SystemRole } from '@/lib/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
-import { handleCompanyLogo } from '@/components/shared/utils';
+import { createCompanySchema, CreateCompanyInput } from '../types';
 
 export type CreateCompanyResponse = {
   success: boolean;
@@ -126,7 +126,7 @@ export async function createCompany(
 
     const result = await prisma.$transaction(async (tx) => {
       // Create company with logo if it's a URL string
-      const companyData: any = {
+      const companyData = {
         name: data.name,
         companyType: data.companyType || null,
         email: data.email || null,
@@ -134,14 +134,10 @@ export async function createCompany(
         phone: data.phone || null,
         website: data.website || null,
         address: data.address || null,
+        logo: typeof data.logo === 'string' ? data.logo : null,
         isActive: true,
         metadata: {}
       };
-
-      // If logo is a string (URL), include it
-      if (typeof data.logo === 'string') {
-        companyData.logo = data.logo;
-      }
 
       const company = await tx.company.create({
         data: companyData
@@ -221,7 +217,11 @@ export async function createCompany(
         console.error('Image upload failed:', uploadError);
         return {
           success: true,
-          data: result.company,
+          data: {
+            id: result.company.id,
+            name: result.company.name,
+            slug: slugify(result.company.name)
+          },
           error:
             'Item created but image upload failed. Please try uploading the image again.'
         };
@@ -248,7 +248,11 @@ export async function createCompany(
 
     return {
       success: true,
-      data: result // Return the created data for verification
+      data: {
+        id: result.company.id,
+        name: result.company.name,
+        slug: slugify(result.company.name)
+      }
     };
   } catch (error) {
     console.error('Detailed error in createCompany:', {

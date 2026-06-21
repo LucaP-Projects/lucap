@@ -287,14 +287,14 @@ export type FileWhereInput = {
   deactivatedByUserId?: Prisma.StringNullableFilter<"File"> | string | null
   deactivationReason?: Prisma.StringNullableFilter<"File"> | string | null
   estimateAttachments?: Prisma.EstimateAttachmentListRelationFilter
-  TransactionAttachment?: Prisma.TransactionAttachmentListRelationFilter
-  InvoiceAttachment?: Prisma.InvoiceAttachmentListRelationFilter
+  transactionAttachments?: Prisma.TransactionAttachmentListRelationFilter
+  invoiceAttachments?: Prisma.InvoiceAttachmentListRelationFilter
   creditMemoAttachments?: Prisma.CreditMemoAttachmentListRelationFilter
-  receiptAttachment?: Prisma.ReceiptAttachmentListRelationFilter
+  receiptAttachments?: Prisma.ReceiptAttachmentListRelationFilter
   refundAttachments?: Prisma.RefundAttachmentListRelationFilter
   chargeAttachments?: Prisma.ChargeAttachmentListRelationFilter
   delayedCreditAttachments?: Prisma.DelayedCreditAttachmentListRelationFilter
-  Company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
+  company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
 }
 
 export type FileOrderByWithRelationInput = {
@@ -313,14 +313,14 @@ export type FileOrderByWithRelationInput = {
   deactivatedByUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   deactivationReason?: Prisma.SortOrderInput | Prisma.SortOrder
   estimateAttachments?: Prisma.EstimateAttachmentOrderByRelationAggregateInput
-  TransactionAttachment?: Prisma.TransactionAttachmentOrderByRelationAggregateInput
-  InvoiceAttachment?: Prisma.InvoiceAttachmentOrderByRelationAggregateInput
+  transactionAttachments?: Prisma.TransactionAttachmentOrderByRelationAggregateInput
+  invoiceAttachments?: Prisma.InvoiceAttachmentOrderByRelationAggregateInput
   creditMemoAttachments?: Prisma.CreditMemoAttachmentOrderByRelationAggregateInput
-  receiptAttachment?: Prisma.ReceiptAttachmentOrderByRelationAggregateInput
+  receiptAttachments?: Prisma.ReceiptAttachmentOrderByRelationAggregateInput
   refundAttachments?: Prisma.RefundAttachmentOrderByRelationAggregateInput
   chargeAttachments?: Prisma.ChargeAttachmentOrderByRelationAggregateInput
   delayedCreditAttachments?: Prisma.DelayedCreditAttachmentOrderByRelationAggregateInput
-  Company?: Prisma.CompanyOrderByWithRelationInput
+  company?: Prisma.CompanyOrderByWithRelationInput
 }
 
 export type FileWhereUniqueInput = Prisma.AtLeast<{
@@ -342,14 +342,14 @@ export type FileWhereUniqueInput = Prisma.AtLeast<{
   deactivatedByUserId?: Prisma.StringNullableFilter<"File"> | string | null
   deactivationReason?: Prisma.StringNullableFilter<"File"> | string | null
   estimateAttachments?: Prisma.EstimateAttachmentListRelationFilter
-  TransactionAttachment?: Prisma.TransactionAttachmentListRelationFilter
-  InvoiceAttachment?: Prisma.InvoiceAttachmentListRelationFilter
+  transactionAttachments?: Prisma.TransactionAttachmentListRelationFilter
+  invoiceAttachments?: Prisma.InvoiceAttachmentListRelationFilter
   creditMemoAttachments?: Prisma.CreditMemoAttachmentListRelationFilter
-  receiptAttachment?: Prisma.ReceiptAttachmentListRelationFilter
+  receiptAttachments?: Prisma.ReceiptAttachmentListRelationFilter
   refundAttachments?: Prisma.RefundAttachmentListRelationFilter
   chargeAttachments?: Prisma.ChargeAttachmentListRelationFilter
   delayedCreditAttachments?: Prisma.DelayedCreditAttachmentListRelationFilter
-  Company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
+  company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
 }, "id">
 
 export type FileOrderByWithAggregationInput = {
@@ -409,14 +409,14 @@ export type FileCreateInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   estimateAttachments?: Prisma.EstimateAttachmentCreateNestedManyWithoutFileInput
-  TransactionAttachment?: Prisma.TransactionAttachmentCreateNestedManyWithoutFileInput
-  InvoiceAttachment?: Prisma.InvoiceAttachmentCreateNestedManyWithoutFileInput
+  transactionAttachments?: Prisma.TransactionAttachmentCreateNestedManyWithoutFileInput
+  invoiceAttachments?: Prisma.InvoiceAttachmentCreateNestedManyWithoutFileInput
   creditMemoAttachments?: Prisma.CreditMemoAttachmentCreateNestedManyWithoutFileInput
-  receiptAttachment?: Prisma.ReceiptAttachmentCreateNestedManyWithoutFileInput
+  receiptAttachments?: Prisma.ReceiptAttachmentCreateNestedManyWithoutFileInput
   refundAttachments?: Prisma.RefundAttachmentCreateNestedManyWithoutFileInput
   chargeAttachments?: Prisma.ChargeAttachmentCreateNestedManyWithoutFileInput
   delayedCreditAttachments?: Prisma.DelayedCreditAttachmentCreateNestedManyWithoutFileInput
-  Company: Prisma.CompanyCreateNestedOneWithoutFilesInput
+  company: Prisma.CompanyCreateNestedOneWithoutFilesInput
 }
 
 export type FileUncheckedCreateInput = {
@@ -435,10 +435,10 @@ export type FileUncheckedCreateInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   estimateAttachments?: Prisma.EstimateAttachmentUncheckedCreateNestedManyWithoutFileInput
-  TransactionAttachment?: Prisma.TransactionAttachmentUncheckedCreateNestedManyWithoutFileInput
-  InvoiceAttachment?: Prisma.InvoiceAttachmentUncheckedCreateNestedManyWithoutFileInput
+  transactionAttachments?: Prisma.TransactionAttachmentUncheckedCreateNestedManyWithoutFileInput
+  invoiceAttachments?: Prisma.InvoiceAttachmentUncheckedCreateNestedManyWithoutFileInput
   creditMemoAttachments?: Prisma.CreditMemoAttachmentUncheckedCreateNestedManyWithoutFileInput
-  receiptAttachment?: Prisma.ReceiptAttachmentUncheckedCreateNestedManyWithoutFileInput
+  receiptAttachments?: Prisma.ReceiptAttachmentUncheckedCreateNestedManyWithoutFileInput
   refundAttachments?: Prisma.RefundAttachmentUncheckedCreateNestedManyWithoutFileInput
   chargeAttachments?: Prisma.ChargeAttachmentUncheckedCreateNestedManyWithoutFileInput
   delayedCreditAttachments?: Prisma.DelayedCreditAttachmentUncheckedCreateNestedManyWithoutFileInput
@@ -459,14 +459,14 @@ export type FileUpdateInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimateAttachments?: Prisma.EstimateAttachmentUpdateManyWithoutFileNestedInput
-  TransactionAttachment?: Prisma.TransactionAttachmentUpdateManyWithoutFileNestedInput
-  InvoiceAttachment?: Prisma.InvoiceAttachmentUpdateManyWithoutFileNestedInput
+  transactionAttachments?: Prisma.TransactionAttachmentUpdateManyWithoutFileNestedInput
+  invoiceAttachments?: Prisma.InvoiceAttachmentUpdateManyWithoutFileNestedInput
   creditMemoAttachments?: Prisma.CreditMemoAttachmentUpdateManyWithoutFileNestedInput
-  receiptAttachment?: Prisma.ReceiptAttachmentUpdateManyWithoutFileNestedInput
+  receiptAttachments?: Prisma.ReceiptAttachmentUpdateManyWithoutFileNestedInput
   refundAttachments?: Prisma.RefundAttachmentUpdateManyWithoutFileNestedInput
   chargeAttachments?: Prisma.ChargeAttachmentUpdateManyWithoutFileNestedInput
   delayedCreditAttachments?: Prisma.DelayedCreditAttachmentUpdateManyWithoutFileNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutFilesNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutFilesNestedInput
 }
 
 export type FileUncheckedUpdateInput = {
@@ -485,10 +485,10 @@ export type FileUncheckedUpdateInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimateAttachments?: Prisma.EstimateAttachmentUncheckedUpdateManyWithoutFileNestedInput
-  TransactionAttachment?: Prisma.TransactionAttachmentUncheckedUpdateManyWithoutFileNestedInput
-  InvoiceAttachment?: Prisma.InvoiceAttachmentUncheckedUpdateManyWithoutFileNestedInput
+  transactionAttachments?: Prisma.TransactionAttachmentUncheckedUpdateManyWithoutFileNestedInput
+  invoiceAttachments?: Prisma.InvoiceAttachmentUncheckedUpdateManyWithoutFileNestedInput
   creditMemoAttachments?: Prisma.CreditMemoAttachmentUncheckedUpdateManyWithoutFileNestedInput
-  receiptAttachment?: Prisma.ReceiptAttachmentUncheckedUpdateManyWithoutFileNestedInput
+  receiptAttachments?: Prisma.ReceiptAttachmentUncheckedUpdateManyWithoutFileNestedInput
   refundAttachments?: Prisma.RefundAttachmentUncheckedUpdateManyWithoutFileNestedInput
   chargeAttachments?: Prisma.ChargeAttachmentUncheckedUpdateManyWithoutFileNestedInput
   delayedCreditAttachments?: Prisma.DelayedCreditAttachmentUncheckedUpdateManyWithoutFileNestedInput
@@ -616,18 +616,18 @@ export type FileOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type FileCreateNestedOneWithoutInvoiceAttachmentInput = {
-  create?: Prisma.XOR<Prisma.FileCreateWithoutInvoiceAttachmentInput, Prisma.FileUncheckedCreateWithoutInvoiceAttachmentInput>
-  connectOrCreate?: Prisma.FileCreateOrConnectWithoutInvoiceAttachmentInput
+export type FileCreateNestedOneWithoutInvoiceAttachmentsInput = {
+  create?: Prisma.XOR<Prisma.FileCreateWithoutInvoiceAttachmentsInput, Prisma.FileUncheckedCreateWithoutInvoiceAttachmentsInput>
+  connectOrCreate?: Prisma.FileCreateOrConnectWithoutInvoiceAttachmentsInput
   connect?: Prisma.FileWhereUniqueInput
 }
 
-export type FileUpdateOneRequiredWithoutInvoiceAttachmentNestedInput = {
-  create?: Prisma.XOR<Prisma.FileCreateWithoutInvoiceAttachmentInput, Prisma.FileUncheckedCreateWithoutInvoiceAttachmentInput>
-  connectOrCreate?: Prisma.FileCreateOrConnectWithoutInvoiceAttachmentInput
-  upsert?: Prisma.FileUpsertWithoutInvoiceAttachmentInput
+export type FileUpdateOneRequiredWithoutInvoiceAttachmentsNestedInput = {
+  create?: Prisma.XOR<Prisma.FileCreateWithoutInvoiceAttachmentsInput, Prisma.FileUncheckedCreateWithoutInvoiceAttachmentsInput>
+  connectOrCreate?: Prisma.FileCreateOrConnectWithoutInvoiceAttachmentsInput
+  upsert?: Prisma.FileUpsertWithoutInvoiceAttachmentsInput
   connect?: Prisma.FileWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.FileUpdateToOneWithWhereWithoutInvoiceAttachmentInput, Prisma.FileUpdateWithoutInvoiceAttachmentInput>, Prisma.FileUncheckedUpdateWithoutInvoiceAttachmentInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.FileUpdateToOneWithWhereWithoutInvoiceAttachmentsInput, Prisma.FileUpdateWithoutInvoiceAttachmentsInput>, Prisma.FileUncheckedUpdateWithoutInvoiceAttachmentsInput>
 }
 
 export type FileCreateNestedOneWithoutEstimateAttachmentsInput = {
@@ -658,18 +658,18 @@ export type FileUpdateOneRequiredWithoutCreditMemoAttachmentsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.FileUpdateToOneWithWhereWithoutCreditMemoAttachmentsInput, Prisma.FileUpdateWithoutCreditMemoAttachmentsInput>, Prisma.FileUncheckedUpdateWithoutCreditMemoAttachmentsInput>
 }
 
-export type FileCreateNestedOneWithoutReceiptAttachmentInput = {
-  create?: Prisma.XOR<Prisma.FileCreateWithoutReceiptAttachmentInput, Prisma.FileUncheckedCreateWithoutReceiptAttachmentInput>
-  connectOrCreate?: Prisma.FileCreateOrConnectWithoutReceiptAttachmentInput
+export type FileCreateNestedOneWithoutReceiptAttachmentsInput = {
+  create?: Prisma.XOR<Prisma.FileCreateWithoutReceiptAttachmentsInput, Prisma.FileUncheckedCreateWithoutReceiptAttachmentsInput>
+  connectOrCreate?: Prisma.FileCreateOrConnectWithoutReceiptAttachmentsInput
   connect?: Prisma.FileWhereUniqueInput
 }
 
-export type FileUpdateOneRequiredWithoutReceiptAttachmentNestedInput = {
-  create?: Prisma.XOR<Prisma.FileCreateWithoutReceiptAttachmentInput, Prisma.FileUncheckedCreateWithoutReceiptAttachmentInput>
-  connectOrCreate?: Prisma.FileCreateOrConnectWithoutReceiptAttachmentInput
-  upsert?: Prisma.FileUpsertWithoutReceiptAttachmentInput
+export type FileUpdateOneRequiredWithoutReceiptAttachmentsNestedInput = {
+  create?: Prisma.XOR<Prisma.FileCreateWithoutReceiptAttachmentsInput, Prisma.FileUncheckedCreateWithoutReceiptAttachmentsInput>
+  connectOrCreate?: Prisma.FileCreateOrConnectWithoutReceiptAttachmentsInput
+  upsert?: Prisma.FileUpsertWithoutReceiptAttachmentsInput
   connect?: Prisma.FileWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.FileUpdateToOneWithWhereWithoutReceiptAttachmentInput, Prisma.FileUpdateWithoutReceiptAttachmentInput>, Prisma.FileUncheckedUpdateWithoutReceiptAttachmentInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.FileUpdateToOneWithWhereWithoutReceiptAttachmentsInput, Prisma.FileUpdateWithoutReceiptAttachmentsInput>, Prisma.FileUncheckedUpdateWithoutReceiptAttachmentsInput>
 }
 
 export type FileCreateNestedOneWithoutRefundAttachmentsInput = {
@@ -714,18 +714,18 @@ export type FileUpdateOneRequiredWithoutDelayedCreditAttachmentsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.FileUpdateToOneWithWhereWithoutDelayedCreditAttachmentsInput, Prisma.FileUpdateWithoutDelayedCreditAttachmentsInput>, Prisma.FileUncheckedUpdateWithoutDelayedCreditAttachmentsInput>
 }
 
-export type FileCreateNestedOneWithoutTransactionAttachmentInput = {
-  create?: Prisma.XOR<Prisma.FileCreateWithoutTransactionAttachmentInput, Prisma.FileUncheckedCreateWithoutTransactionAttachmentInput>
-  connectOrCreate?: Prisma.FileCreateOrConnectWithoutTransactionAttachmentInput
+export type FileCreateNestedOneWithoutTransactionAttachmentsInput = {
+  create?: Prisma.XOR<Prisma.FileCreateWithoutTransactionAttachmentsInput, Prisma.FileUncheckedCreateWithoutTransactionAttachmentsInput>
+  connectOrCreate?: Prisma.FileCreateOrConnectWithoutTransactionAttachmentsInput
   connect?: Prisma.FileWhereUniqueInput
 }
 
-export type FileUpdateOneRequiredWithoutTransactionAttachmentNestedInput = {
-  create?: Prisma.XOR<Prisma.FileCreateWithoutTransactionAttachmentInput, Prisma.FileUncheckedCreateWithoutTransactionAttachmentInput>
-  connectOrCreate?: Prisma.FileCreateOrConnectWithoutTransactionAttachmentInput
-  upsert?: Prisma.FileUpsertWithoutTransactionAttachmentInput
+export type FileUpdateOneRequiredWithoutTransactionAttachmentsNestedInput = {
+  create?: Prisma.XOR<Prisma.FileCreateWithoutTransactionAttachmentsInput, Prisma.FileUncheckedCreateWithoutTransactionAttachmentsInput>
+  connectOrCreate?: Prisma.FileCreateOrConnectWithoutTransactionAttachmentsInput
+  upsert?: Prisma.FileUpsertWithoutTransactionAttachmentsInput
   connect?: Prisma.FileWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.FileUpdateToOneWithWhereWithoutTransactionAttachmentInput, Prisma.FileUpdateWithoutTransactionAttachmentInput>, Prisma.FileUncheckedUpdateWithoutTransactionAttachmentInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.FileUpdateToOneWithWhereWithoutTransactionAttachmentsInput, Prisma.FileUpdateWithoutTransactionAttachmentsInput>, Prisma.FileUncheckedUpdateWithoutTransactionAttachmentsInput>
 }
 
 export type FileCreateNestedManyWithoutCompanyInput = {
@@ -770,7 +770,7 @@ export type FileUncheckedUpdateManyWithoutCompanyNestedInput = {
   deleteMany?: Prisma.FileScalarWhereInput | Prisma.FileScalarWhereInput[]
 }
 
-export type FileCreateWithoutInvoiceAttachmentInput = {
+export type FileCreateWithoutInvoiceAttachmentsInput = {
   id?: string
   filename: string
   path: string
@@ -785,16 +785,16 @@ export type FileCreateWithoutInvoiceAttachmentInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   estimateAttachments?: Prisma.EstimateAttachmentCreateNestedManyWithoutFileInput
-  TransactionAttachment?: Prisma.TransactionAttachmentCreateNestedManyWithoutFileInput
+  transactionAttachments?: Prisma.TransactionAttachmentCreateNestedManyWithoutFileInput
   creditMemoAttachments?: Prisma.CreditMemoAttachmentCreateNestedManyWithoutFileInput
-  receiptAttachment?: Prisma.ReceiptAttachmentCreateNestedManyWithoutFileInput
+  receiptAttachments?: Prisma.ReceiptAttachmentCreateNestedManyWithoutFileInput
   refundAttachments?: Prisma.RefundAttachmentCreateNestedManyWithoutFileInput
   chargeAttachments?: Prisma.ChargeAttachmentCreateNestedManyWithoutFileInput
   delayedCreditAttachments?: Prisma.DelayedCreditAttachmentCreateNestedManyWithoutFileInput
-  Company: Prisma.CompanyCreateNestedOneWithoutFilesInput
+  company: Prisma.CompanyCreateNestedOneWithoutFilesInput
 }
 
-export type FileUncheckedCreateWithoutInvoiceAttachmentInput = {
+export type FileUncheckedCreateWithoutInvoiceAttachmentsInput = {
   id?: string
   filename: string
   path: string
@@ -810,31 +810,31 @@ export type FileUncheckedCreateWithoutInvoiceAttachmentInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   estimateAttachments?: Prisma.EstimateAttachmentUncheckedCreateNestedManyWithoutFileInput
-  TransactionAttachment?: Prisma.TransactionAttachmentUncheckedCreateNestedManyWithoutFileInput
+  transactionAttachments?: Prisma.TransactionAttachmentUncheckedCreateNestedManyWithoutFileInput
   creditMemoAttachments?: Prisma.CreditMemoAttachmentUncheckedCreateNestedManyWithoutFileInput
-  receiptAttachment?: Prisma.ReceiptAttachmentUncheckedCreateNestedManyWithoutFileInput
+  receiptAttachments?: Prisma.ReceiptAttachmentUncheckedCreateNestedManyWithoutFileInput
   refundAttachments?: Prisma.RefundAttachmentUncheckedCreateNestedManyWithoutFileInput
   chargeAttachments?: Prisma.ChargeAttachmentUncheckedCreateNestedManyWithoutFileInput
   delayedCreditAttachments?: Prisma.DelayedCreditAttachmentUncheckedCreateNestedManyWithoutFileInput
 }
 
-export type FileCreateOrConnectWithoutInvoiceAttachmentInput = {
+export type FileCreateOrConnectWithoutInvoiceAttachmentsInput = {
   where: Prisma.FileWhereUniqueInput
-  create: Prisma.XOR<Prisma.FileCreateWithoutInvoiceAttachmentInput, Prisma.FileUncheckedCreateWithoutInvoiceAttachmentInput>
+  create: Prisma.XOR<Prisma.FileCreateWithoutInvoiceAttachmentsInput, Prisma.FileUncheckedCreateWithoutInvoiceAttachmentsInput>
 }
 
-export type FileUpsertWithoutInvoiceAttachmentInput = {
-  update: Prisma.XOR<Prisma.FileUpdateWithoutInvoiceAttachmentInput, Prisma.FileUncheckedUpdateWithoutInvoiceAttachmentInput>
-  create: Prisma.XOR<Prisma.FileCreateWithoutInvoiceAttachmentInput, Prisma.FileUncheckedCreateWithoutInvoiceAttachmentInput>
+export type FileUpsertWithoutInvoiceAttachmentsInput = {
+  update: Prisma.XOR<Prisma.FileUpdateWithoutInvoiceAttachmentsInput, Prisma.FileUncheckedUpdateWithoutInvoiceAttachmentsInput>
+  create: Prisma.XOR<Prisma.FileCreateWithoutInvoiceAttachmentsInput, Prisma.FileUncheckedCreateWithoutInvoiceAttachmentsInput>
   where?: Prisma.FileWhereInput
 }
 
-export type FileUpdateToOneWithWhereWithoutInvoiceAttachmentInput = {
+export type FileUpdateToOneWithWhereWithoutInvoiceAttachmentsInput = {
   where?: Prisma.FileWhereInput
-  data: Prisma.XOR<Prisma.FileUpdateWithoutInvoiceAttachmentInput, Prisma.FileUncheckedUpdateWithoutInvoiceAttachmentInput>
+  data: Prisma.XOR<Prisma.FileUpdateWithoutInvoiceAttachmentsInput, Prisma.FileUncheckedUpdateWithoutInvoiceAttachmentsInput>
 }
 
-export type FileUpdateWithoutInvoiceAttachmentInput = {
+export type FileUpdateWithoutInvoiceAttachmentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   filename?: Prisma.StringFieldUpdateOperationsInput | string
   path?: Prisma.StringFieldUpdateOperationsInput | string
@@ -849,16 +849,16 @@ export type FileUpdateWithoutInvoiceAttachmentInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimateAttachments?: Prisma.EstimateAttachmentUpdateManyWithoutFileNestedInput
-  TransactionAttachment?: Prisma.TransactionAttachmentUpdateManyWithoutFileNestedInput
+  transactionAttachments?: Prisma.TransactionAttachmentUpdateManyWithoutFileNestedInput
   creditMemoAttachments?: Prisma.CreditMemoAttachmentUpdateManyWithoutFileNestedInput
-  receiptAttachment?: Prisma.ReceiptAttachmentUpdateManyWithoutFileNestedInput
+  receiptAttachments?: Prisma.ReceiptAttachmentUpdateManyWithoutFileNestedInput
   refundAttachments?: Prisma.RefundAttachmentUpdateManyWithoutFileNestedInput
   chargeAttachments?: Prisma.ChargeAttachmentUpdateManyWithoutFileNestedInput
   delayedCreditAttachments?: Prisma.DelayedCreditAttachmentUpdateManyWithoutFileNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutFilesNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutFilesNestedInput
 }
 
-export type FileUncheckedUpdateWithoutInvoiceAttachmentInput = {
+export type FileUncheckedUpdateWithoutInvoiceAttachmentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   filename?: Prisma.StringFieldUpdateOperationsInput | string
   path?: Prisma.StringFieldUpdateOperationsInput | string
@@ -874,9 +874,9 @@ export type FileUncheckedUpdateWithoutInvoiceAttachmentInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimateAttachments?: Prisma.EstimateAttachmentUncheckedUpdateManyWithoutFileNestedInput
-  TransactionAttachment?: Prisma.TransactionAttachmentUncheckedUpdateManyWithoutFileNestedInput
+  transactionAttachments?: Prisma.TransactionAttachmentUncheckedUpdateManyWithoutFileNestedInput
   creditMemoAttachments?: Prisma.CreditMemoAttachmentUncheckedUpdateManyWithoutFileNestedInput
-  receiptAttachment?: Prisma.ReceiptAttachmentUncheckedUpdateManyWithoutFileNestedInput
+  receiptAttachments?: Prisma.ReceiptAttachmentUncheckedUpdateManyWithoutFileNestedInput
   refundAttachments?: Prisma.RefundAttachmentUncheckedUpdateManyWithoutFileNestedInput
   chargeAttachments?: Prisma.ChargeAttachmentUncheckedUpdateManyWithoutFileNestedInput
   delayedCreditAttachments?: Prisma.DelayedCreditAttachmentUncheckedUpdateManyWithoutFileNestedInput
@@ -896,14 +896,14 @@ export type FileCreateWithoutEstimateAttachmentsInput = {
   deactivatedAt?: Date | string | null
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
-  TransactionAttachment?: Prisma.TransactionAttachmentCreateNestedManyWithoutFileInput
-  InvoiceAttachment?: Prisma.InvoiceAttachmentCreateNestedManyWithoutFileInput
+  transactionAttachments?: Prisma.TransactionAttachmentCreateNestedManyWithoutFileInput
+  invoiceAttachments?: Prisma.InvoiceAttachmentCreateNestedManyWithoutFileInput
   creditMemoAttachments?: Prisma.CreditMemoAttachmentCreateNestedManyWithoutFileInput
-  receiptAttachment?: Prisma.ReceiptAttachmentCreateNestedManyWithoutFileInput
+  receiptAttachments?: Prisma.ReceiptAttachmentCreateNestedManyWithoutFileInput
   refundAttachments?: Prisma.RefundAttachmentCreateNestedManyWithoutFileInput
   chargeAttachments?: Prisma.ChargeAttachmentCreateNestedManyWithoutFileInput
   delayedCreditAttachments?: Prisma.DelayedCreditAttachmentCreateNestedManyWithoutFileInput
-  Company: Prisma.CompanyCreateNestedOneWithoutFilesInput
+  company: Prisma.CompanyCreateNestedOneWithoutFilesInput
 }
 
 export type FileUncheckedCreateWithoutEstimateAttachmentsInput = {
@@ -921,10 +921,10 @@ export type FileUncheckedCreateWithoutEstimateAttachmentsInput = {
   deactivatedAt?: Date | string | null
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
-  TransactionAttachment?: Prisma.TransactionAttachmentUncheckedCreateNestedManyWithoutFileInput
-  InvoiceAttachment?: Prisma.InvoiceAttachmentUncheckedCreateNestedManyWithoutFileInput
+  transactionAttachments?: Prisma.TransactionAttachmentUncheckedCreateNestedManyWithoutFileInput
+  invoiceAttachments?: Prisma.InvoiceAttachmentUncheckedCreateNestedManyWithoutFileInput
   creditMemoAttachments?: Prisma.CreditMemoAttachmentUncheckedCreateNestedManyWithoutFileInput
-  receiptAttachment?: Prisma.ReceiptAttachmentUncheckedCreateNestedManyWithoutFileInput
+  receiptAttachments?: Prisma.ReceiptAttachmentUncheckedCreateNestedManyWithoutFileInput
   refundAttachments?: Prisma.RefundAttachmentUncheckedCreateNestedManyWithoutFileInput
   chargeAttachments?: Prisma.ChargeAttachmentUncheckedCreateNestedManyWithoutFileInput
   delayedCreditAttachments?: Prisma.DelayedCreditAttachmentUncheckedCreateNestedManyWithoutFileInput
@@ -960,14 +960,14 @@ export type FileUpdateWithoutEstimateAttachmentsInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  TransactionAttachment?: Prisma.TransactionAttachmentUpdateManyWithoutFileNestedInput
-  InvoiceAttachment?: Prisma.InvoiceAttachmentUpdateManyWithoutFileNestedInput
+  transactionAttachments?: Prisma.TransactionAttachmentUpdateManyWithoutFileNestedInput
+  invoiceAttachments?: Prisma.InvoiceAttachmentUpdateManyWithoutFileNestedInput
   creditMemoAttachments?: Prisma.CreditMemoAttachmentUpdateManyWithoutFileNestedInput
-  receiptAttachment?: Prisma.ReceiptAttachmentUpdateManyWithoutFileNestedInput
+  receiptAttachments?: Prisma.ReceiptAttachmentUpdateManyWithoutFileNestedInput
   refundAttachments?: Prisma.RefundAttachmentUpdateManyWithoutFileNestedInput
   chargeAttachments?: Prisma.ChargeAttachmentUpdateManyWithoutFileNestedInput
   delayedCreditAttachments?: Prisma.DelayedCreditAttachmentUpdateManyWithoutFileNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutFilesNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutFilesNestedInput
 }
 
 export type FileUncheckedUpdateWithoutEstimateAttachmentsInput = {
@@ -985,10 +985,10 @@ export type FileUncheckedUpdateWithoutEstimateAttachmentsInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  TransactionAttachment?: Prisma.TransactionAttachmentUncheckedUpdateManyWithoutFileNestedInput
-  InvoiceAttachment?: Prisma.InvoiceAttachmentUncheckedUpdateManyWithoutFileNestedInput
+  transactionAttachments?: Prisma.TransactionAttachmentUncheckedUpdateManyWithoutFileNestedInput
+  invoiceAttachments?: Prisma.InvoiceAttachmentUncheckedUpdateManyWithoutFileNestedInput
   creditMemoAttachments?: Prisma.CreditMemoAttachmentUncheckedUpdateManyWithoutFileNestedInput
-  receiptAttachment?: Prisma.ReceiptAttachmentUncheckedUpdateManyWithoutFileNestedInput
+  receiptAttachments?: Prisma.ReceiptAttachmentUncheckedUpdateManyWithoutFileNestedInput
   refundAttachments?: Prisma.RefundAttachmentUncheckedUpdateManyWithoutFileNestedInput
   chargeAttachments?: Prisma.ChargeAttachmentUncheckedUpdateManyWithoutFileNestedInput
   delayedCreditAttachments?: Prisma.DelayedCreditAttachmentUncheckedUpdateManyWithoutFileNestedInput
@@ -1009,13 +1009,13 @@ export type FileCreateWithoutCreditMemoAttachmentsInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   estimateAttachments?: Prisma.EstimateAttachmentCreateNestedManyWithoutFileInput
-  TransactionAttachment?: Prisma.TransactionAttachmentCreateNestedManyWithoutFileInput
-  InvoiceAttachment?: Prisma.InvoiceAttachmentCreateNestedManyWithoutFileInput
-  receiptAttachment?: Prisma.ReceiptAttachmentCreateNestedManyWithoutFileInput
+  transactionAttachments?: Prisma.TransactionAttachmentCreateNestedManyWithoutFileInput
+  invoiceAttachments?: Prisma.InvoiceAttachmentCreateNestedManyWithoutFileInput
+  receiptAttachments?: Prisma.ReceiptAttachmentCreateNestedManyWithoutFileInput
   refundAttachments?: Prisma.RefundAttachmentCreateNestedManyWithoutFileInput
   chargeAttachments?: Prisma.ChargeAttachmentCreateNestedManyWithoutFileInput
   delayedCreditAttachments?: Prisma.DelayedCreditAttachmentCreateNestedManyWithoutFileInput
-  Company: Prisma.CompanyCreateNestedOneWithoutFilesInput
+  company: Prisma.CompanyCreateNestedOneWithoutFilesInput
 }
 
 export type FileUncheckedCreateWithoutCreditMemoAttachmentsInput = {
@@ -1034,9 +1034,9 @@ export type FileUncheckedCreateWithoutCreditMemoAttachmentsInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   estimateAttachments?: Prisma.EstimateAttachmentUncheckedCreateNestedManyWithoutFileInput
-  TransactionAttachment?: Prisma.TransactionAttachmentUncheckedCreateNestedManyWithoutFileInput
-  InvoiceAttachment?: Prisma.InvoiceAttachmentUncheckedCreateNestedManyWithoutFileInput
-  receiptAttachment?: Prisma.ReceiptAttachmentUncheckedCreateNestedManyWithoutFileInput
+  transactionAttachments?: Prisma.TransactionAttachmentUncheckedCreateNestedManyWithoutFileInput
+  invoiceAttachments?: Prisma.InvoiceAttachmentUncheckedCreateNestedManyWithoutFileInput
+  receiptAttachments?: Prisma.ReceiptAttachmentUncheckedCreateNestedManyWithoutFileInput
   refundAttachments?: Prisma.RefundAttachmentUncheckedCreateNestedManyWithoutFileInput
   chargeAttachments?: Prisma.ChargeAttachmentUncheckedCreateNestedManyWithoutFileInput
   delayedCreditAttachments?: Prisma.DelayedCreditAttachmentUncheckedCreateNestedManyWithoutFileInput
@@ -1073,13 +1073,13 @@ export type FileUpdateWithoutCreditMemoAttachmentsInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimateAttachments?: Prisma.EstimateAttachmentUpdateManyWithoutFileNestedInput
-  TransactionAttachment?: Prisma.TransactionAttachmentUpdateManyWithoutFileNestedInput
-  InvoiceAttachment?: Prisma.InvoiceAttachmentUpdateManyWithoutFileNestedInput
-  receiptAttachment?: Prisma.ReceiptAttachmentUpdateManyWithoutFileNestedInput
+  transactionAttachments?: Prisma.TransactionAttachmentUpdateManyWithoutFileNestedInput
+  invoiceAttachments?: Prisma.InvoiceAttachmentUpdateManyWithoutFileNestedInput
+  receiptAttachments?: Prisma.ReceiptAttachmentUpdateManyWithoutFileNestedInput
   refundAttachments?: Prisma.RefundAttachmentUpdateManyWithoutFileNestedInput
   chargeAttachments?: Prisma.ChargeAttachmentUpdateManyWithoutFileNestedInput
   delayedCreditAttachments?: Prisma.DelayedCreditAttachmentUpdateManyWithoutFileNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutFilesNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutFilesNestedInput
 }
 
 export type FileUncheckedUpdateWithoutCreditMemoAttachmentsInput = {
@@ -1098,15 +1098,15 @@ export type FileUncheckedUpdateWithoutCreditMemoAttachmentsInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimateAttachments?: Prisma.EstimateAttachmentUncheckedUpdateManyWithoutFileNestedInput
-  TransactionAttachment?: Prisma.TransactionAttachmentUncheckedUpdateManyWithoutFileNestedInput
-  InvoiceAttachment?: Prisma.InvoiceAttachmentUncheckedUpdateManyWithoutFileNestedInput
-  receiptAttachment?: Prisma.ReceiptAttachmentUncheckedUpdateManyWithoutFileNestedInput
+  transactionAttachments?: Prisma.TransactionAttachmentUncheckedUpdateManyWithoutFileNestedInput
+  invoiceAttachments?: Prisma.InvoiceAttachmentUncheckedUpdateManyWithoutFileNestedInput
+  receiptAttachments?: Prisma.ReceiptAttachmentUncheckedUpdateManyWithoutFileNestedInput
   refundAttachments?: Prisma.RefundAttachmentUncheckedUpdateManyWithoutFileNestedInput
   chargeAttachments?: Prisma.ChargeAttachmentUncheckedUpdateManyWithoutFileNestedInput
   delayedCreditAttachments?: Prisma.DelayedCreditAttachmentUncheckedUpdateManyWithoutFileNestedInput
 }
 
-export type FileCreateWithoutReceiptAttachmentInput = {
+export type FileCreateWithoutReceiptAttachmentsInput = {
   id?: string
   filename: string
   path: string
@@ -1121,16 +1121,16 @@ export type FileCreateWithoutReceiptAttachmentInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   estimateAttachments?: Prisma.EstimateAttachmentCreateNestedManyWithoutFileInput
-  TransactionAttachment?: Prisma.TransactionAttachmentCreateNestedManyWithoutFileInput
-  InvoiceAttachment?: Prisma.InvoiceAttachmentCreateNestedManyWithoutFileInput
+  transactionAttachments?: Prisma.TransactionAttachmentCreateNestedManyWithoutFileInput
+  invoiceAttachments?: Prisma.InvoiceAttachmentCreateNestedManyWithoutFileInput
   creditMemoAttachments?: Prisma.CreditMemoAttachmentCreateNestedManyWithoutFileInput
   refundAttachments?: Prisma.RefundAttachmentCreateNestedManyWithoutFileInput
   chargeAttachments?: Prisma.ChargeAttachmentCreateNestedManyWithoutFileInput
   delayedCreditAttachments?: Prisma.DelayedCreditAttachmentCreateNestedManyWithoutFileInput
-  Company: Prisma.CompanyCreateNestedOneWithoutFilesInput
+  company: Prisma.CompanyCreateNestedOneWithoutFilesInput
 }
 
-export type FileUncheckedCreateWithoutReceiptAttachmentInput = {
+export type FileUncheckedCreateWithoutReceiptAttachmentsInput = {
   id?: string
   filename: string
   path: string
@@ -1146,31 +1146,31 @@ export type FileUncheckedCreateWithoutReceiptAttachmentInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   estimateAttachments?: Prisma.EstimateAttachmentUncheckedCreateNestedManyWithoutFileInput
-  TransactionAttachment?: Prisma.TransactionAttachmentUncheckedCreateNestedManyWithoutFileInput
-  InvoiceAttachment?: Prisma.InvoiceAttachmentUncheckedCreateNestedManyWithoutFileInput
+  transactionAttachments?: Prisma.TransactionAttachmentUncheckedCreateNestedManyWithoutFileInput
+  invoiceAttachments?: Prisma.InvoiceAttachmentUncheckedCreateNestedManyWithoutFileInput
   creditMemoAttachments?: Prisma.CreditMemoAttachmentUncheckedCreateNestedManyWithoutFileInput
   refundAttachments?: Prisma.RefundAttachmentUncheckedCreateNestedManyWithoutFileInput
   chargeAttachments?: Prisma.ChargeAttachmentUncheckedCreateNestedManyWithoutFileInput
   delayedCreditAttachments?: Prisma.DelayedCreditAttachmentUncheckedCreateNestedManyWithoutFileInput
 }
 
-export type FileCreateOrConnectWithoutReceiptAttachmentInput = {
+export type FileCreateOrConnectWithoutReceiptAttachmentsInput = {
   where: Prisma.FileWhereUniqueInput
-  create: Prisma.XOR<Prisma.FileCreateWithoutReceiptAttachmentInput, Prisma.FileUncheckedCreateWithoutReceiptAttachmentInput>
+  create: Prisma.XOR<Prisma.FileCreateWithoutReceiptAttachmentsInput, Prisma.FileUncheckedCreateWithoutReceiptAttachmentsInput>
 }
 
-export type FileUpsertWithoutReceiptAttachmentInput = {
-  update: Prisma.XOR<Prisma.FileUpdateWithoutReceiptAttachmentInput, Prisma.FileUncheckedUpdateWithoutReceiptAttachmentInput>
-  create: Prisma.XOR<Prisma.FileCreateWithoutReceiptAttachmentInput, Prisma.FileUncheckedCreateWithoutReceiptAttachmentInput>
+export type FileUpsertWithoutReceiptAttachmentsInput = {
+  update: Prisma.XOR<Prisma.FileUpdateWithoutReceiptAttachmentsInput, Prisma.FileUncheckedUpdateWithoutReceiptAttachmentsInput>
+  create: Prisma.XOR<Prisma.FileCreateWithoutReceiptAttachmentsInput, Prisma.FileUncheckedCreateWithoutReceiptAttachmentsInput>
   where?: Prisma.FileWhereInput
 }
 
-export type FileUpdateToOneWithWhereWithoutReceiptAttachmentInput = {
+export type FileUpdateToOneWithWhereWithoutReceiptAttachmentsInput = {
   where?: Prisma.FileWhereInput
-  data: Prisma.XOR<Prisma.FileUpdateWithoutReceiptAttachmentInput, Prisma.FileUncheckedUpdateWithoutReceiptAttachmentInput>
+  data: Prisma.XOR<Prisma.FileUpdateWithoutReceiptAttachmentsInput, Prisma.FileUncheckedUpdateWithoutReceiptAttachmentsInput>
 }
 
-export type FileUpdateWithoutReceiptAttachmentInput = {
+export type FileUpdateWithoutReceiptAttachmentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   filename?: Prisma.StringFieldUpdateOperationsInput | string
   path?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1185,16 +1185,16 @@ export type FileUpdateWithoutReceiptAttachmentInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimateAttachments?: Prisma.EstimateAttachmentUpdateManyWithoutFileNestedInput
-  TransactionAttachment?: Prisma.TransactionAttachmentUpdateManyWithoutFileNestedInput
-  InvoiceAttachment?: Prisma.InvoiceAttachmentUpdateManyWithoutFileNestedInput
+  transactionAttachments?: Prisma.TransactionAttachmentUpdateManyWithoutFileNestedInput
+  invoiceAttachments?: Prisma.InvoiceAttachmentUpdateManyWithoutFileNestedInput
   creditMemoAttachments?: Prisma.CreditMemoAttachmentUpdateManyWithoutFileNestedInput
   refundAttachments?: Prisma.RefundAttachmentUpdateManyWithoutFileNestedInput
   chargeAttachments?: Prisma.ChargeAttachmentUpdateManyWithoutFileNestedInput
   delayedCreditAttachments?: Prisma.DelayedCreditAttachmentUpdateManyWithoutFileNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutFilesNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutFilesNestedInput
 }
 
-export type FileUncheckedUpdateWithoutReceiptAttachmentInput = {
+export type FileUncheckedUpdateWithoutReceiptAttachmentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   filename?: Prisma.StringFieldUpdateOperationsInput | string
   path?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1210,8 +1210,8 @@ export type FileUncheckedUpdateWithoutReceiptAttachmentInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimateAttachments?: Prisma.EstimateAttachmentUncheckedUpdateManyWithoutFileNestedInput
-  TransactionAttachment?: Prisma.TransactionAttachmentUncheckedUpdateManyWithoutFileNestedInput
-  InvoiceAttachment?: Prisma.InvoiceAttachmentUncheckedUpdateManyWithoutFileNestedInput
+  transactionAttachments?: Prisma.TransactionAttachmentUncheckedUpdateManyWithoutFileNestedInput
+  invoiceAttachments?: Prisma.InvoiceAttachmentUncheckedUpdateManyWithoutFileNestedInput
   creditMemoAttachments?: Prisma.CreditMemoAttachmentUncheckedUpdateManyWithoutFileNestedInput
   refundAttachments?: Prisma.RefundAttachmentUncheckedUpdateManyWithoutFileNestedInput
   chargeAttachments?: Prisma.ChargeAttachmentUncheckedUpdateManyWithoutFileNestedInput
@@ -1233,13 +1233,13 @@ export type FileCreateWithoutRefundAttachmentsInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   estimateAttachments?: Prisma.EstimateAttachmentCreateNestedManyWithoutFileInput
-  TransactionAttachment?: Prisma.TransactionAttachmentCreateNestedManyWithoutFileInput
-  InvoiceAttachment?: Prisma.InvoiceAttachmentCreateNestedManyWithoutFileInput
+  transactionAttachments?: Prisma.TransactionAttachmentCreateNestedManyWithoutFileInput
+  invoiceAttachments?: Prisma.InvoiceAttachmentCreateNestedManyWithoutFileInput
   creditMemoAttachments?: Prisma.CreditMemoAttachmentCreateNestedManyWithoutFileInput
-  receiptAttachment?: Prisma.ReceiptAttachmentCreateNestedManyWithoutFileInput
+  receiptAttachments?: Prisma.ReceiptAttachmentCreateNestedManyWithoutFileInput
   chargeAttachments?: Prisma.ChargeAttachmentCreateNestedManyWithoutFileInput
   delayedCreditAttachments?: Prisma.DelayedCreditAttachmentCreateNestedManyWithoutFileInput
-  Company: Prisma.CompanyCreateNestedOneWithoutFilesInput
+  company: Prisma.CompanyCreateNestedOneWithoutFilesInput
 }
 
 export type FileUncheckedCreateWithoutRefundAttachmentsInput = {
@@ -1258,10 +1258,10 @@ export type FileUncheckedCreateWithoutRefundAttachmentsInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   estimateAttachments?: Prisma.EstimateAttachmentUncheckedCreateNestedManyWithoutFileInput
-  TransactionAttachment?: Prisma.TransactionAttachmentUncheckedCreateNestedManyWithoutFileInput
-  InvoiceAttachment?: Prisma.InvoiceAttachmentUncheckedCreateNestedManyWithoutFileInput
+  transactionAttachments?: Prisma.TransactionAttachmentUncheckedCreateNestedManyWithoutFileInput
+  invoiceAttachments?: Prisma.InvoiceAttachmentUncheckedCreateNestedManyWithoutFileInput
   creditMemoAttachments?: Prisma.CreditMemoAttachmentUncheckedCreateNestedManyWithoutFileInput
-  receiptAttachment?: Prisma.ReceiptAttachmentUncheckedCreateNestedManyWithoutFileInput
+  receiptAttachments?: Prisma.ReceiptAttachmentUncheckedCreateNestedManyWithoutFileInput
   chargeAttachments?: Prisma.ChargeAttachmentUncheckedCreateNestedManyWithoutFileInput
   delayedCreditAttachments?: Prisma.DelayedCreditAttachmentUncheckedCreateNestedManyWithoutFileInput
 }
@@ -1297,13 +1297,13 @@ export type FileUpdateWithoutRefundAttachmentsInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimateAttachments?: Prisma.EstimateAttachmentUpdateManyWithoutFileNestedInput
-  TransactionAttachment?: Prisma.TransactionAttachmentUpdateManyWithoutFileNestedInput
-  InvoiceAttachment?: Prisma.InvoiceAttachmentUpdateManyWithoutFileNestedInput
+  transactionAttachments?: Prisma.TransactionAttachmentUpdateManyWithoutFileNestedInput
+  invoiceAttachments?: Prisma.InvoiceAttachmentUpdateManyWithoutFileNestedInput
   creditMemoAttachments?: Prisma.CreditMemoAttachmentUpdateManyWithoutFileNestedInput
-  receiptAttachment?: Prisma.ReceiptAttachmentUpdateManyWithoutFileNestedInput
+  receiptAttachments?: Prisma.ReceiptAttachmentUpdateManyWithoutFileNestedInput
   chargeAttachments?: Prisma.ChargeAttachmentUpdateManyWithoutFileNestedInput
   delayedCreditAttachments?: Prisma.DelayedCreditAttachmentUpdateManyWithoutFileNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutFilesNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutFilesNestedInput
 }
 
 export type FileUncheckedUpdateWithoutRefundAttachmentsInput = {
@@ -1322,10 +1322,10 @@ export type FileUncheckedUpdateWithoutRefundAttachmentsInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimateAttachments?: Prisma.EstimateAttachmentUncheckedUpdateManyWithoutFileNestedInput
-  TransactionAttachment?: Prisma.TransactionAttachmentUncheckedUpdateManyWithoutFileNestedInput
-  InvoiceAttachment?: Prisma.InvoiceAttachmentUncheckedUpdateManyWithoutFileNestedInput
+  transactionAttachments?: Prisma.TransactionAttachmentUncheckedUpdateManyWithoutFileNestedInput
+  invoiceAttachments?: Prisma.InvoiceAttachmentUncheckedUpdateManyWithoutFileNestedInput
   creditMemoAttachments?: Prisma.CreditMemoAttachmentUncheckedUpdateManyWithoutFileNestedInput
-  receiptAttachment?: Prisma.ReceiptAttachmentUncheckedUpdateManyWithoutFileNestedInput
+  receiptAttachments?: Prisma.ReceiptAttachmentUncheckedUpdateManyWithoutFileNestedInput
   chargeAttachments?: Prisma.ChargeAttachmentUncheckedUpdateManyWithoutFileNestedInput
   delayedCreditAttachments?: Prisma.DelayedCreditAttachmentUncheckedUpdateManyWithoutFileNestedInput
 }
@@ -1345,13 +1345,13 @@ export type FileCreateWithoutChargeAttachmentsInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   estimateAttachments?: Prisma.EstimateAttachmentCreateNestedManyWithoutFileInput
-  TransactionAttachment?: Prisma.TransactionAttachmentCreateNestedManyWithoutFileInput
-  InvoiceAttachment?: Prisma.InvoiceAttachmentCreateNestedManyWithoutFileInput
+  transactionAttachments?: Prisma.TransactionAttachmentCreateNestedManyWithoutFileInput
+  invoiceAttachments?: Prisma.InvoiceAttachmentCreateNestedManyWithoutFileInput
   creditMemoAttachments?: Prisma.CreditMemoAttachmentCreateNestedManyWithoutFileInput
-  receiptAttachment?: Prisma.ReceiptAttachmentCreateNestedManyWithoutFileInput
+  receiptAttachments?: Prisma.ReceiptAttachmentCreateNestedManyWithoutFileInput
   refundAttachments?: Prisma.RefundAttachmentCreateNestedManyWithoutFileInput
   delayedCreditAttachments?: Prisma.DelayedCreditAttachmentCreateNestedManyWithoutFileInput
-  Company: Prisma.CompanyCreateNestedOneWithoutFilesInput
+  company: Prisma.CompanyCreateNestedOneWithoutFilesInput
 }
 
 export type FileUncheckedCreateWithoutChargeAttachmentsInput = {
@@ -1370,10 +1370,10 @@ export type FileUncheckedCreateWithoutChargeAttachmentsInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   estimateAttachments?: Prisma.EstimateAttachmentUncheckedCreateNestedManyWithoutFileInput
-  TransactionAttachment?: Prisma.TransactionAttachmentUncheckedCreateNestedManyWithoutFileInput
-  InvoiceAttachment?: Prisma.InvoiceAttachmentUncheckedCreateNestedManyWithoutFileInput
+  transactionAttachments?: Prisma.TransactionAttachmentUncheckedCreateNestedManyWithoutFileInput
+  invoiceAttachments?: Prisma.InvoiceAttachmentUncheckedCreateNestedManyWithoutFileInput
   creditMemoAttachments?: Prisma.CreditMemoAttachmentUncheckedCreateNestedManyWithoutFileInput
-  receiptAttachment?: Prisma.ReceiptAttachmentUncheckedCreateNestedManyWithoutFileInput
+  receiptAttachments?: Prisma.ReceiptAttachmentUncheckedCreateNestedManyWithoutFileInput
   refundAttachments?: Prisma.RefundAttachmentUncheckedCreateNestedManyWithoutFileInput
   delayedCreditAttachments?: Prisma.DelayedCreditAttachmentUncheckedCreateNestedManyWithoutFileInput
 }
@@ -1409,13 +1409,13 @@ export type FileUpdateWithoutChargeAttachmentsInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimateAttachments?: Prisma.EstimateAttachmentUpdateManyWithoutFileNestedInput
-  TransactionAttachment?: Prisma.TransactionAttachmentUpdateManyWithoutFileNestedInput
-  InvoiceAttachment?: Prisma.InvoiceAttachmentUpdateManyWithoutFileNestedInput
+  transactionAttachments?: Prisma.TransactionAttachmentUpdateManyWithoutFileNestedInput
+  invoiceAttachments?: Prisma.InvoiceAttachmentUpdateManyWithoutFileNestedInput
   creditMemoAttachments?: Prisma.CreditMemoAttachmentUpdateManyWithoutFileNestedInput
-  receiptAttachment?: Prisma.ReceiptAttachmentUpdateManyWithoutFileNestedInput
+  receiptAttachments?: Prisma.ReceiptAttachmentUpdateManyWithoutFileNestedInput
   refundAttachments?: Prisma.RefundAttachmentUpdateManyWithoutFileNestedInput
   delayedCreditAttachments?: Prisma.DelayedCreditAttachmentUpdateManyWithoutFileNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutFilesNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutFilesNestedInput
 }
 
 export type FileUncheckedUpdateWithoutChargeAttachmentsInput = {
@@ -1434,10 +1434,10 @@ export type FileUncheckedUpdateWithoutChargeAttachmentsInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimateAttachments?: Prisma.EstimateAttachmentUncheckedUpdateManyWithoutFileNestedInput
-  TransactionAttachment?: Prisma.TransactionAttachmentUncheckedUpdateManyWithoutFileNestedInput
-  InvoiceAttachment?: Prisma.InvoiceAttachmentUncheckedUpdateManyWithoutFileNestedInput
+  transactionAttachments?: Prisma.TransactionAttachmentUncheckedUpdateManyWithoutFileNestedInput
+  invoiceAttachments?: Prisma.InvoiceAttachmentUncheckedUpdateManyWithoutFileNestedInput
   creditMemoAttachments?: Prisma.CreditMemoAttachmentUncheckedUpdateManyWithoutFileNestedInput
-  receiptAttachment?: Prisma.ReceiptAttachmentUncheckedUpdateManyWithoutFileNestedInput
+  receiptAttachments?: Prisma.ReceiptAttachmentUncheckedUpdateManyWithoutFileNestedInput
   refundAttachments?: Prisma.RefundAttachmentUncheckedUpdateManyWithoutFileNestedInput
   delayedCreditAttachments?: Prisma.DelayedCreditAttachmentUncheckedUpdateManyWithoutFileNestedInput
 }
@@ -1457,13 +1457,13 @@ export type FileCreateWithoutDelayedCreditAttachmentsInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   estimateAttachments?: Prisma.EstimateAttachmentCreateNestedManyWithoutFileInput
-  TransactionAttachment?: Prisma.TransactionAttachmentCreateNestedManyWithoutFileInput
-  InvoiceAttachment?: Prisma.InvoiceAttachmentCreateNestedManyWithoutFileInput
+  transactionAttachments?: Prisma.TransactionAttachmentCreateNestedManyWithoutFileInput
+  invoiceAttachments?: Prisma.InvoiceAttachmentCreateNestedManyWithoutFileInput
   creditMemoAttachments?: Prisma.CreditMemoAttachmentCreateNestedManyWithoutFileInput
-  receiptAttachment?: Prisma.ReceiptAttachmentCreateNestedManyWithoutFileInput
+  receiptAttachments?: Prisma.ReceiptAttachmentCreateNestedManyWithoutFileInput
   refundAttachments?: Prisma.RefundAttachmentCreateNestedManyWithoutFileInput
   chargeAttachments?: Prisma.ChargeAttachmentCreateNestedManyWithoutFileInput
-  Company: Prisma.CompanyCreateNestedOneWithoutFilesInput
+  company: Prisma.CompanyCreateNestedOneWithoutFilesInput
 }
 
 export type FileUncheckedCreateWithoutDelayedCreditAttachmentsInput = {
@@ -1482,10 +1482,10 @@ export type FileUncheckedCreateWithoutDelayedCreditAttachmentsInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   estimateAttachments?: Prisma.EstimateAttachmentUncheckedCreateNestedManyWithoutFileInput
-  TransactionAttachment?: Prisma.TransactionAttachmentUncheckedCreateNestedManyWithoutFileInput
-  InvoiceAttachment?: Prisma.InvoiceAttachmentUncheckedCreateNestedManyWithoutFileInput
+  transactionAttachments?: Prisma.TransactionAttachmentUncheckedCreateNestedManyWithoutFileInput
+  invoiceAttachments?: Prisma.InvoiceAttachmentUncheckedCreateNestedManyWithoutFileInput
   creditMemoAttachments?: Prisma.CreditMemoAttachmentUncheckedCreateNestedManyWithoutFileInput
-  receiptAttachment?: Prisma.ReceiptAttachmentUncheckedCreateNestedManyWithoutFileInput
+  receiptAttachments?: Prisma.ReceiptAttachmentUncheckedCreateNestedManyWithoutFileInput
   refundAttachments?: Prisma.RefundAttachmentUncheckedCreateNestedManyWithoutFileInput
   chargeAttachments?: Prisma.ChargeAttachmentUncheckedCreateNestedManyWithoutFileInput
 }
@@ -1521,13 +1521,13 @@ export type FileUpdateWithoutDelayedCreditAttachmentsInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimateAttachments?: Prisma.EstimateAttachmentUpdateManyWithoutFileNestedInput
-  TransactionAttachment?: Prisma.TransactionAttachmentUpdateManyWithoutFileNestedInput
-  InvoiceAttachment?: Prisma.InvoiceAttachmentUpdateManyWithoutFileNestedInput
+  transactionAttachments?: Prisma.TransactionAttachmentUpdateManyWithoutFileNestedInput
+  invoiceAttachments?: Prisma.InvoiceAttachmentUpdateManyWithoutFileNestedInput
   creditMemoAttachments?: Prisma.CreditMemoAttachmentUpdateManyWithoutFileNestedInput
-  receiptAttachment?: Prisma.ReceiptAttachmentUpdateManyWithoutFileNestedInput
+  receiptAttachments?: Prisma.ReceiptAttachmentUpdateManyWithoutFileNestedInput
   refundAttachments?: Prisma.RefundAttachmentUpdateManyWithoutFileNestedInput
   chargeAttachments?: Prisma.ChargeAttachmentUpdateManyWithoutFileNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutFilesNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutFilesNestedInput
 }
 
 export type FileUncheckedUpdateWithoutDelayedCreditAttachmentsInput = {
@@ -1546,15 +1546,15 @@ export type FileUncheckedUpdateWithoutDelayedCreditAttachmentsInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimateAttachments?: Prisma.EstimateAttachmentUncheckedUpdateManyWithoutFileNestedInput
-  TransactionAttachment?: Prisma.TransactionAttachmentUncheckedUpdateManyWithoutFileNestedInput
-  InvoiceAttachment?: Prisma.InvoiceAttachmentUncheckedUpdateManyWithoutFileNestedInput
+  transactionAttachments?: Prisma.TransactionAttachmentUncheckedUpdateManyWithoutFileNestedInput
+  invoiceAttachments?: Prisma.InvoiceAttachmentUncheckedUpdateManyWithoutFileNestedInput
   creditMemoAttachments?: Prisma.CreditMemoAttachmentUncheckedUpdateManyWithoutFileNestedInput
-  receiptAttachment?: Prisma.ReceiptAttachmentUncheckedUpdateManyWithoutFileNestedInput
+  receiptAttachments?: Prisma.ReceiptAttachmentUncheckedUpdateManyWithoutFileNestedInput
   refundAttachments?: Prisma.RefundAttachmentUncheckedUpdateManyWithoutFileNestedInput
   chargeAttachments?: Prisma.ChargeAttachmentUncheckedUpdateManyWithoutFileNestedInput
 }
 
-export type FileCreateWithoutTransactionAttachmentInput = {
+export type FileCreateWithoutTransactionAttachmentsInput = {
   id?: string
   filename: string
   path: string
@@ -1569,16 +1569,16 @@ export type FileCreateWithoutTransactionAttachmentInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   estimateAttachments?: Prisma.EstimateAttachmentCreateNestedManyWithoutFileInput
-  InvoiceAttachment?: Prisma.InvoiceAttachmentCreateNestedManyWithoutFileInput
+  invoiceAttachments?: Prisma.InvoiceAttachmentCreateNestedManyWithoutFileInput
   creditMemoAttachments?: Prisma.CreditMemoAttachmentCreateNestedManyWithoutFileInput
-  receiptAttachment?: Prisma.ReceiptAttachmentCreateNestedManyWithoutFileInput
+  receiptAttachments?: Prisma.ReceiptAttachmentCreateNestedManyWithoutFileInput
   refundAttachments?: Prisma.RefundAttachmentCreateNestedManyWithoutFileInput
   chargeAttachments?: Prisma.ChargeAttachmentCreateNestedManyWithoutFileInput
   delayedCreditAttachments?: Prisma.DelayedCreditAttachmentCreateNestedManyWithoutFileInput
-  Company: Prisma.CompanyCreateNestedOneWithoutFilesInput
+  company: Prisma.CompanyCreateNestedOneWithoutFilesInput
 }
 
-export type FileUncheckedCreateWithoutTransactionAttachmentInput = {
+export type FileUncheckedCreateWithoutTransactionAttachmentsInput = {
   id?: string
   filename: string
   path: string
@@ -1594,31 +1594,31 @@ export type FileUncheckedCreateWithoutTransactionAttachmentInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   estimateAttachments?: Prisma.EstimateAttachmentUncheckedCreateNestedManyWithoutFileInput
-  InvoiceAttachment?: Prisma.InvoiceAttachmentUncheckedCreateNestedManyWithoutFileInput
+  invoiceAttachments?: Prisma.InvoiceAttachmentUncheckedCreateNestedManyWithoutFileInput
   creditMemoAttachments?: Prisma.CreditMemoAttachmentUncheckedCreateNestedManyWithoutFileInput
-  receiptAttachment?: Prisma.ReceiptAttachmentUncheckedCreateNestedManyWithoutFileInput
+  receiptAttachments?: Prisma.ReceiptAttachmentUncheckedCreateNestedManyWithoutFileInput
   refundAttachments?: Prisma.RefundAttachmentUncheckedCreateNestedManyWithoutFileInput
   chargeAttachments?: Prisma.ChargeAttachmentUncheckedCreateNestedManyWithoutFileInput
   delayedCreditAttachments?: Prisma.DelayedCreditAttachmentUncheckedCreateNestedManyWithoutFileInput
 }
 
-export type FileCreateOrConnectWithoutTransactionAttachmentInput = {
+export type FileCreateOrConnectWithoutTransactionAttachmentsInput = {
   where: Prisma.FileWhereUniqueInput
-  create: Prisma.XOR<Prisma.FileCreateWithoutTransactionAttachmentInput, Prisma.FileUncheckedCreateWithoutTransactionAttachmentInput>
+  create: Prisma.XOR<Prisma.FileCreateWithoutTransactionAttachmentsInput, Prisma.FileUncheckedCreateWithoutTransactionAttachmentsInput>
 }
 
-export type FileUpsertWithoutTransactionAttachmentInput = {
-  update: Prisma.XOR<Prisma.FileUpdateWithoutTransactionAttachmentInput, Prisma.FileUncheckedUpdateWithoutTransactionAttachmentInput>
-  create: Prisma.XOR<Prisma.FileCreateWithoutTransactionAttachmentInput, Prisma.FileUncheckedCreateWithoutTransactionAttachmentInput>
+export type FileUpsertWithoutTransactionAttachmentsInput = {
+  update: Prisma.XOR<Prisma.FileUpdateWithoutTransactionAttachmentsInput, Prisma.FileUncheckedUpdateWithoutTransactionAttachmentsInput>
+  create: Prisma.XOR<Prisma.FileCreateWithoutTransactionAttachmentsInput, Prisma.FileUncheckedCreateWithoutTransactionAttachmentsInput>
   where?: Prisma.FileWhereInput
 }
 
-export type FileUpdateToOneWithWhereWithoutTransactionAttachmentInput = {
+export type FileUpdateToOneWithWhereWithoutTransactionAttachmentsInput = {
   where?: Prisma.FileWhereInput
-  data: Prisma.XOR<Prisma.FileUpdateWithoutTransactionAttachmentInput, Prisma.FileUncheckedUpdateWithoutTransactionAttachmentInput>
+  data: Prisma.XOR<Prisma.FileUpdateWithoutTransactionAttachmentsInput, Prisma.FileUncheckedUpdateWithoutTransactionAttachmentsInput>
 }
 
-export type FileUpdateWithoutTransactionAttachmentInput = {
+export type FileUpdateWithoutTransactionAttachmentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   filename?: Prisma.StringFieldUpdateOperationsInput | string
   path?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1633,16 +1633,16 @@ export type FileUpdateWithoutTransactionAttachmentInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimateAttachments?: Prisma.EstimateAttachmentUpdateManyWithoutFileNestedInput
-  InvoiceAttachment?: Prisma.InvoiceAttachmentUpdateManyWithoutFileNestedInput
+  invoiceAttachments?: Prisma.InvoiceAttachmentUpdateManyWithoutFileNestedInput
   creditMemoAttachments?: Prisma.CreditMemoAttachmentUpdateManyWithoutFileNestedInput
-  receiptAttachment?: Prisma.ReceiptAttachmentUpdateManyWithoutFileNestedInput
+  receiptAttachments?: Prisma.ReceiptAttachmentUpdateManyWithoutFileNestedInput
   refundAttachments?: Prisma.RefundAttachmentUpdateManyWithoutFileNestedInput
   chargeAttachments?: Prisma.ChargeAttachmentUpdateManyWithoutFileNestedInput
   delayedCreditAttachments?: Prisma.DelayedCreditAttachmentUpdateManyWithoutFileNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutFilesNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutFilesNestedInput
 }
 
-export type FileUncheckedUpdateWithoutTransactionAttachmentInput = {
+export type FileUncheckedUpdateWithoutTransactionAttachmentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   filename?: Prisma.StringFieldUpdateOperationsInput | string
   path?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1658,9 +1658,9 @@ export type FileUncheckedUpdateWithoutTransactionAttachmentInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimateAttachments?: Prisma.EstimateAttachmentUncheckedUpdateManyWithoutFileNestedInput
-  InvoiceAttachment?: Prisma.InvoiceAttachmentUncheckedUpdateManyWithoutFileNestedInput
+  invoiceAttachments?: Prisma.InvoiceAttachmentUncheckedUpdateManyWithoutFileNestedInput
   creditMemoAttachments?: Prisma.CreditMemoAttachmentUncheckedUpdateManyWithoutFileNestedInput
-  receiptAttachment?: Prisma.ReceiptAttachmentUncheckedUpdateManyWithoutFileNestedInput
+  receiptAttachments?: Prisma.ReceiptAttachmentUncheckedUpdateManyWithoutFileNestedInput
   refundAttachments?: Prisma.RefundAttachmentUncheckedUpdateManyWithoutFileNestedInput
   chargeAttachments?: Prisma.ChargeAttachmentUncheckedUpdateManyWithoutFileNestedInput
   delayedCreditAttachments?: Prisma.DelayedCreditAttachmentUncheckedUpdateManyWithoutFileNestedInput
@@ -1681,10 +1681,10 @@ export type FileCreateWithoutCompanyInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   estimateAttachments?: Prisma.EstimateAttachmentCreateNestedManyWithoutFileInput
-  TransactionAttachment?: Prisma.TransactionAttachmentCreateNestedManyWithoutFileInput
-  InvoiceAttachment?: Prisma.InvoiceAttachmentCreateNestedManyWithoutFileInput
+  transactionAttachments?: Prisma.TransactionAttachmentCreateNestedManyWithoutFileInput
+  invoiceAttachments?: Prisma.InvoiceAttachmentCreateNestedManyWithoutFileInput
   creditMemoAttachments?: Prisma.CreditMemoAttachmentCreateNestedManyWithoutFileInput
-  receiptAttachment?: Prisma.ReceiptAttachmentCreateNestedManyWithoutFileInput
+  receiptAttachments?: Prisma.ReceiptAttachmentCreateNestedManyWithoutFileInput
   refundAttachments?: Prisma.RefundAttachmentCreateNestedManyWithoutFileInput
   chargeAttachments?: Prisma.ChargeAttachmentCreateNestedManyWithoutFileInput
   delayedCreditAttachments?: Prisma.DelayedCreditAttachmentCreateNestedManyWithoutFileInput
@@ -1705,10 +1705,10 @@ export type FileUncheckedCreateWithoutCompanyInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   estimateAttachments?: Prisma.EstimateAttachmentUncheckedCreateNestedManyWithoutFileInput
-  TransactionAttachment?: Prisma.TransactionAttachmentUncheckedCreateNestedManyWithoutFileInput
-  InvoiceAttachment?: Prisma.InvoiceAttachmentUncheckedCreateNestedManyWithoutFileInput
+  transactionAttachments?: Prisma.TransactionAttachmentUncheckedCreateNestedManyWithoutFileInput
+  invoiceAttachments?: Prisma.InvoiceAttachmentUncheckedCreateNestedManyWithoutFileInput
   creditMemoAttachments?: Prisma.CreditMemoAttachmentUncheckedCreateNestedManyWithoutFileInput
-  receiptAttachment?: Prisma.ReceiptAttachmentUncheckedCreateNestedManyWithoutFileInput
+  receiptAttachments?: Prisma.ReceiptAttachmentUncheckedCreateNestedManyWithoutFileInput
   refundAttachments?: Prisma.RefundAttachmentUncheckedCreateNestedManyWithoutFileInput
   chargeAttachments?: Prisma.ChargeAttachmentUncheckedCreateNestedManyWithoutFileInput
   delayedCreditAttachments?: Prisma.DelayedCreditAttachmentUncheckedCreateNestedManyWithoutFileInput
@@ -1791,10 +1791,10 @@ export type FileUpdateWithoutCompanyInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimateAttachments?: Prisma.EstimateAttachmentUpdateManyWithoutFileNestedInput
-  TransactionAttachment?: Prisma.TransactionAttachmentUpdateManyWithoutFileNestedInput
-  InvoiceAttachment?: Prisma.InvoiceAttachmentUpdateManyWithoutFileNestedInput
+  transactionAttachments?: Prisma.TransactionAttachmentUpdateManyWithoutFileNestedInput
+  invoiceAttachments?: Prisma.InvoiceAttachmentUpdateManyWithoutFileNestedInput
   creditMemoAttachments?: Prisma.CreditMemoAttachmentUpdateManyWithoutFileNestedInput
-  receiptAttachment?: Prisma.ReceiptAttachmentUpdateManyWithoutFileNestedInput
+  receiptAttachments?: Prisma.ReceiptAttachmentUpdateManyWithoutFileNestedInput
   refundAttachments?: Prisma.RefundAttachmentUpdateManyWithoutFileNestedInput
   chargeAttachments?: Prisma.ChargeAttachmentUpdateManyWithoutFileNestedInput
   delayedCreditAttachments?: Prisma.DelayedCreditAttachmentUpdateManyWithoutFileNestedInput
@@ -1815,10 +1815,10 @@ export type FileUncheckedUpdateWithoutCompanyInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimateAttachments?: Prisma.EstimateAttachmentUncheckedUpdateManyWithoutFileNestedInput
-  TransactionAttachment?: Prisma.TransactionAttachmentUncheckedUpdateManyWithoutFileNestedInput
-  InvoiceAttachment?: Prisma.InvoiceAttachmentUncheckedUpdateManyWithoutFileNestedInput
+  transactionAttachments?: Prisma.TransactionAttachmentUncheckedUpdateManyWithoutFileNestedInput
+  invoiceAttachments?: Prisma.InvoiceAttachmentUncheckedUpdateManyWithoutFileNestedInput
   creditMemoAttachments?: Prisma.CreditMemoAttachmentUncheckedUpdateManyWithoutFileNestedInput
-  receiptAttachment?: Prisma.ReceiptAttachmentUncheckedUpdateManyWithoutFileNestedInput
+  receiptAttachments?: Prisma.ReceiptAttachmentUncheckedUpdateManyWithoutFileNestedInput
   refundAttachments?: Prisma.RefundAttachmentUncheckedUpdateManyWithoutFileNestedInput
   chargeAttachments?: Prisma.ChargeAttachmentUncheckedUpdateManyWithoutFileNestedInput
   delayedCreditAttachments?: Prisma.DelayedCreditAttachmentUncheckedUpdateManyWithoutFileNestedInput
@@ -1847,10 +1847,10 @@ export type FileUncheckedUpdateManyWithoutCompanyInput = {
 
 export type FileCountOutputType = {
   estimateAttachments: number
-  TransactionAttachment: number
-  InvoiceAttachment: number
+  transactionAttachments: number
+  invoiceAttachments: number
   creditMemoAttachments: number
-  receiptAttachment: number
+  receiptAttachments: number
   refundAttachments: number
   chargeAttachments: number
   delayedCreditAttachments: number
@@ -1858,10 +1858,10 @@ export type FileCountOutputType = {
 
 export type FileCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   estimateAttachments?: boolean | FileCountOutputTypeCountEstimateAttachmentsArgs
-  TransactionAttachment?: boolean | FileCountOutputTypeCountTransactionAttachmentArgs
-  InvoiceAttachment?: boolean | FileCountOutputTypeCountInvoiceAttachmentArgs
+  transactionAttachments?: boolean | FileCountOutputTypeCountTransactionAttachmentsArgs
+  invoiceAttachments?: boolean | FileCountOutputTypeCountInvoiceAttachmentsArgs
   creditMemoAttachments?: boolean | FileCountOutputTypeCountCreditMemoAttachmentsArgs
-  receiptAttachment?: boolean | FileCountOutputTypeCountReceiptAttachmentArgs
+  receiptAttachments?: boolean | FileCountOutputTypeCountReceiptAttachmentsArgs
   refundAttachments?: boolean | FileCountOutputTypeCountRefundAttachmentsArgs
   chargeAttachments?: boolean | FileCountOutputTypeCountChargeAttachmentsArgs
   delayedCreditAttachments?: boolean | FileCountOutputTypeCountDelayedCreditAttachmentsArgs
@@ -1887,14 +1887,14 @@ export type FileCountOutputTypeCountEstimateAttachmentsArgs<ExtArgs extends runt
 /**
  * FileCountOutputType without action
  */
-export type FileCountOutputTypeCountTransactionAttachmentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type FileCountOutputTypeCountTransactionAttachmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.TransactionAttachmentWhereInput
 }
 
 /**
  * FileCountOutputType without action
  */
-export type FileCountOutputTypeCountInvoiceAttachmentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type FileCountOutputTypeCountInvoiceAttachmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.InvoiceAttachmentWhereInput
 }
 
@@ -1908,7 +1908,7 @@ export type FileCountOutputTypeCountCreditMemoAttachmentsArgs<ExtArgs extends ru
 /**
  * FileCountOutputType without action
  */
-export type FileCountOutputTypeCountReceiptAttachmentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type FileCountOutputTypeCountReceiptAttachmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.ReceiptAttachmentWhereInput
 }
 
@@ -1950,14 +1950,14 @@ export type FileSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   deactivatedByUserId?: boolean
   deactivationReason?: boolean
   estimateAttachments?: boolean | Prisma.File$estimateAttachmentsArgs<ExtArgs>
-  TransactionAttachment?: boolean | Prisma.File$TransactionAttachmentArgs<ExtArgs>
-  InvoiceAttachment?: boolean | Prisma.File$InvoiceAttachmentArgs<ExtArgs>
+  transactionAttachments?: boolean | Prisma.File$transactionAttachmentsArgs<ExtArgs>
+  invoiceAttachments?: boolean | Prisma.File$invoiceAttachmentsArgs<ExtArgs>
   creditMemoAttachments?: boolean | Prisma.File$creditMemoAttachmentsArgs<ExtArgs>
-  receiptAttachment?: boolean | Prisma.File$receiptAttachmentArgs<ExtArgs>
+  receiptAttachments?: boolean | Prisma.File$receiptAttachmentsArgs<ExtArgs>
   refundAttachments?: boolean | Prisma.File$refundAttachmentsArgs<ExtArgs>
   chargeAttachments?: boolean | Prisma.File$chargeAttachmentsArgs<ExtArgs>
   delayedCreditAttachments?: boolean | Prisma.File$delayedCreditAttachmentsArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.FileCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["file"]>
 
@@ -1976,7 +1976,7 @@ export type FileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   deactivatedAt?: boolean
   deactivatedByUserId?: boolean
   deactivationReason?: boolean
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["file"]>
 
 export type FileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1994,7 +1994,7 @@ export type FileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   deactivatedAt?: boolean
   deactivatedByUserId?: boolean
   deactivationReason?: boolean
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["file"]>
 
 export type FileSelectScalar = {
@@ -2017,35 +2017,35 @@ export type FileSelectScalar = {
 export type FileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "filename" | "path" | "mimetype" | "size" | "purpose" | "metadata" | "createdAt" | "updatedAt" | "companyId" | "isActive" | "deactivatedAt" | "deactivatedByUserId" | "deactivationReason", ExtArgs["result"]["file"]>
 export type FileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   estimateAttachments?: boolean | Prisma.File$estimateAttachmentsArgs<ExtArgs>
-  TransactionAttachment?: boolean | Prisma.File$TransactionAttachmentArgs<ExtArgs>
-  InvoiceAttachment?: boolean | Prisma.File$InvoiceAttachmentArgs<ExtArgs>
+  transactionAttachments?: boolean | Prisma.File$transactionAttachmentsArgs<ExtArgs>
+  invoiceAttachments?: boolean | Prisma.File$invoiceAttachmentsArgs<ExtArgs>
   creditMemoAttachments?: boolean | Prisma.File$creditMemoAttachmentsArgs<ExtArgs>
-  receiptAttachment?: boolean | Prisma.File$receiptAttachmentArgs<ExtArgs>
+  receiptAttachments?: boolean | Prisma.File$receiptAttachmentsArgs<ExtArgs>
   refundAttachments?: boolean | Prisma.File$refundAttachmentsArgs<ExtArgs>
   chargeAttachments?: boolean | Prisma.File$chargeAttachmentsArgs<ExtArgs>
   delayedCreditAttachments?: boolean | Prisma.File$delayedCreditAttachmentsArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.FileCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type FileIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }
 export type FileIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }
 
 export type $FilePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "File"
   objects: {
     estimateAttachments: Prisma.$EstimateAttachmentPayload<ExtArgs>[]
-    TransactionAttachment: Prisma.$TransactionAttachmentPayload<ExtArgs>[]
-    InvoiceAttachment: Prisma.$InvoiceAttachmentPayload<ExtArgs>[]
+    transactionAttachments: Prisma.$TransactionAttachmentPayload<ExtArgs>[]
+    invoiceAttachments: Prisma.$InvoiceAttachmentPayload<ExtArgs>[]
     creditMemoAttachments: Prisma.$CreditMemoAttachmentPayload<ExtArgs>[]
-    receiptAttachment: Prisma.$ReceiptAttachmentPayload<ExtArgs>[]
+    receiptAttachments: Prisma.$ReceiptAttachmentPayload<ExtArgs>[]
     refundAttachments: Prisma.$RefundAttachmentPayload<ExtArgs>[]
     chargeAttachments: Prisma.$ChargeAttachmentPayload<ExtArgs>[]
     delayedCreditAttachments: Prisma.$DelayedCreditAttachmentPayload<ExtArgs>[]
-    Company: Prisma.$CompanyPayload<ExtArgs>
+    company: Prisma.$CompanyPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2457,14 +2457,14 @@ readonly fields: FileFieldRefs;
 export interface Prisma__FileClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   estimateAttachments<T extends Prisma.File$estimateAttachmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.File$estimateAttachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EstimateAttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  TransactionAttachment<T extends Prisma.File$TransactionAttachmentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.File$TransactionAttachmentArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransactionAttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  InvoiceAttachment<T extends Prisma.File$InvoiceAttachmentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.File$InvoiceAttachmentArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InvoiceAttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  transactionAttachments<T extends Prisma.File$transactionAttachmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.File$transactionAttachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransactionAttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  invoiceAttachments<T extends Prisma.File$invoiceAttachmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.File$invoiceAttachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InvoiceAttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   creditMemoAttachments<T extends Prisma.File$creditMemoAttachmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.File$creditMemoAttachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CreditMemoAttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  receiptAttachment<T extends Prisma.File$receiptAttachmentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.File$receiptAttachmentArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReceiptAttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  receiptAttachments<T extends Prisma.File$receiptAttachmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.File$receiptAttachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReceiptAttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   refundAttachments<T extends Prisma.File$refundAttachmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.File$refundAttachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RefundAttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   chargeAttachments<T extends Prisma.File$chargeAttachmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.File$chargeAttachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChargeAttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   delayedCreditAttachments<T extends Prisma.File$delayedCreditAttachmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.File$delayedCreditAttachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DelayedCreditAttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  Company<T extends Prisma.CompanyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CompanyDefaultArgs<ExtArgs>>): Prisma.Prisma__CompanyClient<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  company<T extends Prisma.CompanyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CompanyDefaultArgs<ExtArgs>>): Prisma.Prisma__CompanyClient<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2933,9 +2933,9 @@ export type File$estimateAttachmentsArgs<ExtArgs extends runtime.Types.Extension
 }
 
 /**
- * File.TransactionAttachment
+ * File.transactionAttachments
  */
-export type File$TransactionAttachmentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type File$transactionAttachmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the TransactionAttachment
    */
@@ -2957,9 +2957,9 @@ export type File$TransactionAttachmentArgs<ExtArgs extends runtime.Types.Extensi
 }
 
 /**
- * File.InvoiceAttachment
+ * File.invoiceAttachments
  */
-export type File$InvoiceAttachmentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type File$invoiceAttachmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the InvoiceAttachment
    */
@@ -3005,9 +3005,9 @@ export type File$creditMemoAttachmentsArgs<ExtArgs extends runtime.Types.Extensi
 }
 
 /**
- * File.receiptAttachment
+ * File.receiptAttachments
  */
-export type File$receiptAttachmentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type File$receiptAttachmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the ReceiptAttachment
    */

@@ -1,5 +1,5 @@
-import { TaxType, TaxStatus } from '@/lib/generated/prisma/client';
 import * as z from 'zod';
+import { TaxType, TaxStatus } from '@/lib/generated/prisma/client';
 
 export const taxFormSchema = z.object({
   name: z
@@ -14,7 +14,7 @@ export const taxFormSchema = z.object({
     .string()
     .min(1, 'Agency name is required')
     .max(50, 'Agency name must be less than 50 characters'),
-  type: z.nativeEnum(TaxType).default(TaxType.SALES),
+  type: z.enum(TaxType).default(TaxType.SALES),
   rate: z.number().min(0, 'Rate must be greater than or equal to 0')
 });
 

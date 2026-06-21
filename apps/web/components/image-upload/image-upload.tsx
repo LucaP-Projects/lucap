@@ -2,7 +2,9 @@
 
 import { useState } from 'react';
 import { ControllerRenderProps, Controller } from 'react-hook-form';
+import { toast } from 'sonner';
 import { ImagePlus, X, Loader2 } from 'lucide-react';
+import { uploadFileLocal } from '@/components/file-upload/action';
 import {
   Field,
   FieldDescription,
@@ -10,8 +12,6 @@ import {
   FieldGroup,
   FieldLabel,
 } from "@/components/ui/field"
-import { toast } from 'sonner';
-import { uploadFileLocal } from '@/components/file-upload/action';
 
 interface ImageUploadProps {
   name: string;

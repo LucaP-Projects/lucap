@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { useFormContext } from 'react-hook-form';
+import { toast } from 'sonner';
 import {
   AudioWaveform,
   File as FileIcon,
@@ -15,7 +16,6 @@ import {
 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { toast } from 'sonner';
 import { useUploadStore } from '@/stores/useViewStore';
 import { uploadFileLocal } from './action';
 

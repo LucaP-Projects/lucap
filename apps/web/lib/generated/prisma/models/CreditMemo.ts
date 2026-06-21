@@ -402,9 +402,9 @@ export type CreditMemoWhereInput = {
   tax?: Prisma.XOR<Prisma.TaxRateNullableScalarRelationFilter, Prisma.TaxRateWhereInput> | null
   items?: Prisma.CreditMemoItemListRelationFilter
   attachments?: Prisma.CreditMemoAttachmentListRelationFilter
-  Transaction?: Prisma.TransactionListRelationFilter
-  Company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
-  Invoice?: Prisma.XOR<Prisma.InvoiceNullableScalarRelationFilter, Prisma.InvoiceWhereInput> | null
+  transactions?: Prisma.TransactionListRelationFilter
+  company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
+  invoice?: Prisma.XOR<Prisma.InvoiceNullableScalarRelationFilter, Prisma.InvoiceWhereInput> | null
 }
 
 export type CreditMemoOrderByWithRelationInput = {
@@ -438,9 +438,9 @@ export type CreditMemoOrderByWithRelationInput = {
   tax?: Prisma.TaxRateOrderByWithRelationInput
   items?: Prisma.CreditMemoItemOrderByRelationAggregateInput
   attachments?: Prisma.CreditMemoAttachmentOrderByRelationAggregateInput
-  Transaction?: Prisma.TransactionOrderByRelationAggregateInput
-  Company?: Prisma.CompanyOrderByWithRelationInput
-  Invoice?: Prisma.InvoiceOrderByWithRelationInput
+  transactions?: Prisma.TransactionOrderByRelationAggregateInput
+  company?: Prisma.CompanyOrderByWithRelationInput
+  invoice?: Prisma.InvoiceOrderByWithRelationInput
 }
 
 export type CreditMemoWhereUniqueInput = Prisma.AtLeast<{
@@ -478,9 +478,9 @@ export type CreditMemoWhereUniqueInput = Prisma.AtLeast<{
   tax?: Prisma.XOR<Prisma.TaxRateNullableScalarRelationFilter, Prisma.TaxRateWhereInput> | null
   items?: Prisma.CreditMemoItemListRelationFilter
   attachments?: Prisma.CreditMemoAttachmentListRelationFilter
-  Transaction?: Prisma.TransactionListRelationFilter
-  Company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
-  Invoice?: Prisma.XOR<Prisma.InvoiceNullableScalarRelationFilter, Prisma.InvoiceWhereInput> | null
+  transactions?: Prisma.TransactionListRelationFilter
+  company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
+  invoice?: Prisma.XOR<Prisma.InvoiceNullableScalarRelationFilter, Prisma.InvoiceWhereInput> | null
 }, "id" | "number_companyId">
 
 export type CreditMemoOrderByWithAggregationInput = {
@@ -573,12 +573,12 @@ export type CreditMemoCreateInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   customer: Prisma.CustomerCreateNestedOneWithoutCreditMemosInput
-  tax?: Prisma.TaxRateCreateNestedOneWithoutCreditMemoInput
+  tax?: Prisma.TaxRateCreateNestedOneWithoutCreditMemosInput
   items?: Prisma.CreditMemoItemCreateNestedManyWithoutCreditMemoInput
   attachments?: Prisma.CreditMemoAttachmentCreateNestedManyWithoutCreditMemoInput
-  Transaction?: Prisma.TransactionCreateNestedManyWithoutCreditMemoInput
-  Company: Prisma.CompanyCreateNestedOneWithoutCreditMemosInput
-  Invoice?: Prisma.InvoiceCreateNestedOneWithoutCreditMemoInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutCreditMemoInput
+  company: Prisma.CompanyCreateNestedOneWithoutCreditMemosInput
+  invoice?: Prisma.InvoiceCreateNestedOneWithoutCreditMemoInput
 }
 
 export type CreditMemoUncheckedCreateInput = {
@@ -610,7 +610,7 @@ export type CreditMemoUncheckedCreateInput = {
   deactivationReason?: string | null
   items?: Prisma.CreditMemoItemUncheckedCreateNestedManyWithoutCreditMemoInput
   attachments?: Prisma.CreditMemoAttachmentUncheckedCreateNestedManyWithoutCreditMemoInput
-  Transaction?: Prisma.TransactionUncheckedCreateNestedManyWithoutCreditMemoInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutCreditMemoInput
 }
 
 export type CreditMemoUpdateInput = {
@@ -637,12 +637,12 @@ export type CreditMemoUpdateInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer?: Prisma.CustomerUpdateOneRequiredWithoutCreditMemosNestedInput
-  tax?: Prisma.TaxRateUpdateOneWithoutCreditMemoNestedInput
+  tax?: Prisma.TaxRateUpdateOneWithoutCreditMemosNestedInput
   items?: Prisma.CreditMemoItemUpdateManyWithoutCreditMemoNestedInput
   attachments?: Prisma.CreditMemoAttachmentUpdateManyWithoutCreditMemoNestedInput
-  Transaction?: Prisma.TransactionUpdateManyWithoutCreditMemoNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutCreditMemosNestedInput
-  Invoice?: Prisma.InvoiceUpdateOneWithoutCreditMemoNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutCreditMemoNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutCreditMemosNestedInput
+  invoice?: Prisma.InvoiceUpdateOneWithoutCreditMemoNestedInput
 }
 
 export type CreditMemoUncheckedUpdateInput = {
@@ -674,7 +674,7 @@ export type CreditMemoUncheckedUpdateInput = {
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   items?: Prisma.CreditMemoItemUncheckedUpdateManyWithoutCreditMemoNestedInput
   attachments?: Prisma.CreditMemoAttachmentUncheckedUpdateManyWithoutCreditMemoNestedInput
-  Transaction?: Prisma.TransactionUncheckedUpdateManyWithoutCreditMemoNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutCreditMemoNestedInput
 }
 
 export type CreditMemoCreateManyInput = {
@@ -1006,20 +1006,20 @@ export type CreditMemoUpdateOneRequiredWithoutAttachmentsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CreditMemoUpdateToOneWithWhereWithoutAttachmentsInput, Prisma.CreditMemoUpdateWithoutAttachmentsInput>, Prisma.CreditMemoUncheckedUpdateWithoutAttachmentsInput>
 }
 
-export type CreditMemoCreateNestedOneWithoutTransactionInput = {
-  create?: Prisma.XOR<Prisma.CreditMemoCreateWithoutTransactionInput, Prisma.CreditMemoUncheckedCreateWithoutTransactionInput>
-  connectOrCreate?: Prisma.CreditMemoCreateOrConnectWithoutTransactionInput
+export type CreditMemoCreateNestedOneWithoutTransactionsInput = {
+  create?: Prisma.XOR<Prisma.CreditMemoCreateWithoutTransactionsInput, Prisma.CreditMemoUncheckedCreateWithoutTransactionsInput>
+  connectOrCreate?: Prisma.CreditMemoCreateOrConnectWithoutTransactionsInput
   connect?: Prisma.CreditMemoWhereUniqueInput
 }
 
-export type CreditMemoUpdateOneWithoutTransactionNestedInput = {
-  create?: Prisma.XOR<Prisma.CreditMemoCreateWithoutTransactionInput, Prisma.CreditMemoUncheckedCreateWithoutTransactionInput>
-  connectOrCreate?: Prisma.CreditMemoCreateOrConnectWithoutTransactionInput
-  upsert?: Prisma.CreditMemoUpsertWithoutTransactionInput
+export type CreditMemoUpdateOneWithoutTransactionsNestedInput = {
+  create?: Prisma.XOR<Prisma.CreditMemoCreateWithoutTransactionsInput, Prisma.CreditMemoUncheckedCreateWithoutTransactionsInput>
+  connectOrCreate?: Prisma.CreditMemoCreateOrConnectWithoutTransactionsInput
+  upsert?: Prisma.CreditMemoUpsertWithoutTransactionsInput
   disconnect?: Prisma.CreditMemoWhereInput | boolean
   delete?: Prisma.CreditMemoWhereInput | boolean
   connect?: Prisma.CreditMemoWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.CreditMemoUpdateToOneWithWhereWithoutTransactionInput, Prisma.CreditMemoUpdateWithoutTransactionInput>, Prisma.CreditMemoUncheckedUpdateWithoutTransactionInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CreditMemoUpdateToOneWithWhereWithoutTransactionsInput, Prisma.CreditMemoUpdateWithoutTransactionsInput>, Prisma.CreditMemoUncheckedUpdateWithoutTransactionsInput>
 }
 
 export type CreditMemoCreateNestedManyWithoutTaxInput = {
@@ -1129,12 +1129,12 @@ export type CreditMemoCreateWithoutCustomerInput = {
   deactivatedAt?: Date | string | null
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
-  tax?: Prisma.TaxRateCreateNestedOneWithoutCreditMemoInput
+  tax?: Prisma.TaxRateCreateNestedOneWithoutCreditMemosInput
   items?: Prisma.CreditMemoItemCreateNestedManyWithoutCreditMemoInput
   attachments?: Prisma.CreditMemoAttachmentCreateNestedManyWithoutCreditMemoInput
-  Transaction?: Prisma.TransactionCreateNestedManyWithoutCreditMemoInput
-  Company: Prisma.CompanyCreateNestedOneWithoutCreditMemosInput
-  Invoice?: Prisma.InvoiceCreateNestedOneWithoutCreditMemoInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutCreditMemoInput
+  company: Prisma.CompanyCreateNestedOneWithoutCreditMemosInput
+  invoice?: Prisma.InvoiceCreateNestedOneWithoutCreditMemoInput
 }
 
 export type CreditMemoUncheckedCreateWithoutCustomerInput = {
@@ -1165,7 +1165,7 @@ export type CreditMemoUncheckedCreateWithoutCustomerInput = {
   deactivationReason?: string | null
   items?: Prisma.CreditMemoItemUncheckedCreateNestedManyWithoutCreditMemoInput
   attachments?: Prisma.CreditMemoAttachmentUncheckedCreateNestedManyWithoutCreditMemoInput
-  Transaction?: Prisma.TransactionUncheckedCreateNestedManyWithoutCreditMemoInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutCreditMemoInput
 }
 
 export type CreditMemoCreateOrConnectWithoutCustomerInput = {
@@ -1250,11 +1250,11 @@ export type CreditMemoCreateWithoutInvoiceInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   customer: Prisma.CustomerCreateNestedOneWithoutCreditMemosInput
-  tax?: Prisma.TaxRateCreateNestedOneWithoutCreditMemoInput
+  tax?: Prisma.TaxRateCreateNestedOneWithoutCreditMemosInput
   items?: Prisma.CreditMemoItemCreateNestedManyWithoutCreditMemoInput
   attachments?: Prisma.CreditMemoAttachmentCreateNestedManyWithoutCreditMemoInput
-  Transaction?: Prisma.TransactionCreateNestedManyWithoutCreditMemoInput
-  Company: Prisma.CompanyCreateNestedOneWithoutCreditMemosInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutCreditMemoInput
+  company: Prisma.CompanyCreateNestedOneWithoutCreditMemosInput
 }
 
 export type CreditMemoUncheckedCreateWithoutInvoiceInput = {
@@ -1285,7 +1285,7 @@ export type CreditMemoUncheckedCreateWithoutInvoiceInput = {
   deactivationReason?: string | null
   items?: Prisma.CreditMemoItemUncheckedCreateNestedManyWithoutCreditMemoInput
   attachments?: Prisma.CreditMemoAttachmentUncheckedCreateNestedManyWithoutCreditMemoInput
-  Transaction?: Prisma.TransactionUncheckedCreateNestedManyWithoutCreditMemoInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutCreditMemoInput
 }
 
 export type CreditMemoCreateOrConnectWithoutInvoiceInput = {
@@ -1338,11 +1338,11 @@ export type CreditMemoCreateWithoutItemsInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   customer: Prisma.CustomerCreateNestedOneWithoutCreditMemosInput
-  tax?: Prisma.TaxRateCreateNestedOneWithoutCreditMemoInput
+  tax?: Prisma.TaxRateCreateNestedOneWithoutCreditMemosInput
   attachments?: Prisma.CreditMemoAttachmentCreateNestedManyWithoutCreditMemoInput
-  Transaction?: Prisma.TransactionCreateNestedManyWithoutCreditMemoInput
-  Company: Prisma.CompanyCreateNestedOneWithoutCreditMemosInput
-  Invoice?: Prisma.InvoiceCreateNestedOneWithoutCreditMemoInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutCreditMemoInput
+  company: Prisma.CompanyCreateNestedOneWithoutCreditMemosInput
+  invoice?: Prisma.InvoiceCreateNestedOneWithoutCreditMemoInput
 }
 
 export type CreditMemoUncheckedCreateWithoutItemsInput = {
@@ -1373,7 +1373,7 @@ export type CreditMemoUncheckedCreateWithoutItemsInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   attachments?: Prisma.CreditMemoAttachmentUncheckedCreateNestedManyWithoutCreditMemoInput
-  Transaction?: Prisma.TransactionUncheckedCreateNestedManyWithoutCreditMemoInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutCreditMemoInput
 }
 
 export type CreditMemoCreateOrConnectWithoutItemsInput = {
@@ -1416,11 +1416,11 @@ export type CreditMemoUpdateWithoutItemsInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer?: Prisma.CustomerUpdateOneRequiredWithoutCreditMemosNestedInput
-  tax?: Prisma.TaxRateUpdateOneWithoutCreditMemoNestedInput
+  tax?: Prisma.TaxRateUpdateOneWithoutCreditMemosNestedInput
   attachments?: Prisma.CreditMemoAttachmentUpdateManyWithoutCreditMemoNestedInput
-  Transaction?: Prisma.TransactionUpdateManyWithoutCreditMemoNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutCreditMemosNestedInput
-  Invoice?: Prisma.InvoiceUpdateOneWithoutCreditMemoNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutCreditMemoNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutCreditMemosNestedInput
+  invoice?: Prisma.InvoiceUpdateOneWithoutCreditMemoNestedInput
 }
 
 export type CreditMemoUncheckedUpdateWithoutItemsInput = {
@@ -1451,7 +1451,7 @@ export type CreditMemoUncheckedUpdateWithoutItemsInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   attachments?: Prisma.CreditMemoAttachmentUncheckedUpdateManyWithoutCreditMemoNestedInput
-  Transaction?: Prisma.TransactionUncheckedUpdateManyWithoutCreditMemoNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutCreditMemoNestedInput
 }
 
 export type CreditMemoCreateWithoutAttachmentsInput = {
@@ -1478,11 +1478,11 @@ export type CreditMemoCreateWithoutAttachmentsInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   customer: Prisma.CustomerCreateNestedOneWithoutCreditMemosInput
-  tax?: Prisma.TaxRateCreateNestedOneWithoutCreditMemoInput
+  tax?: Prisma.TaxRateCreateNestedOneWithoutCreditMemosInput
   items?: Prisma.CreditMemoItemCreateNestedManyWithoutCreditMemoInput
-  Transaction?: Prisma.TransactionCreateNestedManyWithoutCreditMemoInput
-  Company: Prisma.CompanyCreateNestedOneWithoutCreditMemosInput
-  Invoice?: Prisma.InvoiceCreateNestedOneWithoutCreditMemoInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutCreditMemoInput
+  company: Prisma.CompanyCreateNestedOneWithoutCreditMemosInput
+  invoice?: Prisma.InvoiceCreateNestedOneWithoutCreditMemoInput
 }
 
 export type CreditMemoUncheckedCreateWithoutAttachmentsInput = {
@@ -1513,7 +1513,7 @@ export type CreditMemoUncheckedCreateWithoutAttachmentsInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   items?: Prisma.CreditMemoItemUncheckedCreateNestedManyWithoutCreditMemoInput
-  Transaction?: Prisma.TransactionUncheckedCreateNestedManyWithoutCreditMemoInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutCreditMemoInput
 }
 
 export type CreditMemoCreateOrConnectWithoutAttachmentsInput = {
@@ -1556,11 +1556,11 @@ export type CreditMemoUpdateWithoutAttachmentsInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer?: Prisma.CustomerUpdateOneRequiredWithoutCreditMemosNestedInput
-  tax?: Prisma.TaxRateUpdateOneWithoutCreditMemoNestedInput
+  tax?: Prisma.TaxRateUpdateOneWithoutCreditMemosNestedInput
   items?: Prisma.CreditMemoItemUpdateManyWithoutCreditMemoNestedInput
-  Transaction?: Prisma.TransactionUpdateManyWithoutCreditMemoNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutCreditMemosNestedInput
-  Invoice?: Prisma.InvoiceUpdateOneWithoutCreditMemoNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutCreditMemoNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutCreditMemosNestedInput
+  invoice?: Prisma.InvoiceUpdateOneWithoutCreditMemoNestedInput
 }
 
 export type CreditMemoUncheckedUpdateWithoutAttachmentsInput = {
@@ -1591,10 +1591,10 @@ export type CreditMemoUncheckedUpdateWithoutAttachmentsInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   items?: Prisma.CreditMemoItemUncheckedUpdateManyWithoutCreditMemoNestedInput
-  Transaction?: Prisma.TransactionUncheckedUpdateManyWithoutCreditMemoNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutCreditMemoNestedInput
 }
 
-export type CreditMemoCreateWithoutTransactionInput = {
+export type CreditMemoCreateWithoutTransactionsInput = {
   id?: string
   number: string
   dueDate: Date | string
@@ -1618,14 +1618,14 @@ export type CreditMemoCreateWithoutTransactionInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   customer: Prisma.CustomerCreateNestedOneWithoutCreditMemosInput
-  tax?: Prisma.TaxRateCreateNestedOneWithoutCreditMemoInput
+  tax?: Prisma.TaxRateCreateNestedOneWithoutCreditMemosInput
   items?: Prisma.CreditMemoItemCreateNestedManyWithoutCreditMemoInput
   attachments?: Prisma.CreditMemoAttachmentCreateNestedManyWithoutCreditMemoInput
-  Company: Prisma.CompanyCreateNestedOneWithoutCreditMemosInput
-  Invoice?: Prisma.InvoiceCreateNestedOneWithoutCreditMemoInput
+  company: Prisma.CompanyCreateNestedOneWithoutCreditMemosInput
+  invoice?: Prisma.InvoiceCreateNestedOneWithoutCreditMemoInput
 }
 
-export type CreditMemoUncheckedCreateWithoutTransactionInput = {
+export type CreditMemoUncheckedCreateWithoutTransactionsInput = {
   id?: string
   number: string
   dueDate: Date | string
@@ -1656,23 +1656,23 @@ export type CreditMemoUncheckedCreateWithoutTransactionInput = {
   attachments?: Prisma.CreditMemoAttachmentUncheckedCreateNestedManyWithoutCreditMemoInput
 }
 
-export type CreditMemoCreateOrConnectWithoutTransactionInput = {
+export type CreditMemoCreateOrConnectWithoutTransactionsInput = {
   where: Prisma.CreditMemoWhereUniqueInput
-  create: Prisma.XOR<Prisma.CreditMemoCreateWithoutTransactionInput, Prisma.CreditMemoUncheckedCreateWithoutTransactionInput>
+  create: Prisma.XOR<Prisma.CreditMemoCreateWithoutTransactionsInput, Prisma.CreditMemoUncheckedCreateWithoutTransactionsInput>
 }
 
-export type CreditMemoUpsertWithoutTransactionInput = {
-  update: Prisma.XOR<Prisma.CreditMemoUpdateWithoutTransactionInput, Prisma.CreditMemoUncheckedUpdateWithoutTransactionInput>
-  create: Prisma.XOR<Prisma.CreditMemoCreateWithoutTransactionInput, Prisma.CreditMemoUncheckedCreateWithoutTransactionInput>
+export type CreditMemoUpsertWithoutTransactionsInput = {
+  update: Prisma.XOR<Prisma.CreditMemoUpdateWithoutTransactionsInput, Prisma.CreditMemoUncheckedUpdateWithoutTransactionsInput>
+  create: Prisma.XOR<Prisma.CreditMemoCreateWithoutTransactionsInput, Prisma.CreditMemoUncheckedCreateWithoutTransactionsInput>
   where?: Prisma.CreditMemoWhereInput
 }
 
-export type CreditMemoUpdateToOneWithWhereWithoutTransactionInput = {
+export type CreditMemoUpdateToOneWithWhereWithoutTransactionsInput = {
   where?: Prisma.CreditMemoWhereInput
-  data: Prisma.XOR<Prisma.CreditMemoUpdateWithoutTransactionInput, Prisma.CreditMemoUncheckedUpdateWithoutTransactionInput>
+  data: Prisma.XOR<Prisma.CreditMemoUpdateWithoutTransactionsInput, Prisma.CreditMemoUncheckedUpdateWithoutTransactionsInput>
 }
 
-export type CreditMemoUpdateWithoutTransactionInput = {
+export type CreditMemoUpdateWithoutTransactionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   number?: Prisma.StringFieldUpdateOperationsInput | string
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1696,14 +1696,14 @@ export type CreditMemoUpdateWithoutTransactionInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer?: Prisma.CustomerUpdateOneRequiredWithoutCreditMemosNestedInput
-  tax?: Prisma.TaxRateUpdateOneWithoutCreditMemoNestedInput
+  tax?: Prisma.TaxRateUpdateOneWithoutCreditMemosNestedInput
   items?: Prisma.CreditMemoItemUpdateManyWithoutCreditMemoNestedInput
   attachments?: Prisma.CreditMemoAttachmentUpdateManyWithoutCreditMemoNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutCreditMemosNestedInput
-  Invoice?: Prisma.InvoiceUpdateOneWithoutCreditMemoNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutCreditMemosNestedInput
+  invoice?: Prisma.InvoiceUpdateOneWithoutCreditMemoNestedInput
 }
 
-export type CreditMemoUncheckedUpdateWithoutTransactionInput = {
+export type CreditMemoUncheckedUpdateWithoutTransactionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   number?: Prisma.StringFieldUpdateOperationsInput | string
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1760,9 +1760,9 @@ export type CreditMemoCreateWithoutTaxInput = {
   customer: Prisma.CustomerCreateNestedOneWithoutCreditMemosInput
   items?: Prisma.CreditMemoItemCreateNestedManyWithoutCreditMemoInput
   attachments?: Prisma.CreditMemoAttachmentCreateNestedManyWithoutCreditMemoInput
-  Transaction?: Prisma.TransactionCreateNestedManyWithoutCreditMemoInput
-  Company: Prisma.CompanyCreateNestedOneWithoutCreditMemosInput
-  Invoice?: Prisma.InvoiceCreateNestedOneWithoutCreditMemoInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutCreditMemoInput
+  company: Prisma.CompanyCreateNestedOneWithoutCreditMemosInput
+  invoice?: Prisma.InvoiceCreateNestedOneWithoutCreditMemoInput
 }
 
 export type CreditMemoUncheckedCreateWithoutTaxInput = {
@@ -1793,7 +1793,7 @@ export type CreditMemoUncheckedCreateWithoutTaxInput = {
   deactivationReason?: string | null
   items?: Prisma.CreditMemoItemUncheckedCreateNestedManyWithoutCreditMemoInput
   attachments?: Prisma.CreditMemoAttachmentUncheckedCreateNestedManyWithoutCreditMemoInput
-  Transaction?: Prisma.TransactionUncheckedCreateNestedManyWithoutCreditMemoInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutCreditMemoInput
 }
 
 export type CreditMemoCreateOrConnectWithoutTaxInput = {
@@ -1846,11 +1846,11 @@ export type CreditMemoCreateWithoutCompanyInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   customer: Prisma.CustomerCreateNestedOneWithoutCreditMemosInput
-  tax?: Prisma.TaxRateCreateNestedOneWithoutCreditMemoInput
+  tax?: Prisma.TaxRateCreateNestedOneWithoutCreditMemosInput
   items?: Prisma.CreditMemoItemCreateNestedManyWithoutCreditMemoInput
   attachments?: Prisma.CreditMemoAttachmentCreateNestedManyWithoutCreditMemoInput
-  Transaction?: Prisma.TransactionCreateNestedManyWithoutCreditMemoInput
-  Invoice?: Prisma.InvoiceCreateNestedOneWithoutCreditMemoInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutCreditMemoInput
+  invoice?: Prisma.InvoiceCreateNestedOneWithoutCreditMemoInput
 }
 
 export type CreditMemoUncheckedCreateWithoutCompanyInput = {
@@ -1881,7 +1881,7 @@ export type CreditMemoUncheckedCreateWithoutCompanyInput = {
   deactivationReason?: string | null
   items?: Prisma.CreditMemoItemUncheckedCreateNestedManyWithoutCreditMemoInput
   attachments?: Prisma.CreditMemoAttachmentUncheckedCreateNestedManyWithoutCreditMemoInput
-  Transaction?: Prisma.TransactionUncheckedCreateNestedManyWithoutCreditMemoInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutCreditMemoInput
 }
 
 export type CreditMemoCreateOrConnectWithoutCompanyInput = {
@@ -1961,12 +1961,12 @@ export type CreditMemoUpdateWithoutCustomerInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tax?: Prisma.TaxRateUpdateOneWithoutCreditMemoNestedInput
+  tax?: Prisma.TaxRateUpdateOneWithoutCreditMemosNestedInput
   items?: Prisma.CreditMemoItemUpdateManyWithoutCreditMemoNestedInput
   attachments?: Prisma.CreditMemoAttachmentUpdateManyWithoutCreditMemoNestedInput
-  Transaction?: Prisma.TransactionUpdateManyWithoutCreditMemoNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutCreditMemosNestedInput
-  Invoice?: Prisma.InvoiceUpdateOneWithoutCreditMemoNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutCreditMemoNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutCreditMemosNestedInput
+  invoice?: Prisma.InvoiceUpdateOneWithoutCreditMemoNestedInput
 }
 
 export type CreditMemoUncheckedUpdateWithoutCustomerInput = {
@@ -1997,7 +1997,7 @@ export type CreditMemoUncheckedUpdateWithoutCustomerInput = {
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   items?: Prisma.CreditMemoItemUncheckedUpdateManyWithoutCreditMemoNestedInput
   attachments?: Prisma.CreditMemoAttachmentUncheckedUpdateManyWithoutCreditMemoNestedInput
-  Transaction?: Prisma.TransactionUncheckedUpdateManyWithoutCreditMemoNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutCreditMemoNestedInput
 }
 
 export type CreditMemoUncheckedUpdateManyWithoutCustomerInput = {
@@ -2080,11 +2080,11 @@ export type CreditMemoUpdateWithoutInvoiceInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer?: Prisma.CustomerUpdateOneRequiredWithoutCreditMemosNestedInput
-  tax?: Prisma.TaxRateUpdateOneWithoutCreditMemoNestedInput
+  tax?: Prisma.TaxRateUpdateOneWithoutCreditMemosNestedInput
   items?: Prisma.CreditMemoItemUpdateManyWithoutCreditMemoNestedInput
   attachments?: Prisma.CreditMemoAttachmentUpdateManyWithoutCreditMemoNestedInput
-  Transaction?: Prisma.TransactionUpdateManyWithoutCreditMemoNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutCreditMemosNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutCreditMemoNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutCreditMemosNestedInput
 }
 
 export type CreditMemoUncheckedUpdateWithoutInvoiceInput = {
@@ -2115,7 +2115,7 @@ export type CreditMemoUncheckedUpdateWithoutInvoiceInput = {
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   items?: Prisma.CreditMemoItemUncheckedUpdateManyWithoutCreditMemoNestedInput
   attachments?: Prisma.CreditMemoAttachmentUncheckedUpdateManyWithoutCreditMemoNestedInput
-  Transaction?: Prisma.TransactionUncheckedUpdateManyWithoutCreditMemoNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutCreditMemoNestedInput
 }
 
 export type CreditMemoUncheckedUpdateManyWithoutInvoiceInput = {
@@ -2200,9 +2200,9 @@ export type CreditMemoUpdateWithoutTaxInput = {
   customer?: Prisma.CustomerUpdateOneRequiredWithoutCreditMemosNestedInput
   items?: Prisma.CreditMemoItemUpdateManyWithoutCreditMemoNestedInput
   attachments?: Prisma.CreditMemoAttachmentUpdateManyWithoutCreditMemoNestedInput
-  Transaction?: Prisma.TransactionUpdateManyWithoutCreditMemoNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutCreditMemosNestedInput
-  Invoice?: Prisma.InvoiceUpdateOneWithoutCreditMemoNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutCreditMemoNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutCreditMemosNestedInput
+  invoice?: Prisma.InvoiceUpdateOneWithoutCreditMemoNestedInput
 }
 
 export type CreditMemoUncheckedUpdateWithoutTaxInput = {
@@ -2233,7 +2233,7 @@ export type CreditMemoUncheckedUpdateWithoutTaxInput = {
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   items?: Prisma.CreditMemoItemUncheckedUpdateManyWithoutCreditMemoNestedInput
   attachments?: Prisma.CreditMemoAttachmentUncheckedUpdateManyWithoutCreditMemoNestedInput
-  Transaction?: Prisma.TransactionUncheckedUpdateManyWithoutCreditMemoNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutCreditMemoNestedInput
 }
 
 export type CreditMemoUncheckedUpdateManyWithoutTaxInput = {
@@ -2316,11 +2316,11 @@ export type CreditMemoUpdateWithoutCompanyInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer?: Prisma.CustomerUpdateOneRequiredWithoutCreditMemosNestedInput
-  tax?: Prisma.TaxRateUpdateOneWithoutCreditMemoNestedInput
+  tax?: Prisma.TaxRateUpdateOneWithoutCreditMemosNestedInput
   items?: Prisma.CreditMemoItemUpdateManyWithoutCreditMemoNestedInput
   attachments?: Prisma.CreditMemoAttachmentUpdateManyWithoutCreditMemoNestedInput
-  Transaction?: Prisma.TransactionUpdateManyWithoutCreditMemoNestedInput
-  Invoice?: Prisma.InvoiceUpdateOneWithoutCreditMemoNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutCreditMemoNestedInput
+  invoice?: Prisma.InvoiceUpdateOneWithoutCreditMemoNestedInput
 }
 
 export type CreditMemoUncheckedUpdateWithoutCompanyInput = {
@@ -2351,7 +2351,7 @@ export type CreditMemoUncheckedUpdateWithoutCompanyInput = {
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   items?: Prisma.CreditMemoItemUncheckedUpdateManyWithoutCreditMemoNestedInput
   attachments?: Prisma.CreditMemoAttachmentUncheckedUpdateManyWithoutCreditMemoNestedInput
-  Transaction?: Prisma.TransactionUncheckedUpdateManyWithoutCreditMemoNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutCreditMemoNestedInput
 }
 
 export type CreditMemoUncheckedUpdateManyWithoutCompanyInput = {
@@ -2390,13 +2390,13 @@ export type CreditMemoUncheckedUpdateManyWithoutCompanyInput = {
 export type CreditMemoCountOutputType = {
   items: number
   attachments: number
-  Transaction: number
+  transactions: number
 }
 
 export type CreditMemoCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   items?: boolean | CreditMemoCountOutputTypeCountItemsArgs
   attachments?: boolean | CreditMemoCountOutputTypeCountAttachmentsArgs
-  Transaction?: boolean | CreditMemoCountOutputTypeCountTransactionArgs
+  transactions?: boolean | CreditMemoCountOutputTypeCountTransactionsArgs
 }
 
 /**
@@ -2426,7 +2426,7 @@ export type CreditMemoCountOutputTypeCountAttachmentsArgs<ExtArgs extends runtim
 /**
  * CreditMemoCountOutputType without action
  */
-export type CreditMemoCountOutputTypeCountTransactionArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type CreditMemoCountOutputTypeCountTransactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.TransactionWhereInput
 }
 
@@ -2462,9 +2462,9 @@ export type CreditMemoSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   tax?: boolean | Prisma.CreditMemo$taxArgs<ExtArgs>
   items?: boolean | Prisma.CreditMemo$itemsArgs<ExtArgs>
   attachments?: boolean | Prisma.CreditMemo$attachmentsArgs<ExtArgs>
-  Transaction?: boolean | Prisma.CreditMemo$TransactionArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
-  Invoice?: boolean | Prisma.CreditMemo$InvoiceArgs<ExtArgs>
+  transactions?: boolean | Prisma.CreditMemo$transactionsArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  invoice?: boolean | Prisma.CreditMemo$invoiceArgs<ExtArgs>
   _count?: boolean | Prisma.CreditMemoCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["creditMemo"]>
 
@@ -2497,8 +2497,8 @@ export type CreditMemoSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   deactivationReason?: boolean
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   tax?: boolean | Prisma.CreditMemo$taxArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
-  Invoice?: boolean | Prisma.CreditMemo$InvoiceArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  invoice?: boolean | Prisma.CreditMemo$invoiceArgs<ExtArgs>
 }, ExtArgs["result"]["creditMemo"]>
 
 export type CreditMemoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -2530,8 +2530,8 @@ export type CreditMemoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   deactivationReason?: boolean
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   tax?: boolean | Prisma.CreditMemo$taxArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
-  Invoice?: boolean | Prisma.CreditMemo$InvoiceArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  invoice?: boolean | Prisma.CreditMemo$invoiceArgs<ExtArgs>
 }, ExtArgs["result"]["creditMemo"]>
 
 export type CreditMemoSelectScalar = {
@@ -2569,22 +2569,22 @@ export type CreditMemoInclude<ExtArgs extends runtime.Types.Extensions.InternalA
   tax?: boolean | Prisma.CreditMemo$taxArgs<ExtArgs>
   items?: boolean | Prisma.CreditMemo$itemsArgs<ExtArgs>
   attachments?: boolean | Prisma.CreditMemo$attachmentsArgs<ExtArgs>
-  Transaction?: boolean | Prisma.CreditMemo$TransactionArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
-  Invoice?: boolean | Prisma.CreditMemo$InvoiceArgs<ExtArgs>
+  transactions?: boolean | Prisma.CreditMemo$transactionsArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  invoice?: boolean | Prisma.CreditMemo$invoiceArgs<ExtArgs>
   _count?: boolean | Prisma.CreditMemoCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CreditMemoIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   tax?: boolean | Prisma.CreditMemo$taxArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
-  Invoice?: boolean | Prisma.CreditMemo$InvoiceArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  invoice?: boolean | Prisma.CreditMemo$invoiceArgs<ExtArgs>
 }
 export type CreditMemoIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   tax?: boolean | Prisma.CreditMemo$taxArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
-  Invoice?: boolean | Prisma.CreditMemo$InvoiceArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  invoice?: boolean | Prisma.CreditMemo$invoiceArgs<ExtArgs>
 }
 
 export type $CreditMemoPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2594,9 +2594,9 @@ export type $CreditMemoPayload<ExtArgs extends runtime.Types.Extensions.Internal
     tax: Prisma.$TaxRatePayload<ExtArgs> | null
     items: Prisma.$CreditMemoItemPayload<ExtArgs>[]
     attachments: Prisma.$CreditMemoAttachmentPayload<ExtArgs>[]
-    Transaction: Prisma.$TransactionPayload<ExtArgs>[]
-    Company: Prisma.$CompanyPayload<ExtArgs>
-    Invoice: Prisma.$InvoicePayload<ExtArgs> | null
+    transactions: Prisma.$TransactionPayload<ExtArgs>[]
+    company: Prisma.$CompanyPayload<ExtArgs>
+    invoice: Prisma.$InvoicePayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -3026,9 +3026,9 @@ export interface Prisma__CreditMemoClient<T, Null = never, ExtArgs extends runti
   tax<T extends Prisma.CreditMemo$taxArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CreditMemo$taxArgs<ExtArgs>>): Prisma.Prisma__TaxRateClient<runtime.Types.Result.GetResult<Prisma.$TaxRatePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   items<T extends Prisma.CreditMemo$itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CreditMemo$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CreditMemoItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   attachments<T extends Prisma.CreditMemo$attachmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CreditMemo$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CreditMemoAttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  Transaction<T extends Prisma.CreditMemo$TransactionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CreditMemo$TransactionArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  Company<T extends Prisma.CompanyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CompanyDefaultArgs<ExtArgs>>): Prisma.Prisma__CompanyClient<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  Invoice<T extends Prisma.CreditMemo$InvoiceArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CreditMemo$InvoiceArgs<ExtArgs>>): Prisma.Prisma__InvoiceClient<runtime.Types.Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  transactions<T extends Prisma.CreditMemo$transactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CreditMemo$transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  company<T extends Prisma.CompanyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CompanyDefaultArgs<ExtArgs>>): Prisma.Prisma__CompanyClient<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  invoice<T extends Prisma.CreditMemo$invoiceArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CreditMemo$invoiceArgs<ExtArgs>>): Prisma.Prisma__InvoiceClient<runtime.Types.Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3552,9 +3552,9 @@ export type CreditMemo$attachmentsArgs<ExtArgs extends runtime.Types.Extensions.
 }
 
 /**
- * CreditMemo.Transaction
+ * CreditMemo.transactions
  */
-export type CreditMemo$TransactionArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type CreditMemo$transactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Transaction
    */
@@ -3576,9 +3576,9 @@ export type CreditMemo$TransactionArgs<ExtArgs extends runtime.Types.Extensions.
 }
 
 /**
- * CreditMemo.Invoice
+ * CreditMemo.invoice
  */
-export type CreditMemo$InvoiceArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type CreditMemo$invoiceArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Invoice
    */

@@ -113,7 +113,7 @@ export const ModelName = {
   Verification: 'Verification',
   Ticket: 'Ticket',
   Message: 'Message',
-  MessageAttachement: 'MessageAttachement'
+  MessageAttachment: 'MessageAttachment'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1355,7 +1355,7 @@ export const MessageScalarFieldEnum = {
 export type MessageScalarFieldEnum = (typeof MessageScalarFieldEnum)[keyof typeof MessageScalarFieldEnum]
 
 
-export const MessageAttachementScalarFieldEnum = {
+export const MessageAttachmentScalarFieldEnum = {
   id: 'id',
   messageId: 'messageId',
   fileUrl: 'fileUrl',
@@ -1363,7 +1363,7 @@ export const MessageAttachementScalarFieldEnum = {
   createdAt: 'createdAt'
 } as const
 
-export type MessageAttachementScalarFieldEnum = (typeof MessageAttachementScalarFieldEnum)[keyof typeof MessageAttachementScalarFieldEnum]
+export type MessageAttachmentScalarFieldEnum = (typeof MessageAttachmentScalarFieldEnum)[keyof typeof MessageAttachmentScalarFieldEnum]
 
 
 export const SortOrder = {

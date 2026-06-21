@@ -1,6 +1,5 @@
 'use client';
 
-import { VersionStatus } from '@/lib/generated/prisma/client';
 import { useRouter } from 'next/navigation';
 import {
   CalendarClock,
@@ -9,6 +8,10 @@ import {
   Users,
   XCircle
 } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Card } from '@/components/ui/card';
+import { TableRow, TableCell } from '@/components/ui/table';
+import { VersionStatus } from '@/lib/generated/prisma/client';
 
 import {
   PaymentEventRowProps,
@@ -16,9 +19,6 @@ import {
 } from '@/types/payment-event/table';
 import AssignDialog from '../assignment/assign-dialog';
 import { PaymentEventActions } from './payment-event-actions';
-import { Card } from '@/components/ui/card';
-import { TableRow, TableCell } from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
 
 export function getPaymentEventAmount(
   version: PaymentEventVersionBasic | null

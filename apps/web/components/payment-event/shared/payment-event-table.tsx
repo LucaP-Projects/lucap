@@ -1,4 +1,6 @@
 import { Suspense } from 'react';
+import Loading from '@/components/shared/loading';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   Table,
   TableBody,
@@ -6,9 +8,7 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table';
-import { ScrollArea } from '@/components/ui/scroll-area';
 
-import Loading from '@/components/shared/loading';
 import {
   DesktopViewProps,
   PaymentEventWithRelations

@@ -1,9 +1,9 @@
 'use server';
-import { ReceiptStatus, Prisma, PaymentMethod } from '@/lib/generated/prisma/client';
 import { startOfDay, endOfDay } from 'date-fns';
 import { revalidatePath } from 'next/cache';
 import { auth } from '@/lib/auth';
 import { db } from '@/lib/db';
+import { ReceiptStatus, Prisma, PaymentMethod } from '@/lib/generated/prisma/client';
 
 export type SalesReceiptFilters = {
   status?: ReceiptStatus | undefined;

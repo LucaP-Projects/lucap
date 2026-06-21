@@ -1,11 +1,11 @@
-import { DiscountApplicationTime, DiscountType } from '@/lib/generated/prisma/client';
 import { motion } from 'framer-motion';
-
-import { cn, formatCurrency } from '@/lib/utils';
+import { Label, Tabs } from 'radix-ui';
+import { Badge } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Badge } from 'lucide-react';
-import { Label, Tabs } from 'radix-ui';
+import { DiscountApplicationTime, DiscountType } from '@/lib/generated/prisma/client';
+
+import { cn, formatCurrency } from '@/lib/utils';
 
 interface DiscountSectionProps {
   discountType: DiscountType;

@@ -3,6 +3,7 @@
 import { useEffect, useState, useTransition } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 import { PlusCircle } from 'lucide-react';
 import {
   Select,
@@ -17,7 +18,6 @@ import { cn } from '@/lib/utils';
 import { useSidebar } from '@/stores/useSidebar';
 import { selectCompany } from './actions';
 import { Company } from './types';
-import { toast } from 'sonner';
 
 interface NavCompanySelectorProps {
   companies: Company[];

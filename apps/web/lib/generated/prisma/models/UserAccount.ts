@@ -339,7 +339,7 @@ export type UserAccountCreateInput = {
   password?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutAccountsInput
+  user: Prisma.UserCreateNestedOneWithoutUseraccountsInput
 }
 
 export type UserAccountUncheckedCreateInput = {
@@ -371,7 +371,7 @@ export type UserAccountUpdateInput = {
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutAccountsNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutUseraccountsNestedInput
 }
 
 export type UserAccountUncheckedUpdateInput = {

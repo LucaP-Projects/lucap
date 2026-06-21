@@ -410,8 +410,8 @@ export type RefundReceiptWhereInput = {
   tax?: Prisma.XOR<Prisma.TaxRateNullableScalarRelationFilter, Prisma.TaxRateWhereInput> | null
   items?: Prisma.RefundReceiptItemListRelationFilter
   attachments?: Prisma.RefundAttachmentListRelationFilter
-  Transaction?: Prisma.TransactionListRelationFilter
-  Company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
+  transactions?: Prisma.TransactionListRelationFilter
+  company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
 }
 
 export type RefundReceiptOrderByWithRelationInput = {
@@ -446,8 +446,8 @@ export type RefundReceiptOrderByWithRelationInput = {
   tax?: Prisma.TaxRateOrderByWithRelationInput
   items?: Prisma.RefundReceiptItemOrderByRelationAggregateInput
   attachments?: Prisma.RefundAttachmentOrderByRelationAggregateInput
-  Transaction?: Prisma.TransactionOrderByRelationAggregateInput
-  Company?: Prisma.CompanyOrderByWithRelationInput
+  transactions?: Prisma.TransactionOrderByRelationAggregateInput
+  company?: Prisma.CompanyOrderByWithRelationInput
 }
 
 export type RefundReceiptWhereUniqueInput = Prisma.AtLeast<{
@@ -486,8 +486,8 @@ export type RefundReceiptWhereUniqueInput = Prisma.AtLeast<{
   tax?: Prisma.XOR<Prisma.TaxRateNullableScalarRelationFilter, Prisma.TaxRateWhereInput> | null
   items?: Prisma.RefundReceiptItemListRelationFilter
   attachments?: Prisma.RefundAttachmentListRelationFilter
-  Transaction?: Prisma.TransactionListRelationFilter
-  Company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
+  transactions?: Prisma.TransactionListRelationFilter
+  company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
 }, "id" | "number_companyId">
 
 export type RefundReceiptOrderByWithAggregationInput = {
@@ -584,11 +584,11 @@ export type RefundReceiptCreateInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   customer: Prisma.CustomerCreateNestedOneWithoutRefundReceiptsInput
-  tax?: Prisma.TaxRateCreateNestedOneWithoutRefundReceiptInput
+  tax?: Prisma.TaxRateCreateNestedOneWithoutRefundReceiptsInput
   items?: Prisma.RefundReceiptItemCreateNestedManyWithoutRefundReceiptInput
   attachments?: Prisma.RefundAttachmentCreateNestedManyWithoutRefundReceiptInput
-  Transaction?: Prisma.TransactionCreateNestedManyWithoutRefundReceiptInput
-  Company: Prisma.CompanyCreateNestedOneWithoutRefundReceiptsInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutRefundReceiptInput
+  company: Prisma.CompanyCreateNestedOneWithoutRefundReceiptsInput
 }
 
 export type RefundReceiptUncheckedCreateInput = {
@@ -621,7 +621,7 @@ export type RefundReceiptUncheckedCreateInput = {
   deactivationReason?: string | null
   items?: Prisma.RefundReceiptItemUncheckedCreateNestedManyWithoutRefundReceiptInput
   attachments?: Prisma.RefundAttachmentUncheckedCreateNestedManyWithoutRefundReceiptInput
-  Transaction?: Prisma.TransactionUncheckedCreateNestedManyWithoutRefundReceiptInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutRefundReceiptInput
 }
 
 export type RefundReceiptUpdateInput = {
@@ -650,11 +650,11 @@ export type RefundReceiptUpdateInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer?: Prisma.CustomerUpdateOneRequiredWithoutRefundReceiptsNestedInput
-  tax?: Prisma.TaxRateUpdateOneWithoutRefundReceiptNestedInput
+  tax?: Prisma.TaxRateUpdateOneWithoutRefundReceiptsNestedInput
   items?: Prisma.RefundReceiptItemUpdateManyWithoutRefundReceiptNestedInput
   attachments?: Prisma.RefundAttachmentUpdateManyWithoutRefundReceiptNestedInput
-  Transaction?: Prisma.TransactionUpdateManyWithoutRefundReceiptNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutRefundReceiptsNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutRefundReceiptNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutRefundReceiptsNestedInput
 }
 
 export type RefundReceiptUncheckedUpdateInput = {
@@ -687,7 +687,7 @@ export type RefundReceiptUncheckedUpdateInput = {
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   items?: Prisma.RefundReceiptItemUncheckedUpdateManyWithoutRefundReceiptNestedInput
   attachments?: Prisma.RefundAttachmentUncheckedUpdateManyWithoutRefundReceiptNestedInput
-  Transaction?: Prisma.TransactionUncheckedUpdateManyWithoutRefundReceiptNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutRefundReceiptNestedInput
 }
 
 export type RefundReceiptCreateManyInput = {
@@ -988,20 +988,20 @@ export type RefundReceiptUpdateOneRequiredWithoutAttachmentsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.RefundReceiptUpdateToOneWithWhereWithoutAttachmentsInput, Prisma.RefundReceiptUpdateWithoutAttachmentsInput>, Prisma.RefundReceiptUncheckedUpdateWithoutAttachmentsInput>
 }
 
-export type RefundReceiptCreateNestedOneWithoutTransactionInput = {
-  create?: Prisma.XOR<Prisma.RefundReceiptCreateWithoutTransactionInput, Prisma.RefundReceiptUncheckedCreateWithoutTransactionInput>
-  connectOrCreate?: Prisma.RefundReceiptCreateOrConnectWithoutTransactionInput
+export type RefundReceiptCreateNestedOneWithoutTransactionsInput = {
+  create?: Prisma.XOR<Prisma.RefundReceiptCreateWithoutTransactionsInput, Prisma.RefundReceiptUncheckedCreateWithoutTransactionsInput>
+  connectOrCreate?: Prisma.RefundReceiptCreateOrConnectWithoutTransactionsInput
   connect?: Prisma.RefundReceiptWhereUniqueInput
 }
 
-export type RefundReceiptUpdateOneWithoutTransactionNestedInput = {
-  create?: Prisma.XOR<Prisma.RefundReceiptCreateWithoutTransactionInput, Prisma.RefundReceiptUncheckedCreateWithoutTransactionInput>
-  connectOrCreate?: Prisma.RefundReceiptCreateOrConnectWithoutTransactionInput
-  upsert?: Prisma.RefundReceiptUpsertWithoutTransactionInput
+export type RefundReceiptUpdateOneWithoutTransactionsNestedInput = {
+  create?: Prisma.XOR<Prisma.RefundReceiptCreateWithoutTransactionsInput, Prisma.RefundReceiptUncheckedCreateWithoutTransactionsInput>
+  connectOrCreate?: Prisma.RefundReceiptCreateOrConnectWithoutTransactionsInput
+  upsert?: Prisma.RefundReceiptUpsertWithoutTransactionsInput
   disconnect?: Prisma.RefundReceiptWhereInput | boolean
   delete?: Prisma.RefundReceiptWhereInput | boolean
   connect?: Prisma.RefundReceiptWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.RefundReceiptUpdateToOneWithWhereWithoutTransactionInput, Prisma.RefundReceiptUpdateWithoutTransactionInput>, Prisma.RefundReceiptUncheckedUpdateWithoutTransactionInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.RefundReceiptUpdateToOneWithWhereWithoutTransactionsInput, Prisma.RefundReceiptUpdateWithoutTransactionsInput>, Prisma.RefundReceiptUncheckedUpdateWithoutTransactionsInput>
 }
 
 export type RefundReceiptCreateNestedManyWithoutTaxInput = {
@@ -1113,11 +1113,11 @@ export type RefundReceiptCreateWithoutCustomerInput = {
   deactivatedAt?: Date | string | null
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
-  tax?: Prisma.TaxRateCreateNestedOneWithoutRefundReceiptInput
+  tax?: Prisma.TaxRateCreateNestedOneWithoutRefundReceiptsInput
   items?: Prisma.RefundReceiptItemCreateNestedManyWithoutRefundReceiptInput
   attachments?: Prisma.RefundAttachmentCreateNestedManyWithoutRefundReceiptInput
-  Transaction?: Prisma.TransactionCreateNestedManyWithoutRefundReceiptInput
-  Company: Prisma.CompanyCreateNestedOneWithoutRefundReceiptsInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutRefundReceiptInput
+  company: Prisma.CompanyCreateNestedOneWithoutRefundReceiptsInput
 }
 
 export type RefundReceiptUncheckedCreateWithoutCustomerInput = {
@@ -1149,7 +1149,7 @@ export type RefundReceiptUncheckedCreateWithoutCustomerInput = {
   deactivationReason?: string | null
   items?: Prisma.RefundReceiptItemUncheckedCreateNestedManyWithoutRefundReceiptInput
   attachments?: Prisma.RefundAttachmentUncheckedCreateNestedManyWithoutRefundReceiptInput
-  Transaction?: Prisma.TransactionUncheckedCreateNestedManyWithoutRefundReceiptInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutRefundReceiptInput
 }
 
 export type RefundReceiptCreateOrConnectWithoutCustomerInput = {
@@ -1237,10 +1237,10 @@ export type RefundReceiptCreateWithoutItemsInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   customer: Prisma.CustomerCreateNestedOneWithoutRefundReceiptsInput
-  tax?: Prisma.TaxRateCreateNestedOneWithoutRefundReceiptInput
+  tax?: Prisma.TaxRateCreateNestedOneWithoutRefundReceiptsInput
   attachments?: Prisma.RefundAttachmentCreateNestedManyWithoutRefundReceiptInput
-  Transaction?: Prisma.TransactionCreateNestedManyWithoutRefundReceiptInput
-  Company: Prisma.CompanyCreateNestedOneWithoutRefundReceiptsInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutRefundReceiptInput
+  company: Prisma.CompanyCreateNestedOneWithoutRefundReceiptsInput
 }
 
 export type RefundReceiptUncheckedCreateWithoutItemsInput = {
@@ -1272,7 +1272,7 @@ export type RefundReceiptUncheckedCreateWithoutItemsInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   attachments?: Prisma.RefundAttachmentUncheckedCreateNestedManyWithoutRefundReceiptInput
-  Transaction?: Prisma.TransactionUncheckedCreateNestedManyWithoutRefundReceiptInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutRefundReceiptInput
 }
 
 export type RefundReceiptCreateOrConnectWithoutItemsInput = {
@@ -1317,10 +1317,10 @@ export type RefundReceiptUpdateWithoutItemsInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer?: Prisma.CustomerUpdateOneRequiredWithoutRefundReceiptsNestedInput
-  tax?: Prisma.TaxRateUpdateOneWithoutRefundReceiptNestedInput
+  tax?: Prisma.TaxRateUpdateOneWithoutRefundReceiptsNestedInput
   attachments?: Prisma.RefundAttachmentUpdateManyWithoutRefundReceiptNestedInput
-  Transaction?: Prisma.TransactionUpdateManyWithoutRefundReceiptNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutRefundReceiptsNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutRefundReceiptNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutRefundReceiptsNestedInput
 }
 
 export type RefundReceiptUncheckedUpdateWithoutItemsInput = {
@@ -1352,7 +1352,7 @@ export type RefundReceiptUncheckedUpdateWithoutItemsInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   attachments?: Prisma.RefundAttachmentUncheckedUpdateManyWithoutRefundReceiptNestedInput
-  Transaction?: Prisma.TransactionUncheckedUpdateManyWithoutRefundReceiptNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutRefundReceiptNestedInput
 }
 
 export type RefundReceiptCreateWithoutAttachmentsInput = {
@@ -1381,10 +1381,10 @@ export type RefundReceiptCreateWithoutAttachmentsInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   customer: Prisma.CustomerCreateNestedOneWithoutRefundReceiptsInput
-  tax?: Prisma.TaxRateCreateNestedOneWithoutRefundReceiptInput
+  tax?: Prisma.TaxRateCreateNestedOneWithoutRefundReceiptsInput
   items?: Prisma.RefundReceiptItemCreateNestedManyWithoutRefundReceiptInput
-  Transaction?: Prisma.TransactionCreateNestedManyWithoutRefundReceiptInput
-  Company: Prisma.CompanyCreateNestedOneWithoutRefundReceiptsInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutRefundReceiptInput
+  company: Prisma.CompanyCreateNestedOneWithoutRefundReceiptsInput
 }
 
 export type RefundReceiptUncheckedCreateWithoutAttachmentsInput = {
@@ -1416,7 +1416,7 @@ export type RefundReceiptUncheckedCreateWithoutAttachmentsInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   items?: Prisma.RefundReceiptItemUncheckedCreateNestedManyWithoutRefundReceiptInput
-  Transaction?: Prisma.TransactionUncheckedCreateNestedManyWithoutRefundReceiptInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutRefundReceiptInput
 }
 
 export type RefundReceiptCreateOrConnectWithoutAttachmentsInput = {
@@ -1461,10 +1461,10 @@ export type RefundReceiptUpdateWithoutAttachmentsInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer?: Prisma.CustomerUpdateOneRequiredWithoutRefundReceiptsNestedInput
-  tax?: Prisma.TaxRateUpdateOneWithoutRefundReceiptNestedInput
+  tax?: Prisma.TaxRateUpdateOneWithoutRefundReceiptsNestedInput
   items?: Prisma.RefundReceiptItemUpdateManyWithoutRefundReceiptNestedInput
-  Transaction?: Prisma.TransactionUpdateManyWithoutRefundReceiptNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutRefundReceiptsNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutRefundReceiptNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutRefundReceiptsNestedInput
 }
 
 export type RefundReceiptUncheckedUpdateWithoutAttachmentsInput = {
@@ -1496,10 +1496,10 @@ export type RefundReceiptUncheckedUpdateWithoutAttachmentsInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   items?: Prisma.RefundReceiptItemUncheckedUpdateManyWithoutRefundReceiptNestedInput
-  Transaction?: Prisma.TransactionUncheckedUpdateManyWithoutRefundReceiptNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutRefundReceiptNestedInput
 }
 
-export type RefundReceiptCreateWithoutTransactionInput = {
+export type RefundReceiptCreateWithoutTransactionsInput = {
   id?: string
   number: string
   discountType?: $Enums.DiscountType | null
@@ -1525,13 +1525,13 @@ export type RefundReceiptCreateWithoutTransactionInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   customer: Prisma.CustomerCreateNestedOneWithoutRefundReceiptsInput
-  tax?: Prisma.TaxRateCreateNestedOneWithoutRefundReceiptInput
+  tax?: Prisma.TaxRateCreateNestedOneWithoutRefundReceiptsInput
   items?: Prisma.RefundReceiptItemCreateNestedManyWithoutRefundReceiptInput
   attachments?: Prisma.RefundAttachmentCreateNestedManyWithoutRefundReceiptInput
-  Company: Prisma.CompanyCreateNestedOneWithoutRefundReceiptsInput
+  company: Prisma.CompanyCreateNestedOneWithoutRefundReceiptsInput
 }
 
-export type RefundReceiptUncheckedCreateWithoutTransactionInput = {
+export type RefundReceiptUncheckedCreateWithoutTransactionsInput = {
   id?: string
   number: string
   customerId: string
@@ -1563,23 +1563,23 @@ export type RefundReceiptUncheckedCreateWithoutTransactionInput = {
   attachments?: Prisma.RefundAttachmentUncheckedCreateNestedManyWithoutRefundReceiptInput
 }
 
-export type RefundReceiptCreateOrConnectWithoutTransactionInput = {
+export type RefundReceiptCreateOrConnectWithoutTransactionsInput = {
   where: Prisma.RefundReceiptWhereUniqueInput
-  create: Prisma.XOR<Prisma.RefundReceiptCreateWithoutTransactionInput, Prisma.RefundReceiptUncheckedCreateWithoutTransactionInput>
+  create: Prisma.XOR<Prisma.RefundReceiptCreateWithoutTransactionsInput, Prisma.RefundReceiptUncheckedCreateWithoutTransactionsInput>
 }
 
-export type RefundReceiptUpsertWithoutTransactionInput = {
-  update: Prisma.XOR<Prisma.RefundReceiptUpdateWithoutTransactionInput, Prisma.RefundReceiptUncheckedUpdateWithoutTransactionInput>
-  create: Prisma.XOR<Prisma.RefundReceiptCreateWithoutTransactionInput, Prisma.RefundReceiptUncheckedCreateWithoutTransactionInput>
+export type RefundReceiptUpsertWithoutTransactionsInput = {
+  update: Prisma.XOR<Prisma.RefundReceiptUpdateWithoutTransactionsInput, Prisma.RefundReceiptUncheckedUpdateWithoutTransactionsInput>
+  create: Prisma.XOR<Prisma.RefundReceiptCreateWithoutTransactionsInput, Prisma.RefundReceiptUncheckedCreateWithoutTransactionsInput>
   where?: Prisma.RefundReceiptWhereInput
 }
 
-export type RefundReceiptUpdateToOneWithWhereWithoutTransactionInput = {
+export type RefundReceiptUpdateToOneWithWhereWithoutTransactionsInput = {
   where?: Prisma.RefundReceiptWhereInput
-  data: Prisma.XOR<Prisma.RefundReceiptUpdateWithoutTransactionInput, Prisma.RefundReceiptUncheckedUpdateWithoutTransactionInput>
+  data: Prisma.XOR<Prisma.RefundReceiptUpdateWithoutTransactionsInput, Prisma.RefundReceiptUncheckedUpdateWithoutTransactionsInput>
 }
 
-export type RefundReceiptUpdateWithoutTransactionInput = {
+export type RefundReceiptUpdateWithoutTransactionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   number?: Prisma.StringFieldUpdateOperationsInput | string
   discountType?: Prisma.NullableEnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType | null
@@ -1605,13 +1605,13 @@ export type RefundReceiptUpdateWithoutTransactionInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer?: Prisma.CustomerUpdateOneRequiredWithoutRefundReceiptsNestedInput
-  tax?: Prisma.TaxRateUpdateOneWithoutRefundReceiptNestedInput
+  tax?: Prisma.TaxRateUpdateOneWithoutRefundReceiptsNestedInput
   items?: Prisma.RefundReceiptItemUpdateManyWithoutRefundReceiptNestedInput
   attachments?: Prisma.RefundAttachmentUpdateManyWithoutRefundReceiptNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutRefundReceiptsNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutRefundReceiptsNestedInput
 }
 
-export type RefundReceiptUncheckedUpdateWithoutTransactionInput = {
+export type RefundReceiptUncheckedUpdateWithoutTransactionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   number?: Prisma.StringFieldUpdateOperationsInput | string
   customerId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1671,8 +1671,8 @@ export type RefundReceiptCreateWithoutTaxInput = {
   customer: Prisma.CustomerCreateNestedOneWithoutRefundReceiptsInput
   items?: Prisma.RefundReceiptItemCreateNestedManyWithoutRefundReceiptInput
   attachments?: Prisma.RefundAttachmentCreateNestedManyWithoutRefundReceiptInput
-  Transaction?: Prisma.TransactionCreateNestedManyWithoutRefundReceiptInput
-  Company: Prisma.CompanyCreateNestedOneWithoutRefundReceiptsInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutRefundReceiptInput
+  company: Prisma.CompanyCreateNestedOneWithoutRefundReceiptsInput
 }
 
 export type RefundReceiptUncheckedCreateWithoutTaxInput = {
@@ -1704,7 +1704,7 @@ export type RefundReceiptUncheckedCreateWithoutTaxInput = {
   deactivationReason?: string | null
   items?: Prisma.RefundReceiptItemUncheckedCreateNestedManyWithoutRefundReceiptInput
   attachments?: Prisma.RefundAttachmentUncheckedCreateNestedManyWithoutRefundReceiptInput
-  Transaction?: Prisma.TransactionUncheckedCreateNestedManyWithoutRefundReceiptInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutRefundReceiptInput
 }
 
 export type RefundReceiptCreateOrConnectWithoutTaxInput = {
@@ -1759,10 +1759,10 @@ export type RefundReceiptCreateWithoutCompanyInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   customer: Prisma.CustomerCreateNestedOneWithoutRefundReceiptsInput
-  tax?: Prisma.TaxRateCreateNestedOneWithoutRefundReceiptInput
+  tax?: Prisma.TaxRateCreateNestedOneWithoutRefundReceiptsInput
   items?: Prisma.RefundReceiptItemCreateNestedManyWithoutRefundReceiptInput
   attachments?: Prisma.RefundAttachmentCreateNestedManyWithoutRefundReceiptInput
-  Transaction?: Prisma.TransactionCreateNestedManyWithoutRefundReceiptInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutRefundReceiptInput
 }
 
 export type RefundReceiptUncheckedCreateWithoutCompanyInput = {
@@ -1794,7 +1794,7 @@ export type RefundReceiptUncheckedCreateWithoutCompanyInput = {
   deactivationReason?: string | null
   items?: Prisma.RefundReceiptItemUncheckedCreateNestedManyWithoutRefundReceiptInput
   attachments?: Prisma.RefundAttachmentUncheckedCreateNestedManyWithoutRefundReceiptInput
-  Transaction?: Prisma.TransactionUncheckedCreateNestedManyWithoutRefundReceiptInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutRefundReceiptInput
 }
 
 export type RefundReceiptCreateOrConnectWithoutCompanyInput = {
@@ -1877,11 +1877,11 @@ export type RefundReceiptUpdateWithoutCustomerInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tax?: Prisma.TaxRateUpdateOneWithoutRefundReceiptNestedInput
+  tax?: Prisma.TaxRateUpdateOneWithoutRefundReceiptsNestedInput
   items?: Prisma.RefundReceiptItemUpdateManyWithoutRefundReceiptNestedInput
   attachments?: Prisma.RefundAttachmentUpdateManyWithoutRefundReceiptNestedInput
-  Transaction?: Prisma.TransactionUpdateManyWithoutRefundReceiptNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutRefundReceiptsNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutRefundReceiptNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutRefundReceiptsNestedInput
 }
 
 export type RefundReceiptUncheckedUpdateWithoutCustomerInput = {
@@ -1913,7 +1913,7 @@ export type RefundReceiptUncheckedUpdateWithoutCustomerInput = {
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   items?: Prisma.RefundReceiptItemUncheckedUpdateManyWithoutRefundReceiptNestedInput
   attachments?: Prisma.RefundAttachmentUncheckedUpdateManyWithoutRefundReceiptNestedInput
-  Transaction?: Prisma.TransactionUncheckedUpdateManyWithoutRefundReceiptNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutRefundReceiptNestedInput
 }
 
 export type RefundReceiptUncheckedUpdateManyWithoutCustomerInput = {
@@ -2002,8 +2002,8 @@ export type RefundReceiptUpdateWithoutTaxInput = {
   customer?: Prisma.CustomerUpdateOneRequiredWithoutRefundReceiptsNestedInput
   items?: Prisma.RefundReceiptItemUpdateManyWithoutRefundReceiptNestedInput
   attachments?: Prisma.RefundAttachmentUpdateManyWithoutRefundReceiptNestedInput
-  Transaction?: Prisma.TransactionUpdateManyWithoutRefundReceiptNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutRefundReceiptsNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutRefundReceiptNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutRefundReceiptsNestedInput
 }
 
 export type RefundReceiptUncheckedUpdateWithoutTaxInput = {
@@ -2035,7 +2035,7 @@ export type RefundReceiptUncheckedUpdateWithoutTaxInput = {
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   items?: Prisma.RefundReceiptItemUncheckedUpdateManyWithoutRefundReceiptNestedInput
   attachments?: Prisma.RefundAttachmentUncheckedUpdateManyWithoutRefundReceiptNestedInput
-  Transaction?: Prisma.TransactionUncheckedUpdateManyWithoutRefundReceiptNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutRefundReceiptNestedInput
 }
 
 export type RefundReceiptUncheckedUpdateManyWithoutTaxInput = {
@@ -2122,10 +2122,10 @@ export type RefundReceiptUpdateWithoutCompanyInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer?: Prisma.CustomerUpdateOneRequiredWithoutRefundReceiptsNestedInput
-  tax?: Prisma.TaxRateUpdateOneWithoutRefundReceiptNestedInput
+  tax?: Prisma.TaxRateUpdateOneWithoutRefundReceiptsNestedInput
   items?: Prisma.RefundReceiptItemUpdateManyWithoutRefundReceiptNestedInput
   attachments?: Prisma.RefundAttachmentUpdateManyWithoutRefundReceiptNestedInput
-  Transaction?: Prisma.TransactionUpdateManyWithoutRefundReceiptNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutRefundReceiptNestedInput
 }
 
 export type RefundReceiptUncheckedUpdateWithoutCompanyInput = {
@@ -2157,7 +2157,7 @@ export type RefundReceiptUncheckedUpdateWithoutCompanyInput = {
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   items?: Prisma.RefundReceiptItemUncheckedUpdateManyWithoutRefundReceiptNestedInput
   attachments?: Prisma.RefundAttachmentUncheckedUpdateManyWithoutRefundReceiptNestedInput
-  Transaction?: Prisma.TransactionUncheckedUpdateManyWithoutRefundReceiptNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutRefundReceiptNestedInput
 }
 
 export type RefundReceiptUncheckedUpdateManyWithoutCompanyInput = {
@@ -2197,13 +2197,13 @@ export type RefundReceiptUncheckedUpdateManyWithoutCompanyInput = {
 export type RefundReceiptCountOutputType = {
   items: number
   attachments: number
-  Transaction: number
+  transactions: number
 }
 
 export type RefundReceiptCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   items?: boolean | RefundReceiptCountOutputTypeCountItemsArgs
   attachments?: boolean | RefundReceiptCountOutputTypeCountAttachmentsArgs
-  Transaction?: boolean | RefundReceiptCountOutputTypeCountTransactionArgs
+  transactions?: boolean | RefundReceiptCountOutputTypeCountTransactionsArgs
 }
 
 /**
@@ -2233,7 +2233,7 @@ export type RefundReceiptCountOutputTypeCountAttachmentsArgs<ExtArgs extends run
 /**
  * RefundReceiptCountOutputType without action
  */
-export type RefundReceiptCountOutputTypeCountTransactionArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type RefundReceiptCountOutputTypeCountTransactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.TransactionWhereInput
 }
 
@@ -2270,8 +2270,8 @@ export type RefundReceiptSelect<ExtArgs extends runtime.Types.Extensions.Interna
   tax?: boolean | Prisma.RefundReceipt$taxArgs<ExtArgs>
   items?: boolean | Prisma.RefundReceipt$itemsArgs<ExtArgs>
   attachments?: boolean | Prisma.RefundReceipt$attachmentsArgs<ExtArgs>
-  Transaction?: boolean | Prisma.RefundReceipt$TransactionArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  transactions?: boolean | Prisma.RefundReceipt$transactionsArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.RefundReceiptCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["refundReceipt"]>
 
@@ -2305,7 +2305,7 @@ export type RefundReceiptSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   deactivationReason?: boolean
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   tax?: boolean | Prisma.RefundReceipt$taxArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["refundReceipt"]>
 
 export type RefundReceiptSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -2338,7 +2338,7 @@ export type RefundReceiptSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   deactivationReason?: boolean
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   tax?: boolean | Prisma.RefundReceipt$taxArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["refundReceipt"]>
 
 export type RefundReceiptSelectScalar = {
@@ -2377,19 +2377,19 @@ export type RefundReceiptInclude<ExtArgs extends runtime.Types.Extensions.Intern
   tax?: boolean | Prisma.RefundReceipt$taxArgs<ExtArgs>
   items?: boolean | Prisma.RefundReceipt$itemsArgs<ExtArgs>
   attachments?: boolean | Prisma.RefundReceipt$attachmentsArgs<ExtArgs>
-  Transaction?: boolean | Prisma.RefundReceipt$TransactionArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  transactions?: boolean | Prisma.RefundReceipt$transactionsArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.RefundReceiptCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type RefundReceiptIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   tax?: boolean | Prisma.RefundReceipt$taxArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }
 export type RefundReceiptIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   tax?: boolean | Prisma.RefundReceipt$taxArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }
 
 export type $RefundReceiptPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2399,8 +2399,8 @@ export type $RefundReceiptPayload<ExtArgs extends runtime.Types.Extensions.Inter
     tax: Prisma.$TaxRatePayload<ExtArgs> | null
     items: Prisma.$RefundReceiptItemPayload<ExtArgs>[]
     attachments: Prisma.$RefundAttachmentPayload<ExtArgs>[]
-    Transaction: Prisma.$TransactionPayload<ExtArgs>[]
-    Company: Prisma.$CompanyPayload<ExtArgs>
+    transactions: Prisma.$TransactionPayload<ExtArgs>[]
+    company: Prisma.$CompanyPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2831,8 +2831,8 @@ export interface Prisma__RefundReceiptClient<T, Null = never, ExtArgs extends ru
   tax<T extends Prisma.RefundReceipt$taxArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RefundReceipt$taxArgs<ExtArgs>>): Prisma.Prisma__TaxRateClient<runtime.Types.Result.GetResult<Prisma.$TaxRatePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   items<T extends Prisma.RefundReceipt$itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RefundReceipt$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RefundReceiptItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   attachments<T extends Prisma.RefundReceipt$attachmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RefundReceipt$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RefundAttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  Transaction<T extends Prisma.RefundReceipt$TransactionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RefundReceipt$TransactionArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  Company<T extends Prisma.CompanyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CompanyDefaultArgs<ExtArgs>>): Prisma.Prisma__CompanyClient<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  transactions<T extends Prisma.RefundReceipt$transactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RefundReceipt$transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  company<T extends Prisma.CompanyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CompanyDefaultArgs<ExtArgs>>): Prisma.Prisma__CompanyClient<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3357,9 +3357,9 @@ export type RefundReceipt$attachmentsArgs<ExtArgs extends runtime.Types.Extensio
 }
 
 /**
- * RefundReceipt.Transaction
+ * RefundReceipt.transactions
  */
-export type RefundReceipt$TransactionArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type RefundReceipt$transactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Transaction
    */

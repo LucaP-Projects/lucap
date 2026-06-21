@@ -212,7 +212,7 @@ export type EmailTemplateWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"EmailTemplate"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"EmailTemplate"> | Date | string
   companyId?: Prisma.StringFilter<"EmailTemplate"> | string
-  Company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
+  company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
 }
 
 export type EmailTemplateOrderByWithRelationInput = {
@@ -225,7 +225,7 @@ export type EmailTemplateOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   companyId?: Prisma.SortOrder
-  Company?: Prisma.CompanyOrderByWithRelationInput
+  company?: Prisma.CompanyOrderByWithRelationInput
 }
 
 export type EmailTemplateWhereUniqueInput = Prisma.AtLeast<{
@@ -242,7 +242,7 @@ export type EmailTemplateWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"EmailTemplate"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"EmailTemplate"> | Date | string
   companyId?: Prisma.StringFilter<"EmailTemplate"> | string
-  Company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
+  company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
 }, "id" | "name_companyId">
 
 export type EmailTemplateOrderByWithAggregationInput = {
@@ -284,7 +284,7 @@ export type EmailTemplateCreateInput = {
   active?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  Company: Prisma.CompanyCreateNestedOneWithoutEmailTemplatesInput
+  company: Prisma.CompanyCreateNestedOneWithoutEmailTemplatesInput
 }
 
 export type EmailTemplateUncheckedCreateInput = {
@@ -308,7 +308,7 @@ export type EmailTemplateUpdateInput = {
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutEmailTemplatesNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutEmailTemplatesNestedInput
 }
 
 export type EmailTemplateUncheckedUpdateInput = {
@@ -577,7 +577,7 @@ export type EmailTemplateSelect<ExtArgs extends runtime.Types.Extensions.Interna
   createdAt?: boolean
   updatedAt?: boolean
   companyId?: boolean
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["emailTemplate"]>
 
 export type EmailTemplateSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -590,7 +590,7 @@ export type EmailTemplateSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   createdAt?: boolean
   updatedAt?: boolean
   companyId?: boolean
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["emailTemplate"]>
 
 export type EmailTemplateSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -603,7 +603,7 @@ export type EmailTemplateSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   createdAt?: boolean
   updatedAt?: boolean
   companyId?: boolean
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["emailTemplate"]>
 
 export type EmailTemplateSelectScalar = {
@@ -620,19 +620,19 @@ export type EmailTemplateSelectScalar = {
 
 export type EmailTemplateOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "subject" | "body" | "variables" | "active" | "createdAt" | "updatedAt" | "companyId", ExtArgs["result"]["emailTemplate"]>
 export type EmailTemplateInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }
 export type EmailTemplateIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }
 export type EmailTemplateIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }
 
 export type $EmailTemplatePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "EmailTemplate"
   objects: {
-    Company: Prisma.$CompanyPayload<ExtArgs>
+    company: Prisma.$CompanyPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1038,7 +1038,7 @@ readonly fields: EmailTemplateFieldRefs;
  */
 export interface Prisma__EmailTemplateClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  Company<T extends Prisma.CompanyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CompanyDefaultArgs<ExtArgs>>): Prisma.Prisma__CompanyClient<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  company<T extends Prisma.CompanyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CompanyDefaultArgs<ExtArgs>>): Prisma.Prisma__CompanyClient<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

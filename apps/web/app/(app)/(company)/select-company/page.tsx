@@ -1,5 +1,6 @@
-import { Card, CardContent } from '@/components/ui/card';
+import { headers } from 'next/headers';
 import { getUserCompanies } from '@/components/company/select/actions';
+import { Card, CardContent } from '@/components/ui/card';
 import { auth } from '@/lib/auth';
 import { SelectCompanyForm } from './form';
 
@@ -10,7 +11,7 @@ interface PageProps {
 export default async function SelectCompanyPage({ params }: PageProps) {
   const [pageParams, session, companies] = await Promise.all([
     params,
-    auth.api.getSession(),
+    auth.api.getSession({headers: await headers()}),
     getUserCompanies()
   ]);
 

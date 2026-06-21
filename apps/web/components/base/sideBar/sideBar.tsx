@@ -63,7 +63,7 @@ const SidebarSettings = ({ paperType }: SidebarProps) => {
       <Accordion type="single" collapsible className="space-y-3">
         <AccordionItem
           value="customerReports"
-          className="border-border rounded-lg border !border-b dark:border-gray-700"
+          className="border-border rounded-lg border border-b! dark:border-gray-700"
         >
           <AccordionTrigger className="hover:bg-muted px-4 hover:no-underline dark:hover:bg-gray-700">
             Customer reports

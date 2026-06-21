@@ -271,7 +271,7 @@ export type AccountWhereInput = {
   incomeItems?: Prisma.ItemListRelationFilter
   expenseItems?: Prisma.ItemListRelationFilter
   inventoryAssetItems?: Prisma.ItemListRelationFilter
-  JournalEntryLine?: Prisma.JournalEntryLineListRelationFilter
+  journalEntryLine?: Prisma.JournalEntryLineListRelationFilter
 }
 
 export type AccountOrderByWithRelationInput = {
@@ -297,7 +297,7 @@ export type AccountOrderByWithRelationInput = {
   incomeItems?: Prisma.ItemOrderByRelationAggregateInput
   expenseItems?: Prisma.ItemOrderByRelationAggregateInput
   inventoryAssetItems?: Prisma.ItemOrderByRelationAggregateInput
-  JournalEntryLine?: Prisma.JournalEntryLineOrderByRelationAggregateInput
+  journalEntryLine?: Prisma.JournalEntryLineOrderByRelationAggregateInput
 }
 
 export type AccountWhereUniqueInput = Prisma.AtLeast<{
@@ -328,7 +328,7 @@ export type AccountWhereUniqueInput = Prisma.AtLeast<{
   incomeItems?: Prisma.ItemListRelationFilter
   expenseItems?: Prisma.ItemListRelationFilter
   inventoryAssetItems?: Prisma.ItemListRelationFilter
-  JournalEntryLine?: Prisma.JournalEntryLineListRelationFilter
+  journalEntryLine?: Prisma.JournalEntryLineListRelationFilter
 }, "id" | "companyId_number" | "companyId_composed_number">
 
 export type AccountOrderByWithAggregationInput = {
@@ -393,7 +393,7 @@ export type AccountCreateInput = {
   incomeItems?: Prisma.ItemCreateNestedManyWithoutIncomeAccountInput
   expenseItems?: Prisma.ItemCreateNestedManyWithoutExpenseAccountInput
   inventoryAssetItems?: Prisma.ItemCreateNestedManyWithoutInventoryAssetAccountInput
-  JournalEntryLine?: Prisma.JournalEntryLineCreateNestedManyWithoutAccountInput
+  journalEntryLine?: Prisma.JournalEntryLineCreateNestedManyWithoutAccountInput
 }
 
 export type AccountUncheckedCreateInput = {
@@ -416,7 +416,7 @@ export type AccountUncheckedCreateInput = {
   incomeItems?: Prisma.ItemUncheckedCreateNestedManyWithoutIncomeAccountInput
   expenseItems?: Prisma.ItemUncheckedCreateNestedManyWithoutExpenseAccountInput
   inventoryAssetItems?: Prisma.ItemUncheckedCreateNestedManyWithoutInventoryAssetAccountInput
-  JournalEntryLine?: Prisma.JournalEntryLineUncheckedCreateNestedManyWithoutAccountInput
+  journalEntryLine?: Prisma.JournalEntryLineUncheckedCreateNestedManyWithoutAccountInput
 }
 
 export type AccountUpdateInput = {
@@ -439,7 +439,7 @@ export type AccountUpdateInput = {
   incomeItems?: Prisma.ItemUpdateManyWithoutIncomeAccountNestedInput
   expenseItems?: Prisma.ItemUpdateManyWithoutExpenseAccountNestedInput
   inventoryAssetItems?: Prisma.ItemUpdateManyWithoutInventoryAssetAccountNestedInput
-  JournalEntryLine?: Prisma.JournalEntryLineUpdateManyWithoutAccountNestedInput
+  journalEntryLine?: Prisma.JournalEntryLineUpdateManyWithoutAccountNestedInput
 }
 
 export type AccountUncheckedUpdateInput = {
@@ -462,7 +462,7 @@ export type AccountUncheckedUpdateInput = {
   incomeItems?: Prisma.ItemUncheckedUpdateManyWithoutIncomeAccountNestedInput
   expenseItems?: Prisma.ItemUncheckedUpdateManyWithoutExpenseAccountNestedInput
   inventoryAssetItems?: Prisma.ItemUncheckedUpdateManyWithoutInventoryAssetAccountNestedInput
-  JournalEntryLine?: Prisma.JournalEntryLineUncheckedUpdateManyWithoutAccountNestedInput
+  journalEntryLine?: Prisma.JournalEntryLineUncheckedUpdateManyWithoutAccountNestedInput
 }
 
 export type AccountCreateManyInput = {
@@ -823,7 +823,7 @@ export type AccountCreateWithoutChildrenInput = {
   incomeItems?: Prisma.ItemCreateNestedManyWithoutIncomeAccountInput
   expenseItems?: Prisma.ItemCreateNestedManyWithoutExpenseAccountInput
   inventoryAssetItems?: Prisma.ItemCreateNestedManyWithoutInventoryAssetAccountInput
-  JournalEntryLine?: Prisma.JournalEntryLineCreateNestedManyWithoutAccountInput
+  journalEntryLine?: Prisma.JournalEntryLineCreateNestedManyWithoutAccountInput
 }
 
 export type AccountUncheckedCreateWithoutChildrenInput = {
@@ -845,7 +845,7 @@ export type AccountUncheckedCreateWithoutChildrenInput = {
   incomeItems?: Prisma.ItemUncheckedCreateNestedManyWithoutIncomeAccountInput
   expenseItems?: Prisma.ItemUncheckedCreateNestedManyWithoutExpenseAccountInput
   inventoryAssetItems?: Prisma.ItemUncheckedCreateNestedManyWithoutInventoryAssetAccountInput
-  JournalEntryLine?: Prisma.JournalEntryLineUncheckedCreateNestedManyWithoutAccountInput
+  journalEntryLine?: Prisma.JournalEntryLineUncheckedCreateNestedManyWithoutAccountInput
 }
 
 export type AccountCreateOrConnectWithoutChildrenInput = {
@@ -872,7 +872,7 @@ export type AccountCreateWithoutParentInput = {
   incomeItems?: Prisma.ItemCreateNestedManyWithoutIncomeAccountInput
   expenseItems?: Prisma.ItemCreateNestedManyWithoutExpenseAccountInput
   inventoryAssetItems?: Prisma.ItemCreateNestedManyWithoutInventoryAssetAccountInput
-  JournalEntryLine?: Prisma.JournalEntryLineCreateNestedManyWithoutAccountInput
+  journalEntryLine?: Prisma.JournalEntryLineCreateNestedManyWithoutAccountInput
 }
 
 export type AccountUncheckedCreateWithoutParentInput = {
@@ -894,7 +894,7 @@ export type AccountUncheckedCreateWithoutParentInput = {
   incomeItems?: Prisma.ItemUncheckedCreateNestedManyWithoutIncomeAccountInput
   expenseItems?: Prisma.ItemUncheckedCreateNestedManyWithoutExpenseAccountInput
   inventoryAssetItems?: Prisma.ItemUncheckedCreateNestedManyWithoutInventoryAssetAccountInput
-  JournalEntryLine?: Prisma.JournalEntryLineUncheckedCreateNestedManyWithoutAccountInput
+  journalEntryLine?: Prisma.JournalEntryLineUncheckedCreateNestedManyWithoutAccountInput
 }
 
 export type AccountCreateOrConnectWithoutParentInput = {
@@ -937,7 +937,7 @@ export type AccountUpdateWithoutChildrenInput = {
   incomeItems?: Prisma.ItemUpdateManyWithoutIncomeAccountNestedInput
   expenseItems?: Prisma.ItemUpdateManyWithoutExpenseAccountNestedInput
   inventoryAssetItems?: Prisma.ItemUpdateManyWithoutInventoryAssetAccountNestedInput
-  JournalEntryLine?: Prisma.JournalEntryLineUpdateManyWithoutAccountNestedInput
+  journalEntryLine?: Prisma.JournalEntryLineUpdateManyWithoutAccountNestedInput
 }
 
 export type AccountUncheckedUpdateWithoutChildrenInput = {
@@ -959,7 +959,7 @@ export type AccountUncheckedUpdateWithoutChildrenInput = {
   incomeItems?: Prisma.ItemUncheckedUpdateManyWithoutIncomeAccountNestedInput
   expenseItems?: Prisma.ItemUncheckedUpdateManyWithoutExpenseAccountNestedInput
   inventoryAssetItems?: Prisma.ItemUncheckedUpdateManyWithoutInventoryAssetAccountNestedInput
-  JournalEntryLine?: Prisma.JournalEntryLineUncheckedUpdateManyWithoutAccountNestedInput
+  journalEntryLine?: Prisma.JournalEntryLineUncheckedUpdateManyWithoutAccountNestedInput
 }
 
 export type AccountUpsertWithWhereUniqueWithoutParentInput = {
@@ -1018,7 +1018,7 @@ export type AccountCreateWithoutIncomeItemsInput = {
   company: Prisma.CompanyCreateNestedOneWithoutAccountsInput
   expenseItems?: Prisma.ItemCreateNestedManyWithoutExpenseAccountInput
   inventoryAssetItems?: Prisma.ItemCreateNestedManyWithoutInventoryAssetAccountInput
-  JournalEntryLine?: Prisma.JournalEntryLineCreateNestedManyWithoutAccountInput
+  journalEntryLine?: Prisma.JournalEntryLineCreateNestedManyWithoutAccountInput
 }
 
 export type AccountUncheckedCreateWithoutIncomeItemsInput = {
@@ -1040,7 +1040,7 @@ export type AccountUncheckedCreateWithoutIncomeItemsInput = {
   children?: Prisma.AccountUncheckedCreateNestedManyWithoutParentInput
   expenseItems?: Prisma.ItemUncheckedCreateNestedManyWithoutExpenseAccountInput
   inventoryAssetItems?: Prisma.ItemUncheckedCreateNestedManyWithoutInventoryAssetAccountInput
-  JournalEntryLine?: Prisma.JournalEntryLineUncheckedCreateNestedManyWithoutAccountInput
+  journalEntryLine?: Prisma.JournalEntryLineUncheckedCreateNestedManyWithoutAccountInput
 }
 
 export type AccountCreateOrConnectWithoutIncomeItemsInput = {
@@ -1067,7 +1067,7 @@ export type AccountCreateWithoutExpenseItemsInput = {
   company: Prisma.CompanyCreateNestedOneWithoutAccountsInput
   incomeItems?: Prisma.ItemCreateNestedManyWithoutIncomeAccountInput
   inventoryAssetItems?: Prisma.ItemCreateNestedManyWithoutInventoryAssetAccountInput
-  JournalEntryLine?: Prisma.JournalEntryLineCreateNestedManyWithoutAccountInput
+  journalEntryLine?: Prisma.JournalEntryLineCreateNestedManyWithoutAccountInput
 }
 
 export type AccountUncheckedCreateWithoutExpenseItemsInput = {
@@ -1089,7 +1089,7 @@ export type AccountUncheckedCreateWithoutExpenseItemsInput = {
   children?: Prisma.AccountUncheckedCreateNestedManyWithoutParentInput
   incomeItems?: Prisma.ItemUncheckedCreateNestedManyWithoutIncomeAccountInput
   inventoryAssetItems?: Prisma.ItemUncheckedCreateNestedManyWithoutInventoryAssetAccountInput
-  JournalEntryLine?: Prisma.JournalEntryLineUncheckedCreateNestedManyWithoutAccountInput
+  journalEntryLine?: Prisma.JournalEntryLineUncheckedCreateNestedManyWithoutAccountInput
 }
 
 export type AccountCreateOrConnectWithoutExpenseItemsInput = {
@@ -1116,7 +1116,7 @@ export type AccountCreateWithoutInventoryAssetItemsInput = {
   company: Prisma.CompanyCreateNestedOneWithoutAccountsInput
   incomeItems?: Prisma.ItemCreateNestedManyWithoutIncomeAccountInput
   expenseItems?: Prisma.ItemCreateNestedManyWithoutExpenseAccountInput
-  JournalEntryLine?: Prisma.JournalEntryLineCreateNestedManyWithoutAccountInput
+  journalEntryLine?: Prisma.JournalEntryLineCreateNestedManyWithoutAccountInput
 }
 
 export type AccountUncheckedCreateWithoutInventoryAssetItemsInput = {
@@ -1138,7 +1138,7 @@ export type AccountUncheckedCreateWithoutInventoryAssetItemsInput = {
   children?: Prisma.AccountUncheckedCreateNestedManyWithoutParentInput
   incomeItems?: Prisma.ItemUncheckedCreateNestedManyWithoutIncomeAccountInput
   expenseItems?: Prisma.ItemUncheckedCreateNestedManyWithoutExpenseAccountInput
-  JournalEntryLine?: Prisma.JournalEntryLineUncheckedCreateNestedManyWithoutAccountInput
+  journalEntryLine?: Prisma.JournalEntryLineUncheckedCreateNestedManyWithoutAccountInput
 }
 
 export type AccountCreateOrConnectWithoutInventoryAssetItemsInput = {
@@ -1176,7 +1176,7 @@ export type AccountUpdateWithoutIncomeItemsInput = {
   company?: Prisma.CompanyUpdateOneRequiredWithoutAccountsNestedInput
   expenseItems?: Prisma.ItemUpdateManyWithoutExpenseAccountNestedInput
   inventoryAssetItems?: Prisma.ItemUpdateManyWithoutInventoryAssetAccountNestedInput
-  JournalEntryLine?: Prisma.JournalEntryLineUpdateManyWithoutAccountNestedInput
+  journalEntryLine?: Prisma.JournalEntryLineUpdateManyWithoutAccountNestedInput
 }
 
 export type AccountUncheckedUpdateWithoutIncomeItemsInput = {
@@ -1198,7 +1198,7 @@ export type AccountUncheckedUpdateWithoutIncomeItemsInput = {
   children?: Prisma.AccountUncheckedUpdateManyWithoutParentNestedInput
   expenseItems?: Prisma.ItemUncheckedUpdateManyWithoutExpenseAccountNestedInput
   inventoryAssetItems?: Prisma.ItemUncheckedUpdateManyWithoutInventoryAssetAccountNestedInput
-  JournalEntryLine?: Prisma.JournalEntryLineUncheckedUpdateManyWithoutAccountNestedInput
+  journalEntryLine?: Prisma.JournalEntryLineUncheckedUpdateManyWithoutAccountNestedInput
 }
 
 export type AccountUpsertWithoutExpenseItemsInput = {
@@ -1231,7 +1231,7 @@ export type AccountUpdateWithoutExpenseItemsInput = {
   company?: Prisma.CompanyUpdateOneRequiredWithoutAccountsNestedInput
   incomeItems?: Prisma.ItemUpdateManyWithoutIncomeAccountNestedInput
   inventoryAssetItems?: Prisma.ItemUpdateManyWithoutInventoryAssetAccountNestedInput
-  JournalEntryLine?: Prisma.JournalEntryLineUpdateManyWithoutAccountNestedInput
+  journalEntryLine?: Prisma.JournalEntryLineUpdateManyWithoutAccountNestedInput
 }
 
 export type AccountUncheckedUpdateWithoutExpenseItemsInput = {
@@ -1253,7 +1253,7 @@ export type AccountUncheckedUpdateWithoutExpenseItemsInput = {
   children?: Prisma.AccountUncheckedUpdateManyWithoutParentNestedInput
   incomeItems?: Prisma.ItemUncheckedUpdateManyWithoutIncomeAccountNestedInput
   inventoryAssetItems?: Prisma.ItemUncheckedUpdateManyWithoutInventoryAssetAccountNestedInput
-  JournalEntryLine?: Prisma.JournalEntryLineUncheckedUpdateManyWithoutAccountNestedInput
+  journalEntryLine?: Prisma.JournalEntryLineUncheckedUpdateManyWithoutAccountNestedInput
 }
 
 export type AccountUpsertWithoutInventoryAssetItemsInput = {
@@ -1286,7 +1286,7 @@ export type AccountUpdateWithoutInventoryAssetItemsInput = {
   company?: Prisma.CompanyUpdateOneRequiredWithoutAccountsNestedInput
   incomeItems?: Prisma.ItemUpdateManyWithoutIncomeAccountNestedInput
   expenseItems?: Prisma.ItemUpdateManyWithoutExpenseAccountNestedInput
-  JournalEntryLine?: Prisma.JournalEntryLineUpdateManyWithoutAccountNestedInput
+  journalEntryLine?: Prisma.JournalEntryLineUpdateManyWithoutAccountNestedInput
 }
 
 export type AccountUncheckedUpdateWithoutInventoryAssetItemsInput = {
@@ -1308,7 +1308,7 @@ export type AccountUncheckedUpdateWithoutInventoryAssetItemsInput = {
   children?: Prisma.AccountUncheckedUpdateManyWithoutParentNestedInput
   incomeItems?: Prisma.ItemUncheckedUpdateManyWithoutIncomeAccountNestedInput
   expenseItems?: Prisma.ItemUncheckedUpdateManyWithoutExpenseAccountNestedInput
-  JournalEntryLine?: Prisma.JournalEntryLineUncheckedUpdateManyWithoutAccountNestedInput
+  journalEntryLine?: Prisma.JournalEntryLineUncheckedUpdateManyWithoutAccountNestedInput
 }
 
 export type AccountCreateWithoutTemplateInput = {
@@ -1330,7 +1330,7 @@ export type AccountCreateWithoutTemplateInput = {
   incomeItems?: Prisma.ItemCreateNestedManyWithoutIncomeAccountInput
   expenseItems?: Prisma.ItemCreateNestedManyWithoutExpenseAccountInput
   inventoryAssetItems?: Prisma.ItemCreateNestedManyWithoutInventoryAssetAccountInput
-  JournalEntryLine?: Prisma.JournalEntryLineCreateNestedManyWithoutAccountInput
+  journalEntryLine?: Prisma.JournalEntryLineCreateNestedManyWithoutAccountInput
 }
 
 export type AccountUncheckedCreateWithoutTemplateInput = {
@@ -1352,7 +1352,7 @@ export type AccountUncheckedCreateWithoutTemplateInput = {
   incomeItems?: Prisma.ItemUncheckedCreateNestedManyWithoutIncomeAccountInput
   expenseItems?: Prisma.ItemUncheckedCreateNestedManyWithoutExpenseAccountInput
   inventoryAssetItems?: Prisma.ItemUncheckedCreateNestedManyWithoutInventoryAssetAccountInput
-  JournalEntryLine?: Prisma.JournalEntryLineUncheckedCreateNestedManyWithoutAccountInput
+  journalEntryLine?: Prisma.JournalEntryLineUncheckedCreateNestedManyWithoutAccountInput
 }
 
 export type AccountCreateOrConnectWithoutTemplateInput = {
@@ -1504,7 +1504,7 @@ export type AccountCreateWithoutCompanyInput = {
   incomeItems?: Prisma.ItemCreateNestedManyWithoutIncomeAccountInput
   expenseItems?: Prisma.ItemCreateNestedManyWithoutExpenseAccountInput
   inventoryAssetItems?: Prisma.ItemCreateNestedManyWithoutInventoryAssetAccountInput
-  JournalEntryLine?: Prisma.JournalEntryLineCreateNestedManyWithoutAccountInput
+  journalEntryLine?: Prisma.JournalEntryLineCreateNestedManyWithoutAccountInput
 }
 
 export type AccountUncheckedCreateWithoutCompanyInput = {
@@ -1526,7 +1526,7 @@ export type AccountUncheckedCreateWithoutCompanyInput = {
   incomeItems?: Prisma.ItemUncheckedCreateNestedManyWithoutIncomeAccountInput
   expenseItems?: Prisma.ItemUncheckedCreateNestedManyWithoutExpenseAccountInput
   inventoryAssetItems?: Prisma.ItemUncheckedCreateNestedManyWithoutInventoryAssetAccountInput
-  JournalEntryLine?: Prisma.JournalEntryLineUncheckedCreateNestedManyWithoutAccountInput
+  journalEntryLine?: Prisma.JournalEntryLineUncheckedCreateNestedManyWithoutAccountInput
 }
 
 export type AccountCreateOrConnectWithoutCompanyInput = {
@@ -1591,7 +1591,7 @@ export type AccountUpdateWithoutParentInput = {
   incomeItems?: Prisma.ItemUpdateManyWithoutIncomeAccountNestedInput
   expenseItems?: Prisma.ItemUpdateManyWithoutExpenseAccountNestedInput
   inventoryAssetItems?: Prisma.ItemUpdateManyWithoutInventoryAssetAccountNestedInput
-  JournalEntryLine?: Prisma.JournalEntryLineUpdateManyWithoutAccountNestedInput
+  journalEntryLine?: Prisma.JournalEntryLineUpdateManyWithoutAccountNestedInput
 }
 
 export type AccountUncheckedUpdateWithoutParentInput = {
@@ -1613,7 +1613,7 @@ export type AccountUncheckedUpdateWithoutParentInput = {
   incomeItems?: Prisma.ItemUncheckedUpdateManyWithoutIncomeAccountNestedInput
   expenseItems?: Prisma.ItemUncheckedUpdateManyWithoutExpenseAccountNestedInput
   inventoryAssetItems?: Prisma.ItemUncheckedUpdateManyWithoutInventoryAssetAccountNestedInput
-  JournalEntryLine?: Prisma.JournalEntryLineUncheckedUpdateManyWithoutAccountNestedInput
+  journalEntryLine?: Prisma.JournalEntryLineUncheckedUpdateManyWithoutAccountNestedInput
 }
 
 export type AccountUncheckedUpdateManyWithoutParentInput = {
@@ -1669,7 +1669,7 @@ export type AccountUpdateWithoutTemplateInput = {
   incomeItems?: Prisma.ItemUpdateManyWithoutIncomeAccountNestedInput
   expenseItems?: Prisma.ItemUpdateManyWithoutExpenseAccountNestedInput
   inventoryAssetItems?: Prisma.ItemUpdateManyWithoutInventoryAssetAccountNestedInput
-  JournalEntryLine?: Prisma.JournalEntryLineUpdateManyWithoutAccountNestedInput
+  journalEntryLine?: Prisma.JournalEntryLineUpdateManyWithoutAccountNestedInput
 }
 
 export type AccountUncheckedUpdateWithoutTemplateInput = {
@@ -1691,7 +1691,7 @@ export type AccountUncheckedUpdateWithoutTemplateInput = {
   incomeItems?: Prisma.ItemUncheckedUpdateManyWithoutIncomeAccountNestedInput
   expenseItems?: Prisma.ItemUncheckedUpdateManyWithoutExpenseAccountNestedInput
   inventoryAssetItems?: Prisma.ItemUncheckedUpdateManyWithoutInventoryAssetAccountNestedInput
-  JournalEntryLine?: Prisma.JournalEntryLineUncheckedUpdateManyWithoutAccountNestedInput
+  journalEntryLine?: Prisma.JournalEntryLineUncheckedUpdateManyWithoutAccountNestedInput
 }
 
 export type AccountUncheckedUpdateManyWithoutTemplateInput = {
@@ -1747,7 +1747,7 @@ export type AccountUpdateWithoutCompanyInput = {
   incomeItems?: Prisma.ItemUpdateManyWithoutIncomeAccountNestedInput
   expenseItems?: Prisma.ItemUpdateManyWithoutExpenseAccountNestedInput
   inventoryAssetItems?: Prisma.ItemUpdateManyWithoutInventoryAssetAccountNestedInput
-  JournalEntryLine?: Prisma.JournalEntryLineUpdateManyWithoutAccountNestedInput
+  journalEntryLine?: Prisma.JournalEntryLineUpdateManyWithoutAccountNestedInput
 }
 
 export type AccountUncheckedUpdateWithoutCompanyInput = {
@@ -1769,7 +1769,7 @@ export type AccountUncheckedUpdateWithoutCompanyInput = {
   incomeItems?: Prisma.ItemUncheckedUpdateManyWithoutIncomeAccountNestedInput
   expenseItems?: Prisma.ItemUncheckedUpdateManyWithoutExpenseAccountNestedInput
   inventoryAssetItems?: Prisma.ItemUncheckedUpdateManyWithoutInventoryAssetAccountNestedInput
-  JournalEntryLine?: Prisma.JournalEntryLineUncheckedUpdateManyWithoutAccountNestedInput
+  journalEntryLine?: Prisma.JournalEntryLineUncheckedUpdateManyWithoutAccountNestedInput
 }
 
 export type AccountUncheckedUpdateManyWithoutCompanyInput = {
@@ -1799,7 +1799,7 @@ export type AccountCountOutputType = {
   incomeItems: number
   expenseItems: number
   inventoryAssetItems: number
-  JournalEntryLine: number
+  journalEntryLine: number
 }
 
 export type AccountCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1807,7 +1807,7 @@ export type AccountCountOutputTypeSelect<ExtArgs extends runtime.Types.Extension
   incomeItems?: boolean | AccountCountOutputTypeCountIncomeItemsArgs
   expenseItems?: boolean | AccountCountOutputTypeCountExpenseItemsArgs
   inventoryAssetItems?: boolean | AccountCountOutputTypeCountInventoryAssetItemsArgs
-  JournalEntryLine?: boolean | AccountCountOutputTypeCountJournalEntryLineArgs
+  journalEntryLine?: boolean | AccountCountOutputTypeCountJournalEntryLineArgs
 }
 
 /**
@@ -1879,7 +1879,7 @@ export type AccountSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   incomeItems?: boolean | Prisma.Account$incomeItemsArgs<ExtArgs>
   expenseItems?: boolean | Prisma.Account$expenseItemsArgs<ExtArgs>
   inventoryAssetItems?: boolean | Prisma.Account$inventoryAssetItemsArgs<ExtArgs>
-  JournalEntryLine?: boolean | Prisma.Account$JournalEntryLineArgs<ExtArgs>
+  journalEntryLine?: boolean | Prisma.Account$journalEntryLineArgs<ExtArgs>
   _count?: boolean | Prisma.AccountCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["account"]>
 
@@ -1952,7 +1952,7 @@ export type AccountInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   incomeItems?: boolean | Prisma.Account$incomeItemsArgs<ExtArgs>
   expenseItems?: boolean | Prisma.Account$expenseItemsArgs<ExtArgs>
   inventoryAssetItems?: boolean | Prisma.Account$inventoryAssetItemsArgs<ExtArgs>
-  JournalEntryLine?: boolean | Prisma.Account$JournalEntryLineArgs<ExtArgs>
+  journalEntryLine?: boolean | Prisma.Account$journalEntryLineArgs<ExtArgs>
   _count?: boolean | Prisma.AccountCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type AccountIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1976,7 +1976,7 @@ export type $AccountPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     incomeItems: Prisma.$ItemPayload<ExtArgs>[]
     expenseItems: Prisma.$ItemPayload<ExtArgs>[]
     inventoryAssetItems: Prisma.$ItemPayload<ExtArgs>[]
-    JournalEntryLine: Prisma.$JournalEntryLinePayload<ExtArgs>[]
+    journalEntryLine: Prisma.$JournalEntryLinePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2395,7 +2395,7 @@ export interface Prisma__AccountClient<T, Null = never, ExtArgs extends runtime.
   incomeItems<T extends Prisma.Account$incomeItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Account$incomeItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   expenseItems<T extends Prisma.Account$expenseItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Account$expenseItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   inventoryAssetItems<T extends Prisma.Account$inventoryAssetItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Account$inventoryAssetItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  JournalEntryLine<T extends Prisma.Account$JournalEntryLineArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Account$JournalEntryLineArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JournalEntryLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  journalEntryLine<T extends Prisma.Account$journalEntryLineArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Account$journalEntryLineArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JournalEntryLinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2975,9 +2975,9 @@ export type Account$inventoryAssetItemsArgs<ExtArgs extends runtime.Types.Extens
 }
 
 /**
- * Account.JournalEntryLine
+ * Account.journalEntryLine
  */
-export type Account$JournalEntryLineArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Account$journalEntryLineArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the JournalEntryLine
    */

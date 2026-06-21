@@ -518,7 +518,7 @@ export type ProductCreateInput = {
   variants?: Prisma.ProductVariantCreateNestedManyWithoutProductInput
   item?: Prisma.ItemCreateNestedOneWithoutProductInput
   store: Prisma.StoreCreateNestedOneWithoutProductsInput
-  company: Prisma.CompanyCreateNestedOneWithoutProductInput
+  company: Prisma.CompanyCreateNestedOneWithoutProductsInput
 }
 
 export type ProductUncheckedCreateInput = {
@@ -574,7 +574,7 @@ export type ProductUpdateInput = {
   variants?: Prisma.ProductVariantUpdateManyWithoutProductNestedInput
   item?: Prisma.ItemUpdateOneWithoutProductNestedInput
   store?: Prisma.StoreUpdateOneRequiredWithoutProductsNestedInput
-  company?: Prisma.CompanyUpdateOneRequiredWithoutProductNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutProductsNestedInput
 }
 
 export type ProductUncheckedUpdateInput = {
@@ -992,7 +992,7 @@ export type ProductCreateWithoutItemInput = {
   categories?: Prisma.CategoryProductCreateNestedManyWithoutProductInput
   variants?: Prisma.ProductVariantCreateNestedManyWithoutProductInput
   store: Prisma.StoreCreateNestedOneWithoutProductsInput
-  company: Prisma.CompanyCreateNestedOneWithoutProductInput
+  company: Prisma.CompanyCreateNestedOneWithoutProductsInput
 }
 
 export type ProductUncheckedCreateWithoutItemInput = {
@@ -1100,7 +1100,7 @@ export type ProductCreateWithoutImagesInput = {
   variants?: Prisma.ProductVariantCreateNestedManyWithoutProductInput
   item?: Prisma.ItemCreateNestedOneWithoutProductInput
   store: Prisma.StoreCreateNestedOneWithoutProductsInput
-  company: Prisma.CompanyCreateNestedOneWithoutProductInput
+  company: Prisma.CompanyCreateNestedOneWithoutProductsInput
 }
 
 export type ProductUncheckedCreateWithoutImagesInput = {
@@ -1170,7 +1170,7 @@ export type ProductUpdateWithoutImagesInput = {
   variants?: Prisma.ProductVariantUpdateManyWithoutProductNestedInput
   item?: Prisma.ItemUpdateOneWithoutProductNestedInput
   store?: Prisma.StoreUpdateOneRequiredWithoutProductsNestedInput
-  company?: Prisma.CompanyUpdateOneRequiredWithoutProductNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutProductsNestedInput
 }
 
 export type ProductUncheckedUpdateWithoutImagesInput = {
@@ -1224,7 +1224,7 @@ export type ProductCreateWithoutVariantsInput = {
   categories?: Prisma.CategoryProductCreateNestedManyWithoutProductInput
   item?: Prisma.ItemCreateNestedOneWithoutProductInput
   store: Prisma.StoreCreateNestedOneWithoutProductsInput
-  company: Prisma.CompanyCreateNestedOneWithoutProductInput
+  company: Prisma.CompanyCreateNestedOneWithoutProductsInput
 }
 
 export type ProductUncheckedCreateWithoutVariantsInput = {
@@ -1294,7 +1294,7 @@ export type ProductUpdateWithoutVariantsInput = {
   categories?: Prisma.CategoryProductUpdateManyWithoutProductNestedInput
   item?: Prisma.ItemUpdateOneWithoutProductNestedInput
   store?: Prisma.StoreUpdateOneRequiredWithoutProductsNestedInput
-  company?: Prisma.CompanyUpdateOneRequiredWithoutProductNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutProductsNestedInput
 }
 
 export type ProductUncheckedUpdateWithoutVariantsInput = {
@@ -1348,7 +1348,7 @@ export type ProductCreateWithoutCategoriesInput = {
   variants?: Prisma.ProductVariantCreateNestedManyWithoutProductInput
   item?: Prisma.ItemCreateNestedOneWithoutProductInput
   store: Prisma.StoreCreateNestedOneWithoutProductsInput
-  company: Prisma.CompanyCreateNestedOneWithoutProductInput
+  company: Prisma.CompanyCreateNestedOneWithoutProductsInput
 }
 
 export type ProductUncheckedCreateWithoutCategoriesInput = {
@@ -1418,7 +1418,7 @@ export type ProductUpdateWithoutCategoriesInput = {
   variants?: Prisma.ProductVariantUpdateManyWithoutProductNestedInput
   item?: Prisma.ItemUpdateOneWithoutProductNestedInput
   store?: Prisma.StoreUpdateOneRequiredWithoutProductsNestedInput
-  company?: Prisma.CompanyUpdateOneRequiredWithoutProductNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutProductsNestedInput
 }
 
 export type ProductUncheckedUpdateWithoutCategoriesInput = {
@@ -1472,7 +1472,7 @@ export type ProductCreateWithoutStoreInput = {
   categories?: Prisma.CategoryProductCreateNestedManyWithoutProductInput
   variants?: Prisma.ProductVariantCreateNestedManyWithoutProductInput
   item?: Prisma.ItemCreateNestedOneWithoutProductInput
-  company: Prisma.CompanyCreateNestedOneWithoutProductInput
+  company: Prisma.CompanyCreateNestedOneWithoutProductsInput
 }
 
 export type ProductUncheckedCreateWithoutStoreInput = {
@@ -1656,7 +1656,7 @@ export type ProductUpdateWithoutItemInput = {
   categories?: Prisma.CategoryProductUpdateManyWithoutProductNestedInput
   variants?: Prisma.ProductVariantUpdateManyWithoutProductNestedInput
   store?: Prisma.StoreUpdateOneRequiredWithoutProductsNestedInput
-  company?: Prisma.CompanyUpdateOneRequiredWithoutProductNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutProductsNestedInput
 }
 
 export type ProductUncheckedUpdateWithoutItemInput = {
@@ -1758,7 +1758,7 @@ export type ProductUpdateWithoutStoreInput = {
   categories?: Prisma.CategoryProductUpdateManyWithoutProductNestedInput
   variants?: Prisma.ProductVariantUpdateManyWithoutProductNestedInput
   item?: Prisma.ItemUpdateOneWithoutProductNestedInput
-  company?: Prisma.CompanyUpdateOneRequiredWithoutProductNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutProductsNestedInput
 }
 
 export type ProductUncheckedUpdateWithoutStoreInput = {

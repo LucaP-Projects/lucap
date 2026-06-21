@@ -4,7 +4,7 @@ export function LoadingSkeleton() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <Skeleton className="h-8 w-[250px]" />
+        <Skeleton className="h-8 w-62.5" />
         <Skeleton className="h-10 w-[120px]" />
       </div>
 

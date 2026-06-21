@@ -1,5 +1,5 @@
-import { DiscountApplicationTime, DiscountType } from '@/lib/generated/prisma/client';
 import { z } from 'zod';
+import { DiscountApplicationTime, DiscountType } from '@/lib/generated/prisma/client';
 
 export const addressSchema = z.object({
   line1: z.string().min(1, 'Address line 1 is required'),

@@ -1,16 +1,11 @@
 'use server';
 
-import {
-  DiscountApplicationTime,
-  DiscountType,
-  PaymentMethod,
-  Prisma,
-  ReceiptStatus
-} from '@/lib/generated/prisma/client';
 import { Decimal } from 'decimal.js';
 import { revalidatePath } from 'next/cache';
+import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { auth } from '@/lib/auth';
+import { Prisma } from '@/lib/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
 import { generateUniqueNumber } from '@/lib/utils';
 import { CustomizationSettingsInput } from '../base/sideBar/customize/types';
@@ -138,9 +133,9 @@ export async function createSalesReceipt(
       // Step 5: Create the sales receipt
       const receipt = await tx.salesReceipt.create({
         data: {
-          companyId: session.user.companyId,
+          company: { connect: { id: session.user.companyId }},
           number: receiptNumber,
-          customerId: data.customerId,
+          customer: { connect: { id: data.customerId } },
 
           paymentMethod: data.paymentMethod,
           status: data.status,
@@ -170,7 +165,7 @@ export async function createSalesReceipt(
               type: 'individual',
               address: data.customerAddress
             },
-            type: 'SalesReceipt',
+            type: 'SALES_RECEIPT',
             cc: data.ccEmail,
             snapshotTimestamp: new Date().toISOString(),
             amount: totalAmount,
@@ -540,7 +535,7 @@ export async function updateSalesReceipt(
               type: 'individual',
               address: data.customerAddress
             },
-            type: 'SalesReceipt',
+            type: 'SALES_RECEIPT',
             cc: data.ccEmail,
             snapshotTimestamp: new Date().toISOString(),
             amount: totalAmount,
@@ -735,7 +730,7 @@ export async function deleteSalesReceipt(
         isActive: true
       },
       include: {
-        Transaction: {
+        transactions: {
           select: { id: true }
         }
       }
@@ -749,7 +744,7 @@ export async function deleteSalesReceipt(
     }
 
     // Don't allow deletion of receipts with transactions
-    if (receipt.Transaction && receipt.Transaction.length > 0) {
+    if (receipt.transactions && receipt.transactions.length > 0) {
       return {
         success: false,
         error: 'Cannot delete a sales receipt that has associated transactions'
@@ -758,6 +753,9 @@ export async function deleteSalesReceipt(
 
     // Use a transaction to ensure all operations succeed or none do
     await prisma.$transaction(async (tx) => {
+      if (!session.user.companyId) {
+        return { success: false, error: 'User is not associated with a company' };
+      }
       // 1. Soft delete receipt attachments
       await tx.receiptAttachment.updateMany({
         where: {

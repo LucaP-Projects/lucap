@@ -1,9 +1,9 @@
+import { z } from 'zod';
 import {
   DiscountApplicationTime,
   DiscountType,
   EstimateStatus
 } from '@/lib/generated/prisma/client';
-import { z } from 'zod';
 import { addressSchema } from '../invoice/schema';
 
 export const estimateFormSchema = z.object({

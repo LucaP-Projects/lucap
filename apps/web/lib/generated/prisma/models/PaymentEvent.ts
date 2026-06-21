@@ -235,7 +235,7 @@ export type PaymentEventWhereInput = {
   customerPaymentEvents?: Prisma.CustomerPaymentEventListRelationFilter
   currentVersion?: Prisma.XOR<Prisma.PaymentEventVersionNullableScalarRelationFilter, Prisma.PaymentEventVersionWhereInput> | null
   versions?: Prisma.PaymentEventVersionListRelationFilter
-  Company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
+  company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
 }
 
 export type PaymentEventOrderByWithRelationInput = {
@@ -253,7 +253,7 @@ export type PaymentEventOrderByWithRelationInput = {
   customerPaymentEvents?: Prisma.CustomerPaymentEventOrderByRelationAggregateInput
   currentVersion?: Prisma.PaymentEventVersionOrderByWithRelationInput
   versions?: Prisma.PaymentEventVersionOrderByRelationAggregateInput
-  Company?: Prisma.CompanyOrderByWithRelationInput
+  company?: Prisma.CompanyOrderByWithRelationInput
 }
 
 export type PaymentEventWhereUniqueInput = Prisma.AtLeast<{
@@ -274,7 +274,7 @@ export type PaymentEventWhereUniqueInput = Prisma.AtLeast<{
   customerPaymentEvents?: Prisma.CustomerPaymentEventListRelationFilter
   currentVersion?: Prisma.XOR<Prisma.PaymentEventVersionNullableScalarRelationFilter, Prisma.PaymentEventVersionWhereInput> | null
   versions?: Prisma.PaymentEventVersionListRelationFilter
-  Company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
+  company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
 }, "id" | "versionId">
 
 export type PaymentEventOrderByWithAggregationInput = {
@@ -324,7 +324,7 @@ export type PaymentEventCreateInput = {
   customerPaymentEvents?: Prisma.CustomerPaymentEventCreateNestedManyWithoutPaymentEventInput
   currentVersion?: Prisma.PaymentEventVersionCreateNestedOneWithoutCurrentForPaymentEventInput
   versions?: Prisma.PaymentEventVersionCreateNestedManyWithoutPaymentEventInput
-  Company: Prisma.CompanyCreateNestedOneWithoutPaymentEventsInput
+  company: Prisma.CompanyCreateNestedOneWithoutPaymentEventsInput
 }
 
 export type PaymentEventUncheckedCreateInput = {
@@ -356,7 +356,7 @@ export type PaymentEventUpdateInput = {
   customerPaymentEvents?: Prisma.CustomerPaymentEventUpdateManyWithoutPaymentEventNestedInput
   currentVersion?: Prisma.PaymentEventVersionUpdateOneWithoutCurrentForPaymentEventNestedInput
   versions?: Prisma.PaymentEventVersionUpdateManyWithoutPaymentEventNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutPaymentEventsNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutPaymentEventsNestedInput
 }
 
 export type PaymentEventUncheckedUpdateInput = {
@@ -597,7 +597,7 @@ export type PaymentEventCreateWithoutVersionsInput = {
   deactivationReason?: string | null
   customerPaymentEvents?: Prisma.CustomerPaymentEventCreateNestedManyWithoutPaymentEventInput
   currentVersion?: Prisma.PaymentEventVersionCreateNestedOneWithoutCurrentForPaymentEventInput
-  Company: Prisma.CompanyCreateNestedOneWithoutPaymentEventsInput
+  company: Prisma.CompanyCreateNestedOneWithoutPaymentEventsInput
 }
 
 export type PaymentEventUncheckedCreateWithoutVersionsInput = {
@@ -632,7 +632,7 @@ export type PaymentEventCreateWithoutCurrentVersionInput = {
   deactivationReason?: string | null
   customerPaymentEvents?: Prisma.CustomerPaymentEventCreateNestedManyWithoutPaymentEventInput
   versions?: Prisma.PaymentEventVersionCreateNestedManyWithoutPaymentEventInput
-  Company: Prisma.CompanyCreateNestedOneWithoutPaymentEventsInput
+  company: Prisma.CompanyCreateNestedOneWithoutPaymentEventsInput
 }
 
 export type PaymentEventUncheckedCreateWithoutCurrentVersionInput = {
@@ -678,7 +678,7 @@ export type PaymentEventUpdateWithoutVersionsInput = {
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerPaymentEvents?: Prisma.CustomerPaymentEventUpdateManyWithoutPaymentEventNestedInput
   currentVersion?: Prisma.PaymentEventVersionUpdateOneWithoutCurrentForPaymentEventNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutPaymentEventsNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutPaymentEventsNestedInput
 }
 
 export type PaymentEventUncheckedUpdateWithoutVersionsInput = {
@@ -719,7 +719,7 @@ export type PaymentEventUpdateWithoutCurrentVersionInput = {
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerPaymentEvents?: Prisma.CustomerPaymentEventUpdateManyWithoutPaymentEventNestedInput
   versions?: Prisma.PaymentEventVersionUpdateManyWithoutPaymentEventNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutPaymentEventsNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutPaymentEventsNestedInput
 }
 
 export type PaymentEventUncheckedUpdateWithoutCurrentVersionInput = {
@@ -749,7 +749,7 @@ export type PaymentEventCreateWithoutCustomerPaymentEventsInput = {
   deactivationReason?: string | null
   currentVersion?: Prisma.PaymentEventVersionCreateNestedOneWithoutCurrentForPaymentEventInput
   versions?: Prisma.PaymentEventVersionCreateNestedManyWithoutPaymentEventInput
-  Company: Prisma.CompanyCreateNestedOneWithoutPaymentEventsInput
+  company: Prisma.CompanyCreateNestedOneWithoutPaymentEventsInput
 }
 
 export type PaymentEventUncheckedCreateWithoutCustomerPaymentEventsInput = {
@@ -795,7 +795,7 @@ export type PaymentEventUpdateWithoutCustomerPaymentEventsInput = {
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentVersion?: Prisma.PaymentEventVersionUpdateOneWithoutCurrentForPaymentEventNestedInput
   versions?: Prisma.PaymentEventVersionUpdateManyWithoutPaymentEventNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutPaymentEventsNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutPaymentEventsNestedInput
 }
 
 export type PaymentEventUncheckedUpdateWithoutCustomerPaymentEventsInput = {
@@ -997,7 +997,7 @@ export type PaymentEventSelect<ExtArgs extends runtime.Types.Extensions.Internal
   customerPaymentEvents?: boolean | Prisma.PaymentEvent$customerPaymentEventsArgs<ExtArgs>
   currentVersion?: boolean | Prisma.PaymentEvent$currentVersionArgs<ExtArgs>
   versions?: boolean | Prisma.PaymentEvent$versionsArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.PaymentEventCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["paymentEvent"]>
 
@@ -1014,7 +1014,7 @@ export type PaymentEventSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   deactivatedByUserId?: boolean
   deactivationReason?: boolean
   currentVersion?: boolean | Prisma.PaymentEvent$currentVersionArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["paymentEvent"]>
 
 export type PaymentEventSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1030,7 +1030,7 @@ export type PaymentEventSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   deactivatedByUserId?: boolean
   deactivationReason?: boolean
   currentVersion?: boolean | Prisma.PaymentEvent$currentVersionArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["paymentEvent"]>
 
 export type PaymentEventSelectScalar = {
@@ -1052,16 +1052,16 @@ export type PaymentEventInclude<ExtArgs extends runtime.Types.Extensions.Interna
   customerPaymentEvents?: boolean | Prisma.PaymentEvent$customerPaymentEventsArgs<ExtArgs>
   currentVersion?: boolean | Prisma.PaymentEvent$currentVersionArgs<ExtArgs>
   versions?: boolean | Prisma.PaymentEvent$versionsArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.PaymentEventCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type PaymentEventIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   currentVersion?: boolean | Prisma.PaymentEvent$currentVersionArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }
 export type PaymentEventIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   currentVersion?: boolean | Prisma.PaymentEvent$currentVersionArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }
 
 export type $PaymentEventPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1070,7 +1070,7 @@ export type $PaymentEventPayload<ExtArgs extends runtime.Types.Extensions.Intern
     customerPaymentEvents: Prisma.$CustomerPaymentEventPayload<ExtArgs>[]
     currentVersion: Prisma.$PaymentEventVersionPayload<ExtArgs> | null
     versions: Prisma.$PaymentEventVersionPayload<ExtArgs>[]
-    Company: Prisma.$CompanyPayload<ExtArgs>
+    company: Prisma.$CompanyPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1481,7 +1481,7 @@ export interface Prisma__PaymentEventClient<T, Null = never, ExtArgs extends run
   customerPaymentEvents<T extends Prisma.PaymentEvent$customerPaymentEventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PaymentEvent$customerPaymentEventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CustomerPaymentEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   currentVersion<T extends Prisma.PaymentEvent$currentVersionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PaymentEvent$currentVersionArgs<ExtArgs>>): Prisma.Prisma__PaymentEventVersionClient<runtime.Types.Result.GetResult<Prisma.$PaymentEventVersionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   versions<T extends Prisma.PaymentEvent$versionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PaymentEvent$versionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaymentEventVersionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  Company<T extends Prisma.CompanyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CompanyDefaultArgs<ExtArgs>>): Prisma.Prisma__CompanyClient<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  company<T extends Prisma.CompanyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CompanyDefaultArgs<ExtArgs>>): Prisma.Prisma__CompanyClient<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

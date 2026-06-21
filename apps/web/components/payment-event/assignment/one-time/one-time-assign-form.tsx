@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import { toast } from 'sonner';
 import {
   AlertTriangle,
   ChevronDown,
@@ -6,6 +7,12 @@ import {
   Search,
   Users
 } from 'lucide-react';
+import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction } from '@/components/ui/alert-dialog';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 import {
   CustomerItemProps,
@@ -14,13 +21,6 @@ import {
 import { FormattedCustomer } from '@/types/payment-event/table';
 
 import { assignOneTimePayment, checkCustomerAssignment } from './assign-action';
-import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction } from '@/components/ui/alert-dialog';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Input } from '@/components/ui/input';
-import { toast } from 'sonner';
-import { Badge } from '@/components/ui/badge';
 
 // Add loading skeleton for better UX
 export const CustomerSkeleton = () => (

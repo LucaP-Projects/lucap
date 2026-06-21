@@ -315,7 +315,7 @@ export type EstimateItemWhereInput = {
   deactivatedByUserId?: Prisma.StringNullableFilter<"EstimateItem"> | string | null
   deactivationReason?: Prisma.StringNullableFilter<"EstimateItem"> | string | null
   estimate?: Prisma.XOR<Prisma.EstimateScalarRelationFilter, Prisma.EstimateWhereInput>
-  Item?: Prisma.XOR<Prisma.ItemNullableScalarRelationFilter, Prisma.ItemWhereInput> | null
+  item?: Prisma.XOR<Prisma.ItemNullableScalarRelationFilter, Prisma.ItemWhereInput> | null
 }
 
 export type EstimateItemOrderByWithRelationInput = {
@@ -336,7 +336,7 @@ export type EstimateItemOrderByWithRelationInput = {
   deactivatedByUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   deactivationReason?: Prisma.SortOrderInput | Prisma.SortOrder
   estimate?: Prisma.EstimateOrderByWithRelationInput
-  Item?: Prisma.ItemOrderByWithRelationInput
+  item?: Prisma.ItemOrderByWithRelationInput
 }
 
 export type EstimateItemWhereUniqueInput = Prisma.AtLeast<{
@@ -360,7 +360,7 @@ export type EstimateItemWhereUniqueInput = Prisma.AtLeast<{
   deactivatedByUserId?: Prisma.StringNullableFilter<"EstimateItem"> | string | null
   deactivationReason?: Prisma.StringNullableFilter<"EstimateItem"> | string | null
   estimate?: Prisma.XOR<Prisma.EstimateScalarRelationFilter, Prisma.EstimateWhereInput>
-  Item?: Prisma.XOR<Prisma.ItemNullableScalarRelationFilter, Prisma.ItemWhereInput> | null
+  item?: Prisma.XOR<Prisma.ItemNullableScalarRelationFilter, Prisma.ItemWhereInput> | null
 }, "id">
 
 export type EstimateItemOrderByWithAggregationInput = {
@@ -425,7 +425,7 @@ export type EstimateItemCreateInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   estimate: Prisma.EstimateCreateNestedOneWithoutItemsInput
-  Item?: Prisma.ItemCreateNestedOneWithoutEstimateItemsInput
+  item?: Prisma.ItemCreateNestedOneWithoutEstimateItemsInput
 }
 
 export type EstimateItemUncheckedCreateInput = {
@@ -463,7 +463,7 @@ export type EstimateItemUpdateInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estimate?: Prisma.EstimateUpdateOneRequiredWithoutItemsNestedInput
-  Item?: Prisma.ItemUpdateOneWithoutEstimateItemsNestedInput
+  item?: Prisma.ItemUpdateOneWithoutEstimateItemsNestedInput
 }
 
 export type EstimateItemUncheckedUpdateInput = {
@@ -802,7 +802,7 @@ export type EstimateItemCreateWithoutEstimateInput = {
   deactivatedAt?: Date | string | null
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
-  Item?: Prisma.ItemCreateNestedOneWithoutEstimateItemsInput
+  item?: Prisma.ItemCreateNestedOneWithoutEstimateItemsInput
 }
 
 export type EstimateItemUncheckedCreateWithoutEstimateInput = {
@@ -954,7 +954,7 @@ export type EstimateItemUpdateWithoutEstimateInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  Item?: Prisma.ItemUpdateOneWithoutEstimateItemsNestedInput
+  item?: Prisma.ItemUpdateOneWithoutEstimateItemsNestedInput
 }
 
 export type EstimateItemUncheckedUpdateWithoutEstimateInput = {
@@ -1013,7 +1013,7 @@ export type EstimateItemSelect<ExtArgs extends runtime.Types.Extensions.Internal
   deactivatedByUserId?: boolean
   deactivationReason?: boolean
   estimate?: boolean | Prisma.EstimateDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.EstimateItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.EstimateItem$itemArgs<ExtArgs>
 }, ExtArgs["result"]["estimateItem"]>
 
 export type EstimateItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1034,7 +1034,7 @@ export type EstimateItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   deactivatedByUserId?: boolean
   deactivationReason?: boolean
   estimate?: boolean | Prisma.EstimateDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.EstimateItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.EstimateItem$itemArgs<ExtArgs>
 }, ExtArgs["result"]["estimateItem"]>
 
 export type EstimateItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1055,7 +1055,7 @@ export type EstimateItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   deactivatedByUserId?: boolean
   deactivationReason?: boolean
   estimate?: boolean | Prisma.EstimateDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.EstimateItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.EstimateItem$itemArgs<ExtArgs>
 }, ExtArgs["result"]["estimateItem"]>
 
 export type EstimateItemSelectScalar = {
@@ -1080,22 +1080,22 @@ export type EstimateItemSelectScalar = {
 export type EstimateItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "estimateId" | "productName" | "description" | "quantity" | "rate" | "amount" | "sku" | "taxable" | "createdAt" | "updatedAt" | "itemId" | "isActive" | "deactivatedAt" | "deactivatedByUserId" | "deactivationReason", ExtArgs["result"]["estimateItem"]>
 export type EstimateItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   estimate?: boolean | Prisma.EstimateDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.EstimateItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.EstimateItem$itemArgs<ExtArgs>
 }
 export type EstimateItemIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   estimate?: boolean | Prisma.EstimateDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.EstimateItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.EstimateItem$itemArgs<ExtArgs>
 }
 export type EstimateItemIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   estimate?: boolean | Prisma.EstimateDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.EstimateItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.EstimateItem$itemArgs<ExtArgs>
 }
 
 export type $EstimateItemPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "EstimateItem"
   objects: {
     estimate: Prisma.$EstimatePayload<ExtArgs>
-    Item: Prisma.$ItemPayload<ExtArgs> | null
+    item: Prisma.$ItemPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1509,7 +1509,7 @@ readonly fields: EstimateItemFieldRefs;
 export interface Prisma__EstimateItemClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   estimate<T extends Prisma.EstimateDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EstimateDefaultArgs<ExtArgs>>): Prisma.Prisma__EstimateClient<runtime.Types.Result.GetResult<Prisma.$EstimatePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  Item<T extends Prisma.EstimateItem$ItemArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EstimateItem$ItemArgs<ExtArgs>>): Prisma.Prisma__ItemClient<runtime.Types.Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  item<T extends Prisma.EstimateItem$itemArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EstimateItem$itemArgs<ExtArgs>>): Prisma.Prisma__ItemClient<runtime.Types.Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1956,9 +1956,9 @@ export type EstimateItemDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.
 }
 
 /**
- * EstimateItem.Item
+ * EstimateItem.item
  */
-export type EstimateItem$ItemArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type EstimateItem$itemArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Item
    */

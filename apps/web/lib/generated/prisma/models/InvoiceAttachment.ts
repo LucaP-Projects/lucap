@@ -278,7 +278,7 @@ export type InvoiceAttachmentCreateInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   invoice: Prisma.InvoiceCreateNestedOneWithoutAttachmentsInput
-  file: Prisma.FileCreateNestedOneWithoutInvoiceAttachmentInput
+  file: Prisma.FileCreateNestedOneWithoutInvoiceAttachmentsInput
 }
 
 export type InvoiceAttachmentUncheckedCreateInput = {
@@ -300,7 +300,7 @@ export type InvoiceAttachmentUpdateInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice?: Prisma.InvoiceUpdateOneRequiredWithoutAttachmentsNestedInput
-  file?: Prisma.FileUpdateOneRequiredWithoutInvoiceAttachmentNestedInput
+  file?: Prisma.FileUpdateOneRequiredWithoutInvoiceAttachmentsNestedInput
 }
 
 export type InvoiceAttachmentUncheckedUpdateInput = {
@@ -484,7 +484,7 @@ export type InvoiceAttachmentCreateWithoutInvoiceInput = {
   deactivatedAt?: Date | string | null
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
-  file: Prisma.FileCreateNestedOneWithoutInvoiceAttachmentInput
+  file: Prisma.FileCreateNestedOneWithoutInvoiceAttachmentsInput
 }
 
 export type InvoiceAttachmentUncheckedCreateWithoutInvoiceInput = {
@@ -600,7 +600,7 @@ export type InvoiceAttachmentUpdateWithoutInvoiceInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  file?: Prisma.FileUpdateOneRequiredWithoutInvoiceAttachmentNestedInput
+  file?: Prisma.FileUpdateOneRequiredWithoutInvoiceAttachmentsNestedInput
 }
 
 export type InvoiceAttachmentUncheckedUpdateWithoutInvoiceInput = {

@@ -1,8 +1,6 @@
 'use client';
 
-import { CreditStatus } from '@/lib/generated/prisma/client';
 import { Calendar, Clock, DollarSign, AlertCircle } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
 import {
   Attachments,
   BaseSheet,
@@ -14,6 +12,8 @@ import {
   CustomerAddress
 } from '@/components/dashboard/base/baseSheet';
 import { STATUS_COLORS } from '@/components/dashboard/base/utils';
+import { Badge } from '@/components/ui/badge';
+import { CreditStatus } from '@/lib/generated/prisma/client';
 import { formatCurrency, formatDate } from '@/lib/utils';
 
 interface CreditItem {

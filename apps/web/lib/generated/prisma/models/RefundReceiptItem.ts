@@ -315,7 +315,7 @@ export type RefundReceiptItemWhereInput = {
   deactivatedByUserId?: Prisma.StringNullableFilter<"RefundReceiptItem"> | string | null
   deactivationReason?: Prisma.StringNullableFilter<"RefundReceiptItem"> | string | null
   refundReceipt?: Prisma.XOR<Prisma.RefundReceiptScalarRelationFilter, Prisma.RefundReceiptWhereInput>
-  Item?: Prisma.XOR<Prisma.ItemNullableScalarRelationFilter, Prisma.ItemWhereInput> | null
+  item?: Prisma.XOR<Prisma.ItemNullableScalarRelationFilter, Prisma.ItemWhereInput> | null
 }
 
 export type RefundReceiptItemOrderByWithRelationInput = {
@@ -336,7 +336,7 @@ export type RefundReceiptItemOrderByWithRelationInput = {
   deactivatedByUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   deactivationReason?: Prisma.SortOrderInput | Prisma.SortOrder
   refundReceipt?: Prisma.RefundReceiptOrderByWithRelationInput
-  Item?: Prisma.ItemOrderByWithRelationInput
+  item?: Prisma.ItemOrderByWithRelationInput
 }
 
 export type RefundReceiptItemWhereUniqueInput = Prisma.AtLeast<{
@@ -360,7 +360,7 @@ export type RefundReceiptItemWhereUniqueInput = Prisma.AtLeast<{
   deactivatedByUserId?: Prisma.StringNullableFilter<"RefundReceiptItem"> | string | null
   deactivationReason?: Prisma.StringNullableFilter<"RefundReceiptItem"> | string | null
   refundReceipt?: Prisma.XOR<Prisma.RefundReceiptScalarRelationFilter, Prisma.RefundReceiptWhereInput>
-  Item?: Prisma.XOR<Prisma.ItemNullableScalarRelationFilter, Prisma.ItemWhereInput> | null
+  item?: Prisma.XOR<Prisma.ItemNullableScalarRelationFilter, Prisma.ItemWhereInput> | null
 }, "id">
 
 export type RefundReceiptItemOrderByWithAggregationInput = {
@@ -425,7 +425,7 @@ export type RefundReceiptItemCreateInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   refundReceipt: Prisma.RefundReceiptCreateNestedOneWithoutItemsInput
-  Item?: Prisma.ItemCreateNestedOneWithoutRefundItemsInput
+  item?: Prisma.ItemCreateNestedOneWithoutRefundItemsInput
 }
 
 export type RefundReceiptItemUncheckedCreateInput = {
@@ -463,7 +463,7 @@ export type RefundReceiptItemUpdateInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   refundReceipt?: Prisma.RefundReceiptUpdateOneRequiredWithoutItemsNestedInput
-  Item?: Prisma.ItemUpdateOneWithoutRefundItemsNestedInput
+  item?: Prisma.ItemUpdateOneWithoutRefundItemsNestedInput
 }
 
 export type RefundReceiptItemUncheckedUpdateInput = {
@@ -802,7 +802,7 @@ export type RefundReceiptItemCreateWithoutRefundReceiptInput = {
   deactivatedAt?: Date | string | null
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
-  Item?: Prisma.ItemCreateNestedOneWithoutRefundItemsInput
+  item?: Prisma.ItemCreateNestedOneWithoutRefundItemsInput
 }
 
 export type RefundReceiptItemUncheckedCreateWithoutRefundReceiptInput = {
@@ -954,7 +954,7 @@ export type RefundReceiptItemUpdateWithoutRefundReceiptInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  Item?: Prisma.ItemUpdateOneWithoutRefundItemsNestedInput
+  item?: Prisma.ItemUpdateOneWithoutRefundItemsNestedInput
 }
 
 export type RefundReceiptItemUncheckedUpdateWithoutRefundReceiptInput = {
@@ -1013,7 +1013,7 @@ export type RefundReceiptItemSelect<ExtArgs extends runtime.Types.Extensions.Int
   deactivatedByUserId?: boolean
   deactivationReason?: boolean
   refundReceipt?: boolean | Prisma.RefundReceiptDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.RefundReceiptItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.RefundReceiptItem$itemArgs<ExtArgs>
 }, ExtArgs["result"]["refundReceiptItem"]>
 
 export type RefundReceiptItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1034,7 +1034,7 @@ export type RefundReceiptItemSelectCreateManyAndReturn<ExtArgs extends runtime.T
   deactivatedByUserId?: boolean
   deactivationReason?: boolean
   refundReceipt?: boolean | Prisma.RefundReceiptDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.RefundReceiptItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.RefundReceiptItem$itemArgs<ExtArgs>
 }, ExtArgs["result"]["refundReceiptItem"]>
 
 export type RefundReceiptItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1055,7 +1055,7 @@ export type RefundReceiptItemSelectUpdateManyAndReturn<ExtArgs extends runtime.T
   deactivatedByUserId?: boolean
   deactivationReason?: boolean
   refundReceipt?: boolean | Prisma.RefundReceiptDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.RefundReceiptItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.RefundReceiptItem$itemArgs<ExtArgs>
 }, ExtArgs["result"]["refundReceiptItem"]>
 
 export type RefundReceiptItemSelectScalar = {
@@ -1080,22 +1080,22 @@ export type RefundReceiptItemSelectScalar = {
 export type RefundReceiptItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "refundReceiptId" | "productName" | "description" | "quantity" | "sku" | "rate" | "amount" | "taxable" | "createdAt" | "updatedAt" | "itemId" | "isActive" | "deactivatedAt" | "deactivatedByUserId" | "deactivationReason", ExtArgs["result"]["refundReceiptItem"]>
 export type RefundReceiptItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   refundReceipt?: boolean | Prisma.RefundReceiptDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.RefundReceiptItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.RefundReceiptItem$itemArgs<ExtArgs>
 }
 export type RefundReceiptItemIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   refundReceipt?: boolean | Prisma.RefundReceiptDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.RefundReceiptItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.RefundReceiptItem$itemArgs<ExtArgs>
 }
 export type RefundReceiptItemIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   refundReceipt?: boolean | Prisma.RefundReceiptDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.RefundReceiptItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.RefundReceiptItem$itemArgs<ExtArgs>
 }
 
 export type $RefundReceiptItemPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "RefundReceiptItem"
   objects: {
     refundReceipt: Prisma.$RefundReceiptPayload<ExtArgs>
-    Item: Prisma.$ItemPayload<ExtArgs> | null
+    item: Prisma.$ItemPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1509,7 +1509,7 @@ readonly fields: RefundReceiptItemFieldRefs;
 export interface Prisma__RefundReceiptItemClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   refundReceipt<T extends Prisma.RefundReceiptDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RefundReceiptDefaultArgs<ExtArgs>>): Prisma.Prisma__RefundReceiptClient<runtime.Types.Result.GetResult<Prisma.$RefundReceiptPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  Item<T extends Prisma.RefundReceiptItem$ItemArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RefundReceiptItem$ItemArgs<ExtArgs>>): Prisma.Prisma__ItemClient<runtime.Types.Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  item<T extends Prisma.RefundReceiptItem$itemArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RefundReceiptItem$itemArgs<ExtArgs>>): Prisma.Prisma__ItemClient<runtime.Types.Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1956,9 +1956,9 @@ export type RefundReceiptItemDeleteManyArgs<ExtArgs extends runtime.Types.Extens
 }
 
 /**
- * RefundReceiptItem.Item
+ * RefundReceiptItem.item
  */
-export type RefundReceiptItem$ItemArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type RefundReceiptItem$itemArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Item
    */

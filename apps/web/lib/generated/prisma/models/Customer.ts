@@ -499,8 +499,8 @@ export type CustomerWhereInput = {
   refundReceipts?: Prisma.RefundReceiptListRelationFilter
   delayedCharges?: Prisma.DelayedChargeListRelationFilter
   delayedCredits?: Prisma.DelayedCreditListRelationFilter
-  Company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
-  JournalEntry?: Prisma.JournalEntryListRelationFilter
+  company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
+  journalEntry?: Prisma.JournalEntryListRelationFilter
 }
 
 export type CustomerOrderByWithRelationInput = {
@@ -556,8 +556,8 @@ export type CustomerOrderByWithRelationInput = {
   refundReceipts?: Prisma.RefundReceiptOrderByRelationAggregateInput
   delayedCharges?: Prisma.DelayedChargeOrderByRelationAggregateInput
   delayedCredits?: Prisma.DelayedCreditOrderByRelationAggregateInput
-  Company?: Prisma.CompanyOrderByWithRelationInput
-  JournalEntry?: Prisma.JournalEntryOrderByRelationAggregateInput
+  company?: Prisma.CompanyOrderByWithRelationInput
+  journalEntry?: Prisma.JournalEntryOrderByRelationAggregateInput
 }
 
 export type CustomerWhereUniqueInput = Prisma.AtLeast<{
@@ -617,8 +617,8 @@ export type CustomerWhereUniqueInput = Prisma.AtLeast<{
   refundReceipts?: Prisma.RefundReceiptListRelationFilter
   delayedCharges?: Prisma.DelayedChargeListRelationFilter
   delayedCredits?: Prisma.DelayedCreditListRelationFilter
-  Company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
-  JournalEntry?: Prisma.JournalEntryListRelationFilter
+  company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
+  journalEntry?: Prisma.JournalEntryListRelationFilter
 }, "id" | "userId" | "displayName_companyId">
 
 export type CustomerOrderByWithAggregationInput = {
@@ -762,8 +762,8 @@ export type CustomerCreateInput = {
   refundReceipts?: Prisma.RefundReceiptCreateNestedManyWithoutCustomerInput
   delayedCharges?: Prisma.DelayedChargeCreateNestedManyWithoutCustomerInput
   delayedCredits?: Prisma.DelayedCreditCreateNestedManyWithoutCustomerInput
-  Company: Prisma.CompanyCreateNestedOneWithoutCustomersInput
-  JournalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCustomerInput
+  company: Prisma.CompanyCreateNestedOneWithoutCustomersInput
+  journalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateInput = {
@@ -816,7 +816,7 @@ export type CustomerUncheckedCreateInput = {
   refundReceipts?: Prisma.RefundReceiptUncheckedCreateNestedManyWithoutCustomerInput
   delayedCharges?: Prisma.DelayedChargeUncheckedCreateNestedManyWithoutCustomerInput
   delayedCredits?: Prisma.DelayedCreditUncheckedCreateNestedManyWithoutCustomerInput
-  JournalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCustomerInput
+  journalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerUpdateInput = {
@@ -868,8 +868,8 @@ export type CustomerUpdateInput = {
   refundReceipts?: Prisma.RefundReceiptUpdateManyWithoutCustomerNestedInput
   delayedCharges?: Prisma.DelayedChargeUpdateManyWithoutCustomerNestedInput
   delayedCredits?: Prisma.DelayedCreditUpdateManyWithoutCustomerNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutCustomersNestedInput
-  JournalEntry?: Prisma.JournalEntryUpdateManyWithoutCustomerNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutCustomersNestedInput
+  journalEntry?: Prisma.JournalEntryUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateInput = {
@@ -922,7 +922,7 @@ export type CustomerUncheckedUpdateInput = {
   refundReceipts?: Prisma.RefundReceiptUncheckedUpdateManyWithoutCustomerNestedInput
   delayedCharges?: Prisma.DelayedChargeUncheckedUpdateManyWithoutCustomerNestedInput
   delayedCredits?: Prisma.DelayedCreditUncheckedUpdateManyWithoutCustomerNestedInput
-  JournalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCustomerNestedInput
+  journalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerCreateManyInput = {
@@ -1602,8 +1602,8 @@ export type CustomerCreateWithoutUserInput = {
   refundReceipts?: Prisma.RefundReceiptCreateNestedManyWithoutCustomerInput
   delayedCharges?: Prisma.DelayedChargeCreateNestedManyWithoutCustomerInput
   delayedCredits?: Prisma.DelayedCreditCreateNestedManyWithoutCustomerInput
-  Company: Prisma.CompanyCreateNestedOneWithoutCustomersInput
-  JournalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCustomerInput
+  company: Prisma.CompanyCreateNestedOneWithoutCustomersInput
+  journalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateWithoutUserInput = {
@@ -1655,7 +1655,7 @@ export type CustomerUncheckedCreateWithoutUserInput = {
   refundReceipts?: Prisma.RefundReceiptUncheckedCreateNestedManyWithoutCustomerInput
   delayedCharges?: Prisma.DelayedChargeUncheckedCreateNestedManyWithoutCustomerInput
   delayedCredits?: Prisma.DelayedCreditUncheckedCreateNestedManyWithoutCustomerInput
-  JournalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCustomerInput
+  journalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerCreateOrConnectWithoutUserInput = {
@@ -1722,8 +1722,8 @@ export type CustomerUpdateWithoutUserInput = {
   refundReceipts?: Prisma.RefundReceiptUpdateManyWithoutCustomerNestedInput
   delayedCharges?: Prisma.DelayedChargeUpdateManyWithoutCustomerNestedInput
   delayedCredits?: Prisma.DelayedCreditUpdateManyWithoutCustomerNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutCustomersNestedInput
-  JournalEntry?: Prisma.JournalEntryUpdateManyWithoutCustomerNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutCustomersNestedInput
+  journalEntry?: Prisma.JournalEntryUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateWithoutUserInput = {
@@ -1775,7 +1775,7 @@ export type CustomerUncheckedUpdateWithoutUserInput = {
   refundReceipts?: Prisma.RefundReceiptUncheckedUpdateManyWithoutCustomerNestedInput
   delayedCharges?: Prisma.DelayedChargeUncheckedUpdateManyWithoutCustomerNestedInput
   delayedCredits?: Prisma.DelayedCreditUncheckedUpdateManyWithoutCustomerNestedInput
-  JournalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCustomerNestedInput
+  journalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerCreateWithoutSubCustomersInput = {
@@ -1826,8 +1826,8 @@ export type CustomerCreateWithoutSubCustomersInput = {
   refundReceipts?: Prisma.RefundReceiptCreateNestedManyWithoutCustomerInput
   delayedCharges?: Prisma.DelayedChargeCreateNestedManyWithoutCustomerInput
   delayedCredits?: Prisma.DelayedCreditCreateNestedManyWithoutCustomerInput
-  Company: Prisma.CompanyCreateNestedOneWithoutCustomersInput
-  JournalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCustomerInput
+  company: Prisma.CompanyCreateNestedOneWithoutCustomersInput
+  journalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateWithoutSubCustomersInput = {
@@ -1879,7 +1879,7 @@ export type CustomerUncheckedCreateWithoutSubCustomersInput = {
   refundReceipts?: Prisma.RefundReceiptUncheckedCreateNestedManyWithoutCustomerInput
   delayedCharges?: Prisma.DelayedChargeUncheckedCreateNestedManyWithoutCustomerInput
   delayedCredits?: Prisma.DelayedCreditUncheckedCreateNestedManyWithoutCustomerInput
-  JournalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCustomerInput
+  journalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerCreateOrConnectWithoutSubCustomersInput = {
@@ -1935,8 +1935,8 @@ export type CustomerCreateWithoutParentCustomerInput = {
   refundReceipts?: Prisma.RefundReceiptCreateNestedManyWithoutCustomerInput
   delayedCharges?: Prisma.DelayedChargeCreateNestedManyWithoutCustomerInput
   delayedCredits?: Prisma.DelayedCreditCreateNestedManyWithoutCustomerInput
-  Company: Prisma.CompanyCreateNestedOneWithoutCustomersInput
-  JournalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCustomerInput
+  company: Prisma.CompanyCreateNestedOneWithoutCustomersInput
+  journalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateWithoutParentCustomerInput = {
@@ -1988,7 +1988,7 @@ export type CustomerUncheckedCreateWithoutParentCustomerInput = {
   refundReceipts?: Prisma.RefundReceiptUncheckedCreateNestedManyWithoutCustomerInput
   delayedCharges?: Prisma.DelayedChargeUncheckedCreateNestedManyWithoutCustomerInput
   delayedCredits?: Prisma.DelayedCreditUncheckedCreateNestedManyWithoutCustomerInput
-  JournalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCustomerInput
+  journalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerCreateOrConnectWithoutParentCustomerInput = {
@@ -2060,8 +2060,8 @@ export type CustomerUpdateWithoutSubCustomersInput = {
   refundReceipts?: Prisma.RefundReceiptUpdateManyWithoutCustomerNestedInput
   delayedCharges?: Prisma.DelayedChargeUpdateManyWithoutCustomerNestedInput
   delayedCredits?: Prisma.DelayedCreditUpdateManyWithoutCustomerNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutCustomersNestedInput
-  JournalEntry?: Prisma.JournalEntryUpdateManyWithoutCustomerNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutCustomersNestedInput
+  journalEntry?: Prisma.JournalEntryUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateWithoutSubCustomersInput = {
@@ -2113,7 +2113,7 @@ export type CustomerUncheckedUpdateWithoutSubCustomersInput = {
   refundReceipts?: Prisma.RefundReceiptUncheckedUpdateManyWithoutCustomerNestedInput
   delayedCharges?: Prisma.DelayedChargeUncheckedUpdateManyWithoutCustomerNestedInput
   delayedCredits?: Prisma.DelayedCreditUncheckedUpdateManyWithoutCustomerNestedInput
-  JournalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCustomerNestedInput
+  journalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUpsertWithWhereUniqueWithoutParentCustomerInput = {
@@ -2225,8 +2225,8 @@ export type CustomerCreateWithoutCustomerTypeInput = {
   refundReceipts?: Prisma.RefundReceiptCreateNestedManyWithoutCustomerInput
   delayedCharges?: Prisma.DelayedChargeCreateNestedManyWithoutCustomerInput
   delayedCredits?: Prisma.DelayedCreditCreateNestedManyWithoutCustomerInput
-  Company: Prisma.CompanyCreateNestedOneWithoutCustomersInput
-  JournalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCustomerInput
+  company: Prisma.CompanyCreateNestedOneWithoutCustomersInput
+  journalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateWithoutCustomerTypeInput = {
@@ -2278,7 +2278,7 @@ export type CustomerUncheckedCreateWithoutCustomerTypeInput = {
   refundReceipts?: Prisma.RefundReceiptUncheckedCreateNestedManyWithoutCustomerInput
   delayedCharges?: Prisma.DelayedChargeUncheckedCreateNestedManyWithoutCustomerInput
   delayedCredits?: Prisma.DelayedCreditUncheckedCreateNestedManyWithoutCustomerInput
-  JournalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCustomerInput
+  journalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerCreateOrConnectWithoutCustomerTypeInput = {
@@ -2355,8 +2355,8 @@ export type CustomerCreateWithoutCustomerPaymentEventsInput = {
   refundReceipts?: Prisma.RefundReceiptCreateNestedManyWithoutCustomerInput
   delayedCharges?: Prisma.DelayedChargeCreateNestedManyWithoutCustomerInput
   delayedCredits?: Prisma.DelayedCreditCreateNestedManyWithoutCustomerInput
-  Company: Prisma.CompanyCreateNestedOneWithoutCustomersInput
-  JournalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCustomerInput
+  company: Prisma.CompanyCreateNestedOneWithoutCustomersInput
+  journalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateWithoutCustomerPaymentEventsInput = {
@@ -2408,7 +2408,7 @@ export type CustomerUncheckedCreateWithoutCustomerPaymentEventsInput = {
   refundReceipts?: Prisma.RefundReceiptUncheckedCreateNestedManyWithoutCustomerInput
   delayedCharges?: Prisma.DelayedChargeUncheckedCreateNestedManyWithoutCustomerInput
   delayedCredits?: Prisma.DelayedCreditUncheckedCreateNestedManyWithoutCustomerInput
-  JournalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCustomerInput
+  journalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerCreateOrConnectWithoutCustomerPaymentEventsInput = {
@@ -2475,8 +2475,8 @@ export type CustomerUpdateWithoutCustomerPaymentEventsInput = {
   refundReceipts?: Prisma.RefundReceiptUpdateManyWithoutCustomerNestedInput
   delayedCharges?: Prisma.DelayedChargeUpdateManyWithoutCustomerNestedInput
   delayedCredits?: Prisma.DelayedCreditUpdateManyWithoutCustomerNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutCustomersNestedInput
-  JournalEntry?: Prisma.JournalEntryUpdateManyWithoutCustomerNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutCustomersNestedInput
+  journalEntry?: Prisma.JournalEntryUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateWithoutCustomerPaymentEventsInput = {
@@ -2528,7 +2528,7 @@ export type CustomerUncheckedUpdateWithoutCustomerPaymentEventsInput = {
   refundReceipts?: Prisma.RefundReceiptUncheckedUpdateManyWithoutCustomerNestedInput
   delayedCharges?: Prisma.DelayedChargeUncheckedUpdateManyWithoutCustomerNestedInput
   delayedCredits?: Prisma.DelayedCreditUncheckedUpdateManyWithoutCustomerNestedInput
-  JournalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCustomerNestedInput
+  journalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerCreateWithoutInvoicesInput = {
@@ -2579,8 +2579,8 @@ export type CustomerCreateWithoutInvoicesInput = {
   refundReceipts?: Prisma.RefundReceiptCreateNestedManyWithoutCustomerInput
   delayedCharges?: Prisma.DelayedChargeCreateNestedManyWithoutCustomerInput
   delayedCredits?: Prisma.DelayedCreditCreateNestedManyWithoutCustomerInput
-  Company: Prisma.CompanyCreateNestedOneWithoutCustomersInput
-  JournalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCustomerInput
+  company: Prisma.CompanyCreateNestedOneWithoutCustomersInput
+  journalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateWithoutInvoicesInput = {
@@ -2632,7 +2632,7 @@ export type CustomerUncheckedCreateWithoutInvoicesInput = {
   refundReceipts?: Prisma.RefundReceiptUncheckedCreateNestedManyWithoutCustomerInput
   delayedCharges?: Prisma.DelayedChargeUncheckedCreateNestedManyWithoutCustomerInput
   delayedCredits?: Prisma.DelayedCreditUncheckedCreateNestedManyWithoutCustomerInput
-  JournalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCustomerInput
+  journalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerCreateOrConnectWithoutInvoicesInput = {
@@ -2699,8 +2699,8 @@ export type CustomerUpdateWithoutInvoicesInput = {
   refundReceipts?: Prisma.RefundReceiptUpdateManyWithoutCustomerNestedInput
   delayedCharges?: Prisma.DelayedChargeUpdateManyWithoutCustomerNestedInput
   delayedCredits?: Prisma.DelayedCreditUpdateManyWithoutCustomerNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutCustomersNestedInput
-  JournalEntry?: Prisma.JournalEntryUpdateManyWithoutCustomerNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutCustomersNestedInput
+  journalEntry?: Prisma.JournalEntryUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateWithoutInvoicesInput = {
@@ -2752,7 +2752,7 @@ export type CustomerUncheckedUpdateWithoutInvoicesInput = {
   refundReceipts?: Prisma.RefundReceiptUncheckedUpdateManyWithoutCustomerNestedInput
   delayedCharges?: Prisma.DelayedChargeUncheckedUpdateManyWithoutCustomerNestedInput
   delayedCredits?: Prisma.DelayedCreditUncheckedUpdateManyWithoutCustomerNestedInput
-  JournalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCustomerNestedInput
+  journalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerCreateWithoutEstimatesInput = {
@@ -2803,8 +2803,8 @@ export type CustomerCreateWithoutEstimatesInput = {
   refundReceipts?: Prisma.RefundReceiptCreateNestedManyWithoutCustomerInput
   delayedCharges?: Prisma.DelayedChargeCreateNestedManyWithoutCustomerInput
   delayedCredits?: Prisma.DelayedCreditCreateNestedManyWithoutCustomerInput
-  Company: Prisma.CompanyCreateNestedOneWithoutCustomersInput
-  JournalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCustomerInput
+  company: Prisma.CompanyCreateNestedOneWithoutCustomersInput
+  journalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateWithoutEstimatesInput = {
@@ -2856,7 +2856,7 @@ export type CustomerUncheckedCreateWithoutEstimatesInput = {
   refundReceipts?: Prisma.RefundReceiptUncheckedCreateNestedManyWithoutCustomerInput
   delayedCharges?: Prisma.DelayedChargeUncheckedCreateNestedManyWithoutCustomerInput
   delayedCredits?: Prisma.DelayedCreditUncheckedCreateNestedManyWithoutCustomerInput
-  JournalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCustomerInput
+  journalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerCreateOrConnectWithoutEstimatesInput = {
@@ -2923,8 +2923,8 @@ export type CustomerUpdateWithoutEstimatesInput = {
   refundReceipts?: Prisma.RefundReceiptUpdateManyWithoutCustomerNestedInput
   delayedCharges?: Prisma.DelayedChargeUpdateManyWithoutCustomerNestedInput
   delayedCredits?: Prisma.DelayedCreditUpdateManyWithoutCustomerNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutCustomersNestedInput
-  JournalEntry?: Prisma.JournalEntryUpdateManyWithoutCustomerNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutCustomersNestedInput
+  journalEntry?: Prisma.JournalEntryUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateWithoutEstimatesInput = {
@@ -2976,7 +2976,7 @@ export type CustomerUncheckedUpdateWithoutEstimatesInput = {
   refundReceipts?: Prisma.RefundReceiptUncheckedUpdateManyWithoutCustomerNestedInput
   delayedCharges?: Prisma.DelayedChargeUncheckedUpdateManyWithoutCustomerNestedInput
   delayedCredits?: Prisma.DelayedCreditUncheckedUpdateManyWithoutCustomerNestedInput
-  JournalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCustomerNestedInput
+  journalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerCreateWithoutCreditMemosInput = {
@@ -3027,8 +3027,8 @@ export type CustomerCreateWithoutCreditMemosInput = {
   refundReceipts?: Prisma.RefundReceiptCreateNestedManyWithoutCustomerInput
   delayedCharges?: Prisma.DelayedChargeCreateNestedManyWithoutCustomerInput
   delayedCredits?: Prisma.DelayedCreditCreateNestedManyWithoutCustomerInput
-  Company: Prisma.CompanyCreateNestedOneWithoutCustomersInput
-  JournalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCustomerInput
+  company: Prisma.CompanyCreateNestedOneWithoutCustomersInput
+  journalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateWithoutCreditMemosInput = {
@@ -3080,7 +3080,7 @@ export type CustomerUncheckedCreateWithoutCreditMemosInput = {
   refundReceipts?: Prisma.RefundReceiptUncheckedCreateNestedManyWithoutCustomerInput
   delayedCharges?: Prisma.DelayedChargeUncheckedCreateNestedManyWithoutCustomerInput
   delayedCredits?: Prisma.DelayedCreditUncheckedCreateNestedManyWithoutCustomerInput
-  JournalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCustomerInput
+  journalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerCreateOrConnectWithoutCreditMemosInput = {
@@ -3147,8 +3147,8 @@ export type CustomerUpdateWithoutCreditMemosInput = {
   refundReceipts?: Prisma.RefundReceiptUpdateManyWithoutCustomerNestedInput
   delayedCharges?: Prisma.DelayedChargeUpdateManyWithoutCustomerNestedInput
   delayedCredits?: Prisma.DelayedCreditUpdateManyWithoutCustomerNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutCustomersNestedInput
-  JournalEntry?: Prisma.JournalEntryUpdateManyWithoutCustomerNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutCustomersNestedInput
+  journalEntry?: Prisma.JournalEntryUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateWithoutCreditMemosInput = {
@@ -3200,7 +3200,7 @@ export type CustomerUncheckedUpdateWithoutCreditMemosInput = {
   refundReceipts?: Prisma.RefundReceiptUncheckedUpdateManyWithoutCustomerNestedInput
   delayedCharges?: Prisma.DelayedChargeUncheckedUpdateManyWithoutCustomerNestedInput
   delayedCredits?: Prisma.DelayedCreditUncheckedUpdateManyWithoutCustomerNestedInput
-  JournalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCustomerNestedInput
+  journalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerCreateWithoutSalesReceiptsInput = {
@@ -3251,8 +3251,8 @@ export type CustomerCreateWithoutSalesReceiptsInput = {
   refundReceipts?: Prisma.RefundReceiptCreateNestedManyWithoutCustomerInput
   delayedCharges?: Prisma.DelayedChargeCreateNestedManyWithoutCustomerInput
   delayedCredits?: Prisma.DelayedCreditCreateNestedManyWithoutCustomerInput
-  Company: Prisma.CompanyCreateNestedOneWithoutCustomersInput
-  JournalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCustomerInput
+  company: Prisma.CompanyCreateNestedOneWithoutCustomersInput
+  journalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateWithoutSalesReceiptsInput = {
@@ -3304,7 +3304,7 @@ export type CustomerUncheckedCreateWithoutSalesReceiptsInput = {
   refundReceipts?: Prisma.RefundReceiptUncheckedCreateNestedManyWithoutCustomerInput
   delayedCharges?: Prisma.DelayedChargeUncheckedCreateNestedManyWithoutCustomerInput
   delayedCredits?: Prisma.DelayedCreditUncheckedCreateNestedManyWithoutCustomerInput
-  JournalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCustomerInput
+  journalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerCreateOrConnectWithoutSalesReceiptsInput = {
@@ -3371,8 +3371,8 @@ export type CustomerUpdateWithoutSalesReceiptsInput = {
   refundReceipts?: Prisma.RefundReceiptUpdateManyWithoutCustomerNestedInput
   delayedCharges?: Prisma.DelayedChargeUpdateManyWithoutCustomerNestedInput
   delayedCredits?: Prisma.DelayedCreditUpdateManyWithoutCustomerNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutCustomersNestedInput
-  JournalEntry?: Prisma.JournalEntryUpdateManyWithoutCustomerNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutCustomersNestedInput
+  journalEntry?: Prisma.JournalEntryUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateWithoutSalesReceiptsInput = {
@@ -3424,7 +3424,7 @@ export type CustomerUncheckedUpdateWithoutSalesReceiptsInput = {
   refundReceipts?: Prisma.RefundReceiptUncheckedUpdateManyWithoutCustomerNestedInput
   delayedCharges?: Prisma.DelayedChargeUncheckedUpdateManyWithoutCustomerNestedInput
   delayedCredits?: Prisma.DelayedCreditUncheckedUpdateManyWithoutCustomerNestedInput
-  JournalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCustomerNestedInput
+  journalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerCreateWithoutRefundReceiptsInput = {
@@ -3475,8 +3475,8 @@ export type CustomerCreateWithoutRefundReceiptsInput = {
   salesReceipts?: Prisma.SalesReceiptCreateNestedManyWithoutCustomerInput
   delayedCharges?: Prisma.DelayedChargeCreateNestedManyWithoutCustomerInput
   delayedCredits?: Prisma.DelayedCreditCreateNestedManyWithoutCustomerInput
-  Company: Prisma.CompanyCreateNestedOneWithoutCustomersInput
-  JournalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCustomerInput
+  company: Prisma.CompanyCreateNestedOneWithoutCustomersInput
+  journalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateWithoutRefundReceiptsInput = {
@@ -3528,7 +3528,7 @@ export type CustomerUncheckedCreateWithoutRefundReceiptsInput = {
   salesReceipts?: Prisma.SalesReceiptUncheckedCreateNestedManyWithoutCustomerInput
   delayedCharges?: Prisma.DelayedChargeUncheckedCreateNestedManyWithoutCustomerInput
   delayedCredits?: Prisma.DelayedCreditUncheckedCreateNestedManyWithoutCustomerInput
-  JournalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCustomerInput
+  journalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerCreateOrConnectWithoutRefundReceiptsInput = {
@@ -3595,8 +3595,8 @@ export type CustomerUpdateWithoutRefundReceiptsInput = {
   salesReceipts?: Prisma.SalesReceiptUpdateManyWithoutCustomerNestedInput
   delayedCharges?: Prisma.DelayedChargeUpdateManyWithoutCustomerNestedInput
   delayedCredits?: Prisma.DelayedCreditUpdateManyWithoutCustomerNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutCustomersNestedInput
-  JournalEntry?: Prisma.JournalEntryUpdateManyWithoutCustomerNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutCustomersNestedInput
+  journalEntry?: Prisma.JournalEntryUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateWithoutRefundReceiptsInput = {
@@ -3648,7 +3648,7 @@ export type CustomerUncheckedUpdateWithoutRefundReceiptsInput = {
   salesReceipts?: Prisma.SalesReceiptUncheckedUpdateManyWithoutCustomerNestedInput
   delayedCharges?: Prisma.DelayedChargeUncheckedUpdateManyWithoutCustomerNestedInput
   delayedCredits?: Prisma.DelayedCreditUncheckedUpdateManyWithoutCustomerNestedInput
-  JournalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCustomerNestedInput
+  journalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerCreateWithoutDelayedChargesInput = {
@@ -3699,8 +3699,8 @@ export type CustomerCreateWithoutDelayedChargesInput = {
   salesReceipts?: Prisma.SalesReceiptCreateNestedManyWithoutCustomerInput
   refundReceipts?: Prisma.RefundReceiptCreateNestedManyWithoutCustomerInput
   delayedCredits?: Prisma.DelayedCreditCreateNestedManyWithoutCustomerInput
-  Company: Prisma.CompanyCreateNestedOneWithoutCustomersInput
-  JournalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCustomerInput
+  company: Prisma.CompanyCreateNestedOneWithoutCustomersInput
+  journalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateWithoutDelayedChargesInput = {
@@ -3752,7 +3752,7 @@ export type CustomerUncheckedCreateWithoutDelayedChargesInput = {
   salesReceipts?: Prisma.SalesReceiptUncheckedCreateNestedManyWithoutCustomerInput
   refundReceipts?: Prisma.RefundReceiptUncheckedCreateNestedManyWithoutCustomerInput
   delayedCredits?: Prisma.DelayedCreditUncheckedCreateNestedManyWithoutCustomerInput
-  JournalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCustomerInput
+  journalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerCreateOrConnectWithoutDelayedChargesInput = {
@@ -3819,8 +3819,8 @@ export type CustomerUpdateWithoutDelayedChargesInput = {
   salesReceipts?: Prisma.SalesReceiptUpdateManyWithoutCustomerNestedInput
   refundReceipts?: Prisma.RefundReceiptUpdateManyWithoutCustomerNestedInput
   delayedCredits?: Prisma.DelayedCreditUpdateManyWithoutCustomerNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutCustomersNestedInput
-  JournalEntry?: Prisma.JournalEntryUpdateManyWithoutCustomerNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutCustomersNestedInput
+  journalEntry?: Prisma.JournalEntryUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateWithoutDelayedChargesInput = {
@@ -3872,7 +3872,7 @@ export type CustomerUncheckedUpdateWithoutDelayedChargesInput = {
   salesReceipts?: Prisma.SalesReceiptUncheckedUpdateManyWithoutCustomerNestedInput
   refundReceipts?: Prisma.RefundReceiptUncheckedUpdateManyWithoutCustomerNestedInput
   delayedCredits?: Prisma.DelayedCreditUncheckedUpdateManyWithoutCustomerNestedInput
-  JournalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCustomerNestedInput
+  journalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerCreateWithoutDelayedCreditsInput = {
@@ -3923,8 +3923,8 @@ export type CustomerCreateWithoutDelayedCreditsInput = {
   salesReceipts?: Prisma.SalesReceiptCreateNestedManyWithoutCustomerInput
   refundReceipts?: Prisma.RefundReceiptCreateNestedManyWithoutCustomerInput
   delayedCharges?: Prisma.DelayedChargeCreateNestedManyWithoutCustomerInput
-  Company: Prisma.CompanyCreateNestedOneWithoutCustomersInput
-  JournalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCustomerInput
+  company: Prisma.CompanyCreateNestedOneWithoutCustomersInput
+  journalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateWithoutDelayedCreditsInput = {
@@ -3976,7 +3976,7 @@ export type CustomerUncheckedCreateWithoutDelayedCreditsInput = {
   salesReceipts?: Prisma.SalesReceiptUncheckedCreateNestedManyWithoutCustomerInput
   refundReceipts?: Prisma.RefundReceiptUncheckedCreateNestedManyWithoutCustomerInput
   delayedCharges?: Prisma.DelayedChargeUncheckedCreateNestedManyWithoutCustomerInput
-  JournalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCustomerInput
+  journalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerCreateOrConnectWithoutDelayedCreditsInput = {
@@ -4043,8 +4043,8 @@ export type CustomerUpdateWithoutDelayedCreditsInput = {
   salesReceipts?: Prisma.SalesReceiptUpdateManyWithoutCustomerNestedInput
   refundReceipts?: Prisma.RefundReceiptUpdateManyWithoutCustomerNestedInput
   delayedCharges?: Prisma.DelayedChargeUpdateManyWithoutCustomerNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutCustomersNestedInput
-  JournalEntry?: Prisma.JournalEntryUpdateManyWithoutCustomerNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutCustomersNestedInput
+  journalEntry?: Prisma.JournalEntryUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateWithoutDelayedCreditsInput = {
@@ -4096,7 +4096,7 @@ export type CustomerUncheckedUpdateWithoutDelayedCreditsInput = {
   salesReceipts?: Prisma.SalesReceiptUncheckedUpdateManyWithoutCustomerNestedInput
   refundReceipts?: Prisma.RefundReceiptUncheckedUpdateManyWithoutCustomerNestedInput
   delayedCharges?: Prisma.DelayedChargeUncheckedUpdateManyWithoutCustomerNestedInput
-  JournalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCustomerNestedInput
+  journalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerCreateWithoutPaymentsInput = {
@@ -4147,8 +4147,8 @@ export type CustomerCreateWithoutPaymentsInput = {
   refundReceipts?: Prisma.RefundReceiptCreateNestedManyWithoutCustomerInput
   delayedCharges?: Prisma.DelayedChargeCreateNestedManyWithoutCustomerInput
   delayedCredits?: Prisma.DelayedCreditCreateNestedManyWithoutCustomerInput
-  Company: Prisma.CompanyCreateNestedOneWithoutCustomersInput
-  JournalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCustomerInput
+  company: Prisma.CompanyCreateNestedOneWithoutCustomersInput
+  journalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateWithoutPaymentsInput = {
@@ -4200,7 +4200,7 @@ export type CustomerUncheckedCreateWithoutPaymentsInput = {
   refundReceipts?: Prisma.RefundReceiptUncheckedCreateNestedManyWithoutCustomerInput
   delayedCharges?: Prisma.DelayedChargeUncheckedCreateNestedManyWithoutCustomerInput
   delayedCredits?: Prisma.DelayedCreditUncheckedCreateNestedManyWithoutCustomerInput
-  JournalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCustomerInput
+  journalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerCreateOrConnectWithoutPaymentsInput = {
@@ -4267,8 +4267,8 @@ export type CustomerUpdateWithoutPaymentsInput = {
   refundReceipts?: Prisma.RefundReceiptUpdateManyWithoutCustomerNestedInput
   delayedCharges?: Prisma.DelayedChargeUpdateManyWithoutCustomerNestedInput
   delayedCredits?: Prisma.DelayedCreditUpdateManyWithoutCustomerNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutCustomersNestedInput
-  JournalEntry?: Prisma.JournalEntryUpdateManyWithoutCustomerNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutCustomersNestedInput
+  journalEntry?: Prisma.JournalEntryUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateWithoutPaymentsInput = {
@@ -4320,7 +4320,7 @@ export type CustomerUncheckedUpdateWithoutPaymentsInput = {
   refundReceipts?: Prisma.RefundReceiptUncheckedUpdateManyWithoutCustomerNestedInput
   delayedCharges?: Prisma.DelayedChargeUncheckedUpdateManyWithoutCustomerNestedInput
   delayedCredits?: Prisma.DelayedCreditUncheckedUpdateManyWithoutCustomerNestedInput
-  JournalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCustomerNestedInput
+  journalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerCreateWithoutJournalEntryInput = {
@@ -4372,7 +4372,7 @@ export type CustomerCreateWithoutJournalEntryInput = {
   refundReceipts?: Prisma.RefundReceiptCreateNestedManyWithoutCustomerInput
   delayedCharges?: Prisma.DelayedChargeCreateNestedManyWithoutCustomerInput
   delayedCredits?: Prisma.DelayedCreditCreateNestedManyWithoutCustomerInput
-  Company: Prisma.CompanyCreateNestedOneWithoutCustomersInput
+  company: Prisma.CompanyCreateNestedOneWithoutCustomersInput
 }
 
 export type CustomerUncheckedCreateWithoutJournalEntryInput = {
@@ -4492,7 +4492,7 @@ export type CustomerUpdateWithoutJournalEntryInput = {
   refundReceipts?: Prisma.RefundReceiptUpdateManyWithoutCustomerNestedInput
   delayedCharges?: Prisma.DelayedChargeUpdateManyWithoutCustomerNestedInput
   delayedCredits?: Prisma.DelayedCreditUpdateManyWithoutCustomerNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutCustomersNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutCustomersNestedInput
 }
 
 export type CustomerUncheckedUpdateWithoutJournalEntryInput = {
@@ -4596,7 +4596,7 @@ export type CustomerCreateWithoutCompanyInput = {
   refundReceipts?: Prisma.RefundReceiptCreateNestedManyWithoutCustomerInput
   delayedCharges?: Prisma.DelayedChargeCreateNestedManyWithoutCustomerInput
   delayedCredits?: Prisma.DelayedCreditCreateNestedManyWithoutCustomerInput
-  JournalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCustomerInput
+  journalEntry?: Prisma.JournalEntryCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateWithoutCompanyInput = {
@@ -4648,7 +4648,7 @@ export type CustomerUncheckedCreateWithoutCompanyInput = {
   refundReceipts?: Prisma.RefundReceiptUncheckedCreateNestedManyWithoutCustomerInput
   delayedCharges?: Prisma.DelayedChargeUncheckedCreateNestedManyWithoutCustomerInput
   delayedCredits?: Prisma.DelayedCreditUncheckedCreateNestedManyWithoutCustomerInput
-  JournalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCustomerInput
+  journalEntry?: Prisma.JournalEntryUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerCreateOrConnectWithoutCompanyInput = {
@@ -4766,8 +4766,8 @@ export type CustomerUpdateWithoutParentCustomerInput = {
   refundReceipts?: Prisma.RefundReceiptUpdateManyWithoutCustomerNestedInput
   delayedCharges?: Prisma.DelayedChargeUpdateManyWithoutCustomerNestedInput
   delayedCredits?: Prisma.DelayedCreditUpdateManyWithoutCustomerNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutCustomersNestedInput
-  JournalEntry?: Prisma.JournalEntryUpdateManyWithoutCustomerNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutCustomersNestedInput
+  journalEntry?: Prisma.JournalEntryUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateWithoutParentCustomerInput = {
@@ -4819,7 +4819,7 @@ export type CustomerUncheckedUpdateWithoutParentCustomerInput = {
   refundReceipts?: Prisma.RefundReceiptUncheckedUpdateManyWithoutCustomerNestedInput
   delayedCharges?: Prisma.DelayedChargeUncheckedUpdateManyWithoutCustomerNestedInput
   delayedCredits?: Prisma.DelayedCreditUncheckedUpdateManyWithoutCustomerNestedInput
-  JournalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCustomerNestedInput
+  journalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateManyWithoutParentCustomerInput = {
@@ -4952,8 +4952,8 @@ export type CustomerUpdateWithoutCustomerTypeInput = {
   refundReceipts?: Prisma.RefundReceiptUpdateManyWithoutCustomerNestedInput
   delayedCharges?: Prisma.DelayedChargeUpdateManyWithoutCustomerNestedInput
   delayedCredits?: Prisma.DelayedCreditUpdateManyWithoutCustomerNestedInput
-  Company?: Prisma.CompanyUpdateOneRequiredWithoutCustomersNestedInput
-  JournalEntry?: Prisma.JournalEntryUpdateManyWithoutCustomerNestedInput
+  company?: Prisma.CompanyUpdateOneRequiredWithoutCustomersNestedInput
+  journalEntry?: Prisma.JournalEntryUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateWithoutCustomerTypeInput = {
@@ -5005,7 +5005,7 @@ export type CustomerUncheckedUpdateWithoutCustomerTypeInput = {
   refundReceipts?: Prisma.RefundReceiptUncheckedUpdateManyWithoutCustomerNestedInput
   delayedCharges?: Prisma.DelayedChargeUncheckedUpdateManyWithoutCustomerNestedInput
   delayedCredits?: Prisma.DelayedCreditUncheckedUpdateManyWithoutCustomerNestedInput
-  JournalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCustomerNestedInput
+  journalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateManyWithoutCustomerTypeInput = {
@@ -5139,7 +5139,7 @@ export type CustomerUpdateWithoutCompanyInput = {
   refundReceipts?: Prisma.RefundReceiptUpdateManyWithoutCustomerNestedInput
   delayedCharges?: Prisma.DelayedChargeUpdateManyWithoutCustomerNestedInput
   delayedCredits?: Prisma.DelayedCreditUpdateManyWithoutCustomerNestedInput
-  JournalEntry?: Prisma.JournalEntryUpdateManyWithoutCustomerNestedInput
+  journalEntry?: Prisma.JournalEntryUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateWithoutCompanyInput = {
@@ -5191,7 +5191,7 @@ export type CustomerUncheckedUpdateWithoutCompanyInput = {
   refundReceipts?: Prisma.RefundReceiptUncheckedUpdateManyWithoutCustomerNestedInput
   delayedCharges?: Prisma.DelayedChargeUncheckedUpdateManyWithoutCustomerNestedInput
   delayedCredits?: Prisma.DelayedCreditUncheckedUpdateManyWithoutCustomerNestedInput
-  JournalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCustomerNestedInput
+  journalEntry?: Prisma.JournalEntryUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateManyWithoutCompanyInput = {
@@ -5251,7 +5251,7 @@ export type CustomerCountOutputType = {
   refundReceipts: number
   delayedCharges: number
   delayedCredits: number
-  JournalEntry: number
+  journalEntry: number
 }
 
 export type CustomerCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -5265,7 +5265,7 @@ export type CustomerCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensio
   refundReceipts?: boolean | CustomerCountOutputTypeCountRefundReceiptsArgs
   delayedCharges?: boolean | CustomerCountOutputTypeCountDelayedChargesArgs
   delayedCredits?: boolean | CustomerCountOutputTypeCountDelayedCreditsArgs
-  JournalEntry?: boolean | CustomerCountOutputTypeCountJournalEntryArgs
+  journalEntry?: boolean | CustomerCountOutputTypeCountJournalEntryArgs
 }
 
 /**
@@ -5409,8 +5409,8 @@ export type CustomerSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   refundReceipts?: boolean | Prisma.Customer$refundReceiptsArgs<ExtArgs>
   delayedCharges?: boolean | Prisma.Customer$delayedChargesArgs<ExtArgs>
   delayedCredits?: boolean | Prisma.Customer$delayedCreditsArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
-  JournalEntry?: boolean | Prisma.Customer$JournalEntryArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  journalEntry?: boolean | Prisma.Customer$journalEntryArgs<ExtArgs>
   _count?: boolean | Prisma.CustomerCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["customer"]>
 
@@ -5457,7 +5457,7 @@ export type CustomerSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   customerType?: boolean | Prisma.Customer$customerTypeArgs<ExtArgs>
   parentCustomer?: boolean | Prisma.Customer$parentCustomerArgs<ExtArgs>
   user?: boolean | Prisma.Customer$userArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["customer"]>
 
 export type CustomerSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -5503,7 +5503,7 @@ export type CustomerSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   customerType?: boolean | Prisma.Customer$customerTypeArgs<ExtArgs>
   parentCustomer?: boolean | Prisma.Customer$parentCustomerArgs<ExtArgs>
   user?: boolean | Prisma.Customer$userArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["customer"]>
 
 export type CustomerSelectScalar = {
@@ -5563,21 +5563,21 @@ export type CustomerInclude<ExtArgs extends runtime.Types.Extensions.InternalArg
   refundReceipts?: boolean | Prisma.Customer$refundReceiptsArgs<ExtArgs>
   delayedCharges?: boolean | Prisma.Customer$delayedChargesArgs<ExtArgs>
   delayedCredits?: boolean | Prisma.Customer$delayedCreditsArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
-  JournalEntry?: boolean | Prisma.Customer$JournalEntryArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  journalEntry?: boolean | Prisma.Customer$journalEntryArgs<ExtArgs>
   _count?: boolean | Prisma.CustomerCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CustomerIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   customerType?: boolean | Prisma.Customer$customerTypeArgs<ExtArgs>
   parentCustomer?: boolean | Prisma.Customer$parentCustomerArgs<ExtArgs>
   user?: boolean | Prisma.Customer$userArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }
 export type CustomerIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   customerType?: boolean | Prisma.Customer$customerTypeArgs<ExtArgs>
   parentCustomer?: boolean | Prisma.Customer$parentCustomerArgs<ExtArgs>
   user?: boolean | Prisma.Customer$userArgs<ExtArgs>
-  Company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
+  company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
 }
 
 export type $CustomerPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -5596,8 +5596,8 @@ export type $CustomerPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     refundReceipts: Prisma.$RefundReceiptPayload<ExtArgs>[]
     delayedCharges: Prisma.$DelayedChargePayload<ExtArgs>[]
     delayedCredits: Prisma.$DelayedCreditPayload<ExtArgs>[]
-    Company: Prisma.$CompanyPayload<ExtArgs>
-    JournalEntry: Prisma.$JournalEntryPayload<ExtArgs>[]
+    company: Prisma.$CompanyPayload<ExtArgs>
+    journalEntry: Prisma.$JournalEntryPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -6055,8 +6055,8 @@ export interface Prisma__CustomerClient<T, Null = never, ExtArgs extends runtime
   refundReceipts<T extends Prisma.Customer$refundReceiptsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Customer$refundReceiptsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RefundReceiptPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   delayedCharges<T extends Prisma.Customer$delayedChargesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Customer$delayedChargesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DelayedChargePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   delayedCredits<T extends Prisma.Customer$delayedCreditsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Customer$delayedCreditsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DelayedCreditPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  Company<T extends Prisma.CompanyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CompanyDefaultArgs<ExtArgs>>): Prisma.Prisma__CompanyClient<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  JournalEntry<T extends Prisma.Customer$JournalEntryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Customer$JournalEntryArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JournalEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  company<T extends Prisma.CompanyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CompanyDefaultArgs<ExtArgs>>): Prisma.Prisma__CompanyClient<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  journalEntry<T extends Prisma.Customer$journalEntryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Customer$journalEntryArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JournalEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6823,9 +6823,9 @@ export type Customer$delayedCreditsArgs<ExtArgs extends runtime.Types.Extensions
 }
 
 /**
- * Customer.JournalEntry
+ * Customer.journalEntry
  */
-export type Customer$JournalEntryArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Customer$journalEntryArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the JournalEntry
    */

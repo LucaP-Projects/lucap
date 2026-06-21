@@ -315,7 +315,7 @@ export type InvoiceItemWhereInput = {
   deactivatedByUserId?: Prisma.StringNullableFilter<"InvoiceItem"> | string | null
   deactivationReason?: Prisma.StringNullableFilter<"InvoiceItem"> | string | null
   invoice?: Prisma.XOR<Prisma.InvoiceScalarRelationFilter, Prisma.InvoiceWhereInput>
-  Item?: Prisma.XOR<Prisma.ItemNullableScalarRelationFilter, Prisma.ItemWhereInput> | null
+  item?: Prisma.XOR<Prisma.ItemNullableScalarRelationFilter, Prisma.ItemWhereInput> | null
 }
 
 export type InvoiceItemOrderByWithRelationInput = {
@@ -336,7 +336,7 @@ export type InvoiceItemOrderByWithRelationInput = {
   deactivatedByUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   deactivationReason?: Prisma.SortOrderInput | Prisma.SortOrder
   invoice?: Prisma.InvoiceOrderByWithRelationInput
-  Item?: Prisma.ItemOrderByWithRelationInput
+  item?: Prisma.ItemOrderByWithRelationInput
 }
 
 export type InvoiceItemWhereUniqueInput = Prisma.AtLeast<{
@@ -360,7 +360,7 @@ export type InvoiceItemWhereUniqueInput = Prisma.AtLeast<{
   deactivatedByUserId?: Prisma.StringNullableFilter<"InvoiceItem"> | string | null
   deactivationReason?: Prisma.StringNullableFilter<"InvoiceItem"> | string | null
   invoice?: Prisma.XOR<Prisma.InvoiceScalarRelationFilter, Prisma.InvoiceWhereInput>
-  Item?: Prisma.XOR<Prisma.ItemNullableScalarRelationFilter, Prisma.ItemWhereInput> | null
+  item?: Prisma.XOR<Prisma.ItemNullableScalarRelationFilter, Prisma.ItemWhereInput> | null
 }, "id">
 
 export type InvoiceItemOrderByWithAggregationInput = {
@@ -425,7 +425,7 @@ export type InvoiceItemCreateInput = {
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
   invoice: Prisma.InvoiceCreateNestedOneWithoutItemsInput
-  Item?: Prisma.ItemCreateNestedOneWithoutInvoiceItemsInput
+  item?: Prisma.ItemCreateNestedOneWithoutInvoiceItemsInput
 }
 
 export type InvoiceItemUncheckedCreateInput = {
@@ -463,7 +463,7 @@ export type InvoiceItemUpdateInput = {
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   invoice?: Prisma.InvoiceUpdateOneRequiredWithoutItemsNestedInput
-  Item?: Prisma.ItemUpdateOneWithoutInvoiceItemsNestedInput
+  item?: Prisma.ItemUpdateOneWithoutInvoiceItemsNestedInput
 }
 
 export type InvoiceItemUncheckedUpdateInput = {
@@ -802,7 +802,7 @@ export type InvoiceItemCreateWithoutInvoiceInput = {
   deactivatedAt?: Date | string | null
   deactivatedByUserId?: string | null
   deactivationReason?: string | null
-  Item?: Prisma.ItemCreateNestedOneWithoutInvoiceItemsInput
+  item?: Prisma.ItemCreateNestedOneWithoutInvoiceItemsInput
 }
 
 export type InvoiceItemUncheckedCreateWithoutInvoiceInput = {
@@ -954,7 +954,7 @@ export type InvoiceItemUpdateWithoutInvoiceInput = {
   deactivatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deactivatedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deactivationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  Item?: Prisma.ItemUpdateOneWithoutInvoiceItemsNestedInput
+  item?: Prisma.ItemUpdateOneWithoutInvoiceItemsNestedInput
 }
 
 export type InvoiceItemUncheckedUpdateWithoutInvoiceInput = {
@@ -1013,7 +1013,7 @@ export type InvoiceItemSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   deactivatedByUserId?: boolean
   deactivationReason?: boolean
   invoice?: boolean | Prisma.InvoiceDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.InvoiceItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.InvoiceItem$itemArgs<ExtArgs>
 }, ExtArgs["result"]["invoiceItem"]>
 
 export type InvoiceItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1034,7 +1034,7 @@ export type InvoiceItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   deactivatedByUserId?: boolean
   deactivationReason?: boolean
   invoice?: boolean | Prisma.InvoiceDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.InvoiceItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.InvoiceItem$itemArgs<ExtArgs>
 }, ExtArgs["result"]["invoiceItem"]>
 
 export type InvoiceItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1055,7 +1055,7 @@ export type InvoiceItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   deactivatedByUserId?: boolean
   deactivationReason?: boolean
   invoice?: boolean | Prisma.InvoiceDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.InvoiceItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.InvoiceItem$itemArgs<ExtArgs>
 }, ExtArgs["result"]["invoiceItem"]>
 
 export type InvoiceItemSelectScalar = {
@@ -1080,22 +1080,22 @@ export type InvoiceItemSelectScalar = {
 export type InvoiceItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "invoiceId" | "productName" | "description" | "quantity" | "rate" | "amount" | "sku" | "taxable" | "createdAt" | "updatedAt" | "itemId" | "isActive" | "deactivatedAt" | "deactivatedByUserId" | "deactivationReason", ExtArgs["result"]["invoiceItem"]>
 export type InvoiceItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   invoice?: boolean | Prisma.InvoiceDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.InvoiceItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.InvoiceItem$itemArgs<ExtArgs>
 }
 export type InvoiceItemIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   invoice?: boolean | Prisma.InvoiceDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.InvoiceItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.InvoiceItem$itemArgs<ExtArgs>
 }
 export type InvoiceItemIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   invoice?: boolean | Prisma.InvoiceDefaultArgs<ExtArgs>
-  Item?: boolean | Prisma.InvoiceItem$ItemArgs<ExtArgs>
+  item?: boolean | Prisma.InvoiceItem$itemArgs<ExtArgs>
 }
 
 export type $InvoiceItemPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "InvoiceItem"
   objects: {
     invoice: Prisma.$InvoicePayload<ExtArgs>
-    Item: Prisma.$ItemPayload<ExtArgs> | null
+    item: Prisma.$ItemPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1509,7 +1509,7 @@ readonly fields: InvoiceItemFieldRefs;
 export interface Prisma__InvoiceItemClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   invoice<T extends Prisma.InvoiceDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.InvoiceDefaultArgs<ExtArgs>>): Prisma.Prisma__InvoiceClient<runtime.Types.Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  Item<T extends Prisma.InvoiceItem$ItemArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.InvoiceItem$ItemArgs<ExtArgs>>): Prisma.Prisma__ItemClient<runtime.Types.Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  item<T extends Prisma.InvoiceItem$itemArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.InvoiceItem$itemArgs<ExtArgs>>): Prisma.Prisma__ItemClient<runtime.Types.Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1956,9 +1956,9 @@ export type InvoiceItemDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.I
 }
 
 /**
- * InvoiceItem.Item
+ * InvoiceItem.item
  */
-export type InvoiceItem$ItemArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type InvoiceItem$itemArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Item
    */

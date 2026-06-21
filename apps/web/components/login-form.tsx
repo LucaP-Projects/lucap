@@ -3,7 +3,6 @@
 import { useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
   Field,
@@ -14,6 +13,7 @@ import {
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import authClient from "@/lib/auth-client"
+import { cn } from "@/lib/utils"
 
 export function LoginForm({
   className,
