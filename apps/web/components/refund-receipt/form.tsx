@@ -1,16 +1,7 @@
 import { memo } from 'react';
 import { PaymentMethod, RefundReason, RefundStatus } from '@/lib/generated/prisma/client';
 import { useFormContext } from 'react-hook-form';
-import {
-  Form,
-  FormField,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-  Textarea
-} from '@silknexus/ui';
+import { Textarea } from '@/components/ui/textarea';
 import FileUpload from '@/components/file-upload/file-upload';
 import { CompanyInfo } from '../base/company/company';
 import { DetailsSection } from '../base/customer/main';

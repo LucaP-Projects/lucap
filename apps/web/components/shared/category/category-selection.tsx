@@ -4,15 +4,12 @@ import * as React from 'react';
 import { useRouter } from 'next/navigation';
 import { ChevronsUpDown } from 'lucide-react';
 import {
-  Button,
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
   Popover,
   PopoverContent,
   PopoverTrigger
-} from '@silknexus/ui';
+} from '@/components/ui/popover';
+import { Command, CommandInput, CommandEmpty, CommandGroup } from '@/components/ui/command';
+import { Button } from '@/components/ui/button';
 import { useDebounce } from '@/hooks/use-debounce';
 import { cn } from '@/lib/utils';
 

@@ -3,20 +3,14 @@
 import React, { useState } from 'react';
 import { Invoice, PaymentMethod } from '@/lib/generated/prisma/client';
 import { useRouter } from 'next/navigation';
-import { Receipt } from 'lucide-react';
-import {
-  Badge,
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-  ScrollArea,
-  TabsContent,
-  toast
-} from '@silknexus/ui';
+import { Badge, Receipt } from 'lucide-react';
+
 import { processPayment } from './invoice-action';
 import InvoicePaymentSheet from './invoice-payment-sheet';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
+import { TabsContent } from '@/components/ui/tabs';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { toast } from 'sonner';
 
 interface InvoiceListProps {
   event: any;
@@ -53,19 +47,12 @@ const InvoicesList: React.FC<InvoiceListProps> = ({
       setLoading(true);
       // Pass the event path for revalidation
       await processPayment(paymentData, `/finance/payment-events/${event.id}`);
-      toast({
-        title: 'Success',
-        description: 'Payment processed successfully'
-      });
+      toast.success('Payment processed successfully');
       handleSheetClose();
       router.refresh();
     } catch (error) {
       console.error('Payment processing error:', error);
-      toast({
-        title: 'Error',
-        description: 'Failed to process payment. Please try again.',
-        variant: 'destructive'
-      });
+      toast.error('Failed to process payment. Please try again.');
     } finally {
       setLoading(false);
     }

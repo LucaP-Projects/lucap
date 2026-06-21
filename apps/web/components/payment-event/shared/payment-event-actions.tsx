@@ -12,30 +12,17 @@ import {
   PowerOff,
   Trash
 } from 'lucide-react';
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  Button,
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-  toast
-} from '@silknexus/ui';
+
 import { ActionResult } from '../assignment/one-time/types';
 import {
   activatePaymentEvent,
   deactivatePaymentEvent,
   deletePaymentEvent
 } from './payment-event-action';
+import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction } from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuItem, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
+import { toast } from 'sonner';
 
 type PaymentEventWithRelations = {
   id: string;
@@ -121,16 +108,10 @@ export function PaymentEventActions({ event }: any) {
 
     try {
       await navigator.clipboard.writeText(event.id);
-      toast({
-        description: 'Payment event ID copied to clipboard'
-      });
+      toast.success('Payment event ID copied to clipboard');
       setIsOpen(false);
     } catch (error) {
-      toast({
-        title: 'Error',
-        description: 'Failed to copy ID to clipboard',
-        variant: 'destructive'
-      });
+      toast.error('Failed to copy ID to clipboard');
     }
   };
 

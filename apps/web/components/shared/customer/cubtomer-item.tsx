@@ -1,7 +1,7 @@
 'use client';
 
 import { Check, User } from 'lucide-react';
-import { CommandItem } from '@silknexus/ui';
+import { CommandItem } from '@/components/ui/command';
 
 import { cn } from '@/lib/utils';
 import { CustomerSelectData } from './actions';

@@ -187,7 +187,7 @@ export async function sendVerificationEmail({
   try {
     return await emailService.sendEmail({
       to: [to],
-      subject: `SilkNexus - ${subject}`,
+      subject: `LucaP - ${subject}`,
       html,
       text
     });
@@ -202,7 +202,7 @@ export async function sendVerificationEmail({
     if (isDevelopment) {
       console.log('📧 Email would be sent (dev mode):');
       console.log(`   To: ${to}`);
-      console.log(`   Subject: SilkNexus - ${subject}`);
+      console.log(`   Subject: LucaP - ${subject}`);
       console.log(`   Verification URL: ${verificationUrl}`);
 
       // Return a mock successful response
@@ -211,7 +211,7 @@ export async function sendVerificationEmail({
         email_log: {
           id: 0,
           recipient: to,
-          subject: `SilkNexus - ${subject}`,
+          subject: `LucaP - ${subject}`,
           template_id: null,
           status: 'logged',
           error_message: null,
@@ -260,7 +260,7 @@ export async function sendPasswordResetEmail({
   try {
     return await emailService.sendEmail({
       to: [to],
-      subject: `SilkNexus - ${subject}`,
+      subject: `LucaP - ${subject}`,
       html,
       text
     });
@@ -274,7 +274,7 @@ export async function sendPasswordResetEmail({
     if (isDevelopment) {
       console.log('📧 Password reset email would be sent (dev mode):');
       console.log(`   To: ${to}`);
-      console.log(`   Subject: SilkNexus - ${subject}`);
+      console.log(`   Subject: LucaP - ${subject}`);
       console.log(`   Reset URL: ${resetUrl}`);
 
       // Return a mock successful response
@@ -283,7 +283,7 @@ export async function sendPasswordResetEmail({
         email_log: {
           id: 0,
           recipient: to,
-          subject: `SilkNexus - ${subject}`,
+          subject: `LucaP - ${subject}`,
           template_id: null,
           status: 'logged',
           error_message: null,
@@ -332,7 +332,7 @@ export async function sendMagicLinkEmail({
   try {
     return await emailService.sendEmail({
       to: [to],
-      subject: `SilkNexus - ${subject}`,
+      subject: `LucaP - ${subject}`,
       html,
       text
     });
@@ -346,7 +346,7 @@ export async function sendMagicLinkEmail({
     if (isDevelopment) {
       console.log('📧 Magic link email would be sent (dev mode):');
       console.log(`   To: ${to}`);
-      console.log(`   Subject: SilkNexus - ${subject}`);
+      console.log(`   Subject: LucaP - ${subject}`);
       console.log(`   Magic Link: ${magicLinkUrl}`);
 
       // Return a mock successful response
@@ -355,7 +355,7 @@ export async function sendMagicLinkEmail({
         email_log: {
           id: 0,
           recipient: to,
-          subject: `SilkNexus - ${subject}`,
+          subject: `LucaP - ${subject}`,
           template_id: null,
           status: 'logged',
           error_message: null,

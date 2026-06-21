@@ -240,7 +240,7 @@ export const CustomerInfo = ({
 
 const getGoogleStorageFileUrl = (filePath: string) => {
   const BUCKET_NAME =
-    process.env.NEXT_PUBLIC_GOOGLE_STORAGE_BUCKET || 'silknexus';
+    process.env.NEXT_PUBLIC_GOOGLE_STORAGE_BUCKET || 'lucapacioli.com.tn';
   return `https://storage.googleapis.com/${BUCKET_NAME}/${filePath}`;
 };
 

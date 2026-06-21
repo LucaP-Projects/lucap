@@ -1,16 +1,7 @@
 'use client';
 
 import { UseFormReturn } from 'react-hook-form';
-import {
-  Card,
-  CardContent,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  Input
-} from '@silknexus/ui';
+
 import { formatCurrency } from '@/lib/utils';
 import { PaymentFormValues } from './schema';
 import {
@@ -18,6 +9,8 @@ import {
   calculateRemainingAmount,
   distributePayment
 } from './utils';
+import { Card, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 
 // export function calculateRemainingAmount(invoice: Invoice): number {
 //   const paidAmount = invoice.payments.reduce((sum, p) => sum + p.amount, 0);

@@ -2,27 +2,14 @@
 
 import { format } from 'date-fns';
 import { UseFormReturn } from 'react-hook-form';
-import { CalendarIcon } from 'lucide-react';
-import {
-  Button,
-  Calendar,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  Input,
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from '@silknexus/ui';
+import { Calendar, CalendarIcon } from 'lucide-react';
+
 import { cn } from '@/lib/utils';
 import { PaymentFormValues } from './schema';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
+import { Popover, PopoverTrigger, PopoverContent } from '../ui/popover';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '../ui/select';
 
 interface PaymentDetailsProps {
   form: UseFormReturn<PaymentFormValues>;

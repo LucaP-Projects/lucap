@@ -1,4 +1,4 @@
-import { cn } from "@silknexus/ui"
+import { cn } from "@lucapacioli.com.tn/ui"
 
 interface DashboardShellProps {
   children: React.ReactNode

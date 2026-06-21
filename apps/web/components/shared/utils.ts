@@ -5,11 +5,11 @@ import { Decimal } from 'decimal.js';
 const keyFilename = path.join(process.cwd(), 'key.json');
 
 export const storage = new Storage({
-  projectId: 'silknexus',
+  projectId: 'lucapacioli.com.tn',
   keyFilename: keyFilename
 });
 
-const bucketName = 'silknexus';
+const bucketName = 'lucapacioli.com.tn';
 export const bucket = storage.bucket(bucketName);
 
 export function validateItems(

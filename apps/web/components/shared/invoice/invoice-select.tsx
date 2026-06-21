@@ -2,17 +2,8 @@
 
 import * as React from 'react';
 import { useRouter } from 'next/navigation';
-import { ChevronsUpDown } from 'lucide-react';
-import {
-  Button,
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  Popover,
-  PopoverContent,
-  PopoverTrigger
-} from '@silknexus/ui';
+import { ChevronsUpDown, Command } from 'lucide-react';
+
 import { useDebounce } from '@/hooks/use-debounce';
 import { cn } from '@/lib/utils';
 import {
@@ -21,6 +12,9 @@ import {
   getInvoicesForSelect
 } from './actions';
 import { InvoiceItem } from './invoice-item';
+import { Button } from '@/components/ui/button';
+import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
+import { CommandInput, CommandEmpty, CommandGroup } from 'cmdk';
 
 interface InvoiceSelectProps {
   onSelect: (invoice: InvoiceSelectData) => void;

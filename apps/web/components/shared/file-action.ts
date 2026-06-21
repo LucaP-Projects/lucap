@@ -41,7 +41,7 @@ export async function uploadFileToGCS(
     // Make file public
     await gcsFile.makePublic();
 
-    const bucketName = 'silknexus';
+    const bucketName = 'lucapacioli.com.tn';
     return {
       url: `https://storage.googleapis.com/${bucketName}/${key}`,
       key

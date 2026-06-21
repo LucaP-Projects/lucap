@@ -4,40 +4,9 @@ import { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { format } from 'date-fns';
 import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
-import { Calendar as CalendarIcon } from 'lucide-react';
+import { Form, useForm } from 'react-hook-form';
+import { Calendar, Calendar as CalendarIcon, Sheet } from 'lucide-react';
 
-import {
-  Button,
-  Calendar,
-  Card,
-  CardContent,
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  Input,
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  Switch,
-  Textarea,
-  toast
-} from '@silknexus/ui';
 import {
   createOneTimePaymentEvent,
   createSubscriptionPaymentEvent
@@ -48,6 +17,15 @@ import {
   paymentEventFormSchema,
   PaymentEventFormValues
 } from '@/validation/payment-event/subscription.schema';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
+import { SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter } from '@/components/ui/sheet';
+import { Textarea } from '@/components/ui/textarea';
+import { Switch } from '@/components/ui/switch';
+import { toast } from 'sonner';
 
 interface PaymentEventDrawerProps {
   open: boolean;
@@ -113,19 +91,14 @@ export default function PaymentEventDrawer({
         await createSubscriptionPaymentEvent(values);
       }
 
-      toast({
-        title: 'Success',
-        description: 'Payment event created successfully'
-      });
+      toast.success('Payment event created successfully',);
       onOpenChange(false);
       form.reset();
       router.push('/finance/payment-events');
       router.refresh();
     } catch (error) {
-      toast({
-        title: 'Error',
-        description: 'Something went wrong. Please try again.',
-        variant: 'destructive'
+      toast.error('Error', {
+        description: 'Something went wrong. Please try again.'
       });
     } finally {
       setLoading(false);
