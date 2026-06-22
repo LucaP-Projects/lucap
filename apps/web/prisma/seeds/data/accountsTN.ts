@@ -5,7 +5,6 @@ import { pcg } from './planComptableGenerale';
 type Account = {
   id?: string;
   title: string;
-  is_custom: number;
   number: number;
   composed_number: number;
   children?: Account[];
@@ -32,7 +31,7 @@ const seedAccounts: SeedModule = {
           ...accountFields,
           number: accountFields.number.toString(),
           composed_number: accountFields.composed_number.toString(),
-          is_custom: accountFields.is_custom === 1,
+          is_custom: false,
           id: accountId,
           parent_id: parentId
         });

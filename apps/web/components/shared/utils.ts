@@ -4,31 +4,30 @@ import { S3Client, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { Decimal } from 'decimal.js';
 
-// --- GARAGE S3 CONFIGISTRATION ---
+// --- GARAGE S3 CONFIGURATION ---
 export const s3Client = new S3Client({
   endpoint: process.env.GARAGE_ENDPOINT || 'http://localhost:3900',
-  region: process.env.GARAGE_REGION || 'garage', // Garage accepts any string layout
+  region: process.env.GARAGE_REGION || 'garage', 
   credentials: {
     accessKeyId: process.env.GARAGE_ACCESS_KEY_ID || 'your-access-key',
     secretAccessKey: process.env.GARAGE_SECRET_ACCESS_KEY || 'your-secret-key',
   },
-  forcePathStyle: true, // CRITICAL: Garage and MinIO require Path-Style addressing
+  forcePathStyle: true, 
 });
 
 const bucketName = process.env.GARAGE_BUCKET_NAME || 'lucapacioli.com.tn';
 const publicBaseUrl = process.env.GARAGE_PUBLIC_URL || `http://localhost:3900/${bucketName}`;
 
 // --- ENCRYPTION CONFIGURATION (Andersen Security Standard) ---
-// STORAGE_ENCRYPTION_KEY must be a cryptographically secure 32-byte hex string (64 characters)
 const ENCRYPTION_KEY = process.env.STORAGE_ENCRYPTION_KEY || ''; 
-const IV_LENGTH = 12; // Standard initialization vector length for AES-GCM
+const IV_LENGTH = 12; 
 const AUTH_TAG_LENGTH = 16;
 
 /**
  * Encrypts a binary buffer using AES-256-GCM.
  * Prepends the IV and Auth Tag to the payload for self-contained decryption.
  */
-function encryptPayload(buffer: Buffer): Buffer {
+export function encryptPayload(buffer: Buffer): Buffer {
   if (!ENCRYPTION_KEY || ENCRYPTION_KEY.length !== 64) {
     throw new Error('Secure storage requires a valid 32-byte hexadecimal ENCRYPTION_KEY.');
   }
@@ -100,11 +99,12 @@ export async function uploadFile(
     const uniqueId = `${Date.now()}-${Math.random().toString(36).substring(7)}`;
     const fileName = `${uniqueId}.${fileExt}`;
     const filePath = `${folder}/${fileName}`;
+    let buffer: Buffer;
+    // Fix: Explicitly cast ArrayBufferLike to ArrayBuffer for compiler version harmony
+    const arrayBuffer = await file.arrayBuffer() as ArrayBuffer;
+    buffer = Buffer.from(arrayBuffer);
 
-    const arrayBuffer = await file.arrayBuffer();
-    let buffer = Buffer.from(arrayBuffer);
-
-    // If requested, transparently encrypt payload before streaming it to the VPS filesystem/Garage
+    // Secure payload transformation before storage ingestion
     if (isSecure) {
       buffer = encryptPayload(buffer);
     }
@@ -115,13 +115,11 @@ export async function uploadFile(
       Body: buffer,
       ContentType: isSecure ? 'application/octet-stream' : file.type, 
       CacheControl: isSecure ? 'private, no-store' : 'public, max-age=31536000',
-      // Public access in Garage is handled either via standard S3 ACLs or Bucket Layout Policies
       ACL: isSecure ? 'private' : 'public-read', 
     });
 
     await s3Client.send(command);
 
-    // Return reference identifier path
     return isSecure ? filePath : `${publicBaseUrl}/${filePath}`;
   } catch (error) {
     console.error('File upload error:', error);
@@ -130,25 +128,20 @@ export async function uploadFile(
 }
 
 // --- PIPELINE HANDLERS ---
-
 export async function handleItemImage(file: File): Promise<string> {
-  return uploadFile(file, 'items', false); // Public access
+  return uploadFile(file, 'items', false);
 }
 
 export async function handleCompanyLogo(file: File): Promise<string> {
-  return uploadFile(file, 'companies', false); // Public access
+  return uploadFile(file, 'companies', false);
 }
 
-/**
- * Handles highly sensitive user documents (e.g., invoices, corporate vaults, tax records)
- */
 export async function handleSecureDocument(file: File): Promise<string> {
-  return uploadFile(file, 'vault', true); // Encrypted payload path
+  return uploadFile(file, 'vault', true);
 }
 
 /**
- * Fetches an encrypted file from Garage, decrypts it dynamically via the runtime master key, 
- * and streams it back to the business domain.
+ * Fetches an encrypted file from Garage, decrypts it dynamically, and streams it back.
  */
 export async function downloadSecureFile(filePath: string): Promise<Buffer> {
   const command = new GetObjectCommand({
@@ -189,7 +182,6 @@ export async function getPresignedUrl(
     ContentType: fileType,
   });
 
-  // Generate an S3 standard V4 presigned signature configuration
   const signedUrl = await getSignedUrl(s3Client, command, { expiresIn: 3600 });
 
   return {

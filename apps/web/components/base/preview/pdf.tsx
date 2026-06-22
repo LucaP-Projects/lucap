@@ -144,7 +144,7 @@ export const PdfPreview = memo(({ company, paperType }: PdfPreviewProps) => {
       )}
       {/* Scrollable Table Container */}
       <div className="mb-8 overflow-x-auto">
-        <table className="w-full min-w-[600px] table-fixed">
+        <table className="w-full min-w-150 table-fixed">
           <thead>
             <tr className="border-b text-left text-sm">
               {settings.tableNumber && (
@@ -176,16 +176,16 @@ export const PdfPreview = memo(({ company, paperType }: PdfPreviewProps) => {
                 {settings.tableNumber && (
                   <td className="py-2 align-top text-gray-700">{index + 1}.</td>
                 )}
-                <td className="break-words py-2 font-medium text-gray-900">
+                <td className="wrap-break-word py-2 font-medium text-gray-900">
                   {item.productName}
                 </td>
                 {settings.description && (
-                  <td className="whitespace-pre-wrap break-words py-2 text-gray-700 md:table-cell">
+                  <td className="whitespace-pre-wrap wrap-break-word py-2 text-gray-700 md:table-cell">
                     {item.description}
                   </td>
                 )}
                 {settings.sku && (
-                  <td className="break-words py-2 text-gray-700 md:table-cell">
+                  <td className="wrap-break-word py-2 text-gray-700 md:table-cell">
                     {item.sku}
                   </td>
                 )}

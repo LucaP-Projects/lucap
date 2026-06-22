@@ -7,8 +7,6 @@ import { ImagePlus, X, Loader2 } from 'lucide-react';
 import { uploadFileLocal } from '@/components/file-upload/action';
 import {
   Field,
-  FieldDescription,
-  FieldError,
   FieldGroup,
   FieldLabel,
 } from "@/components/ui/field"

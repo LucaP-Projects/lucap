@@ -76,11 +76,7 @@ export function DataTable<TBasic extends { id: string }, TDetailed>({
       }
     } catch (error) {
       console.error('Error:', error);
-      toast({
-        title: 'Error',
-        description: 'Failed to load details',
-        variant: 'destructive'
-      });
+      toast.error('Failed to load details');
     } finally {
       setIsLoading(false);
     }
@@ -114,26 +110,16 @@ export function DataTable<TBasic extends { id: string }, TDetailed>({
         const result = await onDeleteSelected(selectedIds);
 
         if (result.success) {
-          toast({
-            title: 'Success',
-            description: `Successfully deleted ${selectedIds.length} item${selectedIds.length === 1 ? '' : 's'}`
-          });
+          toast.success(`Successfully deleted ${selectedIds.length} item${selectedIds.length === 1 ? '' : 's'}`);
           setRowSelection({});
         } else {
-          toast({
-            title: 'Error',
-            description: result.error || 'Failed to delete items',
-            variant: 'destructive'
-          });
+          toast.error(result.error || 'Failed to delete items');
         }
       } catch (error) {
         console.error('Delete error:', error);
-        toast({
-          title: 'Error',
-          description:
-            error instanceof Error ? error.message : 'Failed to delete items',
-          variant: 'destructive'
-        });
+        toast.error(
+          error instanceof Error ? error.message : 'Failed to delete items'
+        );
       } finally {
         setIsDeleting(false);
       }

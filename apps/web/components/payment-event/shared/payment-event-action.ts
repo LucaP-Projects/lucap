@@ -7,7 +7,7 @@ import {
   TransactionType,
   PaymentMethod,
   TransactionStatus
-} from '@/lib/generated/prisma/client';
+} from '@/lib/generated/prisma/enums';
 
 import { prisma } from '@/lib/prisma';
 
@@ -57,7 +57,7 @@ export async function createTransactionRecord({
   creditMemoId?: string;
   refundReceiptId?: string;
 }) {
-  const session = await auth.api.getSession({headers: await headers()});
+  const session = await auth.api.getSession({ headers: await headers() });
   if (!session?.user?.id) {
     redirect('/login');
   }
@@ -91,12 +91,13 @@ export async function createTransactionRecord({
 // Modified createPayment action
 export async function createPayment(data: CreatePaymentData) {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await auth.api.getSession({ headers: await headers() });
     if (!session?.user?.id) {
       redirect('/login');
     }
     if (!session?.user?.companyId) {
       redirect('/select-company');
+      return;
     }
     const payment = await prisma.$transaction(async (tx) => {
       // Create the payment record
@@ -108,7 +109,7 @@ export async function createPayment(data: CreatePaymentData) {
           paymentDate: data.paymentDate,
           paymentMethod: data.paymentMethod,
           reference: data.reference,
-          companyId: session.user.companyId,
+          companyId: session.user.companyId!,
           isActive: true
         }
       });
@@ -233,7 +234,7 @@ export async function deletePaymentEvent(id: string): Promise<ActionResult> {
   }
 
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await auth.api.getSession({ headers: await headers() });
     if (!session?.user?.id) {
       return { error: 'Authentication required' };
     }

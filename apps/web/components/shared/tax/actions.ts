@@ -3,7 +3,7 @@
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { auth } from '@/lib/auth';
-import { TaxStatus, TaxType } from '@/lib/generated/prisma/client';
+import { TaxStatus, TaxType } from '@/lib/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
 
 export type TaxSelectData = {

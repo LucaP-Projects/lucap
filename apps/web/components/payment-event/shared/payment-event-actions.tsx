@@ -24,18 +24,6 @@ import {
   deletePaymentEvent
 } from './payment-event-action';
 
-type PaymentEventWithRelations = {
-  id: string;
-  type: 'ONE_TIME' | 'SUBSCRIPTION' | 'INSTALLMENTS';
-  active: boolean;
-  currentVersion?: {
-    status: 'DRAFT' | 'ACTIVE' | 'DEPRECATED' | 'PENDING_ACTIVATION';
-    paymentSettings: any;
-  };
-  customerPaymentEvents: any[];
-  versionId?: string;
-};
-
 
 export function PaymentEventActions({ event }: any) {
   const router = useRouter();

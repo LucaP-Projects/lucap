@@ -3,13 +3,13 @@
 import { useRouter } from 'next/navigation';
 import { MoreHorizontal, Pencil, Trash2, UserRound } from 'lucide-react';
 
-import { deleteCustomer } from '@/app/(finance)/(dashboards)/customers/actions';
-import { formatCurrency } from '@/company/src/lib/utils';
-import { CustomerListItemDTO } from '@/company/src/types/customer';
+import { formatCurrency } from '@/lib/utils';
+import { CustomerListItemDTO } from '@/types/customer';
 import { Button } from '../ui/button';
 import { Checkbox } from '../ui/checkbox';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '../ui/dropdown-menu';
 import { TableRow, TableCell } from '../ui/table';
+import { deleteCustomer } from '../shared/customer/actions';
 
 interface CustomerRowProps {
   customer: CustomerListItemDTO;
@@ -66,7 +66,7 @@ export function CustomerRow({ customer, columns }: CustomerRowProps) {
               <span className="sr-only">Open menu</span>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-[160px]">
+          <DropdownMenuContent align="end" className="w-40">
             <DropdownMenuItem
               onClick={() => router.push(`/customers/${customer.id}`)}
             >

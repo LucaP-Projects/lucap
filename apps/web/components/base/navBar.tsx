@@ -1,5 +1,5 @@
 import { memo, useCallback, useEffect, useRef } from 'react';
-import { debounce } from 'lodash';
+import debounce from 'lodash';
 import { useFormContext } from 'react-hook-form';
 
 import { LucideIcon, PenLine, CreditCard, Mail, FileText, Settings } from 'lucide-react';
@@ -36,7 +36,7 @@ const MemoizedNavigation = memo(() => {
   const shouldCache = useRef(false);
 
   const debouncedCacheUpdate = useRef(
-    debounce((currentValues: InvoiceFormValues) => {
+    debounce.debounce((currentValues: InvoiceFormValues) => {
       if (shouldCache.current) {
         setCachedFormData(currentValues);
       }

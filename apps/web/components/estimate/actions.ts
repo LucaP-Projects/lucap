@@ -16,6 +16,7 @@ import {
   CreateEstimateResponse,
   UpdateEstimateData
 } from './types';
+import { headers } from 'next/headers';
 
 type EstimateStatus =
   | 'DRAFT'
@@ -381,7 +382,7 @@ export async function updateEstimate(
               type: 'individual',
               address: data.customerAddress
             },
-            type: 'Estimate',
+            type: 'ESTIMATE',
             cc: data.ccEmail,
             snapshotTimestamp: new Date().toISOString(),
             amount: totalAmount,
@@ -495,7 +496,7 @@ export async function convertEstimateToInvoice(estimateId: string) {
           convertedFromEstimate: true,
           estimateId: estimate.id,
           paymentEventSnapshot: {
-            type: 'Individual_invoice',
+            type: 'INDIVIDUAL_INVOICE',
             snapshotTimestamp: new Date().toISOString(),
             amount: estimate.amount,
             items: estimate.items.map((item) => ({
