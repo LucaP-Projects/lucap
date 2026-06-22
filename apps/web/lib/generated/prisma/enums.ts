@@ -11,8 +11,7 @@
 
 export const UserRole = {
   USER: 'USER',
-  ADMIN: 'ADMIN',
-  MODERATOR: 'MODERATOR'
+  ADMIN: 'ADMIN'
 } as const
 
 export type UserRole = (typeof UserRole)[keyof typeof UserRole]
@@ -82,7 +81,7 @@ export type TaxType = (typeof TaxType)[keyof typeof TaxType]
 export const ReceiptStatus = {
   COMPLETED: 'COMPLETED',
   VOIDED: 'VOIDED',
-  REFUNDED: 'REFUNDED'
+  REFINDED: 'REFINDED'
 } as const
 
 export type ReceiptStatus = (typeof ReceiptStatus)[keyof typeof ReceiptStatus]

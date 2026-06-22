@@ -191,18 +191,12 @@ const RateField = memo(({ index }: { index: number }) => {
   );
 });
 
-const SortableItem = memo(({ id, children }: { id: number; children: any }) => {
-  const sortable = useSortable({ id, index: id }); ;
-  const { ref, listeners, transform, transition } = sortable || {};
-
-  const style = {
-    transform: transform ? CSS.Transform.toString(transform) : undefined,
-    transition
-  };
+const SortableItem = memo(({ id, index, children }: { id: string; index: number; children: any }) => {
+  const { ref, isDragging } = useSortable({ id, index });
 
   return (
-    <div ref={ref as any} style={style}>
-      {children(listeners)}
+    <div ref={ref as any} className={isDragging ? 'opacity-50' : ''}>
+      {children(null)}
     </div>
   );
 });
@@ -224,9 +218,8 @@ const ItemRow = memo(
     <div className="grid grid-cols-12 items-center gap-4 px-4 py-3">
       <div
         className="col-span-1 flex cursor-move items-center px-1"
-        {...listeners}
       >
-        <GripVertical className="h-4 w-4 min-w-[16px] text-gray-400 dark:text-gray-500" />
+        <GripVertical className="h-4 w-4 min-w-4 text-gray-400 dark:text-gray-500" />
       </div>
 
       <ProductField index={index} />
@@ -398,7 +391,7 @@ const ItemSelectionHandler = memo(
             <DragDropProvider onDragEnd={handleDragEnd}>
               <div className="divide-y divide-gray-200 dark:divide-gray-700">
                 {items.map((item, index) => (
-                  <SortableItem key={item.id} id={item.id}>
+                  <SortableItem key={item.id} id={item.id} index={index}>
                     {(listeners: any) => (
                       <ItemRow
                         index={index}

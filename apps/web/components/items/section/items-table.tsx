@@ -13,7 +13,6 @@ import {
   Search,
   Plus,
   Package,
-  Trash2,
   Table
 } from 'lucide-react';
 
@@ -24,7 +23,6 @@ import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuIte
 import { Input } from '@/components/ui/input';
 import { TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table';
 import { useDebounce } from '@/hooks/use-debounce';
-import { useMediaQuery } from '@/hooks/use-media-query';
 import { formatCurrency, formatDate } from '@/lib/utils';
 import { updateItemStatus, getItems } from '../actions';
 import { ItemSheet } from './item-sheet';
@@ -73,7 +71,6 @@ export function ItemsTable({
   initialItems = [],
   initialTotalPages = 1
 }: ItemsTableProps) {
-  const isDesktop = useMediaQuery('(min-width: 768px)');
   const [editItem, setEditItem] = React.useState<any>(null);
   const [search, setSearch] = React.useState('');
   const [sheetOpen, setSheetOpen] = React.useState(false);

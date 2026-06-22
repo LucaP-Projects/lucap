@@ -108,7 +108,6 @@ const CustomerSelect = React.memo(
         [onSelect]
       );
 
-      const MemoizedCustomerItem = React.memo(CustomerItem);
 
       return (
         <div className="relative w-full">
@@ -139,7 +138,7 @@ const CustomerSelect = React.memo(
               </Button>
             </PopoverTrigger>
             <PopoverContent
-              className="max-h-[300px] w-(--radix-popover-trigger-width) overflow-hidden p-0"
+              className="max-h-75 w-(--radix-popover-trigger-width) overflow-hidden p-0"
               align="start"
               side="bottom"
               sideOffset={4}
@@ -154,7 +153,7 @@ const CustomerSelect = React.memo(
                 <CommandEmpty className="p-2 text-sm">
                   {loading ? 'Loading...' : 'No customer found.'}
                 </CommandEmpty>
-                <CommandGroup className="max-h-[200px] overflow-y-auto">
+                <CommandGroup className="max-h-50 overflow-y-auto">
                   {customers?.map((customer) => (
                     <CustomerItem
                       key={customer.id}

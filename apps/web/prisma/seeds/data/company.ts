@@ -1,4 +1,4 @@
-import { Permission, SystemRole } from '@prisma/client';
+import { Permission, SystemRole } from '@/lib/generated/prisma/client';
 import type { SeedModule } from '../types';
 import { prisma } from '../utils/seedUtils';
 

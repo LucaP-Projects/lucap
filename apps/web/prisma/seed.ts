@@ -1,10 +1,6 @@
 import "dotenv/config";
-import { PrismaPg } from "@prisma/adapter-pg";
-import { PrismaClient } from "../lib/generated/prisma/client";
 import { seedUsers, seedAccountsTN, seedCompany } from './seeds/data';
-import { executeSeedModules } from './seeds/utils/seedUtils';
-
-const prisma = new PrismaClient({ adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }) });
+import { prisma, executeSeedModules } from './seeds/utils/seedUtils';
 
 async function main() {
   try {

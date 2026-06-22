@@ -1,6 +1,6 @@
 // prisma/seeds/types/userTypes.ts
-import { SystemRole, Prisma } from '@prisma/client';
 import { hash } from 'bcrypt';
+import { SystemRole } from '@/lib/generated/prisma/client';
 import { SeedModule } from '../types';
 
 import { prisma } from '../utils';
@@ -164,7 +164,7 @@ const seedUsers: SeedModule = {
 
       // Create admin user
       const adminPassword = await hash('admin123', 12);
-      const admin = await prisma.user.create({
+      await prisma.user.create({
         data: {
           email: 'admin@example.com',
           name: 'admin user',

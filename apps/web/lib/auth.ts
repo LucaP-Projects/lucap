@@ -174,7 +174,6 @@ export const auth = betterAuth({
   ...options,
   plugins: [
     ...(options.plugins ?? []),
-
     customSession(async ({ user, session }: { user: any; session: any }) => {
       const dbUser = await prisma.user.findUnique({
         where: { id: user.id },
@@ -264,7 +263,7 @@ export async function getCurrentCompany() {
 
   // Find the active company from available companies
   const activeCompany = session.user.availableCompanies?.find(
-    (company: UserCompany) => company.companyId === session.user.activeCompanyId
+    (company) => company.companyId === session.user.activeCompanyId
   );
 
   return activeCompany || false;

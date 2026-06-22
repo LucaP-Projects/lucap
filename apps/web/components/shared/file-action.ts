@@ -1,7 +1,9 @@
 'use server';
 
 import { Prisma } from '@/lib/generated/prisma/client';
-import { bucket, validateItems } from './utils';
+import { PutObjectCommand } from '@aws-sdk/client-s3';
+// Make sure to export s3Client and encryptPayload from your updated utils.ts
+import { s3Client, encryptPayload, validateItems } from './utils';
 
 // Shared Types
 export interface FileUploadResult {
@@ -14,39 +16,55 @@ export interface ValidationResult {
   error?: string;
 }
 
-export async function uploadFileToGCS(
+/**
+ * Uploads a file to the S3-compatible storage (Garage).
+ * @param file The file object from the client.
+ * @param folderPath The target directory path.
+ * @param isSecure If true, encrypts the file payload using AES-256-GCM before uploading.
+ */
+export async function uploadFileToStorage(
   file: File,
-  folderPath: string
+  folderPath: string,
+  isSecure: boolean = false
 ): Promise<FileUploadResult> {
   try {
-    const fileExt = file.name.split('.').pop();
+    const fileExt = file.name.split('.').pop()?.toLowerCase();
     const key = `${folderPath}/${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
-
+    let buffer: Buffer;
     // Convert File to Buffer
     const arrayBuffer = await file.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
+    buffer = Buffer.from(arrayBuffer);
 
-    // Upload to Google Cloud Storage
-    const gcsFile = bucket.file(key);
-    await gcsFile.save(buffer, {
-      metadata: {
-        contentType: file.type,
-        cacheControl: 'public, max-age=31536000'
-      },
-      resumable: false,
-      gzip: true
+    // Apply Andersen-grade encryption for sensitive documents
+    if (isSecure) {
+      buffer = encryptPayload(buffer);
+    }
+
+    const bucketName = process.env.GARAGE_BUCKET_NAME || 'lucapacioli.com.tn';
+
+    // Build the S3 Put Object Command
+    const command = new PutObjectCommand({
+      Bucket: bucketName,
+      Key: key,
+      Body: buffer,
+      ContentType: isSecure ? 'application/octet-stream' : file.type,
+      CacheControl: isSecure ? 'private, no-store' : 'public, max-age=31536000',
+      // Public files get public-read, secure files stay strictly private
+      ACL: isSecure ? 'private' : 'public-read',
     });
 
-    // Make file public
-    await gcsFile.makePublic();
+    // Execute upload to Garage
+    await s3Client.send(command);
 
-    const bucketName = 'lucapacioli.com.tn';
+    const publicBaseUrl = process.env.GARAGE_PUBLIC_URL || `http://localhost:3900/${bucketName}`;
+
     return {
-      url: `https://storage.googleapis.com/${bucketName}/${key}`,
+      // Secure files shouldn't expose a public URL, just return the key for later decryption fetches
+      url: isSecure ? key : `${publicBaseUrl}/${key}`,
       key
     };
   } catch (error) {
-    console.error('Error uploading file to Google Cloud Storage:', error);
+    console.error('Error uploading file to Storage:', error);
     throw new Error(`Failed to upload file ${file.name}`);
   }
 }
@@ -65,6 +83,8 @@ export async function validateCustomer(
 
     return customer;
   } catch (error) {
-    console.log(error);
+    console.error('Error validating customer:', error);
+    // Best practice: Rethrow the error rather than failing silently so the upstream caller can handle it
+    throw error; 
   }
 }

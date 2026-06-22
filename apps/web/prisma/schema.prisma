@@ -16,7 +16,6 @@ generator json {
 enum UserRole {
   USER
   ADMIN
-  MODERATOR
 }
 
 enum CustomerStatus {

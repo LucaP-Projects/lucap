@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { UserRole } from '@/lib/generated/prisma/client';
 
-import { admin } from '@/utils/auth-client';
+import authClient from '@/lib/auth-client';
 
 interface UserRoleSelectProps {
   userId: string;
@@ -19,7 +19,7 @@ export const UserRoleSelect = ({ userId, role }: UserRoleSelectProps) => {
   async function handleChange(evt: React.ChangeEvent<HTMLSelectElement>) {
     const newRole = evt.target.value as UserRole;
 
-    const canChangeRole = await admin.hasPermission({
+    const canChangeRole = await authClient.admin.hasPermission({
       permissions: {
         user: ['set-role']
       }
@@ -29,7 +29,7 @@ export const UserRoleSelect = ({ userId, role }: UserRoleSelectProps) => {
       return toast.error('Forbidden');
     }
 
-    await admin.setRole({
+    await authClient.admin.setRole({
       userId,
       role: newRole,
       fetchOptions: {
