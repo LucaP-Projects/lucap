@@ -23,7 +23,7 @@ import {
   TabsList,
   TabsTrigger
 } from '@/components/ui/tabs';
-import { PaymentStatus } from '@/lib/generated/prisma/client';
+import { PaymentStatus } from '@/lib/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
 
 import { formatCurrency } from '@/lib/utils';
@@ -148,7 +148,7 @@ export default async function PaymentEventDetailsPage({
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <ScrollArea className="h-[400px] w-full sm:h-[600px]">
+                <ScrollArea className="h-100 w-full sm:h-150">
                   <div className="space-y-4">
                     {event.customerPaymentEvents.map((mpe) => (
                       <div
@@ -209,7 +209,7 @@ export default async function PaymentEventDetailsPage({
                 )}
               </CardHeader>
               <CardContent>
-                <ScrollArea className="h-[400px] w-full sm:h-[600px]">
+                <ScrollArea className="h-100 w-full sm:h-150">
                   <div className="space-y-4">
                     {event.versions.map((version) => (
                       <div
@@ -223,7 +223,7 @@ export default async function PaymentEventDetailsPage({
                               v{version.version}
                             </Badge>
                           </div>
-                          <p className="text-muted-foreground break-words text-sm">
+                          <p className="text-muted-foreground wrap-break-word text-sm">
                             {version.description || 'No description'}
                           </p>
                           <div className="text-muted-foreground flex flex-col gap-2 text-sm sm:flex-row">
@@ -254,7 +254,7 @@ export default async function PaymentEventDetailsPage({
                               version={version}
                               pendingPaymentsCount={
                                 event.customerPaymentEvents.filter(
-                                  (cpe: any) => cpe.status === 'PENDING'
+                                  (cpe) => cpe.status === 'PENDING'
                                 ).length
                               }
                             />

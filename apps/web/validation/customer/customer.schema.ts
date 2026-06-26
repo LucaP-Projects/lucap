@@ -17,7 +17,7 @@ export const CustomerMetadataSchema = z.object({
       smsOptIn: z.boolean()
     })
     .optional(),
-  customFields: z.record(z.string()).optional(),
+  customFields: z.record(z.string(), z.string()).optional(),
   tags: z.array(z.string()).optional()
 });
 
@@ -42,7 +42,7 @@ export const CustomerSchema = z.object({
     .optional(),
   mobile: z.string().max(30).optional(),
   fax: z.string().max(30).optional(),
-  primaryEmail: z.string().email().optional(),
+  primaryEmail: z.email().optional(),
   webAddress: z.string().url().max(1000).optional(),
   printOnCheckName: z.string().max(500).optional(),
   billingAddress: AddressSchema.optional(),

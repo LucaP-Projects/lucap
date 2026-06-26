@@ -1,14 +1,15 @@
 'use server';
 import { startOfDay, endOfDay } from 'date-fns';
 import { revalidatePath } from 'next/cache';
-import { auth } from '@/lib/auth';
-import { db } from '@/lib/db';
+import { getSessionWithCompany } from '@/lib/auth';
 import {
   RefundStatus,
-  Prisma,
   PaymentMethod,
   RefundReason
-} from '@/lib/generated/prisma/client';
+} from '@/lib/generated/prisma/enums';
+import * as Prisma from '@/lib/generated/prisma/internal/prismaNamespace';
+
+import { prisma } from '@/lib/prisma';
 
 export type RefundReceiptFilters = {
   status?: RefundStatus | undefined;
@@ -204,7 +205,7 @@ export async function getRefundReceiptStats() {
 export async function getRefundReceiptDetails(
   id: string
 ): Promise<RefundReceiptWithRelations | null> {
-  return db.refundReceipt.findUnique({
+  return prisma.refundReceipt.findUnique({
     where: {
       id,
       isActive: true
@@ -248,7 +249,7 @@ export async function deleteRefundReceipts(
 
   try {
     // Get the current session for user ID
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       return {
         success: false,

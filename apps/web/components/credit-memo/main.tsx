@@ -1,9 +1,10 @@
 'use client';
+
 import { useCallback, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { FormProvider } from 'react-hook-form';
 import { toast } from 'sonner';
-import { DiscountApplicationTime } from '@/lib/generated/prisma/client';
+import { DiscountApplicationTime } from '@/lib/generated/prisma/enums';
 import { useSidebarStore } from '@/stores/useSidePaper';
 import { useUploadStore } from '@/stores/useViewStore';
 import MemoizedNavigation from '../base/navBar';
@@ -13,17 +14,18 @@ import {
   validateWithWarnings,
   ValidationWarning
 } from '../base/validationWarning';
-import { FileWithPreview } from '../invoice/types';
-import { TaxSelectData } from '../shared/tax/actions';
+import { CompanyInfo, FileWithPreview } from '../invoice/types';
+import type { TaxSelectData } from '../shared/tax/actions';
 import { createCreditMemo, updateCreditMemo } from './actions';
 import { CreditMemoFormValues } from './schema';
+import { CreditMemo } from './types';
 import { useCreditMemoForm } from './useCreditMemoForm';
 import { CreditMemoViewRenderer } from './ViewRenderer';
 
 interface CreditMemoFormProps {
   mode?: 'create' | 'edit';
-  initialData?: any;
-  company?: any;
+  initialData?: CreditMemo;
+  company?: CompanyInfo | null;
 }
 
 export function CreditMemoForm({
@@ -35,7 +37,6 @@ export function CreditMemoForm({
     useCallback((state) => state.setUploading, [])
   );
   const formMethods = useCreditMemoForm({
-    mode,
     initialData
   });
 
@@ -118,7 +119,7 @@ export function CreditMemoForm({
         setIsUploading(false);
       }
     },
-    [mode, initialData, prepareFormData, formMethods, router]
+    [setIsUploading, mode, initialData, prepareFormData, router, formMethods]
   );
 
   const onSubmit = useCallback(

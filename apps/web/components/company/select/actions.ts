@@ -1,14 +1,14 @@
 'use server';
 import { revalidatePath } from 'next/cache';
-import { cookies, headers } from 'next/headers';
+import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { auth,  } from '@/lib/auth';
+import { getSessionWithCompany} from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 export async function getUserCompanies() {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
-      redirect('/login');
+      redirect('/auth/login');
     }
 
     const companies = await prisma.userCompany.findMany({
@@ -58,13 +58,13 @@ export async function getUserCompanies() {
     }));
   } catch (error) {
     console.error('Error fetching companies:', error);
-    throw new Error('Failed to fetch companies');
+    throw new Error('Failed to fetch companies', { cause: error });
   }
 }
 
 export async function selectCompany(companyId: string) {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
 
     if (!session?.user?.id) {
       throw new Error('Not authenticated');

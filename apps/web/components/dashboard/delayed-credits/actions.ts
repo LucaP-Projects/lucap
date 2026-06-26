@@ -1,9 +1,11 @@
 'use server';
 import { startOfDay, endOfDay } from 'date-fns';
 import { revalidatePath } from 'next/cache';
-import { auth } from '@/lib/auth';
-import { db } from '@/lib/db';
-import { CreditStatus, Prisma, PaymentMethod } from '@/lib/generated/prisma/client';
+import { getSessionWithCompany } from '@/lib/auth';
+import { CreditStatus } from '@/lib/generated/prisma/enums';
+import * as Prisma from '@/lib/generated/prisma/internal/prismaNamespace';
+
+import { prisma } from '@/lib/prisma';
 
 export type DelayedCreditFilters = {
   status?: CreditStatus | undefined;
@@ -196,7 +198,7 @@ export async function getDelayedCreditStats() {
 export async function getDelayedCreditDetails(
   id: string
 ): Promise<DelayedCreditWithRelations | null> {
-  return db.delayedCredit.findUnique({
+  return prisma.delayedCredit.findUnique({
     where: {
       id,
       isActive: true
@@ -240,7 +242,7 @@ export async function deleteDelayedCredits(
 
   try {
     // Get the current session for user ID
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       return {
         success: false,

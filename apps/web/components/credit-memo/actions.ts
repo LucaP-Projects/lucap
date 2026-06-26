@@ -3,8 +3,9 @@
 import { Decimal } from 'decimal.js';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { auth } from '@/lib/auth';
-import { CreditMemoStatus, Prisma } from '@/lib/generated/prisma/client';
+import { getSessionWithCompany } from '@/lib/auth';
+import { CreditMemoStatus } from '@/lib/generated/prisma/enums';
+import * as Prisma from '@/lib/generated/prisma/internal/prismaNamespace';
 import { prisma } from '@/lib/prisma';
 import { generateUniqueNumber } from '@/lib/utils';
 import { CustomizationSettingsInput } from '../base/sideBar/customize/types';
@@ -43,17 +44,17 @@ async function validateCreditMemoNumber(
       // Handle specific Prisma errors by their error codes
       switch (error.code) {
         case 'P2002': // Unique constraint violation
-          throw new Error('Duplicate credit memo number detected');
+          throw new Error('Duplicate credit memo number detected', { cause: error });
         case 'P2023': // Inconsistent column data
-          throw new Error('Invalid credit memo number or company ID format');
+          throw new Error('Invalid credit memo number or company ID format', { cause: error });
         default:
-          throw new Error(`Database error: ${error.message}`);
+          throw new Error(`Database error: ${error.message}`, { cause: error });
       }
     }
 
     // Re-throw unknown errors with a more user-friendly message
     throw new Error(
-      `Error validating credit memo number: ${error instanceof Error ? error.message : 'Unknown error'}`
+      `Error validating credit memo number: ${error instanceof Error ? error.message : 'Unknown error'}`, { cause: error }
     );
   }
 }
@@ -92,9 +93,9 @@ export async function createCreditMemo(
   color: string
 ): Promise<CreateCreditMemoResponse> {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) redirect('/login');
-    if (!session?.user?.companyId) redirect('/select-company');
+    if (!session?.user?.activeCompanyId) redirect('/select-company');
 
     // Process originalInvoiceId - convert empty string to null
     const originalInvoiceId =
@@ -105,15 +106,15 @@ export async function createCreditMemo(
     const creditMemo = await prisma.$transaction(async (tx) => {
       const creditMemoNumber = `CM-${generateUniqueNumber()}`;
       await Promise.all([
-        validateCustomer(tx, data.customerId, session.user.companyId),
-        validateCreditMemoNumber(tx, creditMemoNumber, session.user.companyId)
+        validateCustomer(tx, data.customerId, session.user.activeCompanyId),
+        validateCreditMemoNumber(tx, creditMemoNumber, session.user.activeCompanyId)
       ]);
 
       // Validate original invoice if provided
       if (originalInvoiceId) {
         await validateOriginalInvoice(
           tx,
-          session.user.companyId,
+          session.user.activeCompanyId,
           originalInvoiceId
         );
       }
@@ -139,7 +140,7 @@ export async function createCreditMemo(
         const tax = await tx.taxRate.findUnique({
           where: {
             id: data.taxId,
-            companyId: session.user.companyId,
+            companyId: session.user.activeCompanyId,
             status: 'ACTIVE'
           }
         });
@@ -167,7 +168,7 @@ export async function createCreditMemo(
 
       const creditMemo = await tx.creditMemo.create({
         data: {
-          companyId: session.user.companyId,
+          companyId: session.user.activeCompanyId,
           number: creditMemoNumber,
           customerId: data.customerId,
           status: data.status,
@@ -192,7 +193,7 @@ export async function createCreditMemo(
               type: 'individual',
               address: data.customerAddress
             },
-            type: 'CreditMemo',
+            type: 'CREDIT_MEMO',
             cc: data.ccEmail || '',
             snapshotTimestamp: new Date().toISOString(),
             amount: totalAmount,
@@ -275,7 +276,7 @@ export async function createCreditMemo(
               mimetype: file.file.type,
               size: file.file.size,
               purpose: 'credit_memo_attachment',
-              companyId: session.user.companyId,
+              companyId: session.user.activeCompanyId,
               isActive: true
             }
           });
@@ -317,23 +318,23 @@ export async function updateCreditMemo(
     if (!data || !id) {
       throw new Error('Missing required update data or credit memo ID');
     }
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
     const creditMemo = await prisma.$transaction(async (tx) => {
       // Validate inputs
-      await validateCustomer(tx, data.customerId, session.user.companyId);
+      await validateCustomer(tx, data.customerId, session.user.activeCompanyId);
 
       // Validate original invoice if provided
       if (data.originalInvoiceId) {
         await validateOriginalInvoice(
           tx,
-          session.user.companyId,
+          session.user.activeCompanyId,
           data.originalInvoiceId
         );
       }
@@ -359,7 +360,7 @@ export async function updateCreditMemo(
         const tax = await tx.taxRate.findUnique({
           where: {
             id: data.taxId,
-            companyId: session.user.companyId,
+            companyId: session.user.activeCompanyId,
             status: 'ACTIVE'
           }
         });
@@ -480,7 +481,7 @@ export async function updateCreditMemo(
       const updatedCreditMemo = await tx.creditMemo.update({
         where: {
           id,
-          companyId: session.user.companyId,
+          companyId: session.user.activeCompanyId,
           isActive: true
         },
         data: {
@@ -506,7 +507,7 @@ export async function updateCreditMemo(
               type: 'individual',
               address: data.customerAddress
             },
-            type: 'CreditMemo',
+            type: 'CREDIT_MEMO',
             cc: data.ccEmail || '',
             snapshotTimestamp: new Date().toISOString(),
             amount: totalAmount,
@@ -555,7 +556,7 @@ export async function updateCreditMemo(
               mimetype: file.file.type,
               size: file.file.size,
               purpose: 'credit_memo_attachment',
-              companyId: session.user.companyId,
+              companyId: session.user.activeCompanyId,
               isActive: true
             }
           });
@@ -590,20 +591,21 @@ export async function updateCreditMemo(
 
 export async function getCreditMemo(id: string) {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
     const creditMemo = await prisma.creditMemo.findUnique({
       where: {
         id,
-        companyId: session.user.companyId,
+        companyId: session.user.activeCompanyId,
         isActive: true
       },
       include: {
+        tax: true,
         items: {
           where: { isActive: true }
         },
@@ -617,7 +619,8 @@ export async function getCreditMemo(id: string) {
           select: {
             id: true,
             displayName: true,
-            primaryEmail: true
+            primaryEmail: true,
+            level: true
           }
         }
       }
@@ -646,11 +649,11 @@ export async function getCreditMemo(id: string) {
 // Add a function to soft-delete credit memo
 export async function deleteCreditMemo(id: string) {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
@@ -658,7 +661,7 @@ export async function deleteCreditMemo(id: string) {
     const creditMemo = await prisma.creditMemo.findUnique({
       where: {
         id,
-        companyId: session.user.companyId,
+        companyId: session.user.activeCompanyId,
         isActive: true
       },
       select: {
@@ -716,7 +719,7 @@ export async function deleteCreditMemo(id: string) {
       await tx.creditMemo.update({
         where: {
           id,
-          companyId: session.user.companyId
+          companyId: session.user.activeCompanyId
         },
         data: {
           isActive: false,

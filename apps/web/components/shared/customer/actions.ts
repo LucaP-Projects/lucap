@@ -2,7 +2,7 @@
 
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { auth } from '@/lib/auth';
+import { getSessionWithCompany } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 
 export type CustomerSelectData = {
@@ -24,18 +24,18 @@ export async function getCustomerById(
   id: string
 ): Promise<GetCustomerResponse> {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
     const customer = await prisma.customer.findUnique({
       where: {
         id,
-        companyId: session.user.companyId,
+        companyId: session.user.activeCompanyId,
         isActive: true
       },
       select: {
@@ -147,16 +147,16 @@ export async function getCustomersForSelect(
   search?: string
 ): Promise<GetCustomersResponse> {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
     const customers = await fetchCustomersRecursively(
       null,
-      session.user.companyId,
+      session.user.activeCompanyId,
       0,
       search
     );
@@ -203,11 +203,11 @@ export async function getCustomerCount(companyId: string): Promise<number> {
 // Add a function to soft-delete customers
 export async function deleteCustomer(customerId: string): Promise<{ success: boolean; error?: string }> {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
@@ -215,7 +215,7 @@ export async function deleteCustomer(customerId: string): Promise<{ success: boo
     const customer = await prisma.customer.findUnique({
       where: {
         id: customerId,
-        companyId: session.user.companyId,
+        companyId: session.user.activeCompanyId,
         isActive: true
       },
       include: {
@@ -291,7 +291,7 @@ export async function deleteCustomer(customerId: string): Promise<{ success: boo
     await prisma.customer.update({
       where: {
         id: customerId,
-        companyId: session.user.companyId
+        companyId: session.user.activeCompanyId
       },
       data: {
         isActive: false,

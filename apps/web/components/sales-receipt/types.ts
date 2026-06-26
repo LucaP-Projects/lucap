@@ -3,7 +3,7 @@ import {
   DiscountType,
   PaymentMethod,
   ReceiptStatus
-} from '@/lib/generated/prisma/client';
+} from '@/lib/generated/prisma/enums';
 import { CompanyInfo } from '../invoice/types';
 
 export interface SalesFormProps {

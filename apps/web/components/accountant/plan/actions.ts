@@ -1,9 +1,10 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
+import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { auth } from '@/lib/auth';
-import { db } from '@/lib/db';
+import { getSessionWithCompany } from '@/lib/auth';
+import { prisma } from '@/lib/prisma';
 import { Account, AccountNode, AccountQueryResult } from './types';
 
 type DeleteAccountResponse = {
@@ -16,19 +17,19 @@ export async function deleteAccount(
   id: string
 ): Promise<DeleteAccountResponse> {
   try {
-    const session = await auth();
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
     // Check if account exists and is custom
-    const account = await db.account.findUnique({
+    const account = await prisma.account.findUnique({
       where: {
         id,
-        companyId: session.user.companyId,
+        companyId: session.user.activeCompanyId,
         isActive: true
       }
     });
@@ -42,10 +43,10 @@ export async function deleteAccount(
     }
 
     // Check for child accounts
-    const hasChildren = await db.account.findFirst({
+    const hasChildren = await prisma.account.findFirst({
       where: {
         parent_id: id,
-        companyId: session.user.companyId,
+        companyId: session.user.activeCompanyId,
         isActive: true
       }
     });
@@ -59,10 +60,10 @@ export async function deleteAccount(
     }
 
     // Soft delete the account instead of hard delete
-    await db.account.update({
+    await prisma.account.update({
       where: {
         id,
-        companyId: session.user.companyId
+        companyId: session.user.activeCompanyId
       },
       data: {
         isActive: false,
@@ -91,19 +92,19 @@ export async function updateAccount(
   title: string
 ): Promise<UpdateAccountResponse> {
   try {
-    const session = await auth();
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
     // Check if account exists and is active
-    const account = await db.account.findUnique({
+    const account = await prisma.account.findUnique({
       where: {
         id,
-        companyId: session.user.companyId,
+        companyId: session.user.activeCompanyId,
         isActive: true
       }
     });
@@ -113,10 +114,10 @@ export async function updateAccount(
     }
 
     // Update the account
-    await db.account.update({
+    await prisma.account.update({
       where: {
         id,
-        companyId: session.user.companyId,
+        companyId: session.user.activeCompanyId,
         isActive: true
       },
       data: { title }
@@ -130,13 +131,13 @@ export async function updateAccount(
   }
 }
 export async function getInitialAccounts(): Promise<Account[]> {
-  const session = await auth();
+  const session = await getSessionWithCompany();
 
   if (!session?.user?.id) {
     redirect('/auth/login');
   }
 
-  if (!session?.user?.companyId) {
+  if (!session?.user?.activeCompanyId) {
     redirect('/select-company');
   }
 
@@ -184,9 +185,9 @@ export async function getInitialAccounts(): Promise<Account[]> {
     ORDER BY composed_number::numeric;
   `;
 
-  const results = await db.$queryRawUnsafe<AccountQueryResult[]>(
+  const results = await prisma.$queryRawUnsafe<AccountQueryResult[]>(
     query,
-    session.user.companyId
+    session.user.activeCompanyId
   );
 
   // Convert flat structure to hierarchy

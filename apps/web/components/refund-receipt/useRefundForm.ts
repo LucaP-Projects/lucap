@@ -8,7 +8,7 @@ import {
   PaymentMethod,
   RefundReason,
   RefundStatus
-} from '@/lib/generated/prisma/client';
+} from '@/lib/generated/prisma/browser';
 import { refundReceiptFormSchema, RefundReceiptFormValues } from './schema';
 import { RefundReceipt } from './types';
 
@@ -21,7 +21,7 @@ export function useRefundForm({
   mode = 'create',
   initialData
 }: RefundFormProps) {
-  const formMethods = useForm<RefundReceiptFormValues>({
+  const formMethods = useForm({
     mode: 'onChange',
     resolver: zodResolver(refundReceiptFormSchema),
     shouldUnregister: false,

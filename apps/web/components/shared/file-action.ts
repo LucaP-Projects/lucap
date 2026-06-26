@@ -1,7 +1,7 @@
 'use server';
 
-import { Prisma } from '@/lib/generated/prisma/client';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
+import * as Prisma from '@/lib/generated/prisma/internal/prismaNamespace';
 // Make sure to export s3Client and encryptPayload from your updated utils.ts
 import { s3Client, encryptPayload, validateItems } from './utils';
 

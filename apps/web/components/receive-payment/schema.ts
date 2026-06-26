@@ -14,7 +14,7 @@ export const paymentFormSchema = z.object({
     'OTHER'
   ]),
   paymentDate: z.date({
-    required_error: 'Payment date is required'
+    error: 'Payment date is required'
   }),
   reference: z.string().optional(),
   notes: z.string().optional()

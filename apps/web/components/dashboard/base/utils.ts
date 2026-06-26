@@ -21,7 +21,7 @@ import {
   ChargeStatus,
   CreditStatus,
   PaymentStatus
-} from '@/lib/generated/prisma/client';
+} from '@/lib/generated/prisma/enums';
 
 // Type mapping for different status types
 export type EntityStatus =

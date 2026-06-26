@@ -14,7 +14,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
-import { PaymentEventVersion } from '@/lib/generated/prisma/client';
+import type { PaymentEventVersion } from '@/lib/generated/prisma/browser';
 // import { activateVersionButtonTrigger } from "./one_time/newactions";
 
 export interface ExtendedCustomerPaymentEvent {

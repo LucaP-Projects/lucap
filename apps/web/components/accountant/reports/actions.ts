@@ -1,10 +1,10 @@
-// actions/journal.ts
 'use server';
 
 import { revalidatePath } from 'next/cache';
+import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { auth } from '@/lib/auth';
-import { db } from '@/lib/db';
+import { getSessionWithCompany } from '@/lib/auth';
+import { prisma } from '@/lib/prisma';
 
 export type FetchJournalsParams = {
   dateFrom?: Date;
@@ -20,16 +20,16 @@ export async function fetchJournals({
   limit = 10
 }: FetchJournalsParams = {}) {
   try {
-    const session = await auth();
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
     const where = {
-      companyId: session.user.companyId,
+      companyId: session.user.activeCompanyId,
       isActive: true,
       ...(dateFrom && dateTo
         ? {
@@ -42,7 +42,7 @@ export async function fetchJournals({
     };
 
     const [journals, total] = await Promise.all([
-      db.journalEntry.findMany({
+      prisma.journalEntry.findMany({
         where,
         include: {
           customer: {
@@ -70,7 +70,7 @@ export async function fetchJournals({
         skip: (page - 1) * limit,
         take: limit
       }),
-      db.journalEntry.count({ where })
+      prisma.journalEntry.count({ where })
     ]);
 
     return {
@@ -93,16 +93,16 @@ export async function fetchJournals({
 
 export async function deleteJournal(id: string) {
   try {
-    const session = await auth();
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
     // Soft delete the journal entry and its lines using a transaction
-    await db.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx) => {
       // Soft delete journal entry lines
       await tx.journalEntryLine.updateMany({
         where: {
@@ -121,7 +121,7 @@ export async function deleteJournal(id: string) {
       await tx.journalEntry.update({
         where: {
           id,
-          companyId: session.user.companyId
+          companyId: session.user.activeCompanyId
         },
         data: {
           isActive: false,

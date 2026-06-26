@@ -4,7 +4,7 @@ import {
   PaymentEvent,
   PaymentFrequency,
   VersionStatus
-} from '@/lib/generated/prisma/client';
+} from '@/lib/generated/prisma/browser';
 
 // Customer type matching your implementation
 export type FormattedCustomer = {

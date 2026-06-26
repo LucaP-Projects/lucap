@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { getCurrentCompany } from '@/components/base/company/actions';
+import { getCurrentCompanyForInvoice } from '@/components/base/company/actions';
 import { getDelayedCharge } from '@/components/delayed-charges/actions';
 import { DelayedChargeForm } from '@/components/delayed-charges/main';
 interface EditDelayedChargePageProps {
@@ -15,7 +15,7 @@ export default async function EditDelayedChargePage({
 
   const [result, company] = await Promise.all([
     getDelayedCharge(pageParams.id),
-    getCurrentCompany()
+    getCurrentCompanyForInvoice()
   ]);
   if (!result.success) {
     notFound();

@@ -1,6 +1,7 @@
-import { Customer, PaymentStatus, Prisma, User } from '@prisma/client';
 import type { z } from 'zod';
-import { CustomerSchema } from '@/company/src/validation/customer/customer.schema';
+import { Customer, PaymentStatus, User } from '@/lib/generated/prisma/browser';
+import * as Prisma from '@/lib/generated/prisma/internal/prismaNamespace';
+import { CustomerSchema } from '@/validation/customer/customer.schema';
 
 export interface CustomerWithDetails extends Customer {
   user: Pick<User, 'id' | 'name' | 'email' | 'createdAt'>;

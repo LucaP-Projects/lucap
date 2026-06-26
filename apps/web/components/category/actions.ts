@@ -1,9 +1,8 @@
 'use server';
 
-import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { CategoryWithItems } from '@/components/dashboard/categories/types';
-import { auth } from '@/lib/auth';
+import { getSessionWithCompany } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { CategoryFormValues } from './schema';
 
@@ -13,11 +12,11 @@ export async function createCategory(data: CategoryFormValues): Promise<{
   data?: CategoryWithItems;
 }> {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
@@ -25,7 +24,7 @@ export async function createCategory(data: CategoryFormValues): Promise<{
       // Check for existing category within transaction
       const existingCategory = await tx.category.findFirst({
         where: {
-          companyId: session.user.companyId,
+          companyId: session.user.activeCompanyId,
           name: {
             equals: data.name,
             mode: 'insensitive'
@@ -43,7 +42,7 @@ export async function createCategory(data: CategoryFormValues): Promise<{
       let level = 0;
       if (data.parentId) {
         const parent = await tx.category.findUnique({
-          where: { id: data.parentId, companyId: session.user.companyId }
+          where: { id: data.parentId, companyId: session.user.activeCompanyId }
         });
         if (parent) {
           level = parent.level + 1;
@@ -52,7 +51,7 @@ export async function createCategory(data: CategoryFormValues): Promise<{
 
       const createdCategory = await prisma.category.create({
         data: {
-          companyId: session.user.companyId,
+          companyId: session.user.activeCompanyId,
           name: data.name,
           description: data.description,
           parentId: data.parentId,
@@ -99,11 +98,11 @@ export async function updateCategory(
   data?: CategoryWithItems;
 }> {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
@@ -111,7 +110,7 @@ export async function updateCategory(
       // Check for existing category with same name (excluding current category)
       const existingCategory = await tx.category.findFirst({
         where: {
-          companyId: session.user.companyId,
+          companyId: session.user.activeCompanyId,
           name: {
             equals: data.name,
             mode: 'insensitive'
@@ -132,7 +131,7 @@ export async function updateCategory(
       let level = 0;
       if (data.parentId) {
         const parent = await tx.category.findUnique({
-          where: { id: data.parentId, companyId: session.user.companyId }
+          where: { id: data.parentId, companyId: session.user.activeCompanyId }
         });
         if (parent) {
           level = parent.level + 1;
@@ -142,7 +141,7 @@ export async function updateCategory(
       const updatedCategory = await tx.category.update({
         where: {
           id: categoryId,
-          companyId: session.user.companyId
+          companyId: session.user.activeCompanyId
         },
         data: {
           name: data.name,

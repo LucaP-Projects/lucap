@@ -2,7 +2,7 @@ import {
   DiscountApplicationTime,
   DiscountType,
   CreditStatus
-} from '@/lib/generated/prisma/client';
+} from '@/lib/generated/prisma/enums';
 
 export type DelayedCredit = {
   id: string;

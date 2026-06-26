@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { DiscountApplicationTime, DiscountType } from '@/lib/generated/prisma/client';
+import { DiscountApplicationTime, DiscountType } from '@/lib/generated/prisma/enums';
 
 export const addressSchema = z.object({
   line1: z.string().min(1, 'Address line 1 is required'),
@@ -14,12 +14,12 @@ export const invoiceFormSchema = z.object({
   customerId: z.string().min(1, 'Please select a customer'),
   amount: z.number(),
   dueDate: z.date({
-    required_error: 'Due date is required'
+    error: 'Due date is required'
   }),
   notes: z.string().optional(),
-  discountType: z.nativeEnum(DiscountType).nullable(),
+  discountType: z.enum(DiscountType).nullable(),
   discountValue: z.number(),
-  discountApplicationTime: z.nativeEnum(DiscountApplicationTime),
+  discountApplicationTime: z.enum(DiscountApplicationTime),
   files: z.array(
     z.object({
       id: z.string(),
@@ -32,9 +32,8 @@ export const invoiceFormSchema = z.object({
       key: z.string().optional()
     })
   ),
-  emailCustomer: z.string().email('Invalid email format'),
+  emailCustomer: z.email('Invalid email format'),
   ccEmail: z
-    .string()
     .email('Invalid email format')
     .optional()
     .or(z.literal(''))

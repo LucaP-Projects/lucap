@@ -1,9 +1,10 @@
 'use server';
 import { startOfDay, endOfDay } from 'date-fns';
 import { revalidatePath } from 'next/cache';
-import { auth } from '@/lib/auth';
-import { db } from '@/lib/db';
-import { CreditMemoStatus, Prisma } from '@/lib/generated/prisma/client';
+import { getSessionWithCompany } from '@/lib/auth';
+import { CreditMemoStatus } from '@/lib/generated/prisma/enums';
+import * as Prisma from '@/lib/generated/prisma/internal/prismaNamespace';
+import { prisma } from '@/lib/prisma';
 export type CreditMemoFilters = {
   status?: CreditMemoStatus | undefined;
   dateFrom?: Date | undefined;
@@ -92,8 +93,8 @@ export async function getCreditMemosPage(
   }
 
   const [total, creditMemos] = await Promise.all([
-    db.creditMemo.count({ where }),
-    db.creditMemo.findMany({
+    prisma.creditMemo.count({ where }),
+    prisma.creditMemo.findMany({
       where,
       include: {
         customer: {
@@ -123,14 +124,14 @@ export async function getCreditMemosPage(
 export async function getCreditMemoStats() {
   try {
     const [totalCount, totalAmount, statusBreakdown] = await Promise.all([
-      db.creditMemo.count({ where: { isActive: true } }),
-      db.creditMemo.aggregate({
+      prisma.creditMemo.count({ where: { isActive: true } }),
+      prisma.creditMemo.aggregate({
         where: { isActive: true },
         _sum: {
           amount: true
         }
       }),
-      db.creditMemo.groupBy({
+      prisma.creditMemo.groupBy({
         where: { isActive: true },
         by: ['status'],
         _count: true
@@ -158,14 +159,14 @@ export async function getCreditMemoStats() {
     };
   } catch (error) {
     console.error('Error fetching credit memo stats:', error);
-    throw new Error('Failed to fetch credit memo statistics');
+    throw new Error('Failed to fetch credit memo statistics', { cause: error });
   }
 }
 
 export async function getCreditMemoDetails(
   id: string
 ): Promise<CreditMemoWithRelations | null> {
-  return db.creditMemo.findUnique({
+  return prisma.creditMemo.findUnique({
     where: {
       id,
       isActive: true
@@ -207,7 +208,7 @@ export async function deleteCreditMemos(ids: string[]): Promise<DeleteResult> {
 
   try {
     // Get the current session for user ID
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       return {
         success: false,

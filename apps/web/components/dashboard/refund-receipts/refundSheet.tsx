@@ -6,7 +6,7 @@ import {
   RotateCcw
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
-import { RefundStatus, PaymentMethod, RefundReason } from '@/lib/generated/prisma/client';
+import type { RefundStatus, PaymentMethod, RefundReason } from '@/lib/generated/prisma/enums';
 import {
   BaseSheet,
   CustomerInfo,

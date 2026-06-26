@@ -11,7 +11,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import { TableRow, TableCell } from '@/components/ui/table';
-import { VersionStatus } from '@/lib/generated/prisma/client';
+import type { VersionStatus } from '@/lib/generated/prisma/enums';
 
 import {
   PaymentEventRowProps,

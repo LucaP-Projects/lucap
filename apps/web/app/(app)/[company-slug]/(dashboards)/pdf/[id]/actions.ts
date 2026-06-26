@@ -1,20 +1,9 @@
 'use server';
 import { prisma } from '@/lib/prisma';
 
-type InvoiceResponse = {
-  success: boolean;
-  data?: any;
-  error?: string;
-};
 
-type DelayedCreditResponse = InvoiceResponse;
-type DelayedChargesResponse = InvoiceResponse;
-type EstimateResponse = InvoiceResponse;
-type SalesReceiptResponse = InvoiceResponse;
-type RefundReceiptResponse = InvoiceResponse;
-type CreditMemoResponse = InvoiceResponse;
 
-export async function getInvoiceById(id: string): Promise<InvoiceResponse> {
+export async function getInvoiceById(id: string) {
   try {
     const invoice = await prisma.invoice.findUnique({
       where: { id },
@@ -22,10 +11,10 @@ export async function getInvoiceById(id: string): Promise<InvoiceResponse> {
         customer: true,
         items: {
           include: {
-            Item: true
+            item: true
           }
         },
-        Company: true,
+        company: true,
         tax: true,
         payments: true,
         attachments: {
@@ -40,7 +29,7 @@ export async function getInvoiceById(id: string): Promise<InvoiceResponse> {
             version: true
           }
         },
-        CreditMemo: true
+        creditMemo: true
       }
     });
 
@@ -64,7 +53,7 @@ export async function getInvoiceById(id: string): Promise<InvoiceResponse> {
         console.error('Stack trace:', error.stack);
       }
     } catch (logError) {
-      console.log('Failed to log error details');
+      console.log('Failed to log error details', logError instanceof Error ? logError.message : String(logError));
     }
 
     return {
@@ -74,10 +63,11 @@ export async function getInvoiceById(id: string): Promise<InvoiceResponse> {
     };
   }
 }
+export type InvoiceResponse = ReturnType<typeof getInvoiceById>;
 
 export async function getDelayedCreditById(
   id: string
-): Promise<DelayedCreditResponse> {
+) {
   try {
     const delayedCredit = await prisma.delayedCredit.findUnique({
       where: { id },
@@ -85,10 +75,10 @@ export async function getDelayedCreditById(
         customer: true,
         items: {
           include: {
-            Item: true
+            item: true
           }
         },
-        Company: true,
+        company: true,
         tax: true,
         attachments: {
           include: {
@@ -118,7 +108,7 @@ export async function getDelayedCreditById(
         console.error('Stack trace:', error.stack);
       }
     } catch (logError) {
-      console.log('Failed to log error details');
+      console.log('Failed to log error details', logError instanceof Error ? logError.message : String(logError));
     }
 
     return {
@@ -128,10 +118,11 @@ export async function getDelayedCreditById(
     };
   }
 }
+export type DelayedCreditResponse = ReturnType<typeof getDelayedCreditById>;
 
 export async function getDelayedChargesById(
   id: string
-): Promise<DelayedChargesResponse> {
+) {
   try {
     const delayedCharges = await prisma.delayedCharge.findUnique({
       where: { id },
@@ -139,10 +130,10 @@ export async function getDelayedChargesById(
         customer: true,
         items: {
           include: {
-            Item: true
+            item: true
           }
         },
-        Company: true,
+        company: true,
         tax: true,
         attachments: {
           include: {
@@ -173,7 +164,7 @@ export async function getDelayedChargesById(
         console.error('Stack trace:', error.stack);
       }
     } catch (logError) {
-      console.log('Failed to log error details');
+      console.log('Failed to log error details', logError instanceof Error ? logError.message : String(logError));
     }
 
     return {
@@ -183,8 +174,9 @@ export async function getDelayedChargesById(
     };
   }
 }
+export type DelayedChargesResponse = ReturnType<typeof getDelayedChargesById>;
 
-export async function getEstimateById(id: string): Promise<EstimateResponse> {
+export async function getEstimateById(id: string) {
   try {
     const estimate = await prisma.estimate.findUnique({
       where: { id },
@@ -192,10 +184,10 @@ export async function getEstimateById(id: string): Promise<EstimateResponse> {
         customer: true,
         items: {
           include: {
-            Item: true
+            item: true
           }
         },
-        Company: true,
+        company: true,
         tax: true,
         attachments: {
           include: {
@@ -227,7 +219,7 @@ export async function getEstimateById(id: string): Promise<EstimateResponse> {
         console.error('Stack trace:', error.stack);
       }
     } catch (logError) {
-      console.log('Failed to log error details');
+      console.log('Failed to log error details', logError instanceof Error ? logError.message : String(logError));
     }
 
     return {
@@ -237,10 +229,11 @@ export async function getEstimateById(id: string): Promise<EstimateResponse> {
     };
   }
 }
+export type EstimateResponse = ReturnType<typeof getEstimateById>;
 
 export async function getSalesReceiptById(
   id: string
-): Promise<SalesReceiptResponse> {
+) {
   try {
     const salesReceipt = await prisma.salesReceipt.findUnique({
       where: { id },
@@ -248,10 +241,10 @@ export async function getSalesReceiptById(
         customer: true,
         items: {
           include: {
-            Item: true
+            item: true
           }
         },
-        Company: true,
+        company: true,
         tax: true,
 
         attachments: {
@@ -284,7 +277,7 @@ export async function getSalesReceiptById(
         console.error('Stack trace:', error.stack);
       }
     } catch (logError) {
-      console.log('Failed to log error details');
+      console.log('Failed to log error details', logError instanceof Error ? logError.message : String(logError));
     }
 
     return {
@@ -294,10 +287,11 @@ export async function getSalesReceiptById(
     };
   }
 }
+export type SalesReceiptResponse = ReturnType<typeof getSalesReceiptById>;
 
 export async function getRefundReceiptById(
   id: string
-): Promise<RefundReceiptResponse> {
+) {
   try {
     const refundReceipt = await prisma.refundReceipt.findUnique({
       where: { id },
@@ -305,10 +299,10 @@ export async function getRefundReceiptById(
         customer: true,
         items: {
           include: {
-            Item: true
+            item: true
           }
         },
-        Company: true,
+        company: true,
         tax: true,
         attachments: {
           include: {
@@ -340,7 +334,7 @@ export async function getRefundReceiptById(
         console.error('Stack trace:', error.stack);
       }
     } catch (logError) {
-      console.log('Failed to log error details');
+      console.log('Failed to log error details', logError instanceof Error ? logError.message : String(logError));
     }
 
     return {
@@ -350,10 +344,11 @@ export async function getRefundReceiptById(
     };
   }
 }
+export type RefundReceiptResponse = ReturnType<typeof getRefundReceiptById>;
 
 export async function getCreditMemoById(
   id: string
-): Promise<CreditMemoResponse> {
+) {
   try {
     const creditMemo = await prisma.creditMemo.findUnique({
       where: { id },
@@ -361,10 +356,10 @@ export async function getCreditMemoById(
         customer: true,
         items: {
           include: {
-            Item: true
+            item: true
           }
         },
-        Company: true,
+        company: true,
         tax: true,
         attachments: {
           include: {
@@ -396,7 +391,7 @@ export async function getCreditMemoById(
         console.error('Stack trace:', error.stack);
       }
     } catch (logError) {
-      console.log('Failed to log error details');
+      console.log('Failed to log error details', logError instanceof Error ? logError.message : String(logError));
     }
 
     return {
@@ -406,3 +401,4 @@ export async function getCreditMemoById(
     };
   }
 }
+export type CreditMemoResponse = ReturnType<typeof getCreditMemoById>;

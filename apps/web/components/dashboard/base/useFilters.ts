@@ -98,8 +98,8 @@ export function useFilters({
       }
       if (newFilters.page > 1) params.set('page', String(newFilters.page));
       params.set('dateRange', newFilters.dateRange);
-      if (from) params.set('dateFrom', from.toISOString().split('T')[0]);
-      if (to) params.set('dateTo', to.toISOString().split('T')[0]);
+      if (from) params.set('dateFrom', (from as Date).toISOString().split('T')[0] || '');
+      if (to) params.set('dateTo', (to as Date).toISOString().split('T')[0] || '');
       if (newFilters.search) params.set('search', newFilters.search);
 
       router.replace(`${pathname}?${params.toString()}`, { scroll: false });

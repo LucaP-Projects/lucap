@@ -1,26 +1,20 @@
 'use server';
 import { revalidatePath } from 'next/cache';
-import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { auth } from '@/lib/auth';
+import { getSessionWithCompany } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { PaymentEventFormValues } from '@/validation/payment-event/subscription.schema';
 
 export async function createOneTimePaymentEvent(data: PaymentEventFormValues) {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
-    if (!session) {
-      throw new Error('User not authenticated');
-    }
-    if (!session.user?.companyId) {
-      throw new Error('User not associated with a company');
-    }
+    
     if (data.type !== 'ONE_TIME') {
       throw new Error('Invalid payment event type');
     }
@@ -43,7 +37,7 @@ export async function createOneTimePaymentEvent(data: PaymentEventFormValues) {
         data: {
           active: true,
           type: 'ONE_TIME',
-          Company: { connect: { id: session.user?.companyId } }
+          company: { connect: { id: session.user?.activeCompanyId } }
         }
       });
 
@@ -111,11 +105,11 @@ export async function createSubscriptionPaymentEvent(
   data: PaymentEventFormValues
 ) {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
     if (data.type !== 'SUBSCRIPTION') {
@@ -158,7 +152,7 @@ export async function createSubscriptionPaymentEvent(
         data: {
           active: true,
           type: 'SUBSCRIPTION',
-          Company: { connect: { id: session.user?.companyId } }
+          company: { connect: { id: session.user?.activeCompanyId } }
         }
       });
 

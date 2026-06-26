@@ -6,7 +6,7 @@ import { format } from 'date-fns';
 import { useRouter } from 'next/navigation';
 import { Controller, Form, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-import { Calendar, Calendar as CalendarIcon, Sheet } from 'lucide-react';
+import { Calendar as CalendarIcon,  } from 'lucide-react';
 
 import {
   createOneTimePaymentEvent,
@@ -14,12 +14,13 @@ import {
 } from '@/components/payment-event/create/payment-event-create';
 
 import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
 import { Card, CardContent } from '@/components/ui/card';
 import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
-import { SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter } from '@/components/ui/sheet';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { handleNumberInput } from '@/lib/utils';
@@ -40,7 +41,7 @@ export default function PaymentEventDrawer({
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
-  const form = useForm<PaymentEventFormValues>({
+  const form = useForm({
     resolver: zodResolver(paymentEventFormSchema),
     defaultValues: {
       type: 'SUBSCRIPTION',
@@ -427,7 +428,7 @@ export default function PaymentEventDrawer({
                                           new Date().setHours(0, 0, 0, 0)
                                         )
                                       }
-                                      initialFocus
+                                      autoFocus
                                     />
                                   </PopoverContent>
                                 </Popover>

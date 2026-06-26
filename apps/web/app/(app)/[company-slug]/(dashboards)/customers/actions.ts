@@ -2,7 +2,8 @@
 
 import { revalidatePath } from 'next/cache';
 import { getCurrentCompany } from '@/lib/auth';
-import { CustomerStatus, Prisma } from '@/lib/generated/prisma/client';
+import { CustomerStatus } from '@/lib/generated/prisma/enums';
+import * as Prisma from '@/lib/generated/prisma/internal/prismaNamespace';
 import { prisma } from '@/lib/prisma';
 import {
   CustomerFilterType,
@@ -22,7 +23,7 @@ export async function getCustomers(params?: {
   filter?: CustomerFilterType;
 }): Promise<CustomerListDTO> {
   const baseWhereInput: Prisma.CustomerWhereInput = {
-    status: params?.status ?? 'ACTIVE',
+    status: params?.status ?? CustomerStatus.ACTIVE,
     ...(params?.search && {
       OR: [
         { displayName: { contains: `%${params.search}%` } },
@@ -172,7 +173,7 @@ export async function getCustomersShort(params: {
   status?: CustomerStatus;
 }): Promise<CustomerShortListItem[]> {
   const baseWhereInput: Prisma.CustomerWhereInput = {
-    status: params.status ?? 'ACTIVE',
+    status: params.status ?? CustomerStatus.ACTIVE,
     ...(params.search && {
       OR: [
         {

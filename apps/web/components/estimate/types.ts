@@ -2,7 +2,7 @@ import {
   DiscountApplicationTime,
   DiscountType,
   EstimateStatus
-} from '@/lib/generated/prisma/client';
+} from '@/lib/generated/prisma/enums';
 
 export type Estimate = {
   id: string;

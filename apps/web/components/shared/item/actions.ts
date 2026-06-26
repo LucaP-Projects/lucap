@@ -1,6 +1,6 @@
 'use server';
 import { redirect } from 'next/navigation';
-import { auth } from '@/lib/auth';
+import { getSessionWithCompany } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 
 export type ItemSelectData = {
@@ -27,16 +27,16 @@ export async function getItemsForSelect(
   search?: string
 ): Promise<ItemResponse> {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
     const items = await prisma.item.findMany({
       where: {
-        companyId: session.user.companyId,
+        companyId: session.user.activeCompanyId,
         isActive: true,
         status: { in: ['ACTIVE', 'DISCONTINUED'] },
         ...(search
@@ -74,11 +74,11 @@ export async function deleteItem(
   id: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
@@ -86,7 +86,7 @@ export async function deleteItem(
     const item = await prisma.item.findFirst({
       where: {
         id,
-        companyId: session.user.companyId,
+        companyId: session.user.activeCompanyId,
         isActive: true
       }
     });

@@ -4,7 +4,7 @@ import {
   PaymentMethod,
   RefundReason,
   RefundStatus
-} from '@/lib/generated/prisma/client';
+} from '@/lib/generated/prisma/enums';
 import { CompanyInfo } from '../invoice/types';
 
 export interface RefundFormProps {

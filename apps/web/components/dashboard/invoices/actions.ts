@@ -2,9 +2,11 @@
 import { startOfDay, endOfDay } from 'date-fns';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { auth } from '@/lib/auth';
-import { db } from '@/lib/db';
-import { PaymentStatus, Prisma } from '@/lib/generated/prisma/client';
+import { getSessionWithCompany } from '@/lib/auth';
+import { PaymentStatus } from '@/lib/generated/prisma/enums';
+import * as Prisma from '@/lib/generated/prisma/internal/prismaNamespace';
+
+import { prisma } from '@/lib/prisma';
 
 export type InvoiceFilters = {
   status?: PaymentStatus | undefined;
@@ -105,11 +107,11 @@ export async function getInvoicesPage(
   pageSize: number = 10,
   filters: InvoiceFilters = {}
 ) {
-  const session = await auth.api.getSession({headers: await headers()});
+  const session = await getSessionWithCompany();
   if (!session?.user?.id) {
     redirect('/login');
   }
-  if (!session?.user?.companyId) {
+  if (!session?.user?.activeCompanyId) {
     redirect('/select-company');
   }
   const validPage = Math.max(1, page);
@@ -117,7 +119,7 @@ export async function getInvoicesPage(
   const skip = (validPage - 1) * validPageSize;
 
   const where: Prisma.InvoiceWhereInput = {
-    companyId: session.user.companyId,
+    companyId: session.user.activeCompanyId,
     isActive: true
   };
 
@@ -162,8 +164,8 @@ export async function getInvoicesPage(
   }
 
   const [total, invoices] = await Promise.all([
-    db.invoice.count({ where }),
-    db.invoice.findMany({
+    prisma.invoice.count({ where }),
+    prisma.invoice.findMany({
       where,
       include: {
         customer: {
@@ -206,18 +208,18 @@ export async function getInvoicesPage(
 
 export async function getInvoiceStats() {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
     // Get all invoices with their payments to calculate accurate amounts
     const invoices = await prisma.invoice.findMany({
       where: {
-        companyId: session.user.companyId,
+        companyId: session.user.activeCompanyId,
         isActive: true
       },
       include: {
@@ -293,24 +295,24 @@ export async function getInvoiceStats() {
     };
   } catch (error) {
     console.error('Error fetching invoice stats:', error);
-    throw new Error('Failed to fetch invoice statistics');
+    throw new Error('Failed to fetch invoice statistics', { cause: error });
   }
 }
 
 export async function getInvoiceDetails(
   id: string
 ): Promise<InvoiceWithRelations | null> {
-  const session = await auth.api.getSession({headers: await headers()});
+  const session = await getSessionWithCompany();
   if (!session?.user?.id) {
     redirect('/login');
   }
-  if (!session?.user?.companyId) {
+  if (!session?.user?.activeCompanyId) {
     redirect('/select-company');
   }
-  return db.invoice.findUnique({
+  return prisma.invoice.findUnique({
     where: {
       id,
-      companyId: session.user.companyId,
+      companyId: session.user.activeCompanyId,
       isActive: true
     },
     include: {
@@ -382,18 +384,18 @@ export async function deleteInvoices(ids: string[]): Promise<DeleteResult> {
   }
 
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
     // Check for invoices that can't be deleted
     const nonDeletableInvoices = await prisma.invoice.findMany({
       where: {
-        companyId: session.user.companyId,
+        companyId: session.user.activeCompanyId,
         id: { in: ids },
         isActive: true,
         OR: [

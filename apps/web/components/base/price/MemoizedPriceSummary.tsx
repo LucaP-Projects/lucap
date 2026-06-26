@@ -5,7 +5,7 @@ import { ArrowDownUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tooltip } from '@/components/ui/tooltip';
-import { DiscountApplicationTime, DiscountType } from '@/lib/generated/prisma/client';
+import { DiscountApplicationTime, DiscountType } from '@/lib/generated/prisma/enums';
 import { formatCurrency } from '@/lib/utils';
 
 import { TaxSelectData } from '../../shared/tax/actions';

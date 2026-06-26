@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
-import { CreditMemoStatus, CreditMemoReason } from '@/lib/generated/prisma/client';
+import { CreditMemoStatus, CreditMemoReason } from '@/lib/generated/prisma/enums';
 import { CreditMemoFormValues } from '../../credit-memo/schema';
 
 export const CreditMemoStatusSection: React.FC = memo(() => {

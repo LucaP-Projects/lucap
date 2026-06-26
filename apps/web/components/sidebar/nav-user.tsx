@@ -24,22 +24,18 @@ import {
   SidebarMenuItem,
   useSidebar
 } from '@/components/ui/sidebar';
-
-import {
-  signOut,
-  useSession as useBetterAuthSession
-} from '@/utils/auth-client';
+import { authClient } from '@/lib/auth-client';
 
 export function NavUser() {
   const { isMobile } = useSidebar();
   const router = useRouter();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
-  const { data: session, isPending, error } = useBetterAuthSession();
+  const { data: session, isPending, error } = authClient.useSession();
 
   const handleLogout = async () => {
     try {
       setIsLoggingOut(true);
-      await signOut();
+      await authClient.signOut();
     } catch (error) {
       console.error('Logout error:', error);
     } finally {

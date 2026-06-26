@@ -1,5 +1,6 @@
-import { TransactionStatus as PrismaTransactionStatus } from '@prisma/client';
 import { LucideIcon, AlertCircle, CheckCircle, XCircle } from 'lucide-react';
+import { TransactionStatus as PrismaTransactionStatus } from '@/lib/generated/prisma/browser';
+
 export type StatusConfig = {
   icon: LucideIcon;
   color: string;

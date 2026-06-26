@@ -4,21 +4,21 @@ import {
   DiscountType,
   PaymentMethod,
   ReceiptStatus
-} from '@/lib/generated/prisma/client';
+} from '@/lib/generated/prisma/enums';
 import { addressSchema } from '../invoice/schema';
 
 export const salesReceiptFormSchema = z.object({
-  paymentMethod: z.nativeEnum(PaymentMethod).default(PaymentMethod.CASH),
-  status: z.nativeEnum(ReceiptStatus).default(ReceiptStatus.COMPLETED),
+  paymentMethod: z.enum(PaymentMethod).default(PaymentMethod.CASH),
+  status: z.enum(ReceiptStatus).default(ReceiptStatus.COMPLETED),
   customerId: z.string().min(1, 'Please select a customer'),
   amount: z.number(),
   dueDate: z.date({
-    required_error: 'Due date is required'
+    error: 'Due date is required'
   }),
   notes: z.string().optional(),
-  discountType: z.nativeEnum(DiscountType).nullable(),
+  discountType: z.enum(DiscountType).nullable(),
   discountValue: z.number(),
-  discountApplicationTime: z.nativeEnum(DiscountApplicationTime),
+  discountApplicationTime: z.enum(DiscountApplicationTime),
   files: z.array(
     z.object({
       id: z.string(),
@@ -31,9 +31,8 @@ export const salesReceiptFormSchema = z.object({
       key: z.string().optional()
     })
   ),
-  emailCustomer: z.string().email('Invalid email format'),
+  emailCustomer: z.email('Invalid email format'),
   ccEmail: z
-    .string()
     .email('Invalid email format')
     .optional()
     .or(z.literal(''))

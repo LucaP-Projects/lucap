@@ -4,7 +4,7 @@ import { addDays, differenceInDays, startOfDay } from 'date-fns';
 import { revalidatePath } from 'next/cache';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { auth } from '@/lib/auth';
+import { getSessionWithCompany } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { generateUniqueNumber } from '@/lib/utils';
 
@@ -54,11 +54,11 @@ export async function assignSubscription(
   input: SubscriptionAssignmentInput
 ): Promise<AssignmentResult> {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
@@ -253,7 +253,7 @@ export async function assignSubscription(
                 partialPeriodDays
               }
             } as PrismaJson.PaymentEventSnapshot,
-            companyId: session.user.companyId
+            companyId: session.user.activeCompanyId
           }
         });
 

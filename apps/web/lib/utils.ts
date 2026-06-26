@@ -87,23 +87,23 @@ export async function uploadFile(file: File, folder: string): Promise<string> {
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
-    // Upload to Google Cloud Storage
-    const gcsFile = bucket.file(filePath);
-    await gcsFile.save(buffer, {
-      metadata: {
-        contentType: file.type,
-        cacheControl: 'public, max-age=31536000',
-        contentDisposition: 'inline'
-      },
-      resumable: false,
-      gzip: true
-    });
+    // // Upload to Google Cloud Storage
+    // const gcsFile = bucket.file(filePath);
+    // await gcsFile.save(buffer, {
+    //   metadata: {
+    //     contentType: file.type,
+    //     cacheControl: 'public, max-age=31536000',
+    //     contentDisposition: 'inline'
+    //   },
+    //   resumable: false,
+    //   gzip: true
+    // });
 
-    // Make file public
-    await gcsFile.makePublic();
+    // // Make file public
+    // await gcsFile.makePublic();
 
     // Return the public URL
-    return `https://storage.googleapis.com/${bucketName}/${filePath}`;
+    return ``;
   } catch (error) {
     console.error('File upload error:', error);
     throw error instanceof Error ? error : new Error('Failed to upload file');
@@ -116,7 +116,7 @@ export async function handleItemImage(file: File): Promise<string> {
     return await uploadFile(file, 'items');
   } catch (error) {
     console.error('Item image upload failed:', error);
-    throw new Error('Failed to upload item image');
+    throw new Error('Failed to upload item image', { cause: error });
   }
 }
 
@@ -126,7 +126,7 @@ export async function handleCompanyLogo(file: File): Promise<string> {
     return await uploadFile(file, 'companies');
   } catch (error) {
     console.error('Company logo upload failed:', error);
-    throw new Error('Failed to upload company logo');
+    throw new Error('Failed to upload company logo', { cause: error });
   }
 }
 
@@ -145,18 +145,19 @@ export async function getPresignedUrl(
   const key = `${folderPath}/${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
 
   // Generate signed URL for upload
-  const gcsFile = bucket.file(key);
-  const [signedUrl] = await gcsFile.getSignedUrl({
-    version: 'v4',
-    action: 'write',
-    expires: Date.now() + 60 * 60 * 1000, // 1 hour
-    contentType: fileType
-  });
+  // const gcsFile = bucket.file(key);
+  // const [signedUrl] = await gcsFile.getSignedUrl({
+  //   version: 'v4',
+  //   action: 'write',
+  //   expires: Date.now() + 60 * 60 * 1000, // 1 hour
+  //   contentType: fileType
+  // });
+  
 
   return {
-    url: `https://storage.googleapis.com/${bucketName}/${key}`,
+    url: ``,
     key,
-    signedUrl
+    signedUrl: ``
   };
 }
 

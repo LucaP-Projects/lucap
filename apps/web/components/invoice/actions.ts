@@ -3,8 +3,8 @@
 import { Decimal } from 'decimal.js';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { auth } from '@/lib/auth';
-import { Prisma } from '@/lib/generated/prisma/client';
+import { getSessionWithCompany } from '@/lib/auth';
+import * as Prisma from '@/lib/generated/prisma/internal/prismaNamespace';
 import { prisma } from '@/lib/prisma';
 
 import { generateUniqueNumber } from '@/lib/utils';
@@ -42,16 +42,16 @@ async function validateInvoiceNumber(
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       switch (error.code) {
         case 'P2002':
-          throw new Error('Duplicate invoice number detected');
+          throw new Error('Duplicate invoice number detected', { cause: error });
         case 'P2023':
-          throw new Error('Invalid invoice number or company ID format');
+          throw new Error('Invalid invoice number or company ID format', { cause: error });
         default:
-          throw new Error(`Database error: ${error.message}`);
+          throw new Error(`Database error: ${error.message}`, { cause: error });
       }
     }
 
     throw new Error(
-      `Error validating invoice number: ${error instanceof Error ? error.message : 'Unknown error'}`
+      `Error validating invoice number: ${error instanceof Error ? error.message : 'Unknown error'}`, { cause: error }
     );
   }
 }
@@ -62,12 +62,12 @@ export async function createInvoice(
   color: string
 ): Promise<CreateInvoiceResponse> {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
 
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
@@ -75,8 +75,8 @@ export async function createInvoice(
       const invoiceNumber = `IN-${generateUniqueNumber()}`;
 
       await Promise.all([
-        validateCustomer(tx, data.customerId, session.user.companyId),
-        validateInvoiceNumber(tx, invoiceNumber, session.user.companyId)
+        validateCustomer(tx, data.customerId, session.user.activeCompanyId),
+        validateInvoiceNumber(tx, invoiceNumber, session.user.activeCompanyId)
       ]);
 
       const totalBeforeTax = validateItems(data.items);
@@ -97,7 +97,7 @@ export async function createInvoice(
         const tax = await tx.taxRate.findUnique({
           where: {
             id: data.taxId,
-            companyId: session.user.companyId,
+            companyId: session.user.activeCompanyId,
             status: 'ACTIVE'
           }
         });
@@ -125,7 +125,7 @@ export async function createInvoice(
 
       const invoice = await tx.invoice.create({
         data: {
-          companyId: session.user.companyId,
+          companyId: session.user.activeCompanyId,
           number: invoiceNumber,
           customerId: data.customerId,
           discountType: data.discountType,
@@ -153,7 +153,7 @@ export async function createInvoice(
               type: 'individual',
               address: data.customerAddress
             },
-            type: 'Individual_invoice',
+            type: 'INDIVIDUAL_INVOICE',
             cc: data.ccEmail,
             snapshotTimestamp: new Date().toISOString(),
             amount: totalAmount,
@@ -206,7 +206,7 @@ export async function createInvoice(
               mimetype: file.file.type,
               size: file.file.size,
               purpose: 'invoice_attachment',
-              companyId: session.user.companyId,
+              companyId: session.user.activeCompanyId,
               isActive: true
             }
           });
@@ -236,18 +236,18 @@ export async function createInvoice(
 
 export async function getInvoice(id: string) {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
     const invoice = await prisma.invoice.findUnique({
       where: {
         id,
-        companyId: session.user.companyId,
+        companyId: session.user.activeCompanyId,
         isActive: true
       },
       include: {
@@ -306,23 +306,23 @@ export async function updateInvoice(
   color: string
 ): Promise<CreateInvoiceResponse> {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
 
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
     const invoice = await prisma.$transaction(async (tx) => {
       // Step 1: Validate customer and fetch existing invoice
-      await validateCustomer(tx, data.customerId, session.user.companyId);
+      await validateCustomer(tx, data.customerId, session.user.activeCompanyId);
 
       const existingInvoice = await tx.invoice.findUnique({
         where: {
           id,
-          companyId: session.user.companyId,
+          companyId: session.user.activeCompanyId,
           isActive: true
         },
         include: {
@@ -359,7 +359,7 @@ export async function updateInvoice(
         const tax = await tx.taxRate.findUnique({
           where: {
             id: data.taxId,
-            companyId: session.user.companyId,
+            companyId: session.user.activeCompanyId,
             status: 'ACTIVE'
           }
         });
@@ -450,7 +450,7 @@ export async function updateInvoice(
       const updatedInvoice = await tx.invoice.update({
         where: {
           id,
-          companyId: session.user.companyId,
+          companyId: session.user.activeCompanyId,
           isActive: true
         },
         data: {
@@ -479,7 +479,7 @@ export async function updateInvoice(
               type: 'individual',
               address: data.customerAddress
             },
-            type: 'Individual_invoice',
+            type: 'INDIVIDUAL_INVOICE',
             cc: data.ccEmail,
             snapshotTimestamp: new Date().toISOString(),
             amount: totalAmount,
@@ -521,7 +521,7 @@ export async function updateInvoice(
           where: {
             id: { in: data.removedAttachmentIds },
             invoiceId: id,
-            invoice: { companyId: session.user.companyId },
+            invoice: { companyId: session.user.activeCompanyId },
             isActive: true
           },
           data: {
@@ -545,7 +545,7 @@ export async function updateInvoice(
         await tx.file.updateMany({
           where: {
             id: { in: attachmentsToSoftDelete.map((a) => a.fileId) },
-            companyId: session.user.companyId,
+            companyId: session.user.activeCompanyId,
             isActive: true
           },
           data: {
@@ -564,7 +564,7 @@ export async function updateInvoice(
           where: {
             id: { in: data.removedAttachmentIds },
             invoiceId: id,
-            invoice: { companyId: session.user.companyId },
+            invoice: { companyId: session.user.activeCompanyId },
             isActive: true
           },
           select: {
@@ -578,7 +578,7 @@ export async function updateInvoice(
           where: {
             id: { in: data.removedAttachmentIds },
             invoiceId: id,
-            invoice: { companyId: session.user.companyId },
+            invoice: { companyId: session.user.activeCompanyId },
             isActive: true
           },
           data: {
@@ -593,7 +593,7 @@ export async function updateInvoice(
         await tx.file.updateMany({
           where: {
             id: { in: attachmentsToRemove.map((a) => a.fileId) },
-            companyId: session.user.companyId,
+            companyId: session.user.activeCompanyId,
             isActive: true
           },
           data: {
@@ -638,7 +638,7 @@ export async function updateInvoice(
               mimetype: file.file.type,
               size: file.file.size,
               purpose: 'invoice_attachment',
-              companyId: session.user.companyId,
+              companyId: session.user.activeCompanyId,
               isActive: true
             }
           });
@@ -672,11 +672,11 @@ export async function deleteInvoice(
   id: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
@@ -684,7 +684,7 @@ export async function deleteInvoice(
     const invoice = await prisma.invoice.findUnique({
       where: {
         id,
-        companyId: session.user.companyId,
+        companyId: session.user.activeCompanyId,
         isActive: true
       },
       include: {
@@ -760,7 +760,7 @@ export async function deleteInvoice(
       await tx.invoice.update({
         where: {
           id,
-          companyId: session.user.companyId
+          companyId: session.user.activeCompanyId
         },
         data: {
           isActive: false,

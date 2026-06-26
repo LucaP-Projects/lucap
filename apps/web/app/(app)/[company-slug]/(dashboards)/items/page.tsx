@@ -2,7 +2,7 @@ import React from 'react';
 import { Metadata } from 'next';
 import { getItems } from '@/components/items/actions';
 import { ItemsTable } from '@/components/items/section/items-table';
-import { auth } from '@/lib/auth';
+import { getSessionWithCompany } from '@/lib/auth';
 
 export const metadata: Metadata = {
   title: 'Items & Services',
@@ -10,8 +10,8 @@ export const metadata: Metadata = {
 };
 
 export default async function ItemsPage() {
-  const session = await auth.api.getSession({headers: await headers()});
-  const companyId = session?.user?.companyId;
+  const session = await getSessionWithCompany();
+  const companyId = session?.user?.activeCompanyId;
 
   if (!companyId) {
     return (

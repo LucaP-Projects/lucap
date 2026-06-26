@@ -3,33 +3,20 @@ import * as React from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { format } from 'date-fns';
 import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
+import { Controller, Form, useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import { CalendarIcon, Plus, Trash2 } from 'lucide-react';
 
-import {
-  Button,
-  Calendar,
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  Input,
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-  ScrollArea,
-  toast
-} from '@silknexus/ui';
 
-import { AccountSelect } from '@/components/new/shared/account/account-select';
-import { CustomerSelect } from '@/components/new/shared/customer/customer-selection';
+import { AccountSelect } from '@/components/shared/account/account-select';
+import { CustomerSelect } from '@/components/shared/customer/customer-selection';
+import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
+import { Field, FieldError, FieldLabel } from '@/components/ui/field';
+import { Input } from '@/components/ui/input';
+import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn, handleNumberInput } from '@/lib/utils';
 import { createJournalEntry, updateJournalEntry } from './actions';
 import { JournalFormValues, journalEntrySchema } from './types';
@@ -68,7 +55,7 @@ export function JournalEntryForm({
     const difference = Math.abs(totalDebits - totalCredits);
 
     if (difference > 0) {
-      toast(`Entries are not balanced. Difference: ${difference.toFixed(2)}`);
+      toast.warning(`Entries are not balanced. Difference: ${difference.toFixed(2)}`);
       return;
     }
 
@@ -124,59 +111,59 @@ export function JournalEntryForm({
             {/* Header Section */}
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               {/* Date Field */}
-              <FormField
+              <Controller
                 control={form.control}
                 name="date"
-                render={({ field }) => (
-                  <FormItem className="flex flex-col space-y-2">
-                    <FormLabel className="text-sm font-medium">Date</FormLabel>
+                render={({ field, fieldState }) => (
+                  <Field className="flex flex-col space-y-2">
+                    <FieldLabel className="text-sm font-medium">Date</FieldLabel>
                     <Popover>
                       <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            variant="outline"
-                            className={cn(
-                              'h-10 w-full px-3 text-left font-normal',
-                              !field.value && 'text-muted-foreground'
-                            )}
-                          >
-                            {field.value ? (
-                              format(field.value, 'PPP')
-                            ) : (
-                              <span>Pick a date</span>
-                            )}
-                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                          </Button>
-                        </FormControl>
+                        <Button
+                          variant="outline"
+                          className={cn(
+                            'h-10 w-full px-3 text-left font-normal',
+                            !field.value && 'text-muted-foreground'
+                          )}
+                        >
+                          {field.value ? (
+                            format(field.value, 'PPP')
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                        </Button>
                       </PopoverTrigger>
                       <PopoverContent className="w-auto p-0" align="start">
                         <Calendar
                           mode="single"
                           selected={field.value}
                           onSelect={field.onChange}
-                          initialFocus
+                          autoFocus
                         />
                       </PopoverContent>
                     </Popover>
-                    <FormMessage />
-                  </FormItem>
+                    {fieldState.error && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
                 )}
               />
 
               {/* Journal Number */}
-              <FormField
+              <Controller
                 control={form.control}
                 name="journalNo"
-                render={({ field }) => (
-                  <FormItem className="flex flex-col space-y-2">
-                    <FormLabel className="text-sm font-medium">
+                render={({ field, fieldState }) => (
+                  <Field className="flex flex-col space-y-2">
+                    <FieldLabel className="text-sm font-medium">
                       Journal No.
-                    </FormLabel>
-                    <FormControl>
-                      <Input {...field} className="h-10" />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
+                    </FieldLabel>
+                    <Input {...field} className="h-10" />
+                    {fieldState.error && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
                 )}
               />
             </div>
@@ -207,42 +194,42 @@ export function JournalEntryForm({
                       {/* Account field remains the same */}
                       <div className="space-y-2 md:space-y-0">
                         <div className="font-medium md:hidden">Account</div>
-                        <FormField
+                        <Controller
                           control={form.control}
                           name={`entries.${index}.accountId`}
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormControl>
-                                <AccountSelect
-                                  onSelect={(account) =>
-                                    field.onChange(account.id)
-                                  }
-                                  selectedAccountId={field.value}
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
+                          render={({ field, fieldState }) => (
+                            <Field>
+                              <AccountSelect
+                                onSelect={(account) =>
+                                  field.onChange(account.id)
+                                }
+                                selectedAccountId={field.value}
+                              />
+                              {fieldState.error && (
+                                <FieldError errors={[fieldState.error]} />
+                              )}
+                            </Field>
                           )}
                         />
                       </div>
 
                       <div className="space-y-2 md:space-y-0">
                         <div className="font-medium md:hidden">Customer</div>
-                        <FormField
+                        <Controller
                           control={form.control}
                           name={`entries.${index}.customerId`}
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormControl>
-                                <CustomerSelect
-                                  onSelect={(customer) =>
-                                    field.onChange(customer.id)
-                                  }
-                                  selectedCustomerId={field.value}
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
+                          render={({ field, fieldState }) => (
+                            <Field>
+                              <CustomerSelect
+                                onSelect={(customer) =>
+                                  field.onChange(customer.id)
+                                }
+                                selectedCustomerId={field.value}
+                              />
+                              {fieldState.error && (
+                                <FieldError errors={[fieldState.error]} />
+                              )}
+                            </Field>
                           )}
                         />
                       </div>
@@ -250,34 +237,34 @@ export function JournalEntryForm({
                       {/* Updated Debit field */}
                       <div className="space-y-2 md:space-y-0">
                         <div className="font-medium md:hidden">Debit</div>
-                        <FormField
+                        <Controller
                           control={form.control}
                           name={`entries.${index}.debit`}
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormControl>
-                                <Input
-                                  type="number"
-                                  className="h-10 w-full text-right"
-                                  value={field.value || ''}
-                                  onChange={(e) => {
-                                    handleNumberInput(
-                                      e.target.value,
-                                      (value) => {
-                                        field.onChange(value);
-                                        if (value > 0) {
-                                          form.setValue(
-                                            `entries.${index}.credit`,
-                                            0
-                                          );
-                                        }
+                          render={({ field, fieldState }) => (
+                            <Field>
+                              <Input
+                                type="number"
+                                className="h-10 w-full text-right"
+                                value={field.value || ''}
+                                onChange={(e) => {
+                                  handleNumberInput(
+                                    e.target.value,
+                                    (value) => {
+                                      field.onChange(value);
+                                      if (value > 0) {
+                                        form.setValue(
+                                          `entries.${index}.credit`,
+                                          0
+                                        );
                                       }
-                                    );
-                                  }}
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
+                                    }
+                                  );
+                                }}
+                              />
+                              {fieldState.error && (
+                                <FieldError errors={[fieldState.error]} />
+                              )}
+                            </Field>
                           )}
                         />
                       </div>
@@ -285,34 +272,34 @@ export function JournalEntryForm({
                       {/* Updated Credit field */}
                       <div className="space-y-2 md:space-y-0">
                         <div className="font-medium md:hidden">Credit</div>
-                        <FormField
+                        <Controller
                           control={form.control}
                           name={`entries.${index}.credit`}
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormControl>
-                                <Input
-                                  type="number"
-                                  className="h-10 w-full text-right"
-                                  value={field.value || ''}
-                                  onChange={(e) => {
-                                    handleNumberInput(
-                                      e.target.value,
-                                      (value) => {
-                                        field.onChange(value);
-                                        if (value > 0) {
-                                          form.setValue(
-                                            `entries.${index}.debit`,
-                                            0
-                                          );
-                                        }
+                          render={({ field, fieldState }) => (
+                            <Field>
+                              <Input
+                                type="number"
+                                className="h-10 w-full text-right"
+                                value={field.value || ''}
+                                onChange={(e) => {
+                                  handleNumberInput(
+                                    e.target.value,
+                                    (value) => {
+                                      field.onChange(value);
+                                      if (value > 0) {
+                                        form.setValue(
+                                          `entries.${index}.debit`,
+                                          0
+                                        );
                                       }
-                                    );
-                                  }}
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
+                                    }
+                                  );
+                                }}
+                              />
+                              {fieldState.error && (
+                                <FieldError errors={[fieldState.error]} />
+                              )}
+                            </Field>
                           )}
                         />
                       </div>
@@ -320,16 +307,16 @@ export function JournalEntryForm({
                       {/* Updated Description field */}
                       <div className="space-y-2 md:space-y-0">
                         <div className="font-medium md:hidden">Description</div>
-                        <FormField
+                        <Controller
                           control={form.control}
                           name={`entries.${index}.description`}
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormControl>
-                                <Input {...field} className="h-10 w-full" />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
+                          render={({ field, fieldState }) => (
+                            <Field>
+                              <Input {...field} className="h-10 w-full" />
+                              {fieldState.error && (
+                                <FieldError errors={[fieldState.error]} />
+                              )}
+                            </Field>
                           )}
                         />
                       </div>

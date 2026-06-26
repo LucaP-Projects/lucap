@@ -6,7 +6,7 @@ import {
   PaymentEventVersion,
   User,
   CustomerPaymentEvent
-} from '@prisma/client';
+} from '@/lib/generated/prisma/browser';
 
 export type InvoiceWithRelations = Invoice & {
   customer:

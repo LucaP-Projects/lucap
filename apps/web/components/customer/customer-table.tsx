@@ -2,16 +2,16 @@
 
 import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Checkbox } from 'radix-ui';
 import { Plus, Printer, Search, Sheet, SquareArrowOutUpRight, Table } from 'lucide-react';
 
+import { CustomerForm } from '@/components/customer/customer-form';
 import {
   CustomerListItemDTO,
   CustomerStatistics
-} from '@/company/src/types/customer';
-import { CustomerForm } from '@/components/customer/customer-form';
+} from '@/types/customer';
 import { Button } from '../ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '../ui/card';
+import { Checkbox } from '../ui/checkbox';
 import { Input } from '../ui/input';
 import { SheetTrigger, SheetContent, SheetHeader, SheetTitle } from '../ui/sheet';
 import { TableHeader, TableRow, TableHead, TableBody } from '../ui/table';
@@ -75,7 +75,7 @@ export function CustomerTable({
                 Add Customer
               </Button>
             </SheetTrigger>
-            <SheetContent className="xs:w-[384px] w-[calc(100%-20px)] overflow-y-auto md:w-[576px] md:max-w-[576px] lg:w-[752px] lg:max-w-[752px]">
+            <SheetContent className="xs:w-[384px] w-[calc(100%-20px)] overflow-y-auto md:w-xl md:max-w-xl lg:w-188 lg:max-w-188">
               <SheetHeader className="mb-4 h-fit">
                 <SheetTitle>Customer</SheetTitle>
               </SheetHeader>

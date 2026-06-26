@@ -31,7 +31,7 @@ export function PaymentForm() {
   const [maxAmount, setMaxAmount] = useState(0);
   const router = useRouter();
   const form = useForm<PaymentFormValues>({
-    resolver: zodResolver(paymentFormSchema as any),
+    resolver: zodResolver(paymentFormSchema),
     defaultValues: {
       customerId: '',
       invoiceIds: [],

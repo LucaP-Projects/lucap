@@ -1,9 +1,9 @@
 'use server';
 
-import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { auth } from '@/lib/auth';
-import { TaxRate, TaxStatus, TaxType } from '@/lib/generated/prisma/client';
+import { getSessionWithCompany } from '@/lib/auth';
+import { TaxRate } from '@/lib/generated/prisma/browser';
+import { TaxStatus, TaxType } from '@/lib/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
 import { TaxFormValues } from './schema';
 
@@ -29,17 +29,17 @@ export type TaxRateResponse = {
 
 export async function getTaxRates(search?: string): Promise<TaxRateResponse> {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
     const taxRates = await prisma.taxRate.findMany({
       where: {
-        companyId: session.user.companyId,
+        companyId: session.user.activeCompanyId,
         isActive: true,
         ...(search
           ? {
@@ -153,11 +153,11 @@ export async function createTax(data: TaxFormValues): Promise<{
   data?: TaxRate;
 }> {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
@@ -165,7 +165,7 @@ export async function createTax(data: TaxFormValues): Promise<{
       // Check for existing tax rate within transaction
       const existingTax = await tx.taxRate.findFirst({
         where: {
-          companyId: session.user.companyId,
+          companyId: session.user.activeCompanyId,
           name: {
             equals: data.name,
             mode: 'insensitive'
@@ -182,7 +182,7 @@ export async function createTax(data: TaxFormValues): Promise<{
 
       const createdTax = await prisma.taxRate.create({
         data: {
-          companyId: session.user.companyId,
+          companyId: session.user.activeCompanyId,
           name: data.name,
           description: data.description,
           agencyName: data.agencyName,
@@ -214,22 +214,22 @@ export async function updateTax(
   data?: TaxRate;
 }> {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
     return await prisma.$transaction(async (tx) => {
-      if (!session.user.companyId) {
+      if (!session.user.activeCompanyId) {
         return { success: false, error: 'User is not associated with a company' };
       }
       const existingTax = await tx.taxRate.findUnique({
         where: {
           id,
-          companyId: session.user.companyId,
+          companyId: session.user.activeCompanyId,
           isActive: true
         }
       });
@@ -243,7 +243,7 @@ export async function updateTax(
 
       const duplicateTax = await tx.taxRate.findFirst({
         where: {
-          companyId: session.user.companyId,
+          companyId: session.user.activeCompanyId,
           name: {
             equals: data.name,
             mode: 'insensitive'
@@ -291,17 +291,17 @@ export async function deleteTaxRate(
   id: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
     const tax = await prisma.taxRate.findUnique({
       where: {
         id,
-        companyId: session.user.companyId,
+        companyId: session.user.activeCompanyId,
         isActive: true
       }
     });

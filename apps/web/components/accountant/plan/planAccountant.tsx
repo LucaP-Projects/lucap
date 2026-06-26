@@ -4,22 +4,22 @@ import React, { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Controller, Form, useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import * as z from 'zod';
 import { ChevronRight, Pencil, Plus,  Trash2 } from 'lucide-react';
 import { AccountForm } from '@/components/accounts/form';
 import { AccountFormValues } from '@/components/accounts/schema';
-import { deleteAccount, updateAccount } from './actions';
-import { Account, AccountRowProps, AccountsPageClientProps } from './types';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
+import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter } from '@/components/ui/sheet';
 import { Tooltip,  TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { toast } from 'sonner';
-import { Field, FieldError, FieldLabel } from '@/components/ui/field';
+import { deleteAccount, updateAccount } from './actions';
+import { Account, AccountRowProps, AccountsPageClientProps } from './types';
 
 // Validation schema
 const editFormSchema = z.object({

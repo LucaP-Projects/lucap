@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
-import { PaymentMethod, RefundReason, RefundStatus } from '@/lib/generated/prisma/client';
+import { PaymentMethod, RefundReason, RefundStatus } from '@/lib/generated/prisma/enums';
 import { RefundReceiptFormValues } from '../../refund-receipt/schema';
 
 export const RefundStatusSection: React.FC = memo(() => {

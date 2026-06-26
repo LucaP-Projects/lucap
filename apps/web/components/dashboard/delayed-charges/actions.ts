@@ -1,9 +1,10 @@
 'use server';
 import { startOfDay, endOfDay } from 'date-fns';
 import { revalidatePath } from 'next/cache';
-import { auth } from '@/lib/auth';
-import { db } from '@/lib/db';
-import { ChargeStatus, Prisma } from '@/lib/generated/prisma/client';
+import { getSessionWithCompany } from '@/lib/auth';
+import { ChargeStatus } from '@/lib/generated/prisma/enums';
+import * as Prisma from '@/lib/generated/prisma/internal/prismaNamespace';
+import { prisma } from '@/lib/prisma';
 
 export type DelayedChargeFilters = {
   status?: ChargeStatus | undefined;
@@ -92,8 +93,8 @@ export async function getDelayedChargesPage(
   }
 
   const [total, charges] = await Promise.all([
-    db.delayedCharge.count({ where }),
-    db.delayedCharge.findMany({
+    prisma.delayedCharge.count({ where }),
+    prisma.delayedCharge.findMany({
       where,
       include: {
         customer: {
@@ -124,8 +125,8 @@ export async function getDelayedChargesPage(
 export async function getDelayedChargeStats() {
   try {
     const [totalCount, totals, statusBreakdown] = await Promise.all([
-      db.delayedCharge.count({ where: { isActive: true } }),
-      db.delayedCharge.aggregate({
+      prisma.delayedCharge.count({ where: { isActive: true } }),
+      prisma.delayedCharge.aggregate({
         where: { isActive: true },
         _sum: {
           amount: true,
@@ -133,7 +134,7 @@ export async function getDelayedChargeStats() {
           discountAmount: true
         }
       }),
-      db.delayedCharge.groupBy({
+      prisma.delayedCharge.groupBy({
         where: { isActive: true },
         by: ['status'],
         _count: true,
@@ -180,14 +181,14 @@ export async function getDelayedChargeStats() {
     };
   } catch (error) {
     console.error('Error fetching delayed charge stats:', error);
-    throw new Error('Failed to fetch delayed charge statistics');
+    throw new Error('Failed to fetch delayed charge statistics', { cause: error });
   }
 }
 
 export async function getDelayedChargeDetails(
   id: string
 ): Promise<DelayedChargeWithRelations | null> {
-  return db.delayedCharge.findUnique({
+  return prisma.delayedCharge.findUnique({
     where: {
       id,
       isActive: true
@@ -232,7 +233,7 @@ export async function deleteDelayedCharges(
 
   try {
     // Get the current session for user ID
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       return {
         success: false,

@@ -12,19 +12,18 @@ import {
   Search,
   MoreHorizontal,
   FolderOpen,
-  Badge,
-  Sheet,
   Table
 } from 'lucide-react';
 
 
 import { CategorySheet } from '@/components/category/sheet';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
-import { SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet';
 import { TableRow, TableCell, TableHeader, TableHead, TableBody } from '@/components/ui/table';
 import { deleteCategory } from './actions';
 import { CategoryWithItems } from './types';

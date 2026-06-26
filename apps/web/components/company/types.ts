@@ -4,11 +4,12 @@ import { CompanyType } from '@/lib/generated/prisma/enums';
 
 export const addressSchema = z
   .object({
-    street: z.string().optional(),
-    city: z.string().optional(),
-    state: z.string().optional(),
-    postalCode: z.string().optional(),
-    country: z.string().optional()
+    line1: z.string(),
+    line2: z.string().optional(),
+    city: z.string(),
+    state: z.string(),
+    postalCode: z.string(),
+    country: z.string()
   })
   .optional();
 
@@ -21,8 +22,8 @@ export const createCompanySchema = z.object({
     .string()
     .refine(isValidPhoneNumber, { message: 'Invalid phone number' })
     .or(z.literal('')),
-  website: z.string().url('Invalid URL').optional().or(z.literal('')),
-  address: addressSchema.default({}),
+  website: z.url('Invalid URL').optional().or(z.literal('')),
+  address: addressSchema.default({city: '', state: '', postalCode: '', country: '', line1: '', line2: ''}),
   logo: z.any().optional() // This will handle the File object
 });
 
@@ -38,8 +39,8 @@ export const editCompanySchema = z.object({
     .string()
     .refine(isValidPhoneNumber, { message: 'Invalid phone number' })
     .or(z.literal('')),
-  website: z.string().url('Invalid URL').optional().or(z.literal('')),
-  address: addressSchema.default({}),
+  website: z.url('Invalid URL').optional().or(z.literal('')),
+  address: addressSchema.default({city: '', state: '', postalCode: '', country: '', line1: '', line2: ''}),
   logo: z.any().optional() // This will handle the File object
 });
 
@@ -50,7 +51,7 @@ export type CompanyResponse = {
   id: string;
   name: string;
   logo: string | null;
-  companyType: CompanyType | null;
+  companyType: CompanyType;
   email: string | null;
   taxId: string | null;
   phone: string | null;

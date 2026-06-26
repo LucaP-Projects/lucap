@@ -6,7 +6,7 @@ export const oneTimePaymentFormSchema = z.object({
   description: z.string().optional(),
   amount: z.number().positive('Amount must be positive'),
   dueDate: z.date({
-    required_error: 'Due date is required'
+    error: 'Due date is required'
   }),
   isRequired: z.boolean().default(false),
   initialFee: z

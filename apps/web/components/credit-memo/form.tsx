@@ -1,4 +1,5 @@
-import { memo } from 'react';
+"use client";
+
 import { Controller, useFormContext } from 'react-hook-form';
 import FileUpload from '@/components/file-upload/file-upload';
 import { Textarea } from '@/components/ui/textarea';
@@ -127,4 +128,4 @@ const MemoizedFormContent = ({
 
 MemoizedFormContent.displayName = 'MemoizedFormContent';
 
-export default memo(MemoizedFormContent);
+export default MemoizedFormContent;

@@ -1,9 +1,10 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
+import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { auth } from '@/lib/auth';
-import { db } from '@/lib/db';
+import { getSessionWithCompany } from '@/lib/auth';
+import { prisma } from '@/lib/prisma';
 
 export type JournalEntryLine = {
   accountId: string;
@@ -46,18 +47,18 @@ export interface ActionResponse<T = void> {
 
 export async function getNextJournalNumber(): Promise<ActionResponse<string>> {
   try {
-    const session = await auth();
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
     // Find the last journal entry for this company
-    const lastEntry = await db.journalEntry.findFirst({
+    const lastEntry = await prisma.journalEntry.findFirst({
       where: {
-        companyId: session.user.companyId,
+        companyId: session.user.activeCompanyId,
         isActive: true
       },
       orderBy: { journalNo: 'desc' },
@@ -82,11 +83,11 @@ export async function createJournalEntry(
   data: CreateJournalEntryData
 ): Promise<ActionResponse> {
   try {
-    const session = await auth();
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
@@ -105,14 +106,14 @@ export async function createJournalEntry(
     }
 
     // Create the journal entry with its lines
-    await db.journalEntry.create({
+    await prisma.journalEntry.create({
       data: {
         transactionType: 'Journal',
         date: data.date,
         journalNo: data.journalNo,
         description: data.description,
         customerId: data.customerId,
-        companyId: session.user.companyId,
+        companyId: session.user.activeCompanyId,
         isActive: true,
         entries: {
           create: data.entries.map((entry) => ({
@@ -139,11 +140,11 @@ export async function updateJournalEntry(
   data: CreateJournalEntryData
 ): Promise<ActionResponse> {
   try {
-    const session = await auth();
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
@@ -162,7 +163,7 @@ export async function updateJournalEntry(
     }
 
     // Instead of deleting, soft delete by setting isActive to false
-    await db.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx) => {
       // Soft delete existing entries
       await tx.journalEntryLine.updateMany({
         where: { journalEntryId: journalId, isActive: true },
@@ -206,15 +207,15 @@ export async function fetchJournalEntry(
   id: string
 ): Promise<ActionResponse<JournalEntry>> {
   try {
-    const session = await auth();
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
-    const journal = await db.journalEntry.findUnique({
+    const journal = await prisma.journalEntry.findUnique({
       where: {
         id,
         isActive: true
@@ -244,15 +245,15 @@ export async function fetchJournalEntry(
 // Add a function for deleting journal entries (soft delete)
 export async function deleteJournalEntry(id: string): Promise<ActionResponse> {
   try {
-    const session = await auth();
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
-    await db.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx) => {
       // Soft delete associated journal entry lines
       await tx.journalEntryLine.updateMany({
         where: {

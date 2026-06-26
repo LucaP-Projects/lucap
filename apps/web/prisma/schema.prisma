@@ -61,7 +61,7 @@ enum TaxType {
 enum ReceiptStatus {
   COMPLETED
   VOIDED
-  REFINDED
+  REFUNDED
 }
 
 enum AdjustmentStrategy {
@@ -1858,12 +1858,14 @@ model TaxRate {
 model Company {
   id          String       @id @default(cuid())
   name        String       @unique
+  slug        String       @unique
   companyType CompanyType?
   legalName   String?
   taxId       String?
   email       String?
   phone       String?
   website     String?
+  /// [Address]
   address     Json?
   logo        String?
 

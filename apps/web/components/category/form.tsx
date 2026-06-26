@@ -2,7 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { Controller, Form, useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 
 import { toast } from 'sonner';
 import { CategoryWithItems } from '@/components/dashboard/categories/types';
@@ -35,7 +35,7 @@ export function CategoryForm({
   const router = useRouter();
   const isEditMode = !!category;
 
-  const form = useForm<CategoryFormValues>({
+  const form = useForm({
     resolver: zodResolver(categoryFormSchema),
     defaultValues: {
       name: category?.name || '',
@@ -150,7 +150,7 @@ export function CategoryForm({
       <Controller
         control={form.control}
         name="active"
-        render={({ field, fieldState }) => (
+        render={({ field }) => (
           <Field className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
             <div className="space-y-0.5">
               <FieldLabel>Active</FieldLabel>

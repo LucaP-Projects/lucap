@@ -2,14 +2,16 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { signOut } from '@/utils/auth-client';
+import { toast } from 'sonner';
+import authClient from '@/lib/auth-client';
+import { Button } from '../ui/button';
 
 export const SignOutButton = () => {
   const [isPending, setIsPending] = useState(false);
   const router = useRouter();
 
   async function handleClick() {
-    await signOut({
+    await authClient.signOut({
       fetchOptions: {
         onRequest: () => {
           setIsPending(true);
@@ -17,10 +19,8 @@ export const SignOutButton = () => {
         onResponse: () => {
           setIsPending(false);
         },
-        onError: (ctx) => {
-          toast({
-            title: 'Error',
-            variant: 'destructive',
+        onError: () => {
+          toast.error('Error', {
             description: 'Failed to sign out.'
           });
         },

@@ -1,4 +1,4 @@
-import { PaymentFrequency, VersionStatus } from '@prisma/client';
+import { PaymentFrequency, VersionStatus } from '@/lib/generated/prisma/browser';
 
 interface BaseSchedule {
   totalAmount: number;

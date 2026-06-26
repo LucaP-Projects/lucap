@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { getCurrentCompany } from '@/components/base/company/actions';
+import { getCurrentCompanyForInvoice } from '@/components/base/company/actions';
 import { getInvoice } from '@/components/invoice/actions';
 import { InvoiceForm } from '@/components/invoice/main';
 
@@ -15,7 +15,7 @@ export default async function EditEstimatePage({
   const pageParams = await params;
   const [invoiceResult, company] = await Promise.all([
     getInvoice(pageParams.id),
-    getCurrentCompany()
+    getCurrentCompanyForInvoice()
   ]);
 
   if (!invoiceResult.success) {

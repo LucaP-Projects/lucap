@@ -1,4 +1,4 @@
-import { PaymentMethod, PaymentStatus } from '@/lib/generated/prisma/client';
+import { PaymentMethod, PaymentStatus } from '@/lib/generated/prisma/enums';
 export type InvoiceBasic = {
   id: string;
   number: string;

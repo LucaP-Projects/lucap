@@ -2,10 +2,9 @@
 
 import { Decimal } from 'decimal.js';
 import { revalidatePath } from 'next/cache';
-import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { auth } from '@/lib/auth';
-import { Prisma } from '@/lib/generated/prisma/client';
+import { getSessionWithCompany } from '@/lib/auth';
+import * as Prisma from '@/lib/generated/prisma/internal/prismaNamespace';
 import { prisma } from '@/lib/prisma';
 import { generateUniqueNumber } from '@/lib/utils';
 import { CustomizationSettingsInput } from '../base/sideBar/customize/types';
@@ -44,17 +43,17 @@ async function validateReceiptNumber(
       // Handle specific Prisma errors by their error codes
       switch (error.code) {
         case 'P2002': // Unique constraint violation
-          throw new Error('Duplicate sales receipt number detected');
+          throw new Error('Duplicate sales receipt number detected', { cause: error });
         case 'P2023': // Inconsistent column data
-          throw new Error('Invalid sales receipt number format');
+          throw new Error('Invalid sales receipt number format', { cause: error });
         default:
-          throw new Error(`Database error: ${error.message}`);
+          throw new Error(`Database error: ${error.message}`, { cause: error });
       }
     }
 
     // Re-throw unknown errors with a more user-friendly message
     throw new Error(
-      `Error validating sales receipt number: ${error instanceof Error ? error.message : 'Unknown error'}`
+      `Error validating sales receipt number: ${error instanceof Error ? error.message : 'Unknown error'}`, { cause: error }
     );
   }
 }
@@ -65,11 +64,11 @@ export async function createSalesReceipt(
   color: string
 ): Promise<CreateSalesReceiptResponse> {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
@@ -79,8 +78,8 @@ export async function createSalesReceipt(
       const receiptNumber = `SR-${generateUniqueNumber()}`;
 
       await Promise.all([
-        validateCustomer(tx, data.customerId, session.user.companyId),
-        validateReceiptNumber(tx, session.user.companyId, receiptNumber)
+        validateCustomer(tx, data.customerId, session.user.activeCompanyId),
+        validateReceiptNumber(tx, session.user.activeCompanyId, receiptNumber)
       ]);
 
       // Step 2: Calculate totals
@@ -104,7 +103,7 @@ export async function createSalesReceipt(
         const tax = await tx.taxRate.findUnique({
           where: {
             id: data.taxId,
-            companyId: session.user.companyId,
+            companyId: session.user.activeCompanyId,
             status: 'ACTIVE'
           }
         });
@@ -133,13 +132,13 @@ export async function createSalesReceipt(
       // Step 5: Create the sales receipt
       const receipt = await tx.salesReceipt.create({
         data: {
-          company: { connect: { id: session.user.companyId }},
+          company: { connect: { id: session.user.activeCompanyId }},
           number: receiptNumber,
           customer: { connect: { id: data.customerId } },
 
           paymentMethod: data.paymentMethod,
           status: data.status,
-
+          
           taxAmount,
           amount: totalAmount,
           discountType: data.discountType,
@@ -147,7 +146,7 @@ export async function createSalesReceipt(
           discountAmount,
           discountApplicationTime: data.discountApplicationTime,
           taxRate,
-          taxId: data.taxId || null,
+          tax: data.taxId ? { connect: { id: data.taxId } } : undefined,
           dueDate: data.dueDate,
           notes: data.notes?.trim(),
           emailCustomer: data.emailCustomer?.toLowerCase().trim(),
@@ -178,7 +177,7 @@ export async function createSalesReceipt(
               amount: new Decimal(item.quantity).mul(item.rate).toNumber()
             })),
             dueDate: data.dueDate.toISOString(),
-            taxId: data.taxId
+            tax: data.taxId ? { connect: { id: data.taxId } } : undefined
           },
           items: {
             create: data.items.map((item) => ({
@@ -217,7 +216,7 @@ export async function createSalesReceipt(
               mimetype: file.file.type,
               size: file.file.size,
               purpose: 'sales_receipt_attachment',
-              companyId: session.user.companyId,
+              companyId: session.user.activeCompanyId,
               isActive: true
             }
           });
@@ -281,18 +280,18 @@ export async function createSalesReceipt(
 
 export async function getSalesReceipt(id: string) {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
     const receipt = await prisma.salesReceipt.findUnique({
       where: {
         id,
-        companyId: session.user.companyId,
+        companyId: session.user.activeCompanyId,
         isActive: true
       },
       include: {
@@ -353,11 +352,11 @@ export async function updateSalesReceipt(
   color: string
 ) {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
@@ -367,12 +366,12 @@ export async function updateSalesReceipt(
 
     const receipt = await prisma.$transaction(async (tx) => {
       // Step 1: Validate customer and fetch existing receipt
-      await validateCustomer(tx, data.customerId, session.user.companyId);
+      await validateCustomer(tx, data.customerId, session.user.activeCompanyId);
 
       const existingReceipt = await tx.salesReceipt.findUnique({
         where: {
           id,
-          companyId: session.user.companyId,
+          companyId: session.user.activeCompanyId,
           isActive: true
         },
         include: {
@@ -409,7 +408,7 @@ export async function updateSalesReceipt(
         const tax = await tx.taxRate.findUnique({
           where: {
             id: data.taxId,
-            companyId: session.user.companyId,
+            companyId: session.user.activeCompanyId,
             status: 'ACTIVE'
           }
         });
@@ -500,7 +499,7 @@ export async function updateSalesReceipt(
       const updatedReceipt = await tx.salesReceipt.update({
         where: {
           id,
-          companyId: session.user.companyId,
+          companyId: session.user.activeCompanyId,
           isActive: true
         },
         data: {
@@ -574,7 +573,7 @@ export async function updateSalesReceipt(
           where: {
             id: { in: data.removedAttachmentIds },
             receiptId: id,
-            receipt: { companyId: session.user.companyId },
+            receipt: { companyId: session.user.activeCompanyId },
             isActive: true
           },
           select: {
@@ -588,7 +587,7 @@ export async function updateSalesReceipt(
           where: {
             id: { in: data.removedAttachmentIds },
             receiptId: id,
-            receipt: { companyId: session.user.companyId },
+            receipt: { companyId: session.user.activeCompanyId },
             isActive: true
           },
           data: {
@@ -603,7 +602,7 @@ export async function updateSalesReceipt(
         await tx.file.updateMany({
           where: {
             id: { in: attachmentsToRemove.map((a) => a.fileId) },
-            companyId: session.user.companyId,
+            companyId: session.user.activeCompanyId,
             isActive: true
           },
           data: {
@@ -648,7 +647,7 @@ export async function updateSalesReceipt(
               mimetype: file.file.type,
               size: file.file.size,
               purpose: 'sales_receipt_attachment',
-              companyId: session.user.companyId,
+              companyId: session.user.activeCompanyId,
               isActive: true
             }
           });
@@ -714,11 +713,11 @@ export async function deleteSalesReceipt(
   id: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
@@ -726,7 +725,7 @@ export async function deleteSalesReceipt(
     const receipt = await prisma.salesReceipt.findUnique({
       where: {
         id,
-        companyId: session.user.companyId,
+        companyId: session.user.activeCompanyId,
         isActive: true
       },
       include: {
@@ -753,7 +752,7 @@ export async function deleteSalesReceipt(
 
     // Use a transaction to ensure all operations succeed or none do
     await prisma.$transaction(async (tx) => {
-      if (!session.user.companyId) {
+      if (!session.user.activeCompanyId) {
         return { success: false, error: 'User is not associated with a company' };
       }
       // 1. Soft delete receipt attachments
@@ -788,7 +787,7 @@ export async function deleteSalesReceipt(
       await tx.salesReceipt.update({
         where: {
           id,
-          companyId: session.user.companyId
+          companyId: session.user.activeCompanyId
         },
         data: {
           isActive: false,

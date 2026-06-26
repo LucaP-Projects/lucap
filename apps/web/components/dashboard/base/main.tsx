@@ -12,7 +12,7 @@ import {
   EstimateStatus,
   PaymentStatus,
   RefundStatus
-} from '@/lib/generated/prisma/client';
+} from '@/lib/generated/prisma/enums';
 import { DataTable } from './table';
 import { FilterStatus, useFilters } from './useFilters';
 type StatusType =

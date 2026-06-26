@@ -12,7 +12,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { VersionStatus } from '@/lib/generated/prisma/client';
+import type { VersionStatus } from '@/lib/generated/prisma/enums';
 import { formatCurrency } from '@/lib/utils';
 
 export const statusColorMap: Record<VersionStatus, string> = {

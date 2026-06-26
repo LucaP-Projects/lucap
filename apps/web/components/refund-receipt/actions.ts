@@ -2,10 +2,10 @@
 
 import { Decimal } from 'decimal.js';
 import { revalidatePath } from 'next/cache';
-import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { auth } from '@/lib/auth';
-import { Prisma, RefundStatus } from '@/lib/generated/prisma/client';
+import { getSessionWithCompany } from '@/lib/auth';
+import { RefundStatus } from '@/lib/generated/prisma/enums';
+import * as Prisma from '@/lib/generated/prisma/internal/prismaNamespace';
 import { prisma } from '@/lib/prisma';
 import { generateUniqueNumber } from '@/lib/utils';
 import { CustomizationSettingsInput } from '../base/sideBar/customize/types';
@@ -43,17 +43,17 @@ async function validateRefundNumber(
       // Handle specific Prisma errors by their error codes
       switch (error.code) {
         case 'P2002': // Unique constraint violation
-          throw new Error('Duplicate refund number detected');
+          throw new Error('Duplicate refund number detected', { cause: error });
         case 'P2023': // Inconsistent column data
-          throw new Error('Invalid refund number format');
+          throw new Error('Invalid refund number format', { cause: error });
         default:
-          throw new Error(`Database error: ${error.message}`);
+          throw new Error(`Database error: ${error.message}`, { cause: error });
       }
     }
 
     // Re-throw unknown errors with a more user-friendly message
     throw new Error(
-      `Error validating refund number: ${error instanceof Error ? error.message : 'Unknown error'}`
+      `Error validating refund number: ${error instanceof Error ? error.message : 'Unknown error'}`, { cause: error }
     );
   }
 }
@@ -64,11 +64,11 @@ export async function createRefundReceipt(
   color: string
 ): Promise<CreateRefundReceiptResponse> {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
@@ -78,8 +78,8 @@ export async function createRefundReceipt(
       const refundNumber = `RF-${generateUniqueNumber()}`;
 
       await Promise.all([
-        validateCustomer(tx, data.customerId, session.user.companyId),
-        validateRefundNumber(tx, session.user.companyId, refundNumber)
+        validateCustomer(tx, data.customerId, session.user.activeCompanyId),
+        validateRefundNumber(tx, session.user.activeCompanyId, refundNumber)
       ]);
 
       // Step 2: Calculate totals
@@ -103,7 +103,7 @@ export async function createRefundReceipt(
         const tax = await tx.taxRate.findUnique({
           where: {
             id: data.taxId,
-            companyId: session.user.companyId,
+            companyId: session.user.activeCompanyId,
             status: 'ACTIVE'
           }
         });
@@ -132,7 +132,7 @@ export async function createRefundReceipt(
       // Step 5: Create the refund receipt
       const refund = await tx.refundReceipt.create({
         data: {
-          companyId: session.user.companyId,
+          companyId: session.user.activeCompanyId,
           number: refundNumber,
           customerId: data.customerId,
 
@@ -167,7 +167,7 @@ export async function createRefundReceipt(
               type: 'individual',
               address: data.customerAddress
             },
-            type: 'RefundReceipt',
+            type: 'REFUND_RECEIPT',
             cc: data.ccEmail,
             snapshotTimestamp: new Date().toISOString(),
             amount: totalAmount,
@@ -219,7 +219,7 @@ export async function createRefundReceipt(
               mimetype: file.file.type,
               size: file.file.size,
               purpose: 'refund_attachment',
-              companyId: session.user.companyId,
+              companyId: session.user.activeCompanyId,
               isActive: true
             }
           });
@@ -282,18 +282,18 @@ export async function createRefundReceipt(
 
 export async function getRefundReceipt(id: string) {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
     const refund = await prisma.refundReceipt.findUnique({
       where: {
         id,
-        companyId: session.user.companyId,
+        companyId: session.user.activeCompanyId,
         isActive: true
       },
       include: {
@@ -356,11 +356,11 @@ export async function updateRefundReceipt(
   color: string
 ) {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
@@ -370,12 +370,12 @@ export async function updateRefundReceipt(
 
     const refund = await prisma.$transaction(async (tx) => {
       // Step 1: Validate customer and fetch existing refund
-      await validateCustomer(tx, data.customerId, session.user.companyId);
+      await validateCustomer(tx, data.customerId, session.user.activeCompanyId);
 
       const existingRefund = await tx.refundReceipt.findUnique({
         where: {
           id,
-          companyId: session.user.companyId,
+          companyId: session.user.activeCompanyId,
           isActive: true
         },
         include: {
@@ -412,7 +412,7 @@ export async function updateRefundReceipt(
         const tax = await tx.taxRate.findUnique({
           where: {
             id: data.taxId,
-            companyId: session.user.companyId,
+            companyId: session.user.activeCompanyId,
             status: 'ACTIVE'
           }
         });
@@ -503,7 +503,7 @@ export async function updateRefundReceipt(
       const updatedRefund = await tx.refundReceipt.update({
         where: {
           id,
-          companyId: session.user.companyId,
+          companyId: session.user.activeCompanyId,
           isActive: true
         },
         data: {
@@ -581,7 +581,7 @@ export async function updateRefundReceipt(
           where: {
             id: { in: data.removedAttachmentIds },
             refundReceiptId: id,
-            refundReceipt: { companyId: session.user.companyId },
+            refundReceipt: { companyId: session.user.activeCompanyId },
             isActive: true
           },
           select: {
@@ -595,7 +595,7 @@ export async function updateRefundReceipt(
           where: {
             id: { in: data.removedAttachmentIds },
             refundReceiptId: id,
-            refundReceipt: { companyId: session.user.companyId },
+            refundReceipt: { companyId: session.user.activeCompanyId },
             isActive: true
           },
           data: {
@@ -610,7 +610,7 @@ export async function updateRefundReceipt(
         await tx.file.updateMany({
           where: {
             id: { in: attachmentsToRemove.map((a) => a.fileId) },
-            companyId: session.user.companyId,
+            companyId: session.user.activeCompanyId,
             isActive: true
           },
           data: {
@@ -655,7 +655,7 @@ export async function updateRefundReceipt(
               mimetype: file.file.type,
               size: file.file.size,
               purpose: 'refund_attachment',
-              companyId: session.user.companyId,
+              companyId: session.user.activeCompanyId,
               isActive: true
             }
           });
@@ -720,11 +720,11 @@ export async function deleteRefundReceipt(
   id: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
@@ -732,7 +732,7 @@ export async function deleteRefundReceipt(
     const refund = await prisma.refundReceipt.findUnique({
       where: {
         id,
-        companyId: session.user.companyId,
+        companyId: session.user.activeCompanyId,
         isActive: true
       },
       select: {
@@ -791,7 +791,7 @@ export async function deleteRefundReceipt(
       await tx.refundReceipt.update({
         where: {
           id,
-          companyId: session.user.companyId
+          companyId: session.user.activeCompanyId
         },
         data: {
           isActive: false,

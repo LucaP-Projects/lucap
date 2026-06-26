@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache';
 import { Invoice, PaymentStatus } from '@/lib/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
 
-import { PaymentFormData } from './invoice-list';
+import { PaymentFormData } from './types';
 
 export async function processPayment(
   data: PaymentFormData,
@@ -125,7 +125,7 @@ export async function processPayment(
     };
   } catch (error) {
     console.error('Error processing payment:', error);
-    throw new Error('Failed to process payment');
+    throw new Error('Failed to process payment', { cause: error });
   }
 }
 

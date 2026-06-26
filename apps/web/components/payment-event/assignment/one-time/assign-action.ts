@@ -1,7 +1,8 @@
 'use server';
 import { revalidatePath } from 'next/cache';
+import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { auth } from '@/lib/auth';
+import { getSessionWithCompany } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 
 import { generateUniqueNumber } from '@/lib/utils';
@@ -12,7 +13,6 @@ import {
   AssignOneTimePaymentInput,
   PaymentEventWithRelations
 } from './types';
-import { headers } from 'next/headers';
 
 // Helper to check if payment settings are for one-time payments
 function isOneTimeSettings(
@@ -24,11 +24,11 @@ export async function assignOneTimePayment(
   input: AssignOneTimePaymentInput
 ): Promise<AssignmentResult> {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
@@ -45,7 +45,7 @@ export async function assignOneTimePayment(
     // Get customer - add isActive filter
     const customer = await prisma.customer.findUnique({
       where: {
-        companyId: session.user.companyId,
+        companyId: session.user.activeCompanyId,
         id: input.customerId,
         status: 'ACTIVE',
         isActive: true
@@ -63,7 +63,7 @@ export async function assignOneTimePayment(
     const paymentEvent = await prisma.paymentEvent.findUnique({
       where: {
         id: input.paymentEventId,
-        companyId: session.user.companyId,
+        companyId: session.user.activeCompanyId,
         active: true,
         isActive: true
       },
@@ -174,7 +174,7 @@ export async function assignOneTimePayment(
 
           const invoice = await tx.invoice.create({
             data: {
-              companyId: session.user.companyId,
+              companyId: session.user.activeCompanyId,
               number: invoiceNumber,
               customerId: input.customerId,
               paymentEventId: customerPaymentEvent.id,
@@ -314,17 +314,17 @@ export async function checkCustomerAssignment(input: {
 
 export async function getCustomersWithHierarchy() {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
     const allCustomers = await prisma.customer.findMany({
       where: {
         status: 'ACTIVE',
-        companyId: session.user.companyId,
+        companyId: session.user.activeCompanyId,
         isActive: true // Add isActive filter
       },
       select: {
@@ -363,17 +363,17 @@ export async function getPaymentEventsWithRelations(): Promise<
   PaymentEventWithRelations[]
 > {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
     const paymentEvents = await prisma.paymentEvent.findMany({
       where: {
         active: true,
-        companyId: session.user.companyId,
+        companyId: session.user.activeCompanyId,
         isActive: true // Add isActive filter
       },
       include: {

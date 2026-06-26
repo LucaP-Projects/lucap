@@ -1,5 +1,4 @@
 import { ValidationWarning } from '../base/validationWarning';
-import { CompanyInfo } from '../invoice/types';
 import { TaxSelectData } from '../shared/tax/actions';
 
 export interface FormContentProps<T> {
@@ -18,4 +17,15 @@ export interface ViewRendererProps<T> {
   company?: CompanyInfo | null;
   docType: 'Invoice' | 'Estimate';
   formContentProps: FormContentProps<T>;
+}
+
+export interface CompanyInfo {
+  name: string;
+  legalName?: string | null;
+  taxId?: string | null;
+  email?: string | null;
+  phone?: string | null;
+  website?: string | null;
+  address?: PrismaJson.Address | null;
+  logo?: string | null;
 }

@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import Link from 'next/link';
 import {
   Accordion,
   AccordionContent,
@@ -70,18 +71,18 @@ const SidebarSettings = ({ paperType }: SidebarProps) => {
           </AccordionTrigger>
           <AccordionContent className="px-4 pt-2">
             <div className="space-y-2">
-              <a
+              <Link
                 href={`/${paperType.toLocaleLowerCase()}s`}
                 className="text-primary block hover:underline dark:text-blue-400"
               >
                 Open {paperType}s
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/all-transactions"
                 className="text-primary block hover:underline dark:text-blue-400"
               >
                 All transactions
-              </a>
+              </Link>
             </div>
           </AccordionContent>
         </AccordionItem>

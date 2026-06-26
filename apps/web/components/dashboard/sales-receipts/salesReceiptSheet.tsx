@@ -6,7 +6,7 @@ import {
   Clock
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
-import { ReceiptStatus, PaymentMethod } from '@/lib/generated/prisma/client';
+import type { ReceiptStatus, PaymentMethod } from '@/lib/generated/prisma/enums';
 import {
   BaseSheet,
   CustomerInfo,

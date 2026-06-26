@@ -2,8 +2,8 @@
 
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { auth } from '@/lib/auth';
-import { DiscountType } from '@/lib/generated/prisma/client';
+import { getSessionWithCompany } from '@/lib/auth';
+import { DiscountType } from '@/lib/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
 import { handleItemImage } from '../shared/utils';
 import { ItemFormValues } from './schema';
@@ -25,11 +25,11 @@ export async function createItem(
   data: ItemFormValues
 ): Promise<CreateItemResponse> {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
     if (!data) {
@@ -63,7 +63,7 @@ export async function createItem(
     }
 
     const itemData = {
-      companyId: session.user.companyId,
+      companyId: session.user.activeCompanyId,
       type: data.type,
       name: data.name?.trim() || '',
       sku: data.sku?.trim() || null,
@@ -164,18 +164,18 @@ export async function updateItemStatus(
   status: 'ACTIVE' | 'INACTIVE' | 'DISCONTINUED'
 ): Promise<UpdateItemStatusResponse> {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
     const item = await prisma.item.findFirst({
       where: {
         id: itemId,
-        companyId: session.user.companyId,
+        companyId: session.user.activeCompanyId,
         isActive: true // Filter out soft-deleted items
       }
     });
@@ -222,12 +222,12 @@ export async function updateItem(
   data: ItemFormValues
 ): Promise<CreateItemResponse> {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
 
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
     if (!data) {
@@ -263,7 +263,7 @@ export async function updateItem(
     const existingItem = await prisma.item.findFirst({
       where: {
         id: itemId,
-        companyId: session.user.companyId,
+        companyId: session.user.activeCompanyId,
         isActive: true // Filter out soft-deleted items
       }
     });
@@ -375,11 +375,11 @@ export async function getItems(
   search: string = ''
 ): Promise<GetItemsResponse> {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
@@ -388,7 +388,7 @@ export async function getItems(
 
     // Build where clause with search functionality
     const whereClause = {
-      companyId: session.user.companyId,
+      companyId: session.user.activeCompanyId,
       isActive: true, // Filter out soft-deleted items
       ...(search && {
         OR: [
@@ -466,11 +466,11 @@ export async function deleteItem(
   itemId: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
@@ -478,7 +478,7 @@ export async function deleteItem(
     const item = await prisma.item.findFirst({
       where: {
         id: itemId,
-        companyId: session.user.companyId,
+        companyId: session.user.activeCompanyId,
         isActive: true
       }
     });
@@ -488,15 +488,15 @@ export async function deleteItem(
     }
 
     // Check if item is used in any documents (invoices, estimates, etc.)
-    const usageCount = await db
+    const usageCount = await prisma
       .$transaction([
-        db.invoiceItem.count({ where: { itemId, isActive: true } }),
-        db.estimateItem.count({ where: { itemId, isActive: true } }),
-        db.salesReceiptItem.count({ where: { itemId, isActive: true } }),
-        db.refundReceiptItem.count({ where: { itemId, isActive: true } }),
-        db.creditMemoItem.count({ where: { itemId, isActive: true } }),
-        db.delayedChargeItem.count({ where: { itemId, isActive: true } }),
-        db.delayedCreditItem.count({ where: { itemId, isActive: true } })
+        prisma.invoiceItem.count({ where: { itemId, isActive: true } }),
+        prisma.estimateItem.count({ where: { itemId, isActive: true } }),
+        prisma.salesReceiptItem.count({ where: { itemId, isActive: true } }),
+        prisma.refundReceiptItem.count({ where: { itemId, isActive: true } }),
+        prisma.creditMemoItem.count({ where: { itemId, isActive: true } }),
+        prisma.delayedChargeItem.count({ where: { itemId, isActive: true } }),
+        prisma.delayedCreditItem.count({ where: { itemId, isActive: true } })
       ])
       .then((counts) => counts.reduce((sum, count) => sum + count, 0));
 

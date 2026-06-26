@@ -1,8 +1,7 @@
 'use server';
 
-import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { auth } from '@/lib/auth';
+import { getSessionWithCompany } from '@/lib/auth';
 import { TaxStatus, TaxType } from '@/lib/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
 
@@ -25,17 +24,17 @@ export type TaxResponse = {
 
 export async function getTaxesForSelect(search?: string): Promise<TaxResponse> {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
     const taxes = await prisma.taxRate.findMany({
       where: {
-        companyId: session.user.companyId,
+        companyId: session.user.activeCompanyId,
         status: TaxStatus.ACTIVE,
         isActive: true,
         ...(search
@@ -81,11 +80,11 @@ export async function deleteTax(
   id: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
@@ -93,7 +92,7 @@ export async function deleteTax(
     const tax = await prisma.taxRate.findUnique({
       where: {
         id,
-        companyId: session.user.companyId,
+        companyId: session.user.activeCompanyId,
         isActive: true
       }
     });

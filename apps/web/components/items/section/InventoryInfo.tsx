@@ -1,9 +1,9 @@
 import React from 'react';
 import { format } from 'date-fns';
 import { Controller, UseFormReturn } from 'react-hook-form';
+import z from 'zod';
 import {  CalendarIcon } from 'lucide-react';
 
-import FormField from '@/components/lang/FormField';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
@@ -11,10 +11,10 @@ import { Input } from '@/components/ui/input';
 import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
 import { cn, handleNumberInput } from '@/lib/utils';
 import { AccountSelect } from '../../shared/account/account-select';
-import { ItemFormValues } from '../schema';
+import { itemFormSchema } from '../schema';
 
 interface InventoryInfoProps {
-  form: UseFormReturn<ItemFormValues>;
+  form: UseFormReturn<z.output<typeof itemFormSchema>>;
 }
 
 export function InventoryInfo({ form }: InventoryInfoProps) {
