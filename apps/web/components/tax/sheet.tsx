@@ -11,7 +11,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import { TaxRate } from '@/lib/generated/prisma/client';
+import type { TaxRate } from '@/lib/generated/prisma/browser';
 import { TaxForm } from './form';
 
 interface TaxSheetProps {

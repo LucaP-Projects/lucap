@@ -1,36 +1,30 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
-import { auth } from '@/lib/auth';
-import { Prisma } from '@/lib/generated/prisma/client';
+import { getSessionWithCompany } from '@/lib/auth';
+import { AccountCreateInput, PrismaClientKnownRequestError } from '@/lib/generated/prisma/internal/prismaNamespace';
 import { prisma } from '@/lib/prisma';
 import { accountFormSchema } from './schema';
-type CreateAccountResponse = {
-  success: boolean;
-  data?: any;
-  error?: string;
-};
 
 export async function createAccount(
   data: z.infer<typeof accountFormSchema>
-): Promise<CreateAccountResponse> {
+) {
   try {
     const validatedData = accountFormSchema.parse(data);
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
     // Check if the number already exists in the company
     const existingNumber = await prisma.account.findFirst({
       where: {
-        companyId: session.user.companyId,
+        companyId: session.user.activeCompanyId,
         number: validatedData.number
       }
     });
@@ -45,7 +39,7 @@ export async function createAccount(
     // Initialize the base account data
     let composedNumber = validatedData.number;
 
-    const createData: Prisma.AccountCreateInput = {
+    const createData: AccountCreateInput = {
       title: validatedData.title,
       number: validatedData.number,
       composed_number: validatedData.number,
@@ -53,7 +47,7 @@ export async function createAccount(
       is_active: true,
       company: {
         connect: {
-          id: session.user.companyId
+          id: session.user.activeCompanyId
         }
       }
     };
@@ -63,7 +57,7 @@ export async function createAccount(
       if (
         await hasCircularReference(
           validatedData.parentId,
-          session.user.companyId
+          session.user.activeCompanyId
         )
       ) {
         return { success: false, error: 'Circular reference detected' };
@@ -73,7 +67,7 @@ export async function createAccount(
       const parentAccount = await prisma.account.findUnique({
         where: {
           id: validatedData.parentId,
-          companyId: session.user.companyId
+          companyId: session.user.activeCompanyId
         }
       });
 
@@ -93,7 +87,7 @@ export async function createAccount(
       // Check if composed number is unique within company
       const existingComposed = await prisma.account.findFirst({
         where: {
-          companyId: session.user.companyId,
+          companyId: session.user.activeCompanyId,
           composed_number: composedNumber
         }
       });
@@ -117,7 +111,7 @@ export async function createAccount(
     console.error('Error creating account:', error);
 
     // Handle Prisma unique constraint violations
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+    if (error instanceof PrismaClientKnownRequestError) {
       if (error.code === 'P2002') {
         const field = error.meta?.target as string[];
         if (field?.includes('number')) {
@@ -136,10 +130,10 @@ export async function createAccount(
     }
 
     // Handle Zod validation errors
-    if (error instanceof z.ZodError) {
+    if (error) {
       return {
         success: false,
-        error: error.errors.map((e) => e.message).join(', ')
+        error: (error as any).errors.map((e: any) => e.message).join(', ')
       };
     }
 

@@ -6,8 +6,8 @@ import {
   ChargeStatus,
   DiscountApplicationTime,
   DiscountType
-} from '@/lib/generated/prisma/client';
-import { delayedChargeFormSchema, DelayedChargeFormValues } from './schema';
+} from '@/lib/generated/prisma/enums';
+import { delayedChargeFormSchema } from './schema';
 
 interface ChargeFormProps {
   mode?: 'create' | 'edit';
@@ -18,7 +18,7 @@ export function useChargeForm({
   mode = 'create',
   initialData
 }: ChargeFormProps) {
-  const formMethods = useForm<DelayedChargeFormValues>({
+  const formMethods = useForm({
     mode: 'onChange',
     resolver: zodResolver(delayedChargeFormSchema),
     shouldUnregister: false,

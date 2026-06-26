@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { ReceiptStatus } from '@/lib/generated/prisma/client';
+import { ReceiptStatus } from '@/lib/generated/prisma/enums';
 
 interface SalesReceiptStatsProps {
   stats: {
@@ -146,7 +146,7 @@ export const SalesReceiptStats = memo(function SalesReceiptStats({
               </p>
             </div>
           </div>
-          {stats.paymentMethods[0]?.amount > 0 && (
+          {stats.paymentMethods.length > 0 && (stats.paymentMethods[0]?.amount ?? 0) > 0 && (
             <div className="mt-2 text-sm font-medium text-emerald-600">
               ${stats.paymentMethods[0]?.amount.toFixed(2)} collected
             </div>
@@ -211,11 +211,11 @@ export const SalesReceiptStats = memo(function SalesReceiptStats({
                 <span className="text-xs font-medium text-gray-900">
                   {stats.totalReceipts > 0
                     ? Math.round(
-                        ((stats.statusBreakdown[ReceiptStatus.COMPLETED]
-                          ?.count || 0) /
-                          stats.totalReceipts) *
-                          100
-                      )
+                      ((stats.statusBreakdown[ReceiptStatus.COMPLETED]
+                        ?.count || 0) /
+                        stats.totalReceipts) *
+                      100
+                    )
                     : 0}
                   %
                 </span>
@@ -224,18 +224,17 @@ export const SalesReceiptStats = memo(function SalesReceiptStats({
                 <div
                   className="h-full rounded-full bg-green-500"
                   style={{
-                    width: `${
-                      stats.totalReceipts > 0
+                    width: `${stats.totalReceipts > 0
                         ? Math.round(
-                            ((stats.statusBreakdown[ReceiptStatus.COMPLETED]
-                              ?.count || 0) /
-                              stats.totalReceipts) *
-                              100
-                          )
+                          ((stats.statusBreakdown[ReceiptStatus.COMPLETED]
+                            ?.count || 0) /
+                            stats.totalReceipts) *
+                          100
+                        )
                         : 0
-                    }%`
+                      }%`
                   }}
-                 />
+                />
               </div>
             </div>
           </div>

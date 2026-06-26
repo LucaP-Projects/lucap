@@ -1,64 +1,175 @@
-'use client';
+"use client";
 
-// import { signIn } from "@/lib/auth-client";
-import { useState } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import {
+  Field,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import authClient from "@/lib/auth-client";
+import { cn } from "@/lib/utils";
 
-import { toast } from 'sonner';
-import { Button } from '../ui/button';
-import { Input } from '../ui/input';
-import { Label } from '../ui/label';
-import { signInEmailAction } from './actions/sign-in-email.action';
-
-export const LoginForm = () => {
-  const [isPending, setIsPending] = useState(false);
+export function LoginForm({
+  className,
+  ...props
+}: React.ComponentProps<"form">) {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [isEmailNotVerified, setIsEmailNotVerified] = useState(false);
 
-  async function handleSubmit(evt: React.FormEvent<HTMLFormElement>) {
-    evt.preventDefault();
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-    setIsPending(true);
+    const formData = new FormData(e.currentTarget);
+    const email = String(formData.get("email") ?? "").trim();
+    const password = String(formData.get("password") ?? "");
 
-    const formData = new FormData(evt.currentTarget);
-
-    const { error } = await signInEmailAction(formData);
-
-    if (error) {
-      toast.error(error || 'Login failed. Please try again.');
-      console.log('Login error:', error);
-      setIsPending(false);
-    } else {
-      toast.success('Login successful. Good to have you back.');
-      router.push('/profile');
+    if (!email || !password) {
+      setError("Please enter your email and password");
+      return;
     }
-  }
+
+    setError(null);
+    setLoading(true);
+
+    try {
+      const { data, error: signInError } = await authClient.signIn.email({
+        email,
+        password,
+      });
+
+      if (signInError || !data?.user) {
+        if (signInError?.code === "EMAIL_NOT_VERIFIED") {
+          setError(signInError?.message ?? "Login failed");
+          setIsEmailNotVerified(true);
+          return;
+        }
+        setError(signInError?.message ?? "Login failed");
+        return;
+      }
+
+      router.push("/dashboard");
+    } catch (err) {
+      if (err instanceof Error) {
+        console.error("Login error:", err);
+        setError(err.message || "Network error");
+      } else {
+        console.error("Login error:", err);
+        setError("Network error");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+  const resetEmailVerification = async () => {
+    setLoading(true);
+    try {
+      const { error: resetError } = await authClient.sendVerificationEmail({
+        email: String(new FormData(document.querySelector("form")!).get("email")),
+      });
+
+      if (resetError) {
+        setError(resetError.message || "Failed to resend verification email");
+        return;
+      }
+      
+      setError("Verification email resent. Please check your inbox.");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      console.error("Resend verification email error:", err);
+      setError(message || "Network error");
+    } finally {
+      setLoading(false);
+    }
+  };
+
 
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-sm space-y-4">
-      <div className="space-y-2">
-        <Label htmlFor="email">Email</Label>
-        <Input type="email" id="email" name="email" />
-      </div>
-
-      <div className="space-y-2">
-        <div className="flex items-center justify-between gap-2">
-          <Label htmlFor="password">Password</Label>
-          <Link
-            tabIndex={-1}
-            href="/auth/forgot-password"
-            className="text-muted-foreground hover:text-foreground text-sm italic"
-          >
-            Forgot password?
-          </Link>
+    <form
+      className={cn("flex flex-col gap-6", className)}
+      {...props}
+      onSubmit={handleSubmit}
+    >
+      <FieldGroup>
+        <div className="flex flex-col items-center gap-1 text-center">
+          <h1 className="text-2xl font-bold">Login to your account</h1>
+          <p className="text-sm text-balance text-muted-foreground">
+            Enter your email below to login to your account
+          </p>
         </div>
-
-        <Input type="password" id="password" name="password" />
-      </div>
-
-      <Button type="submit" className="w-full" disabled={isPending}>
-        Login
-      </Button>
+        <Field>
+          <FieldLabel htmlFor="email">Email</FieldLabel>
+          <Input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="m@example.com"
+            autoComplete="email"
+            required
+            className="bg-background"
+          />
+        </Field>
+        <Field>
+          <div className="flex items-center">
+            <FieldLabel htmlFor="password">Password</FieldLabel>
+            <Link
+              href="/auth/forgot-password"
+              className="ml-auto text-sm underline-offset-4 hover:underline"
+            >
+              Forgot your password?
+            </Link>
+          </div>
+          <Input
+            id="password"
+            name="password"
+            type="password"
+            autoComplete="current-password"
+            required
+            className="bg-background"
+          />
+        </Field>
+        <Field>
+          <Button type="submit" disabled={loading}>
+            {loading ? "Logging in..." : "Login"}
+          </Button>
+          {error ?
+            isEmailNotVerified ? (
+              <FieldDescription className="text-destructive">
+                {error}{" "}
+                <Button
+                  onClick={resetEmailVerification}
+                  variant="link"
+                  size="sm"
+                  className="underline underline-offset-4"
+                >
+                  Resend verification email
+                </Button>
+              </FieldDescription>
+            ) : (
+              <FieldDescription className="text-destructive">
+                {error}
+              </FieldDescription>
+            )
+          : null}
+        </Field>
+        <Field>
+          <FieldDescription className="text-center">
+            Don&apos;t have an account?{" "}
+            <Link
+              href="/auth/register"
+              className="underline underline-offset-4"
+            >
+              Sign up
+            </Link>
+          </FieldDescription>
+        </Field>
+      </FieldGroup>
     </form>
   );
-};
+}

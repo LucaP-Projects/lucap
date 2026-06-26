@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { ChargeStatus } from '@/lib/generated/prisma/client';
+import { ChargeStatus } from '@/lib/generated/prisma/enums';
 
 interface DelayedChargeStatsProps {
   stats: {

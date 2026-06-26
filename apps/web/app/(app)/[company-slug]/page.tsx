@@ -1,4 +1,3 @@
-import { env } from 'process';
 import { headers } from 'next/headers';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
@@ -23,19 +22,19 @@ import { getActiveSubscriptionsCount } from '@/components/payment-event/assignme
 import { getCustomerCount } from '@/components/shared/customer/actions';
 import { getPendingInvoicesCount } from '@/components/shared/invoice/actions';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { auth } from '@/lib/auth';
+import { getSessionWithCompany } from '@/lib/auth';
 
 
 async function WelcomePage() {
-  const session = await auth.api.getSession({headers: await headers()});
+  const session = await getSessionWithCompany();
   const t = await getTranslations('AppLayout');
   // Redirect if no session
   if (!session?.user) {
-    redirect('/login');
+    redirect('/auth/login');
   }
 
   const user = session.user;
-  const companyId = session.user.companyId;
+  const companyId = session.user.activeCompanyId;
 
   // Fetch customer count
   let customerCount = 'Loading...';
@@ -44,7 +43,7 @@ async function WelcomePage() {
       const count = await getCustomerCount(companyId);
       customerCount = count.toString();
     }
-  } catch (error) {
+  } catch (e) {
     customerCount = 'Error';
   }
 
@@ -54,7 +53,7 @@ async function WelcomePage() {
       const count = await getActiveSubscriptionsCount(companyId);
       subscriptionsCount = count.toString();
     }
-  } catch (error) {
+  } catch (e) {
     subscriptionsCount = 'Error';
   }
 
@@ -64,7 +63,7 @@ async function WelcomePage() {
       const count = await getPendingInvoicesCount(companyId);
       pendingInvoicesCount = count.toString();
     }
-  } catch (error) {
+  } catch (e) {
     pendingInvoicesCount = 'Error';
   }
 

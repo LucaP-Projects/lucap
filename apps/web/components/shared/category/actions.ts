@@ -2,7 +2,7 @@
 
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { auth } from '@/lib/auth';
+import { getSessionWithCompany } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 
 export type CategorySelectData = {
@@ -71,16 +71,16 @@ export async function getCategoriesForSelect(
   search?: string
 ): Promise<CategoryResponse> {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
     const categories = await fetchCategoriesRecursively(
       null,
-      session.user.companyId,
+      session.user.activeCompanyId,
       0,
       search
     );
@@ -96,11 +96,11 @@ export async function deleteCategory(
   categoryId: string
 ): Promise<CategoryResponse> {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
@@ -108,7 +108,7 @@ export async function deleteCategory(
     const category = await prisma.category.findFirst({
       where: {
         id: categoryId,
-        companyId: session.user.companyId,
+        companyId: session.user.activeCompanyId,
         active: true
       },
       include: {
@@ -147,7 +147,7 @@ export async function deleteCategory(
     await prisma.category.update({
       where: {
         id: categoryId,
-        companyId: session.user.companyId
+        companyId: session.user.activeCompanyId
       },
       data: {
         active: false, // The category model uses 'active' instead of 'isActive'

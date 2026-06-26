@@ -1,10 +1,10 @@
+"use client";
+
 import { memo, useMemo } from 'react';
 import { format } from 'date-fns';
-import { Button } from '@/components/ui/button';
 import { useFormCacheStore } from '@/stores/useInvoice';
 import { useSidebarStore } from '@/stores/useSidePaper';
 import { colorPalette } from '../sideBar/color/colors';
-import { generatePdf } from './template/generatePdf';
 import { Company, PaperType } from './types';
 
 interface PdfPreviewProps {
@@ -12,7 +12,7 @@ interface PdfPreviewProps {
   paperType: PaperType;
 }
 
-export const PdfPreview = memo(({ company, paperType }: PdfPreviewProps) => {
+export const PdfPreview = ({ company, paperType }: PdfPreviewProps) => {
   const selectedColor = useSidebarStore((state) => state.selectedColor);
   const settings = useSidebarStore((state) => state.customizationSettings);
   const note = useSidebarStore((state) => state.note);
@@ -258,5 +258,5 @@ export const PdfPreview = memo(({ company, paperType }: PdfPreviewProps) => {
       </div>
     </div>
   );
-});
+};
 PdfPreview.displayName = 'MemoizedPdfPreview';

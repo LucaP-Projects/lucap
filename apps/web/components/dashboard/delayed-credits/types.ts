@@ -1,4 +1,4 @@
-import { CreditStatus } from '@/lib/generated/prisma/client';
+import { CreditStatus } from '@/lib/generated/prisma/enums';
 
 export interface DelayedCreditBasicCustom {
   id: string;

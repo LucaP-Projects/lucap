@@ -34,7 +34,7 @@ export default function ItemForm({
   const router = useRouter();
   const isEditing = !!initialData?.id;
 
-  const form = useForm<ItemFormValues>({
+  const form = useForm({
     resolver: zodResolver(isEditing ? itemUpdateSchema : itemFormSchema),
     mode: 'onSubmit',
     reValidateMode: 'onChange',
@@ -104,7 +104,7 @@ export default function ItemForm({
     }
   }, [isEditing, initialData, form]);
 
-  const onSubmit = async (data: ItemFormValues) => {
+  const onSubmit = async (data: any) => {
     try {
       setIsSubmitting(true);
       if (data.type === 'INVENTORY') {
@@ -226,7 +226,7 @@ export default function ItemForm({
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isNestedForm) {
       e.stopPropagation();
@@ -247,7 +247,7 @@ export default function ItemForm({
       <div className="space-y-6">
 
         <TypeSelector
-          value={form.watch('type')}
+          value={form.watch('type') || 'NON_INVENTORY'}
           onChange={(value) => {
             form.setValue('type', value as ItemFormValues['type']);
             // Reset inventory specific fields when changing type
@@ -259,12 +259,12 @@ export default function ItemForm({
           }}
         />
         <div className="space-y-6">
-          <BasicInfo form={form} />
+          <BasicInfo form={form as any} />
           {form.watch('type') === 'INVENTORY' && (
-            <InventoryInfo form={form} />
+            <InventoryInfo form={form as any} />
           )}
-          <SalesInfo form={form} />
-          <PurchaseInfo form={form} />
+          <SalesInfo form={form as any} />
+          <PurchaseInfo form={form as any} />
         </div>
       </div>
       </FieldGroup>

@@ -1,4 +1,4 @@
-import { DiscountApplicationTime, DiscountType } from '@/lib/generated/prisma/client';
+import { DiscountApplicationTime, DiscountType } from '@/lib/generated/prisma/enums';
 
 export type Invoice = {
   id: string;
@@ -67,7 +67,7 @@ export interface CompanyInfo {
   email?: string | null;
   phone?: string | null;
   website?: string | null;
-  address?: any;
+  address?: PrismaJson.Address | null;
   logo?: string | null;
 }
 

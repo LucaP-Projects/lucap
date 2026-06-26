@@ -126,7 +126,7 @@ const Loading: React.FC<LoadingProps> = ({
       />
 
       <div
-        className={`loading-shadow ${sizeMap[size].shadow} absolute left-[15%] top-[62px] z-[-1] h-1 origin-center rounded-full blur-[1px]`}
+        className={`loading-shadow ${sizeMap[size].shadow} absolute left-[15%] top-15.5 z-[-1] h-1 origin-center rounded-full blur-[1px]`}
         style={{ backgroundColor: currentTheme.shadow }}
       />
       <div

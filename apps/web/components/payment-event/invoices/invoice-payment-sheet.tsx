@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Controller, Form, useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { Calendar, InfoIcon, Receipt } from 'lucide-react';
 
 import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction } from '@/components/ui/alert-dialog';
@@ -9,9 +9,8 @@ import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
-import { Sheet } from '@/components/ui/sheet';
-import { SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet';
-import { PaymentMethod, PaymentStatus } from '@/lib/generated/prisma/client';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet';
+import { PaymentMethod, PaymentStatus } from '@/lib/generated/prisma/enums';
 import { handleNumberInput } from '@/lib/utils';
 
 interface PaymentFormData {
@@ -117,7 +116,6 @@ const InvoicePaymentSheet: React.FC<InvoicePaymentSheetProps> = ({
   const form = useForm<PaymentFormData>({
     defaultValues: {
       amount: getDefaultAmount(),
-
       paymentMethod: PaymentMethod.CASH,
       reference: '',
       invoiceId: invoiceData.id

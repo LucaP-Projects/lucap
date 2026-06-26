@@ -1,4 +1,4 @@
-import { Permission } from '@/lib/generated/prisma/client';
+import { Permission } from '@/lib/generated/prisma/enums';
 
 export type Company = {
   id: string;

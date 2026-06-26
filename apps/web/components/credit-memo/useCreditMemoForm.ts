@@ -7,8 +7,8 @@ import {
   CreditMemoReason,
   DiscountType,
   DiscountApplicationTime
-} from '@/lib/generated/prisma/client';
-import { creditMemoFormSchema, CreditMemoFormValues } from './schema';
+} from '@/lib/generated/prisma/enums';
+import { creditMemoFormSchema,  } from './schema';
 import { CreditMemo } from './types';
 
 interface CreditMemoFormProps {
@@ -17,10 +17,10 @@ interface CreditMemoFormProps {
 }
 
 export function useCreditMemoForm({
-  mode = 'create',
+  mode,
   initialData
 }: CreditMemoFormProps) {
-  const formMethods = useForm<CreditMemoFormValues>({
+  return useForm({
     mode: 'onChange',
     resolver: zodResolver(creditMemoFormSchema),
     shouldUnregister: false,
@@ -32,11 +32,11 @@ export function useCreditMemoForm({
       issueDate: initialData?.issueDate
         ? new Date(initialData.issueDate)
         : new Date(),
-      ccEmail: initialData?.paymentEventSnapshot?.cc ?? '',
+      ccEmail: initialData?.paymentEventSnapshot?.cc,
       files:
-        initialData?.attachments?.map((att: any) => ({
+        initialData?.attachments?.map((att) => ({
           id: att.id,
-          status: 'complete' as const,
+          status: 'complete' as "complete",
           key: att.file.path,
           file: {
             name: att.file.filename,
@@ -76,7 +76,7 @@ export function useCreditMemoForm({
           initialData?.paymentEventSnapshot?.customer?.address?.country ?? ''
       },
       removedAttachmentIds: [],
-      items: initialData?.items?.map((item: any) => ({
+      items: initialData?.items?.map((item) => ({
         id: item.id,
         productName: item.productName ?? '',
         description: item.description ?? '',
@@ -100,5 +100,4 @@ export function useCreditMemoForm({
     }
   });
 
-  return formMethods;
 }

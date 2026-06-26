@@ -5,11 +5,11 @@ import { MoreHorizontal, Pencil, Trash2, UserRound } from 'lucide-react';
 
 import { formatCurrency } from '@/lib/utils';
 import { CustomerListItemDTO } from '@/types/customer';
+import { deleteCustomer } from '../shared/customer/actions';
 import { Button } from '../ui/button';
 import { Checkbox } from '../ui/checkbox';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '../ui/dropdown-menu';
 import { TableRow, TableCell } from '../ui/table';
-import { deleteCustomer } from '../shared/customer/actions';
 
 interface CustomerRowProps {
   customer: CustomerListItemDTO;

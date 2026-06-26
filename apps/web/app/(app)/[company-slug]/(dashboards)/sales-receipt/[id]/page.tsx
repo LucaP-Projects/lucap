@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { getCurrentCompany } from '@/components/base/company/actions';
+import { getCurrentCompanyForInvoice } from '@/components/base/company/actions';
 import { getSalesReceipt } from '@/components/sales-receipt/actions';
 import { SalesReceiptForm } from '@/components/sales-receipt/main';
 
@@ -16,7 +16,7 @@ export default async function EditSalesReceiptPage({
 
   const [result, company] = await Promise.all([
     getSalesReceipt(pageParams.id),
-    getCurrentCompany()
+    getCurrentCompanyForInvoice()
   ]);
   if (!result.success) {
     notFound();

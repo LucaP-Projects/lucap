@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
-import { PaymentMethod, ReceiptStatus } from '@/lib/generated/prisma/client';
+import { PaymentMethod, ReceiptStatus } from '@/lib/generated/prisma/browser';
 import { SalesReceiptFormValues } from '../../sales-receipt/schema';
 
 export const SalesStatusSection: React.FC = memo(() => {
@@ -31,7 +31,7 @@ export const SalesStatusSection: React.FC = memo(() => {
                 <SelectItem value={ReceiptStatus.COMPLETED}>
                   Completed
                 </SelectItem>
-                <SelectItem value={ReceiptStatus.REFINDED}>Refunded</SelectItem>
+                <SelectItem value={ReceiptStatus.REFUNDED}>Refunded</SelectItem>
                 <SelectItem value={ReceiptStatus.VOIDED}>Voided</SelectItem>
               </SelectContent>
             </Select>

@@ -1,22 +1,16 @@
 import { Metadata } from 'next';
 import { EditCompanyForm } from '@/components/company/edit/edit-company-form';
-import { auth } from '@/lib/auth';
-interface PageProps {
-  params: Promise<{ lng: string }>;
-}
+import { getSessionWithCompany } from '@/lib/auth';
 
 export const metadata: Metadata = {
   title: 'Edit Company',
   description: 'Edit company information and settings'
 };
 
-export default async function EditCompanyPage({ params }: PageProps) {
-  const [session, pageParams] = await Promise.all([
-    auth.api.getSession({headers: await headers()}),
-    params
-  ]);
+export default async function EditCompanyPage() {
+  const session = await getSessionWithCompany();
 
-  if (!session?.user?.companyId) {
+  if (!session?.user?.activeCompanyId) {
     return (
       <div className="container mx-auto py-6">
         <div className="mb-6">
@@ -39,8 +33,7 @@ export default async function EditCompanyPage({ params }: PageProps) {
       </div>
 
       <EditCompanyForm
-        lng={pageParams.lng}
-        companyId={session.user.companyId}
+        companyId={session.user.activeCompanyId}
       />
     </div>
   );

@@ -20,9 +20,4 @@ const logger = pino({
   }
 });
 
-// Add convenience methods
-export const logError = (err: Error, msg?: string) => {
-  logger.error({ err, msg: msg || err.message });
-};
-
 export default logger;

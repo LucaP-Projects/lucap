@@ -1,4 +1,4 @@
-import { PaymentEvent } from '@/lib/generated/prisma/client';
+import { PaymentEvent } from '@/lib/generated/prisma/browser';
 import {
   CustomerPaymentEventWithInvoices,
   PaymentEventVersionBasic

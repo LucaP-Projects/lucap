@@ -29,6 +29,7 @@ export type AggregateCompany = {
 export type CompanyMinAggregateOutputType = {
   id: string | null
   name: string | null
+  slug: string | null
   companyType: $Enums.CompanyType | null
   legalName: string | null
   taxId: string | null
@@ -45,6 +46,7 @@ export type CompanyMinAggregateOutputType = {
 export type CompanyMaxAggregateOutputType = {
   id: string | null
   name: string | null
+  slug: string | null
   companyType: $Enums.CompanyType | null
   legalName: string | null
   taxId: string | null
@@ -61,6 +63,7 @@ export type CompanyMaxAggregateOutputType = {
 export type CompanyCountAggregateOutputType = {
   id: number
   name: number
+  slug: number
   companyType: number
   legalName: number
   taxId: number
@@ -82,6 +85,7 @@ export type CompanyCountAggregateOutputType = {
 export type CompanyMinAggregateInputType = {
   id?: true
   name?: true
+  slug?: true
   companyType?: true
   legalName?: true
   taxId?: true
@@ -98,6 +102,7 @@ export type CompanyMinAggregateInputType = {
 export type CompanyMaxAggregateInputType = {
   id?: true
   name?: true
+  slug?: true
   companyType?: true
   legalName?: true
   taxId?: true
@@ -114,6 +119,7 @@ export type CompanyMaxAggregateInputType = {
 export type CompanyCountAggregateInputType = {
   id?: true
   name?: true
+  slug?: true
   companyType?: true
   legalName?: true
   taxId?: true
@@ -206,13 +212,14 @@ export type CompanyGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 export type CompanyGroupByOutputType = {
   id: string
   name: string
+  slug: string
   companyType: $Enums.CompanyType | null
   legalName: string | null
   taxId: string | null
   email: string | null
   phone: string | null
   website: string | null
-  address:unknown | null
+  address:PrismaJson.Address | null
   logo: string | null
   isActive: boolean
   settings:unknown | null
@@ -246,6 +253,7 @@ export type CompanyWhereInput = {
   NOT?: Prisma.CompanyWhereInput | Prisma.CompanyWhereInput[]
   id?: Prisma.StringFilter<"Company"> | string
   name?: Prisma.StringFilter<"Company"> | string
+  slug?: Prisma.StringFilter<"Company"> | string
   companyType?: Prisma.EnumCompanyTypeNullableFilter<"Company"> | $Enums.CompanyType | null
   legalName?: Prisma.StringNullableFilter<"Company"> | string | null
   taxId?: Prisma.StringNullableFilter<"Company"> | string | null
@@ -293,6 +301,7 @@ export type CompanyWhereInput = {
 export type CompanyOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   companyType?: Prisma.SortOrderInput | Prisma.SortOrder
   legalName?: Prisma.SortOrderInput | Prisma.SortOrder
   taxId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -340,6 +349,7 @@ export type CompanyOrderByWithRelationInput = {
 export type CompanyWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   name?: string
+  slug?: string
   AND?: Prisma.CompanyWhereInput | Prisma.CompanyWhereInput[]
   OR?: Prisma.CompanyWhereInput[]
   NOT?: Prisma.CompanyWhereInput | Prisma.CompanyWhereInput[]
@@ -385,11 +395,12 @@ export type CompanyWhereUniqueInput = Prisma.AtLeast<{
   products?: Prisma.ProductListRelationFilter
   store?: Prisma.XOR<Prisma.StoreNullableScalarRelationFilter, Prisma.StoreWhereInput> | null
   tickets?: Prisma.TicketListRelationFilter
-}, "id" | "name">
+}, "id" | "name" | "slug">
 
 export type CompanyOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   companyType?: Prisma.SortOrderInput | Prisma.SortOrder
   legalName?: Prisma.SortOrderInput | Prisma.SortOrder
   taxId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -415,6 +426,7 @@ export type CompanyScalarWhereWithAggregatesInput = {
   NOT?: Prisma.CompanyScalarWhereWithAggregatesInput | Prisma.CompanyScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Company"> | string
   name?: Prisma.StringWithAggregatesFilter<"Company"> | string
+  slug?: Prisma.StringWithAggregatesFilter<"Company"> | string
   companyType?: Prisma.EnumCompanyTypeNullableWithAggregatesFilter<"Company"> | $Enums.CompanyType | null
   legalName?: Prisma.StringNullableWithAggregatesFilter<"Company"> | string | null
   taxId?: Prisma.StringNullableWithAggregatesFilter<"Company"> | string | null
@@ -434,13 +446,14 @@ export type CompanyScalarWhereWithAggregatesInput = {
 export type CompanyCreateInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -480,13 +493,14 @@ export type CompanyCreateInput = {
 export type CompanyUncheckedCreateInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -526,13 +540,14 @@ export type CompanyUncheckedCreateInput = {
 export type CompanyUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -572,13 +587,14 @@ export type CompanyUpdateInput = {
 export type CompanyUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -618,13 +634,14 @@ export type CompanyUncheckedUpdateInput = {
 export type CompanyCreateManyInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -637,13 +654,14 @@ export type CompanyCreateManyInput = {
 export type CompanyUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -655,13 +673,14 @@ export type CompanyUpdateManyMutationInput = {
 export type CompanyUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -694,6 +713,7 @@ export type CompanyOrderByRelationAggregateInput = {
 export type CompanyCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   companyType?: Prisma.SortOrder
   legalName?: Prisma.SortOrder
   taxId?: Prisma.SortOrder
@@ -713,6 +733,7 @@ export type CompanyCountOrderByAggregateInput = {
 export type CompanyMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   companyType?: Prisma.SortOrder
   legalName?: Prisma.SortOrder
   taxId?: Prisma.SortOrder
@@ -729,6 +750,7 @@ export type CompanyMaxOrderByAggregateInput = {
 export type CompanyMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   companyType?: Prisma.SortOrder
   legalName?: Prisma.SortOrder
   taxId?: Prisma.SortOrder
@@ -1175,13 +1197,14 @@ export type CompanyUpdateOneWithoutTicketsNestedInput = {
 export type CompanyCreateWithoutActiveUsersInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -1220,13 +1243,14 @@ export type CompanyCreateWithoutActiveUsersInput = {
 export type CompanyUncheckedCreateWithoutActiveUsersInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -1281,13 +1305,14 @@ export type CompanyUpdateToOneWithWhereWithoutActiveUsersInput = {
 export type CompanyUpdateWithoutActiveUsersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -1326,13 +1351,14 @@ export type CompanyUpdateWithoutActiveUsersInput = {
 export type CompanyUncheckedUpdateWithoutActiveUsersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -1371,13 +1397,14 @@ export type CompanyUncheckedUpdateWithoutActiveUsersInput = {
 export type CompanyCreateWithoutUsersInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -1416,13 +1443,14 @@ export type CompanyCreateWithoutUsersInput = {
 export type CompanyUncheckedCreateWithoutUsersInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -1477,13 +1505,14 @@ export type CompanyUpdateToOneWithWhereWithoutUsersInput = {
 export type CompanyUpdateWithoutUsersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -1522,13 +1551,14 @@ export type CompanyUpdateWithoutUsersInput = {
 export type CompanyUncheckedUpdateWithoutUsersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -1567,13 +1597,14 @@ export type CompanyUncheckedUpdateWithoutUsersInput = {
 export type CompanyCreateWithoutRolesInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -1612,13 +1643,14 @@ export type CompanyCreateWithoutRolesInput = {
 export type CompanyUncheckedCreateWithoutRolesInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -1673,13 +1705,14 @@ export type CompanyUpdateToOneWithWhereWithoutRolesInput = {
 export type CompanyUpdateWithoutRolesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -1718,13 +1751,14 @@ export type CompanyUpdateWithoutRolesInput = {
 export type CompanyUncheckedUpdateWithoutRolesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -1763,13 +1797,14 @@ export type CompanyUncheckedUpdateWithoutRolesInput = {
 export type CompanyCreateWithoutCustomersInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -1808,13 +1843,14 @@ export type CompanyCreateWithoutCustomersInput = {
 export type CompanyUncheckedCreateWithoutCustomersInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -1869,13 +1905,14 @@ export type CompanyUpdateToOneWithWhereWithoutCustomersInput = {
 export type CompanyUpdateWithoutCustomersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -1914,13 +1951,14 @@ export type CompanyUpdateWithoutCustomersInput = {
 export type CompanyUncheckedUpdateWithoutCustomersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -1959,13 +1997,14 @@ export type CompanyUncheckedUpdateWithoutCustomersInput = {
 export type CompanyCreateWithoutCustomerTypesInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -2004,13 +2043,14 @@ export type CompanyCreateWithoutCustomerTypesInput = {
 export type CompanyUncheckedCreateWithoutCustomerTypesInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -2065,13 +2105,14 @@ export type CompanyUpdateToOneWithWhereWithoutCustomerTypesInput = {
 export type CompanyUpdateWithoutCustomerTypesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -2110,13 +2151,14 @@ export type CompanyUpdateWithoutCustomerTypesInput = {
 export type CompanyUncheckedUpdateWithoutCustomerTypesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -2155,13 +2197,14 @@ export type CompanyUncheckedUpdateWithoutCustomerTypesInput = {
 export type CompanyCreateWithoutAccountsInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -2200,13 +2243,14 @@ export type CompanyCreateWithoutAccountsInput = {
 export type CompanyUncheckedCreateWithoutAccountsInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -2261,13 +2305,14 @@ export type CompanyUpdateToOneWithWhereWithoutAccountsInput = {
 export type CompanyUpdateWithoutAccountsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -2306,13 +2351,14 @@ export type CompanyUpdateWithoutAccountsInput = {
 export type CompanyUncheckedUpdateWithoutAccountsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -2351,13 +2397,14 @@ export type CompanyUncheckedUpdateWithoutAccountsInput = {
 export type CompanyCreateWithoutPaymentEventsInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -2396,13 +2443,14 @@ export type CompanyCreateWithoutPaymentEventsInput = {
 export type CompanyUncheckedCreateWithoutPaymentEventsInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -2457,13 +2505,14 @@ export type CompanyUpdateToOneWithWhereWithoutPaymentEventsInput = {
 export type CompanyUpdateWithoutPaymentEventsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -2502,13 +2551,14 @@ export type CompanyUpdateWithoutPaymentEventsInput = {
 export type CompanyUncheckedUpdateWithoutPaymentEventsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -2547,13 +2597,14 @@ export type CompanyUncheckedUpdateWithoutPaymentEventsInput = {
 export type CompanyCreateWithoutCategoriesInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -2592,13 +2643,14 @@ export type CompanyCreateWithoutCategoriesInput = {
 export type CompanyUncheckedCreateWithoutCategoriesInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -2653,13 +2705,14 @@ export type CompanyUpdateToOneWithWhereWithoutCategoriesInput = {
 export type CompanyUpdateWithoutCategoriesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -2698,13 +2751,14 @@ export type CompanyUpdateWithoutCategoriesInput = {
 export type CompanyUncheckedUpdateWithoutCategoriesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -2743,13 +2797,14 @@ export type CompanyUncheckedUpdateWithoutCategoriesInput = {
 export type CompanyCreateWithoutItemsInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -2788,13 +2843,14 @@ export type CompanyCreateWithoutItemsInput = {
 export type CompanyUncheckedCreateWithoutItemsInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -2849,13 +2905,14 @@ export type CompanyUpdateToOneWithWhereWithoutItemsInput = {
 export type CompanyUpdateWithoutItemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -2894,13 +2951,14 @@ export type CompanyUpdateWithoutItemsInput = {
 export type CompanyUncheckedUpdateWithoutItemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -2939,13 +2997,14 @@ export type CompanyUncheckedUpdateWithoutItemsInput = {
 export type CompanyCreateWithoutInvoicesInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -2984,13 +3043,14 @@ export type CompanyCreateWithoutInvoicesInput = {
 export type CompanyUncheckedCreateWithoutInvoicesInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -3045,13 +3105,14 @@ export type CompanyUpdateToOneWithWhereWithoutInvoicesInput = {
 export type CompanyUpdateWithoutInvoicesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -3090,13 +3151,14 @@ export type CompanyUpdateWithoutInvoicesInput = {
 export type CompanyUncheckedUpdateWithoutInvoicesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -3135,13 +3197,14 @@ export type CompanyUncheckedUpdateWithoutInvoicesInput = {
 export type CompanyCreateWithoutEstimatesInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -3180,13 +3243,14 @@ export type CompanyCreateWithoutEstimatesInput = {
 export type CompanyUncheckedCreateWithoutEstimatesInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -3241,13 +3305,14 @@ export type CompanyUpdateToOneWithWhereWithoutEstimatesInput = {
 export type CompanyUpdateWithoutEstimatesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -3286,13 +3351,14 @@ export type CompanyUpdateWithoutEstimatesInput = {
 export type CompanyUncheckedUpdateWithoutEstimatesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -3331,13 +3397,14 @@ export type CompanyUncheckedUpdateWithoutEstimatesInput = {
 export type CompanyCreateWithoutCreditMemosInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -3376,13 +3443,14 @@ export type CompanyCreateWithoutCreditMemosInput = {
 export type CompanyUncheckedCreateWithoutCreditMemosInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -3437,13 +3505,14 @@ export type CompanyUpdateToOneWithWhereWithoutCreditMemosInput = {
 export type CompanyUpdateWithoutCreditMemosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -3482,13 +3551,14 @@ export type CompanyUpdateWithoutCreditMemosInput = {
 export type CompanyUncheckedUpdateWithoutCreditMemosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -3527,13 +3597,14 @@ export type CompanyUncheckedUpdateWithoutCreditMemosInput = {
 export type CompanyCreateWithoutSalesReceiptsInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -3572,13 +3643,14 @@ export type CompanyCreateWithoutSalesReceiptsInput = {
 export type CompanyUncheckedCreateWithoutSalesReceiptsInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -3633,13 +3705,14 @@ export type CompanyUpdateToOneWithWhereWithoutSalesReceiptsInput = {
 export type CompanyUpdateWithoutSalesReceiptsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -3678,13 +3751,14 @@ export type CompanyUpdateWithoutSalesReceiptsInput = {
 export type CompanyUncheckedUpdateWithoutSalesReceiptsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -3723,13 +3797,14 @@ export type CompanyUncheckedUpdateWithoutSalesReceiptsInput = {
 export type CompanyCreateWithoutRefundReceiptsInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -3768,13 +3843,14 @@ export type CompanyCreateWithoutRefundReceiptsInput = {
 export type CompanyUncheckedCreateWithoutRefundReceiptsInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -3829,13 +3905,14 @@ export type CompanyUpdateToOneWithWhereWithoutRefundReceiptsInput = {
 export type CompanyUpdateWithoutRefundReceiptsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -3874,13 +3951,14 @@ export type CompanyUpdateWithoutRefundReceiptsInput = {
 export type CompanyUncheckedUpdateWithoutRefundReceiptsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -3919,13 +3997,14 @@ export type CompanyUncheckedUpdateWithoutRefundReceiptsInput = {
 export type CompanyCreateWithoutDelayedChargesInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -3964,13 +4043,14 @@ export type CompanyCreateWithoutDelayedChargesInput = {
 export type CompanyUncheckedCreateWithoutDelayedChargesInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -4025,13 +4105,14 @@ export type CompanyUpdateToOneWithWhereWithoutDelayedChargesInput = {
 export type CompanyUpdateWithoutDelayedChargesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -4070,13 +4151,14 @@ export type CompanyUpdateWithoutDelayedChargesInput = {
 export type CompanyUncheckedUpdateWithoutDelayedChargesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -4115,13 +4197,14 @@ export type CompanyUncheckedUpdateWithoutDelayedChargesInput = {
 export type CompanyCreateWithoutDelayedCreditsInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -4160,13 +4243,14 @@ export type CompanyCreateWithoutDelayedCreditsInput = {
 export type CompanyUncheckedCreateWithoutDelayedCreditsInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -4221,13 +4305,14 @@ export type CompanyUpdateToOneWithWhereWithoutDelayedCreditsInput = {
 export type CompanyUpdateWithoutDelayedCreditsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -4266,13 +4351,14 @@ export type CompanyUpdateWithoutDelayedCreditsInput = {
 export type CompanyUncheckedUpdateWithoutDelayedCreditsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -4311,13 +4397,14 @@ export type CompanyUncheckedUpdateWithoutDelayedCreditsInput = {
 export type CompanyCreateWithoutPaymentsInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -4356,13 +4443,14 @@ export type CompanyCreateWithoutPaymentsInput = {
 export type CompanyUncheckedCreateWithoutPaymentsInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -4417,13 +4505,14 @@ export type CompanyUpdateToOneWithWhereWithoutPaymentsInput = {
 export type CompanyUpdateWithoutPaymentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -4462,13 +4551,14 @@ export type CompanyUpdateWithoutPaymentsInput = {
 export type CompanyUncheckedUpdateWithoutPaymentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -4507,13 +4597,14 @@ export type CompanyUncheckedUpdateWithoutPaymentsInput = {
 export type CompanyCreateWithoutTransactionsInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -4552,13 +4643,14 @@ export type CompanyCreateWithoutTransactionsInput = {
 export type CompanyUncheckedCreateWithoutTransactionsInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -4613,13 +4705,14 @@ export type CompanyUpdateToOneWithWhereWithoutTransactionsInput = {
 export type CompanyUpdateWithoutTransactionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -4658,13 +4751,14 @@ export type CompanyUpdateWithoutTransactionsInput = {
 export type CompanyUncheckedUpdateWithoutTransactionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -4703,13 +4797,14 @@ export type CompanyUncheckedUpdateWithoutTransactionsInput = {
 export type CompanyCreateWithoutProductsInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -4748,13 +4843,14 @@ export type CompanyCreateWithoutProductsInput = {
 export type CompanyUncheckedCreateWithoutProductsInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -4809,13 +4905,14 @@ export type CompanyUpdateToOneWithWhereWithoutProductsInput = {
 export type CompanyUpdateWithoutProductsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -4854,13 +4951,14 @@ export type CompanyUpdateWithoutProductsInput = {
 export type CompanyUncheckedUpdateWithoutProductsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -4899,13 +4997,14 @@ export type CompanyUncheckedUpdateWithoutProductsInput = {
 export type CompanyCreateWithoutStoreInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -4944,13 +5043,14 @@ export type CompanyCreateWithoutStoreInput = {
 export type CompanyUncheckedCreateWithoutStoreInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -5005,13 +5105,14 @@ export type CompanyUpdateToOneWithWhereWithoutStoreInput = {
 export type CompanyUpdateWithoutStoreInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -5050,13 +5151,14 @@ export type CompanyUpdateWithoutStoreInput = {
 export type CompanyUncheckedUpdateWithoutStoreInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -5095,13 +5197,14 @@ export type CompanyUncheckedUpdateWithoutStoreInput = {
 export type CompanyCreateWithoutEmailTemplatesInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -5140,13 +5243,14 @@ export type CompanyCreateWithoutEmailTemplatesInput = {
 export type CompanyUncheckedCreateWithoutEmailTemplatesInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -5201,13 +5305,14 @@ export type CompanyUpdateToOneWithWhereWithoutEmailTemplatesInput = {
 export type CompanyUpdateWithoutEmailTemplatesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -5246,13 +5351,14 @@ export type CompanyUpdateWithoutEmailTemplatesInput = {
 export type CompanyUncheckedUpdateWithoutEmailTemplatesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -5291,13 +5397,14 @@ export type CompanyUncheckedUpdateWithoutEmailTemplatesInput = {
 export type CompanyCreateWithoutFilesInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -5336,13 +5443,14 @@ export type CompanyCreateWithoutFilesInput = {
 export type CompanyUncheckedCreateWithoutFilesInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -5397,13 +5505,14 @@ export type CompanyUpdateToOneWithWhereWithoutFilesInput = {
 export type CompanyUpdateWithoutFilesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -5442,13 +5551,14 @@ export type CompanyUpdateWithoutFilesInput = {
 export type CompanyUncheckedUpdateWithoutFilesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -5487,13 +5597,14 @@ export type CompanyUncheckedUpdateWithoutFilesInput = {
 export type CompanyCreateWithoutCustomFieldsInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -5532,13 +5643,14 @@ export type CompanyCreateWithoutCustomFieldsInput = {
 export type CompanyUncheckedCreateWithoutCustomFieldsInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -5593,13 +5705,14 @@ export type CompanyUpdateToOneWithWhereWithoutCustomFieldsInput = {
 export type CompanyUpdateWithoutCustomFieldsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -5638,13 +5751,14 @@ export type CompanyUpdateWithoutCustomFieldsInput = {
 export type CompanyUncheckedUpdateWithoutCustomFieldsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -5683,13 +5797,14 @@ export type CompanyUncheckedUpdateWithoutCustomFieldsInput = {
 export type CompanyCreateWithoutJournalEntryInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -5728,13 +5843,14 @@ export type CompanyCreateWithoutJournalEntryInput = {
 export type CompanyUncheckedCreateWithoutJournalEntryInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -5789,13 +5905,14 @@ export type CompanyUpdateToOneWithWhereWithoutJournalEntryInput = {
 export type CompanyUpdateWithoutJournalEntryInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -5834,13 +5951,14 @@ export type CompanyUpdateWithoutJournalEntryInput = {
 export type CompanyUncheckedUpdateWithoutJournalEntryInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -5879,13 +5997,14 @@ export type CompanyUncheckedUpdateWithoutJournalEntryInput = {
 export type CompanyCreateWithoutTaxRatesInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -5924,13 +6043,14 @@ export type CompanyCreateWithoutTaxRatesInput = {
 export type CompanyUncheckedCreateWithoutTaxRatesInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -5985,13 +6105,14 @@ export type CompanyUpdateToOneWithWhereWithoutTaxRatesInput = {
 export type CompanyUpdateWithoutTaxRatesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -6030,13 +6151,14 @@ export type CompanyUpdateWithoutTaxRatesInput = {
 export type CompanyUncheckedUpdateWithoutTaxRatesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -6075,13 +6197,14 @@ export type CompanyUncheckedUpdateWithoutTaxRatesInput = {
 export type CompanyCreateWithoutSubsidiariesInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -6120,13 +6243,14 @@ export type CompanyCreateWithoutSubsidiariesInput = {
 export type CompanyUncheckedCreateWithoutSubsidiariesInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -6170,13 +6294,14 @@ export type CompanyCreateOrConnectWithoutSubsidiariesInput = {
 export type CompanyCreateWithoutParentCompanyInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -6215,13 +6340,14 @@ export type CompanyCreateWithoutParentCompanyInput = {
 export type CompanyUncheckedCreateWithoutParentCompanyInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -6281,13 +6407,14 @@ export type CompanyUpdateToOneWithWhereWithoutSubsidiariesInput = {
 export type CompanyUpdateWithoutSubsidiariesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -6326,13 +6453,14 @@ export type CompanyUpdateWithoutSubsidiariesInput = {
 export type CompanyUncheckedUpdateWithoutSubsidiariesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -6390,6 +6518,7 @@ export type CompanyScalarWhereInput = {
   NOT?: Prisma.CompanyScalarWhereInput | Prisma.CompanyScalarWhereInput[]
   id?: Prisma.StringFilter<"Company"> | string
   name?: Prisma.StringFilter<"Company"> | string
+  slug?: Prisma.StringFilter<"Company"> | string
   companyType?: Prisma.EnumCompanyTypeNullableFilter<"Company"> | $Enums.CompanyType | null
   legalName?: Prisma.StringNullableFilter<"Company"> | string | null
   taxId?: Prisma.StringNullableFilter<"Company"> | string | null
@@ -6409,13 +6538,14 @@ export type CompanyScalarWhereInput = {
 export type CompanyCreateWithoutTicketsInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -6454,13 +6584,14 @@ export type CompanyCreateWithoutTicketsInput = {
 export type CompanyUncheckedCreateWithoutTicketsInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -6515,13 +6646,14 @@ export type CompanyUpdateToOneWithWhereWithoutTicketsInput = {
 export type CompanyUpdateWithoutTicketsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -6560,13 +6692,14 @@ export type CompanyUpdateWithoutTicketsInput = {
 export type CompanyUncheckedUpdateWithoutTicketsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -6605,13 +6738,14 @@ export type CompanyUncheckedUpdateWithoutTicketsInput = {
 export type CompanyCreateManyParentCompanyInput = {
   id?: string
   name: string
+  slug: string
   companyType?: $Enums.CompanyType | null
   legalName?: string | null
   taxId?: string | null
   email?: string | null
   phone?: string | null
   website?: string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: string | null
   isActive?: boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -6623,13 +6757,14 @@ export type CompanyCreateManyParentCompanyInput = {
 export type CompanyUpdateWithoutParentCompanyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -6668,13 +6803,14 @@ export type CompanyUpdateWithoutParentCompanyInput = {
 export type CompanyUncheckedUpdateWithoutParentCompanyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -6713,13 +6849,14 @@ export type CompanyUncheckedUpdateWithoutParentCompanyInput = {
 export type CompanyUncheckedUpdateManyWithoutParentCompanyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   companyType?: Prisma.NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
   legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?:unknown | Prisma.NullableJsonNullValueInput
+  address?:PrismaJson.Address | Prisma.NullableJsonNullValueInput
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   settings?:unknown | Prisma.NullableJsonNullValueInput
@@ -6987,6 +7124,7 @@ export type CompanyCountOutputTypeCountTicketsArgs<ExtArgs extends runtime.Types
 export type CompanySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  slug?: boolean
   companyType?: boolean
   legalName?: boolean
   taxId?: boolean
@@ -7035,6 +7173,7 @@ export type CompanySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 export type CompanySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  slug?: boolean
   companyType?: boolean
   legalName?: boolean
   taxId?: boolean
@@ -7055,6 +7194,7 @@ export type CompanySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type CompanySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  slug?: boolean
   companyType?: boolean
   legalName?: boolean
   taxId?: boolean
@@ -7075,6 +7215,7 @@ export type CompanySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type CompanySelectScalar = {
   id?: boolean
   name?: boolean
+  slug?: boolean
   companyType?: boolean
   legalName?: boolean
   taxId?: boolean
@@ -7091,7 +7232,7 @@ export type CompanySelectScalar = {
   updatedAt?: boolean
 }
 
-export type CompanyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "companyType" | "legalName" | "taxId" | "email" | "phone" | "website" | "address" | "logo" | "isActive" | "settings" | "metadata" | "parentCompanyId" | "createdAt" | "updatedAt", ExtArgs["result"]["company"]>
+export type CompanyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "slug" | "companyType" | "legalName" | "taxId" | "email" | "phone" | "website" | "address" | "logo" | "isActive" | "settings" | "metadata" | "parentCompanyId" | "createdAt" | "updatedAt", ExtArgs["result"]["company"]>
 export type CompanyInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   parentCompany?: boolean | Prisma.Company$parentCompanyArgs<ExtArgs>
   subsidiaries?: boolean | Prisma.Company$subsidiariesArgs<ExtArgs>
@@ -7165,13 +7306,17 @@ export type $CompanyPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     name: string
+    slug: string
     companyType: $Enums.CompanyType | null
     legalName: string | null
     taxId: string | null
     email: string | null
     phone: string | null
     website: string | null
-    address:unknown | null
+    /**
+     * [Address]
+     */
+    address:PrismaJson.Address | null
     logo: string | null
     isActive: boolean
     settings:unknown | null
@@ -7632,6 +7777,7 @@ export interface Prisma__CompanyClient<T, Null = never, ExtArgs extends runtime.
 export interface CompanyFieldRefs {
   readonly id: Prisma.FieldRef<"Company", 'String'>
   readonly name: Prisma.FieldRef<"Company", 'String'>
+  readonly slug: Prisma.FieldRef<"Company", 'String'>
   readonly companyType: Prisma.FieldRef<"Company", 'CompanyType'>
   readonly legalName: Prisma.FieldRef<"Company", 'String'>
   readonly taxId: Prisma.FieldRef<"Company", 'String'>

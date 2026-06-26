@@ -2,8 +2,8 @@
 
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { auth } from '@/lib/auth';
-import { PaymentStatus } from '@/lib/generated/prisma/client';
+import { getSessionWithCompany } from '@/lib/auth';
+import { PaymentStatus } from '@/lib/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
 
 export type InvoiceSelectData = {
@@ -35,18 +35,18 @@ export async function getInvoiceById(
   id: string
 ): Promise<SingleInvoiceResponse> {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
     const invoice = await prisma.invoice.findUnique({
       where: {
         id,
-        companyId: session.user.companyId,
+        companyId: session.user.activeCompanyId,
         isActive: true
       },
       select: {
@@ -74,17 +74,17 @@ export async function getInvoicesForSelect(
   search?: string
 ): Promise<InvoiceResponse> {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
     const invoices = await prisma.invoice.findMany({
       where: {
-        companyId: session.user.companyId,
+        companyId: session.user.activeCompanyId,
         isActive: true,
         OR: search
           ? [

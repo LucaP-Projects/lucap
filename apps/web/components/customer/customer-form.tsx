@@ -7,7 +7,8 @@ import { Contact2, MapPinIcon, SquarePen } from 'lucide-react';
 import { createCustomer, sparseUpdateCustomer, getFullCustomer } from '@/app/(app)/[company-slug]/(dashboards)/customers/actions';
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { Customer, CustomerPreferredPaymentMethod } from '@/lib/generated/prisma/client';
+import { Customer } from '@/lib/generated/prisma/browser';
+import type { CustomerPreferredPaymentMethod } from '@/lib/generated/prisma/enums';
 import { CreateCustomerDTO, CustomerFormData } from '@/types/customer';
 import { CustomerSchema } from '@/validation/customer/customer.schema';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '../ui/accordion';
@@ -28,10 +29,9 @@ interface CustomerFormProps {
 export function CustomerForm({
   type,
   customerId,
-  defaultValues,
   onSuccess
 }: CustomerFormProps) {
-  const form = useForm<CustomerFormData>({
+  const form = useForm({
     resolver: zodResolver(CustomerSchema),
     defaultValues: {
       title: '',
@@ -102,7 +102,6 @@ export function CustomerForm({
     'suffix',
     'companyName'
   ]);
-  const displayName = form.watch('displayName');
   const parentId = form.watch('parentId');
 
   useEffect(() => {
@@ -206,11 +205,6 @@ export function CustomerForm({
   };
   const displayNames = updateDisplayName();
 
-  const handleDisplayNameChange = (value: string | undefined) => {
-    form.setValue('displayName', value ?? '');
-    // add the same value to the printOnCheckName field if it's matches
-    form.setValue('printOnCheckName', value);
-  };
 
   return (
     <Form {...form}>
@@ -234,7 +228,7 @@ export function CustomerForm({
                     <Controller
                       control={form.control}
                       name="title"
-                      render={({ field, fieldState }) => (
+                      render={({ field }) => (
                         <Field>
                           <FieldLabel className="text-xs" htmlFor="title">
                             Title
@@ -253,7 +247,7 @@ export function CustomerForm({
                     <Controller
                       control={form.control}
                       name="givenName"
-                      render={({ field, fieldState }) => (
+                      render={({ field }) => (
                         <Field>
                           <FieldLabel className="text-xs" htmlFor="givenName">
                             First name
@@ -272,7 +266,7 @@ export function CustomerForm({
                     <Controller
                       control={form.control}
                       name="middleName"
-                      render={({ field, fieldState }) => (
+                      render={({ field }) => (
                         <Field>
                           <FieldLabel className="text-xs" htmlFor="middleName">
                             Middle name
@@ -294,7 +288,7 @@ export function CustomerForm({
                     <Controller
                       control={form.control}
                       name="familyName"
-                      render={({ field, fieldState }) => (
+                      render={({ field }) => (
                         <Field>
                           <FieldLabel className="text-xs" htmlFor="familyName">
                             Last name
@@ -316,7 +310,7 @@ export function CustomerForm({
                     <Controller
                       control={form.control}
                       name="suffix"
-                      render={({ field, fieldState }) => (
+                      render={({ field }) => (
                         <Field>
                           <FieldLabel className="text-xs" htmlFor="suffix">
                             Suffix
@@ -336,7 +330,7 @@ export function CustomerForm({
                   <Controller
                     control={form.control}
                     name="companyName"
-                    render={({ field, fieldState }) => (
+                    render={({ field }) => (
                       <Field>
                         <FieldLabel className="text-xs" htmlFor="companyName">
                           Company name

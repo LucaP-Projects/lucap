@@ -6,8 +6,8 @@ import {
   CreditStatus,
   DiscountApplicationTime,
   DiscountType
-} from '@/lib/generated/prisma/client';
-import { delayedCreditFormSchema, DelayedCreditFormValues } from './schema';
+} from '@/lib/generated/prisma/browser';
+import { delayedCreditFormSchema } from './schema';
 
 interface CreditFormProps {
   mode?: 'create' | 'edit';
@@ -18,14 +18,14 @@ export function useCreditForm({
   mode = 'create',
   initialData
 }: CreditFormProps) {
-  const formMethods = useForm<DelayedCreditFormValues>({
+  const formMethods = useForm({
     mode: 'onChange',
     resolver: zodResolver(delayedCreditFormSchema),
     shouldUnregister: false,
     defaultValues: {
       status: initialData?.status ?? CreditStatus.PENDING,
       customerId: initialData?.customer?.id ?? '',
-      ccEmail: initialData?.paymentEventSnapshot?.cc ?? '',
+      ccEmail: initialData?.paymentEventSnapshot?.cc || '',
       files:
         initialData?.attachments?.map((att: any) => ({
           id: att.id,

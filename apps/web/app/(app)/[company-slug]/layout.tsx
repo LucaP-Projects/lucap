@@ -1,4 +1,4 @@
-import { cookies, headers } from 'next/headers';
+import { headers } from 'next/headers';
 import { getLocale } from 'next-intl/server';
 import { getUserCompanies } from '@/components/company/select/actions';
 import { Company } from '@/components/company/select/types';
@@ -21,18 +21,10 @@ export default async function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await auth.api.getSession({headers: await headers()});
-  const cookieStore = await cookies();
+  const session = await auth.api.getSession({ headers: await headers() });
   const locale = await getLocale();
-  const sidebarState = cookieStore.get('sidebar:state')?.value;
-  //* get sidebar width from cookie
-  const sidebarWidth = cookieStore.get('sidebar:width')?.value;
 
-  let defaultOpen = true;
 
-  if (sidebarState) {
-    defaultOpen = sidebarState === 'true';
-  }
   const companies: Company[] = session ? await getUserCompanies() : [];
 
   if (!session) {

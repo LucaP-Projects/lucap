@@ -1,6 +1,6 @@
 // prisma/seeds/types/userTypes.ts
 import { hash } from 'bcrypt';
-import { SystemRole } from '@/lib/generated/prisma/client';
+import { SystemRole } from '@/lib/generated/prisma/enums';
 import { SeedModule } from '../types';
 
 import { prisma } from '../utils';

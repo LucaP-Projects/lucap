@@ -7,7 +7,8 @@ import { toast } from 'sonner';
 import { Input } from '@/components/ui/input';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { TaxRate, TaxType } from '@/lib/generated/prisma/client';
+import type { TaxRate } from '@/lib/generated/prisma/browser';
+import { TaxType } from '@/lib/generated/prisma/enums';
 import { handleNumberInput } from '@/lib/utils';
 import { Field, FieldError, FieldLabel } from '../ui/field';
 import { createTax, updateTax } from './action';
@@ -38,7 +39,7 @@ export function TaxForm({
   editData
 }: TaxFormProps) {
   const router = useRouter();
-  const form = useForm<TaxFormValues>({
+  const form = useForm({
     resolver: zodResolver(taxFormSchema),
     defaultValues: {
       name: editData?.name || '',

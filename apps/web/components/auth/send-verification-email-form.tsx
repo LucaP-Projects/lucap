@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { SubmitEvent, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import { sendVerificationEmail } from '@/utils/auth-client';
+import authClient  from '@/lib/auth-client';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
@@ -13,19 +13,17 @@ export const SendVerificationEmailForm = () => {
   const [isPending, setIsPending] = useState(false);
   const router = useRouter();
 
-  async function handleSubmit(evt: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(evt: SubmitEvent<HTMLFormElement>) {
     evt.preventDefault();
     const formData = new FormData(evt.currentTarget);
     const email = String(formData.get('email'));
 
     if (!email)
-      return toast({
-        title: 'Error',
-        variant: 'destructive',
+      return toast.error('Error', {
         description: 'Email is required.'
       });
 
-    await sendVerificationEmail({
+    await authClient.sendVerificationEmail({
       email,
       callbackURL: '/verify',
       fetchOptions: {
@@ -35,17 +33,13 @@ export const SendVerificationEmailForm = () => {
         onResponse: () => {
           setIsPending(false);
         },
-        onError: (ctx) => {
-          toast({
-            title: 'Error',
-            variant: 'destructive',
+        onError: () => {
+          toast.error('Error', {
             description: 'Failed to send verification email.'
           });
         },
         onSuccess: () => {
-          toast({
-            title: 'Success',
-            variant: 'default',
+          toast.success('Success', {
             description: 'Verification email sent successfully.'
           });
           router.push('/verify/success');

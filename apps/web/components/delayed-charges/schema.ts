@@ -3,29 +3,20 @@ import {
   ChargeStatus,
   DiscountApplicationTime,
   DiscountType
-} from '@/lib/generated/prisma/client';
+} from '@/lib/generated/prisma/enums';
 import { addressSchema } from '../invoice/schema';
 
-const delayedChargeItemSchema = z.object({
-  id: z.string(),
-  productName: z.string().min(1, 'Product name is required'),
-  description: z.string().optional(),
-  quantity: z.number().min(0.01, 'Quantity must be greater than 0'),
-  rate: z.number().min(0.01, 'Rate must be greater than 0'),
-  taxable: z.boolean().default(true)
-});
-
 export const delayedChargeFormSchema = z.object({
-  status: z.nativeEnum(ChargeStatus).default(ChargeStatus.PENDING),
+  status: z.enum(ChargeStatus).default(ChargeStatus.PENDING),
   customerId: z.string().min(1, 'Customer is required'),
   amount: z.number(),
   dueDate: z.date({
-    required_error: 'Due date is required'
+    error: 'Due date is required'
   }),
   notes: z.string().optional(),
-  discountType: z.nativeEnum(DiscountType).nullable(),
+  discountType: z.enum(DiscountType).nullable(),
   discountValue: z.number(),
-  discountApplicationTime: z.nativeEnum(DiscountApplicationTime),
+  discountApplicationTime: z.enum(DiscountApplicationTime),
   files: z.array(
     z.object({
       id: z.string(),
@@ -38,10 +29,9 @@ export const delayedChargeFormSchema = z.object({
       key: z.string().optional()
     })
   ),
-  emailCustomer: z.string().email('Invalid email format'),
+  emailCustomer: z.email('Invalid email format'),
 
   ccEmail: z
-    .string()
     .email('Invalid email format')
     .optional()
     .or(z.literal(''))

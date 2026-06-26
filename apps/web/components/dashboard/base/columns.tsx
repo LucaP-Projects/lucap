@@ -12,10 +12,10 @@ import {
   getSalesReceiptById,
   getRefundReceiptById,
   getCreditMemoById
-} from '@/app/(finance)/(dashboards)/pdf/[id]/actions';
+} from '@/app/(app)/[company-slug]/(dashboards)/pdf/[id]/actions';
 import { useInvoiceRefresh } from '@/components/dashboard/invoices/useInvoiceRefresh';
-import { PaymentFormData } from '@/components/payment-event/invoices/invoice-list';
 import InvoicePaymentSheet from '@/components/payment-event/invoices/invoice-payment-sheet';
+import { PaymentFormData } from '@/components/payment-event/invoices/types';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -35,7 +35,7 @@ import {
   CreditStatus,
   PaymentStatus,
   PaymentMethod
-} from '@/lib/generated/prisma/client';
+} from '@/lib/generated/prisma/enums';
 import { mapInvoiceDataForPdf } from '@/utils/invoicePdfMapper';
 
 export type EntityStatus =
@@ -93,7 +93,7 @@ export const formatStatus = (status: EntityStatus): string =>
   status.charAt(0) + status.slice(1).toLowerCase().replace(/_/g, ' ');
 
 export const getStatusColor = (status: EntityStatus): string => {
-  const baseColors: Record<string, string> = {
+  const baseColors: Record<EntityStatus, string> = {
     DRAFT: 'bg-gray-500 hover:bg-gray-600',
     PENDING: 'bg-yellow-500 hover:bg-yellow-600',
     SENT: 'bg-blue-500 hover:bg-blue-600',
@@ -110,7 +110,11 @@ export const getStatusColor = (status: EntityStatus): string => {
     CREDITED: 'bg-green-500 hover:bg-green-600',
     PAID: 'bg-green-500 hover:bg-green-600',
     OVERDUE: 'bg-red-500 hover:bg-red-600',
-    PARTIAL: 'bg-blue-500 hover:bg-blue-600'
+    PARTIAL: 'bg-blue-500 hover:bg-blue-600',
+    ISSUED: 'bg-gray-500 hover:bg-gray-600',
+    VOIDED: 'bg-gray-500 hover:bg-gray-600',
+    CANCELED: 'bg-red-500 hover:bg-red-600',
+    INVOICED: 'bg-blue-500 hover:bg-blue-600'
   };
 
   return baseColors[status] || 'bg-gray-500 hover:bg-gray-600';
@@ -218,8 +222,7 @@ const ActionsCell = ({ row, config }: { row: any; config: EntityConfig }) => {
     }
   };
 
-  const openPaymentSheet = async (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const openPaymentSheet = async () => {
     setLoading(true);
     try {
       const result = await refreshInvoiceStatus(item.id);

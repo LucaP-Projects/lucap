@@ -1,5 +1,3 @@
-import { headers } from 'next/headers';
-import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -9,10 +7,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import { auth } from '@/lib/auth';
+import { auth, getSessionWithCompany } from '@/lib/auth';
 
 export async function User() {
-  const session = await auth.api.getSession({headers: await headers()});
+  const session = await getSessionWithCompany();
   const user = session?.user;
 
   return (
@@ -39,7 +37,7 @@ export async function User() {
         <DropdownMenuItem>Settings</DropdownMenuItem>
         <DropdownMenuItem>Support</DropdownMenuItem>
         <DropdownMenuSeparator />
-        {user ? (
+        {user && (
           <DropdownMenuItem>
             <form
               action={async () => {
@@ -49,10 +47,6 @@ export async function User() {
             >
               <button type="submit">Sign Out</button>
             </form>
-          </DropdownMenuItem>
-        ) : (
-          <DropdownMenuItem>
-            <Link href="/login">Sign In</Link>
           </DropdownMenuItem>
         )}
       </DropdownMenuContent>

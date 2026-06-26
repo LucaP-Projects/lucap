@@ -30,8 +30,8 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
-import { CompanyType } from '@/lib/generated/prisma/client';
-import { EditCompanyInput, editCompanySchema, CompanyResponse } from '../types';
+import { CompanyType } from '@/lib/generated/prisma/enums';
+import {  editCompanySchema, CompanyResponse } from '../types';
 import { editCompany, getCompany } from './actions';
 
 interface Props {
@@ -44,7 +44,7 @@ export function EditCompanyForm({ companyId }: Props) {
   const [company, setCompany] = useState<CompanyResponse | null>(null);
   const router = useRouter();
 
-  const form = useForm<EditCompanyInput>({
+  const form = useForm({
     resolver: zodResolver(editCompanySchema),
     defaultValues: {
       id: companyId,
@@ -56,7 +56,8 @@ export function EditCompanyForm({ companyId }: Props) {
       website: '',
       logo: undefined, // Change to undefined to handle File objects properly
       address: {
-        street: '',
+        line1: '',
+        line2: '',
         city: '',
         state: '',
         postalCode: '',
@@ -90,11 +91,12 @@ export function EditCompanyForm({ companyId }: Props) {
           website: company.website || '',
           logo: undefined, // Don't set the URL here, let ImageUpload handle it
           address: {
-            street: (company.address as any)?.street || '',
-            city: (company.address as any)?.city || '',
-            state: (company.address as any)?.state || '',
-            postalCode: (company.address as any)?.postalCode || '',
-            country: (company.address as any)?.country || ''
+            line1: company.address?.line1 || '',
+            line2: company.address?.line2 || '',
+            city: company.address?.city || '',
+            state: company.address?.state || '',
+            postalCode: company.address?.postalCode || '',
+            country: company.address?.country || ''
           }
         });
       } catch (error) {
@@ -127,7 +129,7 @@ export function EditCompanyForm({ companyId }: Props) {
 
   if (isLoading) {
     return (
-      <div className="flex min-h-[400px] items-center justify-center">
+      <div className="flex min-h-100 items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin" />
       </div>
     );
@@ -313,7 +315,7 @@ export function EditCompanyForm({ companyId }: Props) {
               <div className="grid gap-4">
                 <Controller
                   control={form.control}
-                  name="address.street"
+                  name="address.line1"
                   render={({ field: streetField, fieldState }) => (
                     <Field>
                       <FieldLabel>Street Address</FieldLabel>
@@ -322,6 +324,25 @@ export function EditCompanyForm({ companyId }: Props) {
                           {...streetField}
                           value={streetField.value || ''}
                           placeholder="123 Main St"
+                        />
+                        {fieldState.error && (
+                          <FieldError errors={[fieldState.error]} />
+                        )}
+                      </FieldContent>
+                    </Field>
+                  )}
+                />
+                <Controller
+                  control={form.control}
+                  name="address.line2"
+                  render={({ field: street2Field, fieldState }) => (
+                    <Field>
+                      <FieldLabel>Street Address 2</FieldLabel>
+                      <FieldContent>
+                        <Input
+                          {...street2Field}
+                          value={street2Field.value || ''}
+                          placeholder="Apt, Suite, etc. (optional)"
                         />
                         {fieldState.error && (
                           <FieldError errors={[fieldState.error]} />

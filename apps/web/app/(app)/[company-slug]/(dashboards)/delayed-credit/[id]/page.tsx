@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { getCurrentCompany } from '@/components/base/company/actions';
+import { getCurrentCompanyForInvoice } from '@/components/base/company/actions';
 import { getDelayedCredit } from '@/components/delayed-credits/actions';
 import { DelayedCreditForm } from '@/components/delayed-credits/main';
 interface EditDelayedCreditPageProps {
@@ -15,7 +15,7 @@ export default async function EditDelayedCreditPage({
 
   const [result, company] = await Promise.all([
     getDelayedCredit(pageParams.id),
-    getCurrentCompany()
+    getCurrentCompanyForInvoice()
   ]);
   if (!result.success) {
     notFound();

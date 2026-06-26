@@ -1,19 +1,19 @@
 'use client';
 
 import { useCallback, createContext, useContext, useState } from 'react';
-import { PaymentStatus } from '@/lib/generated/prisma/client';
+import { PaymentStatus } from '@/lib/generated/prisma/enums';
 import { getInvoiceStats } from './actions';
 
 // Define the context type
 interface InvoiceRefreshContextType {
-  refreshInvoiceStatus: (invoiceId: string) => void;
+  refreshInvoiceStatus: (invoiceId: string, newStatus?: PaymentStatus) => void;
   getRefreshedStatus: (invoiceId: string) => PaymentStatus | null;
   refreshStats: () => Promise<void>;
 }
 
 // Create the context with a default value
 const InvoiceRefreshContext = createContext<InvoiceRefreshContextType>({
-  refreshInvoiceStatus: (invoiceId: string) => {},
+  refreshInvoiceStatus: (invoiceId: string, newStatus?: PaymentStatus) => {},
   getRefreshedStatus: (invoiceId: string) => null,
   refreshStats: async () => {}
 });
@@ -33,26 +33,6 @@ export function InvoiceRefreshProvider({
     Record<string, PaymentStatus>
   >({});
 
-  // Function to update the status of a specific invoice
-  const refreshInvoiceStatus = useCallback(
-    (invoiceId: string, newStatus: PaymentStatus) => {
-      setRefreshedStatuses((prev) => ({
-        ...prev,
-        [invoiceId]: newStatus
-      }));
-
-      // After status changes, refresh stats
-      refreshStats();
-    },
-    []
-  );
-
-  // Function to get the updated status if available
-  const getRefreshedStatus = useCallback(
-    (invoiceId: string) => refreshedStatuses[invoiceId] || null,
-    [refreshedStatuses]
-  );
-
   // Function to fetch and refresh stats - fixed to match the Promise<void> return type
   const refreshStats = useCallback(async () => {
     try {
@@ -66,6 +46,27 @@ export function InvoiceRefreshProvider({
     }
   }, [onStatsRefreshed]);
 
+  // Function to update the status of a specific invoice
+  const refreshInvoiceStatus = useCallback(
+    (invoiceId: string, newStatus?: PaymentStatus) => {
+      if (!newStatus) return;
+      setRefreshedStatuses((prev) => ({
+        ...prev,
+        [invoiceId]: newStatus
+      }));
+
+      // After status changes, refresh stats
+      refreshStats();
+    },
+    [refreshStats]
+  );
+
+  // Function to get the updated status if available
+  const getRefreshedStatus = useCallback(
+    (invoiceId: string) => refreshedStatuses[invoiceId] || null,
+    [refreshedStatuses]
+  );
+  
   // Provide the context value
   return (
     <InvoiceRefreshContext.Provider

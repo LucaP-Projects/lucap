@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { ColorName } from '@/components/base/sideBar/color/types';
-import { DiscountApplicationTime, DiscountType } from '@/lib/generated/prisma/client';
+import { DiscountApplicationTime, DiscountType } from '@/lib/generated/prisma/browser';
 import { useSidebarStore } from '@/stores/useSidePaper';
 import { invoiceFormSchema, InvoiceFormValues } from './schema';
 import { InvoiceFormProps } from './types';
@@ -45,7 +45,7 @@ export function useInvoiceForm({
       });
     }
   }, [initialData, setSelectedColor, setCustomizationSettings]);
-  const formMethods = useForm<InvoiceFormValues>({
+  const formMethods = useForm({
     mode: 'onChange',
     resolver: zodResolver(invoiceFormSchema),
     shouldUnregister: false,

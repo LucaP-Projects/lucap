@@ -8,7 +8,7 @@ interface ReturnButtonProps {
 }
 
 export const ReturnButton = ({ href, label }: ReturnButtonProps) => (
-    <Button size="sm" asChild>
+    <Button variant="link" size="sm" asChild>
       <Link href={href}>
         <ArrowLeftIcon /> <span>{label}</span>
       </Link>

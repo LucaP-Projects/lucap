@@ -4,7 +4,7 @@ import {
   DiscountApplicationTime,
   DiscountType,
   PaymentMethod
-} from '@/lib/generated/prisma/client';
+} from '@/lib/generated/prisma/enums';
 
 declare global {
   namespace PrismaJson {

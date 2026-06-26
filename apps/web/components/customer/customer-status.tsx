@@ -1,4 +1,4 @@
-import { PaymentStatus } from '@/lib/generated/prisma/client';
+import type { PaymentStatus } from '@/lib/generated/prisma/enums';
 import { Badge } from '../ui/badge';
 
 export function CustomerStatus({ status }: { status: PaymentStatus }) {

@@ -2,9 +2,10 @@
 
 import { Decimal } from 'decimal.js';
 import { revalidatePath } from 'next/cache';
+import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { auth } from '@/lib/auth';
-import { Prisma } from '@/lib/generated/prisma/client';
+import { getSessionWithCompany } from '@/lib/auth';
+import * as Prisma from '@/lib/generated/prisma/internal/prismaNamespace';
 import { prisma } from '@/lib/prisma';
 import { generateUniqueNumber } from '@/lib/utils';
 import { CustomizationSettingsInput } from '../base/sideBar/customize/types';
@@ -16,7 +17,6 @@ import {
   CreateEstimateResponse,
   UpdateEstimateData
 } from './types';
-import { headers } from 'next/headers';
 
 type EstimateStatus =
   | 'DRAFT'
@@ -111,19 +111,19 @@ export async function createEstimate(
   color: string
 ): Promise<CreateEstimateResponse> {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
     const estimate = await prisma.$transaction(async (tx) => {
       const estimateNumber = `EST-${generateUniqueNumber()}`;
 
       await Promise.all([
-        validateCustomer(tx, data.customerId, session.user.companyId),
-        validateEstimateNumber(tx, estimateNumber, session.user.companyId)
+        validateCustomer(tx, data.customerId, session.user.activeCompanyId),
+        validateEstimateNumber(tx, estimateNumber, session.user.activeCompanyId)
       ]);
 
       const totalBeforeTax = validateItems(data.items);
@@ -146,7 +146,7 @@ export async function createEstimate(
         const tax = await tx.taxRate.findUnique({
           where: {
             id: data.taxId,
-            companyId: session.user.companyId,
+            companyId: session.user.activeCompanyId,
             status: 'ACTIVE'
           }
         });
@@ -175,7 +175,7 @@ export async function createEstimate(
       // Create estimate with all fields
       const estimate = await tx.estimate.create({
         data: {
-          companyId: session.user.companyId,
+          companyId: session.user.activeCompanyId,
           number: estimateNumber,
           customerId: data.customerId,
           status: data.status,
@@ -204,7 +204,7 @@ export async function createEstimate(
               type: 'individual',
               address: data.customerAddress
             },
-            type: 'Estimate',
+            type: 'ESTIMATE',
             cc: data.ccEmail,
             snapshotTimestamp: new Date().toISOString(),
             amount: totalAmount,
@@ -250,7 +250,7 @@ export async function createEstimate(
               mimetype: file.file.type,
               size: file.file.size,
               purpose: 'estimate_attachment',
-              companyId: session.user.companyId
+              companyId: session.user.activeCompanyId
             }
           });
 
@@ -284,11 +284,11 @@ export async function updateEstimate(
   color: string
 ): Promise<CreateEstimateResponse> {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
     // Validate that we have required data
@@ -297,10 +297,10 @@ export async function updateEstimate(
     }
 
     const estimate = await prisma.$transaction(async (tx) => {
-      await validateCustomer(tx, data.customerId, session.user.companyId);
+      await validateCustomer(tx, data.customerId, session.user.activeCompanyId);
 
       const existingEstimate = await tx.estimate.findUnique({
-        where: { id, companyId: session.user.companyId },
+        where: { id, companyId: session.user.activeCompanyId },
         include: { items: true, attachments: { include: { file: true } } }
       });
 
@@ -325,7 +325,7 @@ export async function updateEstimate(
         const tax = await tx.taxRate.findUnique({
           where: {
             id: data.taxId,
-            companyId: session.user.companyId,
+            companyId: session.user.activeCompanyId,
             status: 'ACTIVE'
           }
         });
@@ -430,7 +430,7 @@ export async function updateEstimate(
               mimetype: file.file.type,
               size: file.file.size,
               purpose: 'estimate_attachment',
-              companyId: session.user.companyId
+              companyId: session.user.activeCompanyId
             }
           });
 
@@ -459,15 +459,15 @@ export async function updateEstimate(
 
 export async function convertEstimateToInvoice(estimateId: string) {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
     const estimate = await prisma.estimate.findUnique({
-      where: { id: estimateId, companyId: session.user.companyId },
+      where: { id: estimateId, companyId: session.user.activeCompanyId },
       include: {
         items: true,
         attachments: true
@@ -485,7 +485,7 @@ export async function convertEstimateToInvoice(estimateId: string) {
       // Create new invoice from estimate data
       const invoice = await tx.invoice.create({
         data: {
-          companyId: session.user.companyId,
+          companyId: session.user.activeCompanyId,
           number: `IN-EST-${estimate.number.split('-')[1]}`,
           customerId: estimate.customerId,
           dueDate: estimate.dueDate,
@@ -583,15 +583,15 @@ export async function convertEstimateToInvoice(estimateId: string) {
 
 export async function getEstimate(id: string) {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
     const estimate = await prisma.estimate.findUnique({
-      where: { id, companyId: session.user.companyId },
+      where: { id, companyId: session.user.activeCompanyId },
       include: {
         items: true,
         attachments: {

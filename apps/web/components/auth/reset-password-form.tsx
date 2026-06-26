@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import { resetPassword } from '@/utils/auth-client';
+import { authClient } from '@/lib/auth-client';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
@@ -30,7 +30,7 @@ export const ResetPasswordForm = ({ token }: ResetPasswordFormProps) => {
       return toast.error('Passwords do not match.');
     }
 
-    await resetPassword({
+    await authClient.resetPassword({
       newPassword: password,
       token,
       fetchOptions: {

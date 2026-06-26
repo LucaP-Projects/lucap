@@ -1,4 +1,4 @@
-import { cn } from "@lucapacioli.com.tn/ui"
+import { cn } from "@/lib/utils";
 
 interface DashboardHeaderProps {
   heading: string

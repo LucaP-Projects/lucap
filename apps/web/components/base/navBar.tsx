@@ -1,10 +1,10 @@
 import { memo, useCallback, useEffect, useRef } from 'react';
-import debounce from 'lodash';
 import { useFormContext } from 'react-hook-form';
 
 import { LucideIcon, PenLine, CreditCard, Mail, FileText, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useDebounce } from '@/hooks/use-debounce';
 import { cn } from '@/lib/utils';
 import { useFormCacheStore } from '@/stores/useInvoice';
 import { useSidebarStore } from '@/stores/useSidePaper';
@@ -18,11 +18,11 @@ const NAV_ITEMS: Array<{
   label: string;
   icon: LucideIcon;
 }> = [
-  { value: 'form', label: 'Edit', icon: PenLine },
-  { value: 'payor', label: 'Payor View', icon: CreditCard },
-  { value: 'email', label: 'Email View', icon: Mail },
-  { value: 'pdf', label: 'PDF View', icon: FileText }
-];
+    { value: 'form', label: 'Edit', icon: PenLine },
+    { value: 'payor', label: 'Payor View', icon: CreditCard },
+    { value: 'email', label: 'Email View', icon: Mail },
+    { value: 'pdf', label: 'PDF View', icon: FileText }
+  ];
 
 const MemoizedNavigation = memo(() => {
   const { getValues, watch } = useFormContext<InvoiceFormValues>();
@@ -35,13 +35,11 @@ const MemoizedNavigation = memo(() => {
   );
   const shouldCache = useRef(false);
 
-  const debouncedCacheUpdate = useRef(
-    debounce.debounce((currentValues: InvoiceFormValues) => {
-      if (shouldCache.current) {
-        setCachedFormData(currentValues);
-      }
-    }, 500)
-  ).current;
+  const debouncedCacheUpdate = useDebounce((currentValues: InvoiceFormValues) => {
+    if (shouldCache.current) {
+      setCachedFormData(currentValues);
+    }
+  }, 500);
 
   useEffect(() => {
     shouldCache.current = true;
@@ -56,7 +54,6 @@ const MemoizedNavigation = memo(() => {
     return () => {
       shouldCache.current = false;
       subscription.unsubscribe();
-      debouncedCacheUpdate.cancel();
     };
   }, [watch, getValues, debouncedCacheUpdate, activeView]);
 
@@ -66,20 +63,13 @@ const MemoizedNavigation = memo(() => {
 
       if (activeView === 'form') {
         // Cancel pending debounced updates
-        debouncedCacheUpdate.cancel();
         // Immediately save current values
         setCachedFormData(getValues());
       }
 
       setActiveView(newView);
     },
-    [
-      activeView,
-      getValues,
-      setActiveView,
-      setCachedFormData,
-      debouncedCacheUpdate
-    ]
+    [activeView, getValues, setActiveView, setCachedFormData]
   );
   const handleSidebarToggle = useCallback(() => {
     setIsSidebarOpen(!isSidebarOpen);

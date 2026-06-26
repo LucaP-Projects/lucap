@@ -1,23 +1,14 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { cookies, headers } from 'next/headers';
+import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { handleCompanyLogo } from '@/components/shared/utils';
-import { auth } from '@/lib/auth';
-import { Permission, Prisma, SystemRole } from '@/lib/generated/prisma/client';
+import { getSessionWithCompany } from '@/lib/auth';
+import { Permission,  SystemRole } from '@/lib/generated/prisma/enums';
+import * as Prisma from '@/lib/generated/prisma/internal/prismaNamespace';
 import { prisma } from '@/lib/prisma';
-import { createCompanySchema, CreateCompanyInput } from '../types';
-
-export type CreateCompanyResponse = {
-  success: boolean;
-  data?: {
-    id: string;
-    name: string;
-    slug: string;
-  };
-  error?: string;
-};
+import {  CreateCompanyInput } from '../types';
 
 function slugify(value: string) {
   return value
@@ -26,27 +17,6 @@ function slugify(value: string) {
     .replace(/[^a-z0-9\s-]/g, '')
     .replace(/\s+/g, '-')
     .replace(/-+/g, '-');
-}
-
-function nullIfBlank(value: string | undefined) {
-  if (!value) return null;
-  const trimmed = value.trim();
-  return trimmed.length > 0 ? trimmed : null;
-}
-
-function normalizeAddress(address: CreateCompanyInput['address']) {
-  if (!address) return null;
-
-  const normalized = {
-    street: nullIfBlank(address.street),
-    city: nullIfBlank(address.city),
-    state: nullIfBlank(address.state),
-    postalCode: nullIfBlank(address.postalCode),
-    country: nullIfBlank(address.country),
-  };
-
-  const hasAnyValue = Object.values(normalized).some((value) => value !== null);
-  return hasAnyValue ? normalized : null;
 }
   
 async function seedCompanyAccounts(
@@ -107,9 +77,9 @@ async function seedCompanyAccounts(
 
 export async function createCompany(
   data: CreateCompanyInput
-): Promise<CreateCompanyResponse> {
+) {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
@@ -126,9 +96,12 @@ export async function createCompany(
 
     const result = await prisma.$transaction(async (tx) => {
       // Create company with logo if it's a URL string
-      const companyData = {
+
+      const company = await tx.company.create({
+        data: {
         name: data.name,
         companyType: data.companyType || null,
+        slug: slugify(data.name),
         email: data.email || null,
         taxId: data.taxId || null,
         phone: data.phone || null,
@@ -137,10 +110,7 @@ export async function createCompany(
         logo: typeof data.logo === 'string' ? data.logo : null,
         isActive: true,
         metadata: {}
-      };
-
-      const company = await tx.company.create({
-        data: companyData
+      }
       });
 
       const adminRole = await tx.role.create({
@@ -154,7 +124,7 @@ export async function createCompany(
       });
 
       // Create user-company relationship with explicit ID verification
-      const userCompany = await tx.userCompany.create({
+      await tx.userCompany.create({
         data: {
           userId: user.id,
           companyId: company.id,
@@ -165,31 +135,19 @@ export async function createCompany(
       });
 
       // Update user's active company
-      const updatedUser = await tx.user.update({
+      await tx.user.update({
         where: { id: user.id },
         data: { activeCompanyId: company.id }
       });
 
-      // Verify the relationship was created correctly
-      const verifyRelation = await tx.userCompany.findUnique({
-        where: {
-          userId_companyId: {
-            userId: user.id,
-            companyId: company.id
-          }
-        }
-      });
-
-      if (!verifyRelation) {
-        throw new Error('Failed to create user-company relationship');
-      }
+   
 
       // Seed company accounts from templates
       try {
         await seedCompanyAccounts(company.id, tx);
       } catch (seedError) {
         console.error('Failed to seed company accounts:', seedError);
-        throw new Error('Failed to create company accounts structure');
+        throw new Error('Failed to create company accounts structure', { cause: seedError });
       }
 
       return { company, adminRole };
@@ -227,21 +185,6 @@ export async function createCompany(
         };
       }
     }
-    // Update session with complete company information
-    await unstable_update({
-      companyId: result.company.id,
-      companyRole: result.adminRole.name,
-      permissions: result.adminRole.permissions,
-      isAdmin: true,
-      availableCompanies: [
-        {
-          companyId: result.company.id,
-          companyRole: result.adminRole.name,
-          isAdmin: true,
-          permissions: result.adminRole.permissions
-        }
-      ]
-    });
 
     revalidatePath('/', 'layout');
     revalidatePath('/companies', 'page');
@@ -283,3 +226,4 @@ export async function createCompany(
     return { success: false, error: 'Failed to create company' };
   }
 }
+export type CreateCompanyResponse = ReturnType<typeof createCompany>;

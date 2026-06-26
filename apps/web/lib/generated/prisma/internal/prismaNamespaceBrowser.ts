@@ -1297,6 +1297,7 @@ export type TaxRateScalarFieldEnum = (typeof TaxRateScalarFieldEnum)[keyof typeo
 export const CompanyScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  slug: 'slug',
   companyType: 'companyType',
   legalName: 'legalName',
   taxId: 'taxId',

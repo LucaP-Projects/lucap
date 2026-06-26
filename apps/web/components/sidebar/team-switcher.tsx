@@ -10,7 +10,7 @@ import { ChevronsUpDown, Plus, Building2 } from 'lucide-react';
 import { selectCompany } from '@/components/company/select/actions';
 import { Company } from '@/components/company/select/types';
 import {
-    DropdownMenu,
+  DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
@@ -37,17 +37,10 @@ export function TeamSwitcher({ companies }: { companies: Company[] }) {
   const router = useRouter();
   const { data: session, refetch: updateSession } = authClient.useSession();
 
-  const currentCompanyId = session?.user?.companyId || '';
+  const currentCompanyId = session?.user?.activeCompanyId || '';
   const selectedCompany = companies.find(
     (company) => company.id === currentCompanyId
   );
-
-  React.useEffect(() => {
-    if (session?.user && !session.user.companyId && companies?.length > 0) {
-      handleSelectCompany(companies[0].id);
-    }
-  }, [session?.user, companies]);
-
   const handleSelectCompany = async (companyId: string) => {
     if (!companyId || companyId === currentCompanyId || isPending) return;
 
@@ -66,6 +59,11 @@ export function TeamSwitcher({ companies }: { companies: Company[] }) {
       }
     });
   };
+  React.useEffect(() => {
+    if (session?.user && !session.user.activeCompanyId && companies?.length > 0) {
+      handleSelectCompany((companies[0] as Company).id);
+    }
+  }, [session?.user, companies]);
 
   if (!companies || companies.length === 0) {
     return (
@@ -156,25 +154,23 @@ export function TeamSwitcher({ companies }: { companies: Company[] }) {
                   <DropdownMenuLabel className="text-muted-foreground text-xs">
                     Companies
                   </DropdownMenuLabel>
-                  {companies.map((company, index) => {
+                  {companies.map((company) => {
                     const isSelected = company.id === currentCompanyId;
                     return (
                       <DropdownMenuItem
                         key={company.id}
                         onClick={() => handleSelectCompany(company.id)}
-                        className={`gap-2 p-2 transition-colors ${
-                          isSelected
+                        className={`gap-2 p-2 transition-colors ${isSelected
                             ? 'bg-accent text-accent-foreground font-medium'
                             : 'hover:bg-accent/50'
-                        }`}
+                          }`}
                         disabled={isPending}
                       >
                         <div
-                          className={`flex size-6 items-center justify-center rounded-sm border ${
-                            isSelected
+                          className={`flex size-6 items-center justify-center rounded-sm border ${isSelected
                               ? 'border-primary bg-primary/10'
                               : 'border-border'
-                          }`}
+                            }`}
                         >
                           {company.logo ? (
                             <img
@@ -184,17 +180,15 @@ export function TeamSwitcher({ companies }: { companies: Company[] }) {
                             />
                           ) : (
                             <Building2
-                              className={`size-4 shrink-0 ${
-                                isSelected ? 'text-primary' : ''
-                              }`}
+                              className={`size-4 shrink-0 ${isSelected ? 'text-primary' : ''
+                                }`}
                             />
                           )}
                         </div>
                         <div className="flex flex-1 flex-col">
                           <span
-                            className={`font-medium ${
-                              isSelected ? 'text-primary' : ''
-                            }`}
+                            className={`font-medium ${isSelected ? 'text-primary' : ''
+                              }`}
                           >
                             {company.name}
                             {isSelected && (
@@ -205,11 +199,10 @@ export function TeamSwitcher({ companies }: { companies: Company[] }) {
                           </span>
                           {company.isAdmin && (
                             <span
-                              className={`text-xs ${
-                                isSelected
+                              className={`text-xs ${isSelected
                                   ? 'text-primary/70'
                                   : 'text-muted-foreground'
-                              }`}
+                                }`}
                             >
                               (Admin)
                             </span>

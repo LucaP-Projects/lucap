@@ -6,15 +6,15 @@ import {
   DiscountApplicationTime,
   DiscountType,
   EstimateStatus
-} from '@/lib/generated/prisma/client';
-import { estimateFormSchema, EstimateFormValues } from './schema';
+} from '@/lib/generated/prisma/enums';
+import { estimateFormSchema } from './schema';
 import { EstimateFormProps } from './types';
 
 export function useEstimateForm({
   mode = 'create',
   initialData
 }: EstimateFormProps) {
-  const formMethods = useForm<EstimateFormValues>({
+  const formMethods = useForm({
     mode: 'onChange',
     resolver: zodResolver(estimateFormSchema),
     shouldUnregister: false,

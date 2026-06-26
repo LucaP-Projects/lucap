@@ -1,6 +1,6 @@
 // lib/payment-schedule.ts
 import { format } from 'date-fns';
-import { PaymentStatus } from '@/lib/generated/prisma/client';
+import { PaymentStatus } from '@/lib/generated/prisma/enums';
 
 export function getBaseScheduleInfo(baseSchedule: any) {
   const scheduleInfo = [];

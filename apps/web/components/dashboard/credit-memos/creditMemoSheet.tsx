@@ -18,7 +18,7 @@ import {
 } from '@/components/dashboard/base/baseSheet';
 import { STATUS_COLORS } from '@/components/dashboard/base/utils';
 import { Badge } from '@/components/ui/badge';
-import { CreditMemoStatus, CreditMemoReason } from '@/lib/generated/prisma/client';
+import type { CreditMemoStatus, CreditMemoReason } from '@/lib/generated/prisma/enums';
 import { formatCurrency, formatDate } from '@/lib/utils';
 
 interface CreditMemoItem {

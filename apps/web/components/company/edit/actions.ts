@@ -3,8 +3,9 @@
 import { revalidatePath } from 'next/cache';
 import { headers } from 'next/headers';
 import { handleCompanyLogo } from '@/components/shared/utils';
-import { auth } from '@/lib/auth';
-import { Prisma } from '@/lib/generated/prisma/client';
+import { getSessionWithCompany } from '@/lib/auth';
+import { CompanyUpdateInput } from '@/lib/generated/prisma/internal/prismaNamespace';
+import { PrismaClientKnownRequestError } from '@/lib/generated/prisma/internal/prismaNamespace';
 import { prisma } from '@/lib/prisma';
 import { EditCompanyInput } from '../types';
 
@@ -16,7 +17,7 @@ export type EditCompanyResponse = {
 
 export async function getCompany(companyId: string) {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       return { success: false, error: 'Not authenticated' };
     }
@@ -64,7 +65,7 @@ export async function editCompany(
   data: EditCompanyInput
 ): Promise<EditCompanyResponse> {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       return { success: false, error: 'Not authenticated' };
     }
@@ -85,9 +86,9 @@ export async function editCompany(
 
     const result = await prisma.$transaction(async (tx) => {
       // Update company information including logo if it's a URL string
-      const updateData: Prisma.CompanyUpdateInput = {
+      const updateData: CompanyUpdateInput = {
         name: data.name,
-        companyType: data.companyType || null,
+        companyType: data.companyType,
         email: data.email || null,
         taxId: data.taxId || null,
         phone: data.phone || null,
@@ -144,7 +145,7 @@ export async function editCompany(
       stack: error instanceof Error ? error.stack : undefined
     });
 
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+    if (error instanceof PrismaClientKnownRequestError) {
       switch (error.code) {
         case 'P2002': {
           const field = (error.meta?.target as string[])?.[0];

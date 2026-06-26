@@ -1,8 +1,7 @@
 'use server';
 
-import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { auth } from '@/lib/auth';
+import { getSessionWithCompany } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 
 export type AccountSelectData = {
@@ -138,16 +137,16 @@ export async function getAccountsForSelect(
   search?: string
 ): Promise<AccountResponse> {
   try {
-    const session = await auth.api.getSession({ headers: await headers() });
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
     const accounts = await getAccountsWithHierarchy(
-      session.user.companyId,
+      session.user.activeCompanyId,
       search
     );
     return { success: true, data: accounts };

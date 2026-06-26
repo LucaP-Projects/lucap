@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, useTransition } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
@@ -31,12 +32,12 @@ export default function NavCompanySelector({
 
   const router = useRouter();
   const { data: session, refetch: updateSession } = authClient.useSession();
-  const currentCompanyId = session?.user?.companyId || '';
+  const currentCompanyId = session?.user?.activeCompanyId || '';
   const sidebar = useStore(useSidebar, (x) => x);
   console.log(session);
   useEffect(() => {
-    if (session?.user && !session.user.companyId && companies?.length > 0) {
-      handleSelectCompany(companies?.[0]?.id);
+    if (session?.user && !session.user.activeCompanyId && companies?.length > 0) {
+      handleSelectCompany(companies![0]!.id);
     }
   }, [session?.user, companies]);
 
@@ -96,7 +97,7 @@ export default function NavCompanySelector({
       <SelectTrigger
         className={cn(
           'bg-secondary/50 h-10 transition-all duration-200',
-          isOpen ? 'flex w-full text-center' : 'w-full max-w-[64px]'
+          isOpen ? 'flex w-full text-center' : 'w-full max-w-16'
         )}
         disabled={isPending}
       >
@@ -104,10 +105,12 @@ export default function NavCompanySelector({
           {selectedCompany ? (
             <div className="flex items-center gap-2 overflow-hidden">
               {selectedCompany.logo ? (
-                <img
+                <Image
                   src={selectedCompany.logo}
                   alt={selectedCompany.name}
                   className="bg-background h-6 w-6 shrink-0 rounded-full p-0.5"
+                  width={24}
+                  height={24}
                 />
               ) : (
                 <div className="bg-primary/10 text-primary flex h-6 w-6 shrink-0 items-center justify-center rounded-full font-medium">
@@ -146,7 +149,7 @@ export default function NavCompanySelector({
       </SelectTrigger>
       <SelectContent
         key={currentCompanyId}
-        className="min-w-[180px]"
+        className="min-w-45"
         style={{ zIndex: 1000 }}
         position="popper"
         sideOffset={5}
@@ -156,10 +159,12 @@ export default function NavCompanySelector({
           <SelectItem key={company.id} value={company.id} disabled={isPending}>
             <div className="flex items-center gap-2">
               {company.logo && (
-                <img
+                <Image
                   src={company.logo}
                   alt={company.name}
                   className="h-4 w-4 rounded-full"
+                  width={16}
+                  height={16}
                 />
               )}
               <span>{company.name}</span>

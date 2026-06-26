@@ -1,4 +1,4 @@
-import { Permission, SystemRole } from '@/lib/generated/prisma/client';
+import { Permission, SystemRole } from '@/lib/generated/prisma/enums';
 import type { SeedModule } from '../types';
 import { prisma } from '../utils/seedUtils';
 
@@ -13,6 +13,7 @@ const seedCompany: SeedModule = {
         name: 'Default Company',
         email: 'company@example.com',
         isActive: true,
+        slug: 'default-company',
         // Create roles along with the company
         roles: {
           create: [

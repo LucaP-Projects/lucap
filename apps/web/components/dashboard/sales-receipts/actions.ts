@@ -1,9 +1,11 @@
 'use server';
 import { startOfDay, endOfDay } from 'date-fns';
 import { revalidatePath } from 'next/cache';
-import { auth } from '@/lib/auth';
-import { db } from '@/lib/db';
-import { ReceiptStatus, Prisma, PaymentMethod } from '@/lib/generated/prisma/client';
+import { getSessionWithCompany } from '@/lib/auth';
+import { ReceiptStatus,  PaymentMethod } from '@/lib/generated/prisma/enums';
+import * as Prisma from '@/lib/generated/prisma/internal/prismaNamespace';
+
+import { prisma } from '@/lib/prisma';
 
 export type SalesReceiptFilters = {
   status?: ReceiptStatus | undefined;
@@ -108,8 +110,8 @@ export async function getSalesReceiptsPage(
   }
 
   const [total, salesReceipts] = await Promise.all([
-    db.salesReceipt.count({ where }),
-    db.salesReceipt.findMany({
+    prisma.salesReceipt.count({ where }),
+    prisma.salesReceipt.findMany({
       where,
       include: {
         customer: {
@@ -141,15 +143,15 @@ export async function getSalesReceiptStats() {
   try {
     const [totalCount, totals, statusBreakdown, paymentMethodBreakdown] =
       await Promise.all([
-        db.salesReceipt.count({ where: { isActive: true } }),
-        db.salesReceipt.aggregate({
+        prisma.salesReceipt.count({ where: { isActive: true } }),
+        prisma.salesReceipt.aggregate({
           where: { isActive: true },
           _sum: {
             taxAmount: true,
             amount: true
           }
         }),
-        db.salesReceipt.groupBy({
+        prisma.salesReceipt.groupBy({
           where: { isActive: true },
           by: ['status'],
           _count: true,
@@ -157,7 +159,7 @@ export async function getSalesReceiptStats() {
             amount: true
           }
         }),
-        db.salesReceipt.groupBy({
+        prisma.salesReceipt.groupBy({
           where: { isActive: true },
           by: ['paymentMethod'],
           _count: true,
@@ -205,14 +207,14 @@ export async function getSalesReceiptStats() {
     };
   } catch (error) {
     console.error('Error fetching sales receipt stats:', error);
-    throw new Error('Failed to fetch sales receipt statistics');
+    throw new Error('Failed to fetch sales receipt statistics', { cause: error });
   }
 }
 
 export async function getSalesReceiptDetails(
   id: string
 ): Promise<SalesReceiptWithRelations | null> {
-  return db.salesReceipt.findUnique({
+  return prisma.salesReceipt.findUnique({
     where: {
       id,
       isActive: true
@@ -265,7 +267,7 @@ export async function deleteSalesReceipts(
 
   try {
     // Get the current session for user ID
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       return {
         success: false,

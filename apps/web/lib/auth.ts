@@ -4,6 +4,7 @@ import { createAuthMiddleware, APIError } from 'better-auth/api';
 import { nextCookies } from 'better-auth/next-js';
 import { admin, customSession, magicLink } from 'better-auth/plugins';
 import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
 
 import {
   sendVerificationEmail,
@@ -14,7 +15,6 @@ import { prisma } from '@/lib/prisma';
 import { hashPassword, verifyPassword } from '@/utils/argon2';
 import { ac, roles } from '@/utils/permissions';
 import { normalizeName, verifyUserEmail } from '@/utils/utils';
-import { UserCompany } from './generated/prisma/client';
 
 const options: BetterAuthOptions = {
   baseURL:
@@ -32,7 +32,6 @@ const options: BetterAuthOptions = {
       // Ensure we have an absolute URL
       const baseUrl =
         process.env.BETTER_AUTH_URL ||
-
         'http://localhost:3000';
       const absoluteUrl = url.startsWith('http')
         ? url
@@ -174,7 +173,7 @@ export const auth = betterAuth({
   ...options,
   plugins: [
     ...(options.plugins ?? []),
-    customSession(async ({ user, session }: { user: any; session: any }) => {
+    customSession(async ({ user, session }) => {
       const dbUser = await prisma.user.findUnique({
         where: { id: user.id },
         include: {
@@ -185,7 +184,8 @@ export const auth = betterAuth({
                 select: {
                   id: true,
                   name: true,
-                  logo: true
+                  logo: true,
+                  slug: true
                 }
               },
               role: {
@@ -209,7 +209,8 @@ export const auth = betterAuth({
         isAdmin: uc.isAdmin,
         permissions: uc.role.permissions,
         name: uc.company.name,
-        logo: uc.company.logo
+        logo: uc.company.logo,
+        slug: uc.company.slug
       }));
 
       const activeCompany = userCompanies.find(
@@ -235,13 +236,13 @@ export const auth = betterAuth({
           image: user.image ?? null,
           createdAt: user.createdAt,
           updatedAt: user.updatedAt,
-          role: user.role || 'USER', // Use the user's system role, not company role
+          role: dbUser.role, 
           permissions: activeCompany?.permissions ?? [],
-          companyId: dbUser.activeCompanyId,
-          availableCompanies: userCompanies,
           companyRole: activeCompany?.companyRole ?? null,
           isAdmin: activeCompany?.isAdmin ?? false,
-          activeCompanyId: dbUser.activeCompanyId
+          availableCompanies: userCompanies,
+          activeCompanyId: dbUser?.activeCompanyId ?? undefined,
+          activeCompany: activeCompany || null,
         }
       };
     }, options),
@@ -250,7 +251,7 @@ export const auth = betterAuth({
 });
 
 export async function getCurrentCompany() {
-  const session = await auth.api.getSession({headers: await headers()});
+  const session = await getSessionWithCompany();
 
   if (!session?.user) {
     return null;
@@ -267,6 +268,32 @@ export async function getCurrentCompany() {
   );
 
   return activeCompany || false;
+}
+
+export async function getSessionWithCompany() {
+  const session = await auth.api.getSession({headers: await headers()});
+
+  if (!session?.user) {
+    return redirect('/login');
+  }
+
+  // Use activeCompanyId which is more consistent
+  if (!session.user.activeCompanyId) {
+    return redirect('/select-company');
+  }
+  if (!session.user.availableCompanies.length) {
+    return redirect('/select-company');
+  
+  }
+  // Find the active company from available companies
+  const activeCompany = session.user.availableCompanies.find(
+    (company) => company.companyId === session.user.activeCompanyId
+  );
+
+  return {
+    ...{...session, user: {...session.user, activeCompanyId: session.user.activeCompanyId, id: session.user.id}},
+    activeCompany: activeCompany || null
+  };
 }
 
 export type ErrorCode = keyof typeof auth.$ERROR_CODES | 'UNKNOWN';

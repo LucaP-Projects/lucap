@@ -3,7 +3,7 @@ import {
   DiscountType,
   CreditMemoStatus,
   CreditMemoReason
-} from '@/lib/generated/prisma/client';
+} from '@/lib/generated/prisma/enums';
 import { CompanyInfo, FileWithPreview } from '../invoice/types';
 
 export type CreditMemo = {

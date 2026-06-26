@@ -24,7 +24,6 @@ export const nextJsConfig = [
       'react-hooks/rules-of-hooks': 'error',
       "@typescript-eslint/no-misused-promises": "off",
       "@typescript-eslint/no-floating-promises": "off",
-      'react-hooks/exhaustive-deps': 'warn',
       'no-useless-escape': 'off',
       'prefer-const': 'error',
       'no-irregular-whitespace': 'error',

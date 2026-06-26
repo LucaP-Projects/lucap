@@ -1,6 +1,6 @@
 // app/estimates/[id]/edit/page.tsx
 import { notFound } from 'next/navigation';
-import { getCurrentCompany } from '@/components/base/company/actions';
+import { getCurrentCompanyForInvoice } from '@/components/base/company/actions';
 import { getEstimate } from '@/components/estimate/actions';
 import { EstimateForm } from '@/components/estimate/main';
 interface EditEstimatePageProps {
@@ -15,7 +15,7 @@ export default async function EditEstimatePage({
   const pageParams = await params;
   const [result, company] = await Promise.all([
     getEstimate(pageParams.id),
-    getCurrentCompany()
+    getCurrentCompanyForInvoice()
   ]);
 
   if (!result.success) {

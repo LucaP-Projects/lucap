@@ -8,7 +8,7 @@ import { ac } from "./permissions";
  * Client instance for Better Auth. Adjust `baseURL` if your API route is mounted
  * at a different path.
  */
-export const authClient: ReturnType<typeof createAuthClient> = createAuthClient({
+export const authClient = createAuthClient({
   baseURL: process.env.NEXT_PUBLIC_APP_URL + '/api/auth',
   plugins: [
     inferAdditionalFields<typeof auth>(),
@@ -17,6 +17,7 @@ export const authClient: ReturnType<typeof createAuthClient> = createAuthClient(
     magicLinkClient()
   ],
 });
+
 
 export type AuthClient = typeof authClient;
 

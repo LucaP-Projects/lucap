@@ -3,7 +3,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { FormProvider } from 'react-hook-form';
 import { toast } from 'sonner';
-import { DiscountApplicationTime } from '@/lib/generated/prisma/client';
+import { DiscountApplicationTime } from '@/lib/generated/prisma/enums';
 import { useSidebarStore } from '@/stores/useSidePaper';
 import { useUploadStore } from '@/stores/useViewStore';
 import MemoizedNavigation from '../base/navBar';

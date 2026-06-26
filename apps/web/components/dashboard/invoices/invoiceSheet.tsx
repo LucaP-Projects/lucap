@@ -18,7 +18,7 @@ import {
 } from '@/components/dashboard/base/baseSheet';
 import { STATUS_COLORS } from '@/components/dashboard/base/utils';
 import { Badge } from '@/components/ui/badge';
-import { PaymentStatus, PaymentMethod } from '@/lib/generated/prisma/client';
+import type { PaymentStatus, PaymentMethod } from '@/lib/generated/prisma/enums';
 import { formatCurrency, formatDate } from '@/lib/utils';
 
 interface InvoiceItem {

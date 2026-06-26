@@ -7,8 +7,8 @@ import {
   DiscountType,
   PaymentMethod,
   ReceiptStatus
-} from '@/lib/generated/prisma/client';
-import { salesReceiptFormSchema, SalesReceiptFormValues } from './schema';
+} from '@/lib/generated/prisma/browser';
+import { salesReceiptFormSchema,  } from './schema';
 import { SalesReceipt } from './types';
 
 export interface SalesFormProps {
@@ -17,7 +17,7 @@ export interface SalesFormProps {
 }
 
 export function useSalesForm({ mode = 'create', initialData }: SalesFormProps) {
-  const formMethods = useForm<SalesReceiptFormValues>({
+  const formMethods = useForm({
     mode: 'onChange',
     resolver: zodResolver(salesReceiptFormSchema),
     shouldUnregister: false,

@@ -31,7 +31,56 @@ export default function InvoicePdfTestPage({ params }: PageProps) {
           throw new Error(result.error || 'Failed to fetch invoice data');
         }
 
-        setInvoiceData(result.data);
+        setInvoiceData({
+          ...result.data,
+          company: {
+            email: result.data.company.email || '',
+            name: result.data.company.name || '',
+            address: result.data.company.address || {
+              line1: '',
+              line2: '',
+              city: '',
+              state: '',
+              postalCode: '',
+              country: ''
+            },
+          },
+          formData: {
+            billingAdress: result.data.customer.billingAddress,
+            shippingAdress: result.data.customer.shippingAddress,
+            discountType: result.data.discountType || 'none',
+            discountValue: result.data.discountValue || 0,
+            dueDate: result.data.dueDate || null,
+            emailCustomer: result.data.emailCustomer,
+            invoiceNumber: result.data.number,
+            items: (result.data.items || []).map((item) => ({
+              ...item,
+              itemId: item.itemId || null,
+              description: item.description || '',
+              sku: item.sku || '',
+            })),
+          },
+          color: result.data.paymentEventSnapshot.color || '#000000',
+          colorLight: result.data.paymentEventSnapshot.color || '#f0f0f0',
+          settings: {
+            sku: result.data.paymentEventSnapshot.customPdfSettings?.sku || false,
+            note: result.data.paymentEventSnapshot.customPdfSettings?.note || false,
+            rate: result.data.paymentEventSnapshot.customPdfSettings?.rate || false,
+            amount: result.data.paymentEventSnapshot.customPdfSettings?.amount || false,
+            shipTo: result.data.paymentEventSnapshot.customPdfSettings?.shipTo || false,
+            dueDate: result.data.paymentEventSnapshot.customPdfSettings?.dueDate || false,
+            quantity: result.data.paymentEventSnapshot.customPdfSettings?.quantity || false,
+            invoiceNo: result.data.paymentEventSnapshot.customPdfSettings?.invoiceNo || false,
+            description: result.data.paymentEventSnapshot.customPdfSettings?.description || false,
+            invoiceDate: result.data.paymentEventSnapshot.customPdfSettings?.invoiceDate || false,
+            tableNumber: result.data.paymentEventSnapshot.customPdfSettings?.tableNumber || false,
+            productService: result.data.paymentEventSnapshot.customPdfSettings?.productService || false,
+          },
+          note: result.data.notes || '',
+          subtotal: result.data.amount || 0,
+          total: result.data.paymentEventSnapshot.discountAmount || 0,
+          paperType: 'Invoice'
+        });
       } catch (error) {
         toast.error('Error Fetching Invoice', {
           description: String(error),
@@ -108,7 +157,7 @@ export default function InvoicePdfTestPage({ params }: PageProps) {
 
       {invoiceData ? (
         <div className="mt-4">
-          <pre className="max-h-[600px] overflow-auto rounded bg-slate-100 p-4 text-sm">
+          <pre className="max-h-150 overflow-auto rounded bg-slate-100 p-4 text-sm">
             {JSON.stringify(invoiceData, null, 2)}
           </pre>
         </div>

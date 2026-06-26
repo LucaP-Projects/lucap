@@ -2,13 +2,14 @@
 import { Decimal } from 'decimal.js';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { auth } from '@/lib/auth';
+import {  getSessionWithCompany } from '@/lib/auth';
 import {
   ChargeStatus,
   DiscountApplicationTime,
   DiscountType,
-  Prisma
-} from '@/lib/generated/prisma/client';
+} from '@/lib/generated/prisma/enums';
+import * as Prisma from '@/lib/generated/prisma/internal/prismaNamespace';
+
 import { prisma } from '@/lib/prisma';
 import { generateUniqueNumber } from '@/lib/utils';
 import { CustomizationSettingsInput } from '../base/sideBar/customize/types';
@@ -109,17 +110,17 @@ async function validateChargeNumber(
       // Handle specific Prisma errors by their error codes
       switch (error.code) {
         case 'P2002': // Unique constraint violation
-          throw new Error('Duplicate charge number detected');
+          throw new Error('Duplicate charge number detected', { cause: error });
         case 'P2023': // Inconsistent column data
-          throw new Error('Invalid charge number or company ID format');
+          throw new Error('Invalid charge number or company ID format', { cause: error });
         default:
-          throw new Error(`Database error: ${error.message}`);
+          throw new Error(`Database error: ${error.message}`, { cause: error });
       }
     }
 
     // Re-throw unknown errors with a more user-friendly message
     throw new Error(
-      `Error validating charge number: ${error instanceof Error ? error.message : 'Unknown error'}`
+      `Error validating charge number: ${error instanceof Error ? error.message : 'Unknown error'}`, { cause: error }
     );
   }
 }
@@ -130,19 +131,19 @@ export async function createDelayedCharge(
   color: string
 ): Promise<CreateDelayedChargeResponse> {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
     const charge = await prisma.$transaction(async (tx) => {
       const chargeNumber = `CH-${generateUniqueNumber()}`;
       await Promise.all([
-        validateCustomer(tx, data.customerId, session.user.companyId),
-        validateChargeNumber(tx, chargeNumber, session.user.companyId)
+        validateCustomer(tx, data.customerId, session.user.activeCompanyId),
+        validateChargeNumber(tx, chargeNumber, session.user.activeCompanyId)
       ]);
 
       const totalBeforeTax = validateItems(data.items);
@@ -165,7 +166,7 @@ export async function createDelayedCharge(
         const tax = await tx.taxRate.findUnique({
           where: {
             id: data.taxId,
-            companyId: session.user.companyId,
+            companyId: session.user.activeCompanyId,
             status: 'ACTIVE'
           }
         });
@@ -193,7 +194,7 @@ export async function createDelayedCharge(
 
       const charge = await tx.delayedCharge.create({
         data: {
-          companyId: session.user.companyId,
+          companyId: session.user.activeCompanyId,
           number: chargeNumber,
           customerId: data.customerId,
           status: data.status || ChargeStatus.PENDING,
@@ -216,7 +217,7 @@ export async function createDelayedCharge(
               type: 'individual',
               address: data.customerAddress
             },
-            type: 'DelayedCharge',
+            type: 'DELAYED_CHARGE',
             cc: data.ccEmail || '',
             snapshotTimestamp: new Date().toISOString(),
             amount: totalAmount,
@@ -275,7 +276,7 @@ export async function createDelayedCharge(
               mimetype: file.file.type,
               size: file.file.size,
               purpose: 'delayed_charge_attachment',
-              companyId: session.user.companyId,
+              companyId: session.user.activeCompanyId,
               isActive: true
             }
           });
@@ -306,17 +307,17 @@ export async function createDelayedCharge(
 // Keep existing getDelayedCharge function
 export async function getDelayedCharge(id: string) {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
     const charge = await prisma.delayedCharge.findUnique({
       where: {
         id,
-        companyId: session.user.companyId,
+        companyId: session.user.activeCompanyId,
         isActive: true
       },
       include: {
@@ -373,17 +374,17 @@ export async function updateDelayedCharge(
     if (!data || !id) {
       throw new Error('Missing required update data or charge ID');
     }
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
     const charge = await prisma.$transaction(async (tx) => {
       // Validate inputs
-      await validateCustomer(tx, data.customerId, session.user.companyId);
+      await validateCustomer(tx, data.customerId, session.user.activeCompanyId);
       const totalBeforeTax = validateItems(data.items);
 
       // Calculate discount
@@ -404,7 +405,7 @@ export async function updateDelayedCharge(
         const tax = await tx.taxRate.findUnique({
           where: {
             id: data.taxId,
-            companyId: session.user.companyId,
+            companyId: session.user.activeCompanyId,
             status: 'ACTIVE'
           }
         });
@@ -534,7 +535,7 @@ export async function updateDelayedCharge(
               mimetype: file.file.type,
               size: file.file.size,
               purpose: 'delayed_charge_attachment',
-              companyId: session.user.companyId,
+              companyId: session.user.activeCompanyId,
               isActive: true
             }
           });
@@ -552,7 +553,7 @@ export async function updateDelayedCharge(
       return await tx.delayedCharge.update({
         where: {
           id,
-          companyId: session.user.companyId,
+          companyId: session.user.activeCompanyId,
           isActive: true
         },
         data: {
@@ -569,7 +570,7 @@ export async function updateDelayedCharge(
               type: 'individual',
               address: data.customerAddress
             },
-            type: 'DelayedCharge',
+            type: 'DELAYED_CHARGE',
             cc: data.ccEmail || '',
             snapshotTimestamp: new Date().toISOString(),
             amount: totalAmount,
@@ -631,11 +632,11 @@ export async function updateDelayedCharge(
 // Add a function to soft-delete a delayed charge
 export async function deleteDelayedCharge(id: string) {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
@@ -643,7 +644,7 @@ export async function deleteDelayedCharge(id: string) {
     const charge = await prisma.delayedCharge.findUnique({
       where: {
         id,
-        companyId: session.user.companyId,
+        companyId: session.user.activeCompanyId,
         isActive: true
       },
       select: {
@@ -701,7 +702,7 @@ export async function deleteDelayedCharge(id: string) {
       await tx.delayedCharge.update({
         where: {
           id,
-          companyId: session.user.companyId
+          companyId: session.user.activeCompanyId
         },
         data: {
           isActive: false,

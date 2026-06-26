@@ -5,15 +5,13 @@ import { APIError } from 'better-auth/api';
 import { revalidatePath } from 'next/cache';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { auth } from '@/lib/auth';
-import { db } from '@/lib/db';
+import { auth, getSessionWithCompany } from '@/lib/auth';
+import { prisma } from '@/lib/prisma';
 
 export async function deleteUserAction({ userId }: { userId: string }) {
   const headersList = await headers();
 
-  const session = await auth.api.getSession({
-    headers: headersList
-  });
+  const session = await getSessionWithCompany();
 
   if (!session) throw new Error('Unauthorized');
 
@@ -22,10 +20,9 @@ export async function deleteUserAction({ userId }: { userId: string }) {
   }
 
   try {
-    await db.user.delete({
+    await prisma.user.delete({
       where: {
         id: userId,
-        role: 'USER'
       }
     });
 

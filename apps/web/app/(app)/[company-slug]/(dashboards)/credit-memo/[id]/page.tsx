@@ -1,7 +1,6 @@
-// app/credit-memos/[id]/edit/page.tsx
 
 import { notFound } from 'next/navigation';
-import { getCurrentCompany } from '@/components/base/company/actions';
+import { getCurrentCompanyForInvoice } from '@/components/base/company/actions';
 import { getCreditMemo } from '@/components/credit-memo/actions';
 import { CreditMemoForm } from '@/components/credit-memo/main';
 
@@ -18,7 +17,7 @@ export default async function EditCreditMemoPage({
 
   const [result, company] = await Promise.all([
     getCreditMemo(pageParams.id),
-    getCurrentCompany()
+    getCurrentCompanyForInvoice()
   ]);
   if (!result.success) {
     notFound();

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useTransition } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
@@ -9,19 +10,19 @@ import { selectCompany } from '@/components/company/select/actions';
 import { Company } from '@/components/company/select/types';
 import Loading from '@/components/shared/loading';
 import { Button } from '@/components/ui/button';
+import { CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { authClient } from '@/lib/auth-client';
 
 interface Props {
   companies: Company[];
-  lng: string;
 }
 
-export function SelectCompanyForm({ companies, lng }: Props) {
+export function SelectCompanyForm({ companies }: Props) {
   const [isTransitionPending, startTransition] = useTransition();
   const [selectedCompanyId, setSelectedCompanyId] = useState<string>('');
   const router = useRouter();
-  const { data: session, isPending, isRefetching, refetch: update } = authClient.useSession();
+  const { data: session, isPending, isRefetching } = authClient.useSession();
 
   const handleSelectCompany = async () => {
     if (!selectedCompanyId) {
@@ -31,7 +32,7 @@ export function SelectCompanyForm({ companies, lng }: Props) {
 
     startTransition(async () => {
       try {
-        const result = await selectCompany(selectedCompanyId);
+        await selectCompany(selectedCompanyId);
 
         const selectedCompany = companies.find(
           (company) => company.id === selectedCompanyId
@@ -55,7 +56,11 @@ export function SelectCompanyForm({ companies, lng }: Props) {
   };
 
   if (isPending || isRefetching) {
-    return <Loading variant="light" size="lg" />;
+    return (
+      <div className="flex justify-center">
+        <Loading variant="light" size="md" />
+      </div>
+    );
   }
 
   if (!session || !companies) {
@@ -64,53 +69,72 @@ export function SelectCompanyForm({ companies, lng }: Props) {
 
   if (companies.length === 0) {
     return (
-      <div className="space-y-6">
-        <div className="py-4 text-center">
+      <>
+        <CardHeader className="space-y-1">
+          <CardTitle className="text-center">Welcome!</CardTitle>
+          <CardDescription className="text-center">
+            Get started by creating your first company
+          </CardDescription>
+        </CardHeader>
+
+        <CardContent className="py-4 text-center">
           <p className="text-muted-foreground mb-4">
             You don&apos;t have any companies yet. Create your first company to
             get started.
           </p>
+
           <Link href={`/create-company`}>
             <Button>
               <PlusCircle className="mr-2 h-4 w-4" />
               Create New Company
             </Button>
           </Link>
-        </div>
-      </div>
+        </CardContent>
+      </>
     );
   }
 
   return (
-    <div className="space-y-6">
-      <Select onValueChange={setSelectedCompanyId} value={selectedCompanyId}>
-        <SelectTrigger className="w-full">
-          <SelectValue placeholder="Select a company..." />
-        </SelectTrigger>
-        <SelectContent>
-          {companies.map((company) => (
-            <SelectItem key={company.id} value={company.id}>
-              <div className="flex items-center gap-2">
-                {company.logo && (
-                  <img
-                    src={company.logo}
-                    alt={company.name}
-                    className="h-6 w-6 rounded-full"
-                  />
-                )}
-                <span>{company.name}</span>
-                {company.isAdmin && (
-                  <span className="text-muted-foreground ml-2 text-xs">
-                    (Admin)
-                  </span>
-                )}
-              </div>
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+    <>
+      <CardHeader className="space-y-1">
+        <CardTitle className="text-center">Select Company</CardTitle>
+        <CardDescription className="text-center">
+          Choose a company to work with
+        </CardDescription>
+      </CardHeader>
 
-      <div className="flex items-center justify-between pt-4">
+      <CardContent>
+        <Select onValueChange={setSelectedCompanyId} value={selectedCompanyId}>
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="Select a company..." />
+          </SelectTrigger>
+          <SelectContent>
+            {companies.map((company) => (
+              <SelectItem key={company.id} value={company.id}>
+                <div className="flex items-center gap-2">
+                  {company.logo && (
+                    <Image
+                      src={company.logo}
+                      alt={company.name}
+                      className="h-6 w-6 rounded-full"
+                      width={24}
+                      height={24}
+                    />
+                  )}
+                  <span>{company.name}</span>
+                  {company.isAdmin && (
+                    <span className="text-muted-foreground ml-2 text-xs">
+                      (Admin)
+                    </span>
+                  )}
+                </div>
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </CardContent>
+
+      <CardFooter className="flex items-center justify-between pt-4">
         <Button
           onClick={handleSelectCompany}
           disabled={isTransitionPending || !selectedCompanyId}
@@ -124,7 +148,7 @@ export function SelectCompanyForm({ companies, lng }: Props) {
             Create New Company
           </Button>
         </Link>
-      </div>
-    </div>
+      </CardFooter>
+    </>
   );
 }

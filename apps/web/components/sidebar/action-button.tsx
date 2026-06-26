@@ -174,7 +174,7 @@ const actionRoutes: ActionRoutes = {
     category: 'Other'
   },
   'Add product/service': {
-    route: '/new/items',
+    route: '/items',
     icon: Package,
     category: 'Other'
   },
@@ -233,7 +233,7 @@ export default function ActionButton({ isOpen }: { isOpen?: boolean }) {
       if (!acc[item.category]) {
         acc[item.category] = [];
       }
-      acc[item.category].push({ name, ...item });
+      (acc[item.category] as Array<{ name: string } & ActionItem>).push({ name, ...item });
       return acc;
     },
     {} as Record<string, Array<{ name: string } & ActionItem>>

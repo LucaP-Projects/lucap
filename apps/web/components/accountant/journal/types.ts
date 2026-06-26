@@ -2,7 +2,7 @@ import * as z from 'zod';
 
 export const journalEntrySchema = z.object({
   date: z.date({
-    required_error: 'Date is required'
+    error: 'Date is required'
   }),
   journalNo: z.string().min(1, 'Journal number is required'),
   description: z.string().optional(),

@@ -1,4 +1,4 @@
-import type { Permission } from '@prisma/client';
+import type { Permission } from '@/lib/generated/prisma/browser';
 
 type UserCompany = {
   companyId: string;

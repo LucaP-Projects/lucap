@@ -127,7 +127,8 @@ export async function generatePdf({
     });
 
     await browser.close();
-    return pdf;
+    const base64Pdf = Buffer.from(pdf).toString('base64')
+    return base64Pdf;
   } catch (error) {
     console.error('PDF generation error:', error);
     throw new Error('PDF generation failed');

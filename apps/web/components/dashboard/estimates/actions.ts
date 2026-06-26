@@ -1,9 +1,10 @@
 'use server';
 import { startOfDay, endOfDay } from 'date-fns';
 import { revalidatePath } from 'next/cache';
-import { auth } from '@/lib/auth';
-import { db } from '@/lib/db';
-import { EstimateStatus, Prisma } from '@/lib/generated/prisma/client';
+import { getSessionWithCompany } from '@/lib/auth';
+import { EstimateStatus } from '@/lib/generated/prisma/enums';
+import * as Prisma from '@/lib/generated/prisma/internal/prismaNamespace';
+import { prisma } from '@/lib/prisma';
 
 export type EstimateFilters = {
   status?: EstimateStatus | undefined;
@@ -89,8 +90,8 @@ export async function getEstimatesPage(
   }
 
   const [total, estimates] = await Promise.all([
-    db.estimate.count({ where }),
-    db.estimate.findMany({
+    prisma.estimate.count({ where }),
+    prisma.estimate.findMany({
       where,
       include: {
         customer: {
@@ -119,14 +120,14 @@ export async function getEstimatesPage(
 export async function getEstimateStats() {
   try {
     const [totalCount, totalAmount, statusBreakdown] = await Promise.all([
-      db.estimate.count({ where: { isActive: true } }),
-      db.estimate.aggregate({
+      prisma.estimate.count({ where: { isActive: true } }),
+      prisma.estimate.aggregate({
         where: { isActive: true },
         _sum: {
           amount: true
         }
       }),
-      db.estimate.groupBy({
+      prisma.estimate.groupBy({
         where: { isActive: true },
         by: ['status'],
         _count: true
@@ -172,13 +173,13 @@ export async function getEstimateStats() {
     };
   } catch (error) {
     console.error('Error fetching estimate stats:', error);
-    throw new Error('Failed to fetch estimate statistics');
+    throw new Error('Failed to fetch estimate statistics', { cause: error });
   }
 }
 export async function getEstimateDetails(
   id: string
 ): Promise<EstimateWithRelations | null> {
-  return db.estimate.findUnique({
+  return prisma.estimate.findUnique({
     where: {
       id,
       isActive: true
@@ -219,7 +220,7 @@ export async function deleteEstimates(ids: string[]): Promise<DeleteResult> {
 
   try {
     // Get the current session for user ID
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       return {
         success: false,

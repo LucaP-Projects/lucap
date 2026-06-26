@@ -3,24 +3,24 @@
 import { revalidatePath } from 'next/cache';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { auth } from '@/lib/auth';
+import { getSessionWithCompany } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { PaymentFormValues } from './schema';
 import { distributePayment } from './utils';
 
 export async function getCustomerInvoices(customerId: string) {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
     return await prisma.invoice.findMany({
       where: {
         customerId,
-        companyId: session.user.companyId,
+        companyId: session.user.activeCompanyId,
         status: {
           in: ['PENDING', 'PARTIAL']
         },
@@ -52,11 +52,11 @@ export async function getCustomerInvoices(customerId: string) {
 
 export async function createPayment(data: PaymentFormValues) {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
@@ -65,7 +65,7 @@ export async function createPayment(data: PaymentFormValues) {
         // Fetch invoices with their snapshots
         const invoices = await tx.invoice.findMany({
           where: {
-            companyId: session.user.companyId,
+            companyId: session.user.activeCompanyId,
             id: { in: data.invoiceIds },
             OR: [{ status: 'PENDING' }, { status: 'PARTIAL' }],
             isActive: true
@@ -108,7 +108,7 @@ export async function createPayment(data: PaymentFormValues) {
             // Create payment record with isActive flag
             const paymentRecord = await tx.payment.create({
               data: {
-                companyId: session.user.companyId,
+                companyId: session.user.activeCompanyId,
                 invoiceId: payment.invoiceId,
                 customerId: data.customerId,
                 amount: payment.amount,

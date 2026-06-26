@@ -1,5 +1,6 @@
 // PDF Template Types for Invoice Generation
 
+
 export interface InvoiceItem {
   productName: string;
   description: string;
@@ -9,12 +10,13 @@ export interface InvoiceItem {
   taxable: boolean;
 }
 
-export interface Address {
+ interface Address {
   line1: string;
+  line2?: string;
   city: string;
   state: string;
   postalCode: string;
-  country?: string;
+  country: string;
 }
 
 export interface Company {
@@ -27,8 +29,9 @@ export interface FormData {
   invoiceNumber: string;
   dueDate: Date;
   items: InvoiceItem[];
-  customerAddress: Address;
-  emailCustomer: string;
+  billingAdress?: Address | null;
+  shippingAdress?: Address | null;
+  emailCustomer?: string | null;
   discountType: string;
   discountValue: number;
 }
@@ -46,7 +49,7 @@ export interface PdfSettings {
   invoiceDate: boolean;
   tableNumber: boolean;
   productService: boolean;
-}
+}     
 
 export interface InvoiceTemplateData {
   formData: FormData;
@@ -59,5 +62,14 @@ export interface InvoiceTemplateData {
   subtotal: number;
   discountAmount: number;
   total: number;
-  paperType: string;
+  paperType: PaperType;
 }
+
+export type PaperType =
+  | 'Invoice'
+  | 'Estimate'
+  | 'Delayed Credit'
+  | 'Delayed Charge'
+  | 'Credit Memo'
+  | 'Refund Receipt'
+  | 'Sales Receipt';

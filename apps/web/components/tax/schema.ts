@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import { TaxType,  } from '@/lib/generated/prisma/client';
+import { TaxType } from '@/lib/generated/prisma/enums';
 
 export const taxFormSchema = z.object({
   name: z

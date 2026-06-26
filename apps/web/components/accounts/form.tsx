@@ -4,12 +4,11 @@ import { useRouter } from 'next/navigation';
 import { Controller, Form, useForm } from 'react-hook-form';
 
 import { toast } from 'sonner';
-import { Sheet } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
-import { SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter } from '@/components/ui/sheet';
 import { AccountSelect } from '../shared/account/account-select';
-import { Field, FieldError, FieldLabel } from '../ui/field';
 import { createAccount } from './actions';
 import { accountFormSchema, AccountFormValues } from './schema';
 
@@ -48,18 +47,18 @@ const AccountForm = ({
       const response = await createAccount(data);
 
       if (!response.success) {
-        toast(response.error || 'Failed to create account');
+        toast.error(response.error || 'Failed to create account');
         return;
       }
 
-      toast('Account created successfully');
+      toast.success('Account created successfully');
 
       form.reset();
       onOpenChange(false);
       onSuccess?.(); // Call the success callback
       router.refresh();
     } catch (error) {
-      toast('An unexpected error occurred. Please try again.');
+      toast.error('An unexpected error occurred. Please try again.');
     } finally {
       setLoading(false);
     }

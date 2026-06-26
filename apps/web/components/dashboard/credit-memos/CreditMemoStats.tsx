@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { CreditMemoStatus } from '@/lib/generated/prisma/client';
+import { CreditMemoStatus } from '@/lib/generated/prisma/enums';
 
 interface CreditMemoStatsProps {
   stats: {

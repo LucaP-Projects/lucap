@@ -3,13 +3,14 @@
 import { Decimal } from 'decimal.js';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { auth } from '@/lib/auth';
+import { getSessionWithCompany } from '@/lib/auth';
 import {
   CreditStatus,
   DiscountApplicationTime,
   DiscountType,
-  Prisma
-} from '@/lib/generated/prisma/client';
+} from '@/lib/generated/prisma/enums';
+import * as Prisma from '@/lib/generated/prisma/internal/prismaNamespace';
+
 import { prisma } from '@/lib/prisma';
 import { generateUniqueNumber } from '@/lib/utils';
 import { CustomizationSettingsInput } from '../base/sideBar/customize/types';
@@ -137,17 +138,17 @@ async function validateCreditNumber(
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       switch (error.code) {
         case 'P2002':
-          throw new Error('Duplicate credit number detected');
+          throw new Error('Duplicate credit number detected', { cause: error });
         case 'P2023':
-          throw new Error('Invalid credit number or company ID format');
+          throw new Error('Invalid credit number or company ID format', { cause: error });
         default:
-          throw new Error(`Database error: ${error.message}`);
+          throw new Error(`Database error: ${error.message}`, { cause: error });
       }
     }
 
     throw new Error(
       `Error validating credit number: ${error instanceof Error ? error.message : 'Unknown error'}`
-    );
+    , { cause: error });
   }
 }
 
@@ -158,19 +159,19 @@ export async function createDelayedCredit(
   color: string
 ): Promise<CreateDelayedCreditResponse> {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
     const credit = await prisma.$transaction(async (tx) => {
       const creditNumber = `CR-${generateUniqueNumber()}`;
       await Promise.all([
-        validateCustomer(tx, data.customerId, session.user.companyId),
-        validateCreditNumber(tx, creditNumber, session.user.companyId)
+        validateCustomer(tx, data.customerId, session.user.activeCompanyId),
+        validateCreditNumber(tx, creditNumber, session.user.activeCompanyId)
       ]);
 
       const totalBeforeTax = validateItems(data.items);
@@ -193,7 +194,7 @@ export async function createDelayedCredit(
         const tax = await tx.taxRate.findUnique({
           where: {
             id: data.taxId,
-            companyId: session.user.companyId,
+            companyId: session.user.activeCompanyId,
             status: 'ACTIVE'
           }
         });
@@ -221,7 +222,7 @@ export async function createDelayedCredit(
 
       const credit = await tx.delayedCredit.create({
         data: {
-          companyId: session.user.companyId,
+          companyId: session.user.activeCompanyId,
           number: creditNumber,
           customerId: data.customerId,
           status: data.status || CreditStatus.PENDING,
@@ -249,7 +250,7 @@ export async function createDelayedCredit(
               type: 'individual',
               address: data.customerAddress
             },
-            type: 'DelayedCredit',
+            type: 'DELAYED_CREDIT',
             cc: data.ccEmail || '',
             snapshotTimestamp: new Date().toISOString(),
             amount: totalAmount,
@@ -297,7 +298,7 @@ export async function createDelayedCredit(
               mimetype: file.file.type,
               size: file.file.size,
               purpose: 'delayed_credit_attachment',
-              companyId: session.user.companyId,
+              companyId: session.user.activeCompanyId,
               isActive: true
             }
           });
@@ -329,17 +330,17 @@ export async function createDelayedCredit(
 
 export async function getDelayedCredit(id: string) {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
     const credit = await prisma.delayedCredit.findUnique({
       where: {
         id,
-        companyId: session.user.companyId,
+        companyId: session.user.activeCompanyId,
         isActive: true
       },
       include: {
@@ -393,21 +394,21 @@ export async function updateDelayedCredit(
   color: string
 ): Promise<CreateDelayedCreditResponse> {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
     const credit = await prisma.$transaction(async (tx) => {
-      await validateCustomer(tx, data.customerId, session.user.companyId);
+      await validateCustomer(tx, data.customerId, session.user.activeCompanyId);
 
       const existingCredit = await tx.delayedCredit.findUnique({
         where: {
           id,
-          companyId: session.user.companyId,
+          companyId: session.user.activeCompanyId,
           isActive: true
         },
         include: {
@@ -443,7 +444,7 @@ export async function updateDelayedCredit(
         const tax = await tx.taxRate.findUnique({
           where: {
             id: data.taxId,
-            companyId: session.user.companyId,
+            companyId: session.user.activeCompanyId,
             status: 'ACTIVE'
           }
         });
@@ -537,7 +538,7 @@ export async function updateDelayedCredit(
           where: {
             id: { in: data.removedAttachmentIds },
             creditId: id,
-            credit: { companyId: session.user.companyId },
+            credit: { companyId: session.user.activeCompanyId },
             isActive: true
           },
           data: {
@@ -562,7 +563,7 @@ export async function updateDelayedCredit(
         await tx.file.updateMany({
           where: {
             id: { in: attachmentsToSoftDelete.map((a) => a.fileId) },
-            companyId: session.user.companyId,
+            companyId: session.user.activeCompanyId,
             isActive: true
           },
           data: {
@@ -592,7 +593,7 @@ export async function updateDelayedCredit(
               mimetype: file.file.type,
               size: file.file.size,
               purpose: 'delayed_credit_attachment',
-              companyId: session.user.companyId,
+              companyId: session.user.activeCompanyId,
               isActive: true
             }
           });
@@ -640,7 +641,7 @@ export async function updateDelayedCredit(
               type: 'individual',
               address: data.customerAddress
             },
-            type: 'DelayedCredit',
+            type: 'DELAYED_CREDIT',
             cc: data.ccEmail || '',
             snapshotTimestamp: new Date().toISOString(),
             amount: totalAmount,
@@ -685,11 +686,11 @@ export async function updateDelayedCredit(
 // Add a function to soft-delete delayed credits
 export async function deleteDelayedCredit(id: string) {
   try {
-    const session = await auth.api.getSession({headers: await headers()});
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
 
@@ -697,7 +698,7 @@ export async function deleteDelayedCredit(id: string) {
     const credit = await prisma.delayedCredit.findUnique({
       where: {
         id,
-        companyId: session.user.companyId,
+        companyId: session.user.activeCompanyId,
         isActive: true
       },
       select: {
@@ -755,7 +756,7 @@ export async function deleteDelayedCredit(id: string) {
       await tx.delayedCredit.update({
         where: {
           id,
-          companyId: session.user.companyId
+          companyId: session.user.activeCompanyId
         },
         data: {
           isActive: false,

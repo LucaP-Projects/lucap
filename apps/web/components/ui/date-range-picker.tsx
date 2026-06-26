@@ -1,12 +1,14 @@
-/* eslint-disable max-lines */
+ 
 'use client'
 
-import React, { type FC, useState, useEffect, useRef } from 'react'
+import {useState, useEffect, useRef } from 'react'
+import { ChevronUpIcon, ChevronDownIcon, CheckIcon } from 'lucide-react'
+import { cn } from '@/lib/utils'
 import { Button } from './button'
-import { Popover, PopoverContent, PopoverTrigger } from './popover'
 import { Calendar } from './calendar'
 import { DateInput } from './date-input'
 import { Label } from './label'
+import { Popover, PopoverContent, PopoverTrigger } from './popover'
 import {
   Select,
   SelectContent,
@@ -15,8 +17,6 @@ import {
   SelectValue
 } from './select'
 import { Switch } from './switch'
-import { ChevronUpIcon, ChevronDownIcon, CheckIcon } from 'lucide-react'
-import { cn } from '@/lib/utils'
 
 export interface DateRangePickerProps {
   /** Click handler for applying the updates from DateRangePicker. */
@@ -37,13 +37,11 @@ export interface DateRangePickerProps {
   showCompare?: boolean
 }
 
-const formatDate = (date: Date, locale: string = 'en-us'): string => {
-  return date.toLocaleDateString(locale, {
+const formatDate = (date: Date, locale: string = 'en-us'): string => date.toLocaleDateString(locale, {
     month: 'short',
     day: 'numeric',
     year: 'numeric'
   })
-}
 
 const getDateAdjustedForTimezone = (dateInput: Date | string): Date => {
   if (typeof dateInput === 'string') {
@@ -83,9 +81,7 @@ const PRESETS: Preset[] = [
 ]
 
 /** The DateRangePicker component allows a user to select a range of dates */
-export const DateRangePicker: FC<DateRangePickerProps> & {
-  filePath: string
-} = ({
+export const DateRangePicker = ({
   initialDateFrom = new Date(new Date().setHours(0, 0, 0, 0)),
   initialDateTo,
   initialCompareFrom,
@@ -94,7 +90,7 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
   align = 'end',
   locale = 'en-US',
   showCompare = true
-}) => {
+}: DateRangePickerProps) => {
   const [isOpen, setIsOpen] = useState(false)
 
   const [range, setRange] = useState<DateRange>({
@@ -328,7 +324,7 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
 
   return (
     <Popover
-      modal={true}
+      modal
       open={isOpen}
       onOpenChange={(open: boolean) => {
         if (!open) {
@@ -556,5 +552,3 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
 }
 
 DateRangePicker.displayName = 'DateRangePicker'
-DateRangePicker.filePath =
-  'libs/shared/ui-kit/src/lib/date-range-picker/date-range-picker.tsx'

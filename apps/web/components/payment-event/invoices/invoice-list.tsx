@@ -7,21 +7,17 @@ import { Badge, Receipt } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { TabsContent } from '@/components/ui/tabs';
-import { Invoice, PaymentMethod } from '@/lib/generated/prisma/client';
+import type { Invoice } from '@/lib/generated/prisma/browser';
 
 import { processPayment } from './invoice-action';
 import InvoicePaymentSheet from './invoice-payment-sheet';
+import { PaymentFormData } from './types';
 
 interface InvoiceListProps {
   event: any;
   paymentStatusColorMap: Record<string, string>;
 }
-export interface PaymentFormData {
-  amount: number;
-  paymentMethod: PaymentMethod;
-  reference?: string;
-  invoiceId: string;
-}
+
 const InvoicesList: React.FC<InvoiceListProps> = ({
   event,
   paymentStatusColorMap

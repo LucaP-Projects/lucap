@@ -1,8 +1,7 @@
 'use server';
 import { revalidatePath } from 'next/cache';
-import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { auth } from '@/lib/auth';
+import { getSessionWithCompany } from '@/lib/auth';
 import {
   TransactionType,
   PaymentMethod,
@@ -57,11 +56,11 @@ export async function createTransactionRecord({
   creditMemoId?: string;
   refundReceiptId?: string;
 }) {
-  const session = await auth.api.getSession({ headers: await headers() });
+  const session = await getSessionWithCompany();
   if (!session?.user?.id) {
     redirect('/login');
   }
-  if (!session?.user?.companyId) {
+  if (!session?.user?.activeCompanyId) {
     redirect('/select-company');
   }
 
@@ -83,7 +82,7 @@ export async function createTransactionRecord({
       ...(salesReceiptId && { salesReceiptId }),
       ...(creditMemoId && { creditMemoId }),
       ...(refundReceiptId && { refundReceiptId }),
-      companyId: session.user.companyId
+      companyId: session.user.activeCompanyId
     }
   });
 }
@@ -91,11 +90,11 @@ export async function createTransactionRecord({
 // Modified createPayment action
 export async function createPayment(data: CreatePaymentData) {
   try {
-    const session = await auth.api.getSession({ headers: await headers() });
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       redirect('/login');
     }
-    if (!session?.user?.companyId) {
+    if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
       return;
     }
@@ -109,7 +108,7 @@ export async function createPayment(data: CreatePaymentData) {
           paymentDate: data.paymentDate,
           paymentMethod: data.paymentMethod,
           reference: data.reference,
-          companyId: session.user.companyId!,
+          companyId: session.user.activeCompanyId!,
           isActive: true
         }
       });
@@ -234,7 +233,7 @@ export async function deletePaymentEvent(id: string): Promise<ActionResult> {
   }
 
   try {
-    const session = await auth.api.getSession({ headers: await headers() });
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       return { error: 'Authentication required' };
     }

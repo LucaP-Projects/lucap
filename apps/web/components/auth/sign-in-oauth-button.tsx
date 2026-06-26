@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { signIn } from '@/utils/auth-client';
+import authClient from '@/lib/auth-client';
 import { Button } from '../ui/button';
 interface SignInOauthButtonProps {
   provider: 'google' | 'github';
@@ -17,7 +17,7 @@ export const SignInOauthButton = ({
   async function handleClick() {
     setIsPending(true);
 
-    await signIn.social({
+    await authClient.signIn.social({
       provider,
       callbackURL: '/profile',
       errorCallbackURL: '/login/error'

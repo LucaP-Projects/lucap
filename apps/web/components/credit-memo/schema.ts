@@ -4,20 +4,20 @@ import {
   CreditMemoReason,
   DiscountType,
   DiscountApplicationTime
-} from '@/lib/generated/prisma/client';
+} from '@/lib/generated/prisma/enums';
 import { addressSchema } from '../invoice/schema';
 
 export const creditMemoFormSchema = z.object({
-  status: z.nativeEnum(CreditMemoStatus).default(CreditMemoStatus.DRAFT),
+  status: z.enum(CreditMemoStatus).default(CreditMemoStatus.DRAFT),
   customerId: z.string().min(1, 'Customer is required'),
-  reason: z.nativeEnum(CreditMemoReason).default(CreditMemoReason.OTHER),
+  reason: z.enum(CreditMemoReason).default(CreditMemoReason.OTHER),
   issueDate: z.date({
-    required_error: 'Issue date is required'
+    error: 'Issue date is required'
   }),
   notes: z.string().optional(),
-  discountType: z.nativeEnum(DiscountType).nullable(),
+  discountType: z.enum(DiscountType).nullable(),
   discountValue: z.number(),
-  discountApplicationTime: z.nativeEnum(DiscountApplicationTime),
+  discountApplicationTime: z.enum(["BEFORE_TAX", "AFTER_TAX"]).default("BEFORE_TAX" as DiscountApplicationTime),
   files: z.array(
     z.object({
       id: z.string(),
@@ -30,19 +30,17 @@ export const creditMemoFormSchema = z.object({
       key: z.string().optional()
     })
   ),
-  emailCustomer: z.string().email('Invalid email format'),
+  emailCustomer: z.email('Invalid email format'),
   ccEmail: z
-    .string()
     .email('Invalid email format')
     .optional()
-    .or(z.literal(''))
-    .transform((val) => val || null),
+    .or(z.literal('')),
   customerAddress: addressSchema,
   taxId: z.string().optional(),
   taxRate: z.number().min(0).max(100).default(0),
   amount: z.number(),
   dueDate: z.date({
-    required_error: 'Due date is required'
+    error: 'Due date is required'
   }),
   removedAttachmentIds: z.array(z.string()).optional(),
   items: z

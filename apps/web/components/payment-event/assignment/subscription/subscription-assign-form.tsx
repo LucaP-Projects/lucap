@@ -585,7 +585,7 @@ export const SubscriptionAssignForm: React.FC<OneTimeAssignFormProps> = ({
                         <p className="font-medium">First Regular Payment</p>
                         <p className="text-muted-foreground text-sm">
                           {format(
-                            new Date(subscriptionDetails.firstFullPaymentDate),
+                            new Date(subscriptionDetails.firstFullPaymentDate || startDate),
                             'MMM d, yyyy'
                           )}
                         </p>
