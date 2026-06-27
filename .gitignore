@@ -42,5 +42,19 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
-#Prisma
-apps/web/lib/generated/prisma/
+# Prisma - generated client (regenerate with `prisma generate`)
+**/lib/generated/
+
+# TypeScript
+*.tsbuildinfo
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Cache
+.eslintcache
+.cache/
+
+# Vercel
+.vercel
