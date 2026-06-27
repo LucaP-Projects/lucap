@@ -4,19 +4,19 @@ import { S3Client, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { Decimal } from 'decimal.js';
 
-// --- GARAGE S3 CONFIGURATION ---
+// --- S3-COMPATIBLE STORAGE CONFIGURATION (MinIO / Garage) ---
 export const s3Client = new S3Client({
-  endpoint: process.env.GARAGE_ENDPOINT || 'http://localhost:3900',
-  region: process.env.GARAGE_REGION || 'garage', 
+  endpoint: process.env.GARAGE_ENDPOINT || 'http://localhost:9000',
+  region: process.env.GARAGE_REGION || 'us-east-1',
   credentials: {
-    accessKeyId: process.env.GARAGE_ACCESS_KEY_ID || 'your-access-key',
-    secretAccessKey: process.env.GARAGE_SECRET_ACCESS_KEY || 'your-secret-key',
+    accessKeyId: process.env.GARAGE_ACCESS_KEY_ID || 'minioadmin',
+    secretAccessKey: process.env.GARAGE_SECRET_ACCESS_KEY || 'minioadmin',
   },
-  forcePathStyle: true, 
+  forcePathStyle: true,
 });
 
-const bucketName = process.env.GARAGE_BUCKET_NAME || 'lucapacioli.com.tn';
-const publicBaseUrl = process.env.GARAGE_PUBLIC_URL || `http://localhost:3900/${bucketName}`;
+const bucketName = process.env.GARAGE_BUCKET_NAME || 'lucap';
+const publicBaseUrl = process.env.GARAGE_PUBLIC_URL || `http://localhost:9000/${bucketName}`;
 
 // --- ENCRYPTION CONFIGURATION (Andersen Security Standard) ---
 const ENCRYPTION_KEY = process.env.STORAGE_ENCRYPTION_KEY || ''; 
