@@ -40,7 +40,7 @@ export async function uploadFileToStorage(
       buffer = encryptPayload(buffer);
     }
 
-    const bucketName = process.env.GARAGE_BUCKET_NAME || 'lucapacioli.com.tn';
+    const bucketName = process.env.GARAGE_BUCKET_NAME || 'lucap';
 
     // Build the S3 Put Object Command
     const command = new PutObjectCommand({
@@ -56,7 +56,7 @@ export async function uploadFileToStorage(
     // Execute upload to Garage
     await s3Client.send(command);
 
-    const publicBaseUrl = process.env.GARAGE_PUBLIC_URL || `http://localhost:3900/${bucketName}`;
+    const publicBaseUrl = process.env.GARAGE_PUBLIC_URL || `http://localhost:9000/${bucketName}`;
 
     return {
       // Secure files shouldn't expose a public URL, just return the key for later decryption fetches

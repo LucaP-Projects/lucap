@@ -11,27 +11,28 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/18/docker
   storage:
-    image: dxos/garage:layout-v9 # Or minio/minio
+    image: minio/minio
     container_name: lucap_storage
     restart: unless-stopped
+    command: server /data --console-address ":9001"
     volumes:
-      - lucap_meta:/var/lib/garage/meta
-      - lucap_data:/var/lib/garage/data
+      - lucap_data:/data
     ports:
-      - "3900:3900" # S3 API Endpoint
+      - "9000:9000" # S3 API Endpoint
+      - "9001:9001" # Console UI
     environment:
-      - GARAGE_RPC_SECRET=${GARAGE_RPC_SECRET:-lucap_secret}
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
   mail:
     image: axllent/mailpit:latest
     restart: unless-stopped
     ports:
-      - "${MAIL_PORT_DOCKER}:1025"
-      - "${MAIL_UI_PORT}:8025"
+      - "${MAIL_PORT:-1025}:1025"
+      - "${MAIL_UI_PORT:-8025}:8025"
     environment:
       MP_SMTP_AUTH_ACCEPT_ANY: 1
       MP_SMTP_AUTH_ALLOW_INSECURE: 1
 
 volumes:
   pgdata:
-  lucap_meta:
   lucap_data:
