@@ -54,7 +54,7 @@ export function LoginForm({
         return;
       }
 
-      router.push("/dashboard");
+      router.push("/");
     } catch (err) {
       if (err instanceof Error) {
         console.error("Login error:", err);
@@ -157,17 +157,6 @@ export function LoginForm({
               </FieldDescription>
             )
           : null}
-        </Field>
-        <Field>
-          <FieldDescription className="text-center">
-            Don&apos;t have an account?{" "}
-            <Link
-              href="/auth/register"
-              className="underline underline-offset-4"
-            >
-              Sign up
-            </Link>
-          </FieldDescription>
         </Field>
       </FieldGroup>
     </form>

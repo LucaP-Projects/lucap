@@ -33,12 +33,12 @@ export async function proxy(request: NextRequest) {
   const session = await auth.api.getSession({headers: request.headers});
   const isLoggedIn = !!session;
 
-  // Remove language prefix for route checking
-  const pathWithoutLang = pathname.replace(/^\/[a-z]{2}/, '') || '/';
+  // Remove language prefix for route checking (only strip if exactly 2 letters followed by / or end)
+  const pathWithoutLang = pathname.replace(/^\/[a-z]{2}(?=\/|$)/, '') || '/';
 
   const normalizeToCompanyPath = (companySlug: string) => {
     if (pathWithoutLang === '/') {
-      return `/${companySlug}/dashboard`;
+      return `/${companySlug}`;
     }
 
     if (pathWithoutLang.startsWith(`/${companySlug}/`) || pathWithoutLang === `/${companySlug}`) {
@@ -72,8 +72,8 @@ export async function proxy(request: NextRequest) {
   
   if (pathWithoutLang === '/' ) {
     if (isLoggedIn) {
-      if (session.user.activeCompanyId) {
-        return NextResponse.redirect(new URL(`/${session.user.activeCompany?.slug}/dashboard`, request.url));
+      if (session.user.activeCompany?.slug) {
+        return NextResponse.redirect(new URL(`/${session.user.activeCompany.slug}`, request.url));
       } else {
         return NextResponse.redirect(new URL(`/select-company`, request.url));
       }

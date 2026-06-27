@@ -25,7 +25,7 @@ export const SignOutButton = () => {
           });
         },
         onSuccess: () => {
-          router.push('/login');
+          router.push('/auth/login');
         }
       }
     });

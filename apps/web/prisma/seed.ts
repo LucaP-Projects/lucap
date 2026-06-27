@@ -1,12 +1,12 @@
 import "dotenv/config";
-import { seedUsers, seedAccountsTN, seedCompany } from './seeds/data';
+import { seedUsers, seedUsersAuth, seedAccountsTN, seedCompany } from './seeds/data';
 import { prisma, executeSeedModules } from './seeds/utils/seedUtils';
 
 async function main() {
   try {
     console.log('Starting seed process...');
 
-    await executeSeedModules([seedAccountsTN, seedCompany, seedUsers]);
+    await executeSeedModules([seedAccountsTN, seedCompany, seedUsers, seedUsersAuth]);
 
     console.log('✓ Seed process completed successfully');
   } catch (error) {
