@@ -36,6 +36,7 @@ export function NavUser() {
     try {
       setIsLoggingOut(true);
       await authClient.signOut();
+      router.push('/auth/login');
     } catch (error) {
       console.error('Logout error:', error);
     } finally {

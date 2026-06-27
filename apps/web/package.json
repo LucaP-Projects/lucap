@@ -11,7 +11,7 @@
     "check-types": "next typegen && tsc --noEmit",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev --name init",
-    "db:seed": "ts-node prisma/seed.ts",
+    "db:seed": "bun prisma/seed.ts",
     "auth:generate": "npx auth@latest generate",
     "doctor": "react-doctor"
   },
