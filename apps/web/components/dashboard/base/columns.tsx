@@ -1,9 +1,9 @@
-'use client';
-import { useState } from 'react';
-import { ColumnDef } from '@tanstack/react-table';
-import { format } from 'date-fns';
-import { useRouter } from 'next/navigation';
-import { MoreHorizontal } from 'lucide-react';
+"use client";
+import { useState } from "react";
+import { ColumnDef } from "@tanstack/react-table";
+import { format } from "date-fns";
+import { useRouter } from "next/navigation";
+import { MoreHorizontal } from "lucide-react";
 import {
   getInvoiceById,
   getDelayedCreditById,
@@ -11,21 +11,21 @@ import {
   getEstimateById,
   getSalesReceiptById,
   getRefundReceiptById,
-  getCreditMemoById
-} from '@/app/(app)/[company-slug]/(dashboards)/pdf/[id]/actions';
-import { useInvoiceRefresh } from '@/components/dashboard/invoices/useInvoiceRefresh';
-import InvoicePaymentSheet from '@/components/payment-event/invoices/invoice-payment-sheet';
-import { PaymentFormData } from '@/components/payment-event/invoices/types';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
+  getCreditMemoById,
+} from "@/app/(app)/[company-slug]/(dashboards)/pdf/[id]/actions";
+import { useInvoiceRefresh } from "@/components/dashboard/invoices/useInvoiceRefresh";
+import InvoicePaymentSheet from "@/components/payment-event/invoices/invoice-payment-sheet";
+import { PaymentFormData } from "@/components/payment-event/invoices/types";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from "@/components/ui/dropdown-menu";
 import {
   EstimateStatus,
   RefundStatus,
@@ -34,9 +34,9 @@ import {
   ChargeStatus,
   CreditStatus,
   PaymentStatus,
-  PaymentMethod
-} from '@/lib/generated/prisma/enums';
-import { mapInvoiceDataForPdf } from '@/utils/invoicePdfMapper';
+  PaymentMethod,
+} from "@/lib/generated/prisma/enums";
+import { mapInvoiceDataForPdf } from "@/utils/invoicePdfMapper";
 
 export type EntityStatus =
   | EstimateStatus
@@ -48,14 +48,14 @@ export type EntityStatus =
   | PaymentStatus;
 
 export type EntityType =
-  | 'estimate'
-  | 'refund'
-  | 'creditMemo'
-  | 'receipt'
-  | 'charge'
-  | 'credit'
-  | 'payment'
-  | 'invoice';
+  | "estimate"
+  | "refund"
+  | "creditMemo"
+  | "receipt"
+  | "charge"
+  | "credit"
+  | "payment"
+  | "invoice";
 
 export interface EntityConfig {
   type: EntityType;
@@ -82,42 +82,42 @@ interface BaseEntityCore {
 }
 
 const formatCurrency = (amount: number): string =>
-  new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD'
+  new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
   }).format(amount);
 
-const formatDate = (date: Date): string => format(date, 'PP');
+const formatDate = (date: Date): string => format(date, "PP");
 
 export const formatStatus = (status: EntityStatus): string =>
-  status.charAt(0) + status.slice(1).toLowerCase().replace(/_/g, ' ');
+  status.charAt(0) + status.slice(1).toLowerCase().replace(/_/g, " ");
 
 export const getStatusColor = (status: EntityStatus): string => {
   const baseColors: Record<EntityStatus, string> = {
-    DRAFT: 'bg-gray-500 hover:bg-gray-600',
-    PENDING: 'bg-yellow-500 hover:bg-yellow-600',
-    SENT: 'bg-blue-500 hover:bg-blue-600',
-    ACCEPTED: 'bg-green-500 hover:bg-green-600',
-    REJECTED: 'bg-red-500 hover:bg-red-600',
-    EXPIRED: 'bg-gray-500 hover:bg-gray-600',
-    CONVERTED: 'bg-purple-500 hover:bg-purple-600',
-    PROCESSED: 'bg-green-500 hover:bg-green-600',
-    CANCELLED: 'bg-red-500 hover:bg-red-600',
-    COMPLETED: 'bg-green-500 hover:bg-green-600',
-    VOID: 'bg-gray-500 hover:bg-gray-600',
-    REFUNDED: 'bg-purple-500 hover:bg-purple-600',
-    APPLIED: 'bg-green-500 hover:bg-green-600',
-    CREDITED: 'bg-green-500 hover:bg-green-600',
-    PAID: 'bg-green-500 hover:bg-green-600',
-    OVERDUE: 'bg-red-500 hover:bg-red-600',
-    PARTIAL: 'bg-blue-500 hover:bg-blue-600',
-    ISSUED: 'bg-gray-500 hover:bg-gray-600',
-    VOIDED: 'bg-gray-500 hover:bg-gray-600',
-    CANCELED: 'bg-red-500 hover:bg-red-600',
-    INVOICED: 'bg-blue-500 hover:bg-blue-600'
+    DRAFT: "bg-gray-500 hover:bg-gray-600",
+    PENDING: "bg-yellow-500 hover:bg-yellow-600",
+    SENT: "bg-blue-500 hover:bg-blue-600",
+    ACCEPTED: "bg-green-500 hover:bg-green-600",
+    REJECTED: "bg-red-500 hover:bg-red-600",
+    EXPIRED: "bg-gray-500 hover:bg-gray-600",
+    CONVERTED: "bg-purple-500 hover:bg-purple-600",
+    PROCESSED: "bg-green-500 hover:bg-green-600",
+    CANCELLED: "bg-red-500 hover:bg-red-600",
+    COMPLETED: "bg-green-500 hover:bg-green-600",
+    VOID: "bg-gray-500 hover:bg-gray-600",
+    REFUNDED: "bg-purple-500 hover:bg-purple-600",
+    APPLIED: "bg-green-500 hover:bg-green-600",
+    CREDITED: "bg-green-500 hover:bg-green-600",
+    PAID: "bg-green-500 hover:bg-green-600",
+    OVERDUE: "bg-red-500 hover:bg-red-600",
+    PARTIAL: "bg-blue-500 hover:bg-blue-600",
+    ISSUED: "bg-gray-500 hover:bg-gray-600",
+    VOIDED: "bg-gray-500 hover:bg-gray-600",
+    CANCELED: "bg-red-500 hover:bg-red-600",
+    INVOICED: "bg-blue-500 hover:bg-blue-600",
   };
 
-  return baseColors[status] || 'bg-gray-500 hover:bg-gray-600';
+  return baseColors[status] || "bg-gray-500 hover:bg-gray-600";
 };
 
 // Actions Cell Wrapper Component to handle React hooks properly
@@ -148,25 +148,25 @@ const ActionsCell = ({ row, config }: { row: any; config: EntityConfig }) => {
     try {
       let documentResult;
       switch (config.type) {
-        case 'invoice':
+        case "invoice":
           documentResult = await getInvoiceById(itemId);
           break;
-        case 'credit':
+        case "credit":
           documentResult = await getDelayedCreditById(itemId);
           break;
-        case 'charge':
+        case "charge":
           documentResult = await getDelayedChargesById(itemId);
           break;
-        case 'estimate':
+        case "estimate":
           documentResult = await getEstimateById(itemId);
           break;
-        case 'receipt':
+        case "receipt":
           documentResult = await getSalesReceiptById(itemId);
           break;
-        case 'refund':
+        case "refund":
           documentResult = await getRefundReceiptById(itemId);
           break;
-        case 'creditMemo':
+        case "creditMemo":
           documentResult = await getCreditMemoById(itemId);
           break;
         default:
@@ -175,14 +175,14 @@ const ActionsCell = ({ row, config }: { row: any; config: EntityConfig }) => {
 
       if (!documentResult.success || !documentResult.data) {
         throw new Error(
-          documentResult.error || `Failed to fetch ${config.type} data`
+          documentResult.error || `Failed to fetch ${config.type} data`,
         );
       }
       const pdfData = mapInvoiceDataForPdf(documentResult.data, config.type);
-      const response = await fetch('/api/pdf/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(pdfData)
+      const response = await fetch("/api/pdf/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(pdfData),
       });
 
       if (!response.ok) {
@@ -192,10 +192,10 @@ const ActionsCell = ({ row, config }: { row: any; config: EntityConfig }) => {
 
       const pdfBlob = await response.blob();
       const url = URL.createObjectURL(pdfBlob);
-      window.open(url, '_blank');
+      window.open(url, "_blank");
     } catch (error) {
-      console.error('Error printing invoice:', error);
-      alert('Failed to print invoice. Please try again.');
+      console.error("Error printing invoice:", error);
+      alert("Failed to print invoice. Please try again.");
     }
   };
 
@@ -203,20 +203,20 @@ const ActionsCell = ({ row, config }: { row: any; config: EntityConfig }) => {
     setLoading(true);
     try {
       const response = await fetch(`/api/payments`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...paymentData, invoiceId: item.id })
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...paymentData, invoiceId: item.id }),
       });
 
       const result = await response.json();
       if (!response.ok) {
-        throw new Error(result.message || 'Failed to add payment');
+        throw new Error(result.message || "Failed to add payment");
       }
 
       setIsPaymentSheetOpen(false);
       router.refresh();
     } catch (error: any) {
-      console.error('Payment error:', error);
+      console.error("Payment error:", error);
     } finally {
       setLoading(false);
     }
@@ -229,14 +229,14 @@ const ActionsCell = ({ row, config }: { row: any; config: EntityConfig }) => {
       setRefreshedInvoice(result);
       setIsPaymentSheetOpen(true);
     } catch (error) {
-      console.error('Failed to refresh invoice:', error);
+      console.error("Failed to refresh invoice:", error);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div data-click-ignore="true" onClick={handleMenuClick}>
+    <div role="button" data-click-ignore="true" onClick={handleMenuClick}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild onClick={handleMenuClick}>
           <Button variant="ghost" className="h-8 w-8 p-0">
@@ -258,7 +258,7 @@ const ActionsCell = ({ row, config }: { row: any; config: EntityConfig }) => {
               onClick={(e) =>
                 handleAction(
                   e,
-                  () => (window.location.href = config.getEditUrl(item.id))
+                  () => (window.location.href = config.getEditUrl(item.id)),
                 )
               }
             >
@@ -269,7 +269,7 @@ const ActionsCell = ({ row, config }: { row: any; config: EntityConfig }) => {
             onClick={(e) =>
               handleAction(
                 e,
-                () => (window.location.href = config.getDetailUrl(item.id))
+                () => (window.location.href = config.getDetailUrl(item.id)),
               )
             }
           >
@@ -279,14 +279,14 @@ const ActionsCell = ({ row, config }: { row: any; config: EntityConfig }) => {
             onClick={(e) => handlePrintInvoice(e, item.id)}
             disabled={loading}
           >
-            {loading ? 'Printing...' : 'Print PDF'}
+            {loading ? "Printing..." : "Print PDF"}
           </DropdownMenuItem>
-          {config.type === 'invoice' && (
+          {config.type === "invoice" && (
             <DropdownMenuItem
               onClick={(e) => handleAction(e, openPaymentSheet)}
               disabled={loading}
             >
-              {loading ? 'Loading...' : 'Add Payment'}
+              {loading ? "Loading..." : "Add Payment"}
             </DropdownMenuItem>
           )}
         </DropdownMenuContent>
@@ -305,7 +305,7 @@ const ActionsCell = ({ row, config }: { row: any; config: EntityConfig }) => {
 };
 
 export function createColumns<T extends BaseEntityCore>(
-  config: EntityConfig
+  config: EntityConfig,
 ): ColumnDef<T>[] {
   // Get the refresh hook (will only be available in invoice tables)
   const InvoiceRefreshCell = ({ row }: { row: any }) => {
@@ -314,10 +314,10 @@ export function createColumns<T extends BaseEntityCore>(
 
     // Check if there's an updated status for this invoice
     const refreshedStatus =
-      config.type === 'invoice' ? getRefreshedStatus(item.id) : null;
+      config.type === "invoice" ? getRefreshedStatus(item.id) : null;
 
     // Use refreshed status if available, otherwise use the original
-    const status = refreshedStatus || (row.getValue('status') as EntityStatus);
+    const status = refreshedStatus || (row.getValue("status") as EntityStatus);
 
     return (
       <Badge className={getStatusColor(status)}>{formatStatus(status)}</Badge>
@@ -326,7 +326,7 @@ export function createColumns<T extends BaseEntityCore>(
 
   return [
     {
-      id: 'select',
+      id: "select",
       header: ({ table }) => (
         <div onClick={(e) => e.stopPropagation()} className="px-1">
           <Checkbox
@@ -350,101 +350,101 @@ export function createColumns<T extends BaseEntityCore>(
         </div>
       ),
       enableSorting: false,
-      enableHiding: false
+      enableHiding: false,
     },
     {
-      accessorKey: 'number',
-      header: config.numberLabel
+      accessorKey: "number",
+      header: config.numberLabel,
     },
     {
-      accessorKey: 'customer.displayName',
-      header: 'Customer'
+      accessorKey: "customer.displayName",
+      header: "Customer",
     },
     {
-      id: 'amount',
-      header: 'Amount',
+      id: "amount",
+      header: "Amount",
       cell: ({ row }) => {
         const value = row.original.totalAmount ?? row.original.amount ?? 0;
         return formatCurrency(value);
-      }
+      },
     },
     {
-      id: 'date',
-      header: 'Date',
+      id: "date",
+      header: "Date",
       cell: ({ row }) => {
         const date =
           row.original.dueDate ?? row.original.createdAt ?? new Date();
         return formatDate(date);
-      }
+      },
     },
     {
-      accessorKey: 'status',
-      header: 'Status',
-      cell: ({ row }) => <InvoiceRefreshCell row={row} />
+      accessorKey: "status",
+      header: "Status",
+      cell: ({ row }) => <InvoiceRefreshCell row={row} />,
     },
     {
-      id: 'actions',
-      cell: ({ row }) => <ActionsCell row={row} config={config} />
-    }
+      id: "actions",
+      cell: ({ row }) => <ActionsCell row={row} config={config} />,
+    },
   ];
 }
 
 export const entityConfigs: Record<EntityType, EntityConfig> = {
   estimate: {
-    type: 'estimate',
+    type: "estimate",
     getDetailUrl: (id: string) => `/estimates/${id}`,
     getEditUrl: (id: string) => `/estimate/${id}`,
     canEdit: (status: EntityStatus) => true,
-    numberLabel: 'Estimate #'
+    numberLabel: "Estimate #",
   },
   creditMemo: {
-    type: 'creditMemo',
+    type: "creditMemo",
     getDetailUrl: (id: string) => `/creditmemos/${id}`,
     getEditUrl: (id: string) => `/creditmemo/${id}`,
     canEdit: (status: EntityStatus) => true,
-    numberLabel: 'Credit Memo #'
+    numberLabel: "Credit Memo #",
   },
   receipt: {
-    type: 'receipt',
+    type: "receipt",
     getDetailUrl: (id: string) => `/receipts/${id}`,
     getEditUrl: (id: string) => `/salesreceipt/${id}`,
     canEdit: (status: EntityStatus) =>
-      !['VOIDED', 'REFUNDED'].includes(status as string),
-    numberLabel: 'Receipt #'
+      !["VOIDED", "REFUNDED"].includes(status as string),
+    numberLabel: "Receipt #",
   },
   refund: {
-    type: 'refund',
+    type: "refund",
     getDetailUrl: (id: string) => `/refunds/${id}`,
     getEditUrl: (id: string) => `/refundreceipt/${id}`,
     canEdit: (status: EntityStatus) => true,
-    numberLabel: 'Refund #'
+    numberLabel: "Refund #",
   },
   charge: {
-    type: 'charge',
+    type: "charge",
     getDetailUrl: (id: string) => `/charges/${id}`,
     getEditUrl: (id: string) => `/delayedcharge/${id}`,
     canEdit: (status: EntityStatus) => true,
-    numberLabel: 'Charge #'
+    numberLabel: "Charge #",
   },
   credit: {
-    type: 'credit',
+    type: "credit",
     getDetailUrl: (id: string) => `/credits/${id}`,
     getEditUrl: (id: string) => `/delayedcredit/${id}`,
     canEdit: (status: EntityStatus) => true,
-    numberLabel: 'Credit #'
+    numberLabel: "Credit #",
   },
   payment: {
-    type: 'payment',
+    type: "payment",
     getDetailUrl: (id: string) => `/payments/${id}`,
     getEditUrl: (id: string) => `/payment/${id}`,
     canEdit: (status: EntityStatus) => true,
-    numberLabel: 'Payment #'
+    numberLabel: "Payment #",
   },
   invoice: {
-    type: 'invoice',
+    type: "invoice",
     getDetailUrl: (id: string) => `/invoices/${id}`,
     getEditUrl: (id: string) => `/invoice/${id}`,
     canEdit: (status: EntityStatus) => true,
-    numberLabel: 'Invoice #'
-  }
+    numberLabel: "Invoice #",
+  },
 } as const;

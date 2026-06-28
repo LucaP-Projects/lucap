@@ -64,7 +64,7 @@ export const BaseMobileCard = <T extends BaseDocument>({
   renderContent,
   renderActions
 }: BaseMobileCardProps<T>) => {
-  const handleCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleCardClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     const target = e.target as HTMLElement;
     if (target.closest("[data-click-ignore='true']")) return;
     onSelect(row.original);
@@ -72,10 +72,9 @@ export const BaseMobileCard = <T extends BaseDocument>({
   };
 
   return (
-    <div
+    <button
       className="hover:bg-muted/50 mb-4 cursor-pointer rounded-lg border p-4 shadow"
       onClick={handleCardClick}
-      role="button"
       tabIndex={0}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
@@ -133,7 +132,7 @@ export const BaseMobileCard = <T extends BaseDocument>({
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-    </div>
+    </button>
   );
 };
 

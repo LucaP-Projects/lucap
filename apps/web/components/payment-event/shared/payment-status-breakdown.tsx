@@ -1,6 +1,6 @@
 import React from 'react';
 import { Calendar, CreditCard } from 'lucide-react';
-import { getBaseScheduleInfo } from '@/app/(app)/[company-slug]/(dashboards)/payment/[id]/utils';
+import { getBaseScheduleInfo } from '@/app/(app)/[company-slug]/(dashboards)/payments/[id]/utils';
 import type { PaymentStatus } from '@/lib/generated/prisma/enums';
 import { cn } from '@/lib/utils';
 

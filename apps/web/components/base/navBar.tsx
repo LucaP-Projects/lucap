@@ -4,7 +4,6 @@ import { useFormContext } from 'react-hook-form';
 import { LucideIcon, PenLine, CreditCard, Mail, FileText, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useDebounce } from '@/hooks/use-debounce';
 import { cn } from '@/lib/utils';
 import { useFormCacheStore } from '@/stores/useInvoice';
 import { useSidebarStore } from '@/stores/useSidePaper';
@@ -34,28 +33,41 @@ const MemoizedNavigation = memo(() => {
     (state) => state.setCachedFormData
   );
   const shouldCache = useRef(false);
+  const cacheUpdateTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const debouncedCacheUpdate = useDebounce((currentValues: InvoiceFormValues) => {
-    if (shouldCache.current) {
-      setCachedFormData(currentValues);
-    }
-  }, 500);
+  const scheduleCacheUpdate = useCallback(
+    (currentValues: InvoiceFormValues) => {
+      if (cacheUpdateTimeoutRef.current) {
+        clearTimeout(cacheUpdateTimeoutRef.current);
+      }
+
+      cacheUpdateTimeoutRef.current = setTimeout(() => {
+        if (shouldCache.current) {
+          setCachedFormData(currentValues);
+        }
+      }, 500);
+    },
+    [setCachedFormData]
+  );
 
   useEffect(() => {
     shouldCache.current = true;
 
-    const subscription = watch((value, { name, type }) => {
+    const subscription = watch(() => {
       if (activeView === 'form') {
         const currentValues = getValues();
-        debouncedCacheUpdate(currentValues);
+        scheduleCacheUpdate(currentValues);
       }
     });
 
     return () => {
       shouldCache.current = false;
+      if (cacheUpdateTimeoutRef.current) {
+        clearTimeout(cacheUpdateTimeoutRef.current);
+      }
       subscription.unsubscribe();
     };
-  }, [watch, getValues, debouncedCacheUpdate, activeView]);
+  }, [watch, getValues, scheduleCacheUpdate, activeView]);
 
   const handleViewChange = useCallback(
     (value: string) => {

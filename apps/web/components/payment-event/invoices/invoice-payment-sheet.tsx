@@ -52,12 +52,9 @@ const InvoicePaymentSheet: React.FC<InvoicePaymentSheetProps> = ({
   isProcessing
 }) => {
   const [showConfirmation, setShowConfirmation] = React.useState(false);
-  const [invoiceData, setInvoiceData] = useState(invoice);
+  const [invoiceData, ] = useState(invoice);
 
-  // Update the invoice data whenever the prop changes
-  useEffect(() => {
-    setInvoiceData(invoice);
-  }, [invoice]);
+  
 
   const calculateTotals = () => {
     const baseAmount = invoiceData.paymentEventSnapshot.snapshotData

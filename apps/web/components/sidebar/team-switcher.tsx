@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import { useTransition } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
@@ -69,7 +70,6 @@ export function TeamSwitcher({ companies }: { companies: Company[] }) {
     return (
       <SidebarMenu>
         <SidebarMenuItem>
-          <TooltipProvider disableHoverableContent>
             <Tooltip delayDuration={100}>
               <TooltipTrigger asChild>
                 <SidebarMenuButton
@@ -78,7 +78,7 @@ export function TeamSwitcher({ companies }: { companies: Company[] }) {
                   asChild
                 >
                   <Link href={`/create-company`}>
-                    <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
+                    <div className=" text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
                       <Plus className="size-4" />
                     </div>
                     <div className="grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
@@ -96,7 +96,6 @@ export function TeamSwitcher({ companies }: { companies: Company[] }) {
                 </TooltipContent>
               )}
             </Tooltip>
-          </TooltipProvider>
         </SidebarMenuItem>
       </SidebarMenu>
     );
@@ -121,10 +120,12 @@ export function TeamSwitcher({ companies }: { companies: Company[] }) {
                   >
                     <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
                       {selectedCompany.logo ? (
-                        <img
+                        <Image
                           src={selectedCompany.logo}
                           alt={selectedCompany.name}
                           className="size-6 rounded-full object-cover"
+                          width={24}
+                          height={24}
                         />
                       ) : (
                         <div className="flex items-center justify-center">
@@ -173,10 +174,12 @@ export function TeamSwitcher({ companies }: { companies: Company[] }) {
                             }`}
                         >
                           {company.logo ? (
-                            <img
+                            <Image
                               src={company.logo}
                               alt={company.name}
                               className="size-4 rounded-full object-cover"
+                              width={16}
+                              height={16}
                             />
                           ) : (
                             <Building2
@@ -208,14 +211,11 @@ export function TeamSwitcher({ companies }: { companies: Company[] }) {
                             </span>
                           )}
                         </div>
-                        {/* <DropdownMenuShortcut>
-                          ⌘{index + 1}
-                        </DropdownMenuShortcut> */}
                       </DropdownMenuItem>
                     );
                   })}
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem className="gap-2 p-2" asChild>
+                  {/* <DropdownMenuItem className="gap-2 p-2" asChild>
                     <Link href={`/create-company`}>
                       <div className="bg-background flex size-6 items-center justify-center rounded-md border">
                         <Plus className="size-4" />
@@ -224,7 +224,7 @@ export function TeamSwitcher({ companies }: { companies: Company[] }) {
                         Add company
                       </div>
                     </Link>
-                  </DropdownMenuItem>
+                  </DropdownMenuItem> */}
                 </DropdownMenuContent>
               </DropdownMenu>
             </TooltipTrigger>

@@ -1,0 +1,30 @@
+{
+  "AppLayout": {
+    "home": "الرئيسية",
+    "logout": "تسجيل الخروج",
+    "profile": "الملف الشخصي"
+  },
+  "HomePage": {
+    "title": "الرئيسية"
+  },
+  "LocaleSwitcher": {
+    "ar": "العربية",
+    "fr": "Français",
+    "en": "English",
+    "label": "اللغة"
+  },
+  "LoginPage": {
+    "credentials": "بيانات الاعتماد: jane@doe.com / next-intl",
+    "description": "يرجى إدخال معلوماتك.",
+    "email": "البريد الإلكتروني",
+    "invalidCredentials": "يرجى التحقق من بيانات الاعتماد الخاصة بك.",
+    "invalidEmail": "يرجى إدخال عنوان بريد إلكتروني صالح.",
+    "invalidPassword": "يرجى إدخال كلمة المرور.",
+    "login": "تسجيل الدخول",
+    "password": "كلمة المرور",
+    "title": "مرحبًا بعودتك"
+  },
+  "ProfilePage": {
+    "title": "الملف الشخصي"
+  }
+}

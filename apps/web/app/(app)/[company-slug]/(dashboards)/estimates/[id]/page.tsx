@@ -1,4 +1,3 @@
-// app/estimates/[id]/edit/page.tsx
 import { notFound } from 'next/navigation';
 import { getCurrentCompanyForInvoice } from '@/components/base/company/actions';
 import { getEstimate } from '@/components/estimate/actions';

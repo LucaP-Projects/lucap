@@ -1,9 +1,9 @@
 'use client';
 import { useState } from 'react';
-import { Calendar as CalendarIcon, Check, Command } from 'lucide-react';
+import { Calendar as CalendarIcon, Check } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
-import { CommandEmpty, CommandGroup, CommandItem } from '@/components/ui/command';
+import { Command, CommandEmpty, CommandGroup, CommandItem } from '@/components/ui/command';
 import { Input } from '@/components/ui/input';
 import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';

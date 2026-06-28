@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, createContext, useContext, useState } from 'react';
+import { useCallback, createContext, use, useState } from 'react';
 import { PaymentStatus } from '@/lib/generated/prisma/enums';
 import { getInvoiceStats } from './actions';
 
@@ -83,5 +83,5 @@ export function InvoiceRefreshProvider({
 
 // Custom hook to use the context
 export function useInvoiceRefresh() {
-  return useContext(InvoiceRefreshContext);
+  return use(InvoiceRefreshContext);
 }

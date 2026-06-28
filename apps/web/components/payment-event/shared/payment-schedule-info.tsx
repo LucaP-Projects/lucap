@@ -1,5 +1,5 @@
 import { Calendar, CreditCard } from 'lucide-react';
-import { getBaseScheduleInfo } from '@/app/(app)/[company-slug]/(dashboards)/payment/[id]/utils';
+import { getBaseScheduleInfo } from '@/app/(app)/[company-slug]/(dashboards)/payments/[id]/utils';
 
 export default function ScheduleInfoDisplay({
   baseSchedule

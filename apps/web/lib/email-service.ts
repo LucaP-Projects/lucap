@@ -89,7 +89,7 @@ class EmailServiceClient {
         );
         console.error(`   - For local dev: Use http://localhost:8081/api/v1`);
         console.error(
-          `   - For Docker: Use http://silknexus_email:8080/api/v1`
+          `   - For Docker: Use http://lucap_email:8080/api/v1`
         );
       }
 

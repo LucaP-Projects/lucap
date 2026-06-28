@@ -1,7 +1,7 @@
 
 import { CheckCircle, Clock, AlertCircle, XCircle } from 'lucide-react';
 
-import { getPaymentStatusConfig } from '@/app/(app)/[company-slug]/(dashboards)/payment/[id]/utils';
+import { getPaymentStatusConfig } from '@/app/(app)/[company-slug]/(dashboards)/payments/[id]/utils';
 import { Badge } from '@/components/ui/badge';
 import type { PaymentStatus } from '@/lib/generated/prisma/enums';
 
