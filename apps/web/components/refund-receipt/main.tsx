@@ -1,6 +1,6 @@
 'use client';
 import { useCallback, useMemo, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { FormProvider } from 'react-hook-form';
 import { toast } from 'sonner';
 import { DiscountApplicationTime } from '@/lib/generated/prisma/enums';
@@ -41,6 +41,8 @@ export function RefundReceiptForm({
   });
 
   const router = useRouter();
+  const params = useParams<{ 'company-slug': string }>();
+  const companySlug = params['company-slug'];
   const { handleSubmit } = formMethods;
 
   const [warnings, setWarnings] = useState<ValidationWarning[]>([]);
@@ -110,7 +112,7 @@ export function RefundReceiptForm({
           `Refund receipt ${mode === 'create' ? 'created' : 'updated'} successfully`
         );
 
-        router.push('/refundreceipts');
+        router.push(`/${companySlug}/refund-receipt`);
         router.refresh();
       } catch (error) {
         console.error('Submission error:', error);

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { Plus, Printer, Search, Sheet, SquareArrowOutUpRight, Table } from 'lucide-react';
 
 import { CustomerForm } from '@/components/customer/customer-form';
@@ -34,6 +34,8 @@ export function CustomerTable({
 }: CustomerTableProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const params = useParams<{ 'company-slug': string }>();
+  const companySlug = params['company-slug'];
   const [columns, setColumns] = useState(['Address', 'Phone', 'Email']);
   const [pageSize, setPageSize] = useState(50);
   const [includeInactive, setIncludeInactive] = useState(false);
@@ -45,13 +47,13 @@ export function CustomerTable({
     const params = new URLSearchParams(searchParams);
     params.set('search', value || '');
     params.set('offset', '0');
-    router.push(`/customers?${params.toString()}`);
+    router.push(`/${companySlug}/customers?${params.toString()}`);
   };
 
   const handlePageChange = (newOffset: number) => {
     const params = new URLSearchParams(searchParams);
     params.set('offset', newOffset.toString());
-    router.push(`/customers?${params.toString()}`);
+    router.push(`/${companySlug}/customers?${params.toString()}`);
   };
 
   function handleCustomerCreated(): void {

@@ -1,6 +1,6 @@
 'use client';
 import { useCallback, useMemo, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { FormProvider } from 'react-hook-form';
 import { toast } from 'sonner';
 import { DiscountApplicationTime } from '@/lib/generated/prisma/enums';
@@ -34,6 +34,8 @@ export function InvoiceForm({
   });
 
   const router = useRouter();
+  const params = useParams<{ 'company-slug': string }>();
+  const companySlug = params['company-slug'];
   const { handleSubmit } = formMethods;
   const [warnings, setWarnings] = useState<ValidationWarning[]>([]);
   const [showWarnings, setShowWarnings] = useState(false);
@@ -101,7 +103,7 @@ export function InvoiceForm({
           `Invoice ${mode === 'create' ? 'created' : 'updated'} successfully`
         );
 
-        router.push('/invoices');
+        router.push(`/${companySlug}/invoice`);
         router.refresh();
       } catch (error) {
         console.error('Submission error:', error);

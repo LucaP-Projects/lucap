@@ -234,6 +234,72 @@ export async function createInvoice(
   }
 }
 
+export async function getInvoices(params?: {
+  search?: string;
+  status?: string;
+  offset?: number;
+  limit?: number;
+}): Promise<{
+  invoices: {
+    id: string;
+    number: string;
+    amount: number;
+    status: string;
+    dueDate: Date;
+    createdAt: Date;
+    customer: { displayName: string | null; primaryEmail: string | null };
+  }[];
+  total: number;
+}> {
+  try {
+    const session = await getSessionWithCompany();
+    if (!session?.user?.id) redirect('/login');
+    if (!session?.user?.activeCompanyId) redirect('/select-company');
+
+    const limit = params?.limit ?? 50;
+    const offset = params?.offset ?? 0;
+
+    const where = {
+      companyId: session.user.activeCompanyId,
+      isActive: true,
+      ...(params?.status && { status: params.status }),
+      ...(params?.search && {
+        OR: [
+          { number: { contains: params.search } },
+          { customer: { displayName: { contains: params.search } } },
+          { customer: { primaryEmail: { contains: params.search } } }
+        ]
+      })
+    };
+
+    const [invoices, total] = await Promise.all([
+      prisma.invoice.findMany({
+        where,
+        orderBy: { createdAt: 'desc' },
+        skip: offset,
+        take: limit,
+        select: {
+          id: true,
+          number: true,
+          amount: true,
+          status: true,
+          dueDate: true,
+          createdAt: true,
+          customer: {
+            select: { displayName: true, primaryEmail: true }
+          }
+        }
+      }),
+      prisma.invoice.count({ where })
+    ]);
+
+    return { invoices, total };
+  } catch (error) {
+    console.error('Error fetching invoices:', error);
+    return { invoices: [], total: 0 };
+  }
+}
+
 export async function getInvoice(id: string) {
   try {
     const session = await getSessionWithCompany();

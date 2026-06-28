@@ -2,7 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { Controller, Form, useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { Input } from '@/components/ui/input';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
@@ -71,7 +71,9 @@ export function TaxForm({
       toast.success(`Tax rate ${editData ? 'updated' : 'created'} successfully`);
       form.reset();
       onSuccess?.(response.data);
-      router.refresh();
+      if (!isNestedForm) {
+        router.refresh();
+      }
     } catch (error) {
       console.error(
         `Error ${editData ? 'updating' : 'creating'} tax rate:`,
@@ -92,8 +94,7 @@ export function TaxForm({
   };
 
   return (
-    <Form {...form}>
-      <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
+    <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
         <Controller
           control={form.control}
           name="name"
@@ -188,7 +189,6 @@ export function TaxForm({
             </Field>
           )}
         />
-      </form>
-    </Form>
+    </form>
   );
 }

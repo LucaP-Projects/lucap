@@ -31,13 +31,13 @@ import {
 } from '@/components/ui/tooltip';
 import { authClient } from '@/lib/auth-client';
 
-export function TeamSwitcher({ companies }: { companies: Company[] }) {
+export function TeamSwitcher({ companies, activeCompanyId: initialActiveCompanyId = '' }: { companies: Company[], activeCompanyId?: string }) {
   const { isMobile, open: isOpen } = useSidebar();
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const { data: session, refetch: updateSession } = authClient.useSession();
 
-  const currentCompanyId = session?.user?.activeCompanyId || '';
+  const currentCompanyId = session?.user?.activeCompanyId || initialActiveCompanyId;
   const selectedCompany = companies.find(
     (company) => company.id === currentCompanyId
   );

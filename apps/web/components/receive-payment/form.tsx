@@ -2,9 +2,9 @@
 
 import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 
-import { Controller, Form, useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 
 
 import { toast } from 'sonner';
@@ -30,6 +30,8 @@ export function PaymentForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [maxAmount, setMaxAmount] = useState(0);
   const router = useRouter();
+  const params = useParams<{ 'company-slug': string }>();
+  const companySlug = params['company-slug'];
   const form = useForm<PaymentFormValues>({
     resolver: zodResolver(paymentFormSchema),
     defaultValues: {
@@ -107,7 +109,7 @@ export function PaymentForm() {
       toast.success('Payment processed successfully');
 
       // Redirect and refresh
-      router.push('/payments');
+      router.push(`/${companySlug}/payment`);
       router.refresh();
     } catch (error) {
       console.error('Error submitting payment:', error);
@@ -120,8 +122,7 @@ export function PaymentForm() {
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <div className="mb-8">
           <h1 className="text-primary flex items-center gap-2 text-3xl font-bold">
             Receive Payment
@@ -169,7 +170,6 @@ export function PaymentForm() {
             </Button>
           </>
         )}
-      </form>
-    </Form>
+    </form>
   );
 }

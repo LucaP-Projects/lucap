@@ -26,7 +26,7 @@ import { NavProjects } from './nav-projects';
 import { NavUser } from './nav-user';
 import { TeamSwitcher } from './team-switcher';
 
-const data = {
+const buildNavData = (companySlug: string) => ({
   user: {
     name: 'shadcn',
     email: 'm@example.com',
@@ -35,7 +35,7 @@ const data = {
   navMain: [
     {
       title: 'Dashboard',
-      url: '/dashboard',
+      url: `/${companySlug}`,
       icon: Home,
       isActive: true
     },
@@ -56,84 +56,83 @@ const data = {
     },
     {
       title: 'Accountant',
-      url: '/',
+      url: '#',
       icon: Calculator,
       items: [
         {
           title: 'Account Plan',
-          url: '/account-plan'
+          url: `/${companySlug}/account-plan`
         },
         {
           title: 'Journals',
-          url: '/journals'
+          url: `/${companySlug}/journals`
         }
       ]
     },
     {
       title: 'Finance Dashboards',
-      url: '/finance/dashboards',
+      url: '#',
       icon: LayoutDashboard,
       items: [
         {
           title: 'Invoices',
-          url: '/invoices'
+          url: `/${companySlug}/invoice`
         },
         {
           title: 'Payments',
-          url: '/payments'
+          url: `/${companySlug}/payment`
         },
         {
           title: 'Customers',
-          url: '/customers'
+          url: `/${companySlug}/customers`
         },
         {
           title: 'Estimates',
-          url: '/estimates'
+          url: `/${companySlug}/estimate`
         },
         {
           title: 'Credit Memos',
-          url: '/creditmemos'
+          url: `/${companySlug}/credit-memo`
         },
         {
           title: 'Sales Receipts',
-          url: '/salesreceipts'
+          url: `/${companySlug}/sales-receipt`
         },
         {
           title: 'Delayed Charges',
-          url: '/delayedcharges'
+          url: `/${companySlug}/delayed-charge`
         },
         {
           title: 'Delayed Credits',
-          url: '/delayedcredits'
+          url: `/${companySlug}/delayed-credit`
         },
         {
           title: 'Refund Receipts',
-          url: '/refundreceipts'
+          url: `/${companySlug}/refund-receipt`
         }
       ]
     },
-
     {
       title: 'Categories',
-      url: '/finance/categories',
+      url: `/${companySlug}/category`,
       icon: BookOpen
     },
     {
       title: 'Finance Settings',
-      url: '/finance/settings',
+      url: '#',
       icon: Settings,
       items: [
         {
           title: 'Company Settings',
-          url: '/settings/edit-company'
+          url: `/${companySlug}/edit-company`
         },
         {
           title: 'Tax Settings',
-          url: '/settings/tax'
+          url: `/${companySlug}/tax`
         },
         {
           title: 'Category Settings',
-          url: '/settings/category'
+          url: `/${companySlug}/category`
         }
       ]
     }
@@ -155,20 +154,25 @@ const data = {
       icon: Store
     }
   ]
-};
+});
 
 export function AppSidebar({
   companies = [],
+  companySlug = '',
+  activeCompanyId = '',
   ...props
 }: React.ComponentProps<typeof Sidebar> & {
   companies?: Company[];
+  companySlug?: string;
+  activeCompanyId?: string;
 }) {
   const { open } = useSidebar();
+  const data = buildNavData(companySlug);
 
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <TeamSwitcher companies={companies} />
+        <TeamSwitcher companies={companies} activeCompanyId={activeCompanyId} />
       </SidebarHeader>
       <SidebarContent className="px-2 group-data-[collapsible=icon]:px-0">
         <div className="mb-4">

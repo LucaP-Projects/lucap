@@ -4,7 +4,7 @@ import { useFormContext } from 'react-hook-form';
 import { LucideIcon, PenLine, CreditCard, Mail, FileText, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useDebounce } from '@/hooks/use-debounce';
+import { useDebouncedCallback } from '@/hooks/use-debounce';
 import { cn } from '@/lib/utils';
 import { useFormCacheStore } from '@/stores/useInvoice';
 import { useSidebarStore } from '@/stores/useSidePaper';
@@ -35,7 +35,7 @@ const MemoizedNavigation = memo(() => {
   );
   const shouldCache = useRef(false);
 
-  const debouncedCacheUpdate = useDebounce((currentValues: InvoiceFormValues) => {
+  const debouncedCacheUpdate = useDebouncedCallback((currentValues: InvoiceFormValues) => {
     if (shouldCache.current) {
       setCachedFormData(currentValues);
     }

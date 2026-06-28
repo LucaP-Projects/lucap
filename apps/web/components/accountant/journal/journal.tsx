@@ -2,8 +2,8 @@
 import * as React from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { format } from 'date-fns';
-import { useRouter } from 'next/navigation';
-import { Controller, Form, useForm } from 'react-hook-form';
+import { useParams, useRouter } from 'next/navigation';
+import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { CalendarIcon, Plus, Trash2 } from 'lucide-react';
 
@@ -31,6 +31,8 @@ export function JournalEntryForm({
   initialData
 }: JournalEntryFormProps) {
   const router = useRouter();
+  const params = useParams<{ 'company-slug': string }>();
+  const companySlug = params['company-slug'];
 
   const [isPending, startTransition] = React.useTransition();
 
@@ -81,7 +83,7 @@ export function JournalEntryForm({
         );
 
         router.refresh();
-        router.push('/journals');
+        router.push(`/${companySlug}/journals`);
       } catch (error) {
         toast.error(
           error instanceof Error ? error.message : 'Something went wrong'
@@ -106,8 +108,7 @@ export function JournalEntryForm({
         <CardTitle>New Journal Entry</CardTitle>
       </CardHeader>
       <CardContent>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             {/* Header Section */}
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               {/* Date Field */}
@@ -387,8 +388,7 @@ export function JournalEntryForm({
                 </div>
               </div>
             </div>
-          </form>
-        </Form>
+        </form>
       </CardContent>
       <CardFooter className="flex flex-col-reverse gap-4 sm:flex-row sm:justify-end">
         <Button

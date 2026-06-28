@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useMemo, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { FormProvider } from 'react-hook-form';
 import { toast } from 'sonner';
 import { DiscountApplicationTime } from '@/lib/generated/prisma/enums';
@@ -36,6 +36,8 @@ export function CreditMemoForm({
   const setIsUploading = useUploadStore(
     useCallback((state) => state.setUploading, [])
   );
+  const params = useParams<{ 'company-slug': string }>();
+  const companySlug = params['company-slug'];
   const formMethods = useCreditMemoForm({
     initialData
   });
@@ -108,7 +110,7 @@ export function CreditMemoForm({
             mode === 'create' ? 'created' : 'updated'
           } successfully`
         );
-        router.push('/creditmemos');
+        router.push(`/${companySlug}/credit-memo`);
         router.refresh();
       } catch (error) {
         console.error('Submission error:', error);

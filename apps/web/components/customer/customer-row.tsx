@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { MoreHorizontal, Pencil, Trash2, UserRound } from 'lucide-react';
 
 import { formatCurrency } from '@/lib/utils';
@@ -18,6 +18,8 @@ interface CustomerRowProps {
 
 export function CustomerRow({ customer, columns }: CustomerRowProps) {
   const router = useRouter();
+  const params = useParams<{ 'company-slug': string }>();
+  const companySlug = params['company-slug'];
 
   function formatBillingAddress(billingAddress: PrismaJson.Address) {
     return `${billingAddress.line1}, ${billingAddress.city}, ${billingAddress.state} ${billingAddress.postalCode}`;
@@ -68,13 +70,13 @@ export function CustomerRow({ customer, columns }: CustomerRowProps) {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-40">
             <DropdownMenuItem
-              onClick={() => router.push(`/customers/${customer.id}`)}
+              onClick={() => router.push(`/${companySlug}/customers/${customer.id}`)}
             >
               <UserRound className="mr-2 h-4 w-4" />
               View Details
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={() => router.push(`/customers/${customer.id}/edit`)}
+              onClick={() => router.push(`/${companySlug}/customers/${customer.id}`)}
             >
               <Pencil className="mr-2 h-4 w-4" />
               Edit Customer

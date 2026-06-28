@@ -1,6 +1,6 @@
 'use client';
 import { useCallback, useMemo, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { FormProvider } from 'react-hook-form';
 import { toast } from 'sonner';
 import { DiscountApplicationTime } from '@/lib/generated/prisma/enums';
@@ -40,6 +40,8 @@ export function DelayedChargeForm({
   });
 
   const router = useRouter();
+  const params = useParams<{ 'company-slug': string }>();
+  const companySlug = params['company-slug'];
   const { handleSubmit } = formMethods;
 
   const [warnings, setWarnings] = useState<ValidationWarning[]>([]);
@@ -111,7 +113,7 @@ export function DelayedChargeForm({
           } successfully`
         );
 
-        router.push('/delayedcharges');
+        router.push(`/${companySlug}/delayed-charge`);
         router.refresh();
       } catch (error) {
         console.error('Submission error:', error);

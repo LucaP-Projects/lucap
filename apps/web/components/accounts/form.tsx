@@ -1,7 +1,7 @@
 import React from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { Controller, Form, useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
@@ -91,8 +91,7 @@ const AccountForm = ({
           </SheetDescription>
         </SheetHeader>
 
-        <Form {...form}>
-          <form onSubmit={handleSubmit} className="space-y-6 py-6">
+        <form onSubmit={handleSubmit} className="space-y-6 py-6">
             <Controller
               control={form.control}
               name="title"
@@ -162,8 +161,7 @@ const AccountForm = ({
                 {loading ? 'Creating...' : 'Create Account'}
               </Button>
             </SheetFooter>
-          </form>
-        </Form>
+        </form>
       </SheetContent>
       {children}
     </Sheet>

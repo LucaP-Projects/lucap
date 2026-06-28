@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Controller, Form, SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { Contact2, MapPinIcon, SquarePen } from 'lucide-react';
 import { createCustomer, sparseUpdateCustomer, getFullCustomer } from '@/app/(app)/[company-slug]/(dashboards)/customers/actions';
 import { Checkbox } from "@/components/ui/checkbox";
@@ -207,8 +207,7 @@ export function CustomerForm({
 
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
+    <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
         <Accordion
           type="multiple"
           className="flex flex-col gap-6"
@@ -1111,7 +1110,6 @@ export function CustomerForm({
             </AccordionContent>
           </AccordionItem>
         </Accordion>
-      </form>
-    </Form>
+    </form>
   );
 }

@@ -17,13 +17,15 @@ import { Providers } from './providers';
 
 // DashboardLayout.tsx
 export default async function DashboardLayout({
-  children
+  children,
+  params
 }: {
   children: React.ReactNode;
+  params: Promise<{ 'company-slug': string }>;
 }) {
   const session = await auth.api.getSession({ headers: await headers() });
   const locale = await getLocale();
-
+  const { 'company-slug': companySlug } = await params;
 
   const companies: Company[] = session ? await getUserCompanies() : [];
 
@@ -41,7 +43,7 @@ export default async function DashboardLayout({
 
   return (
     <SidebarProvider>
-      <AppSidebar companies={companies} />
+      <AppSidebar companies={companies} companySlug={companySlug} activeCompanyId={session.user.activeCompanyId ?? ''} />
       <SidebarInset className="flex h-screen flex-col">
         <header className="group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 bg-background sticky top-0 z-10 flex h-16 shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear">
           <div className="flex items-center gap-2 px-4">

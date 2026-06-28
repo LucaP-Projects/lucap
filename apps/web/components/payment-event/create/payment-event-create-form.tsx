@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { format } from 'date-fns';
 import { useRouter } from 'next/navigation';
-import { Controller, Form, useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { Calendar as CalendarIcon,  } from 'lucide-react';
 
@@ -215,8 +215,7 @@ export default function PaymentEventDrawer({
           </SheetHeader>
 
           <div className="flex-1 overflow-y-auto px-4 py-4 pb-8">
-            <Form {...form}>
-              <form
+            <form
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="space-y-8"
               >
@@ -836,8 +835,7 @@ export default function PaymentEventDrawer({
                       .toFixed(2)}
                   </div>
                 </div>
-              </form>
-            </Form>
+            </form>
           </div>
           <SheetFooter className="border-t bg-white p-6">
             <div className="flex w-full justify-end gap-4">

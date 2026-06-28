@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 
 import { toast } from 'sonner';
 import { MoreHorizontal, Table } from 'lucide-react';
@@ -16,6 +16,8 @@ import type { DateRange, JournalEntry, PaginationData } from './types';
 
 export function EnhancedJournalTable() {
   const router = useRouter();
+  const params = useParams<{ 'company-slug': string }>();
+  const companySlug = params['company-slug'];
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState<JournalEntry[]>([]);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -121,7 +123,7 @@ export function EnhancedJournalTable() {
     { debit: 0, credit: 0 }
   );
   const handleEdit = (journalId: string) => {
-    router.push(`/journal/${journalId}`);
+    router.push(`/${companySlug}/journal/${journalId}`);
   };
   return (
     <div className="space-y-4">

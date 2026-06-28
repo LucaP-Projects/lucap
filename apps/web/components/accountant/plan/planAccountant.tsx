@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Controller, Form, useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import * as z from 'zod';
 import { ChevronRight, Pencil, Plus,  Trash2 } from 'lucide-react';
@@ -352,8 +352,7 @@ const AccountsPageClient: React.FC<AccountsPageClientProps> = ({
               Update your account name to personalize your experience.
             </SheetDescription>
           </SheetHeader>
-          <Form {...editForm}>
-            <form
+          <form
               onSubmit={editForm.handleSubmit(onEditSubmit)}
               className="space-y-6 py-6"
             >
@@ -389,7 +388,6 @@ const AccountsPageClient: React.FC<AccountsPageClientProps> = ({
                 </Button>
               </SheetFooter>
             </form>
-          </Form>
         </SheetContent>
       </Sheet>
 
