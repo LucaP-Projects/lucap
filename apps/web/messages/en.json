@@ -8,18 +8,19 @@
     "title": "Home"
   },
   "LocaleSwitcher": {
-    "de": "Deutsch",
+    "fr": "Français",
     "en": "English",
+    "ar": "العربية",
     "label": "Language"
   },
   "LoginPage": {
     "credentials": "Credentials: jane@doe.com / next-intl",
-    "description": "Please enter your details.",
+    "description": "Please enter your information.",
     "email": "Email",
     "invalidCredentials": "Please check your credentials.",
     "invalidEmail": "Please enter a valid email address.",
     "invalidPassword": "Please enter a password.",
-    "login": "Sign in",
+    "login": "Login",
     "password": "Password",
     "title": "Welcome back"
   },

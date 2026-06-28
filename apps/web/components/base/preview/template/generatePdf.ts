@@ -131,6 +131,6 @@ export async function generatePdf({
     return base64Pdf;
   } catch (error) {
     console.error('PDF generation error:', error);
-    throw new Error('PDF generation failed');
+    throw new Error('PDF generation failed', { cause: error });
   }
 }

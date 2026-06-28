@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
+  Command,
   CommandDialog,
   CommandEmpty,
   CommandGroup,
@@ -38,26 +39,28 @@ type ActionRoutes = {
 
 const actionRoutes: ActionRoutes = {
   // Customer routes - matching your actual file structure
-  Invoice: { route: '/invoice', icon: FileText, category: 'Customers' },
+  Invoices: { route: '/invoices', icon: FileText, category: 'Customers' },
+  'Add Invoice': { route: '/invoices/new', icon: FileText, category: 'Customers' },
+
   'Receive payment': {
-    route: '/receivepayment',
+    route: '/receive-payment',
     icon: DollarSign,
     category: 'Customers'
   },
   Statement: { route: '/statements', icon: FileText, category: 'Customers' },
-  Estimate: { route: '/estimate', icon: Calculator, category: 'Customers' },
+  Estimate: { route: '/estimates/new', icon: Calculator, category: 'Customers' },
   'Sales order': {
     route: '/sales-orders',
     icon: Package,
     category: 'Customers'
   },
   'Credit memo': {
-    route: '/creditmemo',
+    route: '/credit-memo',
     icon: Receipt,
     category: 'Customers'
   },
   'Sales receipt': {
-    route: '/salesreceipt',
+    route: '/sales-receipts',
     icon: Receipt,
     category: 'Customers'
   },
@@ -67,22 +70,22 @@ const actionRoutes: ActionRoutes = {
     category: 'Customers'
   },
   'Refund receipt': {
-    route: '/refundreceipt',
+    route: '/refund-receipts',
     icon: Receipt,
     category: 'Customers'
   },
   'Delayed credit': {
-    route: '/delayedcredit',
+    route: '/delayed-credits',
     icon: Clock,
     category: 'Customers'
   },
   'Delayed charge': {
-    route: '/delayedcharge',
+    route: '/delayed-charges/new',
     icon: Clock,
     category: 'Customers'
   },
   'Add customer': {
-    route: '/customers',
+    route: '/customers/new',
     icon: Users,
     category: 'Customers'
   },
@@ -244,7 +247,7 @@ export default function ActionButton({ isOpen }: { isOpen?: boolean }) {
       <Button
         variant="outline"
         className={cn(
-          'hover:bg-accent/50 group h-10 w-full transition-all duration-200',
+          'bg-accent hover:bg-accent/80 hover:text-accent-foreground group h-10 w-full transition-all duration-200',
           isOpen === false ? 'justify-center px-3' : 'justify-between px-4'
         )}
         onClick={() => setOpen(true)}
@@ -262,41 +265,42 @@ export default function ActionButton({ isOpen }: { isOpen?: boolean }) {
         </div>
 
         {isOpen !== false && (
-          <div className="text-muted-foreground flex items-center gap-1 text-xs">
-            <kbd className="bg-muted pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border px-1.5 font-mono font-medium opacity-100">
+          <div className=" flex items-center gap-1 text-xs">
+            <kbd className=" pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border px-1.5 font-mono font-medium ">
               <span className="text-xs">⌘</span>K
             </kbd>
           </div>
         )}
       </Button>
-
       <CommandDialog
         open={open}
         onOpenChange={handleOpenChange}
         title="Create New"
         description="Search for an action to create new items..."
       >
-        <CommandInput placeholder="Search actions..." />
-        <CommandList>
-          <CommandEmpty>No results found.</CommandEmpty>
-          {Object.entries(groupedActions).map(([category, items]) => (
-            <CommandGroup key={category} heading={category}>
-              {items.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <CommandItem
-                    key={item.name}
-                    value={item.name}
-                    onSelect={() => handleItemClick(item.name)}
-                  >
-                    <Icon className="mr-2 h-4 w-4" />
-                    <span>{item.name}</span>
-                  </CommandItem>
-                );
-              })}
-            </CommandGroup>
-          ))}
-        </CommandList>
+        <Command>
+          <CommandInput placeholder="Search actions..." />
+          <CommandList>
+            <CommandEmpty>No results found.</CommandEmpty>
+            {Object.entries(groupedActions).map(([category, items]) => (
+              <CommandGroup key={category} heading={category}>
+                {items.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <CommandItem
+                      key={item.name}
+                      value={item.name}
+                      onSelect={() => handleItemClick(item.name)}
+                    >
+                      <Icon className="mr-2 h-4 w-4" />
+                      <span>{item.name}</span>
+                    </CommandItem>
+                  );
+                })}
+              </CommandGroup>
+            ))}
+          </CommandList>
+        </Command>
       </CommandDialog>
     </>
   );

@@ -1,7 +1,7 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { getCurrentCompany } from '@/lib/auth';
+import { getCurrentCompany, getSessionWithCompany } from '@/lib/auth';
 import { CustomerStatus } from '@/lib/generated/prisma/enums';
 import * as Prisma from '@/lib/generated/prisma/internal/prismaNamespace';
 import { prisma } from '@/lib/prisma';
@@ -22,6 +22,15 @@ export async function getCustomers(params?: {
   sort?: { field: string; orderBy: 'asc' | 'desc' };
   filter?: CustomerFilterType;
 }): Promise<CustomerListDTO> {
+  const session = await getSessionWithCompany();
+  if (!session?.user?.activeCompanyId) {
+    return {
+      customers: [],
+      total: 0,
+      statistics: defaultStatistics
+    };
+  }
+
   const baseWhereInput: Prisma.CustomerWhereInput = {
     status: params?.status ?? CustomerStatus.ACTIVE,
     ...(params?.search && {
@@ -34,13 +43,13 @@ export async function getCustomers(params?: {
         { billingAddress: { string_contains: `%${params.search}%` } }
       ]
     }),
-    ...(params?.filter && getFilterConditions(params.filter))
+    ...(params?.filter && await getFilterConditions(params.filter, session.user.activeCompanyId))
   };
 
   try {
     const [parents, statistics] = await Promise.all([
       prisma.customer.findMany({
-        where: { ...baseWhereInput, parentId: null, isActive: true },
+        where: { ...baseWhereInput, companyId: session.user.activeCompanyId, parentId: null, isActive: true },
         orderBy: params?.sort
           ? { [params.sort.field]: params.sort.orderBy }
           : { displayName: 'asc' },
@@ -53,7 +62,8 @@ export async function getCustomers(params?: {
       where: {
         ...baseWhereInput,
         isActive: true,
-        parentId: { in: parents.map((p) => p.id) }
+        parentId: { in: parents.map((p) => p.id) },
+        companyId: session.user.activeCompanyId
       },
       select: { id: true, parentId: true }
     });
@@ -64,7 +74,7 @@ export async function getCustomers(params?: {
     ]);
 
     const customers = await prisma.customer.findMany({
-      where: { isActive: true, id: { in: orderedIds } },
+      where: { isActive: true, id: { in: orderedIds }, companyId: session.user.activeCompanyId },
       select: {
         id: true,
         displayName: true,
@@ -152,7 +162,7 @@ export async function getCustomers(params?: {
         };
       });
 
-    const total = await prisma.customer.count({ where: baseWhereInput });
+    const total = await prisma.customer.count({ where: { ...baseWhereInput, companyId: session.user.activeCompanyId } });
 
     return {
       customers: sortedCustomers,
@@ -172,6 +182,10 @@ export async function getCustomersShort(params: {
   search?: string;
   status?: CustomerStatus;
 }): Promise<CustomerShortListItem[]> {
+  const session = await getSessionWithCompany();
+  if (!session?.user?.activeCompanyId) {
+    return [];
+  }
   const baseWhereInput: Prisma.CustomerWhereInput = {
     status: params.status ?? CustomerStatus.ACTIVE,
     ...(params.search && {
@@ -192,13 +206,14 @@ export async function getCustomersShort(params: {
       ]
     }),
     AND: {
-      level: { lt: 5 } // TODO: store this in an environment variable
+      level: { lt: 5 }, // TODO: store this in an environment variable
+      companyId: session.user.activeCompanyId
     }
   };
 
   try {
     const parents = await prisma.customer.findMany({
-      where: { ...baseWhereInput, parentId: null, isActive: true },
+      where: { ...baseWhereInput, parentId: null, isActive: true, companyId: session.user.activeCompanyId },
       orderBy: { displayName: 'asc' },
       select: { id: true }
     });
@@ -206,7 +221,8 @@ export async function getCustomersShort(params: {
       where: {
         ...baseWhereInput,
         parentId: { in: parents.map((p) => p.id) },
-        isActive: true
+        isActive: true,
+        companyId: session.user.activeCompanyId
       },
       select: { id: true, parentId: true }
     });
@@ -217,7 +233,7 @@ export async function getCustomersShort(params: {
     ]);
 
     const customers = await prisma.customer.findMany({
-      where: { id: { in: orderedIds }, isActive: true },
+      where: { id: { in: orderedIds }, isActive: true, companyId: session.user.activeCompanyId },
       select: {
         id: true,
         displayName: true,
@@ -261,6 +277,10 @@ export const getFullCustomer = async (id: string) =>
   });
 
 async function getCustomerStatistics(): Promise<CustomerStatistics> {
+  const session = await getSessionWithCompany();
+  if (!session?.user?.activeCompanyId) {
+    return defaultStatistics;
+  }
   const today = new Date();
   const thirtyDaysAgo = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000);
 
@@ -278,8 +298,8 @@ async function getCustomerStatistics(): Promise<CustomerStatistics> {
             some: {
               status: 'PENDING'
             }
-          }
-        }
+          },
+        companyId: session.user.activeCompanyId }
       }),
 
       prisma.customer.aggregate({
@@ -294,8 +314,8 @@ async function getCustomerStatistics(): Promise<CustomerStatistics> {
             some: {
               status: 'OVERDUE'
             }
-          }
-        }
+          },
+        companyId: session.user.activeCompanyId }
       }),
 
       prisma.invoice.aggregate({
@@ -306,7 +326,8 @@ async function getCustomerStatistics(): Promise<CustomerStatistics> {
           amount: true
         },
         where: {
-          status: { in: ['PENDING', 'PARTIAL'] }
+          status: { in: ['PENDING', 'PARTIAL'] },
+          companyId: session.user.activeCompanyId
         }
       }),
 
@@ -325,7 +346,8 @@ async function getCustomerStatistics(): Promise<CustomerStatistics> {
                 gte: thirtyDaysAgo
               }
             }
-          }
+          },
+          companyId: session.user.activeCompanyId 
         }
       })
     ]);
@@ -349,7 +371,8 @@ async function getCustomerStatistics(): Promise<CustomerStatistics> {
 }
 
 function getFilterConditions(
-  filter: CustomerFilterType
+  filter: CustomerFilterType,
+  companyId: string
 ): Prisma.CustomerWhereInput {
   const today = new Date();
   const thirtyDaysAgo = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000);
@@ -361,7 +384,8 @@ function getFilterConditions(
           some: {
             status: 'PENDING'
           }
-        }
+        },
+        companyId
       };
     case CustomerFilterType.OVERDUE_INVOICES:
       return {
@@ -369,7 +393,8 @@ function getFilterConditions(
           some: {
             status: 'OVERDUE'
           }
-        }
+        },
+        companyId
       };
     case CustomerFilterType.OPEN_INVOICES:
       return {
@@ -377,7 +402,8 @@ function getFilterConditions(
           some: {
             status: { in: ['PENDING', 'PARTIAL'] }
           }
-        }
+        },
+        companyId
       };
     case CustomerFilterType.RECENTLY_PAID:
       return {
@@ -392,7 +418,8 @@ function getFilterConditions(
               }
             }
           }
-        }
+        },
+        companyId
       };
     default:
       return {};
@@ -438,6 +465,10 @@ export async function createCustomer(formData: CustomerFormData) {
 
 export async function updateCustomer(id: string, formData: FormData) {
   try {
+    const session = await getSessionWithCompany();
+    if (!session?.user?.activeCompanyId) {
+      return { error: 'No active company' };
+    }
     const data: Prisma.CustomerUpdateInput = {
       displayName: formData.get('displayName') as string,
       givenName: formData.get('givenName') as string,
@@ -472,7 +503,7 @@ export async function updateCustomer(id: string, formData: FormData) {
     };
 
     await prisma.customer.update({
-      where: { id },
+      where: { id, companyId: session.user.activeCompanyId },
       data
     });
 
@@ -487,6 +518,10 @@ export async function sparseUpdateCustomer(
   formData: CustomerFormData
 ) {
   try {
+    const session = await getSessionWithCompany();
+    if (!session?.user?.activeCompanyId) {
+      return { error: 'No active company' };
+    }
     const data: Partial<Prisma.CustomerUpdateInput> = {};
     type UpdateFields = keyof Prisma.CustomerUpdateInput;
 
@@ -541,7 +576,7 @@ export async function sparseUpdateCustomer(
     }
 
     await prisma.customer.update({
-      where: { id },
+      where: { id, companyId: session.user.activeCompanyId },
       data
     });
 
@@ -552,8 +587,12 @@ export async function sparseUpdateCustomer(
   }
 }
 export async function getCustomer(id: string) {
+  const session = await getSessionWithCompany();
+  if (!session?.user?.activeCompanyId) {
+    return null;
+  }
   return await prisma.customer.findUnique({
-    where: { id },
+    where: { id, companyId: session.user.activeCompanyId },
     include: {
       subCustomers: {
         orderBy: { displayName: 'asc' }
@@ -577,9 +616,14 @@ export async function getCustomer(id: string) {
 }
 
 export async function deleteCustomer(id: string) {
+  const session = await getSessionWithCompany();
+  if (!session?.user?.activeCompanyId) {
+    return { error: 'No active company' };
+  }
+
   const hasTransactions = await prisma.$transaction([
-    prisma.invoice.count({ where: { customerId: id } }),
-    prisma.payment.count({ where: { customerId: id } })
+    prisma.invoice.count({ where: { customerId: id, companyId: session.user.activeCompanyId } }),
+    prisma.payment.count({ where: { customerId: id, companyId: session.user.activeCompanyId } })
   ]);
 
   if (hasTransactions[0] || hasTransactions[1]) {
@@ -587,7 +631,7 @@ export async function deleteCustomer(id: string) {
   }
 
   await prisma.customer.update({
-    where: { id },
+    where: { id, companyId: session.user.activeCompanyId },
     data: { status: 'INACTIVE' }
   });
 

@@ -1,0 +1,30 @@
+{
+  "AppLayout": {
+    "home": "Accueil",
+    "logout": "Se déconnecter",
+    "profile": "Profil"
+  },
+  "HomePage": {
+    "title": "Accueil"
+  },
+  "LocaleSwitcher": {
+    "fr": "Français",
+    "en": "English",
+    "ar": "العربية",
+    "label": "Langue"
+  },
+  "LoginPage": {
+    "credentials": "Identifiants : jane@doe.com / next-intl",
+    "description": "Veuillez entrer vos informations.",
+    "email": "Email",
+    "invalidCredentials": "Veuillez vérifier vos informations.",
+    "invalidEmail": "Veuillez entrer une adresse email valide.",
+    "invalidPassword": "Veuillez entrer un mot de passe.",
+    "login": "Se connecter",
+    "password": "Mot de passe",
+    "title": "Bienvenue de retour"
+  },
+  "ProfilePage": {
+    "title": "Profil"
+  }
+}

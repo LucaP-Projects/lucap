@@ -34,7 +34,6 @@ export default function NavCompanySelector({
   const { data: session, refetch: updateSession } = authClient.useSession();
   const currentCompanyId = session?.user?.activeCompanyId || '';
   const sidebar = useStore(useSidebar, (x) => x);
-  console.log(session);
   useEffect(() => {
     if (session?.user && !session.user.activeCompanyId && companies?.length > 0) {
       handleSelectCompany(companies![0]!.id);
@@ -74,7 +73,7 @@ export default function NavCompanySelector({
   if (!companies || companies.length === 0) {
     return (
       <Link
-        href={`/create-organization`}
+        href={`/create-company`}
         className="text-muted-foreground hover:text-foreground flex items-center gap-2 text-sm"
       >
         <PlusCircle className="h-4 w-4" />
@@ -176,7 +175,7 @@ export default function NavCompanySelector({
         ))}
         <div className="border-t p-2">
           <Link
-            href={`/create-organization`}
+            href={`/create-company`}
             className="text-muted-foreground hover:text-foreground flex items-center gap-2 text-sm"
           >
             <PlusCircle className="h-4 w-4" />

@@ -21,7 +21,7 @@ export const InvoiceStats = memo(function InvoiceStats({
 }: InvoiceStatsProps) {
   return (
     <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-      <Card className="overflow-hidden rounded-lg border border-gray-200 shadow-md transition-shadow hover:shadow-lg">
+      <Card className="overflow-hidden rounded-lg border border-gray-200 shadow-md transition-shadow hover:shadow-lg py-0">
         <div className="border-b border-gray-100 bg-blue-50 px-4 py-2">
           <h3 className="text-sm font-medium text-blue-700">Total Invoiced</h3>
         </div>
@@ -57,7 +57,7 @@ export const InvoiceStats = memo(function InvoiceStats({
         </CardContent>
       </Card>
 
-      <Card className="overflow-hidden rounded-lg border border-gray-200 shadow-md transition-shadow hover:shadow-lg">
+      <Card className="overflow-hidden rounded-lg border border-gray-200 shadow-md transition-shadow hover:shadow-lg py-0">
         <div className="border-b border-gray-100 bg-amber-50 px-4 py-2">
           <h3 className="text-sm font-medium text-amber-700">
             Outstanding Balance
@@ -96,7 +96,7 @@ export const InvoiceStats = memo(function InvoiceStats({
         </CardContent>
       </Card>
 
-      <Card className="overflow-hidden rounded-lg border border-gray-200 shadow-md transition-shadow hover:shadow-lg">
+      <Card className="overflow-hidden rounded-lg border border-gray-200 shadow-md transition-shadow hover:shadow-lg py-0">
         <div className="border-b border-gray-100 bg-red-50 px-4 py-2">
           <h3 className="text-sm font-medium text-red-700">Overdue Invoices</h3>
         </div>
@@ -137,7 +137,7 @@ export const InvoiceStats = memo(function InvoiceStats({
         </CardContent>
       </Card>
 
-      <Card className="overflow-hidden rounded-lg border border-gray-200 shadow-md transition-shadow hover:shadow-lg">
+      <Card className="overflow-hidden rounded-lg border border-gray-200 shadow-md transition-shadow hover:shadow-lg py-0">
         <div className="border-b border-gray-100 bg-green-50 px-4 py-2">
           <h3 className="text-sm font-medium text-green-700">Payment Status</h3>
         </div>

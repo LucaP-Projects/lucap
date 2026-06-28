@@ -13,7 +13,7 @@ import {
   validateWithWarnings,
   ValidationWarning
 } from '../base/validationWarning';
-import { FileWithPreview } from '../invoice/types';
+import { CompanyInfo, FileWithPreview } from '../invoice/types';
 import { TaxSelectData } from '../shared/tax/actions';
 import { createDelayedCharge, updateDelayedCharge } from './actions';
 import { DelayedChargeFormValues } from './schema';
@@ -23,7 +23,7 @@ import { ChargeViewRenderer } from './ViewRenderer';
 interface DelayedChargeFormProps {
   mode?: 'create' | 'edit';
   initialData?: any;
-  company?: any;
+  company?: CompanyInfo | null;
 }
 
 export function DelayedChargeForm({

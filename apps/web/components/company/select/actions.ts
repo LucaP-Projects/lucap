@@ -31,8 +31,8 @@ export async function getUserCompanies() {
         role: {
           select: {
             name: true,
-            permissions: true
-          }
+            permissions: true,
+          },
         },
         isAdmin: true
       },

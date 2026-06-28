@@ -1,4 +1,5 @@
 import { headers } from 'next/headers';
+import { redirect } from 'next/navigation'
 import { getLocale } from 'next-intl/server';
 import { getUserCompanies } from '@/components/company/select/actions';
 import { Company } from '@/components/company/select/types';
@@ -22,6 +23,10 @@ export default async function DashboardLayout({
   children: React.ReactNode;
 }) {
   const session = await auth.api.getSession({ headers: await headers() });
+  if (!session) {
+    redirect('/auth/login');
+  }
+
   const locale = await getLocale();
 
 
@@ -51,7 +56,6 @@ export default async function DashboardLayout({
             <Separator orientation="vertical" className="mr-2 h-4" />
           </div>
         </header>
-
         <main className="flex-1 overflow-auto">{children}</main>
       </SidebarInset>
     </SidebarProvider>

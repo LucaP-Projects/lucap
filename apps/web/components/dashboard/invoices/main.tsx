@@ -117,7 +117,7 @@ export default function InvoicesPage({
           </p>
         </div>
         <div className="flex items-center space-x-2">
-          <Link href="/invoice">
+          <Link href="/invoices/new">
             <Button className="bg-blue-600 px-5 py-2.5 text-sm font-medium shadow-sm hover:bg-blue-700">
               <svg
                 className="mr-2 h-4 w-4"

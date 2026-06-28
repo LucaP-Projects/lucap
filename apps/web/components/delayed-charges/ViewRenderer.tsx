@@ -15,7 +15,7 @@ interface ChargeViewRendererProps {
 }
 
 export const ChargeViewRenderer = memo<ChargeViewRendererProps>(
-  ({ company, formContentProps }) => {
+  ({ company, formContentProps }: ChargeViewRendererProps) => {
     const activeView = useViewStore((state) => state.activeView);
     const containerRef = useRef<HTMLDivElement>(null);
 

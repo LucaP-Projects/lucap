@@ -42,7 +42,6 @@ export const nextJsConfig = [
       'react/jsx-no-duplicate-props': 'error',
       'react-hooks/exhaustive-deps': 'warn',
       '@typescript-eslint/no-unused-expressions': 'warn',
-      '@typescript-eslint/no-unused-vars': ['warn'],
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-useless-empty-export': 'error',
       '@typescript-eslint/prefer-ts-expect-error': 'warn',
@@ -66,11 +65,6 @@ export const nextJsConfig = [
             },
             {
               pattern: 'lucide-react',
-              group: 'external',
-              position: 'after'
-            },
-            {
-              pattern: '@silknexus/**',
               group: 'external',
               position: 'after'
             },

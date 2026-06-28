@@ -1,4 +1,4 @@
-// components/company-info.tsx
+import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { useSidebarStore } from '@/stores/useSidePaper';
 import { colorPalette } from '../sideBar/color/colors';
@@ -50,11 +50,13 @@ export function CompanyInfo({
         {/* Left Section - Logo & Basic Info */}
         <div className="flex flex-1 items-start gap-4">
           {company.logo && (
-            <img
+            <Image
               src={company.logo}
               alt="Company Logo"
               className="h-12 w-12 shrink-0 object-contain"
               loading="lazy"
+              width={48}
+              height={48}
             />
           )}
           <div className="space-y-1.5">

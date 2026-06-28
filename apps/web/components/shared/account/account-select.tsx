@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { CommandInput, CommandEmpty, CommandGroup } from 'cmdk';
 import { useRouter } from 'next/navigation';
-import { ChevronsUpDown, Command } from 'lucide-react';
+import { ChevronsUpDown,  } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
+import { Command, CommandInput, CommandEmpty, CommandGroup } from '@/components/ui/command';
 import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
 import { useDebounce } from '@/hooks/use-debounce';
 import { cn } from '@/lib/utils';
