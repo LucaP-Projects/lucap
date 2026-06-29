@@ -91,7 +91,6 @@ const AccountForm = ({
           </SheetDescription>
         </SheetHeader>
 
-        <Form {...form}>
           <form onSubmit={handleSubmit} className="space-y-6 py-6">
             <Controller
               control={form.control}
@@ -163,7 +162,6 @@ const AccountForm = ({
               </Button>
             </SheetFooter>
           </form>
-        </Form>
       </SheetContent>
       {children}
     </Sheet>

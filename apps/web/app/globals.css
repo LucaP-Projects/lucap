@@ -1,7 +1,6 @@
+@import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-
-
 
 html, body {
   background: var(--color-background);
@@ -13,7 +12,6 @@ html, body {
 * { box-sizing: border-box }
 
 
-@import "tailwindcss";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -35,7 +33,7 @@ html, body {
   --destructive: oklch(0.4386 0.1753 14.1958);
   --destructive-foreground: oklch(1.0000 0 0);
   --border: oklch(0.9158 0 0);
-  --input: oklch(1.0000 0 0);
+  --input: oklch(0.9158 0 0);
   --ring: oklch(0.4467 0.1272 265.6182);
   --chart-1: oklch(0.4774 0.1654 256.4882);
   --chart-2: oklch(0.7479 0.1375 176.0249);

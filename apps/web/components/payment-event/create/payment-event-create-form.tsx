@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { format } from 'date-fns';
 import { useRouter } from 'next/navigation';
-import { Controller, Form, useForm } from 'react-hook-form';
+import { Controller,  useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-import { Calendar as CalendarIcon,  } from 'lucide-react';
+import { Calendar as CalendarIcon, } from 'lucide-react';
 
 import {
   createOneTimePaymentEvent,
@@ -215,33 +215,32 @@ export default function PaymentEventDrawer({
           </SheetHeader>
 
           <div className="flex-1 overflow-y-auto px-4 py-4 pb-8">
-            <Form {...form}>
-              <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-8"
-              >
-                <Card className="border-none shadow-none">
-                  <CardContent className="space-y-8 p-0">
-                    {/* Basic Information */}
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-8"
+            >
+              <Card className="border-none shadow-none">
+                <CardContent className="space-y-8 p-0">
+                  {/* Basic Information */}
 
-                    <Controller
-                      control={form.control}
-                      name="name"
-                      render={({ field, fieldState }) => (
-                        <Field>
-                          <FieldLabel>Payment Name</FieldLabel>
-                          <Input
-                            placeholder="Enter payment name"
-                            {...field}
-                          />
-                          {fieldState.error && (
-                            <FieldError errors={[fieldState.error]} />
-                          )}
-                        </Field>
-                      )}
-                    />
+                  <Controller
+                    control={form.control}
+                    name="name"
+                    render={({ field, fieldState }) => (
+                      <Field>
+                        <FieldLabel>Payment Name</FieldLabel>
+                        <Input
+                          placeholder="Enter payment name"
+                          {...field}
+                        />
+                        {fieldState.error && (
+                          <FieldError errors={[fieldState.error]} />
+                        )}
+                      </Field>
+                    )}
+                  />
 
-                    {/* <Controller
+                  {/* <Controller
                         control={form.control}
                         name="amount"
                         render={({ field, fieldState }) => (
@@ -267,577 +266,576 @@ export default function PaymentEventDrawer({
                         )}
                       /> */}
 
-                    {/* Common Fields */}
-                    <Controller
-                      control={form.control}
-                      name="description"
-                      render={({ field, fieldState }) => (
-                        <Field>
-                          <FieldLabel>Description</FieldLabel>
-                          <Textarea
-                            placeholder="Enter subscription description"
-                            className="resize-none"
-                            {...field}
-                          />
-                          {fieldState.error && (
-                            <FieldError errors={[fieldState.error]} />
-                          )}
-                        </Field>
-                      )}
-                    />
-                    <Controller
-                      control={form.control}
-                      name="type"
-                      render={({ field, fieldState }) => (
-                        <Field>
-                          <div className="flex gap-4">
-                            <button
-                              type="button"
-                              onClick={() => field.onChange('ONE_TIME')}
-                              className={`hover:border-primary/50 flex w-full flex-col rounded-lg border-2 p-4 transition-colors ${field.value === 'ONE_TIME'
-                                ? 'border-primary bg-primary/5'
-                                : 'border-border'
-                                }`}
-                            >
-                              <div className="flex items-center gap-2">
-                                <span className="font-medium">
-                                  Single payment
-                                </span>
-                                {field.value === 'ONE_TIME' && (
-                                  <div className="text-primary">
-                                    <svg
-                                      width="20"
-                                      height="20"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      strokeWidth="2"
-                                    >
-                                      <path d="M20 6L9 17L4 12" />
-                                    </svg>
-                                  </div>
-                                )}
-                              </div>
-                              <span className="text-muted-foreground text-sm">
-                                Charge a one-time fee
-                              </span>
-                            </button>
-
-                            <button
-                              type="button"
-                              onClick={() => field.onChange('SUBSCRIPTION')}
-                              className={`hover:border-primary/50 flex w-full flex-col rounded-lg border-2 p-4 transition-colors ${field.value === 'SUBSCRIPTION'
-                                ? 'border-primary bg-primary/5'
-                                : 'border-border'
-                                }`}
-                            >
-                              <div className="flex items-center gap-2">
-                                <span className="font-medium">
-                                  Subscription
-                                </span>
-                                {field.value === 'SUBSCRIPTION' && (
-                                  <div className="text-primary">
-                                    <svg
-                                      width="20"
-                                      height="20"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      strokeWidth="2"
-                                    >
-                                      <path d="M20 6L9 17L4 12" />
-                                    </svg>
-                                  </div>
-                                )}
-                              </div>
-                              <span className="text-muted-foreground text-sm">
-                                Charge an ongoing fee
-                              </span>
-                            </button>
-                          </div>
-                          {fieldState.error && (
-                            <FieldError errors={[fieldState.error]} />
-                          )}
-                        </Field>
-                      )}
-                    />
-
-                    {paymentType === 'ONE_TIME' ? (
-                      // One Time Payment Fields
-                      <>
-                        <Controller
-                          control={form.control}
-                          name="generateInvoiceNow"
-                          render={({ field, fieldState }) => (
-                            <Field className="bg-secondary/20 rounded-lg p-4">
-                              <div className="flex items-center justify-between">
-                                <div className="space-y-1">
-                                  <FieldLabel>
-                                    Generate Invoice Immediately
-                                  </FieldLabel>
-
-                                  <FieldDescription>
-                                    Invoice will be created as soon as customer
-                                    is assigned
-                                  </FieldDescription>
-                                </div>
-                                <Switch
-                                  checked={field.value}
-                                  onCheckedChange={field.onChange}
-                                />
-                              </div>
-                              {fieldState.error && (
-                                <FieldError errors={[fieldState.error]} />
-                              )}
-                            </Field>
-                          )}
+                  {/* Common Fields */}
+                  <Controller
+                    control={form.control}
+                    name="description"
+                    render={({ field, fieldState }) => (
+                      <Field>
+                        <FieldLabel>Description</FieldLabel>
+                        <Textarea
+                          placeholder="Enter subscription description"
+                          className="resize-none"
+                          {...field}
                         />
-
-                        {!generateInvoiceNow && (
-                          <Controller
-                            control={form.control}
-                            name="dueDate"
-                            render={({ field, fieldState }) => (
-                              <Field>
-                                <FieldLabel>Due Date</FieldLabel>
-                                <Popover>
-                                  <PopoverTrigger asChild>
-                                    <Button
-                                      variant="outline"
-                                      className="w-full justify-start text-left font-normal"
-                                    >
-                                      {field.value ? (
-                                        format(field.value, 'PPP')
-                                      ) : (
-                                        <span>Pick a date</span>
-                                      )}
-                                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                    </Button>
-                                  </PopoverTrigger>
-                                  <PopoverContent
-                                    className="w-auto p-0"
-                                    align="start"
-                                  >
-                                    <Calendar
-                                      mode="single"
-                                      selected={field.value || undefined}
-                                      onSelect={field.onChange}
-                                      disabled={(date) =>
-                                        date <
-                                        new Date(
-                                          new Date().setHours(0, 0, 0, 0)
-                                        )
-                                      }
-                                      autoFocus
-                                    />
-                                  </PopoverContent>
-                                </Popover>
-                                {fieldState.error && (
-                                  <FieldError errors={[fieldState.error]} />
-                                )}
-                              </Field>
-                            )}
-                          />
+                        {fieldState.error && (
+                          <FieldError errors={[fieldState.error]} />
                         )}
-                      </>
-                    ) : (
-                      // Subscription Fields
-                      <>
-                        <div className="grid gap-6 md:grid-cols-2">
-                          <Controller
-                            control={form.control}
-                            name="frequency.unit"
-                            render={({ field, fieldState }) => (
-                              <Field>
-                                <FieldLabel>Frequency Unit</FieldLabel>
-                                <Select
-                                  onValueChange={field.onChange}
-                                  defaultValue={field.value}
-                                >
-                                  <SelectTrigger>
-                                    <SelectValue placeholder="Select frequency unit" />
-                                  </SelectTrigger>
-                                  <SelectContent>
-                                    <SelectItem value="DAY">Day</SelectItem>
-                                    <SelectItem value="WEEK">Week</SelectItem>
-                                    <SelectItem value="MONTH">Month</SelectItem>
-                                    <SelectItem value="YEAR">Year</SelectItem>
-                                  </SelectContent>
-                                </Select>
-                                {fieldState.error && (
-                                  <FieldError errors={[fieldState.error]} />
-                                )}
-                              </Field>
-                            )}
-                          />
-
-                          <Controller
-                            control={form.control}
-                            name="frequency.value"
-                            render={({ field, fieldState }) => (
-                              <Field>
-                                <FieldLabel>Frequency Value</FieldLabel>
-                                <Input
-                                  type="number"
-                                  min="1"
-                                  onChange={(e) =>
-                                    handleNumberInput(
-                                      e.target.value,
-                                      field.onChange,
-                                      1
-                                    )
-                                  }
-                                  value={field.value}
-                                />
-                                {fieldState.error && (
-                                  <FieldError errors={[fieldState.error]} />
-                                )}
-                              </Field>
-                            )}
-                          />
-                        </div>
-
-                        <Controller
-                          control={form.control}
-                          name="useAnchorDate"
-                          render={({ field, fieldState }) => (
-                            <Field className="bg-secondary/20 rounded-lg p-4">
-                              <div className="flex items-center justify-between">
-                                <div className="space-y-1">
-                                  <FieldLabel>Use Anchor Date</FieldLabel>
-                                  <FieldDescription>
-                                    {frequencyUnit === 'WEEK'
-                                      ? 'Bill on a specific day of the week'
-                                      : frequencyUnit === 'MONTH'
-                                        ? 'Bill on a specific day of the month'
-                                        : 'Bill on specific day of period'}
-                                  </FieldDescription>
+                      </Field>
+                    )}
+                  />
+                  <Controller
+                    control={form.control}
+                    name="type"
+                    render={({ field, fieldState }) => (
+                      <Field>
+                        <div className="flex gap-4">
+                          <button
+                            type="button"
+                            onClick={() => field.onChange('ONE_TIME')}
+                            className={`hover:border-primary/50 flex w-full flex-col rounded-lg border-2 p-4 transition-colors ${field.value === 'ONE_TIME'
+                              ? 'border-primary bg-primary/5'
+                              : 'border-border'
+                              }`}
+                          >
+                            <div className="flex items-center gap-2">
+                              <span className="font-medium">
+                                Single payment
+                              </span>
+                              {field.value === 'ONE_TIME' && (
+                                <div className="text-primary">
+                                  <svg
+                                    width="20"
+                                    height="20"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                  >
+                                    <path d="M20 6L9 17L4 12" />
+                                  </svg>
                                 </div>
-                                <Switch
-                                  checked={field.value}
-                                  onCheckedChange={field.onChange}
-                                  disabled={
-                                    !['WEEK', 'MONTH'].includes(frequencyUnit)
-                                  }
-                                />
-                              </div>
-                              {fieldState.error && (
-                                <FieldError errors={[fieldState.error]} />
                               )}
-                            </Field>
-                          )}
-                        />
+                            </div>
+                            <span className="text-muted-foreground text-sm">
+                              Charge a one-time fee
+                            </span>
+                          </button>
 
-                        {useAnchorDate && renderAnchorDayInput()}
+                          <button
+                            type="button"
+                            onClick={() => field.onChange('SUBSCRIPTION')}
+                            className={`hover:border-primary/50 flex w-full flex-col rounded-lg border-2 p-4 transition-colors ${field.value === 'SUBSCRIPTION'
+                              ? 'border-primary bg-primary/5'
+                              : 'border-border'
+                              }`}
+                          >
+                            <div className="flex items-center gap-2">
+                              <span className="font-medium">
+                                Subscription
+                              </span>
+                              {field.value === 'SUBSCRIPTION' && (
+                                <div className="text-primary">
+                                  <svg
+                                    width="20"
+                                    height="20"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                  >
+                                    <path d="M20 6L9 17L4 12" />
+                                  </svg>
+                                </div>
+                              )}
+                            </div>
+                            <span className="text-muted-foreground text-sm">
+                              Charge an ongoing fee
+                            </span>
+                          </button>
+                        </div>
+                        {fieldState.error && (
+                          <FieldError errors={[fieldState.error]} />
+                        )}
+                      </Field>
+                    )}
+                  />
 
+                  {paymentType === 'ONE_TIME' ? (
+                    // One Time Payment Fields
+                    <>
+                      <Controller
+                        control={form.control}
+                        name="generateInvoiceNow"
+                        render={({ field, fieldState }) => (
+                          <Field className="bg-secondary/20 rounded-lg p-4">
+                            <div className="flex items-center justify-between">
+                              <div className="space-y-1">
+                                <FieldLabel>
+                                  Generate Invoice Immediately
+                                </FieldLabel>
+
+                                <FieldDescription>
+                                  Invoice will be created as soon as customer
+                                  is assigned
+                                </FieldDescription>
+                              </div>
+                              <Switch
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
+                            </div>
+                            {fieldState.error && (
+                              <FieldError errors={[fieldState.error]} />
+                            )}
+                          </Field>
+                        )}
+                      />
+
+                      {!generateInvoiceNow && (
                         <Controller
                           control={form.control}
-                          name="trialPeriodDays"
+                          name="dueDate"
                           render={({ field, fieldState }) => (
                             <Field>
-                              <FieldLabel>Trial Period (Days)</FieldLabel>
+                              <FieldLabel>Due Date</FieldLabel>
+                              <Popover>
+                                <PopoverTrigger asChild>
+                                  <Button
+                                    variant="outline"
+                                    className="w-full justify-start text-left font-normal"
+                                  >
+                                    {field.value ? (
+                                      format(field.value, 'PPP')
+                                    ) : (
+                                      <span>Pick a date</span>
+                                    )}
+                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                  </Button>
+                                </PopoverTrigger>
+                                <PopoverContent
+                                  className="w-auto p-0"
+                                  align="start"
+                                >
+                                  <Calendar
+                                    mode="single"
+                                    selected={field.value || undefined}
+                                    onSelect={field.onChange}
+                                    disabled={(date) =>
+                                      date <
+                                      new Date(
+                                        new Date().setHours(0, 0, 0, 0)
+                                      )
+                                    }
+                                    autoFocus
+                                  />
+                                </PopoverContent>
+                              </Popover>
+                              {fieldState.error && (
+                                <FieldError errors={[fieldState.error]} />
+                              )}
+                            </Field>
+                          )}
+                        />
+                      )}
+                    </>
+                  ) : (
+                    // Subscription Fields
+                    <>
+                      <div className="grid gap-6 md:grid-cols-2">
+                        <Controller
+                          control={form.control}
+                          name="frequency.unit"
+                          render={({ field, fieldState }) => (
+                            <Field>
+                              <FieldLabel>Frequency Unit</FieldLabel>
+                              <Select
+                                onValueChange={field.onChange}
+                                defaultValue={field.value}
+                              >
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Select frequency unit" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="DAY">Day</SelectItem>
+                                  <SelectItem value="WEEK">Week</SelectItem>
+                                  <SelectItem value="MONTH">Month</SelectItem>
+                                  <SelectItem value="YEAR">Year</SelectItem>
+                                </SelectContent>
+                              </Select>
+                              {fieldState.error && (
+                                <FieldError errors={[fieldState.error]} />
+                              )}
+                            </Field>
+                          )}
+                        />
+
+                        <Controller
+                          control={form.control}
+                          name="frequency.value"
+                          render={({ field, fieldState }) => (
+                            <Field>
+                              <FieldLabel>Frequency Value</FieldLabel>
                               <Input
                                 type="number"
-                                min="0"
-                                placeholder="0"
+                                min="1"
                                 onChange={(e) =>
                                   handleNumberInput(
                                     e.target.value,
                                     field.onChange,
-                                    0
+                                    1
                                   )
                                 }
-                                value={field.value || ''}
+                                value={field.value}
                               />
-                              <FieldDescription>
-                                Number of trial days before first billing
-                              </FieldDescription>
                               {fieldState.error && (
                                 <FieldError errors={[fieldState.error]} />
                               )}
                             </Field>
                           )}
                         />
+                      </div>
 
-                        <Controller
-                          control={form.control}
-                          name="allowPause"
-                          render={({ field, fieldState }) => (
-                            <Field className="bg-secondary/20 rounded-lg p-4">
-                              <div className="flex items-center justify-between">
-                                <div className="space-y-1">
-                                  <FieldLabel>Allow Pause</FieldLabel>
-                                  <FieldDescription>
-                                    Enable subscription pausing
-                                  </FieldDescription>
-                                </div>
-                                <Switch
-                                  checked={field.value}
-                                  onCheckedChange={field.onChange}
-                                />
+                      <Controller
+                        control={form.control}
+                        name="useAnchorDate"
+                        render={({ field, fieldState }) => (
+                          <Field className="bg-secondary/20 rounded-lg p-4">
+                            <div className="flex items-center justify-between">
+                              <div className="space-y-1">
+                                <FieldLabel>Use Anchor Date</FieldLabel>
+                                <FieldDescription>
+                                  {frequencyUnit === 'WEEK'
+                                    ? 'Bill on a specific day of the week'
+                                    : frequencyUnit === 'MONTH'
+                                      ? 'Bill on a specific day of the month'
+                                      : 'Bill on specific day of period'}
+                                </FieldDescription>
                               </div>
-                              {fieldState.error && (
-                                <FieldError errors={[fieldState.error]} />
-                              )}
-                            </Field>
-                          )}
-                        />
-                        <div className="space-y-6 border-t pt-6">
-                          <h3 className="text-lg font-medium">
-                            Initial Fee (Will Be Charged With First Invoice)
-                          </h3>
-                          <div className="grid gap-6 md:grid-cols-2">
-                            <Controller
-                              control={form.control}
-                              name="initialFee.amount"
-                              render={({ field, fieldState }) => (
-                                <Field>
-                                  <FieldLabel>Initial Fee Amount</FieldLabel>
-                                  <Input
-                                    type="number"
-                                    placeholder="0.00"
-                                    step="0.01"
-                                    min="0"
-                                    onChange={(e) =>
-                                      handleNumberInput(
-                                        e.target.value,
-                                        field.onChange
-                                      )
-                                    }
-                                    value={
-                                      field.value === 0 ? '' : field.value
-                                    }
-                                  />
-                                  {fieldState.error && (
-                                    <FieldError errors={[fieldState.error]} />
-                                  )}
-                                </Field>
-                              )}
-                            />
+                              <Switch
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                                disabled={
+                                  !['WEEK', 'MONTH'].includes(frequencyUnit)
+                                }
+                              />
+                            </div>
+                            {fieldState.error && (
+                              <FieldError errors={[fieldState.error]} />
+                            )}
+                          </Field>
+                        )}
+                      />
 
-                            <Controller
-                              control={form.control}
-                              name="initialFee.description"
-                              render={({ field, fieldState }) => (
-                                <Field>
-                                  <FieldLabel>Initial Fee Description</FieldLabel>
-                                  <Input
-                                    placeholder="Enter description"
-                                    {...field}
-                                  />
-                                  {fieldState.error && (
-                                    <FieldError errors={[fieldState.error]} />
-                                  )}
-                                </Field>
-                              )}
+                      {useAnchorDate && renderAnchorDayInput()}
+
+                      <Controller
+                        control={form.control}
+                        name="trialPeriodDays"
+                        render={({ field, fieldState }) => (
+                          <Field>
+                            <FieldLabel>Trial Period (Days)</FieldLabel>
+                            <Input
+                              type="number"
+                              min="0"
+                              placeholder="0"
+                              onChange={(e) =>
+                                handleNumberInput(
+                                  e.target.value,
+                                  field.onChange,
+                                  0
+                                )
+                              }
+                              value={field.value || ''}
                             />
-                          </div>
+                            <FieldDescription>
+                              Number of trial days before first billing
+                            </FieldDescription>
+                            {fieldState.error && (
+                              <FieldError errors={[fieldState.error]} />
+                            )}
+                          </Field>
+                        )}
+                      />
+
+                      <Controller
+                        control={form.control}
+                        name="allowPause"
+                        render={({ field, fieldState }) => (
+                          <Field className="bg-secondary/20 rounded-lg p-4">
+                            <div className="flex items-center justify-between">
+                              <div className="space-y-1">
+                                <FieldLabel>Allow Pause</FieldLabel>
+                                <FieldDescription>
+                                  Enable subscription pausing
+                                </FieldDescription>
+                              </div>
+                              <Switch
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
+                            </div>
+                            {fieldState.error && (
+                              <FieldError errors={[fieldState.error]} />
+                            )}
+                          </Field>
+                        )}
+                      />
+                      <div className="space-y-6 border-t pt-6">
+                        <h3 className="text-lg font-medium">
+                          Initial Fee (Will Be Charged With First Invoice)
+                        </h3>
+                        <div className="grid gap-6 md:grid-cols-2">
+                          <Controller
+                            control={form.control}
+                            name="initialFee.amount"
+                            render={({ field, fieldState }) => (
+                              <Field>
+                                <FieldLabel>Initial Fee Amount</FieldLabel>
+                                <Input
+                                  type="number"
+                                  placeholder="0.00"
+                                  step="0.01"
+                                  min="0"
+                                  onChange={(e) =>
+                                    handleNumberInput(
+                                      e.target.value,
+                                      field.onChange
+                                    )
+                                  }
+                                  value={
+                                    field.value === 0 ? '' : field.value
+                                  }
+                                />
+                                {fieldState.error && (
+                                  <FieldError errors={[fieldState.error]} />
+                                )}
+                              </Field>
+                            )}
+                          />
+
+                          <Controller
+                            control={form.control}
+                            name="initialFee.description"
+                            render={({ field, fieldState }) => (
+                              <Field>
+                                <FieldLabel>Initial Fee Description</FieldLabel>
+                                <Input
+                                  placeholder="Enter description"
+                                  {...field}
+                                />
+                                {fieldState.error && (
+                                  <FieldError errors={[fieldState.error]} />
+                                )}
+                              </Field>
+                            )}
+                          />
                         </div>
-                      </>
-                    )}
-
-                    {/* Initial Fee Section */}
-                  </CardContent>
-                </Card>
-                <div className="space-y-6 border-t pt-6">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-lg font-medium">Items</h3>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={() => {
-                        const currentItems = form.getValues('items') || [];
-                        form.setValue('items', [
-                          ...currentItems,
-                          {
-                            productName: '',
-                            description: '',
-                            quantity: 1,
-                            rate: 0,
-                            amount: 0,
-                            taxable: true
-                          }
-                        ]);
-                      }}
-                    >
-                      Add Item
-                    </Button>
-                  </div>
-
-                  {form.watch('items')?.map((_, index) => (
-                    <div
-                      key={index}
-                      className="space-y-4 rounded-lg border p-4"
-                    >
-                      <div className="flex justify-between">
-                        <h4 className="font-medium">Item {index + 1}</h4>
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          className="text-destructive h-8 px-2"
-                          onClick={() => {
-                            const currentItems = form.getValues('items');
-                            form.setValue(
-                              'items',
-                              currentItems.filter((_, i) => i !== index)
-                            );
-                          }}
-                        >
-                          Remove
-                        </Button>
                       </div>
+                    </>
+                  )}
 
-                      <div className="grid gap-4 md:grid-cols-2">
-                        <Controller
-                          control={form.control}
-                          name={`items.${index}.productName`}
-                          render={({ field, fieldState }) => (
-                            <Field>
-                              <FieldLabel>Product Name</FieldLabel>
-                              <Input
-                                placeholder="Enter product name"
-                                {...field}
-                              />
-                              {fieldState.error && (
-                                <FieldError errors={[fieldState.error]} />
-                              )}
-                            </Field>
-                          )}
-                        />
-
-                        <Controller
-                          control={form.control}
-                          name={`items.${index}.description`}
-                          render={({ field, fieldState }) => (
-                            <Field>
-                              <FieldLabel>Description</FieldLabel>
-                              <Input
-                                placeholder="Enter description"
-                                {...field}
-                              />
-                              {fieldState.error && (
-                                <FieldError errors={[fieldState.error]} />
-                              )}
-                            </Field>
-                          )}
-                        />
-
-                        <Controller
-                          control={form.control}
-                          name={`items.${index}.quantity`}
-                          render={({ field, fieldState }) => (
-                            <Field>
-                              <FieldLabel>Quantity</FieldLabel>
-                              <Input
-                                type="number"
-                                min="1"
-                                step="1"
-                                onChange={(e) => {
-                                  const quantity = parseFloat(e.target.value);
-                                  field.onChange(quantity);
-
-                                  // Update amount when quantity changes
-                                  const rate =
-                                    form.getValues(`items.${index}.rate`) ||
-                                    0;
-                                  form.setValue(
-                                    `items.${index}.amount`,
-                                    quantity * rate
-                                  );
-                                }}
-                                value={field.value}
-                              />
-                              {fieldState.error && (
-                                <FieldError errors={[fieldState.error]} />
-                              )}
-                            </Field>
-                          )}
-                        />
-
-                        <Controller
-                          control={form.control}
-                          name={`items.${index}.rate`}
-                          render={({ field, fieldState }) => (
-                            <Field>
-                              <FieldLabel>Rate</FieldLabel>
-                              <Input
-                                type="number"
-                                min="0"
-                                step="0.01"
-                                onChange={(e) => {
-                                  const rate = parseFloat(e.target.value);
-                                  field.onChange(rate);
-
-                                  // Update amount when rate changes
-                                  const quantity =
-                                    form.getValues(
-                                      `items.${index}.quantity`
-                                    ) || 0;
-                                  form.setValue(
-                                    `items.${index}.amount`,
-                                    quantity * rate
-                                  );
-                                }}
-                                value={field.value}
-                              />
-                              {fieldState.error && (
-                                <FieldError errors={[fieldState.error]} />
-                              )}
-                            </Field>
-                          )}
-                        />
-                        <Controller
-                          control={form.control}
-                          name={`items.${index}.taxable`}
-                          render={({ field, fieldState }) => (
-                            <Field>
-                              {/* <FieldLabel>Taxable</FieldLabel> */}
-                              <div className="flex items-center space-x-2">
-                                <Switch
-                                  checked={field.value}
-                                  onCheckedChange={field.onChange}
-                                />
-                                <span className="text-muted-foreground text-sm">
-                                  Apply tax to this item
-                                </span>
-                              </div>
-                              {fieldState.error && (
-                                <FieldError errors={[fieldState.error]} />
-                              )}
-                            </Field>
-                          )}
-                        />
-                        <Controller
-                          control={form.control}
-                          name={`items.${index}.amount`}
-                          render={({ field, fieldState }) => (
-                            <Field>
-                              <div className="flex items-center justify-between">
-                                <FieldLabel>Amount (auto-calculated)</FieldLabel>
-                                <span className="font-medium">
-                                  {new Intl.NumberFormat('en-US', {
-                                    style: 'currency',
-                                    currency: 'USD'
-                                  }).format(field.value || 0)}
-                                </span>
-                              </div>
-                            </Field>
-                          )}
-                        />
-                      </div>
-                    </div>
-                  ))}
-
-                  <div className="mt-4 text-right text-lg font-medium">
-                    Total Amount:{' '}
-                    {form
-                      .watch('items')
-                      ?.reduce((sum, item) => sum + (item.amount || 0), 0)
-                      .toFixed(2)}
-                  </div>
+                  {/* Initial Fee Section */}
+                </CardContent>
+              </Card>
+              <div className="space-y-6 border-t pt-6">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-medium">Items</h3>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => {
+                      const currentItems = form.getValues('items') || [];
+                      form.setValue('items', [
+                        ...currentItems,
+                        {
+                          productName: '',
+                          description: '',
+                          quantity: 1,
+                          rate: 0,
+                          amount: 0,
+                          taxable: true
+                        }
+                      ]);
+                    }}
+                  >
+                    Add Item
+                  </Button>
                 </div>
-              </form>
-            </Form>
+
+                {form.watch('items')?.map((_, index) => (
+                  <div
+                    key={index}
+                    className="space-y-4 rounded-lg border p-4"
+                  >
+                    <div className="flex justify-between">
+                      <h4 className="font-medium">Item {index + 1}</h4>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        className="text-destructive h-8 px-2"
+                        onClick={() => {
+                          const currentItems = form.getValues('items');
+                          form.setValue(
+                            'items',
+                            currentItems.filter((_, i) => i !== index)
+                          );
+                        }}
+                      >
+                        Remove
+                      </Button>
+                    </div>
+
+                    <div className="grid gap-4 md:grid-cols-2">
+                      <Controller
+                        control={form.control}
+                        name={`items.${index}.productName`}
+                        render={({ field, fieldState }) => (
+                          <Field>
+                            <FieldLabel>Product Name</FieldLabel>
+                            <Input
+                              placeholder="Enter product name"
+                              {...field}
+                            />
+                            {fieldState.error && (
+                              <FieldError errors={[fieldState.error]} />
+                            )}
+                          </Field>
+                        )}
+                      />
+
+                      <Controller
+                        control={form.control}
+                        name={`items.${index}.description`}
+                        render={({ field, fieldState }) => (
+                          <Field>
+                            <FieldLabel>Description</FieldLabel>
+                            <Input
+                              placeholder="Enter description"
+                              {...field}
+                            />
+                            {fieldState.error && (
+                              <FieldError errors={[fieldState.error]} />
+                            )}
+                          </Field>
+                        )}
+                      />
+
+                      <Controller
+                        control={form.control}
+                        name={`items.${index}.quantity`}
+                        render={({ field, fieldState }) => (
+                          <Field>
+                            <FieldLabel>Quantity</FieldLabel>
+                            <Input
+                              type="number"
+                              min="1"
+                              step="1"
+                              onChange={(e) => {
+                                const quantity = parseFloat(e.target.value);
+                                field.onChange(quantity);
+
+                                // Update amount when quantity changes
+                                const rate =
+                                  form.getValues(`items.${index}.rate`) ||
+                                  0;
+                                form.setValue(
+                                  `items.${index}.amount`,
+                                  quantity * rate
+                                );
+                              }}
+                              value={field.value}
+                            />
+                            {fieldState.error && (
+                              <FieldError errors={[fieldState.error]} />
+                            )}
+                          </Field>
+                        )}
+                      />
+
+                      <Controller
+                        control={form.control}
+                        name={`items.${index}.rate`}
+                        render={({ field, fieldState }) => (
+                          <Field>
+                            <FieldLabel>Rate</FieldLabel>
+                            <Input
+                              type="number"
+                              min="0"
+                              step="0.01"
+                              onChange={(e) => {
+                                const rate = parseFloat(e.target.value);
+                                field.onChange(rate);
+
+                                // Update amount when rate changes
+                                const quantity =
+                                  form.getValues(
+                                    `items.${index}.quantity`
+                                  ) || 0;
+                                form.setValue(
+                                  `items.${index}.amount`,
+                                  quantity * rate
+                                );
+                              }}
+                              value={field.value}
+                            />
+                            {fieldState.error && (
+                              <FieldError errors={[fieldState.error]} />
+                            )}
+                          </Field>
+                        )}
+                      />
+                      <Controller
+                        control={form.control}
+                        name={`items.${index}.taxable`}
+                        render={({ field, fieldState }) => (
+                          <Field>
+                            {/* <FieldLabel>Taxable</FieldLabel> */}
+                            <div className="flex items-center space-x-2">
+                              <Switch
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
+                              <span className="text-muted-foreground text-sm">
+                                Apply tax to this item
+                              </span>
+                            </div>
+                            {fieldState.error && (
+                              <FieldError errors={[fieldState.error]} />
+                            )}
+                          </Field>
+                        )}
+                      />
+                      <Controller
+                        control={form.control}
+                        name={`items.${index}.amount`}
+                        render={({ field, fieldState }) => (
+                          <Field>
+                            <div className="flex items-center justify-between">
+                              <FieldLabel>Amount (auto-calculated)</FieldLabel>
+                              <span className="font-medium">
+                                {new Intl.NumberFormat('en-US', {
+                                  style: 'currency',
+                                  currency: 'USD'
+                                }).format(field.value || 0)}
+                              </span>
+                            </div>
+                          </Field>
+                        )}
+                      />
+                    </div>
+                  </div>
+                ))}
+
+                <div className="mt-4 text-right text-lg font-medium">
+                  Total Amount:{' '}
+                  {form
+                    .watch('items')
+                    ?.reduce((sum, item) => sum + (item.amount || 0), 0)
+                    .toFixed(2)}
+                </div>
+              </div>
+            </form>
           </div>
           <SheetFooter className="border-t bg-white p-6">
             <div className="flex w-full justify-end gap-4">

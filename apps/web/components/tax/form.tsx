@@ -2,7 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { Controller, Form, useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { Input } from '@/components/ui/input';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
@@ -92,103 +92,101 @@ export function TaxForm({
   };
 
   return (
-    <Form {...form}>
-      <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
-        <Controller
-          control={form.control}
-          name="name"
-          render={({ field, fieldState }) => (
-            <Field>
-              <FieldLabel>Name*</FieldLabel>
-              <Input {...field} placeholder="Enter tax rate name" />
-              {fieldState.error && (
-                <FieldError errors={[fieldState.error]} />
-              )}
-            </Field>
-          )}
-        />
+    <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
+      <Controller
+        control={form.control}
+        name="name"
+        render={({ field, fieldState }) => (
+          <Field>
+            <FieldLabel>Name*</FieldLabel>
+            <Input {...field} placeholder="Enter tax rate name" />
+            {fieldState.error && (
+              <FieldError errors={[fieldState.error]} />
+            )}
+          </Field>
+        )}
+      />
 
-        <Controller
-          control={form.control}
-          name="description"
-          render={({ field, fieldState }) => (
-            <Field>
-              <FieldLabel>Description</FieldLabel>
-              <Textarea
-                {...field}
-                placeholder="Enter tax rate description"
-                className="resize-none"
-              />
-              {fieldState.error && (
-                <FieldError errors={[fieldState.error]} />
-              )}
-            </Field>
-          )}
-        />
+      <Controller
+        control={form.control}
+        name="description"
+        render={({ field, fieldState }) => (
+          <Field>
+            <FieldLabel>Description</FieldLabel>
+            <Textarea
+              {...field}
+              placeholder="Enter tax rate description"
+              className="resize-none"
+            />
+            {fieldState.error && (
+              <FieldError errors={[fieldState.error]} />
+            )}
+          </Field>
+        )}
+      />
 
-        <Controller
-          control={form.control}
-          name="agencyName"
-          render={({ field, fieldState }) => (
-            <Field>
-              <FieldLabel>Tax Agency*</FieldLabel>
-              <Input {...field} placeholder="Enter tax agency name" />
-              {fieldState.error && (
-                <FieldError errors={[fieldState.error]} />
-              )}
-            </Field>
-          )}
-        />
+      <Controller
+        control={form.control}
+        name="agencyName"
+        render={({ field, fieldState }) => (
+          <Field>
+            <FieldLabel>Tax Agency*</FieldLabel>
+            <Input {...field} placeholder="Enter tax agency name" />
+            {fieldState.error && (
+              <FieldError errors={[fieldState.error]} />
+            )}
+          </Field>
+        )}
+      />
 
-        <Controller
-          control={form.control}
-          name="type"
-          render={({ field, fieldState }) => (
-            <Field>
-              <FieldLabel>Tax Type*</FieldLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select tax type" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value={TaxType.SALES}>Sales Tax</SelectItem>
-                  <SelectItem value={TaxType.VAT}>VAT</SelectItem>
-                  <SelectItem value={TaxType.GST}>GST</SelectItem>
-                  <SelectItem value={TaxType.SERVICE}>Service Tax</SelectItem>
-                  <SelectItem value={TaxType.OTHER}>Other</SelectItem>
-                </SelectContent>
-              </Select>
-              {fieldState.error && (
-                <FieldError errors={[fieldState.error]} />
-              )}
-            </Field>
-          )}
-        />
+      <Controller
+        control={form.control}
+        name="type"
+        render={({ field, fieldState }) => (
+          <Field>
+            <FieldLabel>Tax Type*</FieldLabel>
+            <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select tax type" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value={TaxType.SALES}>Sales Tax</SelectItem>
+                <SelectItem value={TaxType.VAT}>VAT</SelectItem>
+                <SelectItem value={TaxType.GST}>GST</SelectItem>
+                <SelectItem value={TaxType.SERVICE}>Service Tax</SelectItem>
+                <SelectItem value={TaxType.OTHER}>Other</SelectItem>
+              </SelectContent>
+            </Select>
+            {fieldState.error && (
+              <FieldError errors={[fieldState.error]} />
+            )}
+          </Field>
+        )}
+      />
 
-        <Controller
-          control={form.control}
-          name="rate"
-          render={({ field, fieldState }) => (
-            <Field>
-              <FieldLabel>Rate (%)*</FieldLabel>
-              <Input
-                type="number"
-                step="0.01"
-                min="0"
-                max="100"
-                onChange={(e) =>
-                  handleNumberInput(e.target.value, field.onChange)
-                }
-                value={field.value}
-              />
+      <Controller
+        control={form.control}
+        name="rate"
+        render={({ field, fieldState }) => (
+          <Field>
+            <FieldLabel>Rate (%)*</FieldLabel>
+            <Input
+              type="number"
+              step="0.01"
+              min="0"
+              max="100"
+              onChange={(e) =>
+                handleNumberInput(e.target.value, field.onChange)
+              }
+              value={field.value}
+            />
 
-              {fieldState.error && (
-                <FieldError errors={[fieldState.error]} />
-              )}
-            </Field>
-          )}
-        />
-      </form>
-    </Form>
+            {fieldState.error && (
+              <FieldError errors={[fieldState.error]} />
+            )}
+          </Field>
+        )}
+      />
+    </form>
   );
 }

@@ -145,7 +145,7 @@ export function EnhancedJournalTable() {
                 showCompare={false}
               />
 
-              <Link href="/journal">
+              <Link href="/journals/new">
                 <Button className="bg-primary hover:bg-primary/90 w-full sm:w-auto">
                   Create Journal
                 </Button>

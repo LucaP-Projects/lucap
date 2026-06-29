@@ -41,15 +41,15 @@ const actionRoutes: ActionRoutes = {
   // Customer routes - matching your actual file structure
   Invoices: { route: '/invoices', icon: FileText, category: 'Customers' },
   'Add Invoice': { route: '/invoices/new', icon: FileText, category: 'Customers' },
-
   'Receive payment': {
     route: '/receive-payment',
     icon: DollarSign,
     category: 'Customers'
   },
-  Statement: { route: '/statements', icon: FileText, category: 'Customers' },
-  Estimate: { route: '/estimates/new', icon: Calculator, category: 'Customers' },
-  'Sales order': {
+  Statements: { route: '/statements', icon: FileText, category: 'Customers' },
+  Estimates: { route: '/estimates', icon: Calculator, category: 'Customers' },
+  'Add Estimate': { route: '/estimates/new', icon: Calculator, category: 'Customers' },
+  'Sales orders': {
     route: '/sales-orders',
     icon: Package,
     category: 'Customers'
@@ -160,7 +160,7 @@ const actionRoutes: ActionRoutes = {
     icon: DollarSign,
     category: 'Other'
   },
-  'Journal entry': { route: '/new/journal', icon: FileText, category: 'Other' },
+  'Journal entry': { route: '/journal', icon: FileText, category: 'Other' },
   'Inventory qty adjustment': {
     route: '/inventory/adjustments/new',
     icon: Package,
