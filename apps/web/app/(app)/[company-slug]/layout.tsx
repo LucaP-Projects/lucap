@@ -46,7 +46,7 @@ export default async function DashboardLayout({
 
   return (
     <SidebarProvider>
-      <AppSidebar companies={companies} />
+      <AppSidebar companies={companies} session={session} />
       <SidebarInset className="flex h-screen flex-col">
         <header className="group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 bg-background sticky top-0 z-10 flex h-16 shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear">
           <div className="flex items-center gap-2 px-4">

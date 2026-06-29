@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Plus, Printer, Search, Sheet, SquareArrowOutUpRight, Table } from 'lucide-react';
+import { Plus, Printer, Search,  SquareArrowOutUpRight,  } from 'lucide-react';
 
 import { CustomerForm } from '@/components/customer/customer-form';
 import {
@@ -13,8 +13,8 @@ import { Button } from '../ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '../ui/card';
 import { Checkbox } from '../ui/checkbox';
 import { Input } from '../ui/input';
-import { SheetTrigger, SheetContent, SheetHeader, SheetTitle } from '../ui/sheet';
-import { TableHeader, TableRow, TableHead, TableBody } from '../ui/table';
+import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle } from '../ui/sheet';
+import { Table, TableHeader, TableRow, TableHead, TableBody } from '../ui/table';
 import CustomerFilterBar from './customer-filter';
 import { CustomerRow } from './customer-row';
 import { TableConfigDialog } from './table-config-dialog';
@@ -75,7 +75,7 @@ export function CustomerTable({
                 Add Customer
               </Button>
             </SheetTrigger>
-            <SheetContent className="xs:w-[384px] w-[calc(100%-20px)] overflow-y-auto md:w-xl md:max-w-xl lg:w-188 lg:max-w-188">
+            <SheetContent className="xs:w-[384px] w-[calc(100%-20px)]! md:w-xl! md:max-w-xl! lg:w-188! lg:max-w-188 overflow-y-auto ">
               <SheetHeader className="mb-4 h-fit">
                 <SheetTitle>Customer</SheetTitle>
               </SheetHeader>

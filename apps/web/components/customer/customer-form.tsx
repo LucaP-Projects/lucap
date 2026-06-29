@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Controller, Form, SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { Contact2, MapPinIcon, SquarePen } from 'lucide-react';
 import { createCustomer, sparseUpdateCustomer, getFullCustomer } from '@/app/(app)/[company-slug]/(dashboards)/customers/actions';
 import { Checkbox } from "@/components/ui/checkbox";
@@ -207,319 +207,371 @@ export function CustomerForm({
 
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
-        <Accordion
-          type="multiple"
-          className="flex flex-col gap-6"
-          defaultValue={['basic', 'billing', 'tax', 'financial', 'additional']}
-        >
-          {/* Basic Information */}
-          <AccordionItem value="basic" className="rounded-lg border shadow-md">
-            <AccordionTrigger className="flex justify-between px-4 hover:no-underline">
-              <span className="flex gap-2 text-base">
-                <Contact2 className="aspect-square w-6" /> Name and contact
-              </span>
-            </AccordionTrigger>
-            <AccordionContent className="p-4">
-              <div className="flex flex-col gap-2 md:grid md:grid-cols-2 md:gap-4">
-                <div className="flex w-full flex-col gap-4 md:col-span-2 md:flex-row">
-                  <div className="md:grow-2 space-y-2 md:basis-0">
-                    <Controller
-                      control={form.control}
-                      name="title"
-                      render={({ field }) => (
-                        <Field>
-                          <FieldLabel className="text-xs" htmlFor="title">
-                            Title
-                          </FieldLabel>
-                          <Input
-                            {...field}
-                            onBlur={() => {
-                              form.setValue('title', field.value?.trim());
-                            }}
-                          />
-                        </Field>
-                      )}
-                    />
-                  </div>
-                  <div className="md:grow-4 space-y-2 md:basis-0">
-                    <Controller
-                      control={form.control}
-                      name="givenName"
-                      render={({ field }) => (
-                        <Field>
-                          <FieldLabel className="text-xs" htmlFor="givenName">
-                            First name
-                          </FieldLabel>
-                          <Input
-                            {...field}
-                            onBlur={() => {
-                              form.setValue('givenName', field.value?.trim());
-                            }}
-                          />
-                        </Field>
-                      )}
-                    />
-                  </div>
-                  <div className="md:grow-3 space-y-2 md:basis-0">
-                    <Controller
-                      control={form.control}
-                      name="middleName"
-                      render={({ field }) => (
-                        <Field>
-                          <FieldLabel className="text-xs" htmlFor="middleName">
-                            Middle name
-                          </FieldLabel>
-                          <Input
-                            {...field}
-                            onBlur={() => {
-                              form.setValue(
-                                'middleName',
-                                field.value?.trim()
-                              );
-                            }}
-                          />
-                        </Field>
-                      )}
-                    />
-                  </div>
-                  <div className="md:grow-4 space-y-2 md:basis-0">
-                    <Controller
-                      control={form.control}
-                      name="familyName"
-                      render={({ field }) => (
-                        <Field>
-                          <FieldLabel className="text-xs" htmlFor="familyName">
-                            Last name
-                          </FieldLabel>
-                          <Input
-                            {...field}
-                            onBlur={() => {
-                              form.setValue(
-                                'familyName',
-                                field.value?.trim()
-                              );
-                            }}
-                          />
-                        </Field>
-                      )}
-                    />
-                  </div>
-                  <div className="md:grow-2 space-y-2 md:basis-0">
-                    <Controller
-                      control={form.control}
-                      name="suffix"
-                      render={({ field }) => (
-                        <Field>
-                          <FieldLabel className="text-xs" htmlFor="suffix">
-                            Suffix
-                          </FieldLabel>
-                          <Input
-                            {...field}
-                            onBlur={() => {
-                              form.setValue('suffix', field.value?.trim());
-                            }}
-                          />
-                        </Field>
-                      )}
-                    />
-                  </div>
-                </div>
-                <div className="space-y-2 md:col-span-1">
+    <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
+      <Accordion
+        type="multiple"
+        className="flex flex-col gap-6"
+        defaultValue={['basic', 'billing', 'tax', 'financial', 'additional']}
+      >
+        {/* Basic Information */}
+        <AccordionItem value="basic" className="rounded-lg border shadow-md">
+          <AccordionTrigger className="flex justify-between px-4 hover:no-underline">
+            <span className="flex gap-2 text-base">
+              <Contact2 className="aspect-square w-6" /> Name and contact
+            </span>
+          </AccordionTrigger>
+          <AccordionContent className="p-4">
+            <div className="flex flex-col gap-2 md:grid md:grid-cols-2 md:gap-4">
+              <div className="flex w-full flex-col gap-4 md:col-span-2 md:flex-row">
+                <div className="md:grow-2 space-y-2 md:basis-0">
                   <Controller
                     control={form.control}
-                    name="companyName"
+                    name="title"
                     render={({ field }) => (
                       <Field>
-                        <FieldLabel className="text-xs" htmlFor="companyName">
-                          Company name
+                        <FieldLabel className="text-xs" htmlFor="title">
+                          Title
                         </FieldLabel>
                         <Input
                           {...field}
+                          className="text-xs"
                           onBlur={() => {
-                            form.setValue('companyName', field.value?.trim());
+                            form.setValue('title', field.value?.trim());
                           }}
                         />
                       </Field>
                     )}
                   />
                 </div>
-                <div className="flex-grow-4 space-y-2 md:col-span-1">
+                <div className="md:grow-4 space-y-2 md:basis-0">
                   <Controller
                     control={form.control}
-                    name="displayName"
-                    rules={{ required: 'Display name is required' }}
-                    render={({ field, fieldState }) => (
+                    name="givenName"
+                    render={({ field }) => (
                       <Field>
-                        <FieldLabel className="text-xs" htmlFor="displayName">
-                          Customer display name*
-                        </FieldLabel>
-                        {/* TODO: Replace with combobox component */}
-                        <Input
-                          id="displayName"
-                          {...field}
-                          placeholder="Customer display name"
-                        />
-                        {fieldState.error && (
-                          <FieldError errors={[fieldState.error]} />
-                        )}
-                      </Field>
-                    )}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Controller
-                    control={form.control}
-                    name="primaryEmail"
-                    render={({ field, fieldState }) => (
-                      <Field>
-                        <FieldLabel className="text-xs" htmlFor="primaryEmail">
-                          Email
+                        <FieldLabel className="text-xs" htmlFor="givenName">
+                          First name
                         </FieldLabel>
                         <Input
                           {...field}
-                          id="primaryEmail"
-                          type="email"
-                          required
+                          onBlur={() => {
+                            form.setValue('givenName', field.value?.trim());
+                          }}
                         />
-                        {fieldState.error && (
-                          <FieldError errors={[fieldState.error]} />
-                        )}
                       </Field>
                     )}
                   />
                 </div>
-                <div className="space-y-2">
+                <div className="md:grow-3 space-y-2 md:basis-0">
                   <Controller
                     control={form.control}
-                    name="primaryPhone"
-                    render={({ field, fieldState }) => (
+                    name="middleName"
+                    render={({ field }) => (
                       <Field>
-                        <FieldLabel className="text-xs" htmlFor="primaryPhone">
-                          Primary Phone
+                        <FieldLabel className="text-xs" htmlFor="middleName">
+                          Middle name
                         </FieldLabel>
-                        <Input {...field} id="primaryPhone" />
-                        {fieldState.error && (
-                          <FieldError errors={[fieldState.error]} />
-                        )}
+                        <Input
+                          {...field}
+                          onBlur={() => {
+                            form.setValue(
+                              'middleName',
+                              field.value?.trim()
+                            );
+                          }}
+                        />
                       </Field>
                     )}
                   />
                 </div>
-
-                <div className="space-y-2">
+                <div className="md:grow-4 space-y-2 md:basis-0">
                   <Controller
                     control={form.control}
-                    name="alternatePhone"
-                    render={({ field, fieldState }) => (
+                    name="familyName"
+                    render={({ field }) => (
                       <Field>
-                        <FieldLabel className="text-xs" htmlFor="alternatePhone">
-                          Alternate Phone
+                        <FieldLabel className="text-xs" htmlFor="familyName">
+                          Last name
                         </FieldLabel>
-                        <Input {...field} id="alternatePhone" />
-                        {fieldState.error && (
-                          <FieldError errors={[fieldState.error]} />
-                        )}
+                        <Input
+                          {...field}
+                          onBlur={() => {
+                            form.setValue(
+                              'familyName',
+                              field.value?.trim()
+                            );
+                          }}
+                        />
                       </Field>
                     )}
                   />
                 </div>
-
-                <div className="space-y-2">
+                <div className="md:grow-2 space-y-2 md:basis-0">
                   <Controller
                     control={form.control}
-                    name="mobile"
-                    render={({ field, fieldState }) => (
+                    name="suffix"
+                    render={({ field }) => (
                       <Field>
-                        <FieldLabel className="text-xs" htmlFor="mobile">
-                          Mobile
+                        <FieldLabel className="text-xs" htmlFor="suffix">
+                          Suffix
                         </FieldLabel>
-                        <Input {...field} id="mobile" />
-                        {fieldState.error && (
-                          <FieldError errors={[fieldState.error]} />
-                        )}
-                      </Field>
-
-                    )}
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Controller
-                    control={form.control}
-                    name="fax"
-                    render={({ field, fieldState }) => (
-                      <Field>
-                        <FieldLabel className="text-xs" htmlFor="fax">
-                          Fax
-                        </FieldLabel>
-                        <Input {...field} id="fax" type="tel" />
-                        {fieldState.error && (
-                          <FieldError errors={[fieldState.error]} />
-                        )}
+                        <Input
+                          {...field}
+                          onBlur={() => {
+                            form.setValue('suffix', field.value?.trim());
+                          }}
+                        />
                       </Field>
                     )}
                   />
                 </div>
+              </div>
+              <div className="space-y-2 md:col-span-1">
+                <Controller
+                  control={form.control}
+                  name="companyName"
+                  render={({ field }) => (
+                    <Field>
+                      <FieldLabel className="text-xs" htmlFor="companyName">
+                        Company name
+                      </FieldLabel>
+                      <Input
+                        {...field}
+                        onBlur={() => {
+                          form.setValue('companyName', field.value?.trim());
+                        }}
+                      />
+                    </Field>
+                  )}
+                />
+              </div>
+              <div className="flex-grow-4 space-y-2 md:col-span-1">
+                <Controller
+                  control={form.control}
+                  name="displayName"
+                  rules={{ required: 'Display name is required' }}
+                  render={({ field, fieldState }) => (
+                    <Field>
+                      <FieldLabel className="text-xs" htmlFor="displayName">
+                        Customer display name*
+                      </FieldLabel>
+                      {/* TODO: Replace with combobox component */}
+                      <Input
+                        id="displayName"
+                        {...field}
+                        placeholder="Customer display name"
+                      />
+                      {fieldState.error && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </Field>
+                  )}
+                />
+              </div>
+              <div className="space-y-2">
+                <Controller
+                  control={form.control}
+                  name="primaryEmail"
+                  render={({ field, fieldState }) => (
+                    <Field>
+                      <FieldLabel className="text-xs" htmlFor="primaryEmail">
+                        Email
+                      </FieldLabel>
+                      <Input
+                        {...field}
+                        id="primaryEmail"
+                        type="email"
+                        required
+                      />
+                      {fieldState.error && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </Field>
+                  )}
+                />
+              </div>
+              <div className="space-y-2">
+                <Controller
+                  control={form.control}
+                  name="primaryPhone"
+                  render={({ field, fieldState }) => (
+                    <Field>
+                      <FieldLabel className="text-xs" htmlFor="primaryPhone">
+                        Primary Phone
+                      </FieldLabel>
+                      <Input {...field} id="primaryPhone" />
+                      {fieldState.error && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </Field>
+                  )}
+                />
+              </div>
 
-                <div className="space-y-2">
-                  <Controller
-                    control={form.control}
-                    name="webAddress"
-                    render={({ field, fieldState }) => (
-                      <Field>
-                        <FieldLabel className="text-xs" htmlFor="webAddress">
-                          Website
-                        </FieldLabel>
-                        <Input {...field} id="webAddress" type="url" />
-                        {fieldState.error && (
-                          <FieldError errors={[fieldState.error]} />
-                        )}
-                      </Field>
-                    )}
-                  />
-                </div>
-                <div className="col-span-2 space-y-2">
-                  <Controller
-                    control={form.control}
-                    name="printOnCheckName"
-                    render={({ field, fieldState }) => (
-                      <Field>
-                        <FieldLabel
-                          className="text-xs"
-                          htmlFor="printOnCheckName"
-                        >
-                          Name to print on checks
-                        </FieldLabel>
-                        <Input {...field} id="printOnCheckName" />
-                        {fieldState.error && (
-                          <FieldError errors={[fieldState.error]} />
-                        )}
-                      </Field>
-                    )}
-                  />
-                </div>
+              <div className="space-y-2">
+                <Controller
+                  control={form.control}
+                  name="alternatePhone"
+                  render={({ field, fieldState }) => (
+                    <Field>
+                      <FieldLabel className="text-xs" htmlFor="alternatePhone">
+                        Alternate Phone
+                      </FieldLabel>
+                      <Input {...field} id="alternatePhone" />
+                      {fieldState.error && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </Field>
+                  )}
+                />
+              </div>
 
-                <div className="col-span-2">
+              <div className="space-y-2">
+                <Controller
+                  control={form.control}
+                  name="mobile"
+                  render={({ field, fieldState }) => (
+                    <Field>
+                      <FieldLabel className="text-xs" htmlFor="mobile">
+                        Mobile
+                      </FieldLabel>
+                      <Input {...field} id="mobile" />
+                      {fieldState.error && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </Field>
+
+                  )}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Controller
+                  control={form.control}
+                  name="fax"
+                  render={({ field, fieldState }) => (
+                    <Field>
+                      <FieldLabel className="text-xs" htmlFor="fax">
+                        Fax
+                      </FieldLabel>
+                      <Input {...field} id="fax" type="tel" />
+                      {fieldState.error && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </Field>
+                  )}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Controller
+                  control={form.control}
+                  name="webAddress"
+                  render={({ field, fieldState }) => (
+                    <Field>
+                      <FieldLabel className="text-xs" htmlFor="webAddress">
+                        Website
+                      </FieldLabel>
+                      <Input {...field} id="webAddress" type="url" />
+                      {fieldState.error && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </Field>
+                  )}
+                />
+              </div>
+              <div className="col-span-2 space-y-2">
+                <Controller
+                  control={form.control}
+                  name="printOnCheckName"
+                  render={({ field, fieldState }) => (
+                    <Field>
+                      <FieldLabel
+                        className="text-xs"
+                        htmlFor="printOnCheckName"
+                      >
+                        Name to print on checks
+                      </FieldLabel>
+                      <Input {...field} id="printOnCheckName" />
+                      {fieldState.error && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </Field>
+                  )}
+                />
+              </div>
+
+              <div className="col-span-2">
+                <Controller
+                  control={form.control}
+                  name="isSubcustomer"
+                  render={({ field, fieldState }) => (
+                    <Field className="flex items-center gap-2 space-y-0">
+                      <FieldLabel
+                        className="m-0 text-xs"
+                        htmlFor="isSubcustomer"
+                      >
+                        Is a sub-customer
+                      </FieldLabel>
+                      <Checkbox
+                        {...field}
+                        className="m-0 "
+                        id="isSubcustomer"
+                        onCheckedChange={(value) =>
+                          form.setValue('isSubcustomer', !!value)
+                        }
+                        value={'' + field.value}
+                      />
+                      {fieldState.error && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </Field>
+                  )}
+                />
+              </div>
+
+              {isSubcustomer && (
+                <Controller
+                  control={form.control}
+                  name="parentId"
+                  render={({ field, fieldState }) => (
+                    <Field className="space-y-2 pl-4">
+                      <FieldLabel className="text-xs" htmlFor="parentId">
+                        Parent customer
+                      </FieldLabel>
+                      {/* TODO: Replace with combobox component */}
+                      <Input
+                        id="parentId"
+                        {...field}
+                        placeholder="Enter a parent customer"
+                      />
+                      {fieldState.error && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </Field>
+                  )}
+                />
+              )}
+              {isSubcustomer && form.watch('parentId') && (
+                <div className="col-span-2 pl-4">
                   <Controller
                     control={form.control}
-                    name="isSubcustomer"
+                    name="billParentCustomer"
                     render={({ field, fieldState }) => (
                       <Field className="flex items-center gap-2 space-y-0">
                         <Checkbox
                           {...field}
-                          id="isSubcustomer"
+                          id="billParentCustomer"
                           onCheckedChange={(value) =>
-                            form.setValue('isSubcustomer', !!value)
+                            form.setValue('billParentCustomer', !!value)
                           }
                           value={'' + field.value}
                         />
                         <FieldLabel
                           className="m-0 text-xs"
-                          htmlFor="isSubcustomer"
+                          htmlFor="billParentCustomer"
                         >
-                          Is a sub-customer
+                          Bill parent customer
                         </FieldLabel>
                         {fieldState.error && (
                           <FieldError errors={[fieldState.error]} />
@@ -528,50 +580,200 @@ export function CustomerForm({
                     )}
                   />
                 </div>
+              )}
+            </div>
+          </AccordionContent>
+        </AccordionItem>
 
-                {isSubcustomer && (
-                  <Controller
-                    control={form.control}
-                    name="parentId"
-                    render={({ field, fieldState }) => (
-                      <Field className="space-y-2 pl-4">
-                        <FieldLabel className="text-xs" htmlFor="parentId">
-                          Parent customer
-                        </FieldLabel>
-                        {/* TODO: Replace with combobox component */}
-                        <Input
-                          id="parentId"
-                          {...field}
-                          placeholder="Enter a parent customer"
-                        />
-                        {fieldState.error && (
-                          <FieldError errors={[fieldState.error]} />
-                        )}
-                      </Field>
+        {/* Address */}
+        <AccordionItem
+          value="billing"
+          className="rounded-lg border shadow-md"
+        >
+          <AccordionTrigger className="px-4">
+            <span className="flex gap-2">
+              <MapPinIcon className="aspect-square w-6" />
+              Addresses
+            </span>
+          </AccordionTrigger>
+          <AccordionContent className="p-4">
+            <div className="mb-4">
+              <Label className="text-sm" htmlFor="billingAddress.line1">
+                Billing Address
+              </Label>
+            </div>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <div className="space-y-2 md:col-span-2">
+                <Controller
+                  control={form.control}
+                  name="billingAddress.line1"
+                  render={({ field, fieldState }) => (
+                    <Field>
+                      <FieldLabel
+                        className="text-xs"
+                        htmlFor="billingAddress.line1"
+                      >
+                        Address Line 1
+                      </FieldLabel>
+                      <Input {...field} />
+                      {fieldState.error && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </Field>
+                  )}
+                />
+              </div>
+
+              <div className="space-y-2 md:col-span-2">
+                <Controller
+                  control={form.control}
+                  name="billingAddress.line2"
+                  render={({ field, fieldState }) => (
+                    <Field>
+                      <FieldLabel
+                        className="text-xs"
+                        htmlFor="billingAddress.line2"
+                      >
+                        Address Line 2
+                      </FieldLabel>
+                      <Input {...field} />
+                      {fieldState.error && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </Field>
+                  )}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Controller
+                  control={form.control}
+                  name="billingAddress.city"
+                  render={({ field, fieldState }) => (
+                    <Field>
+                      <FieldLabel
+                        className="text-xs"
+                        htmlFor="billingAddress.city"
+                      >
+                        City
+                      </FieldLabel>
+                      <Input {...field} />
+                      {fieldState.error && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </Field>
+                  )}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Controller
+                  control={form.control}
+                  name="billingAddress.state"
+                  render={({ field, fieldState }) => (
+                    <Field>
+                      <FieldLabel
+                        className="text-xs"
+                        htmlFor="billingAddress.state"
+                      >
+                        State/Province
+                      </FieldLabel>
+                      <Input {...field} />
+                      {fieldState.error && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </Field>
+                  )}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Controller
+                  control={form.control}
+                  name="billingAddress.postalCode"
+                  render={({ field, fieldState }) => (
+                    <Field>
+                      <FieldLabel
+                        className="text-xs"
+                        htmlFor="billingAddress.postalCode"
+                      >
+                        Postal Code
+                      </FieldLabel>
+                      <Input {...field} />
+                      {fieldState.error && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </Field>
+                  )}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Controller
+                  control={form.control}
+                  name="billingAddress.country"
+                  render={({ field, fieldState }) => (
+                    <Field>
+                      <FieldLabel
+                        className="text-xs"
+                        htmlFor="billingAddress.country"
+                      >
+                        Country
+                      </FieldLabel>
+                      <Input {...field} />
+                      {fieldState.error && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </Field>
+                  )}
+                />
+              </div>
+            </div>
+            <div className="col-span-2 mt-4">
+              <Controller
+                control={form.control}
+                name="shippingAddressSameAsBilling"
+                render={({ field, fieldState }) => (
+                  <Field className="flex items-center gap-2 space-y-0">
+                    <Checkbox
+                      {...field}
+                      id="shippingAddressSameAsBilling"
+                      value={'' + field.value}
+                    />
+                    <FieldLabel
+                      className="m-0 text-xs"
+                      htmlFor="shippingAddressSameAsBilling"
+                    >
+                      Shipping address same as billing address
+                    </FieldLabel>
+                    {fieldState.error && (
+                      <FieldError errors={[fieldState.error]} />
                     )}
-                  />
+                  </Field>
                 )}
-                {isSubcustomer && form.watch('parentId') && (
-                  <div className="col-span-2 pl-4">
+              />
+            </div>
+            {!form.watch('shippingAddressSameAsBilling') && (
+              <>
+                <div className="mb-4">
+                  <Label className="text-sm" htmlFor="billingAddress.line1">
+                    Billing Address
+                  </Label>
+                </div>
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                  <div className="space-y-2 md:col-span-2">
                     <Controller
                       control={form.control}
-                      name="billParentCustomer"
+                      name="billingAddress.line1"
                       render={({ field, fieldState }) => (
-                        <Field className="flex items-center gap-2 space-y-0">
-                          <Checkbox
-                            {...field}
-                            id="billParentCustomer"
-                            onCheckedChange={(value) =>
-                              form.setValue('billParentCustomer', !!value)
-                            }
-                            value={'' + field.value}
-                          />
+                        <Field>
                           <FieldLabel
-                            className="m-0 text-xs"
-                            htmlFor="billParentCustomer"
+                            className="text-xs"
+                            htmlFor="billingAddress.line1"
                           >
-                            Bill parent customer
+                            Address Line 1
                           </FieldLabel>
+                          <Input {...field} />
                           {fieldState.error && (
                             <FieldError errors={[fieldState.error]} />
                           )}
@@ -579,171 +781,241 @@ export function CustomerForm({
                       )}
                     />
                   </div>
-                )}
-              </div>
-            </AccordionContent>
-          </AccordionItem>
 
-          {/* Address */}
-          <AccordionItem
-            value="billing"
-            className="rounded-lg border shadow-md"
-          >
-            <AccordionTrigger className="px-4">
-              <span className="flex gap-2">
-                <MapPinIcon className="aspect-square w-6" />
-                Addresses
-              </span>
-            </AccordionTrigger>
-            <AccordionContent className="p-4">
-              <div className="mb-4">
-                <Label className="text-sm" htmlFor="billingAddress.line1">
-                  Billing Address
-                </Label>
-              </div>
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <div className="space-y-2 md:col-span-2">
-                  <Controller
-                    control={form.control}
-                    name="billingAddress.line1"
-                    render={({ field, fieldState }) => (
-                      <Field>
-                        <FieldLabel
-                          className="text-xs"
-                          htmlFor="billingAddress.line1"
-                        >
-                          Address Line 1
-                        </FieldLabel>
-                        <Input {...field} />
-                        {fieldState.error && (
-                          <FieldError errors={[fieldState.error]} />
-                        )}
-                      </Field>
-                    )}
-                  />
-                </div>
+                  <div className="space-y-2 md:col-span-2">
+                    <Controller
+                      control={form.control}
+                      name="billingAddress.line2"
+                      render={({ field, fieldState }) => (
+                        <Field>
+                          <FieldLabel
+                            className="text-xs"
+                            htmlFor="billingAddress.line2"
+                          >
+                            Address Line 2
+                          </FieldLabel>
+                          <Input {...field} />
+                          {fieldState.error && (
+                            <FieldError errors={[fieldState.error]} />
+                          )}
+                        </Field>
+                      )}
+                    />
+                  </div>
 
-                <div className="space-y-2 md:col-span-2">
-                  <Controller
-                    control={form.control}
-                    name="billingAddress.line2"
-                    render={({ field, fieldState }) => (
-                      <Field>
-                        <FieldLabel
-                          className="text-xs"
-                          htmlFor="billingAddress.line2"
-                        >
-                          Address Line 2
-                        </FieldLabel>
-                        <Input {...field} />
-                        {fieldState.error && (
-                          <FieldError errors={[fieldState.error]} />
-                        )}
-                      </Field>
-                    )}
-                  />
-                </div>
+                  <div className="space-y-2">
+                    <Controller
+                      control={form.control}
+                      name="billingAddress.city"
+                      render={({ field, fieldState }) => (
+                        <Field>
+                          <FieldLabel
+                            className="text-xs"
+                            htmlFor="billingAddress.city"
+                          >
+                            City
+                          </FieldLabel>
+                          <Input {...field} />
+                          {fieldState.error && (
+                            <FieldError errors={[fieldState.error]} />
+                          )}
+                        </Field>
+                      )}
+                    />
+                  </div>
 
-                <div className="space-y-2">
-                  <Controller
-                    control={form.control}
-                    name="billingAddress.city"
-                    render={({ field, fieldState }) => (
-                      <Field>
-                        <FieldLabel
-                          className="text-xs"
-                          htmlFor="billingAddress.city"
-                        >
-                          City
-                        </FieldLabel>
-                        <Input {...field} />
-                        {fieldState.error && (
-                          <FieldError errors={[fieldState.error]} />
-                        )}
-                      </Field>
-                    )}
-                  />
-                </div>
+                  <div className="space-y-2">
+                    <Controller
+                      control={form.control}
+                      name="billingAddress.state"
+                      render={({ field, fieldState }) => (
+                        <Field>
+                          <FieldLabel
+                            className="text-xs"
+                            htmlFor="billingAddress.state"
+                          >
+                            State/Province
+                          </FieldLabel>
+                          <Input {...field} />
+                          {fieldState.error && (
+                            <FieldError errors={[fieldState.error]} />
+                          )}
+                        </Field>
+                      )}
+                    />
+                  </div>
 
-                <div className="space-y-2">
-                  <Controller
-                    control={form.control}
-                    name="billingAddress.state"
-                    render={({ field, fieldState }) => (
-                      <Field>
-                        <FieldLabel
-                          className="text-xs"
-                          htmlFor="billingAddress.state"
-                        >
-                          State/Province
-                        </FieldLabel>
-                        <Input {...field} />
-                        {fieldState.error && (
-                          <FieldError errors={[fieldState.error]} />
-                        )}
-                      </Field>
-                    )}
-                  />
-                </div>
+                  <div className="space-y-2">
+                    <Controller
+                      control={form.control}
+                      name="billingAddress.postalCode"
+                      render={({ field, fieldState }) => (
+                        <Field>
+                          <FieldLabel
+                            className="text-xs"
+                            htmlFor="billingAddress.postalCode"
+                          >
+                            Postal Code
+                          </FieldLabel>
+                          <Input {...field} />
+                          {fieldState.error && (
+                            <FieldError errors={[fieldState.error]} />
+                          )}
+                        </Field>
+                      )}
+                    />
+                  </div>
 
-                <div className="space-y-2">
-                  <Controller
-                    control={form.control}
-                    name="billingAddress.postalCode"
-                    render={({ field, fieldState }) => (
-                      <Field>
-                        <FieldLabel
-                          className="text-xs"
-                          htmlFor="billingAddress.postalCode"
-                        >
-                          Postal Code
-                        </FieldLabel>
-                        <Input {...field} />
-                        {fieldState.error && (
-                          <FieldError errors={[fieldState.error]} />
-                        )}
-                      </Field>
-                    )}
-                  />
+                  <div className="space-y-2">
+                    <Controller
+                      control={form.control}
+                      name="billingAddress.country"
+                      render={({ field, fieldState }) => (
+                        <Field>
+                          <FieldLabel
+                            className="text-xs"
+                            htmlFor="billingAddress.country"
+                          >
+                            Country
+                          </FieldLabel>
+                          <Input {...field} />
+                          {fieldState.error && (
+                            <FieldError errors={[fieldState.error]} />
+                          )}
+                        </Field>
+                      )}
+                    />
+                  </div>
                 </div>
-
-                <div className="space-y-2">
-                  <Controller
-                    control={form.control}
-                    name="billingAddress.country"
-                    render={({ field, fieldState }) => (
-                      <Field>
-                        <FieldLabel
-                          className="text-xs"
-                          htmlFor="billingAddress.country"
-                        >
-                          Country
-                        </FieldLabel>
-                        <Input {...field} />
-                        {fieldState.error && (
-                          <FieldError errors={[fieldState.error]} />
-                        )}
-                      </Field>
-                    )}
-                  />
-                </div>
-              </div>
-              <div className="col-span-2 mt-4">
+              </>
+            )}
+          </AccordionContent>
+        </AccordionItem>
+        {/* Additional Information */}
+        <AccordionItem
+          value="additional"
+          className="rounded-lg border shadow-md"
+        >
+          <AccordionTrigger className="px-4">
+            <span className="flex gap-2">
+              <SquarePen className="aspect-square w-6" />
+              Notes and attachments{' '}
+            </span>
+          </AccordionTrigger>
+          <AccordionContent className="p-4">
+            <div className="space-y-4">
+              <div className="space-y-2">
                 <Controller
                   control={form.control}
-                  name="shippingAddressSameAsBilling"
+                  name="notes"
+                  render={({ field, fieldState }) => (
+                    <Field>
+                      <FieldLabel className="text-xs" htmlFor="notes">
+                        Notes
+                      </FieldLabel>
+                      <Textarea {...field} />
+                      {fieldState.error && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </Field>
+                  )}
+                />
+              </div>
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+
+        {/* Tax Information */}
+        <AccordionItem value="tax" className="rounded-lg border shadow-md">
+          <AccordionTrigger className="px-4">
+            <span className="flex gap-2">Tax Information</span>
+          </AccordionTrigger>
+          <AccordionContent className="p-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <div className="space-y-2">
+                <Controller
+                  control={form.control}
+                  name="taxIdentifier"
+                  render={({ field, fieldState }) => (
+                    <Field>
+                      <FieldLabel className="text-xs" htmlFor="taxIdentifier">
+                        Tax ID
+                      </FieldLabel>
+                      <Input {...field} />
+                      {fieldState.error && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </Field>
+                  )}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Controller
+                  control={form.control}
+                  name="secondaryTaxId"
+                  render={({ field, fieldState }) => (
+                    <Field>
+                      <FieldLabel className="text-xs" htmlFor="secondaryTaxId">
+                        Secondary Tax ID
+                      </FieldLabel>
+                      <Input {...field} />
+                      {fieldState.error && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </Field>
+                  )}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Controller
+                  control={form.control}
+                  name="resaleNumber"
+                  render={({ field, fieldState }) => (
+                    <Field>
+                      <FieldLabel className="text-xs" htmlFor="resaleNumber">
+                        Resale Number
+                      </FieldLabel>
+                      <Input {...field} />
+                      {fieldState.error && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </Field>
+                  )}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Controller
+                  control={form.control}
+                  name="businessNumber"
+                  render={({ field, fieldState }) => (
+                    <Field>
+                      <FieldLabel className="text-xs" htmlFor="businessNumber">
+                        Business Number
+                      </FieldLabel>
+                      <Input {...field} />
+                      {fieldState.error && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </Field>
+                  )}
+                />
+              </div>
+              <div className="flex items-center space-x-2">
+                <Controller
+                  control={form.control}
+                  name="taxable"
                   render={({ field, fieldState }) => (
                     <Field className="flex items-center gap-2 space-y-0">
                       <Checkbox
                         {...field}
-                        id="shippingAddressSameAsBilling"
+                        id="taxable"
                         value={'' + field.value}
                       />
-                      <FieldLabel
-                        className="m-0 text-xs"
-                        htmlFor="shippingAddressSameAsBilling"
-                      >
-                        Shipping address same as billing address
+                      <FieldLabel className="text-xs" htmlFor="taxable">
+                        Taxable
                       </FieldLabel>
                       {fieldState.error && (
                         <FieldError errors={[fieldState.error]} />
@@ -752,366 +1024,94 @@ export function CustomerForm({
                   )}
                 />
               </div>
-              {!form.watch('shippingAddressSameAsBilling') && (
-                <>
-                  <div className="mb-4">
-                    <Label className="text-sm" htmlFor="billingAddress.line1">
-                      Billing Address
-                    </Label>
-                  </div>
-                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                    <div className="space-y-2 md:col-span-2">
-                      <Controller
-                        control={form.control}
-                        name="billingAddress.line1"
-                        render={({ field, fieldState }) => (
-                          <Field>
-                            <FieldLabel
-                              className="text-xs"
-                              htmlFor="billingAddress.line1"
-                            >
-                              Address Line 1
-                            </FieldLabel>
-                            <Input {...field} />
-                            {fieldState.error && (
-                              <FieldError errors={[fieldState.error]} />
-                            )}
-                          </Field>
-                        )}
-                      />
-                    </div>
+            </div>
+          </AccordionContent>
+        </AccordionItem>
 
-                    <div className="space-y-2 md:col-span-2">
-                      <Controller
-                        control={form.control}
-                        name="billingAddress.line2"
-                        render={({ field, fieldState }) => (
-                          <Field>
-                            <FieldLabel
-                              className="text-xs"
-                              htmlFor="billingAddress.line2"
-                            >
-                              Address Line 2
-                            </FieldLabel>
-                            <Input {...field} />
-                            {fieldState.error && (
-                              <FieldError errors={[fieldState.error]} />
-                            )}
-                          </Field>
-                        )}
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Controller
-                        control={form.control}
-                        name="billingAddress.city"
-                        render={({ field, fieldState }) => (
-                          <Field>
-                            <FieldLabel
-                              className="text-xs"
-                              htmlFor="billingAddress.city"
-                            >
-                              City
-                            </FieldLabel>
-                            <Input {...field} />
-                            {fieldState.error && (
-                              <FieldError errors={[fieldState.error]} />
-                            )}
-                          </Field>
-                        )}
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Controller
-                        control={form.control}
-                        name="billingAddress.state"
-                        render={({ field, fieldState }) => (
-                          <Field>
-                            <FieldLabel
-                              className="text-xs"
-                              htmlFor="billingAddress.state"
-                            >
-                              State/Province
-                            </FieldLabel>
-                            <Input {...field} />
-                            {fieldState.error && (
-                              <FieldError errors={[fieldState.error]} />
-                            )}
-                          </Field>
-                        )}
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Controller
-                        control={form.control}
-                        name="billingAddress.postalCode"
-                        render={({ field, fieldState }) => (
-                          <Field>
-                            <FieldLabel
-                              className="text-xs"
-                              htmlFor="billingAddress.postalCode"
-                            >
-                              Postal Code
-                            </FieldLabel>
-                            <Input {...field} />
-                            {fieldState.error && (
-                              <FieldError errors={[fieldState.error]} />
-                            )}
-                          </Field>
-                        )}
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Controller
-                        control={form.control}
-                        name="billingAddress.country"
-                        render={({ field, fieldState }) => (
-                          <Field>
-                            <FieldLabel
-                              className="text-xs"
-                              htmlFor="billingAddress.country"
-                            >
-                              Country
-                            </FieldLabel>
-                            <Input {...field} />
-                            {fieldState.error && (
-                              <FieldError errors={[fieldState.error]} />
-                            )}
-                          </Field>
-                        )}
-                      />
-                    </div>
-                  </div>
-                </>
-              )}
-            </AccordionContent>
-          </AccordionItem>
-          {/* Additional Information */}
-          <AccordionItem
-            value="additional"
-            className="rounded-lg border shadow-md"
-          >
-            <AccordionTrigger className="px-4">
-              <span className="flex gap-2">
-                <SquarePen className="aspect-square w-6" />
-                Notes and attachments{' '}
-              </span>
-            </AccordionTrigger>
-            <AccordionContent className="p-4">
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <Controller
-                    control={form.control}
-                    name="notes"
-                    render={({ field, fieldState }) => (
-                      <Field>
-                        <FieldLabel className="text-xs" htmlFor="notes">
-                          Notes
-                        </FieldLabel>
-                        <Textarea {...field} />
-                        {fieldState.error && (
-                          <FieldError errors={[fieldState.error]} />
-                        )}
-                      </Field>
-                    )}
-                  />
-                </div>
+        {/* Financial Information */}
+        <AccordionItem
+          value="financial"
+          className="rounded-lg border shadow-md"
+        >
+          <AccordionTrigger className="px-4">
+            Financial Information
+          </AccordionTrigger>
+          <AccordionContent className="p-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <div className="space-y-2">
+                <Controller
+                  control={form.control}
+                  name="balance"
+                  render={({ field, fieldState }) => (
+                    <Field>
+                      <FieldLabel className="text-xs" htmlFor="balance">
+                        Opening Balance
+                      </FieldLabel>
+                      <Input {...field} type="number" />
+                      {fieldState.error && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </Field>
+                  )}
+                />
               </div>
-            </AccordionContent>
-          </AccordionItem>
 
-          {/* Tax Information */}
-          <AccordionItem value="tax" className="rounded-lg border shadow-md">
-            <AccordionTrigger className="px-4">
-              <span className="flex gap-2">Tax Information</span>
-            </AccordionTrigger>
-            <AccordionContent className="p-4">
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <div className="space-y-2">
-                  <Controller
-                    control={form.control}
-                    name="taxIdentifier"
-                    render={({ field, fieldState }) => (
-                      <Field>
-                        <FieldLabel className="text-xs" htmlFor="taxIdentifier">
-                          Tax ID
-                        </FieldLabel>
-                        <Input {...field} />
-                        {fieldState.error && (
-                          <FieldError errors={[fieldState.error]} />
-                        )}
-                      </Field>
-                    )}
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Controller
-                    control={form.control}
-                    name="secondaryTaxId"
-                    render={({ field, fieldState }) => (
-                      <Field>
-                        <FieldLabel className="text-xs" htmlFor="secondaryTaxId">
-                          Secondary Tax ID
-                        </FieldLabel>
-                        <Input {...field} />
-                        {fieldState.error && (
-                          <FieldError errors={[fieldState.error]} />
-                        )}
-                      </Field>
-                    )}
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Controller
-                    control={form.control}
-                    name="resaleNumber"
-                    render={({ field, fieldState }) => (
-                      <Field>
-                        <FieldLabel className="text-xs" htmlFor="resaleNumber">
-                          Resale Number
-                        </FieldLabel>
-                        <Input {...field} />
-                        {fieldState.error && (
-                          <FieldError errors={[fieldState.error]} />
-                        )}
-                      </Field>
-                    )}
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Controller
-                    control={form.control}
-                    name="businessNumber"
-                    render={({ field, fieldState }) => (
-                      <Field>
-                        <FieldLabel className="text-xs" htmlFor="businessNumber">
-                          Business Number
-                        </FieldLabel>
-                        <Input {...field} />
-                        {fieldState.error && (
-                          <FieldError errors={[fieldState.error]} />
-                        )}
-                      </Field>
-                    )}
-                  />
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Controller
-                    control={form.control}
-                    name="taxable"
-                    render={({ field, fieldState }) => (
-                      <Field className="flex items-center gap-2 space-y-0">
-                        <Checkbox
-                          {...field}
-                          id="taxable"
-                          value={'' + field.value}
-                        />
-                        <FieldLabel className="text-xs" htmlFor="taxable">
-                          Taxable
-                        </FieldLabel>
-                        {fieldState.error && (
-                          <FieldError errors={[fieldState.error]} />
-                        )}
-                      </Field>
-                    )}
-                  />
-                </div>
+              <div className="space-y-2">
+                <Controller
+                  control={form.control}
+                  name="creditLimit"
+                  render={({ field, fieldState }) => (
+                    <Field>
+                      <FieldLabel className="text-xs" htmlFor="creditLimit">
+                        Credit Limit
+                      </FieldLabel>
+                      <Input {...field} type="number" step="0.01" />
+                      {fieldState.error && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </Field>
+                  )}
+                />
               </div>
-            </AccordionContent>
-          </AccordionItem>
 
-          {/* Financial Information */}
-          <AccordionItem
-            value="financial"
-            className="rounded-lg border shadow-md"
-          >
-            <AccordionTrigger className="px-4">
-              Financial Information
-            </AccordionTrigger>
-            <AccordionContent className="p-4">
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <div className="space-y-2">
-                  <Controller
-                    control={form.control}
-                    name="balance"
-                    render={({ field, fieldState }) => (
-                      <Field>
-                        <FieldLabel className="text-xs" htmlFor="balance">
-                          Opening Balance
-                        </FieldLabel>
-                        <Input {...field} type="number" />
-                        {fieldState.error && (
-                          <FieldError errors={[fieldState.error]} />
-                        )}
-                      </Field>
-                    )}
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Controller
-                    control={form.control}
-                    name="creditLimit"
-                    render={({ field, fieldState }) => (
-                      <Field>
-                        <FieldLabel className="text-xs" htmlFor="creditLimit">
-                          Credit Limit
-                        </FieldLabel>
-                        <Input {...field} type="number" step="0.01" />
-                        {fieldState.error && (
-                          <FieldError errors={[fieldState.error]} />
-                        )}
-                      </Field>
-                    )}
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Controller
-                    control={form.control}
-                    name="preferredPaymentMethod"
-                    render={({ field, fieldState }) => (
-                      <Field>
-                        <FieldLabel
-                          className="text-xs"
-                          htmlFor="preferredPaymentMethod"
-                        >
-                          Preferred Payment Method
-                        </FieldLabel>
-                        <Select
-                          {...field}
-                          onValueChange={(
-                            value: CustomerPreferredPaymentMethod
-                          ) => form.setValue('preferredPaymentMethod', value)}
-                        >
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select method" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="Print">Print</SelectItem>
-                            <SelectItem value="Email">Email</SelectItem>
-                            <SelectItem value="None">None</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        {fieldState.error && (
-                          <FieldError errors={[fieldState.error]} />
-                        )}
-                      </Field>
-                    )}
-                  />
-                </div>
+              <div className="space-y-2">
+                <Controller
+                  control={form.control}
+                  name="preferredPaymentMethod"
+                  render={({ field, fieldState }) => (
+                    <Field>
+                      <FieldLabel
+                        className="text-xs"
+                        htmlFor="preferredPaymentMethod"
+                      >
+                        Preferred Payment Method
+                      </FieldLabel>
+                      <Select
+                        {...field}
+                        onValueChange={(
+                          value: CustomerPreferredPaymentMethod
+                        ) => form.setValue('preferredPaymentMethod', value)}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select method" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Print">Print</SelectItem>
+                          <SelectItem value="Email">Email</SelectItem>
+                          <SelectItem value="None">None</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      {fieldState.error && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </Field>
+                  )}
+                />
               </div>
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
-      </form>
-    </Form>
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    </form>
   );
 }

@@ -120,56 +120,55 @@ export function PaymentForm() {
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <div className="mb-8">
-          <h1 className="text-primary flex items-center gap-2 text-3xl font-bold">
-            Receive Payment
-          </h1>
-          <p className="text-muted-foreground mt-2 flex items-center gap-2">
-            Record payments received from customers
-          </p>
-        </div>
-        <Controller
-          control={form.control}
-          name="customerId"
-          render={({ field, fieldState }) => (
-            <Field>
-              <FieldLabel>Customer</FieldLabel>
-              <CustomerSelect
-                onSelect={handleCustomerSelect}
-                selectedCustomerId={field.value}
-              />
-              {fieldState.error && (
-                <FieldError errors={[fieldState.error]} />
-              )}
-            </Field>
-          )}
-        />
+    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <div className="mb-8">
+        <h1 className="text-primary flex items-center gap-2 text-3xl font-bold">
+          Receive Payment
+        </h1>
+        <p className="text-muted-foreground mt-2 flex items-center gap-2">
+          Record payments received from customers
+        </p>
+      </div>
+      <Controller
+        control={form.control}
+        name="customerId"
+        render={({ field, fieldState }) => (
+          <Field>
+            <FieldLabel>Customer</FieldLabel>
+            <CustomerSelect
+              onSelect={handleCustomerSelect}
+              selectedCustomerId={field.value}
+            />
+            {fieldState.error && (
+              <FieldError errors={[fieldState.error]} />
+            )}
+          </Field>
+        )}
+      />
 
-        {selectedCustomer && (
-          <InvoiceSelection
+      {selectedCustomer && (
+        <InvoiceSelection
+          invoices={invoices}
+          selectedInvoices={selectedInvoices}
+          onInvoiceSelect={handleInvoiceSelect}
+        />
+      )}
+
+      {selectedInvoices.length > 0 && (
+        <>
+          <PaymentAmount
+            form={form}
             invoices={invoices}
             selectedInvoices={selectedInvoices}
-            onInvoiceSelect={handleInvoiceSelect}
           />
-        )}
+          <PaymentDetails form={form} />
 
-        {selectedInvoices.length > 0 && (
-          <>
-            <PaymentAmount
-              form={form}
-              invoices={invoices}
-              selectedInvoices={selectedInvoices}
-            />
-            <PaymentDetails form={form} />
-
-            <Button type="submit" className="w-full" disabled={isSubmitting}>
-              {isSubmitting ? 'Processing...' : 'Process Payment'}
-            </Button>
-          </>
-        )}
-      </form>
-    </Form>
+          <Button type="submit" className="w-full" disabled={isSubmitting}>
+            {isSubmitting ? 'Processing...' : 'Process Payment'}
+          </Button>
+        </>
+      )}
+    </form>
+    </Form >
   );
 }

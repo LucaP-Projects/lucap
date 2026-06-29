@@ -26,7 +26,7 @@ interface CustomerSelectProps {
 
 const CustomerSelect = React.memo(
   React.forwardRef<HTMLButtonElement, CustomerSelectProps>(
-    ({ onSelect, selectedCustomerId, className }, ref) => {
+    ({ onSelect, selectedCustomerId, className }: CustomerSelectProps, ref) => {
       const [open, setOpen] = React.useState(false);
       const [search, setSearch] = React.useState('');
       const [customers, setCustomers] = React.useState<CustomerSelectData[]>(

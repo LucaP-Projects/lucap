@@ -12,7 +12,7 @@ import {
   Search,
   MoreHorizontal,
   FolderOpen,
-  Table
+  
 } from 'lucide-react';
 
 
@@ -24,7 +24,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet';
-import { TableRow, TableCell, TableHeader, TableHead, TableBody } from '@/components/ui/table';
+import { Table, TableRow, TableCell, TableHeader, TableHead, TableBody } from '@/components/ui/table';
 import { deleteCategory } from './actions';
 import { CategoryWithItems } from './types';
 

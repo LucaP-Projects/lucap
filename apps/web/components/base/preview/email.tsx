@@ -86,7 +86,7 @@ export const EmailPreview = memo(
                 {company?.address?.postalCode || 'Zip'}
               </p>
               <p className="mt-2 text-sm text-gray-800 dark:text-gray-200">
-                noreply@lucapacioli.com.tn.com
+                noreply@lucapacioli.com.tn
               </p>
             </div>
           </div>
@@ -96,8 +96,8 @@ export const EmailPreview = memo(
             <p className="mb-2">
               If you receive an email that seems fraudulent, please check with
               the business owner before paying, or you can forward the email to
-              security@lucapacioli.com.tn.com so we can look into it. Read more at
-              security.lucapacioli.com.tn.com
+              security@lucapacioli.com.tn so we can look into it. Read more at
+              security.lucapacioli.com.tn
             </p>
             <p>Powered by LucaP</p>
             <p>

@@ -7,7 +7,6 @@ import {
   Calculator,
   LayoutDashboard,
   BookOpen,
-  FilePlus,
   Home,
   TrendingUp,
   Store} from 'lucide-react';
@@ -35,7 +34,7 @@ const data = {
   navMain: [
     {
       title: 'Dashboard',
-      url: '/dashboard',
+      url: '/',
       icon: Home,
       isActive: true
     },
@@ -92,30 +91,30 @@ const data = {
         },
         {
           title: 'Credit Memos',
-          url: '/creditmemos'
+          url: '/credit-memos'
         },
         {
           title: 'Sales Receipts',
-          url: '/salesreceipts'
+          url: '/sales-receipts'
         },
         {
           title: 'Delayed Charges',
-          url: '/delayedcharges'
+          url: '/delayed-charges'
         },
         {
           title: 'Delayed Credits',
-          url: '/delayedcredits'
+          url: '/delayed-credits'
         },
         {
           title: 'Refund Receipts',
-          url: '/refundreceipts'
+          url: '/refund-receipts'
         }
       ]
     },
 
     {
       title: 'Categories',
-      url: '/finance/categories',
+      url: '/categories',
       icon: BookOpen
     },
     {
@@ -139,11 +138,6 @@ const data = {
     }
   ],
   projects: [
-    {
-      name: 'Quick Actions',
-      url: '#',
-      icon: FilePlus
-    },
     {
       name: 'Reports & Analytics',
       url: '/reports',
