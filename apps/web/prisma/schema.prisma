@@ -149,6 +149,8 @@ enum SystemRole {
   ADMIN
   CUSTOMER
   STAFF
+  SUPER_ACCOUNTANT
+  ACCOUNTANT_STAFF
 }
 
 enum TransactionType {

@@ -3,10 +3,12 @@ import type { Permission } from '@/lib/generated/prisma/browser';
 type UserCompany = {
   companyId: string;
   companyRole: string;
+  systemRole: string | null;
   isAdmin: boolean;
   permissions: Permission[];
   name: string;
   logo?: string | null;
+  slug?: string | null;
 };
 
 // Extend Better Auth types to include custom session fields
@@ -27,6 +29,7 @@ declare module 'better-auth/types' {
     companyRole: string | null;
     isAdmin: boolean;
     activeCompanyId?: string | null;
+    activeCompany?: UserCompany | null;
   }
 
   interface Session {
