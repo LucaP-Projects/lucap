@@ -48,6 +48,26 @@ const seedCompany: SeedModule = {
                 Permission.MANAGE_CUSTOMERS,
                 Permission.VIEW_REPORTS
               ]
+            },
+            {
+              name: 'Super Accountant',
+              description: 'Senior accountant who manages accountant staff',
+              systemRole: SystemRole.SUPER_ACCOUNTANT,
+              permissions: [
+                Permission.VIEW_DASHBOARD,
+                Permission.VIEW_REPORTS,
+                Permission.MANAGE_STAFF,
+                Permission.MANAGE_SETTINGS
+              ]
+            },
+            {
+              name: 'Accountant Staff',
+              description: 'Accountant staff member under a super accountant',
+              systemRole: SystemRole.ACCOUNTANT_STAFF,
+              permissions: [
+                Permission.VIEW_DASHBOARD,
+                Permission.VIEW_REPORTS
+              ]
             }
           ]
         }

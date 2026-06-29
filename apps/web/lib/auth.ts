@@ -191,6 +191,7 @@ export const auth = betterAuth({
               role: {
                 select: {
                   name: true,
+                  systemRole: true,
                   permissions: true
                 }
               }
@@ -206,6 +207,7 @@ export const auth = betterAuth({
       const userCompanies = dbUser.companies.map((uc) => ({
         companyId: uc.companyId,
         companyRole: uc.role.name,
+        systemRole: uc.role.systemRole,
         isAdmin: uc.isAdmin,
         permissions: uc.role.permissions,
         name: uc.company.name,

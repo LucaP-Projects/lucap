@@ -1,9 +1,11 @@
 /*
  * Seed credentials (for development only — never commit real passwords):
  *
- *   admin@lucap.com   / Admin@1234   (role: ADMIN, company admin)
- *   staff@lucap.com   / Staff@1234   (role: Staff)
- *   user@lucap.com    / User@1234    (role: Customer)
+ *   admin@lucap.com              / Admin@1234      (role: ADMIN, company admin)
+ *   staff@lucap.com              / Staff@1234      (role: Staff)
+ *   user@lucap.com               / User@1234       (role: Customer)
+ *   superaccountant@lucap.com    / SuperAcc@1234   (role: Super Accountant)
+ *   accountantstaff@lucap.com    / AccStaff@1234   (role: Accountant Staff)
  */
 
 import { hash } from '@node-rs/argon2';
@@ -41,6 +43,22 @@ const USERS = [
     password: 'User@1234',
     userRole: UserRole.USER,
     systemRole: SystemRole.CUSTOMER,
+    isAdmin: false
+  },
+  {
+    email: 'superaccountant@lucap.com',
+    name: 'Super Accountant',
+    password: 'SuperAcc@1234',
+    userRole: UserRole.USER,
+    systemRole: SystemRole.SUPER_ACCOUNTANT,
+    isAdmin: false
+  },
+  {
+    email: 'accountantstaff@lucap.com',
+    name: 'Accountant Staff',
+    password: 'AccStaff@1234',
+    userRole: UserRole.USER,
+    systemRole: SystemRole.ACCOUNTANT_STAFF,
     isAdmin: false
   }
 ];
