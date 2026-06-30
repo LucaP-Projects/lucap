@@ -3,15 +3,15 @@
 import * as React from 'react';
 import { useParams } from 'next/navigation';
 import {
-  Settings,
-  Building2,
   Calculator,
   LayoutDashboard,
-  BookOpen,
   Home,
   TrendingUp,
   Store,
-  GraduationCap
+  GraduationCap,
+  Building2,
+  BookOpen,
+  Settings
 } from 'lucide-react';
 
 import { Company } from '@/components/company/select/types';
@@ -136,12 +136,12 @@ const baseNavItems = [
 
 const projects = [
   {
-    name: 'Reports & Analytics',
+    title: 'Reports & Analytics',
     url: '/reports',
     icon: TrendingUp
   },
   {
-    name: 'Store Management',
+    title: 'Store Management',
     url: '/store',
     icon: Store
   }
