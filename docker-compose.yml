@@ -10,19 +10,7 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/18/docker
-  storage:
-    image: minio/minio
-    container_name: lucap_storage
-    restart: unless-stopped
-    command: server /data --console-address ":9001"
-    volumes:
-      - lucap_data:/data
-    ports:
-      - "9000:9000" # S3 API Endpoint
-      - "9001:9001" # Console UI
-    environment:
-      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
-      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
+  
   mail:
     image: axllent/mailpit:latest
     restart: unless-stopped
