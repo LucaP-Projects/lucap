@@ -25,8 +25,20 @@ import {
 import ActionButton from './action-button';
 import { NavMain } from './nav-main';
 import { NavProjects } from './nav-projects';
-import { NavUser } from './nav-user';
+import { NavUser, ServerUser } from './nav-user';
 import { TeamSwitcher } from './team-switcher';
+
+export type UnverifiedCounts = {
+  invoices: number;
+  payments: number;
+  customers: number;
+  estimates: number;
+  creditMemos: number;
+  salesReceipts: number;
+  delayedCharges: number;
+  delayedCredits: number;
+  refundReceipts: number;
+};
 
 const baseNavItems = [
   {
@@ -152,29 +164,96 @@ const ACCOUNTANT_SYSTEM_ROLES = ['SUPER_ACCOUNTANT', 'ACCOUNTANT_STAFF'];
 export function AppSidebar({
   companies = [],
   companySystemRole = null,
+  unverifiedCounts,
+  serverUser,
   ...props
 }: React.ComponentProps<typeof Sidebar> & {
   companies?: Company[];
   companySystemRole?: string | null;
+  unverifiedCounts?: UnverifiedCounts;
+  serverUser?: ServerUser;
 }) {
   const { open } = useSidebar();
   const params = useParams();
   const companySlug = params['company-slug'] as string | undefined;
 
-  const isAccountantRole = companySystemRole !== null && ACCOUNTANT_SYSTEM_ROLES.includes(companySystemRole);
+  const isAccountantRole =
+    companySystemRole !== null &&
+    ACCOUNTANT_SYSTEM_ROLES.includes(companySystemRole);
 
-  const accountantPortalItem = companySlug && isAccountantRole
-    ? [
-        {
-          title: 'Accountant Portal',
-          url: `/${companySlug}/accountant-dashboard`,
-          icon: GraduationCap,
-          isActive: true
-        }
-      ]
-    : [];
+  const accountantPortalItem =
+    companySlug && isAccountantRole
+      ? [
+          {
+            title: 'Accountant Portal',
+            url: `/${companySlug}/accountant-dashboard`,
+            icon: GraduationCap,
+            isActive: true
+          }
+        ]
+      : [];
 
-  const navItems = isAccountantRole ? accountantPortalItem : baseNavItems;
+  const accountantFinanceDashboards =
+    companySlug && isAccountantRole
+      ? [
+          {
+            title: 'Finance Dashboards',
+            url: '#',
+            icon: LayoutDashboard,
+            items: [
+              {
+                title: 'Invoices',
+                url: `/${companySlug}/accountant-review/invoices`,
+                badge: unverifiedCounts?.invoices ?? 0
+              },
+              {
+                title: 'Payments',
+                url: `/${companySlug}/accountant-review/payments`,
+                badge: unverifiedCounts?.payments ?? 0
+              },
+              {
+                title: 'Customers',
+                url: `/${companySlug}/accountant-review/customers`,
+                badge: unverifiedCounts?.customers ?? 0
+              },
+              {
+                title: 'Estimates',
+                url: `/${companySlug}/accountant-review/estimates`,
+                badge: unverifiedCounts?.estimates ?? 0
+              },
+              {
+                title: 'Credit Memos',
+                url: `/${companySlug}/accountant-review/credit-memos`,
+                badge: unverifiedCounts?.creditMemos ?? 0
+              },
+              {
+                title: 'Sales Receipts',
+                url: `/${companySlug}/accountant-review/sales-receipts`,
+                badge: unverifiedCounts?.salesReceipts ?? 0
+              },
+              {
+                title: 'Delayed Charges',
+                url: `/${companySlug}/accountant-review/delayed-charges`,
+                badge: unverifiedCounts?.delayedCharges ?? 0
+              },
+              {
+                title: 'Delayed Credits',
+                url: `/${companySlug}/accountant-review/delayed-credits`,
+                badge: unverifiedCounts?.delayedCredits ?? 0
+              },
+              {
+                title: 'Refund Receipts',
+                url: `/${companySlug}/accountant-review/refund-receipts`,
+                badge: unverifiedCounts?.refundReceipts ?? 0
+              }
+            ]
+          }
+        ]
+      : [];
+
+  const navItems = isAccountantRole
+    ? [...accountantPortalItem, ...accountantFinanceDashboards]
+    : baseNavItems;
 
   return (
     <Sidebar collapsible="icon" {...props}>
@@ -189,7 +268,7 @@ export function AppSidebar({
         <NavProjects projects={projects} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser />
+        <NavUser serverUser={serverUser} />
       </SidebarFooter>
     </Sidebar>
   );
