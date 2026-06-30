@@ -1,11 +1,12 @@
 'use server';
 
-import { PaymentMethod, Prisma } from '@prisma/client';
 import { startOfDay, endOfDay } from 'date-fns';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { auth } from '@/lib/auth';
-import { db } from '@/lib/db';
+import {  getSessionWithCompany } from '@/lib/auth';
+import { PaymentMethod } from '@/lib/generated/prisma/enums';
+import * as Prisma from '@/lib/generated/prisma/internal/prismaNamespace';
+import { prisma } from '@/lib/prisma';
 
 export type PaymentFilters = {
   method?: PaymentMethod | undefined;
@@ -72,11 +73,11 @@ export async function getPaymentsPage(
   pageSize: number = 10,
   filters: PaymentFilters = {}
 ) {
-  const session = await auth();
+  const session = await getSessionWithCompany();
   if (!session?.user?.id) {
     redirect('/login');
   }
-  if (!session?.user?.companyId) {
+  if (!session?.user?.activeCompanyId) {
     redirect('/select-company');
   }
   const validPage = Math.max(1, page);
@@ -84,7 +85,7 @@ export async function getPaymentsPage(
   const skip = (validPage - 1) * validPageSize;
 
   const where: Prisma.PaymentWhereInput = {
-    companyId: session.user.companyId,
+    companyId: session.user.activeCompanyId,
     isActive: true
   };
 
@@ -118,8 +119,8 @@ export async function getPaymentsPage(
   }
 
   const [total, payments] = await Promise.all([
-    db.payment.count({ where }),
-    db.payment.findMany({
+    prisma.payment.count({ where }),
+    prisma.payment.findMany({
       where,
       include: {
         customer: {
@@ -157,16 +158,16 @@ export async function getPaymentStats() {
   try {
     const [totalCount, totalAmount, methodBreakdown, dailyTrend] =
       await Promise.all([
-        db.payment.count({
+        prisma.payment.count({
           where: { isActive: true }
         }),
-        db.payment.aggregate({
+        prisma.payment.aggregate({
           _sum: {
             amount: true
           },
           where: { isActive: true }
         }),
-        db.payment.groupBy({
+        prisma.payment.groupBy({
           by: ['paymentMethod'],
           _count: true,
           _sum: {
@@ -174,7 +175,7 @@ export async function getPaymentStats() {
           },
           where: { isActive: true }
         }),
-        db.payment.groupBy({
+        prisma.payment.groupBy({
           by: ['paymentDate'],
           _sum: {
             amount: true
@@ -213,24 +214,24 @@ export async function getPaymentStats() {
     };
   } catch (error) {
     console.error('Error fetching payment stats:', error);
-    throw new Error('Failed to fetch payment statistics');
+    throw new Error('Failed to fetch payment statistics', { cause: error });
   }
 }
 
 export async function getPaymentDetails(
   id: string
 ): Promise<PaymentWithRelations | null> {
-  const session = await auth();
+  const session = await getSessionWithCompany();
   if (!session?.user?.id) {
     redirect('/login');
   }
-  if (!session?.user?.companyId) {
+  if (!session?.user?.activeCompanyId) {
     redirect('/select-company');
   }
-  return db.payment.findUnique({
+  return prisma.payment.findUnique({
     where: {
       id,
-      companyId: session.user.companyId,
+      companyId: session.user.activeCompanyId,
       isActive: true
     },
     include: {
@@ -273,7 +274,7 @@ export async function deletePayments(ids: string[]): Promise<DeleteResult> {
   }
 
   try {
-    const session = await auth();
+    const session = await getSessionWithCompany();
     if (!session?.user?.id) {
       return {
         success: false,
@@ -282,7 +283,7 @@ export async function deletePayments(ids: string[]): Promise<DeleteResult> {
     }
 
     // Check for payments that can't be deleted
-    const nonDeletablePayments = await db.payment.findMany({
+    const nonDeletablePayments = await prisma.payment.findMany({
       where: {
         id: { in: ids },
         isActive: true,
@@ -310,7 +311,7 @@ export async function deletePayments(ids: string[]): Promise<DeleteResult> {
     }
 
     // Get the invoices that need to be updated
-    const affectedInvoices = await db.payment.findMany({
+    const affectedInvoices = await prisma.payment.findMany({
       where: {
         id: { in: ids },
         isActive: true
@@ -321,7 +322,7 @@ export async function deletePayments(ids: string[]): Promise<DeleteResult> {
     });
 
     // Use a transaction to ensure all operations succeed or none do
-    await db.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx) => {
       // 1. Soft delete the payments by updating isActive to false
       await tx.payment.updateMany({
         where: {

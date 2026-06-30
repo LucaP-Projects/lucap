@@ -8,8 +8,8 @@ import {
   ClipboardList,
   Users
 } from 'lucide-react';
-import { auth } from '@/lib/auth';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { auth } from '@/lib/auth';
 
 export default async function AccountantDashboardPage() {
   const session = await auth.api.getSession({ headers: await headers() });
