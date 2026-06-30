@@ -26,11 +26,17 @@ import {
 } from '@/components/ui/sidebar';
 import { authClient } from '@/lib/auth-client';
 
-export function NavUser() {
+export type ServerUser = {
+  name: string;
+  email: string;
+  image?: string | null;
+};
+
+export function NavUser({ serverUser }: { serverUser?: ServerUser }) {
   const { isMobile } = useSidebar();
   const router = useRouter();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
-  const { data: session, isPending, error } = authClient.useSession();
+  const { data: session } = authClient.useSession();
 
   const handleLogout = async () => {
     try {
@@ -48,35 +54,16 @@ export function NavUser() {
     router.push('/profile');
   };
 
-  // Show loading state while session is being fetched
-  if (isPending) {
-    return (
-      <SidebarMenu>
-        <SidebarMenuItem>
-          <SidebarMenuButton size="lg" disabled>
-            <Avatar className="h-8 w-8 rounded-lg">
-              <AvatarFallback className="rounded-lg">...</AvatarFallback>
-            </Avatar>
-            <div className="grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
-              <span className="truncate font-semibold">Loading...</span>
-              <span className="truncate text-xs">Please wait</span>
-            </div>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
-      </SidebarMenu>
-    );
-  }
+  // Prefer client session when available, fall back to server-passed data
+  const user = session?.user
+    ? { name: session.user.name, email: session.user.email, avatar: session.user.image || '' }
+    : serverUser
+      ? { name: serverUser.name, email: serverUser.email, avatar: serverUser.image || '' }
+      : null;
 
-  // Don't render if no session or error
-  if (!session?.user || error) {
+  if (!user) {
     return null;
   }
-
-  const user = {
-    name: session.user.name,
-    email: session.user.email,
-    avatar: session.user.image || ''
-  };
 
   return (
     <SidebarMenu>
