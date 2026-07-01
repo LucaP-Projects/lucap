@@ -1,11 +1,16 @@
 import crypto from 'crypto';
-import path from 'path';
-import { S3Client, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
+import {
+  CreateBucketCommand,
+  GetObjectCommand,
+  HeadBucketCommand,
+  PutObjectCommand,
+  S3Client,
+} from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { Decimal } from 'decimal.js';
 
 // --- S3-COMPATIBLE STORAGE CONFIGURATION (MinIO / Garage) ---
-export const s3Client = new S3Client({
+const globalS3Client = new S3Client({
   endpoint: process.env.GARAGE_ENDPOINT || 'http://localhost:9000',
   region: process.env.GARAGE_REGION || 'us-east-1',
   credentials: {
@@ -15,8 +20,140 @@ export const s3Client = new S3Client({
   forcePathStyle: true,
 });
 
-const bucketName = process.env.GARAGE_BUCKET_NAME || 'lucap';
-const publicBaseUrl = process.env.GARAGE_PUBLIC_URL || `http://localhost:9000/${bucketName}`;
+export const s3Client = globalS3Client; // Exported for direct use if needed
+
+/**
+ * Factory for S3 Clients. 
+ * Can be extended to return different clients based on tenant settings.
+ */
+export async function getS3Client(tenantId?: string) {
+  if (!tenantId) return globalS3Client;
+
+  // Example: Return a custom client if company has its own storage provider
+  // const company = await prisma.company.findUnique({ where: { id: tenantId } });
+  // if (company?.settings?.storage?.accessKeyId) { ... }
+
+  return globalS3Client;
+}
+
+export const storageBucketName = process.env.GARAGE_BUCKET_NAME || 'lucap';
+export const storagePublicBaseUrl =
+  process.env.GARAGE_PUBLIC_URL || `http://localhost:9000/${storageBucketName}`;
+
+let storageBucketReady: Promise<void> | null = null;
+
+/**
+ * Resolves the storage configuration for a specific tenant/company.
+ * If no specific configuration is found, it falls back to the default bucket
+ * but prefixes files with the company ID for isolation.
+ */
+export async function resolveTenantStorage(tenantId?: string) {
+  // If no tenantId, use global default
+  if (!tenantId) {
+    return {
+      bucket: storageBucketName,
+      prefix: '',
+      baseUrl: storagePublicBaseUrl,
+    };
+  }
+
+  // TODO: Fetch company settings from DB if you want separate buckets/endpoints
+  // const company = await prisma.company.findUnique({ where: { id: tenantId }, select: { settings: true } });
+  // const storageConfig = (company?.settings as any)?.storage;
+  
+  // Default multitenancy pattern: Shared bucket, isolated folder prefix
+  return {
+    bucket: storageBucketName,
+    prefix: `tenants/${tenantId}/`,
+    baseUrl: `${storagePublicBaseUrl}/tenants/${tenantId}`,
+  };
+}
+
+async function ensureStorageBucket(bucketName: string = storageBucketName, tenantId?: string) {
+  // Optimization: only ensure the default bucket once per process lifetime. 
+  if (bucketName === storageBucketName && storageBucketReady) {
+    await storageBucketReady;
+    return;
+  }
+
+  const client = await getS3Client(tenantId);
+  const checkBucket = (async () => {
+    try {
+      await client.send(new HeadBucketCommand({ Bucket: bucketName }));
+    } catch (error) {
+      const statusCode = (error as { $metadata?: { httpStatusCode?: number } })
+        .$metadata?.httpStatusCode;
+      const errorName = (error as { name?: string }).name;
+
+      if (
+        statusCode === 404 ||
+        errorName === 'NotFound' ||
+        errorName === 'NoSuchBucket'
+      ) {
+        await s3Client.send(
+          new CreateBucketCommand({ Bucket: bucketName })
+        );
+        return;
+      }
+
+      throw error;
+    }
+  })();
+
+  if (bucketName === storageBucketName) {
+    storageBucketReady = checkBucket;
+  }
+
+  await checkBucket;
+}
+
+export function buildStorageKey(filename: string, folder: string, prefix = '') {
+  const fileExt = filename.split('.').pop()?.toLowerCase();
+  const uniqueId = `${Date.now()}-${Math.random().toString(36).substring(7)}`;
+
+  // Prefix handles tenant folder isolation
+  return `${prefix}${folder}/${uniqueId}.${fileExt}`;
+}
+
+export function getStoragePublicUrl(storageKey: string, tenantId?: string) {
+  if (/^https?:\/\//.test(storageKey)) return storageKey;
+
+  // If the key already starts with tenants/, we assume it's correctly scoped
+  // Otherwise, we might need to resolve the tenant's base URL.
+  return `${storagePublicBaseUrl}/${storageKey.replace(/^\/+/, '')}`;
+}
+
+export async function uploadBufferToStorage(
+  buffer: Buffer,
+  filename: string,
+  folder: string,
+  contentType: string,
+  isSecure = false,
+  tenantId?: string
+) {
+  const { bucket, prefix } = await resolveTenantStorage(tenantId);
+  await ensureStorageBucket(bucket, tenantId);
+
+  const client = await getS3Client(tenantId);
+  const storageKey = buildStorageKey(filename, folder, prefix);
+  const payload = isSecure ? encryptPayload(buffer) : buffer;
+
+  const command = new PutObjectCommand({
+    Bucket: bucket,
+    Key: storageKey,
+    Body: payload,
+    ContentType: isSecure ? 'application/octet-stream' : contentType,
+    CacheControl: isSecure ? 'private, no-store' : 'public, max-age=31536000',
+    ContentLength: payload.length, // Explicitly provide length to S3
+  });
+
+  await client.send(command);
+
+  return {
+    key: storageKey,
+    publicUrl: isSecure ? storageKey : getStoragePublicUrl(storageKey, tenantId),
+  };
+}
 
 // --- ENCRYPTION CONFIGURATION (Andersen Security Standard) ---
 const ENCRYPTION_KEY = process.env.STORAGE_ENCRYPTION_KEY || ''; 
@@ -95,32 +232,18 @@ export async function uploadFile(
       throw new Error('Invalid file type.');
     }
 
-    const fileExt = file.name.split('.').pop()?.toLowerCase();
-    const uniqueId = `${Date.now()}-${Math.random().toString(36).substring(7)}`;
-    const fileName = `${uniqueId}.${fileExt}`;
-    const filePath = `${folder}/${fileName}`;
-    let buffer: Buffer;
     // Fix: Explicitly cast ArrayBufferLike to ArrayBuffer for compiler version harmony
-    const arrayBuffer = await file.arrayBuffer() as ArrayBuffer;
-    buffer = Buffer.from(arrayBuffer);
+    const arrayBuffer = (await file.arrayBuffer()) as ArrayBuffer;
+    const buffer = Buffer.from(arrayBuffer);
+    const uploaded = await uploadBufferToStorage(
+      buffer,
+      file.name,
+      folder,
+      file.type,
+      isSecure
+    );
 
-    // Secure payload transformation before storage ingestion
-    if (isSecure) {
-      buffer = encryptPayload(buffer);
-    }
-
-    const command = new PutObjectCommand({
-      Bucket: bucketName,
-      Key: filePath,
-      Body: buffer,
-      ContentType: isSecure ? 'application/octet-stream' : file.type, 
-      CacheControl: isSecure ? 'private, no-store' : 'public, max-age=31536000',
-      ACL: isSecure ? 'private' : 'public-read', 
-    });
-
-    await s3Client.send(command);
-
-    return isSecure ? filePath : `${publicBaseUrl}/${filePath}`;
+    return uploaded.publicUrl;
   } catch (error) {
     console.error('File upload error:', error);
     throw error instanceof Error ? error : new Error('Failed to upload file');
@@ -145,7 +268,7 @@ export async function handleSecureDocument(file: File): Promise<string> {
  */
 export async function downloadSecureFile(filePath: string): Promise<Buffer> {
   const command = new GetObjectCommand({
-    Bucket: bucketName,
+    Bucket: storageBucketName,
     Key: filePath,
   });
 
@@ -173,11 +296,12 @@ export async function getPresignedUrl(
   fileType: string,
   folderPath: string
 ): Promise<FileUploadResult> {
-  const fileExt = fileName.split('.').pop();
-  const key = `${folderPath}/${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
+  await ensureStorageBucket();
+
+  const key = buildStorageKey(fileName, folderPath);
 
   const command = new PutObjectCommand({
-    Bucket: bucketName,
+    Bucket: storageBucketName,
     Key: key,
     ContentType: fileType,
   });
@@ -185,7 +309,7 @@ export async function getPresignedUrl(
   const signedUrl = await getSignedUrl(s3Client, command, { expiresIn: 3600 });
 
   return {
-    url: `${publicBaseUrl}/${key}`,
+    url: getStoragePublicUrl(key),
     key,
     signedUrl,
   };

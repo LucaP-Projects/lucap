@@ -15,7 +15,7 @@ interface ViewRendererProps {
 }
 
 export const ViewRenderer = memo<ViewRendererProps>(
-  ({ company, formContentProps }) => {
+  ({ company, formContentProps }: ViewRendererProps) => {
     const activeView = useViewStore((state) => state.activeView);
     const containerRef = useRef<HTMLDivElement>(null);
 

@@ -13,8 +13,11 @@ import {
   Receipt,
   Users,
   Zap,
+  Scan,
+  Image as ImageIcon,
   LucideIcon
 } from 'lucide-react';
+import { DocumentScannerModal } from '@/components/shared/document-scanner';
 import { Button } from '@/components/ui/button';
 import {
   Command,
@@ -38,6 +41,23 @@ type ActionRoutes = {
 };
 
 const actionRoutes: ActionRoutes = {
+  // Scanner routes
+  'Scan Document': {
+    route: 'SCANNER',
+    icon: Scan,
+    category: 'Workflows'
+  },
+  'Upload Document': {
+    route: 'GALLERY',
+    icon: ImageIcon,
+    category: 'Workflows'
+  },
+  'Ask LucaP Assistant': {
+    route: '/assistant',
+    icon: Zap,
+    category: 'Workflows'
+  },
+
   // Customer routes - matching your actual file structure
   Invoices: { route: '/invoices', icon: FileText, category: 'Customers' },
   'Add Invoice': { route: '/invoices/new', icon: FileText, category: 'Customers' },
@@ -195,6 +215,8 @@ export default function ActionButton({ isOpen }: { isOpen?: boolean }) {
   const router = useRouter();
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [isScannerOpen, setIsScannerOpen] = useState(false);
+  const [isGallery, setIsGallery] = useState(false);
 
   // Handle keyboard shortcuts
   useEffect(() => {
@@ -213,7 +235,15 @@ export default function ActionButton({ isOpen }: { isOpen?: boolean }) {
     const actionItem = actionRoutes[item];
     if (actionItem) {
       setOpen(false);
-      router.push(actionItem.route);
+      if (actionItem.route === 'SCANNER') {
+        setIsGallery(false);
+        setIsScannerOpen(true);
+      } else if (actionItem.route === 'GALLERY') {
+        setIsGallery(true);
+        setIsScannerOpen(true);
+      } else {
+        router.push(actionItem.route);
+      }
     } else {
       console.log(`No route defined for: ${item}`);
     }
@@ -302,6 +332,11 @@ export default function ActionButton({ isOpen }: { isOpen?: boolean }) {
           </CommandList>
         </Command>
       </CommandDialog>
+      <DocumentScannerModal 
+        isOpen={isScannerOpen} 
+        onClose={() => setIsScannerOpen(false)} 
+        startWithGallery={isGallery}
+      />
     </>
   );
 }

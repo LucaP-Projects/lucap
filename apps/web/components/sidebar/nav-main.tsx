@@ -19,7 +19,9 @@ import {
 } from '@/components/ui/sidebar';
 
 export function NavMain({
-  items
+  items,
+  label = "Platform",
+  onItemClick
 }: {
   items: {
     title: string;
@@ -31,15 +33,26 @@ export function NavMain({
       url: string;
     }[];
   }[];
+  label?: string;
+  onItemClick?: (item: any) => void;
 }) {
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Platform</SidebarGroupLabel>
+      <SidebarGroupLabel>{label}</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
           item.items === undefined ? (
             <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton asChild tooltip={item.title}>
+              <SidebarMenuButton 
+                asChild 
+                tooltip={item.title}
+                onClick={(e) => {
+                    if (onItemClick) {
+                        e.preventDefault();
+                        onItemClick(item);
+                    }
+                }}
+              >
                 <a href={item.url}>
                   {item.icon && <item.icon />}
                   <span>{item.title}</span>

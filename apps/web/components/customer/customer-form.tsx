@@ -1,13 +1,12 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { Contact2, MapPinIcon, SquarePen } from 'lucide-react';
 import { createCustomer, sparseUpdateCustomer, getFullCustomer } from '@/app/(app)/[company-slug]/(dashboards)/customers/actions';
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { Customer } from '@/lib/generated/prisma/browser';
 import type { CustomerPreferredPaymentMethod } from '@/lib/generated/prisma/enums';
 import { CreateCustomerDTO, CustomerFormData } from '@/types/customer';
 import { CustomerSchema } from '@/validation/customer/customer.schema';
@@ -86,46 +85,7 @@ export function CustomerForm({
       }
     }
   });
-
-  const onSubmit: SubmitHandler<CustomerFormData> = async (data) => {
-    const result = await (type === 'create'
-      ? createCustomer(data)
-      : sparseUpdateCustomer(customerId as string, data));
-    if (result?.success) onSuccess?.();
-  };
-  const isSubcustomer = form.watch('isSubcustomer');
-  const watchedFields = form.watch([
-    'title',
-    'givenName',
-    'middleName',
-    'familyName',
-    'suffix',
-    'companyName'
-  ]);
-  const parentId = form.watch('parentId');
-
-  useEffect(() => {
-    if (parentId) fetchParentCustomerAndAutofillMissingFields(parentId);
-  }, [parentId]);
-
-  useEffect(() => {
-    updateDisplayName();
-    const displayName = form.watch('displayName');
-    if (!Object.values(displayNames).includes(displayName)) {
-      if (form.formState.isDirty) {
-        if (!displayName && displayNames.short) {
-          form.setValue('displayName', displayNames.short);
-        }
-        if (
-          !displayNames[form.watch('displayName') as keyof typeof displayNames]
-        ) {
-          form.setValue('displayName', '');
-        }
-      }
-    }
-  }, [watchedFields]);
-
-  const fetchParentCustomerAndAutofillMissingFields = async (
+  const fetchParentCustomerAndAutofillMissingFields = useCallback(async (
     parentId: string
   ) => {
     if (!parentId) return;
@@ -148,9 +108,9 @@ export function CustomerForm({
       'fax',
       'webAddress',
       'companyName'
-    ] as (keyof Customer)[]) {
-      if (!form.watch(field as any) && parentCustomer[field]) {
-        form.setValue(field as any, parentCustomer[field] || undefined);
+    ] as (keyof typeof form.getValues)[]) {
+      if (!form.watch(field) && parentCustomer[field]) {
+        form.setValue(field, parentCustomer[field] || undefined);
       }
     }
 
@@ -184,8 +144,30 @@ export function CustomerForm({
         country: parentShippingAddress?.country
       });
     }
+  }, [form]);
+
+
+  const onSubmit: SubmitHandler<CustomerFormData> = async (data) => {
+    const result = await (type === 'create'
+      ? createCustomer(data)
+      : sparseUpdateCustomer(customerId as string, data));
+    if (result?.success) onSuccess?.();
   };
-  const updateDisplayName = () => {
+  const isSubcustomer = form.watch('isSubcustomer');
+  const watchedFields = form.watch([
+    'title',
+    'givenName',
+    'middleName',
+    'familyName',
+    'suffix',
+    'companyName'
+  ]);
+  const parentId = form.watch('parentId');
+
+  useEffect(() => {
+    if (parentId) fetchParentCustomerAndAutofillMissingFields(parentId);
+  }, [fetchParentCustomerAndAutofillMissingFields, parentId]);
+  const updateDisplayName = useCallback(() => {
     const [title, givenName, middleName, familyName, suffix, companyName] =
       watchedFields;
 
@@ -202,9 +184,28 @@ export function CustomerForm({
     };
 
     return displayNames;
-  };
+  }, [watchedFields]);
   const displayNames = updateDisplayName();
 
+
+  useEffect(() => {
+    updateDisplayName();
+    const displayName = form.watch('displayName');
+    if (!Object.values(displayNames).includes(displayName)) {
+      if (form.formState.isDirty) {
+        if (!displayName && displayNames.short) {
+          form.setValue('displayName', displayNames.short);
+        }
+        if (
+          !displayNames[form.watch('displayName') as keyof typeof displayNames]
+        ) {
+          form.setValue('displayName', '');
+        }
+      }
+    }
+  }, [displayNames, form, updateDisplayName, watchedFields]);
+
+  
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">

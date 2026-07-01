@@ -2,7 +2,6 @@
 
 import { Decimal } from 'decimal.js';
 import { revalidatePath } from 'next/cache';
-import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { getSessionWithCompany } from '@/lib/auth';
 import * as Prisma from '@/lib/generated/prisma/internal/prismaNamespace';
@@ -18,52 +17,6 @@ import {
   UpdateEstimateData
 } from './types';
 
-type EstimateStatus =
-  | 'DRAFT'
-  | 'SENT'
-  | 'ACCEPTED'
-  | 'REJECTED'
-  | 'EXPIRED'
-  | 'CONVERTED';
-interface EstimateItemInput {
-  id?: string;
-  productName: string;
-  description?: string;
-  quantity: number;
-  rate: number;
-  taxable: boolean;
-  itemId?: string | null;
-}
-interface Estimate {
-  id: string;
-  number: string;
-  items: {
-    id: string;
-    amount: number;
-    createdAt: Date;
-    updatedAt: Date;
-    productName: string;
-    description: string | null;
-    quantity: number;
-    rate: number;
-    taxable: boolean;
-    itemId: string | null;
-    estimateId: string;
-  }[];
-  customer: {
-    displayName: string | null;
-    primaryEmail: string | null;
-  };
-  attachments: {
-    id: string;
-    fileId: string;
-    estimateId: string;
-  }[];
-  status: EstimateStatus;
-  amount: number;
-  validUntil: Date | null;
-  dueDate: Date;
-}
 
 async function validateEstimateNumber(
   tx: Prisma.TransactionClient,
@@ -90,17 +43,17 @@ async function validateEstimateNumber(
       // Handle specific Prisma errors by their error codes
       switch (error.code) {
         case 'P2002': // Unique constraint violation
-          throw new Error('Duplicate estimate number detected');
+          throw new Error('Duplicate estimate number detected', { cause: error });
         case 'P2023': // Inconsistent column data
-          throw new Error('Invalid estimate number or company ID format');
+          throw new Error('Invalid estimate number or company ID format', { cause: error });
         default:
-          throw new Error(`Database error: ${error.message}`);
+          throw new Error(`Database error: ${error.message}`, { cause: error });
       }
     }
 
     // Re-throw unknown errors with a more user-friendly message
     throw new Error(
-      `Error validating estimate number: ${error instanceof Error ? error.message : 'Unknown error'}`
+      `Error validating estimate number: ${error instanceof Error ? error.message : 'Unknown error'}`, { cause: error }
     );
   }
 }

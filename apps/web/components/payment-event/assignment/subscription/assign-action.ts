@@ -2,7 +2,6 @@
 
 import { addDays, differenceInDays, startOfDay } from 'date-fns';
 import { revalidatePath } from 'next/cache';
-import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { getSessionWithCompany } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
@@ -388,6 +387,6 @@ export async function getActiveSubscriptionsCount(
     return count;
   } catch (error) {
     console.error('Failed to fetch active subscriptions count:', error);
-    throw new Error('Failed to fetch active subscriptions count');
+    throw new Error('Failed to fetch active subscriptions count', { cause: error });
   }
 }

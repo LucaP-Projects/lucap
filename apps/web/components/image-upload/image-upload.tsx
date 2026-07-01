@@ -18,6 +18,7 @@ interface ImageUploadProps {
   defaultValue?: string;
   className?: string;
   required?: boolean;
+  tenantId?: string;
 }
 
 export function ImageUpload({
@@ -26,7 +27,8 @@ export function ImageUpload({
   label,
   defaultValue,
   className = 'h-48 w-48',
-  required
+  required,
+  tenantId
 }: ImageUploadProps) {
   const [preview, setPreview] = useState<string | null>(defaultValue || null);
   const [isUploading, setIsUploading] = useState(false);
@@ -65,12 +67,14 @@ export function ImageUpload({
       };
       reader.readAsDataURL(file);
 
-      // Convert file to buffer for server upload
-      const arrayBuffer = await file.arrayBuffer();
-      const buffer = Buffer.from(arrayBuffer);
+      // Upload using FormData (Better Compatibility with Next.js 15+ Server Actions)
+      const formData = new FormData();
+      formData.append('file', file);
+      if (tenantId) {
+        formData.append('tenantId', tenantId);
+      }
 
-      // Upload to local file system
-      const result = await uploadFileLocal(buffer, file.name);
+      const result = await uploadFileLocal(formData);
 
       if (!result.success) {
         throw new Error(result.error || 'Failed to upload image');

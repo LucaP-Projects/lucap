@@ -1,11 +1,9 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { headers } from 'next/headers';
 import { handleCompanyLogo } from '@/components/shared/utils';
 import { getSessionWithCompany } from '@/lib/auth';
-import { CompanyUpdateInput } from '@/lib/generated/prisma/internal/prismaNamespace';
-import { PrismaClientKnownRequestError } from '@/lib/generated/prisma/internal/prismaNamespace';
+import { CompanyUpdateInput, PrismaClientKnownRequestError } from '@/lib/generated/prisma/internal/prismaNamespace';
 import { prisma } from '@/lib/prisma';
 import { EditCompanyInput } from '../types';
 

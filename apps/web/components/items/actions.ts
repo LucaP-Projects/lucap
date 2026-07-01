@@ -7,6 +7,7 @@ import { DiscountType } from '@/lib/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
 import { handleItemImage } from '../shared/utils';
 import { ItemFormValues } from './schema';
+import { Prisma } from '@/lib/generated/prisma/browser';
 
 export type CreateItemResponse = {
   success: boolean;
@@ -364,10 +365,20 @@ export async function updateItem(
 export type GetItemsResponse = {
   success: boolean;
   error?: string;
-  data?: any[];
+  data?: ItemDetailed[];
   totalItems?: number;
   totalPages?: number;
 };
+export type ItemDetailed = Prisma.ItemGetPayload<{
+  include: {
+    category: {
+      select: {
+        id: true;
+        name: true;
+      };
+    };
+  };
+}>;
 
 export async function getItems(
   page: number = 1,

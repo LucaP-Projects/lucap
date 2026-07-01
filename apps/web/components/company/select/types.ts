@@ -8,8 +8,10 @@ export type Company = {
   role: {
     name: string;
     permissions: Permission[];
+    systemRole: string | null;
   };
   isAdmin: boolean;
   companyRole: string;
+  systemRole: string | null;
   permissions: Permission[];
 };

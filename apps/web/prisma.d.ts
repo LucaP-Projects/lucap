@@ -1,9 +1,12 @@
 import { CustomizationSettingsInput } from '@/components/base/sideBar/customize/types';
 import {
+  AdjustmentStrategy,
   CustomFieldValue,
   DiscountApplicationTime,
   DiscountType,
-  PaymentMethod
+  PaymentFrequency,
+  PaymentMethod,
+  PaymentStatus
 } from '@/lib/generated/prisma/enums';
 
 declare global {
@@ -19,7 +22,6 @@ declare global {
     };
 
     type AnchorConfig = WeeklyAnchor | MonthlyAnchor;
-    type PaymentFrequency = 'ONE_TIME' | 'SUBSCRIPTION' | 'INSTALLMENTS';
     type InvoiceType =
       | 'ONE_TIME'
       | 'SUBSCRIPTION'
@@ -32,17 +34,6 @@ declare global {
       | 'REFUND_RECEIPT'
       | 'DELAYED_CHARGE';
 
-    type PaymentStatus = 'PENDING' | 'PARTIAL' | 'PAID' | 'OVERDUE';
-    enum AdjustmentStrategy {
-      DISTRIBUTE_TO_FUTURE = 'DISTRIBUTE_TO_FUTURE',
-      APPEND_TO_REMAINING = 'APPEND_TO_REMAINING',
-      LAST_INSTALLMENT = 'LAST_INSTALLMENT',
-      NEXT_INSTALLMENT = 'NEXT_INSTALLMENT',
-      WEIGHTED_DISTRIBUTION = 'WEIGHTED_DISTRIBUTION',
-      PROPORTIONAL_REMAINING = 'PROPORTIONAL_REMAINING',
-      FIXED_FIRST = 'FIXED_FIRST',
-      CUSTOM = 'CUSTOM'
-    }
     type PauseRecord = {
       startDate: string; // ISO date
       endDate?: string; // ISO date
@@ -187,8 +178,13 @@ declare global {
       amount: number;
       description?: string;
     };
+    type InvoiceHandlingAction = 
+      | 'REGENERATED'
+      | 'ADJUSTED'
+      | 'FUTURE_ONLY';
+
     type InvoiceHandling = {
-      action: 'REGENERATED' | 'ADJUSTED' | 'FUTURE_ONLY';
+      action: InvoiceHandlingAction;
       affectedInvoiceId?: string;
       previousInvoiceId?: string;
       adjustmentInvoiceId?: string;
@@ -242,9 +238,13 @@ declare global {
       };
     };
 
-    type PaymentSettings = {
-      type: PaymentFrequency;
-      settings: OneTimeSettings | SubscriptionSettings | InstallmentSettings;
+    type PaymentSettings<T extends PaymentFrequency> = {
+      type: T;
+      settings: T extends 'ONE_TIME'
+      ? OneTimeSettings
+      : T extends 'SUBSCRIPTION'
+      ? SubscriptionSettings
+      : InstallmentSettings;
     };
 
     // Progress tracking types
@@ -367,4 +367,4 @@ declare global {
     }
   }
 }
-export {};
+export { };

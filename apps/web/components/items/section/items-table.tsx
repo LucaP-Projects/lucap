@@ -24,16 +24,16 @@ import { Input } from '@/components/ui/input';
 import { TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table';
 import { useDebounce } from '@/hooks/use-debounce';
 import { formatCurrency, formatDate } from '@/lib/utils';
-import { updateItemStatus, getItems } from '../actions';
+import { updateItemStatus, getItems, ItemDetailed } from '../actions';
 import { ItemSheet } from './item-sheet';
 import { ItemsTableSkeleton } from './items-table-skeleton';
 
 interface ItemsTableProps {
-  initialItems: any[];
+  initialItems: ItemDetailed[];
   initialTotalPages?: number;
 }
 
-function getFormattedPriceDisplay(item: any) {
+function getFormattedPriceDisplay(item: ItemDetailed) {
   if (!item.sellable) {
     return 'N/A';
   }
@@ -66,18 +66,77 @@ function getFormattedPriceDisplay(item: any) {
   }
   return formatCurrency(originalPrice);
 }
+// Pagination UI component
+const PaginationControls = ({ currentPage, totalPages, isLoading, setCurrentPage } : { currentPage: number; totalPages: number; isLoading: boolean; setCurrentPage: React.Dispatch<React.SetStateAction<number>> }) => {
+  const goToNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage((prev) => prev + 1);
+    }
+  };
+
+  const goToPrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prev) => prev - 1);
+    }
+  };
+  return (
+  <div className="flex flex-col items-center justify-center gap-2">
+    <div className="flex items-center gap-2">
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={goToPrevPage}
+        disabled={currentPage <= 1 || isLoading}
+        className="border-input bg-background hover:bg-accent rounded-full border shadow-sm transition-colors"
+        aria-label="Previous page"
+      >
+        <ChevronLeft className="h-5 w-5" />
+      </Button>
+      <div className="flex items-center gap-1">
+        {Array.from({ length: totalPages }, (_, i) => (
+          <button
+            key={i + 1}
+            type="button"
+            className={`mx-0.5 flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium transition-colors ${currentPage === i + 1
+                ? 'bg-primary text-primary-foreground shadow'
+                : 'bg-muted text-muted-foreground hover:bg-accent'
+              }`}
+            onClick={() => setCurrentPage(i + 1)}
+            disabled={isLoading}
+            aria-current={currentPage === i + 1 ? 'page' : undefined}
+          >
+            {i + 1}
+          </button>
+        ))}
+      </div>
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={goToNextPage}
+        disabled={currentPage >= totalPages || isLoading}
+        className="border-input bg-background hover:bg-accent rounded-full border shadow-sm transition-colors"
+        aria-label="Next page"
+      >
+        <ChevronRight className="h-5 w-5" />
+      </Button>
+    </div>
+    <div className="text-muted-foreground mt-1 text-xs">
+      Page {currentPage} of {totalPages}
+    </div>
+  </div>
+)};
 
 export function ItemsTable({
   initialItems = [],
   initialTotalPages = 1
 }: ItemsTableProps) {
-  const [editItem, setEditItem] = React.useState<any>(null);
+  const [editItem, setEditItem] = React.useState<ItemDetailed | null>(null);
   const [search, setSearch] = React.useState('');
   const [sheetOpen, setSheetOpen] = React.useState(false);
   const debouncedSearch = useDebounce(search, 300);
 
   // Pagination state
-  const [items, setItems] = useState<any[]>(initialItems || []);
+  const [items, setItems] = useState<ItemDetailed[]>(initialItems || []);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(initialTotalPages);
   const [isLoading, setIsLoading] = useState(false);
@@ -92,7 +151,7 @@ export function ItemsTable({
           setTotalPages(response.totalPages);
         }
       } else {
-        toast.error('Failed to load items',{
+        toast.error('Failed to load items', {
           description:
             response.error || 'An error occurred while loading items',
         });
@@ -116,18 +175,7 @@ export function ItemsTable({
     }
   }, [debouncedSearch]);
 
-  const goToNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage((prev) => prev + 1);
-    }
-  };
-
-  const goToPrevPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage((prev) => prev - 1);
-    }
-  };
-  const handleEdit = (item: any) => {
+  const handleEdit = (item: ItemDetailed) => {
     setEditItem(item);
     setSheetOpen(true);
   };
@@ -146,7 +194,7 @@ export function ItemsTable({
 
   // Status change handler
   const handleStatusChange = async (
-    item: any,
+    item: ItemDetailed,
     status: 'ACTIVE' | 'INACTIVE' | 'DISCONTINUED'
   ) => {
     try {
@@ -160,7 +208,7 @@ export function ItemsTable({
           // Check for discount properties
           if (item.discountType && item.discountValue !== null) {
             const discountType = item.discountType;
-            const discountValue = parseFloat(item.discountValue) || 0;
+            const discountValue = parseFloat(item.discountValue.toString()) || 0;
 
             const discountTypeDisplay =
               discountType === 'PERCENTAGE' ? 'Percentage' : 'Fixed Amount';
@@ -192,7 +240,7 @@ export function ItemsTable({
       });
     }
   };
-  const ItemActions = ({ item }: { item: any }) => (
+  const ItemActions = ({ item }: { item: ItemDetailed }) => (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <Button
@@ -253,23 +301,23 @@ export function ItemsTable({
   );
 
   const getStatusBadge = (status: string) => (
-      <Badge
-        variant={
-          status === 'ACTIVE'
-            ? 'default'
-            : status === 'INACTIVE'
-              ? 'secondary'
-              : 'destructive'
-        }
-      >
-        {status}
-      </Badge>
-    );
+    <Badge
+      variant={
+        status === 'ACTIVE'
+          ? 'default'
+          : status === 'INACTIVE'
+            ? 'secondary'
+            : 'destructive'
+      }
+    >
+      {status}
+    </Badge>
+  );
 
   const getTypeBadge = (type: string) => {
     const variants: Record<
       string,
-      'default' | 'secondary' | 'outline' | 'destructive' 
+      'default' | 'secondary' | 'outline' | 'destructive'
     > = {
       INVENTORY: 'default',
       NON_INVENTORY: 'secondary',
@@ -279,54 +327,7 @@ export function ItemsTable({
     return <Badge variant={variants[type] || 'secondary'}>{type}</Badge>;
   };
 
-  // Pagination UI component
-  const PaginationControls = () => (
-    <div className="flex flex-col items-center justify-center gap-2">
-      <div className="flex items-center gap-2">
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={goToPrevPage}
-          disabled={currentPage <= 1 || isLoading}
-          className="border-input bg-background hover:bg-accent rounded-full border shadow-sm transition-colors"
-          aria-label="Previous page"
-        >
-          <ChevronLeft className="h-5 w-5" />
-        </Button>
-        <div className="flex items-center gap-1">
-          {Array.from({ length: totalPages }, (_, i) => (
-            <button
-              key={i + 1}
-              type="button"
-              className={`mx-0.5 flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium transition-colors ${
-                currentPage === i + 1
-                  ? 'bg-primary text-primary-foreground shadow'
-                  : 'bg-muted text-muted-foreground hover:bg-accent'
-              }`}
-              onClick={() => setCurrentPage(i + 1)}
-              disabled={isLoading}
-              aria-current={currentPage === i + 1 ? 'page' : undefined}
-            >
-              {i + 1}
-            </button>
-          ))}
-        </div>
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={goToNextPage}
-          disabled={currentPage >= totalPages || isLoading}
-          className="border-input bg-background hover:bg-accent rounded-full border shadow-sm transition-colors"
-          aria-label="Next page"
-        >
-          <ChevronRight className="h-5 w-5" />
-        </Button>
-      </div>
-      <div className="text-muted-foreground mt-1 text-xs">
-        Page {currentPage} of {totalPages}
-      </div>
-    </div>
-  ); // If loading, show skeleton UI (only for initial load without search)
+  // If loading, show skeleton UI (only for initial load without search)
   if (
     isLoading &&
     !debouncedSearch &&
@@ -621,7 +622,12 @@ export function ItemsTable({
         </Card>
         {/* Pagination Controls */}
         <div className="flex justify-center">
-          <PaginationControls />
+          <PaginationControls
+            currentPage={currentPage}
+            totalPages={totalPages}
+            isLoading={isLoading}
+            setCurrentPage={setCurrentPage}
+          />
         </div>{' '}
         {/* Item Sheet for editing */}
         <ItemSheet

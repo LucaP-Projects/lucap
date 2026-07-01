@@ -154,6 +154,7 @@ export function EditCompanyForm({ companyId }: Props) {
                   control={form.control}
                   defaultValue={company?.logo || undefined}
                   className="border-muted bg-muted/50 h-40 w-40 shrink-0 rounded-lg border-2 border-dashed p-4"
+                  tenantId={companyId}
                 />
                 <div className="flex-1 space-y-4">
                   <FieldGroup>

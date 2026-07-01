@@ -1,18 +1,59 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { ColorName } from '@/components/base/sideBar/color/types';
 import { DiscountApplicationTime, DiscountType } from '@/lib/generated/prisma/browser';
 import { useSidebarStore } from '@/stores/useSidePaper';
-import { invoiceFormSchema, InvoiceFormValues } from './schema';
+import { invoiceFormSchema } from './schema';
 import { InvoiceFormProps } from './types';
 
 export function useInvoiceForm({
-  mode = 'create',
   initialData
 }: InvoiceFormProps) {
+  const searchParams = useSearchParams();
+  const attachment = searchParams.get('attachment');
+
+  const defaultFiles = useMemo(() => {
+    if (initialData?.attachments) {
+      return initialData.attachments.map((att) => ({
+        id: att.id,
+        status: 'complete' as const,
+        key: att.file.path,
+        file: {
+          name: att.file.filename,
+          type: att.file.mimetype,
+          size: att.file.size
+        },
+        fileId: att.file.id,
+        path: att.file.path,
+        mimetype: att.file.mimetype,
+        size: att.file.size,
+        attachmentId: att.id
+      }));
+    }
+    
+    if (attachment) {
+      return [{
+        id: 'new-attachment',
+        status: 'complete' as const,
+        key: attachment,
+        file: {
+          name: 'scanned-document.jpg',
+          type: 'image/jpeg',
+          size: 0
+        },
+        path: attachment,
+        mimetype: 'image/jpeg',
+        size: 0
+      }];
+    }
+    
+    return [];
+  }, [initialData, attachment]);
+
   const setSelectedColor = useSidebarStore((state) => state.setSelectedColor);
   const setCustomizationSettings = useSidebarStore(
     (state) => state.setCustomizationSettings
@@ -52,22 +93,7 @@ export function useInvoiceForm({
     defaultValues: {
       customerId: initialData?.customer?.id ?? '',
       ccEmail: initialData?.paymentEventSnapshot?.cc ?? '',
-      files:
-        initialData?.attachments?.map((att) => ({
-          id: att.id,
-          status: 'complete' as const,
-          key: att.file.path,
-          file: {
-            name: att.file.filename,
-            type: att.file.mimetype,
-            size: att.file.size
-          },
-          fileId: att.file.id,
-          path: att.file.path,
-          mimetype: att.file.mimetype,
-          size: att.file.size,
-          attachmentId: att.id
-        })) || [],
+      files: defaultFiles,
       dueDate: initialData?.dueDate
         ? new Date(initialData.dueDate)
         : new Date(),

@@ -5,7 +5,6 @@ import {
   Home,
   Percent,
   Landmark,
-  AlertCircle
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -127,6 +126,8 @@ export const TaxInformation = ({
   taxAmount?: number;
   taxId?: string;
 }) => {
+  void taxId;
+
   if (!taxRate && !taxAmount) return null;
 
   return (
@@ -238,10 +239,12 @@ export const CustomerInfo = ({
   </div>
 );
 
-const getGoogleStorageFileUrl = (filePath: string) => {
-  const BUCKET_NAME =
-    process.env.NEXT_PUBLIC_GOOGLE_STORAGE_BUCKET || 'lucapacioli.com.tn';
-  return `https://storage.googleapis.com/${BUCKET_NAME}/${filePath}`;
+const getStorageFileUrl = (filePath: string) => {
+  if (/^https?:\/\//.test(filePath)) return filePath;
+
+  const baseUrl =
+    process.env.NEXT_PUBLIC_GARAGE_PUBLIC_URL || 'http://localhost:9000/lucap';
+  return `${baseUrl}/${filePath.replace(/^\/+/, '')}`;
 };
 
 export const Attachments = ({
@@ -266,7 +269,7 @@ export const Attachments = ({
           >
             <div className="flex items-center gap-2">
               <FileText className="text-primary h-4 w-4" />
-              <span className="max-w-[200px] truncate text-sm">
+              <span className="max-w-50 truncate text-sm">
                 {attachment.file.filename}
               </span>
             </div>
@@ -275,7 +278,7 @@ export const Attachments = ({
               size="sm"
               onClick={() =>
                 window.open(
-                  getGoogleStorageFileUrl(attachment.file.path),
+                  getStorageFileUrl(attachment.file.path),
                   '_blank'
                 )
               }

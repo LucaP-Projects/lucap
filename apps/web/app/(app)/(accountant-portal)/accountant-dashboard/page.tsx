@@ -1,4 +1,3 @@
-import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import {
   BookOpen,
@@ -8,11 +7,12 @@ import {
   ClipboardList,
   Users
 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { auth } from '@/lib/auth';
+import { getSessionWithCompany } from '@/lib/auth';
 
 export default async function AccountantDashboardPage() {
-  const session = await auth.api.getSession({ headers: await headers() });
+  const session = await getSessionWithCompany();
 
   if (!session?.user) {
     redirect('/auth/login');
@@ -27,11 +27,11 @@ export default async function AccountantDashboardPage() {
   const companyName = activeCompany?.name || 'your company';
 
   return (
-    <div className="flex min-h-screen flex-col bg-gradient-to-b from-slate-50 via-white to-emerald-50">
+    <div className="flex min-h-screen flex-col bg-linear-to-b from-slate-50 via-white to-emerald-50">
       {/* Header banner */}
-      <div className="relative bg-gradient-to-r from-emerald-700 to-teal-800 py-8 text-white shadow-lg">
+      <div className="relative bg-linear-to-r from-emerald-700 to-teal-800 py-8 text-white shadow-lg">
         <div className="absolute inset-0 opacity-[0.03]" />
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-white/30 to-transparent" />
 
         <div className="container mx-auto px-4 sm:px-6">
           <div className="space-y-3">
@@ -95,6 +95,30 @@ export default async function AccountantDashboardPage() {
           </h2>
 
           <div className="grid gap-5 sm:grid-cols-2">
+            {/* Setup Wizard Module - NEW */}
+            <Card className="overflow-hidden border border-emerald-100 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md bg-emerald-50/30">
+              <div className="h-1 w-full bg-gradient-to-r from-emerald-500 to-teal-500" />
+              <CardHeader className="flex flex-row items-center justify-between pb-2">
+                <CardTitle className="text-sm font-medium text-emerald-900">
+                  Client Setup Monitor
+                </CardTitle>
+                <ClipboardList className="h-4 w-4 text-emerald-600" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold text-navy">Setup Progress</div>
+                <p className="mt-1 text-xs text-emerald-700">
+                  Monitor onboarding and configuration status for all your client companies.
+                </p>
+                <Button 
+                    className="mt-4 w-full bg-emerald-600 hover:bg-emerald-700 text-white" 
+                    size="sm"
+                    asChild
+                >
+                    <a href="/accountant-dashboard/setup">Manage Client Onboarding</a>
+                </Button>
+              </CardContent>
+            </Card>
+
             {/* Dashboard module — available to both */}
             <Card className="overflow-hidden border border-gray-100 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
               <div className="h-1 w-full bg-gradient-to-r from-emerald-500 to-teal-500" />

@@ -6,8 +6,10 @@ import { NextIntlClientProvider } from "next-intl";
 import { ThemeProvider } from "next-themes";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
+import { MessageScrollerProvider } from "@/components/ui/message-scroller";
+import { Providers } from "./providers";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -31,16 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={cn("font-sans", geist.variable)} suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable}`} suppressHydrationWarning>
-        <ThemeProvider
-          enableSystem
-          attribute="class"
-          defaultTheme="dark"
-          disableTransitionOnChange
-        >
-          <NextIntlClientProvider>
-            <TooltipProvider>{children}</TooltipProvider>
-          </NextIntlClientProvider>
-        </ThemeProvider>
+        <Providers lng="en">{children}</Providers>
       </body>
     </html>
   );
