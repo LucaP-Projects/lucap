@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { ChevronDown, Printer, Trash, Loader2 } from 'lucide-react';
+import { ChevronDown, Trash, Loader2 } from 'lucide-react';
 import {
   AlertDialog,
   AlertDialogAction,

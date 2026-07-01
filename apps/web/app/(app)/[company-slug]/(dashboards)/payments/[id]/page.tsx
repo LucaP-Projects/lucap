@@ -39,7 +39,6 @@ export async function getPaymentEventDetails(id: string) {
           version: 'desc'
         }
       },
-
       customerPaymentEvents: {
         include: {
           customer: true,

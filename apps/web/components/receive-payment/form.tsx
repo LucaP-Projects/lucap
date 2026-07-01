@@ -15,7 +15,7 @@ import {
 
 import { Button } from '../ui/button';
 import { Field, FieldLabel, FieldError } from '../ui/field';
-import { createPayment, getCustomerInvoices } from './action';
+import { createPayment, getCustomerInvoices, GetCustomerInvoicesResult } from './action';
 
 import { InvoiceSelection } from './Invoice-selection';
 import { PaymentAmount } from './payment-amount';
@@ -25,7 +25,7 @@ import { paymentFormSchema, PaymentFormValues } from './schema';
 export function PaymentForm() {
   const [selectedCustomer, setSelectedCustomer] =
     useState<CustomerSelectData | null>(null);
-  const [invoices, setInvoices] = useState<any[]>([]);
+  const [invoices, setInvoices] = useState<GetCustomerInvoicesResult[]>([]);
   const [selectedInvoices, setSelectedInvoices] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [maxAmount, setMaxAmount] = useState(0);
@@ -73,7 +73,7 @@ export function PaymentForm() {
 
     const total = selectedInvoiceDetails.reduce((sum, inv) => {
       const paidAmount = inv.payments.reduce(
-        (paid: number, p: any) => paid + p.amount,
+        (paid: number, p) => paid + p.amount,
         0
       );
       return sum + (inv.amount - paidAmount);

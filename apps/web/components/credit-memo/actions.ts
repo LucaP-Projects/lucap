@@ -15,7 +15,7 @@ import {
   CreditMemo,
   CreateCreditMemoData,
   CreateCreditMemoResponse,
-  UpdateCreditMemoData
+  UpdateCreditMemoData,
 } from './types';
 
 async function validateCreditMemoNumber(
@@ -589,7 +589,7 @@ export async function updateCreditMemo(
   }
 }
 
-export async function getCreditMemo(id: string) {
+export async function getCreditMemo(id: string): Promise<{ success: boolean; data?: CreditMemo; error?: string }> {
   try {
     const session = await getSessionWithCompany();
     if (!session?.user?.id) {

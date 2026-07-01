@@ -148,11 +148,12 @@ const FileUpload = React.memo(function FileUpload({
           throw new Error('Invalid file object');
         }
 
-        // Convert file to buffer and upload locally
-        const arrayBuffer = await (file as File).arrayBuffer();
-        const buffer = Buffer.from(arrayBuffer);
+        // Upload using FormData (Better Compatibility with Next.js 15+ Server Actions)
+        const formData = new FormData();
+        formData.append('file', file as File);
+        // formData.append('tenantId', tenantId); // If available
 
-        const result = await uploadFileLocal(buffer, file.name);
+        const result = await uploadFileLocal(formData);
 
         if (!result.success) {
           throw new Error(result.error || 'Failed to upload file');

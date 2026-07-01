@@ -3,15 +3,1618 @@ generator client {
   output   = "../lib/generated/prisma"
 }
 
-datasource db {
-  provider = "postgresql"
-}
-
 generator json {
   provider = "prisma-json-types-generator"
 }
 
-// ---- Enums ----
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id                   String        @id @default(uuid())
+  email                String        @unique
+  name                 String
+  password             String?
+  emailVerified        Boolean       @default(false)
+  image                String?
+  role                 UserRole      @default(USER)
+  banned               Boolean?
+  banReason            String?
+  banExpires           DateTime?
+  createdAt            DateTime      @default(now())
+  updatedAt            DateTime      @updatedAt
+  activeCompanyId      String?
+  isActive             Boolean       @default(true)
+  deactivatedAt        DateTime?
+  deactivatedByUserId  String?
+  deactivationReason   String?
+  customer             Customer?
+  approvedTransactions Transaction[] @relation("ApprovedTransactions")
+  createdTransactions  Transaction[] @relation("UserTransactions")
+  useraccounts         UserAccount[]
+  companies            UserCompany[]
+  sessions             Session[]
+  tickets              Ticket[]
+  activeCompany        Company?      @relation("ActiveCompany", fields: [activeCompanyId], references: [id])
+  ownedAccountants     Accountant[]  @relation("AccountantOwner")
+  accountantProfiles   AccountantUser[]
+  @@index([activeCompanyId])
+  @@map("users")
+}
+
+model UserAccount {
+  id                    String    @id @default(cuid())
+  userId                String
+  accountId             String
+  providerId            String
+  accessToken           String?
+  refreshToken          String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  idToken               String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([accountId])
+  @@index([providerId])
+  @@map("UserAccount")
+}
+
+model UserCompany {
+  id        String   @id @default(cuid())
+  userId    String
+  companyId String
+  roleId    String
+  isActive  Boolean  @default(true)
+  isAdmin   Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  role      Role     @relation(fields: [roleId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, companyId])
+  @@index([userId])
+  @@index([companyId])
+  @@index([roleId])
+  @@index([isActive])
+}
+
+model Session {
+  id             String   @id @default(uuid())
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  expiresAt      DateTime
+  token          String   @unique
+  ipAddress      String?
+  userAgent      String?
+  impersonatedBy String?
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("sessions")
+}
+
+model Role {
+  id            String        @id @default(cuid())
+  name          String
+  description   String?
+  systemRole    SystemRole?
+  permissions   Permission[]
+  companyId     String
+  parentRoleId  String?
+  isActive      Boolean       @default(true)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  company       Company       @relation(fields: [companyId], references: [id])
+  parentRole    Role?         @relation("RoleHierarchy", fields: [parentRoleId], references: [id])
+  childRoles    Role[]        @relation("RoleHierarchy")
+  userCompanies UserCompany[]
+
+  @@unique([name, companyId])
+  @@index([companyId])
+  @@index([isActive])
+  @@index([parentRoleId])
+  @@index([systemRole])
+}
+
+model Customer {
+  id                     String                          @id @default(cuid())
+  displayName            String                          @db.VarChar(500)
+  title                  String?                         @db.VarChar(16)
+  givenName              String?                         @db.VarChar(100)
+  middleName             String?                         @db.VarChar(100)
+  familyName             String?                         @db.VarChar(100)
+  suffix                 String?                         @db.VarChar(16)
+  companyName            String?                         @db.VarChar(100)
+  customerTypeId         String?
+  primaryPhone           String?                         @db.VarChar(30)
+  alternatePhone         String?                         @db.VarChar(30)
+  mobile                 String?                         @db.VarChar(30)
+  fax                    String?                         @db.VarChar(30)
+  primaryEmail           String?
+  webAddress             String?                         @db.VarChar(1000)
+  /// [Address]
+  billingAddress         Json?
+  /// [Address]  
+  shippingAddress        Json?
+  taxIdentifier          String?
+  secondaryTaxId         String?
+  resaleNumber           String?                         @db.VarChar(16)
+  businessNumber         String?                         @db.VarChar(10)
+  notes                  String?                         @db.VarChar(2000)
+  balance                Float                           @default(0)
+  creditLimit            Float?
+  preferredPaymentMethod CustomerPreferredPaymentMethod?
+  taxable                Boolean                         @default(true)
+  printOnCheckName       String?                         @db.VarChar(110)
+  parentId               String?
+  level                  Int                             @default(0)
+  status                 CustomerStatus                  @default(ACTIVE)
+  /// [CustomerMetadata]
+  metadata               Json?
+  userId                 String?                         @unique
+  createdAt              DateTime                        @default(now())
+  updatedAt              DateTime                        @updatedAt
+  companyId              String
+  isActive               Boolean                         @default(true)
+  deactivatedAt          DateTime?
+  deactivatedByUserId    String?
+  deactivationReason     String?
+  creditMemos            CreditMemo[]
+  company                Company                         @relation(fields: [companyId], references: [id])
+  customerType           CustomerType?                   @relation("CustomerType", fields: [customerTypeId], references: [id])
+  parentCustomer         Customer?                       @relation("CustomerHierarchy", fields: [parentId], references: [id])
+  subCustomers           Customer[]                      @relation("CustomerHierarchy")
+  user                   User?                           @relation(fields: [userId], references: [id])
+  customerPaymentEvents  CustomerPaymentEvent[]
+  delayedCharges         DelayedCharge[]
+  delayedCredits         DelayedCredit[]
+  estimates              Estimate[]
+  invoices               Invoice[]
+  journalEntry           JournalEntry[]
+  payments               Payment[]
+  refundReceipts         RefundReceipt[]
+  salesReceipts          SalesReceipt[]
+
+  @@unique([displayName, companyId])
+  @@index([parentId])
+  @@index([status])
+  @@index([displayName])
+}
+
+model CustomerType {
+  id        String     @id @default(cuid())
+  name      String
+  active    Boolean    @default(true)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  companyId String
+  customer  Customer[] @relation("CustomerType")
+  company   Company    @relation(fields: [companyId], references: [id])
+
+  @@unique([name, companyId])
+}
+
+model Account {
+  id                  String             @id @default(cuid())
+  title               String
+  number              String
+  composed_number     String
+  is_custom           Boolean            @default(false)
+  is_active           Boolean            @default(true)
+  created_at          DateTime           @default(now())
+  updated_at          DateTime           @updatedAt
+  parent_id           String?
+  templateId          String?
+  companyId           String
+  isActive            Boolean            @default(true)
+  deactivatedAt       DateTime?
+  deactivatedByUserId String?
+  deactivationReason  String?
+  company             Company            @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  parent              Account?           @relation("AccountToAccount", fields: [parent_id], references: [id])
+  children            Account[]          @relation("AccountToAccount")
+  template            AccountTemplate?   @relation(fields: [templateId], references: [id])
+  expenseItems        Item[]             @relation("ItemExpenseAccount")
+  incomeItems         Item[]             @relation("ItemIncomeAccount")
+  inventoryAssetItems Item[]             @relation("ItemInventoryAssetAccount")
+  journalEntryLine    JournalEntryLine[]
+
+  @@unique([companyId, number])
+  @@unique([companyId, composed_number])
+  @@index([parent_id])
+  @@index([templateId])
+  @@index([companyId])
+}
+
+model PaymentEvent {
+  id                    String                 @id @default(cuid())
+  type                  PaymentFrequency
+  active                Boolean                @default(true)
+  versionId             String?                @unique
+  updatedAt             DateTime               @updatedAt
+  createdAt             DateTime               @default(now())
+  companyId             String
+  isActive              Boolean                @default(true)
+  deactivatedAt         DateTime?
+  deactivatedByUserId   String?
+  deactivationReason    String?
+  customerPaymentEvents CustomerPaymentEvent[]
+  company               Company                @relation(fields: [companyId], references: [id])
+  currentVersion        PaymentEventVersion?   @relation("CurrentVersion", fields: [versionId], references: [id])
+  versions              PaymentEventVersion[]  @relation("AllVersions")
+
+  @@index([active])
+  @@index([versionId])
+}
+
+model PaymentEventVersion {
+  id                      String                 @id @default(cuid())
+  paymentEventId          String?
+  version                 Int
+  name                    String
+  description             String?
+  type                    PaymentFrequency
+  status                  VersionStatus          @default(DRAFT)
+  scheduledActivationDate DateTime?
+  activatedAt             DateTime?
+  /// [PaymentSettings]
+  paymentSettings         Json
+  createdAt               DateTime               @default(now())
+  updatedAt               DateTime               @updatedAt
+  isActive                Boolean                @default(true)
+  deactivatedAt           DateTime?
+  deactivatedByUserId     String?
+  deactivationReason      String?
+  customerPaymentEvents   CustomerPaymentEvent[]
+  currentForPaymentEvent  PaymentEvent?          @relation("CurrentVersion")
+  items                   PaymentEventItem[]
+  paymentEvent            PaymentEvent?          @relation("AllVersions", fields: [paymentEventId], references: [id])
+
+  @@unique([paymentEventId, version])
+  @@index([paymentEventId])
+  @@index([type])
+}
+
+model CustomerPaymentEvent {
+  id                  String              @id @default(cuid())
+  paymentEventId      String
+  versionId           String
+  customerId          String?
+  startDate           DateTime
+  endDate             DateTime?
+  status              PaymentStatus       @default(PENDING)
+  credit              Float               @default(0)
+  /// [PaymentProgress]
+  progress            Json
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+  isActive            Boolean             @default(true)
+  deactivatedAt       DateTime?
+  deactivatedByUserId String?
+  deactivationReason  String?
+  customer            Customer?           @relation(fields: [customerId], references: [id])
+  paymentEvent        PaymentEvent        @relation(fields: [paymentEventId], references: [id])
+  version             PaymentEventVersion @relation(fields: [versionId], references: [id])
+  invoices            Invoice[]
+
+  @@index([customerId])
+  @@index([status])
+  @@index([startDate])
+  @@index([endDate])
+}
+
+model PaymentEventItem {
+  id                  String              @id @default(cuid())
+  versionId           String
+  productName         String
+  description         String?
+  quantity            Float
+  rate                Float
+  sku                 String?
+  amount              Float
+  taxable             Boolean             @default(true)
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+  itemId              String?
+  isActive            Boolean             @default(true)
+  deactivatedAt       DateTime?
+  deactivatedByUserId String?
+  deactivationReason  String?
+  item                Item?               @relation(fields: [itemId], references: [id])
+  version             PaymentEventVersion @relation(fields: [versionId], references: [id])
+
+  @@index([versionId])
+}
+
+model Category {
+  id                  String            @id @default(cuid())
+  name                String            @db.VarChar(50)
+  description         String?           @db.VarChar(200)
+  parentId            String?
+  level               Int               @default(0)
+  sortOrder           Int               @default(0)
+  active              Boolean           @default(true)
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+  companyId           String
+  isActive            Boolean           @default(true)
+  deactivatedAt       DateTime?
+  deactivatedByUserId String?
+  deactivationReason  String?
+  company             Company           @relation(fields: [companyId], references: [id])
+  parent              Category?         @relation("CategoryHierarchy", fields: [parentId], references: [id])
+  subCategories       Category[]        @relation("CategoryHierarchy")
+  categoryProduct     CategoryProduct[]
+  items               Item[]
+
+  @@index([name, companyId])
+  @@index([parentId])
+  @@index([active])
+  @@index([level])
+  @@index([sortOrder])
+}
+
+model Item {
+  id                      String                   @id @default(cuid())
+  type                    ItemType
+  name                    String                   @db.VarChar(100)
+  sku                     String?                  @db.VarChar(50)
+  categoryId              String?
+  description             String?                  @db.VarChar(1000)
+  salesDescription        String?                  @db.VarChar(1000)
+  purchaseDescription     String?                  @db.VarChar(1000)
+  sellable                Boolean                  @default(true)
+  salesPrice              Float                    @default(0.00)
+  salesTaxable            Boolean                  @default(true)
+  salesStartDate          DateTime?
+  salesEndDate            DateTime?
+  discountEnabled         Boolean                  @default(false)
+  discountType            DiscountType?
+  discountValue           Float?
+  discountApplicationTime DiscountApplicationTime?
+  discountAmount          Float                    @default(0)
+  purchasable             Boolean                  @default(false)
+  cost                    Float?
+  preferredVendorId       String?
+  lastPurchasePrice       Float?
+  lastPurchaseDate        DateTime?
+  trackInventory          Boolean                  @default(false)
+  quantityOnHand          Int?
+  reorderPoint            Int?
+  initialQuantity         Int?
+  asOfDate                DateTime?
+  incomeAccountId         String?
+  expenseAccountId        String?
+  inventoryAssetAccountId String?
+  imageUrl                String?                  @db.VarChar(2000)
+  /// [ItemMetadata]
+  metadata                Json?
+  status                  ItemStatus               @default(ACTIVE)
+  createdAt               DateTime                 @default(now())
+  updatedAt               DateTime                 @updatedAt
+  companyId               String
+  isActive                Boolean                  @default(true)
+  deactivatedAt           DateTime?
+  deactivatedByUserId     String?
+  deactivationReason      String?
+  creditMemoItems         CreditMemoItem[]
+  chargeItems             DelayedChargeItem[]
+  creditItems             DelayedCreditItem[]
+  estimateItems           EstimateItem[]
+  invoiceItems            InvoiceItem[]
+  category                Category?                @relation(fields: [categoryId], references: [id])
+  company                 Company                  @relation(fields: [companyId], references: [id])
+  expenseAccount          Account?                 @relation("ItemExpenseAccount", fields: [expenseAccountId], references: [id])
+  incomeAccount           Account?                 @relation("ItemIncomeAccount", fields: [incomeAccountId], references: [id])
+  inventoryAssetAccount   Account?                 @relation("ItemInventoryAssetAccount", fields: [inventoryAssetAccountId], references: [id])
+  paymentEventItems       PaymentEventItem[]
+  product                 Product[]
+  refundItems             RefundReceiptItem[]
+  salesReceiptItems       SalesReceiptItem[]
+
+  @@unique([sku, companyId])
+  @@index([type])
+  @@index([status])
+  @@index([categoryId])
+  @@index([sku])
+  @@index([sellable])
+  @@index([purchasable])
+  @@index([trackInventory])
+  @@index([name, description])
+}
+
+model InvoiceItem {
+  id                  String    @id @default(cuid())
+  invoiceId           String
+  productName         String
+  description         String?
+  quantity            Float
+  rate                Float
+  amount              Float
+  sku                 String?
+  taxable             Boolean   @default(true)
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+  itemId              String?
+  isActive            Boolean   @default(true)
+  deactivatedAt       DateTime?
+  deactivatedByUserId String?
+  deactivationReason  String?
+  invoice             Invoice   @relation(fields: [invoiceId], references: [id])
+  item                Item?     @relation(fields: [itemId], references: [id])
+
+  @@index([invoiceId])
+}
+
+model Invoice {
+  id                      String                   @id @default(cuid())
+  convertedFromEstimate   Boolean                  @default(false)
+  estimateId              String?
+  number                  String
+  customerId              String
+  paymentEventId          String?
+  discountType            DiscountType?
+  discountValue           Float?
+  taxRate                 Float                    @default(0)
+  discountApplicationTime DiscountApplicationTime?
+  discountAmount          Float                    @default(0)
+  amount                  Float
+  dueDate                 DateTime
+  status                  PaymentStatus            @default(PENDING)
+  notes                   String?
+  emailCustomer           String?
+  taxId                   String?
+  taxAmount               Float                    @default(0)
+  /// [PaymentEventSnapshot]
+  paymentEventSnapshot    Json
+  createdAt               DateTime                 @default(now())
+  updatedAt               DateTime                 @updatedAt
+  isLinkedToVersion       Boolean                  @default(false)
+  companyId               String
+  isActive                Boolean                  @default(true)
+  deactivatedAt           DateTime?
+  deactivatedByUserId     String?
+  deactivationReason      String?
+  creditMemo              CreditMemo[]
+  company                 Company                  @relation(fields: [companyId], references: [id])
+  customer                Customer                 @relation(fields: [customerId], references: [id])
+  estimate                Estimate?                @relation(fields: [estimateId], references: [id])
+  customerPaymentEvent    CustomerPaymentEvent?    @relation(fields: [paymentEventId], references: [id])
+  tax                     TaxRate?                 @relation(fields: [taxId], references: [id])
+  attachments             InvoiceAttachment[]
+  items                   InvoiceItem[]
+  payments                Payment[]
+
+  @@unique([number, companyId])
+  @@index([estimateId])
+  @@index([customerId])
+  @@index([paymentEventId])
+  @@index([status])
+  @@index([dueDate])
+}
+
+model InvoiceAttachment {
+  id                  String    @id @default(cuid())
+  invoiceId           String
+  fileId              String
+  createdAt           DateTime  @default(now())
+  isActive            Boolean   @default(true)
+  deactivatedAt       DateTime?
+  deactivatedByUserId String?
+  deactivationReason  String?
+  file                File      @relation(fields: [fileId], references: [id])
+  invoice             Invoice   @relation(fields: [invoiceId], references: [id])
+
+  @@unique([invoiceId, fileId])
+  @@index([invoiceId])
+  @@index([fileId])
+}
+
+model EstimateItem {
+  id                  String    @id @default(cuid())
+  estimateId          String
+  productName         String
+  description         String?
+  quantity            Float
+  rate                Float
+  amount              Float
+  sku                 String?
+  taxable             Boolean   @default(true)
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+  itemId              String?
+  isActive            Boolean   @default(true)
+  deactivatedAt       DateTime?
+  deactivatedByUserId String?
+  deactivationReason  String?
+  estimate            Estimate  @relation(fields: [estimateId], references: [id])
+  item                Item?     @relation(fields: [itemId], references: [id])
+
+  @@index([estimateId])
+}
+
+model Estimate {
+  id                      String                   @id @default(cuid())
+  number                  String
+  customerId              String
+  amount                  Float
+  dueDate                 DateTime
+  taxRate                 Float                    @default(0)
+  discountType            DiscountType?
+  discountValue           Float?
+  discountApplicationTime DiscountApplicationTime?
+  discountAmount          Float                    @default(0)
+  status                  EstimateStatus           @default(DRAFT)
+  notes                   String?
+  emailCustomer           String?
+  taxId                   String?
+  taxAmount               Float                    @default(0)
+  createdAt               DateTime                 @default(now())
+  updatedAt               DateTime                 @updatedAt
+  validUntil              DateTime?
+  convertedToInvoice      Boolean                  @default(false)
+  invoiceId               String?
+  /// [PaymentEventSnapshot]
+  paymentEventSnapshot    Json
+  companyId               String
+  isActive                Boolean                  @default(true)
+  deactivatedAt           DateTime?
+  deactivatedByUserId     String?
+  deactivationReason      String?
+  company                 Company                  @relation(fields: [companyId], references: [id])
+  customer                Customer                 @relation(fields: [customerId], references: [id])
+  tax                     TaxRate?                 @relation(fields: [taxId], references: [id])
+  attachments             EstimateAttachment[]
+  items                   EstimateItem[]
+  invoices                Invoice[]
+
+  @@unique([number, companyId])
+  @@index([customerId])
+  @@index([status])
+  @@index([dueDate])
+}
+
+model EstimateAttachment {
+  id                  String    @id @default(cuid())
+  estimateId          String
+  fileId              String
+  createdAt           DateTime  @default(now())
+  isActive            Boolean   @default(true)
+  deactivatedAt       DateTime?
+  deactivatedByUserId String?
+  deactivationReason  String?
+  estimate            Estimate  @relation(fields: [estimateId], references: [id])
+  file                File      @relation(fields: [fileId], references: [id])
+
+  @@unique([estimateId, fileId])
+  @@index([estimateId])
+  @@index([fileId])
+}
+
+model CreditMemoItem {
+  id                  String     @id @default(cuid())
+  creditMemoId        String
+  productName         String
+  description         String?
+  quantity            Float
+  sku                 String?
+  rate                Float
+  amount              Float
+  taxable             Boolean    @default(true)
+  createdAt           DateTime   @default(now())
+  updatedAt           DateTime   @updatedAt
+  itemId              String?
+  isActive            Boolean    @default(true)
+  deactivatedAt       DateTime?
+  deactivatedByUserId String?
+  deactivationReason  String?
+  creditMemo          CreditMemo @relation(fields: [creditMemoId], references: [id])
+  item                Item?      @relation(fields: [itemId], references: [id])
+
+  @@index([creditMemoId])
+}
+
+model CreditMemo {
+  id                      String                   @id @default(cuid())
+  number                  String
+  dueDate                 DateTime
+  customerId              String
+  discountType            DiscountType?
+  discountValue           Float?
+  discountApplicationTime DiscountApplicationTime?
+  discountAmount          Float                    @default(0)
+  taxRate                 Float                    @default(0)
+  amount                  Float
+  taxId                   String?
+  taxAmount               Float                    @default(0)
+  issueDate               DateTime                 @default(now())
+  reason                  CreditMemoReason         @default(OTHER)
+  status                  CreditMemoStatus         @default(DRAFT)
+  notes                   String?
+  /// [PaymentEventSnapshot]
+  paymentEventSnapshot    Json
+  emailCustomer           String?
+  createdAt               DateTime                 @default(now())
+  updatedAt               DateTime                 @updatedAt
+  companyId               String
+  invoiceId               String?
+  isActive                Boolean                  @default(true)
+  deactivatedAt           DateTime?
+  deactivatedByUserId     String?
+  deactivationReason      String?
+  company                 Company                  @relation(fields: [companyId], references: [id])
+  customer                Customer                 @relation(fields: [customerId], references: [id])
+  invoice                 Invoice?                 @relation(fields: [invoiceId], references: [id])
+  tax                     TaxRate?                 @relation(fields: [taxId], references: [id])
+  attachments             CreditMemoAttachment[]
+  items                   CreditMemoItem[]
+  transactions            Transaction[]
+
+  @@unique([number, companyId])
+  @@index([customerId])
+  @@index([status])
+  @@index([issueDate])
+}
+
+model CreditMemoAttachment {
+  id                  String     @id @default(cuid())
+  creditMemoId        String
+  fileId              String
+  createdAt           DateTime   @default(now())
+  isActive            Boolean    @default(true)
+  deactivatedAt       DateTime?
+  deactivatedByUserId String?
+  deactivationReason  String?
+  creditMemo          CreditMemo @relation(fields: [creditMemoId], references: [id])
+  file                File       @relation(fields: [fileId], references: [id])
+
+  @@unique([creditMemoId, fileId])
+  @@index([creditMemoId])
+  @@index([fileId])
+}
+
+model SalesReceiptItem {
+  id                  String       @id @default(cuid())
+  receiptId           String
+  productName         String
+  description         String?
+  quantity            Float
+  rate                Float
+  sku                 String?
+  amount              Float
+  taxable             Boolean      @default(true)
+  createdAt           DateTime     @default(now())
+  updatedAt           DateTime     @updatedAt
+  itemId              String?
+  isActive            Boolean      @default(true)
+  deactivatedAt       DateTime?
+  deactivatedByUserId String?
+  deactivationReason  String?
+  item                Item?        @relation(fields: [itemId], references: [id])
+  receipt             SalesReceipt @relation(fields: [receiptId], references: [id])
+
+  @@index([receiptId])
+}
+
+model SalesReceipt {
+  id                      String                   @id @default(cuid())
+  number                  String
+  dueDate                 DateTime
+  customerId              String
+  discountType            DiscountType?
+  discountValue           Float?
+  discountApplicationTime DiscountApplicationTime?
+  discountAmount          Float                    @default(0)
+  taxId                   String?
+  /// [PaymentEventSnapshot]
+  paymentEventSnapshot    Json
+  taxAmount               Float                    @default(0)
+  taxRate                 Float                    @default(0)
+  amount                  Float
+  paymentMethod           PaymentMethod
+  paymentRef              String?
+  notes                   String?
+  emailCustomer           String?
+  status                  ReceiptStatus            @default(COMPLETED)
+  createdAt               DateTime                 @default(now())
+  updatedAt               DateTime                 @updatedAt
+  companyId               String
+  isActive                Boolean                  @default(true)
+  deactivatedAt           DateTime?
+  deactivatedByUserId     String?
+  deactivationReason      String?
+  attachments             ReceiptAttachment[]
+  company                 Company                  @relation(fields: [companyId], references: [id])
+  customer                Customer                 @relation(fields: [customerId], references: [id])
+  tax                     TaxRate?                 @relation(fields: [taxId], references: [id])
+  items                   SalesReceiptItem[]
+  transactions            Transaction[]
+
+  @@unique([number, companyId])
+  @@index([customerId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model ReceiptAttachment {
+  id                  String       @id @default(cuid())
+  receiptId           String
+  fileId              String
+  createdAt           DateTime     @default(now())
+  isActive            Boolean      @default(true)
+  deactivatedAt       DateTime?
+  deactivatedByUserId String?
+  deactivationReason  String?
+  file                File         @relation(fields: [fileId], references: [id])
+  receipt             SalesReceipt @relation(fields: [receiptId], references: [id])
+
+  @@unique([receiptId, fileId])
+  @@index([receiptId])
+  @@index([fileId])
+}
+
+model RefundReceiptItem {
+  id                  String        @id @default(cuid())
+  refundReceiptId     String
+  productName         String
+  description         String?
+  quantity            Float
+  sku                 String?
+  rate                Float
+  amount              Float
+  taxable             Boolean       @default(true)
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @default(now())
+  itemId              String?
+  isActive            Boolean       @default(true)
+  deactivatedAt       DateTime?
+  deactivatedByUserId String?
+  deactivationReason  String?
+  item                Item?         @relation(fields: [itemId], references: [id])
+  refundReceipt       RefundReceipt @relation(fields: [refundReceiptId], references: [id])
+
+  @@index([refundReceiptId])
+}
+
+model RefundReceipt {
+  id                      String                   @id @default(cuid())
+  number                  String
+  customerId              String
+  taxId                   String?
+  discountType            DiscountType?
+  discountValue           Float?
+  taxRate                 Float                    @default(0)
+  discountApplicationTime DiscountApplicationTime?
+  discountAmount          Float                    @default(0)
+  taxAmount               Float                    @default(0)
+  /// [PaymentEventSnapshot]
+  paymentEventSnapshot    Json
+  amount                  Float
+  refundMethod            PaymentMethod
+  originalPaymentMethod   PaymentMethod?
+  refundRef               String?
+  reason                  RefundReason             @default(OTHER)
+  notes                   String?
+  emailCustomer           String?
+  dueDate                 DateTime
+  status                  RefundStatus             @default(PENDING)
+  createdAt               DateTime                 @default(now())
+  updatedAt               DateTime                 @updatedAt
+  companyId               String
+  isActive                Boolean                  @default(true)
+  deactivatedAt           DateTime?
+  deactivatedByUserId     String?
+  deactivationReason      String?
+  attachments             RefundAttachment[]
+  company                 Company                  @relation(fields: [companyId], references: [id])
+  customer                Customer                 @relation(fields: [customerId], references: [id])
+  tax                     TaxRate?                 @relation(fields: [taxId], references: [id])
+  items                   RefundReceiptItem[]
+  transactions            Transaction[]
+
+  @@unique([number, companyId])
+  @@index([customerId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model RefundAttachment {
+  id                  String        @id @default(cuid())
+  refundReceiptId     String
+  fileId              String
+  createdAt           DateTime      @default(now())
+  isActive            Boolean       @default(true)
+  deactivatedAt       DateTime?
+  deactivatedByUserId String?
+  deactivationReason  String?
+  file                File          @relation(fields: [fileId], references: [id])
+  refundReceipt       RefundReceipt @relation(fields: [refundReceiptId], references: [id])
+
+  @@unique([refundReceiptId, fileId])
+  @@index([refundReceiptId])
+  @@index([fileId])
+}
+
+model DelayedChargeItem {
+  id                  String        @id @default(cuid())
+  chargeId            String
+  productName         String
+  description         String?
+  quantity            Float
+  rate                Float
+  amount              Float
+  sku                 String?
+  taxable             Boolean       @default(true)
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @default(now())
+  itemId              String?
+  isActive            Boolean       @default(true)
+  deactivatedAt       DateTime?
+  deactivatedByUserId String?
+  deactivationReason  String?
+  charge              DelayedCharge @relation(fields: [chargeId], references: [id])
+  item                Item?         @relation(fields: [itemId], references: [id])
+
+  @@index([chargeId])
+}
+
+model DelayedCharge {
+  id                      String                   @id @default(cuid())
+  number                  String
+  customerId              String
+  taxId                   String?
+  discountType            DiscountType?
+  discountValue           Float?
+  taxRate                 Float                    @default(0)
+  discountApplicationTime DiscountApplicationTime?
+  discountAmount          Float                    @default(0)
+  taxAmount               Float                    @default(0)
+  amount                  Float
+  /// [PaymentEventSnapshot]
+  paymentEventSnapshot    Json
+  status                  ChargeStatus             @default(PENDING)
+  dueDate                 DateTime
+  notes                   String?
+  emailCustomer           String?
+  createdAt               DateTime                 @default(now())
+  updatedAt               DateTime                 @updatedAt
+  companyId               String
+  isActive                Boolean                  @default(true)
+  deactivatedAt           DateTime?
+  deactivatedByUserId     String?
+  deactivationReason      String?
+  attachments             ChargeAttachment[]
+  company                 Company                  @relation(fields: [companyId], references: [id])
+  customer                Customer                 @relation(fields: [customerId], references: [id])
+  tax                     TaxRate?                 @relation(fields: [taxId], references: [id])
+  items                   DelayedChargeItem[]
+
+  @@unique([number, companyId])
+  @@index([customerId])
+  @@index([status])
+  @@index([dueDate])
+}
+
+model ChargeAttachment {
+  id                  String        @id @default(cuid())
+  chargeId            String
+  fileId              String
+  createdAt           DateTime      @default(now())
+  isActive            Boolean       @default(true)
+  deactivatedAt       DateTime?
+  deactivatedByUserId String?
+  deactivationReason  String?
+  charge              DelayedCharge @relation(fields: [chargeId], references: [id])
+  file                File          @relation(fields: [fileId], references: [id])
+
+  @@unique([chargeId, fileId])
+  @@index([chargeId])
+  @@index([fileId])
+}
+
+model DelayedCreditItem {
+  id                  String        @id @default(cuid())
+  creditId            String
+  productName         String
+  description         String?
+  quantity            Float
+  rate                Float
+  amount              Float
+  sku                 String?
+  taxable             Boolean       @default(true)
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @default(now())
+  itemId              String?
+  isActive            Boolean       @default(true)
+  deactivatedAt       DateTime?
+  deactivatedByUserId String?
+  deactivationReason  String?
+  credit              DelayedCredit @relation(fields: [creditId], references: [id])
+  item                Item?         @relation(fields: [itemId], references: [id])
+
+  @@index([creditId])
+}
+
+model DelayedCredit {
+  id                      String                    @id @default(cuid())
+  number                  String
+  customerId              String
+  discountType            DiscountType?
+  discountValue           Float?
+  discountApplicationTime DiscountApplicationTime?
+  discountAmount          Float                     @default(0)
+  taxAmount               Float                     @default(0)
+  amount                  Float
+  /// [PaymentEventSnapshot]
+  paymentEventSnapshot    Json
+  taxId                   String?
+  status                  CreditStatus              @default(PENDING)
+  dueDate                 DateTime
+  notes                   String?
+  emailCustomer           String?
+  taxRate                 Float                     @default(0)
+  createdAt               DateTime                  @default(now())
+  updatedAt               DateTime                  @updatedAt
+  companyId               String
+  isActive                Boolean                   @default(true)
+  deactivatedAt           DateTime?
+  deactivatedByUserId     String?
+  deactivationReason      String?
+  company                 Company                   @relation(fields: [companyId], references: [id])
+  customer                Customer                  @relation(fields: [customerId], references: [id])
+  tax                     TaxRate?                  @relation(fields: [taxId], references: [id])
+  attachments             DelayedCreditAttachment[]
+  items                   DelayedCreditItem[]
+
+  @@unique([number, companyId])
+  @@index([customerId])
+  @@index([status])
+  @@index([dueDate])
+}
+
+model DelayedCreditAttachment {
+  id                  String        @id @default(cuid())
+  creditId            String
+  fileId              String
+  createdAt           DateTime      @default(now())
+  isActive            Boolean       @default(true)
+  deactivatedAt       DateTime?
+  deactivatedByUserId String?
+  deactivationReason  String?
+  credit              DelayedCredit @relation(fields: [creditId], references: [id])
+  file                File          @relation(fields: [fileId], references: [id])
+
+  @@unique([creditId, fileId])
+  @@index([creditId])
+  @@index([fileId])
+}
+
+model Payment {
+  id                      String                   @id @default(cuid())
+  invoiceId               String
+  customerId              String
+  amount                  Float
+  paymentDate             DateTime
+  paymentMethod           PaymentMethod
+  reference               String?
+  metadata                Json?
+  discountType            DiscountType?
+  discountValue           Float?
+  discountApplicationTime DiscountApplicationTime?
+  discountAmount          Float                    @default(0)
+  createdAt               DateTime                 @default(now())
+  updatedAt               DateTime                 @updatedAt
+  companyId               String
+  isActive                Boolean                  @default(true)
+  deactivatedAt           DateTime?
+  deactivatedByUserId     String?
+  deactivationReason      String?
+  company                 Company                  @relation(fields: [companyId], references: [id])
+  customer                Customer                 @relation(fields: [customerId], references: [id])
+  invoice                 Invoice                  @relation(fields: [invoiceId], references: [id])
+  transactions            Transaction[]
+
+  @@index([invoiceId])
+  @@index([customerId])
+  @@index([paymentDate])
+}
+
+model Config {
+  key       String   @id
+  value     Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([key])
+}
+
+model TransactionCategory {
+  id            String               @id @default(cuid())
+  name          String
+  type          TransactionType
+  description   String?
+  active        Boolean              @default(true)
+  createdBy     String
+  createdAt     DateTime             @default(now())
+  updatedAt     DateTime             @updatedAt
+  transactions  Transaction[]        @relation("CategoryTransactions")
+  newCategories TransactionHistory[] @relation("NewCategory")
+  oldCategories TransactionHistory[] @relation("OldCategory")
+
+  @@unique([name, type])
+  @@index([type])
+  @@index([active])
+}
+
+model TransactionAttachment {
+  id                  String      @id @default(cuid())
+  transactionId       String
+  fileId              String
+  createdAt           DateTime    @default(now())
+  isActive            Boolean     @default(true)
+  deactivatedAt       DateTime?
+  deactivatedByUserId String?
+  deactivationReason  String?
+  file                File        @relation(fields: [fileId], references: [id])
+  transaction         Transaction @relation(fields: [transactionId], references: [id])
+
+  @@index([transactionId])
+}
+
+model TransactionHistory {
+  id            String               @id @default(cuid())
+  transactionId String
+  oldCategoryId String?
+  newCategoryId String
+  changedBy     String
+  changedAt     DateTime             @default(now())
+  notes         String?
+  changeType    String               @default("RECLASSIFICATION")
+  newCategory   TransactionCategory  @relation("NewCategory", fields: [newCategoryId], references: [id])
+  oldCategory   TransactionCategory? @relation("OldCategory", fields: [oldCategoryId], references: [id])
+  transaction   Transaction          @relation(fields: [transactionId], references: [id])
+
+  @@index([transactionId])
+  @@index([oldCategoryId])
+  @@index([newCategoryId])
+  @@index([changedBy])
+  @@index([changedAt])
+}
+
+model Transaction {
+  id                  String                  @id @default(cuid())
+  date                DateTime                @default(now())
+  amount              Float
+  approvedBy          String?
+  categoryId          String?
+  companyId           String
+  completed           Boolean                 @default(false)
+  completedAt         DateTime?
+  createdAt           DateTime                @default(now())
+  createdBy           String
+  creditMemoId        String?
+  deactivatedAt       DateTime?
+  deactivatedByUserId String?
+  deactivationReason  String?
+  description         String?
+  invoicePaymentId    String?
+  isActive            Boolean                 @default(true)
+  metadata            Json?
+  notes               String?
+  paymentMethod       PaymentMethod?
+  referenceNumber     String?
+  refundReceiptId     String?
+  salesReceiptId      String?
+  type                TransactionType
+  updatedAt           DateTime                @updatedAt
+  status              TransactionStatus       @default(INCOMPLETE)
+  approvedByUser      User?                   @relation("ApprovedTransactions", fields: [approvedBy], references: [id])
+  category            TransactionCategory?    @relation("CategoryTransactions", fields: [categoryId], references: [id])
+  company             Company                 @relation(fields: [companyId], references: [id])
+  createdByUser       User                    @relation("UserTransactions", fields: [createdBy], references: [id])
+  creditMemo          CreditMemo?             @relation(fields: [creditMemoId], references: [id])
+  invoicePayment      Payment?                @relation(fields: [invoicePaymentId], references: [id])
+  refundReceipt       RefundReceipt?          @relation(fields: [refundReceiptId], references: [id])
+  salesReceipt        SalesReceipt?           @relation(fields: [salesReceiptId], references: [id])
+  attachments         TransactionAttachment[]
+  transactionHistory  TransactionHistory[]
+
+  @@index([type])
+  @@index([categoryId])
+  @@index([date])
+  @@index([createdBy])
+  @@index([status])
+  @@index([completed])
+}
+
+model Product {
+  id                   String            @id @default(cuid())
+  name                 String
+  description          String?
+  shortDescription     String?
+  slug                 String            @unique
+  price                Float
+  compareAtPrice       Float?
+  sku                  String?
+  status               ProductStatus     @default(DRAFT)
+  inventory            Int?
+  features             String[]
+  metadata             Json?
+  isSubscription       Boolean           @default(false)
+  billingInterval      String?
+  billingIntervalCount Int?
+  trialDays            Int?              @default(0)
+  itemId               String?
+  storeId              String
+  createdAt            DateTime          @default(now())
+  updatedAt            DateTime          @updatedAt
+  companyId            String
+  centralProductId     String?
+  categories           CategoryProduct[]
+  company              Company           @relation(fields: [companyId], references: [id])
+  item                 Item?             @relation(fields: [itemId], references: [id])
+  store                Store             @relation(fields: [storeId], references: [id])
+  images               ProductImage[]
+  variants             ProductVariant[]
+
+  @@index([storeId])
+  @@index([companyId])
+  @@index([status])
+}
+
+model ProductImage {
+  id        String  @id @default(cuid())
+  url       String
+  alt       String?
+  position  Int     @default(0)
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+}
+
+model ProductVariant {
+  id        String  @id @default(cuid())
+  name      String
+  sku       String?
+  price     Float?
+  inventory Int?
+  metadata  Json?
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+}
+
+model CategoryProduct {
+  categoryId String
+  productId  String
+  category   Category @relation(fields: [categoryId], references: [id])
+  product    Product  @relation(fields: [productId], references: [id])
+
+  @@id([categoryId, productId])
+  @@index([categoryId])
+  @@index([productId])
+}
+
+model Store {
+  id                       String    @id @default(cuid())
+  name                     String
+  description              String?
+  slug                     String    @unique
+  logo                     String?
+  banner                   String?
+  primaryColor             String?
+  accentColor              String?
+  isPublic                 Boolean   @default(true)
+  customDomain             String?
+  companyId                String    @unique
+  allowGuests              Boolean   @default(true)
+  stripeConnectedAccountId String?
+  paymentSettings          Json?
+  createdAt                DateTime  @default(now())
+  updatedAt                DateTime  @updatedAt
+  products                 Product[]
+  company                  Company   @relation(fields: [companyId], references: [id])
+
+  @@index([companyId])
+}
+
+model EmailTemplate {
+  id        String   @id @default(cuid())
+  name      String
+  subject   String
+  body      String
+  variables String[]
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  companyId String
+  company   Company  @relation(fields: [companyId], references: [id])
+
+  @@unique([name, companyId])
+  @@index([active])
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  userId     String
+  action     String
+  entityType String
+  entityId   String
+  changes    Json?
+  metadata   Json?
+  createdAt  DateTime @default(now())
+
+  @@index([userId])
+  @@index([entityType])
+  @@index([createdAt])
+}
+
+model File {
+  id                       String                    @id @default(cuid())
+  filename                 String
+  path                     String
+  mimetype                 String
+  size                     Int
+  purpose                  String
+  metadata                 Json?
+  createdAt                DateTime                  @default(now())
+  updatedAt                DateTime                  @updatedAt
+  companyId                String
+  isActive                 Boolean                   @default(true)
+  deactivatedAt            DateTime?
+  deactivatedByUserId      String?
+  deactivationReason       String?
+  chargeAttachments        ChargeAttachment[]
+  creditMemoAttachments    CreditMemoAttachment[]
+  delayedCreditAttachments DelayedCreditAttachment[]
+  estimateAttachments      EstimateAttachment[]
+  company                  Company                   @relation(fields: [companyId], references: [id])
+  invoiceAttachments       InvoiceAttachment[]
+  receiptAttachments       ReceiptAttachment[]
+  refundAttachments        RefundAttachment[]
+  transactionAttachments   TransactionAttachment[]
+
+  @@index([purpose])
+}
+
+model Notification {
+  id        String           @id @default(cuid())
+  userId    String
+  type      NotificationType
+  title     String
+  message   String
+  read      Boolean          @default(false)
+  readAt    DateTime?
+  createdAt DateTime         @default(now())
+
+  @@index([userId])
+  @@index([read])
+}
+
+model CompanyCustomField {
+  id        String                     @id @default(cuid())
+  name      String
+  type      CompanyCustomFieldType
+  category  CompanyCustomFieldCategory
+  options   String[]                   @default([])
+  active    Boolean                    @default(true)
+  createdAt DateTime                   @default(now())
+  updatedAt DateTime                   @updatedAt
+  companyId String
+  company   Company                    @relation(fields: [companyId], references: [id])
+  values    CompanyCustomFieldValue[]
+  forms     CompanyCustomFieldForm[]   @relation("CompanyCustomFieldForm")
+
+  @@unique([name, category, companyId])
+  @@index([category])
+  @@index([active])
+}
+
+model CompanyCustomFieldForm {
+  id           String                     @id @default(cuid())
+  name         CompanyCustomFieldFormType
+  printOnForm  Boolean                    @default(false)
+  customFields CompanyCustomField[]       @relation("CompanyCustomFieldForm")
+}
+
+model CompanyCustomFieldValue {
+  id            String             @id @default(cuid())
+  customFieldId String
+  entityId      String
+  value         String
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+  customField   CompanyCustomField @relation(fields: [customFieldId], references: [id])
+
+  @@unique([customFieldId, entityId])
+  @@index([customFieldId])
+  @@index([entityId])
+}
+
+model TableConfiguration {
+  id        String    @id @default(cuid())
+  userId    String
+  tableType TableType
+  columns   String[]  @default([])
+  pageSize  Int       @default(50)
+  flags     Json?
+  sortField String?
+  sortOrder String?
+  filters   Json?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@unique([userId, tableType])
+  @@index([userId])
+  @@index([tableType])
+}
+
+model AccountTemplate {
+  id              String            @id @default(cuid())
+  title           String
+  parent_id       String?
+  is_custom       Boolean           @default(false)
+  number          String            @unique
+  composed_number String            @unique
+  created_at      DateTime          @default(now())
+  updated_at      DateTime          @updatedAt
+  accounts        Account[]
+  parent          AccountTemplate?  @relation("TemplateToTemplate", fields: [parent_id], references: [id])
+  children        AccountTemplate[] @relation("TemplateToTemplate")
+
+  @@index([parent_id])
+}
+
+model JournalEntry {
+  id                  String             @id @default(cuid())
+  date                DateTime
+  journalNo           String?
+  transactionType     String
+  description         String?
+  customerId          String?
+  companyId           String
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+  isActive            Boolean            @default(true)
+  deactivatedAt       DateTime?
+  deactivatedByUserId String?
+  deactivationReason  String?
+  company             Company            @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  customer            Customer?          @relation(fields: [customerId], references: [id])
+  entries             JournalEntryLine[]
+
+  @@index([companyId])
+  @@index([customerId])
+  @@index([date])
+  @@index([journalNo])
+}
+
+model JournalEntryLine {
+  id                  String       @id @default(cuid())
+  debit               Float?
+  credit              Float?
+  description         String?
+  accountId           String
+  journalEntryId      String
+  isActive            Boolean      @default(true)
+  deactivatedAt       DateTime?
+  deactivatedByUserId String?
+  deactivationReason  String?
+  account             Account      @relation(fields: [accountId], references: [id])
+  journalEntry        JournalEntry @relation(fields: [journalEntryId], references: [id], onDelete: Cascade)
+
+  @@index([accountId])
+  @@index([journalEntryId])
+}
+
+model TaxRate {
+  id                  String          @id @default(cuid())
+  name                String
+  description         String?
+  agencyName          String
+  type                TaxType         @default(SALES)
+  rate                Float
+  companyId           String
+  status              TaxStatus       @default(ACTIVE)
+  effectiveDate       DateTime        @default(now())
+  endDate             DateTime?
+  createdAt           DateTime        @default(now())
+  updatedAt           DateTime        @updatedAt
+  isActive            Boolean         @default(true)
+  deactivatedAt       DateTime?
+  deactivatedByUserId String?
+  deactivationReason  String?
+  creditMemos         CreditMemo[]
+  delayedCharges      DelayedCharge[]
+  delayedCredits      DelayedCredit[]
+  estimates           Estimate[]
+  invoices            Invoice[]
+  refundReceipts      RefundReceipt[]
+  salesReceipts       SalesReceipt[]
+  company             Company         @relation(fields: [companyId], references: [id])
+
+  @@unique([name, companyId])
+  @@index([status])
+  @@index([companyId])
+  @@index([effectiveDate])
+}
+
+model Company {
+  id              String               @id @default(cuid())
+  name            String               @unique
+  slug            String               @unique
+  companyType     CompanyType?
+  legalName       String?
+  taxId           String?
+  email           String?
+  phone           String?
+  website         String?
+  /// [Address]
+  address         Json?
+  logo            String?
+  isActive        Boolean              @default(true)
+  /// [CompanySettings]
+  settings        Json?
+  /// [CompanyMetadata]
+  metadata        Json?
+  parentCompanyId String?
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @updatedAt
+  accounts        Account[]
+  categories      Category[]
+  parentCompany   Company?             @relation("CompanyHierarchy", fields: [parentCompanyId], references: [id])
+  subsidiaries    Company[]            @relation("CompanyHierarchy")
+  creditMemos     CreditMemo[]
+  customFields    CompanyCustomField[]
+  customers       Customer[]
+  customerTypes   CustomerType[]
+  delayedCharges  DelayedCharge[]
+  delayedCredits  DelayedCredit[]
+  emailTemplates  EmailTemplate[]
+  estimates       Estimate[]
+  files           File[]
+  invoices        Invoice[]
+  items           Item[]
+  journalEntry    JournalEntry[]
+  payments        Payment[]
+  paymentEvents   PaymentEvent[]
+  products        Product[]
+  refundReceipts  RefundReceipt[]
+  roles           Role[]
+  salesReceipts   SalesReceipt[]
+  store           Store?
+  taxRates        TaxRate[]
+  transactions    Transaction[]
+  users           UserCompany[]
+  tickets         Ticket[]
+  activeUsers     User[]               @relation("ActiveCompany")
+  accountantAssignments AccountantAssignment[]
+
+  @@index([isActive])
+  @@index([parentCompanyId])
+}
+
+// Accountant organization: represents an accounting firm or profile that manages multiple client companies.
+model Accountant {
+  id        String           @id @default(cuid())
+  name      String
+  slug      String?          @unique
+  ownerId   String?
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  // Relations
+  owner     User?            @relation("AccountantOwner", fields: [ownerId], references: [id])
+  users     AccountantUser[]
+  assignments AccountantAssignment[]
+
+  @@index([ownerId])
+}
+
+// Users that belong to an Accountant profile (accounting staff)
+model AccountantUser {
+  id           String              @id @default(cuid())
+  accountantId String
+  userId       String
+  role         AccountantUserRole  @default(MEMBER)
+  isActive     Boolean             @default(true)
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @updatedAt
+
+  accountant   Accountant          @relation(fields: [accountantId], references: [id], onDelete: Cascade)
+  user         User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  assignments  AccountantAssignment[]
+
+  @@unique([accountantId, userId])
+  @@index([accountantId])
+  @@index([userId])
+}
+
+enum AccountantUserRole {
+  OWNER
+  ADMIN
+  MEMBER
+}
+
+// Assignment of an accountant (or accountant user) to a client company with optional per-user permissions
+model AccountantAssignment {
+  id               String         @id @default(cuid())
+  accountantId     String
+  accountantUserId String?
+  companyId        String
+  permissions      Json?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  accountant       Accountant     @relation(fields: [accountantId], references: [id], onDelete: Cascade)
+  accountantUser   AccountantUser? @relation(fields: [accountantUserId], references: [id])
+  company          Company        @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@unique([accountantId, companyId])
+  @@index([accountantId])
+  @@index([companyId])
+  @@index([accountantUserId])
+}
+
+
+model Verification {
+  id         String    @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime?
+  updatedAt  DateTime?
+
+  @@index([identifier])
+  @@map("verification")
+}
+
+model Ticket {
+  id          String    @id @default(uuid())
+  title       String
+  service     String?
+  channel     String?
+  status      String    @default("OPEN")
+  companyId   String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  createdById String?
+  messages    Message[]
+  company     Company?  @relation(fields: [companyId], references: [id])
+  createdBy   User?     @relation(fields: [createdById], references: [id])
+
+  @@map("ticket")
+}
+
+model Message {
+  id                 String              @id @default(uuid())
+  ticketId           String
+  author             String?
+  message            String
+  type               String              @default("text")
+  date               DateTime            @default(now())
+  ticket             Ticket              @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  messageAttachments MessageAttachment[]
+}
+
+model MessageAttachment {
+  id        String   @id @default(uuid())
+  messageId String
+  fileUrl   String
+  fileType  String
+  createdAt DateTime @default(now())
+  message   Message  @relation(fields: [messageId], references: [id], onDelete: Cascade)
+}
 
 enum UserRole {
   USER
@@ -177,18 +1780,18 @@ enum EstimateStatus {
 enum CreditMemoStatus {
   DRAFT
   ISSUED
-  APPLIED // When applied to an invoice
-  VOID // If cancelled/voided
+  APPLIED
+  VOID
 }
 
 enum CreditMemoReason {
-  RETURN // Product return
-  OVERPAYMENT // Customer paid too much
-  CANCELLATION // Service/product cancellation
-  CORRECTION // Billing error correction
-  DISCOUNT // Post-sale discount
-  DAMAGED_GOODS // Products received damaged
-  OTHER // Other reasons
+  RETURN
+  OVERPAYMENT
+  CANCELLATION
+  CORRECTION
+  DISCOUNT
+  DAMAGED_GOODS
+  OTHER
 }
 
 enum TransactionStatus {
@@ -223,14 +1826,14 @@ enum TableType {
   TRANSACTION
 }
 
-enum CustomFieldType {
+enum CompanyCustomFieldType {
   TEXT_AND_NUMBER
   NUMBER
   DATE
   DROPDOWN_LIST
 }
 
-enum CustomFieldCategory {
+enum CompanyCustomFieldCategory {
   CUSTOMER
   TRANSACTION
   VENDOR
@@ -243,7 +1846,7 @@ enum ItemType {
   INVENTORY
 }
 
-enum CustomFieldFormType {
+enum CompanyCustomFieldFormType {
   SALES_RECEIPT
   INVOICE
   ESTIMATE
@@ -270,1697 +1873,8 @@ enum CompanyType {
   SCA
 }
 
-// ---- Models ----
-
-model User {
-  id                   String        @id @default(uuid())
-  email                String        @unique
-  name                 String
-  password             String?
-  emailVerified        Boolean       @default(false)
-  image                String?
-  role                 UserRole      @default(USER)
-  banned               Boolean?
-  banReason            String?
-  banExpires           DateTime?
-  customer             Customer?
-  createdAt            DateTime      @default(now())
-  updatedAt            DateTime      @updatedAt
-  createdTransactions  Transaction[] @relation("UserTransactions")
-  approvedTransactions Transaction[] @relation("ApprovedTransactions")
-  companies            UserCompany[]
-  sessions             Session[]
-
-  activeCompanyId     String?
-  activeCompany       Company?  @relation("ActiveCompany", fields: [activeCompanyId], references: [id])
-  isActive            Boolean   @default(true)
-  deactivatedAt       DateTime?
-  deactivatedByUserId String?
-  deactivationReason  String?
-  tickets             Ticket[]
-
-  useraccounts UserAccount[]
-
-  @@index([activeCompanyId])
-  @@map("users")
-}
-
-model UserAccount {
-  id                    String    @id @default(cuid())
-  userId                String
-  accountId             String
-  providerId            String
-  accessToken           String?
-  refreshToken          String?
-  accessTokenExpiresAt  DateTime?
-  refreshTokenExpiresAt DateTime?
-  scope                 String?
-  idToken               String?
-  password              String?
-  createdAt             DateTime  @default(now())
-  updatedAt             DateTime  @updatedAt
-
-  // Foreign key relation to User
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId])
-  @@index([accountId])
-  @@index([providerId])
-  @@map("UserAccount")
-}
-
-model UserCompany {
-  id        String  @id @default(cuid())
-  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String
-  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  companyId String
-  role      Role    @relation(fields: [roleId], references: [id])
-  roleId    String
-
-  isActive  Boolean  @default(true)
-  isAdmin   Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@unique([userId, companyId])
-  @@index([userId])
-  @@index([companyId])
-  @@index([roleId])
-  @@index([isActive])
-}
-
-model Session {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  expiresAt      DateTime
-  token          String   @unique
-  ipAddress      String?
-  userAgent      String?
-  impersonatedBy String?
-
-  userId String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId])
-  @@map("sessions")
-}
-
-model Role {
-  id          String       @id @default(cuid())
-  name        String
-  description String?
-  systemRole  SystemRole? // For system-defined roles
-  permissions Permission[]
-  company     Company      @relation(fields: [companyId], references: [id])
-  companyId   String
-
-  // Role hierarchy (optional)
-  parentRoleId String?
-  parentRole   Role?   @relation("RoleHierarchy", fields: [parentRoleId], references: [id])
-  childRoles   Role[]  @relation("RoleHierarchy")
-
-  // User assignments
-  userCompanies UserCompany[]
-
-  isActive  Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@unique([name, companyId])
-  @@index([companyId])
-  @@index([isActive])
-  @@index([parentRoleId])
-  @@index([systemRole])
-}
-
-model Customer {
-  id              String        @id @default(cuid())
-  displayName     String        @db.VarChar(500)
-  title           String?       @db.VarChar(16)
-  givenName       String?       @db.VarChar(100)
-  middleName      String?       @db.VarChar(100)
-  familyName      String?       @db.VarChar(100)
-  suffix          String?       @db.VarChar(16)
-  companyName     String?       @db.VarChar(100)
-  customerType    CustomerType? @relation("CustomerType", fields: [customerTypeId], references: [id])
-  customerTypeId  String?
-  // Contact Details  
-  primaryPhone    String?       @db.VarChar(30)
-  alternatePhone  String?       @db.VarChar(30)
-  mobile          String?       @db.VarChar(30)
-  fax             String?       @db.VarChar(30)
-  primaryEmail    String?
-  webAddress      String?       @db.VarChar(1000)
-  /// [Address]
-  billingAddress  Json?
-  /// [Address]  
-  shippingAddress Json?
-
-  // Business Details
-  taxIdentifier  String? // Masked in responses, showing last 5 chars
-  secondaryTaxId String? // Masked in responses, showing last 5 chars
-  resaleNumber   String? @db.VarChar(16)
-  businessNumber String? @db.VarChar(10)
-  notes          String? @db.VarChar(2000)
-
-  // Financial Details
-  balance                Float                           @default(0)
-  creditLimit            Float?
-  preferredPaymentMethod CustomerPreferredPaymentMethod? // Print, Email, or None
-  taxable                Boolean                         @default(true)
-  printOnCheckName       String?                         @db.VarChar(110)
-
-  parentCustomer Customer?  @relation("CustomerHierarchy", fields: [parentId], references: [id])
-  parentId       String?
-  subCustomers   Customer[] @relation("CustomerHierarchy")
-  level          Int        @default(0) // Max value: 4 (5 levels total)
-
-  status   CustomerStatus @default(ACTIVE)
-  /// [CustomerMetadata]
-  metadata Json?
-  user     User?          @relation(fields: [userId], references: [id])
-  userId   String?        @unique
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  customerPaymentEvents CustomerPaymentEvent[]
-  invoices              Invoice[]
-  payments              Payment[]
-  estimates             Estimate[]
-  creditMemos           CreditMemo[]
-  salesReceipts         SalesReceipt[]
-  refundReceipts        RefundReceipt[]
-  delayedCharges        DelayedCharge[]
-  delayedCredits        DelayedCredit[]
-  company               Company                @relation(fields: [companyId], references: [id])
-  companyId             String
-  journalEntry          JournalEntry[]
-
-  isActive            Boolean   @default(true)
-  deactivatedAt       DateTime?
-  deactivatedByUserId String?
-  deactivationReason  String?
-
-  @@unique([displayName, companyId])
-  @@index([parentId])
-  @@index([status])
-  @@index([displayName])
-}
-
-model CustomerType {
-  id        String     @id @default(cuid())
-  name      String
-  active    Boolean    @default(true)
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  customer  Customer[] @relation("CustomerType")
-  company   Company    @relation(fields: [companyId], references: [id])
-  companyId String
-
-  @@unique([name, companyId])
-}
-
-model Account {
-  id              String   @id @default(cuid())
-  title           String
-  number          String
-  composed_number String
-  is_custom       Boolean  @default(false)
-  is_active       Boolean  @default(true)
-  created_at      DateTime @default(now())
-  updated_at      DateTime @updatedAt
-
-  // Self-relation for account hierarchy
-  parent_id String?
-  parent    Account?  @relation("AccountToAccount", fields: [parent_id], references: [id], onDelete: SetNull)
-  children  Account[] @relation("AccountToAccount")
-
-  // Template relation
-  template   AccountTemplate? @relation(fields: [templateId], references: [id])
-  templateId String?
-
-  // Company relation
-  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  companyId String
-
-  // Item relations
-  incomeItems         Item[]             @relation("ItemIncomeAccount")
-  expenseItems        Item[]             @relation("ItemExpenseAccount")
-  inventoryAssetItems Item[]             @relation("ItemInventoryAssetAccount")
-  journalEntryLine    JournalEntryLine[]
-  isActive            Boolean            @default(true)
-  deactivatedAt       DateTime?
-  deactivatedByUserId String?
-  deactivationReason  String?
-
-  @@unique([companyId, number])
-  @@unique([companyId, composed_number])
-  @@index([parent_id])
-  @@index([templateId])
-  @@index([companyId])
-}
-
-model PaymentEvent {
-  id                    String                 @id @default(cuid())
-  type                  PaymentFrequency
-  customerPaymentEvents CustomerPaymentEvent[]
-  active                Boolean                @default(true)
-  versionId             String?                @unique
-  currentVersion        PaymentEventVersion?   @relation("CurrentVersion", fields: [versionId], references: [id])
-  versions              PaymentEventVersion[]  @relation("AllVersions")
-  updatedAt             DateTime               @updatedAt
-  createdAt             DateTime               @default(now())
-  company               Company                @relation(fields: [companyId], references: [id])
-  companyId             String
-  isActive              Boolean                @default(true)
-  deactivatedAt         DateTime?
-  deactivatedByUserId   String?
-  deactivationReason    String?
-
-  @@index([active])
-  @@index([versionId])
-}
-
-model PaymentEventVersion {
-  id                      String                 @id @default(cuid())
-  paymentEventId          String?
-  paymentEvent            PaymentEvent?          @relation("AllVersions", fields: [paymentEventId], references: [id])
-  currentForPaymentEvent  PaymentEvent?          @relation("CurrentVersion")
-  items                   PaymentEventItem[]
-  version                 Int
-  name                    String
-  description             String?
-  type                    PaymentFrequency
-  status                  VersionStatus          @default(DRAFT)
-  scheduledActivationDate DateTime?
-  activatedAt             DateTime?
-  /// [PaymentSettings]
-  paymentSettings         Json
-  customerPaymentEvents   CustomerPaymentEvent[]
-  createdAt               DateTime               @default(now())
-  updatedAt               DateTime               @updatedAt
-
-  isActive            Boolean   @default(true)
-  deactivatedAt       DateTime?
-  deactivatedByUserId String?
-  deactivationReason  String?
-
-  @@unique([paymentEventId, version])
-  @@index([paymentEventId])
-  @@index([type])
-}
-
-model CustomerPaymentEvent {
-  id             String              @id @default(cuid())
-  paymentEvent   PaymentEvent        @relation(fields: [paymentEventId], references: [id])
-  paymentEventId String
-  version        PaymentEventVersion @relation(fields: [versionId], references: [id])
-  versionId      String
-  customer       Customer?           @relation(fields: [customerId], references: [id])
-  customerId     String?
-
-  startDate DateTime
-  endDate   DateTime?
-  status    PaymentStatus @default(PENDING)
-  credit    Float         @default(0)
-
-  /// [PaymentProgress]
-  progress Json // Progress tracking
-
-  invoices  Invoice[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-
-  isActive            Boolean   @default(true)
-  deactivatedAt       DateTime?
-  deactivatedByUserId String?
-  deactivationReason  String?
-
-  @@index([customerId])
-  @@index([status])
-  @@index([startDate])
-  @@index([endDate])
-}
-
-model PaymentEventItem {
-  id          String              @id @default(cuid())
-  version     PaymentEventVersion @relation(fields: [versionId], references: [id])
-  versionId   String
-  productName String
-  description String?
-  quantity    Float
-  rate        Float
-  sku         String?
-  amount      Float
-  taxable     Boolean             @default(true)
-  createdAt   DateTime            @default(now())
-  updatedAt   DateTime            @updatedAt
-  item        Item?               @relation(fields: [itemId], references: [id])
-  itemId      String?
-
-  isActive            Boolean   @default(true)
-  deactivatedAt       DateTime?
-  deactivatedByUserId String?
-  deactivationReason  String?
-
-  @@index([versionId])
-}
-
-model Category {
-  id          String  @id @default(cuid())
-  name        String  @db.VarChar(50)
-  description String? @db.VarChar(200)
-
-  // Hierarchical structure
-  parentId      String?
-  parent        Category?  @relation("CategoryHierarchy", fields: [parentId], references: [id])
-  subCategories Category[] @relation("CategoryHierarchy")
-  level         Int        @default(0) // To track hierarchy depth
-
-  // Relationships
-  items Item[]
-
-  // Metadata
-  sortOrder Int      @default(0)
-  active    Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  company   Company  @relation(fields: [companyId], references: [id])
-  companyId String
-
-  isActive            Boolean           @default(true)
-  deactivatedAt       DateTime?
-  deactivatedByUserId String?
-  deactivationReason  String?
-  categoryProduct     CategoryProduct[]
-
-  @@index([name, companyId])
-  @@index([parentId])
-  @@index([active])
-  @@index([level])
-  @@index([sortOrder])
-}
-
-model Item {
-  id   String   @id @default(cuid())
-  type ItemType
-  name String   @db.VarChar(100)
-  sku  String?  @db.VarChar(50)
-
-  categoryId String?
-  category   Category? @relation(fields: [categoryId], references: [id])
-
-  description         String? @db.VarChar(1000)
-  salesDescription    String? @db.VarChar(1000)
-  purchaseDescription String? @db.VarChar(1000)
-
-  // Sales Information
-  sellable       Boolean   @default(true)
-  salesPrice     Float     @default(0.00)
-  salesTaxable   Boolean   @default(true)
-  salesStartDate DateTime?
-  salesEndDate   DateTime?
-
-  // Discount fields for item
-  discountType            DiscountType?
-  discountValue           Float?
-  discountApplicationTime DiscountApplicationTime?
-  discountAmount          Float                    @default(0)
-
-  // Purchase Information
-  purchasable       Boolean   @default(false)
-  cost              Float?
-  preferredVendorId String?
-  lastPurchasePrice Float?
-  lastPurchaseDate  DateTime?
-
-  // Inventory Specific Fields
-  trackInventory          Boolean   @default(false)
-  quantityOnHand          Int?
-  reorderPoint            Int?
-  initialQuantity         Int?
-  asOfDate                DateTime?
-  // Accounting Relationships
-  incomeAccountId         String?
-  expenseAccountId        String?
-  inventoryAssetAccountId String?
-
-  incomeAccount         Account? @relation("ItemIncomeAccount", fields: [incomeAccountId], references: [id])
-  expenseAccount        Account? @relation("ItemExpenseAccount", fields: [expenseAccountId], references: [id])
-  inventoryAssetAccount Account? @relation("ItemInventoryAssetAccount", fields: [inventoryAssetAccountId], references: [id])
-
-  // Related Document Items
-  invoiceItems      InvoiceItem[]
-  estimateItems     EstimateItem[]
-  creditMemoItems   CreditMemoItem[]
-  salesReceiptItems SalesReceiptItem[]
-  refundItems       RefundReceiptItem[]
-  chargeItems       DelayedChargeItem[]
-  creditItems       DelayedCreditItem[]
-  paymentEventItems PaymentEventItem[]
-
-  // Image/Attachment handling
-  imageUrl String? @db.VarChar(2000)
-
-  /// [ItemMetadata]
-  metadata  Json?
-  status    ItemStatus @default(ACTIVE)
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  company   Company    @relation(fields: [companyId], references: [id])
-  companyId String
-
-  isActive            Boolean   @default(true)
-  deactivatedAt       DateTime?
-  deactivatedByUserId String?
-  deactivationReason  String?
-  product             Product[]
-
-  @@unique([sku, companyId])
-  @@index([type])
-  @@index([status])
-  @@index([categoryId])
-  @@index([sku])
-  @@index([sellable])
-  @@index([purchasable])
-  @@index([trackInventory])
-  @@index([name, description])
-}
-
-model InvoiceItem {
-  id                  String    @id @default(cuid())
-  invoice             Invoice   @relation(fields: [invoiceId], references: [id])
-  invoiceId           String
-  productName         String // Or product relation if you have a products table
-  description         String?
-  quantity            Float
-  rate                Float
-  amount              Float
-  sku                 String?
-  taxable             Boolean   @default(true)
-  createdAt           DateTime  @default(now())
-  // Add this lines to track changes
-  // status      PaymentStatus @default(PENDING)
-  // paidAmount  Float         @default(0) 
-  updatedAt           DateTime  @updatedAt
-  item                Item?     @relation(fields: [itemId], references: [id])
-  itemId              String?
-  isActive            Boolean   @default(true)
-  deactivatedAt       DateTime?
-  deactivatedByUserId String?
-  deactivationReason  String?
-
-  @@index([invoiceId])
-}
-
-model Invoice {
-  id                      String                   @id @default(cuid())
-  convertedFromEstimate   Boolean                  @default(false)
-  estimateId              String?
-  estimate                Estimate?                @relation(fields: [estimateId], references: [id])
-  number                  String
-  customer                Customer                 @relation(fields: [customerId], references: [id])
-  customerId              String
-  customerPaymentEvent    CustomerPaymentEvent?    @relation(fields: [paymentEventId], references: [id])
-  paymentEventId          String?
-  discountType            DiscountType? // For PERCENTAGE or FIXED_AMOUNT
-  discountValue           Float? // The actual discount value (e.g., 10 for 10% or 50 for $50)
-  taxRate                 Float                    @default(0)
-  discountApplicationTime DiscountApplicationTime? // BEFORE_TAX or AFTER_TAX
-  discountAmount          Float                    @default(0) // The calculated discount amount
-  amount                  Float
-  dueDate                 DateTime
-  status                  PaymentStatus            @default(PENDING)
-  notes                   String?
-  emailCustomer           String?
-  taxId                   String?
-  tax                     TaxRate?                 @relation(fields: [taxId], references: [id])
-  taxAmount               Float                    @default(0)
-  /// [PaymentEventSnapshot]
-  paymentEventSnapshot    Json
-  payments                Payment[]
-  items                   InvoiceItem[] // Add this line to connect to invoice items
-  createdAt               DateTime                 @default(now())
-  updatedAt               DateTime                 @updatedAt
-  isLinkedToVersion       Boolean                  @default(false)
-  attachments             InvoiceAttachment[]
-
-  // refunds               RefundReceipt[]
-  company    Company      @relation(fields: [companyId], references: [id])
-  companyId  String
-  creditMemo CreditMemo[]
-
-  isActive            Boolean   @default(true)
-  deactivatedAt       DateTime?
-  deactivatedByUserId String?
-  deactivationReason  String?
-
-  @@unique([number, companyId])
-  @@index([estimateId])
-  @@index([customerId])
-  @@index([paymentEventId])
-  @@index([status])
-  @@index([dueDate])
-}
-
-model InvoiceAttachment {
-  id                  String    @id @default(cuid())
-  invoice             Invoice   @relation(fields: [invoiceId], references: [id])
-  invoiceId           String
-  file                File      @relation(fields: [fileId], references: [id])
-  fileId              String
-  createdAt           DateTime  @default(now())
-  isActive            Boolean   @default(true)
-  deactivatedAt       DateTime?
-  deactivatedByUserId String?
-  deactivationReason  String?
-
-  @@unique([invoiceId, fileId])
-  @@index([invoiceId])
-  @@index([fileId])
-}
-
-model EstimateItem {
-  id                  String    @id @default(cuid())
-  estimate            Estimate  @relation(fields: [estimateId], references: [id])
-  estimateId          String
-  productName         String
-  description         String?
-  quantity            Float
-  rate                Float
-  amount              Float
-  sku                 String?
-  taxable             Boolean   @default(true)
-  createdAt           DateTime  @default(now())
-  updatedAt           DateTime  @updatedAt
-  item                Item?     @relation(fields: [itemId], references: [id])
-  itemId              String?
-  isActive            Boolean   @default(true)
-  deactivatedAt       DateTime?
-  deactivatedByUserId String?
-  deactivationReason  String?
-
-  @@index([estimateId])
-}
-
-model Estimate {
-  id                      String                   @id @default(cuid())
-  number                  String
-  customer                Customer                 @relation(fields: [customerId], references: [id])
-  customerId              String
-  amount                  Float
-  dueDate                 DateTime
-  taxRate                 Float                    @default(0)
-  discountType            DiscountType? // For PERCENTAGE or FIXED_AMOUNT
-  discountValue           Float? // The actual discount value (e.g., 10 for 10% or 50 for $50)
-  discountApplicationTime DiscountApplicationTime? // BEFORE_TAX or AFTER_TAX
-  discountAmount          Float                    @default(0) // The calculated discount amount
-  status                  EstimateStatus           @default(DRAFT)
-  notes                   String?
-  emailCustomer           String?
-  taxId                   String?
-  tax                     TaxRate?                 @relation(fields: [taxId], references: [id])
-  taxAmount               Float                    @default(0)
-  items                   EstimateItem[]
-  createdAt               DateTime                 @default(now())
-  updatedAt               DateTime                 @updatedAt
-  validUntil              DateTime? // New field: Optional expiration date
-  convertedToInvoice      Boolean                  @default(false) // New field: Track if converted to invoice
-  invoiceId               String? // New field: Reference to invoice if converted
-  attachments             EstimateAttachment[]
-  /// [PaymentEventSnapshot]
-  paymentEventSnapshot    Json
-  invoices                Invoice[]
-  company                 Company                  @relation(fields: [companyId], references: [id])
-  companyId               String
-
-  isActive            Boolean   @default(true)
-  deactivatedAt       DateTime?
-  deactivatedByUserId String?
-  deactivationReason  String?
-
-  @@unique([number, companyId])
-  @@index([customerId])
-  @@index([status])
-  @@index([dueDate])
-}
-
-model EstimateAttachment {
-  id         String   @id @default(cuid())
-  estimate   Estimate @relation(fields: [estimateId], references: [id])
-  estimateId String
-  file       File     @relation(fields: [fileId], references: [id])
-  fileId     String
-  createdAt  DateTime @default(now())
-
-  isActive            Boolean   @default(true)
-  deactivatedAt       DateTime?
-  deactivatedByUserId String?
-  deactivationReason  String?
-
-  @@unique([estimateId, fileId])
-  @@index([estimateId])
-  @@index([fileId])
-}
-
-model CreditMemoItem {
-  id                  String     @id @default(cuid())
-  creditMemo          CreditMemo @relation(fields: [creditMemoId], references: [id])
-  creditMemoId        String
-  productName         String
-  description         String?
-  quantity            Float
-  sku                 String?
-  rate                Float
-  amount              Float
-  taxable             Boolean    @default(true)
-  createdAt           DateTime   @default(now())
-  updatedAt           DateTime   @updatedAt
-  item                Item?      @relation(fields: [itemId], references: [id])
-  itemId              String?
-  isActive            Boolean    @default(true)
-  deactivatedAt       DateTime?
-  deactivatedByUserId String?
-  deactivationReason  String?
-
-  @@index([creditMemoId])
-}
-
-model CreditMemo {
-  id                      String                   @id @default(cuid())
-  number                  String
-  dueDate                 DateTime
-  customer                Customer                 @relation(fields: [customerId], references: [id])
-  customerId              String
-  discountType            DiscountType?
-  discountValue           Float?
-  discountApplicationTime DiscountApplicationTime?
-  discountAmount          Float                    @default(0)
-
-  taxRate              Float                  @default(0)
-  amount               Float
-  taxId                String?
-  tax                  TaxRate?               @relation(fields: [taxId], references: [id])
-  taxAmount            Float                  @default(0)
-  issueDate            DateTime               @default(now())
-  reason               CreditMemoReason       @default(OTHER)
-  status               CreditMemoStatus       @default(DRAFT)
-  notes                String?
-  /// [PaymentEventSnapshot]
-  paymentEventSnapshot Json
-  emailCustomer        String?
-  items                CreditMemoItem[]
-  attachments          CreditMemoAttachment[]
-  createdAt            DateTime               @default(now())
-  updatedAt            DateTime               @updatedAt
-  transactions         Transaction[]
-  company              Company                @relation(fields: [companyId], references: [id])
-  companyId            String
-  invoice              Invoice?               @relation(fields: [invoiceId], references: [id])
-  invoiceId            String?
-
-  isActive            Boolean   @default(true)
-  deactivatedAt       DateTime?
-  deactivatedByUserId String?
-  deactivationReason  String?
-
-  @@unique([number, companyId])
-  @@index([customerId])
-  @@index([status])
-  @@index([issueDate])
-}
-
-model CreditMemoAttachment {
-  id           String     @id @default(cuid())
-  creditMemo   CreditMemo @relation(fields: [creditMemoId], references: [id])
-  creditMemoId String
-  file         File       @relation(fields: [fileId], references: [id])
-  fileId       String
-  createdAt    DateTime   @default(now())
-
-  isActive            Boolean   @default(true)
-  deactivatedAt       DateTime?
-  deactivatedByUserId String?
-  deactivationReason  String?
-
-  @@unique([creditMemoId, fileId])
-  @@index([creditMemoId])
-  @@index([fileId])
-}
-
-model SalesReceiptItem {
-  id          String       @id @default(cuid())
-  receipt     SalesReceipt @relation(fields: [receiptId], references: [id])
-  receiptId   String
-  productName String
-  description String?
-  quantity    Float
-  rate        Float
-
-  sku                 String?
-  amount              Float
-  taxable             Boolean   @default(true)
-  createdAt           DateTime  @default(now())
-  updatedAt           DateTime  @updatedAt
-  item                Item?     @relation(fields: [itemId], references: [id])
-  itemId              String?
-  isActive            Boolean   @default(true)
-  deactivatedAt       DateTime?
-  deactivatedByUserId String?
-  deactivationReason  String?
-
-  @@index([receiptId])
-}
-
-model SalesReceipt {
-  id                      String                   @id @default(cuid())
-  number                  String
-  dueDate                 DateTime
-  customer                Customer                 @relation(fields: [customerId], references: [id])
-  customerId              String
-  discountType            DiscountType? // For PERCENTAGE or FIXED_AMOUNT
-  discountValue           Float? // The actual discount value (e.g., 10 for 10% or 50 for $50)
-  discountApplicationTime DiscountApplicationTime? // BEFORE_TAX or AFTER_TAX
-  discountAmount          Float                    @default(0) // The calculated discount amount
-  items                   SalesReceiptItem[]
-  taxId                   String?
-  /// [PaymentEventSnapshot]
-  paymentEventSnapshot    Json
-  tax                     TaxRate?                 @relation(fields: [taxId], references: [id])
-  taxAmount               Float                    @default(0)
-  taxRate                 Float                    @default(0)
-  amount                  Float
-  paymentMethod           PaymentMethod
-  paymentRef              String? // Reference number from payment processor
-  notes                   String?
-  emailCustomer           String?
-  status                  ReceiptStatus            @default(COMPLETED)
-  attachments             ReceiptAttachment[]
-  createdAt               DateTime                 @default(now())
-  updatedAt               DateTime                 @updatedAt
-  // refunds       RefundReceipt[]
-  transactions            Transaction[]
-  company                 Company                  @relation(fields: [companyId], references: [id])
-  companyId               String
-  isActive                Boolean                  @default(true)
-  deactivatedAt           DateTime?
-  deactivatedByUserId     String?
-  deactivationReason      String?
-
-  @@unique([number, companyId])
-  @@index([customerId])
-  @@index([status])
-  @@index([createdAt])
-}
-
-model ReceiptAttachment {
-  id                  String       @id @default(cuid())
-  receipt             SalesReceipt @relation(fields: [receiptId], references: [id])
-  receiptId           String
-  file                File         @relation(fields: [fileId], references: [id])
-  fileId              String
-  createdAt           DateTime     @default(now())
-  isActive            Boolean      @default(true)
-  deactivatedAt       DateTime?
-  deactivatedByUserId String?
-  deactivationReason  String?
-
-  @@unique([receiptId, fileId])
-  @@index([receiptId])
-  @@index([fileId])
-}
-
-model RefundReceiptItem {
-  id                  String        @id @default(cuid())
-  refundReceipt       RefundReceipt @relation(fields: [refundReceiptId], references: [id])
-  refundReceiptId     String
-  productName         String
-  description         String?
-  quantity            Float
-  sku                 String?
-  rate                Float
-  amount              Float
-  taxable             Boolean       @default(true)
-  createdAt           DateTime      @default(now())
-  updatedAt           DateTime      @default(now())
-  item                Item?         @relation(fields: [itemId], references: [id])
-  itemId              String?
-  isActive            Boolean       @default(true)
-  deactivatedAt       DateTime?
-  deactivatedByUserId String?
-  deactivationReason  String?
-
-  @@index([refundReceiptId])
-}
-
-model RefundReceipt {
-  id                      String                   @id @default(cuid())
-  number                  String
-  customer                Customer                 @relation(fields: [customerId], references: [id])
-  customerId              String
-  taxId                   String?
-  discountType            DiscountType? // For PERCENTAGE or FIXED_AMOUNT
-  discountValue           Float? // The actual discount value (e.g., 10 for 10% or 50 for $50)
-  taxRate                 Float                    @default(0)
-  discountApplicationTime DiscountApplicationTime? // BEFORE_TAX or AFTER_TAX
-  discountAmount          Float                    @default(0) // The calculated discount amount
-  tax                     TaxRate?                 @relation(fields: [taxId], references: [id])
-  taxAmount               Float                    @default(0)
-  // uncomment it if you want to link to original documents
-  // Original document references
-  // originalReceipt   SalesReceipt? @relation(fields: [originalReceiptId], references: [id])
-  // originalReceiptId String?
-  // originalInvoice   Invoice?      @relation(fields: [originalInvoiceId], references: [id])
-  // originalInvoiceId String?
-
-  items                 RefundReceiptItem[]
-  /// [PaymentEventSnapshot]
-  paymentEventSnapshot  Json
-  amount                Float
-  refundMethod          PaymentMethod
-  originalPaymentMethod PaymentMethod?
-  refundRef             String?
-  reason                RefundReason        @default(OTHER)
-  notes                 String?
-  emailCustomer         String?
-  dueDate               DateTime
-  status                RefundStatus        @default(PENDING)
-  attachments           RefundAttachment[]
-  createdAt             DateTime            @default(now())
-  updatedAt             DateTime            @updatedAt
-  transactions          Transaction[]
-  company               Company             @relation(fields: [companyId], references: [id])
-  companyId             String
-  isActive              Boolean             @default(true)
-  deactivatedAt         DateTime?
-  deactivatedByUserId   String?
-  deactivationReason    String?
-
-  // @@index([originalReceiptId])
-  // @@index([originalInvoiceId])
-  @@unique([number, companyId])
-  @@index([customerId])
-  @@index([status])
-  @@index([createdAt])
-}
-
-model RefundAttachment {
-  id                  String        @id @default(cuid())
-  refundReceipt       RefundReceipt @relation(fields: [refundReceiptId], references: [id])
-  refundReceiptId     String
-  file                File          @relation(fields: [fileId], references: [id])
-  fileId              String
-  createdAt           DateTime      @default(now())
-  isActive            Boolean       @default(true)
-  deactivatedAt       DateTime?
-  deactivatedByUserId String?
-  deactivationReason  String?
-
-  @@unique([refundReceiptId, fileId])
-  @@index([refundReceiptId])
-  @@index([fileId])
-}
-
-model DelayedChargeItem {
-  id                  String        @id @default(cuid())
-  charge              DelayedCharge @relation(fields: [chargeId], references: [id])
-  chargeId            String
-  productName         String
-  description         String?
-  quantity            Float
-  rate                Float
-  amount              Float
-  sku                 String?
-  taxable             Boolean       @default(true)
-  createdAt           DateTime      @default(now())
-  updatedAt           DateTime      @default(now())
-  item                Item?         @relation(fields: [itemId], references: [id])
-  itemId              String?
-  isActive            Boolean       @default(true)
-  deactivatedAt       DateTime?
-  deactivatedByUserId String?
-  deactivationReason  String?
-
-  @@index([chargeId])
-}
-
-model DelayedCharge {
-  id                      String                   @id @default(cuid())
-  number                  String
-  customer                Customer                 @relation(fields: [customerId], references: [id])
-  customerId              String
-  items                   DelayedChargeItem[]
-  taxId                   String?
-  discountType            DiscountType? // For PERCENTAGE or FIXED_AMOUNT
-  discountValue           Float? // The actual discount value (e.g., 10 for 10% or 50 for $50)
-  taxRate                 Float                    @default(0)
-  discountApplicationTime DiscountApplicationTime? // BEFORE_TAX or AFTER_TAX
-  discountAmount          Float                    @default(0) // The calculated discount amount
-  tax                     TaxRate?                 @relation(fields: [taxId], references: [id])
-  taxAmount               Float                    @default(0)
-  amount                  Float
-  /// [PaymentEventSnapshot]
-  paymentEventSnapshot    Json
-  status                  ChargeStatus             @default(PENDING)
-  dueDate                 DateTime
-  notes                   String?
-  emailCustomer           String?
-  attachments             ChargeAttachment[]
-  createdAt               DateTime                 @default(now())
-  updatedAt               DateTime                 @updatedAt
-  company                 Company                  @relation(fields: [companyId], references: [id])
-  companyId               String
-  isActive                Boolean                  @default(true)
-  deactivatedAt           DateTime?
-  deactivatedByUserId     String?
-  deactivationReason      String?
-
-  @@unique([number, companyId])
-  @@index([customerId])
-  @@index([status])
-  @@index([dueDate])
-}
-
-model ChargeAttachment {
-  id                  String        @id @default(cuid())
-  charge              DelayedCharge @relation(fields: [chargeId], references: [id])
-  chargeId            String
-  file                File          @relation(fields: [fileId], references: [id])
-  fileId              String
-  createdAt           DateTime      @default(now())
-  isActive            Boolean       @default(true)
-  deactivatedAt       DateTime?
-  deactivatedByUserId String?
-  deactivationReason  String?
-
-  @@unique([chargeId, fileId])
-  @@index([chargeId])
-  @@index([fileId])
-}
-
-model DelayedCreditItem {
-  id                  String        @id @default(cuid())
-  credit              DelayedCredit @relation(fields: [creditId], references: [id])
-  creditId            String
-  productName         String
-  description         String?
-  quantity            Float
-  rate                Float
-  amount              Float
-  sku                 String?
-  taxable             Boolean       @default(true)
-  createdAt           DateTime      @default(now())
-  updatedAt           DateTime      @default(now())
-  item                Item?         @relation(fields: [itemId], references: [id])
-  itemId              String?
-  isActive            Boolean       @default(true)
-  deactivatedAt       DateTime?
-  deactivatedByUserId String?
-  deactivationReason  String?
-
-  @@index([creditId])
-}
-
-model DelayedCredit {
-  id                      String                    @id @default(cuid())
-  number                  String
-  customer                Customer                  @relation(fields: [customerId], references: [id])
-  customerId              String
-  items                   DelayedCreditItem[]
-  discountType            DiscountType?
-  discountValue           Float?
-  discountApplicationTime DiscountApplicationTime?
-  discountAmount          Float                     @default(0)
-  taxAmount               Float                     @default(0)
-  amount                  Float
-  /// [PaymentEventSnapshot]
-  paymentEventSnapshot    Json
-  taxId                   String?
-  tax                     TaxRate?                  @relation(fields: [taxId], references: [id])
-  status                  CreditStatus              @default(PENDING)
-  dueDate                 DateTime
-  notes                   String?
-  emailCustomer           String?
-  taxRate                 Float                     @default(0)
-  attachments             DelayedCreditAttachment[]
-  createdAt               DateTime                  @default(now())
-  updatedAt               DateTime                  @updatedAt
-  company                 Company                   @relation(fields: [companyId], references: [id])
-  companyId               String
-  isActive                Boolean                   @default(true)
-  deactivatedAt           DateTime?
-  deactivatedByUserId     String?
-  deactivationReason      String?
-
-  @@unique([number, companyId])
-  @@index([customerId])
-  @@index([status])
-  @@index([dueDate])
-}
-
-model DelayedCreditAttachment {
-  id                  String        @id @default(cuid())
-  credit              DelayedCredit @relation(fields: [creditId], references: [id])
-  creditId            String
-  file                File          @relation(fields: [fileId], references: [id])
-  fileId              String
-  createdAt           DateTime      @default(now())
-  isActive            Boolean       @default(true)
-  deactivatedAt       DateTime?
-  deactivatedByUserId String?
-  deactivationReason  String?
-
-  @@unique([creditId, fileId])
-  @@index([creditId])
-  @@index([fileId])
-}
-
-model Payment {
-  id        String  @id @default(cuid())
-  invoice   Invoice @relation(fields: [invoiceId], references: [id])
-  invoiceId String
-
-  customer   Customer @relation(fields: [customerId], references: [id])
-  customerId String
-
-  amount        Float
-  paymentDate   DateTime
-  paymentMethod PaymentMethod
-  reference     String?
-  metadata      Json?
-
-  // Discount fields (added)
-  discountType            DiscountType?
-  discountValue           Float?
-  discountApplicationTime DiscountApplicationTime?
-  discountAmount          Float                    @default(0)
-
-  createdAt           DateTime      @default(now())
-  updatedAt           DateTime      @updatedAt
-  transactions        Transaction[]
-  company             Company       @relation(fields: [companyId], references: [id])
-  companyId           String
-  isActive            Boolean       @default(true)
-  deactivatedAt       DateTime?
-  deactivatedByUserId String?
-  deactivationReason  String?
-
-  @@index([invoiceId])
-  @@index([customerId])
-  @@index([paymentDate])
-}
-
-model Config {
-  key       String   @id
-  value     Json
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@index([key])
-}
-
-model TransactionCategory {
-  id            String               @id @default(cuid())
-  name          String
-  type          TransactionType
-  description   String?
-  active        Boolean              @default(true)
-  createdBy     String
-  createdAt     DateTime             @default(now())
-  updatedAt     DateTime             @updatedAt
-  transactions  Transaction[]        @relation("CategoryTransactions")
-  oldCategories TransactionHistory[] @relation("OldCategory")
-  newCategories TransactionHistory[] @relation("NewCategory")
-
-  @@unique([name, type])
-  @@index([type])
-  @@index([active])
-}
-
-model TransactionAttachment {
-  id                  String      @id @default(cuid())
-  transaction         Transaction @relation(fields: [transactionId], references: [id])
-  transactionId       String
-  file                File        @relation(fields: [fileId], references: [id])
-  fileId              String
-  createdAt           DateTime    @default(now())
-  isActive            Boolean     @default(true)
-  deactivatedAt       DateTime?
-  deactivatedByUserId String?
-  deactivationReason  String?
-
-  @@index([transactionId])
-}
-
-// Model to track transaction category changes (reclassifications)
-
-model TransactionHistory {
-  id            String               @id @default(cuid())
-  transaction   Transaction          @relation(fields: [transactionId], references: [id])
-  transactionId String
-  oldCategory   TransactionCategory? @relation("OldCategory", fields: [oldCategoryId], references: [id])
-  oldCategoryId String?
-  newCategory   TransactionCategory  @relation("NewCategory", fields: [newCategoryId], references: [id])
-  newCategoryId String
-  changedBy     String // User ID who made the change
-  changedAt     DateTime             @default(now())
-  notes         String? // Optional notes about the change
-  changeType    String               @default("RECLASSIFICATION") // For future expansion of change tracking
-
-  @@index([transactionId])
-  @@index([oldCategoryId])
-  @@index([newCategoryId])
-  @@index([changedBy])
-  @@index([changedAt])
-}
-
-model Transaction {
-  id              String               @id @default(cuid())
-  type            TransactionType
-  amount          Float
-  description     String? // Optional now
-  category        TransactionCategory? @relation("CategoryTransactions", fields: [categoryId], references: [id])
-  categoryId      String? // Optional to allow incomplete transactions
-  date            DateTime             @default(now())
-  paymentMethod   PaymentMethod? // Optional now
-  referenceNumber String?
-  metadata        Json?
-  notes           String? // For temporary notes about incomplete transactions
-  completed       Boolean              @default(false)
-  completedAt     DateTime?
-
-  // Relationships
-  createdBy      String
-  createdByUser  User                    @relation("UserTransactions", fields: [createdBy], references: [id])
-  approvedBy     String?
-  approvedByUser User?                   @relation("ApprovedTransactions", fields: [approvedBy], references: [id])
-  attachments    TransactionAttachment[]
-
-  status           TransactionStatus @default(INCOMPLETE)
-  invoicePaymentId String? // Link to invoice payment
-  salesReceiptId   String? // Link to sales receipt
-  creditMemoId     String? // Link to credit memo
-  refundReceiptId  String? // Link to refund
-
-  // Add relations
-  invoicePayment      Payment?             @relation(fields: [invoicePaymentId], references: [id])
-  salesReceipt        SalesReceipt?        @relation(fields: [salesReceiptId], references: [id])
-  creditMemo          CreditMemo?          @relation(fields: [creditMemoId], references: [id])
-  refundReceipt       RefundReceipt?       @relation(fields: [refundReceiptId], references: [id])
-  createdAt           DateTime             @default(now())
-  updatedAt           DateTime             @updatedAt
-  company             Company              @relation(fields: [companyId], references: [id])
-  companyId           String
-  isActive            Boolean              @default(true)
-  deactivatedAt       DateTime?
-  deactivatedByUserId String?
-  deactivationReason  String?
-  transactionHistory  TransactionHistory[]
-
-  @@index([type])
-  @@index([categoryId])
-  @@index([date])
-  @@index([createdBy])
-  @@index([status])
-  @@index([completed])
-}
-
-// E-commerce models
-
 enum ProductStatus {
   DRAFT
   ACTIVE
   ARCHIVED
-}
-
-model Product {
-  id               String            @id @default(cuid())
-  name             String
-  description      String?           @db.Text
-  shortDescription String?
-  slug             String            @unique
-  price            Float
-  compareAtPrice   Float? // Optional "regular price" for showing discounts
-  sku              String?
-  status           ProductStatus     @default(DRAFT)
-  inventory        Int? // Optional inventory tracking
-  images           ProductImage[]
-  categories       CategoryProduct[]
-  variants         ProductVariant[]
-  features         String[] // Array of product features/bullets
-  metadata         Json? // For additional custom fields
-  isSubscription   Boolean           @default(false)
-
-  // Subscription specific fields (if applicable)
-  billingInterval      String? // monthly, yearly, etc.
-  billingIntervalCount Int? // How many intervals (e.g. 3 months)
-  trialDays            Int?    @default(0)
-
-  // Accounting integration
-  itemId String? // Link to existing accounting Item
-  item   Item?   @relation(fields: [itemId], references: [id])
-
-  // Store relation
-  storeId String
-  store   Store  @relation(fields: [storeId], references: [id])
-
-  // Timestamps
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  companyId String // The provider's company ID
-  company   Company  @relation(fields: [companyId], references: [id])
-
-  // Relation to central e-commerce
-  centralProductId String? // ID reference to central product catalog
-
-  @@index([storeId])
-  @@index([companyId])
-  @@index([status])
-}
-
-model ProductImage {
-  id        String  @id @default(cuid())
-  url       String
-  alt       String?
-  position  Int     @default(0)
-  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId String
-
-  @@index([productId])
-}
-
-model ProductVariant {
-  id        String  @id @default(cuid())
-  name      String
-  sku       String?
-  price     Float? // If null, use product's price
-  inventory Int? // If tracking inventory per variant
-  metadata  Json?
-  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId String
-
-  @@index([productId])
-}
-
-model CategoryProduct {
-  category   Category @relation(fields: [categoryId], references: [id])
-  categoryId String
-  product    Product  @relation(fields: [productId], references: [id])
-  productId  String
-
-  @@id([categoryId, productId])
-  @@index([categoryId])
-  @@index([productId])
-}
-
-model Store {
-  id           String  @id @default(cuid())
-  name         String
-  description  String? @db.Text
-  slug         String  @unique
-  logo         String?
-  banner       String?
-  primaryColor String? // Brand colors for theming
-  accentColor  String?
-
-  // Store settings
-  isPublic     Boolean @default(true)
-  customDomain String? // For custom domains like store.example.com
-
-  // Store owner
-  companyId String
-  company   Company @relation(fields: [companyId], references: [id])
-
-  // Products in store
-  products Product[]
-
-  // Access control - optional if needed
-  allowGuests Boolean @default(true)
-
-  // Payments integration
-  stripeConnectedAccountId String?
-  paymentSettings          Json?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@unique([companyId])
-  @@index([companyId])
-}
-
-model EmailTemplate {
-  id        String   @id @default(cuid())
-  name      String
-  subject   String
-  body      String
-  variables String[] // Array of variable names that can be used in template
-  active    Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  company   Company  @relation(fields: [companyId], references: [id])
-  companyId String
-
-  @@unique([name, companyId])
-  @@index([active])
-}
-
-model AuditLog {
-  id         String   @id @default(cuid())
-  userId     String
-  action     String // e.g., "create", "update", "delete"
-  entityType String // e.g., "Customer", "paymentEvent", "payment"
-  entityId   String
-  changes    Json? // Store the changes made
-  metadata   Json? // Additional context
-  createdAt  DateTime @default(now())
-
-  @@index([userId])
-  @@index([entityType])
-  @@index([createdAt])
-}
-
-// For storing organization files (logos, documents, etc.)
-
-model File {
-  id                       String                    @id @default(cuid())
-  filename                 String
-  path                     String
-  mimetype                 String
-  size                     Int
-  purpose                  String // e.g., "logo", "document", "receipt"
-  metadata                 Json?
-  createdAt                DateTime                  @default(now())
-  updatedAt                DateTime                  @updatedAt
-  estimateAttachments      EstimateAttachment[]
-  transactionAttachments   TransactionAttachment[]
-  invoiceAttachments       InvoiceAttachment[]
-  creditMemoAttachments    CreditMemoAttachment[]
-  receiptAttachments       ReceiptAttachment[]
-  refundAttachments        RefundAttachment[]
-  chargeAttachments        ChargeAttachment[]
-  delayedCreditAttachments DelayedCreditAttachment[]
-  company                  Company                   @relation(fields: [companyId], references: [id])
-  companyId                String
-  isActive                 Boolean                   @default(true)
-  deactivatedAt            DateTime?
-  deactivatedByUserId      String?
-  deactivationReason       String?
-
-  @@index([purpose])
-}
-
-model Notification {
-  id        String           @id @default(cuid())
-  userId    String
-  type      NotificationType
-  title     String
-  message   String
-  read      Boolean          @default(false)
-  readAt    DateTime?
-  createdAt DateTime         @default(now())
-
-  @@index([userId])
-  @@index([read])
-}
-
-// Custom Fields System
-
-model CustomField {
-  id        String              @id @default(cuid())
-  name      String
-  type      CustomFieldType
-  category  CustomFieldCategory
-  // for DROPDOWN_LIST type
-  options   String[]            @default([])
-  // Forms where this field should appear
-  forms     CustomFieldForm[]   @relation("CustomFieldForm")
-  // Whether to print this field on forms
-  active    Boolean             @default(true)
-  createdAt DateTime            @default(now())
-  updatedAt DateTime            @updatedAt
-  // Store the values for this custom field
-  values    CustomFieldValue[]
-  company   Company             @relation(fields: [companyId], references: [id])
-  companyId String
-
-  @@unique([name, category, companyId])
-  @@index([category])
-  @@index([active])
-}
-
-model CustomFieldForm {
-  id           String              @id @default(cuid())
-  name         CustomFieldFormType
-  printOnForm  Boolean             @default(false)
-  customFields CustomField[]       @relation("CustomFieldForm")
-}
-
-model CustomFieldValue {
-  id            String      @id @default(cuid())
-  customField   CustomField @relation(fields: [customFieldId], references: [id])
-  customFieldId String
-  // The entity ID this value belongs to (customer ID, transaction ID, etc)
-  entityId      String
-  // The actual value stored as a string, will be parsed based on CustomFieldType
-  value         String
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
-
-  @@unique([customFieldId, entityId])
-  @@index([customFieldId])
-  @@index([entityId])
-}
-
-model TableConfiguration {
-  id        String    @id @default(cuid())
-  userId    String
-  tableType TableType
-  columns   String[]  @default([])
-  pageSize  Int       @default(50)
-  flags     Json? // For boolean flags like includeInactive, includeProjects
-  sortField String?
-  sortOrder String? // 'asc' or 'desc'
-  filters   Json? // Store active filters
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-
-  @@unique([userId, tableType])
-  @@index([userId])
-  @@index([tableType])
-}
-
-model AccountTemplate {
-  id              String   @id @default(cuid())
-  title           String
-  parent_id       String?
-  is_custom       Boolean  @default(false)
-  number          String   @unique
-  composed_number String   @unique
-  created_at      DateTime @default(now())
-  updated_at      DateTime @updatedAt
-
-  // Self-relation for template hierarchy
-  parent   AccountTemplate?  @relation("TemplateToTemplate", fields: [parent_id], references: [id])
-  children AccountTemplate[] @relation("TemplateToTemplate")
-
-  // Relation to accounts
-  accounts Account[]
-
-  @@index([parent_id])
-}
-
-model JournalEntry {
-  id              String   @id @default(cuid())
-  date            DateTime
-  journalNo       String? // Make it optional since not all entries need numbers
-  transactionType String // Add this field to distinguish entry types
-  description     String?
-
-  // Relations
-  customer   Customer? @relation(fields: [customerId], references: [id])
-  customerId String?
-  company    Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  companyId  String
-
-  entries JournalEntryLine[]
-
-  createdAt           DateTime  @default(now())
-  updatedAt           DateTime  @updatedAt
-  // Remove the unique constraint to allow duplicate numbers
-  isActive            Boolean   @default(true)
-  deactivatedAt       DateTime?
-  deactivatedByUserId String?
-  deactivationReason  String?
-
-  @@index([companyId])
-  @@index([customerId])
-  @@index([date])
-  @@index([journalNo])
-}
-
-model JournalEntryLine {
-  id          String  @id @default(cuid())
-  debit       Float?
-  credit      Float?
-  description String?
-
-  // Relations
-  account             Account      @relation(fields: [accountId], references: [id])
-  accountId           String
-  journalEntry        JournalEntry @relation(fields: [journalEntryId], references: [id], onDelete: Cascade)
-  journalEntryId      String
-  isActive            Boolean      @default(true)
-  deactivatedAt       DateTime?
-  deactivatedByUserId String?
-  deactivationReason  String?
-
-  @@index([accountId])
-  @@index([journalEntryId])
-}
-
-model TaxRate {
-  id          String  @id @default(cuid())
-  name        String
-  description String?
-  agencyName  String
-  type        TaxType @default(SALES)
-  rate        Float
-  company     Company @relation(fields: [companyId], references: [id])
-  companyId   String
-
-  status        TaxStatus @default(ACTIVE)
-  effectiveDate DateTime  @default(now())
-  endDate       DateTime?
-
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
-  invoices       Invoice[]
-  estimates      Estimate[]
-  creditMemos    CreditMemo[]
-  salesReceipts  SalesReceipt[]
-  refundReceipts RefundReceipt[]
-  delayedCharges DelayedCharge[]
-  delayedCredits DelayedCredit[]
-
-  isActive            Boolean   @default(true)
-  deactivatedAt       DateTime?
-  deactivatedByUserId String?
-  deactivationReason  String?
-
-  @@unique([name, companyId])
-  @@index([status])
-  @@index([companyId])
-  @@index([effectiveDate])
-}
-
-model Company {
-  id          String       @id @default(cuid())
-  name        String       @unique
-  slug        String       @unique
-  companyType CompanyType?
-  legalName   String?
-  taxId       String?
-  email       String?
-  phone       String?
-  website     String?
-  /// [Address]
-  address     Json?
-  logo        String?
-
-  // Status and Settings
-  isActive Boolean @default(true)
-  settings Json?
-  metadata Json?
-
-  parentCompanyId String?
-  parentCompany   Company?  @relation("CompanyHierarchy", fields: [parentCompanyId], references: [id])
-  subsidiaries    Company[] @relation("CompanyHierarchy")
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  users       UserCompany[]
-  activeUsers User[]        @relation("ActiveCompany")
-
-  roles Role[]
-
-  customers      Customer[]
-  invoices       Invoice[]
-  payments       Payment[]
-  transactions   Transaction[]
-  items          Item[]
-  accounts       Account[]
-  estimates      Estimate[]
-  creditMemos    CreditMemo[]
-  salesReceipts  SalesReceipt[]
-  refundReceipts RefundReceipt[]
-  delayedCharges DelayedCharge[]
-  delayedCredits DelayedCredit[]
-  categories     Category[]
-  customerTypes  CustomerType[]
-  paymentEvents  PaymentEvent[]
-  customFields   CustomField[]
-  emailTemplates EmailTemplate[]
-  files          File[]
-  journalEntry   JournalEntry[]
-  taxRates       TaxRate[]
-  products       Product[]
-  store          Store?
-  tickets        Ticket[]
-
-  @@index([isActive])
-  @@index([parentCompanyId])
-}
-
-model Verification {
-  id         String    @id
-  identifier String
-  value      String
-  expiresAt  DateTime
-  createdAt  DateTime?
-  updatedAt  DateTime?
-
-  @@index([identifier])
-  @@map("verification")
-}
-
-model Ticket {
-  id          String    @id @default(uuid())
-  title       String
-  service     String?
-  channel     String?
-  status      String    @default("OPEN")
-  messages    Message[]
-  company     Company?  @relation(fields: [companyId], references: [id])
-  companyId   String?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  createdBy   User?     @relation(fields: [createdById], references: [id])
-  createdById String?
-
-  @@map("ticket")
-}
-
-model Message {
-  id                 String              @id @default(uuid())
-  ticketId           String
-  ticket             Ticket              @relation(fields: [ticketId], references: [id], onDelete: Cascade)
-  author             String?
-  message            String
-  type               String              @default("text")
-  date               DateTime            @default(now())
-  messageAttachments MessageAttachment[]
-}
-
-model MessageAttachment {
-  id        String   @id @default(uuid())
-  messageId String
-  message   Message  @relation(fields: [messageId], references: [id], onDelete: Cascade)
-  fileUrl   String
-  fileType  String
-  createdAt DateTime @default(now())
 }

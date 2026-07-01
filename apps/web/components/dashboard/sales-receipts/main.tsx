@@ -20,17 +20,7 @@ import { MobileCards } from './mobileCard';
 import { SalesReceiptSheet } from './salesReceiptSheet';
 import { SalesReceiptStats } from './SalesReceiptStats';
 
-type SalesReceiptMetadata = {
-  total: number;
-  page: number;
-  pageSize: number;
-  pageCount: number;
-};
 
-interface SalesReceiptResponse {
-  data: SalesReceiptBasic[];
-  metadata: SalesReceiptMetadata;
-}
 
 export interface SalesReceiptStats {
   totalReceipts: number;

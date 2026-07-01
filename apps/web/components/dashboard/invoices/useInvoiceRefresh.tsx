@@ -13,8 +13,8 @@ interface InvoiceRefreshContextType {
 
 // Create the context with a default value
 const InvoiceRefreshContext = createContext<InvoiceRefreshContextType>({
-  refreshInvoiceStatus: (invoiceId: string, newStatus?: PaymentStatus) => {},
-  getRefreshedStatus: (invoiceId: string) => null,
+  refreshInvoiceStatus: () => {},
+  getRefreshedStatus: () => null,
   refreshStats: async () => {}
 });
 

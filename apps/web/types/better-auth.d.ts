@@ -23,6 +23,7 @@ declare module 'better-auth/types' {
     updatedAt: Date;
     // Custom fields from additionalFields and customSession
     role: string;
+    isAccountant: boolean;
     permissions: Permission[];
     companyId: string | null;
     availableCompanies: UserCompany[];

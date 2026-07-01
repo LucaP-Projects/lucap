@@ -1,4 +1,3 @@
-import { headers } from 'next/headers';
 import { getUserCompanies } from '@/components/company/select/actions';
 import { Card, CardContent } from '@/components/ui/card';
 import { getSessionWithCompany } from '@/lib/auth';

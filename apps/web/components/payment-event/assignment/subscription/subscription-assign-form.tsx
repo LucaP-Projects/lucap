@@ -21,6 +21,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { OneTimeAssignFormProps } from '@/types/payment-event/assignment';
 import { FormattedCustomer } from '@/types/payment-event/table';
+import logger from '@/utils/logger';
 import { useSubscriptionDetails } from '../../hooks/useSubsciptionDetails';
 import { checkCustomerAssignment } from '../one-time/assign-action';
 import {
@@ -92,6 +93,9 @@ export const SubscriptionAssignForm: React.FC<OneTimeAssignFormProps> = ({
         paymentEventId: event.id,
         customerId: selectedCustomer.id
       });
+      if (checkResult.error) {
+        throw new Error(checkResult.error);
+      }
 
       if (checkResult.exists) {
         setShowWarning(true);
@@ -102,6 +106,7 @@ export const SubscriptionAssignForm: React.FC<OneTimeAssignFormProps> = ({
       toast.error('Error', {
         description: 'Failed to check existing assignments'
       });
+      logger.error(error, 'Error checking customer assignment');
     } finally {
       setIsSubmitting(false);
       setIsLoading(false);

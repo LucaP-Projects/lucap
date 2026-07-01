@@ -1,6 +1,5 @@
 'use server';
 import { revalidatePath } from 'next/cache';
-import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { getSessionWithCompany } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
@@ -16,8 +15,8 @@ import {
 
 // Helper to check if payment settings are for one-time payments
 function isOneTimeSettings(
-  settings: any
-): settings is { type: 'ONE_TIME'; settings: any } {
+  settings: PrismaJson.PaymentSettings<'ONE_TIME'>
+) {
   return settings?.type === 'ONE_TIME' && settings?.settings;
 }
 export async function assignOneTimePayment(
@@ -31,8 +30,6 @@ export async function assignOneTimePayment(
     if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
     }
-
-    let invoiceCreated = false;
 
     // Validate input
     if (!input.paymentEventId || !input.customerId) {
@@ -169,7 +166,6 @@ export async function assignOneTimePayment(
       // Handle immediate invoice creation if needed
       if (shouldCreateInvoiceNow) {
         try {
-          invoiceCreated = true;
           const invoiceNumber = generateUniqueNumber();
 
           const invoice = await tx.invoice.create({

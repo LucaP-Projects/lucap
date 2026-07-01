@@ -177,6 +177,9 @@ export const auth = betterAuth({
       const dbUser = await prisma.user.findUnique({
         where: { id: user.id },
         include: {
+          accountantProfiles: {
+            select: { id: true }
+          },
           companies: {
             where: { isActive: true },
             include: {
@@ -215,6 +218,10 @@ export const auth = betterAuth({
         slug: uc.company.slug
       }));
 
+      const isAccountant = 
+        dbUser.accountantProfiles.length > 0 || 
+        userCompanies.some(c => ['SUPER_ACCOUNTANT', 'ACCOUNTANT_STAFF'].includes(c.systemRole || ''));
+
       const activeCompany = userCompanies.find(
         (uc) => uc.companyId === dbUser.activeCompanyId
       );
@@ -239,6 +246,7 @@ export const auth = betterAuth({
           createdAt: user.createdAt,
           updatedAt: user.updatedAt,
           role: dbUser.role, 
+          isAccountant,
           permissions: activeCompany?.permissions ?? [],
           companyRole: activeCompany?.companyRole ?? null,
           isAdmin: activeCompany?.isAdmin ?? false,

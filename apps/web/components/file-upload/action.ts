@@ -1,37 +1,35 @@
 'use server';
 
-import { existsSync } from 'fs';
-import { writeFile, mkdir } from 'fs/promises';
-import { join } from 'path';
+import {
+  getStoragePublicUrl,
+  storageBucketName,
+  uploadBufferToStorage,
+} from '@/components/shared/utils';
 
-const uploadDir = join(process.cwd(), 'public', 'uploads');
-
-// Ensure upload directory exists
-async function ensureUploadDir() {
-  if (!existsSync(uploadDir)) {
-    await mkdir(uploadDir, { recursive: true });
-  }
-}
-
-export async function uploadFileLocal(file: Buffer, filename: string) {
+export async function uploadFileLocal(formData: FormData) {
   try {
-    await ensureUploadDir();
+    const file = formData.get('file') as File;
+    const tenantId = formData.get('tenantId') as string || undefined;
+    
+    if (!file) throw new Error('No file provided');
 
-    const timestamp = Date.now();
-    const safeName = filename.replace(/[^a-z0-9.-]/gi, '_');
-    const localFilename = `${timestamp}-${safeName}`;
-    const filePath = join(uploadDir, localFilename);
-
-    // Write file to public/uploads
-    await writeFile(filePath, file);
-
-    // Return public URL
-    const publicUrl = `/uploads/${localFilename}`;
+    const arrayBuffer = await file.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+    
+    const safeName = file.name.replace(/[^a-z0-9.-]/gi, '_');
+    const uploaded = await uploadBufferToStorage(
+      buffer,
+      safeName,
+      'uploads',
+      file.type || 'application/octet-stream',
+      false,
+      tenantId
+    );
 
     return {
       success: true,
-      publicUrl,
-      filename: localFilename,
+      publicUrl: uploaded.publicUrl,
+      filename: uploaded.key,
     };
   } catch (error) {
     console.error('Error uploading file:', error);
@@ -45,17 +43,18 @@ export async function uploadFileLocal(file: Buffer, filename: string) {
 // Legacy compatibility exports (for minimal refactoring)
 export async function getSignedURL(filename: string, _contentType: string) {
   try {
-    const timestamp = Date.now();
-    const safeName = filename.replace(/[^a-z0-9.-]/gi, '_');
-    const localFilename = `${timestamp}-${safeName}`;
+    void _contentType;
 
-    // Return a mock signed URL (for local dev, we'll upload directly)
+    const safeName = filename.replace(/[^a-z0-9.-]/gi, '_');
+    const key = `uploads/${safeName}`;
+
+    // Return a storage-compatible object for callers that still expect the legacy shape.
     return {
       success: true,
-      url: `/api/upload?name=${encodeURIComponent(localFilename)}`,
-      key: localFilename,
-      bucket: 'local',
-      publicUrl: `/uploads/${localFilename}`,
+      url: getStoragePublicUrl(key),
+      key,
+      bucket: storageBucketName,
+      publicUrl: getStoragePublicUrl(key),
     };
   } catch (error) {
     console.error('Error in getSignedURL:', error);
@@ -67,9 +66,8 @@ export async function getSignedURL(filename: string, _contentType: string) {
 }
 
 export async function makeFilePublic(key: string) {
-  // In local dev, files in public/uploads are already public
   return {
     success: true,
-    publicUrl: `/uploads/${key}`,
+    publicUrl: getStoragePublicUrl(key),
   };
 }

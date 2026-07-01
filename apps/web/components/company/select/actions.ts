@@ -32,6 +32,7 @@ export async function getUserCompanies() {
           select: {
             name: true,
             permissions: true,
+            systemRole: true,
           },
         },
         isAdmin: true
@@ -50,10 +51,12 @@ export async function getUserCompanies() {
       email: uc.company.email,
       role: {
         name: uc.role.name,
-        permissions: uc.role.permissions
+        permissions: uc.role.permissions,
+        systemRole: uc.role.systemRole
       },
       isAdmin: uc.isAdmin,
       companyRole: uc.role.name,
+      systemRole: uc.role.systemRole,
       permissions: uc.role.permissions
     }));
   } catch (error) {

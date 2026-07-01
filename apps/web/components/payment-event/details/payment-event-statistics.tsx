@@ -56,14 +56,6 @@ function PaymentEventStatistics({ event }: { event: any }) {
   const { totalAmount, totalPaid } = calculateFinancials();
   const totalDue = totalAmount - totalPaid;
 
-  // Calculate payment statistics
-  const paymentStats = event.customerPaymentEvents.reduce(
-    (stats: any, cpe: any) => {
-      stats[cpe.status] = (stats[cpe.status] || 0) + 1;
-      return stats;
-    },
-    {}
-  );
 
   // Get type-specific statistics
   const getTypeSpecificStats = () => {

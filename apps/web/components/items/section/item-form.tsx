@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 
 import { toast } from 'sonner';
 import { FieldGroup } from '@/components/ui/field';
-import { createItem, updateItem } from '../actions';
+import { createItem, ItemDetailed, updateItem } from '../actions';
 import { itemFormSchema, itemUpdateSchema, ItemFormValues } from '../schema';
 import { BasicInfo } from './basic-info';
 import { InventoryInfo } from './InventoryInfo';
@@ -15,7 +15,7 @@ import { SalesInfo } from './sales-info';
 import { TypeSelector } from './type-selector';
 
 interface ItemFormProps {
-  initialData?: Partial<ItemFormValues> & { id?: string };
+  initialData?: Partial<ItemDetailed> | null;
   onSuccess: () => void;
   formRef: React.RefObject<HTMLFormElement>;
   isSubmitting: boolean;

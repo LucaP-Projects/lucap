@@ -24,6 +24,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFo
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { handleNumberInput } from '@/lib/utils';
+import logger from '@/utils/logger';
 import {
   paymentEventFormSchema,
   PaymentEventFormValues
@@ -100,8 +101,9 @@ export default function PaymentEventDrawer({
       router.refresh();
     } catch (error) {
       toast.error('Error', {
-        description: 'Something went wrong. Please try again.'
+        description: 'Something went wrong. Please try again.',
       });
+      logger.error(error, 'Payment event creation error:');
     } finally {
       setLoading(false);
     }
@@ -809,7 +811,7 @@ export default function PaymentEventDrawer({
                       <Controller
                         control={form.control}
                         name={`items.${index}.amount`}
-                        render={({ field, fieldState }) => (
+                        render={({ field }) => (
                           <Field>
                             <div className="flex items-center justify-between">
                               <FieldLabel>Amount (auto-calculated)</FieldLabel>

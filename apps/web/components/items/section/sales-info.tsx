@@ -70,7 +70,7 @@ export function SalesInfo({ form }: SalesInfoProps) {
       <Controller
         control={form.control}
         name="sellable"
-        render={({ field, fieldState }) => (
+        render={({ field }) => (
           <Field className="flex items-center justify-between rounded-lg border p-3 sm:p-4">
             <div className="space-y-0.5">
               <FieldLabel className="text-base">Sell this item</FieldLabel>

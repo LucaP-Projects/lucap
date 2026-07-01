@@ -4,13 +4,13 @@ import { Loader2 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter } from '@/components/ui/sheet';
-import { ItemFormValues } from '../schema';
+import { ItemDetailed } from '../actions';
 import ItemForm from './item-form';
 
 interface ItemSheetProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  initialData?: Partial<ItemFormValues>;
+  initialData?: Partial<ItemDetailed> | null;
   isNestedForm?: boolean;
   onSuccess?: () => void;
 }
@@ -63,7 +63,7 @@ export function ItemSheet({
           <div className="flex-1 overflow-y-auto">
             <div className="px-6 py-4">
               <ItemForm
-                initialData={initialData}
+                initialData={initialData || undefined}
                 onSuccess={handleSuccess}
                 formRef={formRef as React.RefObject<HTMLFormElement>}
                 isSubmitting={isSubmitting}

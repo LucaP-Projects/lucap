@@ -14,11 +14,7 @@ import {
 
 import { cn } from '@/lib/utils';
 
-interface DashboardNavProps {
-  lng: string;
-}
-
-export function DashboardNav({ lng }: DashboardNavProps) {
+export function DashboardNav() {
   const pathname = usePathname();
   const t = useTranslations('dashboard');
 

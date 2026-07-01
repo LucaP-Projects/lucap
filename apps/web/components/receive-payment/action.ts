@@ -1,14 +1,23 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { getSessionWithCompany } from '@/lib/auth';
+import { PaymentStatus } from '@/lib/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
 import { PaymentFormValues } from './schema';
 import { distributePayment } from './utils';
 
-export async function getCustomerInvoices(customerId: string) {
+export interface GetCustomerInvoicesResult {
+  number: string;
+  amount: number;
+  id: string;
+  dueDate: Date;
+  status: PaymentStatus;
+  payments: { amount: number; id: string; }[]; 
+}
+
+export async function getCustomerInvoices(customerId: string): Promise<GetCustomerInvoicesResult[]> {
   try {
     const session = await getSessionWithCompany();
     if (!session?.user?.id) {

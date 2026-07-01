@@ -15,7 +15,7 @@ interface CreditViewRendererProps {
 }
 
 export const CreditViewRenderer = memo<CreditViewRendererProps>(
-  ({ company, formContentProps }) => {
+  ({ company, formContentProps }: CreditViewRendererProps) => {
     const activeView = useViewStore((state) => state.activeView);
     const containerRef = useRef<HTMLDivElement>(null);
 

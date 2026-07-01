@@ -445,7 +445,7 @@ const CategoriesPageClient: React.FC<{ initialCategories: Category[] }> = ({
           removeCategoryFromTree(prevCategories, selectedCategory.id)
         );
 
-        toast('Category deleted successfully');
+        toast.success('Category deleted successfully');
 
         setIsDeleteDialogOpen(false);
       } else {
@@ -454,10 +454,10 @@ const CategoriesPageClient: React.FC<{ initialCategories: Category[] }> = ({
           return;
         }
 
-        toast(response.error || 'Failed to delete category');
+        toast.error(response.error || 'Failed to delete category');
       }
     } catch (error) {
-      toast('An unexpected error occurred');
+      toast.error('An unexpected error occurred');
     } finally {
       setIsLoading(false);
     }
