@@ -130,6 +130,7 @@ export async function getRefundReceiptsPage(
       refundMethod: true,
       originalPaymentMethod: true,
       reason: true,
+      notes: true,
       createdAt: true
     }
   });

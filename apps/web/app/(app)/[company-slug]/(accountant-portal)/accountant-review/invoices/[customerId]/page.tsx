@@ -26,18 +26,19 @@ const STATUS_STYLES: Record<string, string> = {
   CANCELLED: 'bg-gray-500/10 text-gray-500',
 };
 
+const QUALIFICATION_STYLES: Record<string, string> = {
+  VALIDATED: 'bg-green-500/10 text-green-700',
+  REJECTED: 'bg-red-500/10 text-red-700',
+};
+
 export default async function CustomerInvoicesPage({ params }: PageProps) {
   const { 'company-slug': companySlug, customerId } = await params;
   const { customer, invoices } = await getCustomerInvoicesForAccountant(customerId);
 
   if (!customer) notFound();
 
-  const pendingInvoices = invoices.filter(
-    (inv) => inv.status !== 'PAID' && inv.status !== 'CANCELLED'
-  );
-  const resolvedInvoices = invoices.filter(
-    (inv) => inv.status === 'PAID' || inv.status === 'CANCELLED'
-  );
+  const pendingInvoices = invoices.filter((inv) => !inv.qualificationStatus);
+  const resolvedInvoices = invoices.filter((inv) => !!inv.qualificationStatus);
 
   return (
     <div className="flex flex-col gap-6 p-6">
@@ -90,7 +91,7 @@ export default async function CustomerInvoicesPage({ params }: PageProps) {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <InvoicesTable invoices={pendingInvoices} companySlug={companySlug} />
+            <InvoicesTable invoices={pendingInvoices} companySlug={companySlug} customerId={customerId} />
           </CardContent>
         </Card>
       )}
@@ -106,7 +107,7 @@ export default async function CustomerInvoicesPage({ params }: PageProps) {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <InvoicesTable invoices={resolvedInvoices} companySlug={companySlug} />
+            <InvoicesTable invoices={resolvedInvoices} companySlug={companySlug} customerId={customerId} />
           </CardContent>
         </Card>
       )}
@@ -125,9 +126,11 @@ export default async function CustomerInvoicesPage({ params }: PageProps) {
 function InvoicesTable({
   invoices,
   companySlug,
+  customerId,
 }: {
   invoices: AccountantInvoice[];
   companySlug: string;
+  customerId: string;
 }) {
   return (
     <div className="rounded-md border">
@@ -139,7 +142,6 @@ function InvoicesTable({
             <TableHead className="text-right">Amount</TableHead>
             <TableHead className="text-right">Paid</TableHead>
             <TableHead>Due Date</TableHead>
-            <TableHead>Notes</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -149,19 +151,28 @@ function InvoicesTable({
               <TableRow key={invoice.id}>
                 <TableCell>
                   <Link
-                    href={`/${companySlug}/invoices/${invoice.id}/edit`}
+                    href={`/${companySlug}/accountant-review/invoices/${customerId}/${invoice.id}`}
                     className="font-medium text-blue-700 hover:underline"
                   >
                     {invoice.number}
                   </Link>
                 </TableCell>
                 <TableCell>
-                  <Badge
-                    variant="outline"
-                    className={STATUS_STYLES[invoice.status] ?? STATUS_STYLES.CANCELLED}
-                  >
-                    {invoice.status}
-                  </Badge>
+                  {invoice.qualificationStatus ? (
+                    <Badge
+                      variant="outline"
+                      className={QUALIFICATION_STYLES[invoice.qualificationStatus]}
+                    >
+                      {invoice.qualificationStatus}
+                    </Badge>
+                  ) : (
+                    <Badge
+                      variant="outline"
+                      className={STATUS_STYLES[invoice.status] ?? STATUS_STYLES.CANCELLED}
+                    >
+                      {invoice.status}
+                    </Badge>
+                  )}
                 </TableCell>
                 <TableCell className="text-right font-medium">
                   ${invoice.amount.toFixed(2)}
@@ -170,9 +181,6 @@ function InvoicesTable({
                   ${paidAmount.toFixed(2)}
                 </TableCell>
                 <TableCell>{formatDate(invoice.dueDate)}</TableCell>
-                <TableCell className="max-w-48 truncate text-muted-foreground">
-                  {invoice.notes || '-'}
-                </TableCell>
               </TableRow>
             );
           })}

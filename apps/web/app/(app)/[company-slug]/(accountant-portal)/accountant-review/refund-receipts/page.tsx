@@ -1,8 +1,21 @@
-export default function AccountantRefundReceiptsPage() {
+import { CustomerSummaryList } from '@/components/accountant-review/customer-summary-list';
+import { getCustomersWithRefundReceiptSummary } from './actions';
+
+interface PageProps {
+  params: Promise<{ 'company-slug': string }>;
+}
+
+export default async function AccountantRefundReceiptsPage({ params }: PageProps) {
+  const { 'company-slug': companySlug } = await params;
+  const customers = await getCustomersWithRefundReceiptSummary();
+
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center gap-3">
-      <h1 className="text-2xl font-bold text-gray-800">Refund Receipts Review</h1>
-      <p className="text-sm text-gray-500">Coming soon — refund receipt validation will appear here.</p>
-    </div>
+    <CustomerSummaryList
+      title="Refund Receipts Review"
+      description="Select a customer to view their refund receipts"
+      companySlug={companySlug}
+      routeSegment="refund-receipts"
+      customers={customers}
+    />
   );
 }

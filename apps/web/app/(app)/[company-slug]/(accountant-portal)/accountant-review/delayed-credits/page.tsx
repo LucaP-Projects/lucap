@@ -1,8 +1,21 @@
-export default function AccountantDelayedCreditsPage() {
+import { CustomerSummaryList } from '@/components/accountant-review/customer-summary-list';
+import { getCustomersWithDelayedCreditSummary } from './actions';
+
+interface PageProps {
+  params: Promise<{ 'company-slug': string }>;
+}
+
+export default async function AccountantDelayedCreditsPage({ params }: PageProps) {
+  const { 'company-slug': companySlug } = await params;
+  const customers = await getCustomersWithDelayedCreditSummary();
+
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center gap-3">
-      <h1 className="text-2xl font-bold text-gray-800">Delayed Credits Review</h1>
-      <p className="text-sm text-gray-500">Coming soon — delayed credit validation will appear here.</p>
-    </div>
+    <CustomerSummaryList
+      title="Delayed Credits Review"
+      description="Select a customer to view their delayed credits"
+      companySlug={companySlug}
+      routeSegment="delayed-credits"
+      customers={customers}
+    />
   );
 }
