@@ -1,8 +1,21 @@
-export default function AccountantDelayedChargesPage() {
+import { CustomerSummaryList } from '@/components/accountant-review/customer-summary-list';
+import { getCustomersWithDelayedChargeSummary } from './actions';
+
+interface PageProps {
+  params: Promise<{ 'company-slug': string }>;
+}
+
+export default async function AccountantDelayedChargesPage({ params }: PageProps) {
+  const { 'company-slug': companySlug } = await params;
+  const customers = await getCustomersWithDelayedChargeSummary();
+
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center gap-3">
-      <h1 className="text-2xl font-bold text-gray-800">Delayed Charges Review</h1>
-      <p className="text-sm text-gray-500">Coming soon — delayed charge validation will appear here.</p>
-    </div>
+    <CustomerSummaryList
+      title="Delayed Charges Review"
+      description="Select a customer to view their delayed charges"
+      companySlug={companySlug}
+      routeSegment="delayed-charges"
+      customers={customers}
+    />
   );
 }

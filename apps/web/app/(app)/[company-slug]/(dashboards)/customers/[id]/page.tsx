@@ -23,6 +23,7 @@ import {
   TabsList,
   TabsTrigger,
 } from '@/components/ui/tabs';
+import { getDocumentQualificationStatus } from '@/lib/document-qualification';
 import { formatDate } from '@/lib/utils';
 import { getCustomer } from '../actions';
 
@@ -206,26 +207,40 @@ export default async function CustomerPage({ params }: CustomerPageProps) {
                       <TableHead>Amount</TableHead>
                       <TableHead>Status</TableHead>
                       <TableHead>Due Date</TableHead>
-                      <TableHead>Notes</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {customer.invoices.map((invoice) => (
-                      <TableRow key={invoice.id}>
-                        <TableCell>{invoice.number}</TableCell>
-                        <TableCell>
-                          {customer.subCustomers.find(
-                            (s) => s.id === invoice.customerId
-                          )?.displayName || '-'}
-                        </TableCell>
-                        <TableCell>${invoice.amount.toFixed(2)}</TableCell>
-                        <TableCell>
-                          <Badge variant="outline">{invoice.status}</Badge>
-                        </TableCell>
-                        <TableCell>{formatDate(invoice.dueDate)}</TableCell>
-                        <TableCell>{invoice.notes || '-'}</TableCell>
-                      </TableRow>
-                    ))}
+                    {customer.invoices.map((invoice) => {
+                      const qualificationStatus = getDocumentQualificationStatus(
+                        invoice.notes
+                      );
+                      return (
+                        <TableRow key={invoice.id}>
+                          <TableCell>{invoice.number}</TableCell>
+                          <TableCell>
+                            {customer.subCustomers.find(
+                              (s) => s.id === invoice.customerId
+                            )?.displayName || '-'}
+                          </TableCell>
+                          <TableCell>${invoice.amount.toFixed(2)}</TableCell>
+                          <TableCell>
+                            <Badge
+                              variant="outline"
+                              className={
+                                qualificationStatus === 'VALIDATED'
+                                  ? 'bg-green-500/10 text-green-700'
+                                  : qualificationStatus === 'REJECTED'
+                                    ? 'bg-red-500/10 text-red-700'
+                                    : 'bg-gray-500/10 text-gray-500'
+                              }
+                            >
+                              {qualificationStatus ?? 'Not reviewed'}
+                            </Badge>
+                          </TableCell>
+                          <TableCell>{formatDate(invoice.dueDate)}</TableCell>
+                        </TableRow>
+                      );
+                    })}
                   </TableBody>
                 </Table>
               </div>

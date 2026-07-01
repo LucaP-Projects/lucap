@@ -1,6 +1,7 @@
 import { Table } from '@tanstack/react-table';
 
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
+import { getDocumentQualificationStatus } from '@/lib/document-qualification';
 import { formatCurrency, formatDate } from '@/lib/utils';
 import { BaseMobileCards } from '../base/mobileCard';
 import { InvoiceBasic } from './actions';
@@ -24,6 +25,9 @@ export const MobileCards = ({
       ) || 0;
     const amount = row.original.amount || 0;
     const remainingAmount = amount - totalPaid;
+    const qualificationStatus = getDocumentQualificationStatus(
+      row.original.notes
+    );
 
     return (
       <div className="space-y-3 py-1">
@@ -68,27 +72,23 @@ export const MobileCards = ({
           <div className="flex items-center">
             <div
               className={`mr-2 h-2.5 w-2.5 rounded-full ${
-                row.original.status === 'PAID'
+                qualificationStatus === 'VALIDATED'
                   ? 'bg-green-500'
-                  : row.original.status === 'PARTIAL'
-                    ? 'bg-blue-500'
-                    : row.original.status === 'OVERDUE'
-                      ? 'bg-red-500'
-                      : 'bg-yellow-500'
+                  : qualificationStatus === 'REJECTED'
+                    ? 'bg-red-500'
+                    : 'bg-gray-400'
               }`}
              />
             <span
               className={`text-xs font-medium ${
-                row.original.status === 'PAID'
+                qualificationStatus === 'VALIDATED'
                   ? 'text-green-600'
-                  : row.original.status === 'PARTIAL'
-                    ? 'text-blue-600'
-                    : row.original.status === 'OVERDUE'
-                      ? 'text-red-600'
-                      : 'text-yellow-600'
+                  : qualificationStatus === 'REJECTED'
+                    ? 'text-red-600'
+                    : 'text-gray-500'
               }`}
             >
-              {row.original.status}
+              {qualificationStatus ?? 'Not reviewed'}
             </span>
           </div>
         </div>

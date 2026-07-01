@@ -1,8 +1,21 @@
-export default function AccountantCreditMemosPage() {
+import { CustomerSummaryList } from '@/components/accountant-review/customer-summary-list';
+import { getCustomersWithCreditMemoSummary } from './actions';
+
+interface PageProps {
+  params: Promise<{ 'company-slug': string }>;
+}
+
+export default async function AccountantCreditMemosPage({ params }: PageProps) {
+  const { 'company-slug': companySlug } = await params;
+  const customers = await getCustomersWithCreditMemoSummary();
+
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center gap-3">
-      <h1 className="text-2xl font-bold text-gray-800">Credit Memos Review</h1>
-      <p className="text-sm text-gray-500">Coming soon — credit memo validation will appear here.</p>
-    </div>
+    <CustomerSummaryList
+      title="Credit Memos Review"
+      description="Select a customer to view their credit memos"
+      companySlug={companySlug}
+      routeSegment="credit-memos"
+      customers={customers}
+    />
   );
 }

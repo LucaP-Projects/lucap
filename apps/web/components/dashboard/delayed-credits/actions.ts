@@ -124,6 +124,7 @@ export async function getDelayedCreditsPage(
 
       // creditMethod: true,
       // reason: true,
+      notes: true,
       createdAt: true
     }
   });
