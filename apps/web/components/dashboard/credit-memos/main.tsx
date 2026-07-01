@@ -2,6 +2,7 @@
 
 import { useCallback, useState } from 'react';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import { DocumentFilters } from '@/components/dashboard/base/DocumentFilters';
 import { DataTable } from '@/components/dashboard/base/table';
 import { useFilters } from '@/components/dashboard/base/useFilters';
@@ -49,6 +50,7 @@ export default function CreditMemosPage({
   initialStats,
   searchParams
 }: CreditMemosPageProps) {
+  const { 'company-slug': companySlug } = useParams<{ 'company-slug': string }>();
   const [memosData, setMemosData] = useState(initialData);
   const [stats, setStats] = useState(initialStats);
 
@@ -118,7 +120,7 @@ export default function CreditMemosPage({
           </p>
         </div>
         <div className="flex items-center space-x-2">
-          <Link href="/creditmemo">
+          <Link href={`/${companySlug}/credit-memos/new`}>
             <Button className="bg-purple-600 px-5 py-2.5 text-sm font-medium shadow-sm hover:bg-purple-700">
               <svg
                 className="mr-2 h-4 w-4"
