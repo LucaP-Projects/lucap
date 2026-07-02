@@ -27,7 +27,7 @@ export async function createItem(
   try {
     const session = await getSessionWithCompany();
     if (!session?.user?.id) {
-      redirect('/login');
+      redirect('/auth/login');
     }
     if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
@@ -166,7 +166,7 @@ export async function updateItemStatus(
   try {
     const session = await getSessionWithCompany();
     if (!session?.user?.id) {
-      redirect('/login');
+      redirect('/auth/login');
     }
     if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
@@ -225,7 +225,7 @@ export async function updateItem(
     const session = await getSessionWithCompany();
 
     if (!session?.user?.id) {
-      redirect('/login');
+      redirect('/auth/login');
     }
     if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
@@ -377,7 +377,7 @@ export async function getItems(
   try {
     const session = await getSessionWithCompany();
     if (!session?.user?.id) {
-      redirect('/login');
+      redirect('/auth/login');
     }
     if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
@@ -468,7 +468,7 @@ export async function deleteItem(
   try {
     const session = await getSessionWithCompany();
     if (!session?.user?.id) {
-      redirect('/login');
+      redirect('/auth/login');
     }
     if (!session?.user?.activeCompanyId) {
       redirect('/select-company');

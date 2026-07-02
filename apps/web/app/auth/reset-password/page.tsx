@@ -9,7 +9,7 @@ interface PageProps {
 export default async function Page({ searchParams }: PageProps) {
   const token = (await searchParams).token;
 
-  if (!token) redirect('/login');
+  if (!token) redirect('/auth/login');
 
   return (
     <div className="container mx-auto max-w-(--breakpoint-lg) space-y-8 px-8 py-16">

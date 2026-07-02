@@ -14,7 +14,7 @@ export async function createCategory(data: CategoryFormValues): Promise<{
   try {
     const session = await getSessionWithCompany();
     if (!session?.user?.id) {
-      redirect('/login');
+      redirect('/auth/login');
     }
     if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
@@ -100,7 +100,7 @@ export async function updateCategory(
   try {
     const session = await getSessionWithCompany();
     if (!session?.user?.id) {
-      redirect('/login');
+      redirect('/auth/login');
     }
     if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
