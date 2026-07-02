@@ -133,8 +133,8 @@ export async function createItem(
       revalidatePath('/creditmemo');
       revalidatePath('/salesreceipt');
       revalidatePath('/refundreceipt');
-      revalidatePath('/delayedcredits');
-      revalidatePath('/delayedcharges');
+      revalidatePath('/delayed-credits');
+      revalidatePath('/delayed-charges');
 
       return {
         success: true,
@@ -198,8 +198,8 @@ export async function updateItemStatus(
     revalidatePath('/creditmemo');
     revalidatePath('/salesreceipt');
     revalidatePath('/refundreceipt');
-    revalidatePath('/delayedcredits');
-    revalidatePath('/delayedcharges');
+    revalidatePath('/delayed-credits');
+    revalidatePath('/delayed-charges');
 
     return {
       success: true,
@@ -342,8 +342,8 @@ export async function updateItem(
     revalidatePath('/creditmemo');
     revalidatePath('/salesreceipt');
     revalidatePath('/refundreceipt');
-    revalidatePath('/delayedcredits');
-    revalidatePath('/delayedcharges');
+    revalidatePath('/delayed-credits');
+    revalidatePath('/delayed-charges');
 
     return {
       success: true,

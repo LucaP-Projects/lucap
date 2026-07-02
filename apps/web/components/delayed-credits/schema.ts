@@ -33,7 +33,9 @@ export const delayedCreditFormSchema = z.object({
 
   ccEmail: z
     .email('Invalid email format')
-    .optional(),
+    .optional()
+    .or(z.literal(''))
+    .transform((val) => val || null),
   customerAddress: addressSchema,
   taxId: z.string().optional(),
   taxRate: z.number().min(0).max(100).default(0),

@@ -316,7 +316,7 @@ export async function createDelayedCredit(
       return credit;
     });
 
-    revalidatePath('/delayedcredits');
+    revalidatePath('/delayed-credits');
     return { success: true, data: credit };
   } catch (error) {
     return {
@@ -673,7 +673,7 @@ export async function updateDelayedCredit(
       return updatedCredit;
     });
 
-    revalidatePath('/delayedcredits');
+    revalidatePath('/delayed-credits');
     return { success: true, data: credit };
   } catch (error) {
     return {
@@ -767,7 +767,7 @@ export async function deleteDelayedCredit(id: string) {
       });
     });
 
-    revalidatePath('/delayedcredits');
+    revalidatePath('/delayed-credits');
     return {
       success: true
     };
