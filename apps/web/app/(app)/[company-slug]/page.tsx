@@ -329,7 +329,7 @@ async function WelcomePage() {
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {/* Credit Memos */}
             <Link
-              href={`/creditmemos`}
+              href={`/credit-memos`}
               className="group block transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
               <Card className="h-full border border-gray-100 shadow-sm transition-all duration-300 group-hover:-translate-y-1 group-hover:border-amber-100 group-hover:shadow-md">

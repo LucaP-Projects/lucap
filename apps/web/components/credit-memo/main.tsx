@@ -108,7 +108,7 @@ export function CreditMemoForm({
             mode === 'create' ? 'created' : 'updated'
           } successfully`
         );
-        router.push('/creditmemos');
+        router.push('/credit-memos');
         router.refresh();
       } catch (error) {
         console.error('Submission error:', error);

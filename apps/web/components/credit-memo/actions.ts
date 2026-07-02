@@ -94,7 +94,7 @@ export async function createCreditMemo(
 ): Promise<CreateCreditMemoResponse> {
   try {
     const session = await getSessionWithCompany();
-    if (!session?.user?.id) redirect('/login');
+    if (!session?.user?.id) redirect('/auth/login');
     if (!session?.user?.activeCompanyId) redirect('/select-company');
 
     // Process originalInvoiceId - convert empty string to null
@@ -294,7 +294,7 @@ export async function createCreditMemo(
       return creditMemo;
     });
 
-    revalidatePath('/creditmemos');
+    revalidatePath('/credit-memos');
     return { success: true, data: creditMemo };
   } catch (error) {
     console.error('Error in createCreditMemo:', error);
@@ -320,7 +320,7 @@ export async function updateCreditMemo(
     }
     const session = await getSessionWithCompany();
     if (!session?.user?.id) {
-      redirect('/login');
+      redirect('/auth/login');
     }
     if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
@@ -574,7 +574,7 @@ export async function updateCreditMemo(
       return updatedCreditMemo;
     });
 
-    revalidatePath('/creditmemos');
+    revalidatePath('/credit-memos');
     return {
       success: true,
       data: creditMemo
@@ -593,7 +593,7 @@ export async function getCreditMemo(id: string) {
   try {
     const session = await getSessionWithCompany();
     if (!session?.user?.id) {
-      redirect('/login');
+      redirect('/auth/login');
     }
     if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
@@ -651,7 +651,7 @@ export async function deleteCreditMemo(id: string) {
   try {
     const session = await getSessionWithCompany();
     if (!session?.user?.id) {
-      redirect('/login');
+      redirect('/auth/login');
     }
     if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
@@ -730,7 +730,7 @@ export async function deleteCreditMemo(id: string) {
       });
     });
 
-    revalidatePath('/creditmemos');
+    revalidatePath('/credit-memos');
     return {
       success: true
     };

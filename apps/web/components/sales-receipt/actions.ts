@@ -66,7 +66,7 @@ export async function createSalesReceipt(
   try {
     const session = await getSessionWithCompany();
     if (!session?.user?.id) {
-      redirect('/login');
+      redirect('/auth/login');
     }
     if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
@@ -282,7 +282,7 @@ export async function getSalesReceipt(id: string) {
   try {
     const session = await getSessionWithCompany();
     if (!session?.user?.id) {
-      redirect('/login');
+      redirect('/auth/login');
     }
     if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
@@ -354,7 +354,7 @@ export async function updateSalesReceipt(
   try {
     const session = await getSessionWithCompany();
     if (!session?.user?.id) {
-      redirect('/login');
+      redirect('/auth/login');
     }
     if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
@@ -715,7 +715,7 @@ export async function deleteSalesReceipt(
   try {
     const session = await getSessionWithCompany();
     if (!session?.user?.id) {
-      redirect('/login');
+      redirect('/auth/login');
     }
     if (!session?.user?.activeCompanyId) {
       redirect('/select-company');

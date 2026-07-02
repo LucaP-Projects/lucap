@@ -65,7 +65,7 @@ export async function createInvoice(
     const session = await getSessionWithCompany();
 
     if (!session?.user?.id) {
-      redirect('/login');
+      redirect('/auth/login');
     }
     if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
@@ -238,7 +238,7 @@ export async function getInvoice(id: string) {
   try {
     const session = await getSessionWithCompany();
     if (!session?.user?.id) {
-      redirect('/login');
+      redirect('/auth/login');
     }
     if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
@@ -309,7 +309,7 @@ export async function updateInvoice(
     const session = await getSessionWithCompany();
 
     if (!session?.user?.id) {
-      redirect('/login');
+      redirect('/auth/login');
     }
     if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
@@ -674,7 +674,7 @@ export async function deleteInvoice(
   try {
     const session = await getSessionWithCompany();
     if (!session?.user?.id) {
-      redirect('/login');
+      redirect('/auth/login');
     }
     if (!session?.user?.activeCompanyId) {
       redirect('/select-company');

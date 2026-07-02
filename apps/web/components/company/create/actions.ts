@@ -81,7 +81,7 @@ export async function createCompany(
   try {
     const session = await getSessionWithCompany();
     if (!session?.user?.id) {
-      redirect('/login');
+      redirect('/auth/login');
     }
 
     const user = await prisma.user.findFirst({

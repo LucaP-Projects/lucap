@@ -40,111 +40,115 @@ export type UnverifiedCounts = {
   refundReceipts: number;
 };
 
-const baseNavItems = [
-  {
-    title: 'Dashboard',
-    url: '/',
-    icon: Home,
-    isActive: true
-  },
-  {
-    title: 'Company Management',
-    url: '#',
-    icon: Building2,
-    items: [
-      {
-        title: 'Create Company',
-        url: '/create-company'
-      },
-      {
-        title: 'Select Company',
-        url: '/select-company'
-      }
-    ]
-  },
-  {
-    title: 'Accountant',
-    url: '/',
-    icon: Calculator,
-    items: [
-      {
-        title: 'Account Plan',
-        url: '/account-plan'
-      },
-      {
-        title: 'Journals',
-        url: '/journals'
-      }
-    ]
-  },
-  {
-    title: 'Finance Dashboards',
-    url: '/finance/dashboards',
-    icon: LayoutDashboard,
-    items: [
-      {
-        title: 'Invoices',
-        url: '/invoices'
-      },
-      {
-        title: 'Payments',
-        url: '/payments'
-      },
-      {
-        title: 'Customers',
-        url: '/customers'
-      },
-      {
-        title: 'Estimates',
-        url: '/estimates'
-      },
-      {
-        title: 'Credit Memos',
-        url: '/credit-memos'
-      },
-      {
-        title: 'Sales Receipts',
-        url: '/sales-receipts'
-      },
-      {
-        title: 'Delayed Charges',
-        url: '/delayed-charges'
-      },
-      {
-        title: 'Delayed Credits',
-        url: '/delayed-credits'
-      },
-      {
-        title: 'Refund Receipts',
-        url: '/refund-receipts'
-      }
-    ]
-  },
-  {
-    title: 'Categories',
-    url: '/categories',
-    icon: BookOpen
-  },
-  {
-    title: 'Finance Settings',
-    url: '/finance/settings',
-    icon: Settings,
-    items: [
-      {
-        title: 'Company Settings',
-        url: '/settings/edit-company'
-      },
-      {
-        title: 'Tax Settings',
-        url: '/settings/tax'
-      },
-      {
-        title: 'Category Settings',
-        url: '/settings/category'
-      }
-    ]
-  }
-];
+function getBaseNavItems(companySlug: string | undefined) {
+  const prefix = companySlug ? `/${companySlug}` : '';
+
+  return [
+    {
+      title: 'Dashboard',
+      url: '/',
+      icon: Home,
+      isActive: true
+    },
+    {
+      title: 'Company Management',
+      url: '#',
+      icon: Building2,
+      items: [
+        {
+          title: 'Create Company',
+          url: '/create-company'
+        },
+        {
+          title: 'Select Company',
+          url: '/select-company'
+        }
+      ]
+    },
+    {
+      title: 'Accountant',
+      url: '/',
+      icon: Calculator,
+      items: [
+        {
+          title: 'Account Plan',
+          url: `${prefix}/account-plan`
+        },
+        {
+          title: 'Journals',
+          url: `${prefix}/journals`
+        }
+      ]
+    },
+    {
+      title: 'Finance Dashboards',
+      url: '/finance/dashboards',
+      icon: LayoutDashboard,
+      items: [
+        {
+          title: 'Invoices',
+          url: `${prefix}/invoices`
+        },
+        {
+          title: 'Payments',
+          url: `${prefix}/payments`
+        },
+        {
+          title: 'Customers',
+          url: `${prefix}/customers`
+        },
+        {
+          title: 'Estimates',
+          url: `${prefix}/estimates`
+        },
+        {
+          title: 'Credit Memos',
+          url: `${prefix}/credit-memos`
+        },
+        {
+          title: 'Sales Receipts',
+          url: `${prefix}/sales-receipt`
+        },
+        {
+          title: 'Delayed Charges',
+          url: `${prefix}/delayed-charges`
+        },
+        {
+          title: 'Delayed Credits',
+          url: `${prefix}/delayed-credits`
+        },
+        {
+          title: 'Refund Receipts',
+          url: `${prefix}/refund-receipt`
+        }
+      ]
+    },
+    {
+      title: 'Categories',
+      url: '/categories',
+      icon: BookOpen
+    },
+    {
+      title: 'Finance Settings',
+      url: '/finance/settings',
+      icon: Settings,
+      items: [
+        {
+          title: 'Company Settings',
+          url: `${prefix}/settings/edit-company`
+        },
+        {
+          title: 'Tax Settings',
+          url: `${prefix}/settings/tax`
+        },
+        {
+          title: 'Category Settings',
+          url: `${prefix}/settings/category`
+        }
+      ]
+    }
+  ];
+}
 
 const projects = [
   {
@@ -253,7 +257,7 @@ export function AppSidebar({
 
   const navItems = isAccountantRole
     ? [...accountantPortalItem, ...accountantFinanceDashboards]
-    : baseNavItems;
+    : getBaseNavItems(companySlug);
 
   return (
     <Sidebar collapsible="icon" {...props}>

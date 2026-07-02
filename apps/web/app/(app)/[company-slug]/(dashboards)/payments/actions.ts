@@ -74,7 +74,7 @@ export async function getPaymentsPage(
 ) {
   const session = await auth();
   if (!session?.user?.id) {
-    redirect('/login');
+    redirect('/auth/login');
   }
   if (!session?.user?.companyId) {
     redirect('/select-company');
@@ -222,7 +222,7 @@ export async function getPaymentDetails(
 ): Promise<PaymentWithRelations | null> {
   const session = await auth();
   if (!session?.user?.id) {
-    redirect('/login');
+    redirect('/auth/login');
   }
   if (!session?.user?.companyId) {
     redirect('/select-company');
