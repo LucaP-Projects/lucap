@@ -294,7 +294,7 @@ export async function createDelayedCharge(
       return charge;
     });
 
-    revalidatePath('/delayedcharges');
+    revalidatePath('/delayed-charges');
     return { success: true, data: charge };
   } catch (error) {
     return {

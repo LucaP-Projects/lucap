@@ -314,7 +314,7 @@ export async function deleteDelayedCharges(
     });
 
     // Revalidate the delayed charges page
-    revalidatePath('/delayedcharges');
+    revalidatePath('/delayed-charges');
 
     return {
       success: true

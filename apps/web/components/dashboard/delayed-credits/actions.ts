@@ -326,7 +326,7 @@ export async function deleteDelayedCredits(
     });
 
     // Revalidate the delayed credits page
-    revalidatePath('/delayedcredits');
+    revalidatePath('/delayed-credits');
 
     return {
       success: true
