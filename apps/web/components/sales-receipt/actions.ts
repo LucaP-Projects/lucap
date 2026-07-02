@@ -234,7 +234,7 @@ export async function createSalesReceipt(
       return receipt;
     });
 
-    revalidatePath('/salesreceipts');
+    revalidatePath('/sales-receipt');
 
     // Convert the complete receipt to SalesReceiptAction type before returning
     const receiptAction: SalesReceiptAction = {
@@ -694,7 +694,7 @@ export async function updateSalesReceipt(
       amount: receipt.amount
     };
 
-    revalidatePath('/salesreceipts');
+    revalidatePath('/sales-receipt');
     return { success: true, data: receiptAction };
   } catch (error) {
     console.error('Error updating sales receipt:', error);
@@ -798,7 +798,7 @@ export async function deleteSalesReceipt(
       });
     });
 
-    revalidatePath('/salesreceipts');
+    revalidatePath('/sales-receipt');
     return { success: true };
   } catch (error) {
     console.error('Error deactivating sales receipt:', error);

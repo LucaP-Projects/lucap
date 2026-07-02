@@ -60,7 +60,7 @@ const actionRoutes: ActionRoutes = {
     category: 'Customers'
   },
   'Sales receipt': {
-    route: '/sales-receipts',
+    route: '/sales-receipt/new',
     icon: Receipt,
     category: 'Customers'
   },

@@ -352,7 +352,7 @@ export async function deleteSalesReceipts(
     });
 
     // Revalidate the sales receipts page
-    revalidatePath('/sales-receipts');
+    revalidatePath('/sales-receipt');
 
     return {
       success: true

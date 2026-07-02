@@ -109,7 +109,7 @@ export function SalesReceiptForm({
           `Sales receipt ${mode === 'create' ? 'created' : 'updated'} successfully`
         );
 
-        router.push('/salesreceipts');
+        router.push('/sales-receipt');
         router.refresh();
       } catch (error) {
         console.error('Submission error:', error);

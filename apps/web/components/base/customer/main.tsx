@@ -260,12 +260,19 @@ export const DetailsSection: React.FC<{
 }> = React.memo(({ initialData }) => {
   const { theme } = useTheme();
   const selectedColor = useSidebarStore((state) => state.selectedColor);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const customColor = colorPalette[selectedColor];
 
-  // Only apply custom background in light mode
+  // Only apply custom background in light mode, and only after mount to
+  // avoid a hydration mismatch (next-themes resolves the persisted theme
+  // on the client before React's first hydration pass completes).
   const backgroundStyle =
-    theme === 'light' && customColor?.light
+    mounted && theme === 'light' && customColor?.light
       ? { backgroundColor: customColor.light }
       : {};
 
