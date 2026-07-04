@@ -167,7 +167,8 @@ export async function createPayment(data: PaymentFormValues) {
       }
     );
 
-    revalidatePath('/receivepayment');
+    revalidatePath('/receive-payment');
+    revalidatePath('/payments');
     return { success: true, data: result };
   } catch (error) {
     console.error('Error creating payment:', error);
