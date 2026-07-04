@@ -18,7 +18,8 @@ const DOCUMENT_TYPES = {
   DELAYED_CHARGE: 'Delayed Charge',
   CREDIT_MEMO: 'Credit Memo',
   REFUND_RECEIPT: 'Refund Receipt',
-  SALES_RECEIPT: 'Sales Receipt'
+  SALES_RECEIPT: 'Sales Receipt',
+  PAYMENT: 'Payment'
 } as const;
 
 type DocumentType = keyof typeof DOCUMENT_TYPES;

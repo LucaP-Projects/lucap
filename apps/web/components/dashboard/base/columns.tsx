@@ -82,6 +82,7 @@ interface BaseEntityCore {
   amount?: number;
   totalAmount?: number;
   dueDate?: Date;
+  paymentDate?: Date;
   createdAt?: Date;
   refundMethod?: PaymentMethod;
 }
@@ -281,12 +282,14 @@ const ActionsCell = ({ row, config }: { row: any; config: EntityConfig }) => {
           >
             View Details
           </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={(e) => handlePrintInvoice(e, item.id)}
-            disabled={loading}
-          >
-            {loading ? "Printing..." : "Print PDF"}
-          </DropdownMenuItem>
+          {config.type !== "payment" && (
+            <DropdownMenuItem
+              onClick={(e) => handlePrintInvoice(e, item.id)}
+              disabled={loading}
+            >
+              {loading ? "Printing..." : "Print PDF"}
+            </DropdownMenuItem>
+          )}
           {config.type === "invoice" && (
             <DropdownMenuItem
               onClick={(e) => handleAction(e, openPaymentSheet)}
@@ -390,7 +393,10 @@ export function createColumns<T extends BaseEntityCore>(
       header: "Date",
       cell: ({ row }) => {
         const date =
-          row.original.dueDate ?? row.original.createdAt ?? new Date();
+          row.original.dueDate ??
+          row.original.paymentDate ??
+          row.original.createdAt ??
+          new Date();
         return formatDate(date);
       },
     },
@@ -453,8 +459,8 @@ export const entityConfigs: Record<EntityType, EntityConfig> = {
   payment: {
     type: "payment",
     getDetailUrl: (id: string) => `/payments/${id}`,
-    getEditUrl: (id: string) => `/payment/${id}`,
-    canEdit: (status: EntityStatus) => true,
+    getEditUrl: (id: string) => `/payments/${id}`,
+    canEdit: (status: EntityStatus) => false,
     numberLabel: "Payment #",
   },
   invoice: {
