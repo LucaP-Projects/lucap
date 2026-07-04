@@ -70,7 +70,7 @@ const actionRoutes: ActionRoutes = {
     category: 'Customers'
   },
   'Refund receipt': {
-    route: '/refund-receipts',
+    route: '/refund-receipt/new',
     icon: Receipt,
     category: 'Customers'
   },

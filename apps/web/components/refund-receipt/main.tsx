@@ -110,7 +110,7 @@ export function RefundReceiptForm({
           `Refund receipt ${mode === 'create' ? 'created' : 'updated'} successfully`
         );
 
-        router.push('/refundreceipts');
+        router.push('/refund-receipt');
         router.refresh();
       } catch (error) {
         console.error('Submission error:', error);

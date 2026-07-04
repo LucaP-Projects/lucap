@@ -132,7 +132,7 @@ export async function createItem(
       revalidatePath('/sales-orders');
       revalidatePath('/creditmemo');
       revalidatePath('/salesreceipt');
-      revalidatePath('/refundreceipt');
+      revalidatePath('/refund-receipt');
       revalidatePath('/delayed-credits');
       revalidatePath('/delayed-charges');
 
@@ -197,7 +197,7 @@ export async function updateItemStatus(
     revalidatePath('/sales-orders');
     revalidatePath('/creditmemo');
     revalidatePath('/salesreceipt');
-    revalidatePath('/refundreceipt');
+    revalidatePath('/refund-receipt');
     revalidatePath('/delayed-credits');
     revalidatePath('/delayed-charges');
 
@@ -341,7 +341,7 @@ export async function updateItem(
     revalidatePath('/sales-orders');
     revalidatePath('/creditmemo');
     revalidatePath('/salesreceipt');
-    revalidatePath('/refundreceipt');
+    revalidatePath('/refund-receipt');
     revalidatePath('/delayed-credits');
     revalidatePath('/delayed-charges');
 

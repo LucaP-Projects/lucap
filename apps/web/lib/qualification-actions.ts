@@ -38,8 +38,8 @@ const ROUTE_SEGMENTS: Record<QualifiableDocumentType, string> = {
   invoice: 'invoices',
   estimate: 'estimates',
   creditMemo: 'credit-memos',
-  salesReceipt: 'sales-receipts',
-  refundReceipt: 'refund-receipts',
+  salesReceipt: 'sales-receipt',
+  refundReceipt: 'refund-receipt',
   delayedCharge: 'delayed-charges',
   delayedCredit: 'delayed-credits',
 };
