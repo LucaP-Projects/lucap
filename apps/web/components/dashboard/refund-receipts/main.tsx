@@ -101,7 +101,7 @@ export default function RefundPage({
           </p>
         </div>
         <div className="flex items-center space-x-2">
-          <Link href={`/${companySlug}/refund-receipt`}>
+          <Link href={`/${companySlug}/refund-receipt/new`}>
             <Button className="bg-violet-600 px-5 py-2.5 text-sm font-medium shadow-sm hover:bg-violet-700">
               <svg
                 className="mr-2 h-4 w-4"

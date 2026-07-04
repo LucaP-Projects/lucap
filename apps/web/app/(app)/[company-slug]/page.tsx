@@ -370,7 +370,7 @@ async function WelcomePage() {
 
             {/* Refund Receipts */}
             <Link
-              href={`/refundreceipts`}
+              href={`/refund-receipt`}
               className="group block transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
               <Card className="h-full border border-gray-100 shadow-sm transition-all duration-300 group-hover:-translate-y-1 group-hover:border-red-100 group-hover:shadow-md">

@@ -237,7 +237,7 @@ export async function createRefundReceipt(
       return refund;
     });
 
-    revalidatePath('/refunds');
+    revalidatePath('/refund-receipt');
 
     // Convert the complete refund to RefundReceiptAction type before returning
     const refundAction: RefundReceiptAction = {
@@ -701,7 +701,7 @@ export async function updateRefundReceipt(
       amount: refund.amount
     };
 
-    revalidatePath('/refunds');
+    revalidatePath('/refund-receipt');
     return { success: true, data: refundAction };
   } catch (error) {
     console.error('Error updating refund receipt:', error);
@@ -802,7 +802,7 @@ export async function deleteRefundReceipt(
       });
     });
 
-    revalidatePath('/refunds');
+    revalidatePath('/refund-receipt');
     return { success: true };
   } catch (error) {
     console.error('Error deactivating refund receipt:', error);
