@@ -11,7 +11,8 @@ export type QualifiableDocumentType =
   | 'salesReceipt'
   | 'refundReceipt'
   | 'delayedCharge'
-  | 'delayedCredit';
+  | 'delayedCredit'
+  | 'payment';
 
 export type QualificationData = {
   fournisseur: string;
@@ -42,6 +43,7 @@ const ROUTE_SEGMENTS: Record<QualifiableDocumentType, string> = {
   refundReceipt: 'refund-receipt',
   delayedCharge: 'delayed-charges',
   delayedCredit: 'delayed-credits',
+  payment: 'payments',
 };
 
 export async function qualifyDocument(

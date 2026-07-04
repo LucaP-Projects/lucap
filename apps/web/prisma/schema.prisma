@@ -1352,6 +1352,7 @@ model Payment {
   paymentMethod PaymentMethod
   reference     String?
   metadata      Json?
+  notes         String?
 
   // Discount fields (added)
   discountType            DiscountType?
