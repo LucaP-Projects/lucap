@@ -1,8 +1,21 @@
-export default function AccountantPaymentsPage() {
+import { CustomerSummaryList } from '@/components/accountant-review/customer-summary-list';
+import { getCustomersWithPaymentSummary } from './actions';
+
+interface PageProps {
+  params: Promise<{ 'company-slug': string }>;
+}
+
+export default async function AccountantPaymentsPage({ params }: PageProps) {
+  const { 'company-slug': companySlug } = await params;
+  const customers = await getCustomersWithPaymentSummary();
+
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center gap-3">
-      <h1 className="text-2xl font-bold text-gray-800">Payments Review</h1>
-      <p className="text-sm text-gray-500">Coming soon — payment validation will appear here.</p>
-    </div>
+    <CustomerSummaryList
+      title="Payments Review"
+      description="Select a customer to view their payments"
+      companySlug={companySlug}
+      routeSegment="payments"
+      customers={customers}
+    />
   );
 }

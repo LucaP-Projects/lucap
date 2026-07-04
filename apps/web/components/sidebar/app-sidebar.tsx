@@ -216,11 +216,6 @@ export function AppSidebar({
                 badge: unverifiedCounts?.payments ?? 0
               },
               {
-                title: 'Customers',
-                url: `/${companySlug}/accountant-review/customers`,
-                badge: unverifiedCounts?.customers ?? 0
-              },
-              {
                 title: 'Estimates',
                 url: `/${companySlug}/accountant-review/estimates`,
                 badge: unverifiedCounts?.estimates ?? 0
