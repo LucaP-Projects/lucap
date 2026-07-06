@@ -14,14 +14,18 @@ export type OrderResponse = {
 const itemInclude = {
   item: {
     include: {
-      store: {
-        include: {
-          company: {
+      category: { select: { id: true, name: true } },
+      company: {
+        select: {
+          id: true,
+          name: true,
+          slug: true,
+          logo: true,
+          store: {
             select: {
               id: true,
               name: true,
-              slug: true,
-              logo: true
+              slug: true
             }
           }
         }
@@ -62,7 +66,7 @@ export async function placeOrder({
     }
 
     const items = sellerStoreId
-      ? cart.items.filter((item) => item.item.storeId === sellerStoreId)
+      ? cart.items.filter((item: any) => item.item.company?.store?.id === sellerStoreId)
       : cart.items;
 
     if (items.length === 0) {
@@ -83,7 +87,7 @@ export async function placeOrder({
           orderNumber,
           buyerCompanyId: companyId,
           sellerCompanyId: firstItem.item.companyId,
-          sellerStoreId: firstItem.item.storeId,
+          sellerStoreId: (firstItem.item as any).company?.store?.id ?? "",
           status: OrderStatus.PENDING,
           fulfillmentStatus: FulfillmentStatus.PENDING,
           subtotal: total,
@@ -357,13 +361,11 @@ export async function createInvoiceFromOrder(orderId: string): Promise<OrderResp
           number: invoiceNumber,
           companyId,
           customerId: order.buyerCompanyId,
-          issueDate: new Date(),
+          amount: order.total,
           dueDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-          subtotal: order.subtotal,
           taxAmount: order.taxAmount,
-          total: order.total,
-          amountDue: order.total,
-          status: "DRAFT",
+          status: "PENDING",
+          paymentEventSnapshot: { amount: order.total },
           items: {
             create: order.items.map((item) => ({
               itemId: item.itemId,

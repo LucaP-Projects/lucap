@@ -114,7 +114,7 @@ export function DriveView({ files, companySlug }: DriveViewProps) {
         <div className="flex items-center gap-2 w-full sm:w-auto">
           <div className="flex items-center border rounded-md p-1 bg-muted/50">
             <Button 
-                variant={viewMode === "grid" ? "white" : "ghost"} 
+                variant={viewMode === "grid" ? "secondary" : "ghost"} 
                 size="sm" 
                 className="h-8 w-8 p-0"
                 onClick={() => setViewMode("grid")}
@@ -122,7 +122,7 @@ export function DriveView({ files, companySlug }: DriveViewProps) {
               <Grid className="h-4 w-4" />
             </Button>
             <Button 
-                variant={viewMode === "list" ? "white" : "ghost"} 
+                variant={viewMode === "list" ? "secondary" : "ghost"} 
                 size="sm" 
                 className="h-8 w-8 p-0"
                 onClick={() => setViewMode("list")}
@@ -206,7 +206,7 @@ export function DriveView({ files, companySlug }: DriveViewProps) {
                     <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <Button variant="white" size="icon" className="h-8 w-8 shadow-sm">
+                                <Button variant="secondary" size="icon" className="h-8 w-8 shadow-sm">
                                     <MoreVertical className="h-4 w-4" />
                                 </Button>
                             </DropdownMenuTrigger>

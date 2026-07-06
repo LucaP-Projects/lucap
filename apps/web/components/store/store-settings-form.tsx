@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
-import { setupStore, updateStore } from "./actions";
+import { createOrUpdateStore } from "./actions";
 import { StoreSettingsInput, storeSettingsSchema } from "./schema";
 
 interface StoreSettingsFormProps {
@@ -59,9 +59,7 @@ export function StoreSettingsForm({ companySlug, initialData }: StoreSettingsFor
   async function onSubmit(data: StoreSettingsInput) {
     setIsPending(true);
     try {
-      const result = isEditing
-        ? await updateStore({ ...data, id: initialData!.id })
-        : await setupStore(data);
+      const result = await createOrUpdateStore(data);
 
       if (result.success) {
         toast.success(isEditing ? "Store updated" : "Store created");

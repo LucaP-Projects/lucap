@@ -99,6 +99,42 @@ export async function createOrUpdateStore(data: StoreSettingsInput): Promise<Sto
   }
 }
 
+export async function getStoreBySlug(slug: string): Promise<StoreResponse> {
+  try {
+    const store = await prisma.store.findUnique({
+      where: { slug },
+      include: {
+        company: {
+          select: {
+            id: true,
+            name: true,
+            slug: true,
+            logo: true,
+            email: true,
+            phone: true,
+            address: true
+          }
+        },
+        products: {
+          where: { status: "ACTIVE" },
+          include: {
+            category: { select: { id: true, name: true } }
+          }
+        }
+      }
+    });
+
+    if (!store) {
+      return { success: false, error: "Store not found" };
+    }
+
+    return { success: true, data: store };
+  } catch (error) {
+    console.error("Error fetching store by slug:", error);
+    return { success: false, error: "Failed to fetch store" };
+  }
+}
+
 export async function getStoreItems(): Promise<StoreResponse> {
   try {
     const session = await getSessionWithCompany();

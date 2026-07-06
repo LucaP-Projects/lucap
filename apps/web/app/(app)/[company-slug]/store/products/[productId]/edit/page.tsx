@@ -29,10 +29,10 @@ export default async function EditProductPage({ params }: EditProductPageProps) 
   const companyId = session.user.activeCompanyId;
 
   const [product, categories, items] = await Promise.all([
-    prisma.product.findFirst({
+    prisma.item.findFirst({
       where: { id: productId, companyId },
       include: {
-        categories: { include: { category: { select: { id: true, name: true } } } }
+        category: { select: { id: true, name: true } }
       }
     }),
     prisma.category.findMany({

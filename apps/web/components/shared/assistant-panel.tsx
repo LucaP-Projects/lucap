@@ -51,14 +51,13 @@ export function AssistantPanel({ fullScreen, onClose, onToggleFullScreen }: Assi
 
   const companyId = companySlug; 
 
+  const [input, setInput] = useState("");
+
   const { 
     messages, 
     sendMessage,
     status,
     setMessages,
-    input,
-    handleInputChange,
-    setInput
   } = useChat({
     body: {
       companyId,
@@ -219,29 +218,7 @@ export function AssistantPanel({ fullScreen, onClose, onToggleFullScreen }: Assi
                                     )}
                                 >
                                     <BubbleContent>
-                                        {m.content && <p className="text-sm leading-relaxed whitespace-pre-wrap">{getMessageText(m)}</p>}
-                                        
-                                        {m.toolInvocations && m.toolInvocations.map((toolInvocation: any) => {
-                                          const toolCallId = toolInvocation.toolCallId;
-
-                                          if (toolInvocation.state === 'result') {
-                                            return (
-                                              <div key={toolCallId} className="mt-3 p-3 bg-white rounded-xl border border-slate-200 text-[11px] font-mono overflow-auto max-h-40">
-                                                <div className="flex items-center gap-2 mb-2 text-slate-500 font-bold uppercase tracking-wider text-[9px]">
-                                                  {toolInvocation.toolName} Result
-                                                </div>
-                                                <pre className="text-slate-700">{JSON.stringify(toolInvocation.result, null, 2)}</pre>
-                                              </div>
-                                            );
-                                          }
-
-                                          return (
-                                            <div key={toolCallId} className="mt-3 p-2 bg-white/50 rounded-lg border border-dashed border-slate-200 text-[10px] text-slate-400 flex items-center gap-2">
-                                              <div className="h-1.5 w-1.5 rounded-full bg-slate-300 animate-pulse" />
-                                              Analyzing...
-                                            </div>
-                                          );
-                                        })}
+                                        {getMessageText(m) && <p className="text-sm leading-relaxed whitespace-pre-wrap">{getMessageText(m)}</p>}
                                     </BubbleContent>
                                 </Bubble>
                             </MessageContent>

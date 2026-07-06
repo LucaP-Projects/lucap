@@ -26,7 +26,7 @@ export default async function StorePage() {
     redirect("/select-company");
   }
 
-  const storeResult = await getStore(session.user.activeCompanyId);
+  const storeResult = await getStore();
   const store = storeResult.success ? (storeResult.data as StoreWithCompany) : null;
 
   const companySlug = session.activeCompany?.slug;
