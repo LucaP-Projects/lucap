@@ -4,9 +4,9 @@ import { ReactNode, useEffect, useState } from 'react';
 import { NextIntlClientProvider } from 'next-intl';
 import { ThemeProvider } from 'next-themes';
 import { Direction } from 'radix-ui';
+import { AssistantDrawer } from '@/components/shared/assistant-drawer';
 import { MessageScrollerProvider } from '@/components/ui/message-scroller';
 import { TooltipProvider } from '@/components/ui/tooltip';
-import { AssistantDrawer } from '@/components/shared/assistant-drawer';
 
 interface ProvidersProps {
   children: ReactNode;

@@ -352,7 +352,6 @@ model Category {
   company             Company           @relation(fields: [companyId], references: [id])
   parent              Category?         @relation("CategoryHierarchy", fields: [parentId], references: [id])
   subCategories       Category[]        @relation("CategoryHierarchy")
-  categoryProduct     CategoryProduct[]
   items               Item[]
 
   @@index([name, companyId])
@@ -405,6 +404,19 @@ model Item {
   deactivatedAt           DateTime?
   deactivatedByUserId     String?
   deactivationReason      String?
+
+  // Store fields (single source of truth)
+  storeStatus             StoreItemStatus          @default(DRAFT)
+  storeSlug               String?
+  storeDescription        String?                  @db.VarChar(2000)
+  storeShortDescription   String?                  @db.VarChar(500)
+  /// [StoreItemImages]
+  storeImages             Json?
+  storeFeatures           String[]
+  storeIsPublic           Boolean                  @default(false)
+  storeCategoryIds        String[]
+
+  // Relations
   creditMemoItems         CreditMemoItem[]
   chargeItems             DelayedChargeItem[]
   creditItems             DelayedCreditItem[]
@@ -416,11 +428,13 @@ model Item {
   incomeAccount           Account?                 @relation("ItemIncomeAccount", fields: [incomeAccountId], references: [id])
   inventoryAssetAccount   Account?                 @relation("ItemInventoryAssetAccount", fields: [inventoryAssetAccountId], references: [id])
   paymentEventItems       PaymentEventItem[]
-  product                 Product[]
   refundItems             RefundReceiptItem[]
   salesReceiptItems       SalesReceiptItem[]
+  cartItems               CartItem[]
+  orderItems              OrderItem[]
 
   @@unique([sku, companyId])
+  @@unique([storeSlug, companyId])
   @@index([type])
   @@index([status])
   @@index([categoryId])
@@ -428,7 +442,10 @@ model Item {
   @@index([sellable])
   @@index([purchasable])
   @@index([trackInventory])
-  @@index([name, description])
+  @@index([companyId])
+  @@index([storeStatus])
+  @@index([storeIsPublic])
+  @@index([storeSlug])
 }
 
 model InvoiceItem {
@@ -492,6 +509,7 @@ model Invoice {
   attachments             InvoiceAttachment[]
   items                   InvoiceItem[]
   payments                Payment[]
+  order                   Order?
 
   @@unique([number, companyId])
   @@index([estimateId])
@@ -969,8 +987,8 @@ model DelayedCredit {
   deactivatedByUserId     String?
   deactivationReason      String?
   company                 Company                   @relation(fields: [companyId], references: [id])
-  customer                Customer                  @relation(fields: [customerId], references: [id])
-  tax                     TaxRate?                  @relation(fields: [taxId], references: [id])
+  customer                Customer                 @relation(fields: [customerId], references: [id])
+  tax                     TaxRate?                 @relation(fields: [taxId], references: [id])
   attachments             DelayedCreditAttachment[]
   items                   DelayedCreditItem[]
 
@@ -1135,75 +1153,9 @@ model Transaction {
   @@index([completed])
 }
 
-model Product {
-  id                   String            @id @default(cuid())
-  name                 String
-  description          String?
-  shortDescription     String?
-  slug                 String            @unique
-  price                Float
-  compareAtPrice       Float?
-  sku                  String?
-  status               ProductStatus     @default(DRAFT)
-  inventory            Int?
-  features             String[]
-  metadata             Json?
-  isSubscription       Boolean           @default(false)
-  billingInterval      String?
-  billingIntervalCount Int?
-  trialDays            Int?              @default(0)
-  itemId               String?
-  storeId              String
-  createdAt            DateTime          @default(now())
-  updatedAt            DateTime          @updatedAt
-  companyId            String
-  centralProductId     String?
-  categories           CategoryProduct[]
-  company              Company           @relation(fields: [companyId], references: [id])
-  item                 Item?             @relation(fields: [itemId], references: [id])
-  store                Store             @relation(fields: [storeId], references: [id])
-  images               ProductImage[]
-  variants             ProductVariant[]
 
-  @@index([storeId])
-  @@index([companyId])
-  @@index([status])
-}
 
-model ProductImage {
-  id        String  @id @default(cuid())
-  url       String
-  alt       String?
-  position  Int     @default(0)
-  productId String
-  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 
-  @@index([productId])
-}
-
-model ProductVariant {
-  id        String  @id @default(cuid())
-  name      String
-  sku       String?
-  price     Float?
-  inventory Int?
-  metadata  Json?
-  productId String
-  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-
-  @@index([productId])
-}
-
-model CategoryProduct {
-  categoryId String
-  productId  String
-  category   Category @relation(fields: [categoryId], references: [id])
-  product    Product  @relation(fields: [productId], references: [id])
-
-  @@id([categoryId, productId])
-  @@index([categoryId])
-  @@index([productId])
-}
 
 model Store {
   id                       String    @id @default(cuid())
@@ -1222,10 +1174,84 @@ model Store {
   paymentSettings          Json?
   createdAt                DateTime  @default(now())
   updatedAt                DateTime  @updatedAt
-  products                 Product[]
+  orders                   Order[]
   company                  Company   @relation(fields: [companyId], references: [id])
 
   @@index([companyId])
+}
+
+model Cart {
+  id        String     @id @default(cuid())
+  companyId String     @unique
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  company   Company    @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  items     CartItem[]
+
+  @@index([companyId])
+}
+
+model CartItem {
+  id        String  @id @default(cuid())
+  cartId    String
+  itemId    String
+  quantity  Int     @default(1)
+  unitPrice Float   @default(0)
+  cart      Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  item      Item    @relation(fields: [itemId], references: [id], onDelete: Cascade)
+
+  @@index([cartId])
+  @@index([itemId])
+}
+
+model Order {
+  id                String            @id @default(cuid())
+  orderNumber       String            @unique
+  buyerCompanyId    String
+  sellerCompanyId   String
+  sellerStoreId     String
+  status            OrderStatus       @default(PENDING)
+  fulfillmentStatus FulfillmentStatus @default(PENDING)
+  subtotal          Float
+  taxAmount         Float             @default(0)
+  total             Float
+  currency          String            @default("USD")
+  notes             String?
+  shippingAddress   Json?
+  billingAddress    Json?
+  invoiceId         String?           @unique
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  buyerCompany      Company           @relation("BuyerCompany", fields: [buyerCompanyId], references: [id])
+  sellerCompany     Company           @relation("SellerCompany", fields: [sellerCompanyId], references: [id])
+  sellerStore       Store             @relation(fields: [sellerStoreId], references: [id])
+  invoice           Invoice?          @relation(fields: [invoiceId], references: [id])
+  items             OrderItem[]
+
+  @@index([buyerCompanyId])
+  @@index([sellerCompanyId])
+  @@index([sellerStoreId])
+  @@index([status])
+  @@index([fulfillmentStatus])
+}
+
+model OrderItem {
+  id          String   @id @default(cuid())
+  orderId     String
+  itemId      String
+  itemName    String
+  description String?
+  quantity    Int
+  unitPrice   Float
+  total       Float
+  taxAmount   Float    @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  order       Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  item        Item     @relation(fields: [itemId], references: [id])
+
+  @@index([orderId])
+  @@index([itemId])
 }
 
 model EmailTemplate {
@@ -1471,6 +1497,7 @@ model Company {
   createdAt       DateTime             @default(now())
   updatedAt       DateTime             @updatedAt
   accounts        Account[]
+  carts           Cart[]
   categories      Category[]
   parentCompany   Company?             @relation("CompanyHierarchy", fields: [parentCompanyId], references: [id])
   subsidiaries    Company[]            @relation("CompanyHierarchy")
@@ -1486,9 +1513,10 @@ model Company {
   invoices        Invoice[]
   items           Item[]
   journalEntry    JournalEntry[]
+  ordersPlaced    Order[]              @relation("BuyerCompany")
+  ordersReceived  Order[]              @relation("SellerCompany")
   payments        Payment[]
   paymentEvents   PaymentEvent[]
-  products        Product[]
   refundReceipts  RefundReceipt[]
   roles           Role[]
   salesReceipts   SalesReceipt[]
@@ -1873,8 +1901,27 @@ enum CompanyType {
   SCA
 }
 
-enum ProductStatus {
+enum StoreItemStatus {
   DRAFT
   ACTIVE
   ARCHIVED
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  REFUNDED
+}
+
+enum FulfillmentStatus {
+  PENDING
+  PICKING
+  PACKED
+  SHIPPED
+  DELIVERED
+  RETURNED
 }

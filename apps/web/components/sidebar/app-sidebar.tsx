@@ -64,6 +64,48 @@ const COMPANY_NAV_BASE: NavItem[] = [
     icon: HardDrive
   },
   {
+    title: 'Marketplace',
+    url: '/marketplace',
+    icon: Store,
+    items: [
+      {
+        title: 'Browse Stores',
+        url: '/marketplace'
+      },
+      {
+        title: 'My Cart',
+        url: '/cart'
+      },
+      {
+        title: 'My Orders',
+        url: '/orders'
+      }
+    ]
+  },
+  {
+    title: 'My Store',
+    url: '/store',
+    icon: ShoppingBag,
+    items: [
+      {
+        title: 'Store Dashboard',
+        url: '/store'
+      },
+      {
+        title: 'Products',
+        url: '/store/products'
+      },
+      {
+        title: 'Orders',
+        url: '/store/orders'
+      },
+      {
+        title: 'Store Settings',
+        url: '/settings/store'
+      }
+    ]
+  },
+  {
     title: 'Finance Dashboards',
     url: '/finance/dashboards',
     icon: LayoutDashboard,
