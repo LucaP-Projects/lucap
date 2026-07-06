@@ -37,7 +37,7 @@ export default async function StoreProductsPage() {
     redirect("/select-company");
   }
 
-  const storeResult = await getStore(session.user.activeCompanyId);
+  const storeResult = await getStore();
   const store = storeResult.success ? storeResult.data : null;
 
   const companySlug = session.activeCompany?.slug;
@@ -109,19 +109,19 @@ export default async function StoreProductsPage() {
                     <TableCell>
                       <Badge
                         variant={
-                          product.status === "ACTIVE"
+                          product.storeStatus === "ACTIVE"
                             ? "default"
-                            : product.status === "DRAFT"
+                            : product.storeStatus === "DRAFT"
                               ? "secondary"
                               : "outline"
                         }
                       >
-                        {product.status}
+                        {product.storeStatus}
                       </Badge>
                     </TableCell>
-                    <TableCell>{formatCurrency(product.price)}</TableCell>
+                    <TableCell>{formatCurrency(product.salesPrice)}</TableCell>
                     <TableCell>
-                      {product.inventory === null ? "Unlimited" : product.inventory}
+                      {product.quantityOnHand === null ? "Unlimited" : product.quantityOnHand}
                     </TableCell>
                     <TableCell className="text-right">
                       <Link href={`/${companySlug}/store/products/${product.id}/edit`}>

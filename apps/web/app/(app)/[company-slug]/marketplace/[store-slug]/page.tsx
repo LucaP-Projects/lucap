@@ -72,15 +72,15 @@ export default async function MarketplaceStorePage({ params }: StorePageProps) {
           {products.map((product) => (
             <Link
               key={product.id}
-              href={`/${companySlug}/marketplace/${store.slug}/${product.slug}`}
+              href={`/${companySlug}/marketplace/${store.slug}/${product.storeSlug}`}
             >
               <Card className="h-full transition-shadow hover:shadow-md">
                 <CardHeader className="pb-2">
                   <div className="flex h-40 items-center justify-center rounded-md bg-muted">
-                    {product.images?.[0]?.url ? (
+                    {product.storeImages?.[0]?.url ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img
-                        src={product.images[0].url}
+                        src={product.storeImages[0].url}
                         alt={product.name}
                         className="h-full w-full rounded-md object-cover"
                       />
@@ -92,12 +92,12 @@ export default async function MarketplaceStorePage({ params }: StorePageProps) {
                 <CardContent>
                   <h3 className="font-semibold line-clamp-1">{product.name}</h3>
                   <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
-                    {product.shortDescription || product.description}
+                    {product.storeShortDescription || product.description}
                   </p>
-                  <p className="mt-2 font-medium">{formatCurrency(product.price)}</p>
-                  {product.inventory !== null && product.inventory <= 5 && product.inventory > 0 && (
+                  <p className="mt-2 font-medium">{formatCurrency(product.salesPrice)}</p>
+                  {product.quantityOnHand !== null && product.quantityOnHand <= 5 && product.quantityOnHand > 0 && (
                     <Badge variant="secondary" className="mt-2">
-                      Only {product.inventory} left
+                      Only {product.quantityOnHand} left
                     </Badge>
                   )}
                 </CardContent>

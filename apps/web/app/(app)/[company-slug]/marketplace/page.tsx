@@ -99,15 +99,15 @@ export default async function MarketplacePage() {
             {products.slice(0, 8).map((product) => (
               <Link
                 key={product.id}
-                href={`/${companySlug}/marketplace/${product.store?.slug}/${product.slug}`}
+                href={`/${companySlug}/marketplace/${product.store?.slug}/${product.storeSlug}`}
               >
                 <Card className="h-full transition-shadow hover:shadow-md">
                   <CardHeader className="pb-2">
                     <div className="flex h-32 items-center justify-center rounded-md bg-muted">
-                      {product.images?.[0]?.url ? (
+                      {product.storeImages?.[0]?.url ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img
-                          src={product.images[0].url}
+                          src={product.storeImages[0].url}
                           alt={product.name}
                           className="h-full w-full rounded-md object-cover"
                         />
@@ -121,7 +121,7 @@ export default async function MarketplacePage() {
                       {product.store?.company.name}
                     </p>
                     <h3 className="font-semibold line-clamp-1">{product.name}</h3>
-                    <p className="mt-1 font-medium">{formatCurrency(product.price)}</p>
+                    <p className="mt-1 font-medium">{formatCurrency(product.salesPrice)}</p>
                   </CardContent>
                 </Card>
               </Link>

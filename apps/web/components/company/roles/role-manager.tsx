@@ -39,7 +39,7 @@ export function RoleManager({ companyId }: RoleManagerProps) {
 
     startTransition(async () => {
       try {
-        await createCompanyRole(companyId, roleName, selectedPermissions);
+        await createCompanyRole(roleName, selectedPermissions);
         toast.success("Role created successfully");
         setRoleName("");
         setSelectedPermissions([]);

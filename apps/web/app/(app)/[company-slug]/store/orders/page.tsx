@@ -33,7 +33,7 @@ export default async function StoreOrdersPage() {
     redirect("/select-company");
   }
 
-  const storeResult = await getStore(session.user.activeCompanyId);
+  const storeResult = await getStore();
   const store = storeResult.success ? storeResult.data : null;
 
   if (!store) {

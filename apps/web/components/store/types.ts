@@ -56,6 +56,7 @@ export interface StoreWithCompany {
     address: Record<string, unknown> | null;
   };
   items?: StoreItem[];
+  products?: StoreItem[];
 }
 
 export interface CartItemWithItem {
@@ -65,11 +66,16 @@ export interface CartItemWithItem {
   quantity: number;
   unitPrice: number;
   item: StoreItem & {
-    store: {
+    company?: {
       id: string;
       name: string;
       slug: string;
-      company: { id: string; name: string; slug: string; logo: string | null };
+      logo: string | null;
+      store?: {
+        id: string;
+        name: string;
+        slug: string;
+      } | null;
     };
   };
 }
@@ -139,6 +145,15 @@ export interface OrderWithDetails {
     dueDate: Date;
   } | null;
 }
+
+export type ProductWithImages = StoreItem & {
+  store?: {
+    id: string;
+    name: string;
+    slug: string;
+    company: { id: string; name: string; slug: string; logo: string | null };
+  };
+};
 
 export interface StoreResponse {
   success: boolean;

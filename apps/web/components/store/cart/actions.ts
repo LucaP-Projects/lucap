@@ -13,14 +13,18 @@ export type CartResponse = {
 const itemInclude = {
   item: {
     include: {
-      store: {
-        include: {
-          company: {
+      category: { select: { id: true, name: true } },
+      company: {
+        select: {
+          id: true,
+          name: true,
+          slug: true,
+          logo: true,
+          store: {
             select: {
               id: true,
               name: true,
-              slug: true,
-              logo: true
+              slug: true
             }
           }
         }

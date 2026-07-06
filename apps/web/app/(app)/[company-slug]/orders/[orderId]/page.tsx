@@ -87,7 +87,7 @@ export default async function OrderDetailPage({ params }: OrderDetailPageProps) 
               {order.items.map((item) => (
                 <div key={item.id} className="flex items-center justify-between">
                   <div>
-                    <p className="font-medium">{item.productName}</p>
+                    <p className="font-medium">{item.itemName}</p>
                     <p className="text-sm text-muted-foreground">
                       Qty: {item.quantity} × {formatCurrency(item.unitPrice)}
                     </p>

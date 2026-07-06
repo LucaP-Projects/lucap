@@ -11,13 +11,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { formatCurrency } from "@/lib/utils";
-import { CartItemWithItem } from "../types";
+import { CartItemWithItem, StoreItem } from "../types";
 
 interface CartViewProps {
   itemsByStore: Record<
     string,
     {
-      store: CartItemWithItem["item"]["store"];
+      store: { id: string; name: string; slug: string };
       items: CartItemWithItem[];
     }
   >;

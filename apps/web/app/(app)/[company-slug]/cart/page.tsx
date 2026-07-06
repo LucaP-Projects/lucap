@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { ShoppingCart, ArrowLeft, Store } from "lucide-react";
 import { getCart } from "@/components/store/cart/actions";
 import { CartView } from "@/components/store/cart/cart-view";
-import { CartWithItems, CartItemWithProduct } from "@/components/store/types";
+import { CartItemWithItem } from "@/components/store/types";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { getSessionWithCompany } from "@/lib/auth";
@@ -27,25 +27,20 @@ export default async function CartPage() {
   }
 
   const cartResult = await getCart();
-  const cart = (cartResult.success ? cartResult.data : { items: [] }) as CartWithItems;
+  const cart = (cartResult.success ? cartResult.data : { items: [] }) as { id: string; companyId: string; items: CartItemWithItem[] };
 
-  const itemsByStore = cart.items.reduce(
-    (
-      acc: Record<string, { store: CartItemWithProduct["product"]["store"]; items: CartItemWithProduct[] }>,
-      item: CartItemWithProduct
-    ) => {
-      const storeId = item.product.storeId;
-      if (!acc[storeId]) {
-        acc[storeId] = {
-          store: item.product.store,
-          items: []
-        };
-      }
-      acc[storeId].items.push(item);
-      return acc;
-    },
-    {}
-  );
+  const itemsByStoreMap = new Map<string, { store: { id: string; name: string; slug: string }; items: CartItemWithItem[] }>();
+  for (const item of cart.items as CartItemWithItem[]) {
+    const store = item.item.company?.store;
+    if (!store) continue;
+    const existing = itemsByStoreMap.get(store.id);
+    if (existing) {
+      existing.items.push(item);
+    } else {
+      itemsByStoreMap.set(store.id, { store, items: [item] });
+    }
+  }
+  const itemsByStore = Object.fromEntries(itemsByStoreMap);
 
   return (
     <div className="container mx-auto py-6">
