@@ -46,6 +46,16 @@ export function formatCurrency(amount: number): string {
   }).format(amount);
 }
 
+export function slugify(text: string): string {
+  return text
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/[^\w\-]+/g, '')
+    .replace(/\-\-+/g, '-');
+}
+
 export const handleNumberInput = (
   value: string,
   onChange: (value: number) => void,

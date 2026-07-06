@@ -26,10 +26,10 @@ import {
   MessageScrollerContent, 
   MessageScrollerViewport,
   MessageScrollerItem} from "@/components/ui/message-scroller";
+import { useChat, getMessageText } from "@/lib/ai";
 import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import { useAssistantStore } from "@/stores/useAssistantStore";
-import { useChat, getMessageText } from "@/lib/ai";
 
 interface AssistantPanelProps {
   fullScreen?: boolean;
