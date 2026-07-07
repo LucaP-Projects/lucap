@@ -1023,6 +1023,7 @@ model Payment {
   paymentDate             DateTime
   paymentMethod           PaymentMethod
   reference               String?
+  notes                   String?
   metadata                Json?
   discountType            DiscountType?
   discountValue           Float?

@@ -234,7 +234,7 @@ async function WelcomePage() {
 
             {/* Sales Receipts */}
             <Link
-              href={`/salesreceipts`}
+              href={`/sales-receipt`}
               className="group block transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
               <Card className="h-full border border-gray-100 shadow-sm transition-all duration-300 group-hover:-translate-y-1 group-hover:border-indigo-100 group-hover:shadow-md">
@@ -329,7 +329,7 @@ async function WelcomePage() {
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {/* Credit Memos */}
             <Link
-              href={`/creditmemos`}
+              href={`/credit-memos`}
               className="group block transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
               <Card className="h-full border border-gray-100 shadow-sm transition-all duration-300 group-hover:-translate-y-1 group-hover:border-amber-100 group-hover:shadow-md">
@@ -370,7 +370,7 @@ async function WelcomePage() {
 
             {/* Refund Receipts */}
             <Link
-              href={`/refundreceipts`}
+              href={`/refund-receipt`}
               className="group block transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
               <Card className="h-full border border-gray-100 shadow-sm transition-all duration-300 group-hover:-translate-y-1 group-hover:border-red-100 group-hover:shadow-md">
@@ -465,7 +465,7 @@ async function WelcomePage() {
           <div className="grid gap-5 sm:grid-cols-2">
             {/* Delayed Credits */}
             <Link
-              href={`/delayedcredits`}
+              href={`/delayed-credits`}
               className="group block transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
               <Card className="h-full border border-gray-100 shadow-sm transition-all duration-300 group-hover:-translate-y-1 group-hover:border-emerald-100 group-hover:shadow-md">
@@ -508,7 +508,7 @@ async function WelcomePage() {
 
             {/* Delayed Charges */}
             <Link
-              href={`/delayedcharges`}
+              href={`/delayed-charges`}
               className="group block transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
               <Card className="h-full border border-gray-100 shadow-sm transition-all duration-300 group-hover:-translate-y-1 group-hover:border-sky-100 group-hover:shadow-md">

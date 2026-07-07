@@ -69,14 +69,17 @@ export async function getProductBySlug(slug: string): Promise<ProductResponse> {
       where: { storeSlug: slug },
       include: {
         category: { select: { id: true, name: true } },
-        store: {
-          include: {
-            company: {
+        company: {
+          select: {
+            id: true,
+            name: true,
+            slug: true,
+            logo: true,
+            store: {
               select: {
                 id: true,
                 name: true,
-                slug: true,
-                logo: true
+                slug: true
               }
             }
           }

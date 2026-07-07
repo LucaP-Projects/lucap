@@ -21,7 +21,7 @@ export async function getCustomerInvoices(customerId: string): Promise<GetCustom
   try {
     const session = await getSessionWithCompany();
     if (!session?.user?.id) {
-      redirect('/login');
+      redirect('/auth/login');
     }
     if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
@@ -63,7 +63,7 @@ export async function createPayment(data: PaymentFormValues) {
   try {
     const session = await getSessionWithCompany();
     if (!session?.user?.id) {
-      redirect('/login');
+      redirect('/auth/login');
     }
     if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
@@ -176,7 +176,8 @@ export async function createPayment(data: PaymentFormValues) {
       }
     );
 
-    revalidatePath('/receivepayment');
+    revalidatePath('/receive-payment');
+    revalidatePath('/payments');
     return { success: true, data: result };
   } catch (error) {
     console.error('Error creating payment:', error);

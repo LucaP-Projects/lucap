@@ -111,7 +111,7 @@ export function DelayedChargeForm({
           } successfully`
         );
 
-        router.push('/delayedcharges');
+        router.push('/delayed-charges');
         router.refresh();
       } catch (error) {
         console.error('Submission error:', error);

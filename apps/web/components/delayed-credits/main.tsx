@@ -111,7 +111,7 @@ export function DelayedCreditForm({
           } successfully`
         );
 
-        router.push('/delayedcredits');
+        router.push('/delayed-credits');
         router.refresh();
       } catch (error) {
         console.error('Submission error:', error);

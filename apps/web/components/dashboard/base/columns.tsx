@@ -37,6 +37,10 @@ import {
   PaymentMethod,
 } from "@/lib/generated/prisma/enums";
 import { mapInvoiceDataForPdf } from "@/utils/invoicePdfMapper";
+import {
+  getDocumentQualificationStatus,
+  DocumentQualificationStatus,
+} from "@/lib/document-qualification";
 
 export type EntityStatus =
   | EstimateStatus
@@ -45,7 +49,8 @@ export type EntityStatus =
   | ReceiptStatus
   | ChargeStatus
   | CreditStatus
-  | PaymentStatus;
+  | PaymentStatus
+  | DocumentQualificationStatus;
 
 export type EntityType =
   | "estimate"
@@ -77,6 +82,7 @@ interface BaseEntityCore {
   amount?: number;
   totalAmount?: number;
   dueDate?: Date;
+  paymentDate?: Date;
   createdAt?: Date;
   refundMethod?: PaymentMethod;
 }
@@ -115,6 +121,7 @@ export const getStatusColor = (status: EntityStatus): string => {
     VOIDED: "bg-gray-500 hover:bg-gray-600",
     CANCELED: "bg-red-500 hover:bg-red-600",
     INVOICED: "bg-blue-500 hover:bg-blue-600",
+    VALIDATED: "bg-green-500 hover:bg-green-600",
   };
 
   return baseColors[status] || "bg-gray-500 hover:bg-gray-600";
@@ -275,12 +282,14 @@ const ActionsCell = ({ row, config }: { row: any; config: EntityConfig }) => {
           >
             View Details
           </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={(e) => handlePrintInvoice(e, item.id)}
-            disabled={loading}
-          >
-            {loading ? "Printing..." : "Print PDF"}
-          </DropdownMenuItem>
+          {config.type !== "payment" && (
+            <DropdownMenuItem
+              onClick={(e) => handlePrintInvoice(e, item.id)}
+              disabled={loading}
+            >
+              {loading ? "Printing..." : "Print PDF"}
+            </DropdownMenuItem>
+          )}
           {config.type === "invoice" && (
             <DropdownMenuItem
               onClick={(e) => handleAction(e, openPaymentSheet)}
@@ -312,12 +321,23 @@ export function createColumns<T extends BaseEntityCore>(
     const { getRefreshedStatus } = useInvoiceRefresh();
     const item = row.original;
 
-    // Check if there's an updated status for this invoice
-    const refreshedStatus =
-      config.type === "invoice" ? getRefreshedStatus(item.id) : null;
+    if (config.type !== "payment") {
+      const qualificationStatus = getDocumentQualificationStatus(item.notes);
+      if (qualificationStatus) {
+        return (
+          <Badge className={getStatusColor(qualificationStatus)}>
+            {formatStatus(qualificationStatus)}
+          </Badge>
+        );
+      }
+      return (
+        <Badge className="bg-gray-400 hover:bg-gray-500">Not reviewed</Badge>
+      );
+    }
 
     // Use refreshed status if available, otherwise use the original
-    const status = refreshedStatus || (row.getValue("status") as EntityStatus);
+    const status =
+      getRefreshedStatus(item.id) || (row.getValue("status") as EntityStatus);
 
     return (
       <Badge className={getStatusColor(status)}>{formatStatus(status)}</Badge>
@@ -373,7 +393,10 @@ export function createColumns<T extends BaseEntityCore>(
       header: "Date",
       cell: ({ row }) => {
         const date =
-          row.original.dueDate ?? row.original.createdAt ?? new Date();
+          row.original.dueDate ??
+          row.original.paymentDate ??
+          row.original.createdAt ??
+          new Date();
         return formatDate(date);
       },
     },
@@ -436,8 +459,8 @@ export const entityConfigs: Record<EntityType, EntityConfig> = {
   payment: {
     type: "payment",
     getDetailUrl: (id: string) => `/payments/${id}`,
-    getEditUrl: (id: string) => `/payment/${id}`,
-    canEdit: (status: EntityStatus) => true,
+    getEditUrl: (id: string) => `/payments/${id}`,
+    canEdit: (status: EntityStatus) => false,
     numberLabel: "Payment #",
   },
   invoice: {

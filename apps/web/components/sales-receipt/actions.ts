@@ -66,7 +66,7 @@ export async function createSalesReceipt(
   try {
     const session = await getSessionWithCompany();
     if (!session?.user?.id) {
-      redirect('/login');
+      redirect('/auth/login');
     }
     if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
@@ -177,7 +177,6 @@ export async function createSalesReceipt(
               amount: new Decimal(item.quantity).mul(item.rate).toNumber()
             })),
             dueDate: data.dueDate.toISOString(),
-            tax: data.taxId ? { connect: { id: data.taxId } } : undefined
           },
           items: {
             create: data.items.map((item) => ({
@@ -234,7 +233,7 @@ export async function createSalesReceipt(
       return receipt;
     });
 
-    revalidatePath('/salesreceipts');
+    revalidatePath('/sales-receipt');
 
     // Convert the complete receipt to SalesReceiptAction type before returning
     const receiptAction: SalesReceiptAction = {
@@ -282,7 +281,7 @@ export async function getSalesReceipt(id: string) {
   try {
     const session = await getSessionWithCompany();
     if (!session?.user?.id) {
-      redirect('/login');
+      redirect('/auth/login');
     }
     if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
@@ -354,7 +353,7 @@ export async function updateSalesReceipt(
   try {
     const session = await getSessionWithCompany();
     if (!session?.user?.id) {
-      redirect('/login');
+      redirect('/auth/login');
     }
     if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
@@ -694,7 +693,7 @@ export async function updateSalesReceipt(
       amount: receipt.amount
     };
 
-    revalidatePath('/salesreceipts');
+    revalidatePath('/sales-receipt');
     return { success: true, data: receiptAction };
   } catch (error) {
     console.error('Error updating sales receipt:', error);
@@ -715,7 +714,7 @@ export async function deleteSalesReceipt(
   try {
     const session = await getSessionWithCompany();
     if (!session?.user?.id) {
-      redirect('/login');
+      redirect('/auth/login');
     }
     if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
@@ -798,7 +797,7 @@ export async function deleteSalesReceipt(
       });
     });
 
-    revalidatePath('/salesreceipts');
+    revalidatePath('/sales-receipt');
     return { success: true };
   } catch (error) {
     console.error('Error deactivating sales receipt:', error);

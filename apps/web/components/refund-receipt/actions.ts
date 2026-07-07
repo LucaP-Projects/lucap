@@ -66,7 +66,7 @@ export async function createRefundReceipt(
   try {
     const session = await getSessionWithCompany();
     if (!session?.user?.id) {
-      redirect('/login');
+      redirect('/auth/login');
     }
     if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
@@ -237,7 +237,7 @@ export async function createRefundReceipt(
       return refund;
     });
 
-    revalidatePath('/refunds');
+    revalidatePath('/refund-receipt');
 
     // Convert the complete refund to RefundReceiptAction type before returning
     const refundAction: RefundReceiptAction = {
@@ -284,7 +284,7 @@ export async function getRefundReceipt(id: string) {
   try {
     const session = await getSessionWithCompany();
     if (!session?.user?.id) {
-      redirect('/login');
+      redirect('/auth/login');
     }
     if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
@@ -358,7 +358,7 @@ export async function updateRefundReceipt(
   try {
     const session = await getSessionWithCompany();
     if (!session?.user?.id) {
-      redirect('/login');
+      redirect('/auth/login');
     }
     if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
@@ -701,7 +701,7 @@ export async function updateRefundReceipt(
       amount: refund.amount
     };
 
-    revalidatePath('/refunds');
+    revalidatePath('/refund-receipt');
     return { success: true, data: refundAction };
   } catch (error) {
     console.error('Error updating refund receipt:', error);
@@ -722,7 +722,7 @@ export async function deleteRefundReceipt(
   try {
     const session = await getSessionWithCompany();
     if (!session?.user?.id) {
-      redirect('/login');
+      redirect('/auth/login');
     }
     if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
@@ -802,7 +802,7 @@ export async function deleteRefundReceipt(
       });
     });
 
-    revalidatePath('/refunds');
+    revalidatePath('/refund-receipt');
     return { success: true };
   } catch (error) {
     console.error('Error deactivating refund receipt:', error);

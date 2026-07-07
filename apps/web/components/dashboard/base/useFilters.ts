@@ -33,7 +33,15 @@ export type StatusType =
   // Payment/Invoice
   | 'PAID'
   | 'OVERDUE'
-  | 'PARTIAL';
+  | 'PARTIAL'
+  // Payment method (used as the Payments module's filter dimension)
+  | 'CASH'
+  | 'CREDIT_CARD'
+  | 'BANK_TRANSFER'
+  | 'CHECK'
+  | 'DIGITAL_WALLET'
+  | 'MOBILE_PAYMENT'
+  | 'OTHER';
 
 export interface FilterParams {
   status?: StatusType | 'ALL';
@@ -52,7 +60,8 @@ interface UseFiltersProps {
     | 'refund'
     | 'charge'
     | 'credit'
-    | 'invoice';
+    | 'invoice'
+    | 'payment';
 }
 
 export function useFilters({

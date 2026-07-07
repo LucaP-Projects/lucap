@@ -25,7 +25,7 @@ const CreditMemoNotFound = () => (
       </p>
 
       <div className="flex justify-center gap-4 pt-4">
-        <Link href="/creditmemos">
+        <Link href="/credit-memos">
           <Button variant="outline" size="lg" className="h-11">
             Back to Credit Memos
           </Button>

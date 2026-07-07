@@ -130,6 +130,7 @@ export async function getRefundReceiptsPage(
       refundMethod: true,
       originalPaymentMethod: true,
       reason: true,
+      notes: true,
       createdAt: true
     }
   });
@@ -332,7 +333,7 @@ export async function deleteRefundReceipts(
     });
 
     // Revalidate the refund receipts page
-    revalidatePath('/refund-receipts');
+    revalidatePath('/refund-receipt');
 
     return {
       success: true

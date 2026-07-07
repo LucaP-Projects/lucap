@@ -133,7 +133,7 @@ export async function createDelayedCharge(
   try {
     const session = await getSessionWithCompany();
     if (!session?.user?.id) {
-      redirect('/login');
+      redirect('/auth/login');
     }
     if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
@@ -294,7 +294,7 @@ export async function createDelayedCharge(
       return charge;
     });
 
-    revalidatePath('/delayedcharges');
+    revalidatePath('/delayed-charges');
     return { success: true, data: charge };
   } catch (error) {
     return {
@@ -309,7 +309,7 @@ export async function getDelayedCharge(id: string) {
   try {
     const session = await getSessionWithCompany();
     if (!session?.user?.id) {
-      redirect('/login');
+      redirect('/auth/login');
     }
     if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
@@ -376,7 +376,7 @@ export async function updateDelayedCharge(
     }
     const session = await getSessionWithCompany();
     if (!session?.user?.id) {
-      redirect('/login');
+      redirect('/auth/login');
     }
     if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
@@ -634,7 +634,7 @@ export async function deleteDelayedCharge(id: string) {
   try {
     const session = await getSessionWithCompany();
     if (!session?.user?.id) {
-      redirect('/login');
+      redirect('/auth/login');
     }
     if (!session?.user?.activeCompanyId) {
       redirect('/select-company');

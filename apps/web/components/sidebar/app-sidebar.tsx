@@ -31,9 +31,21 @@ import {
 import ActionButton from './action-button';
 import { NavMain } from './nav-main';
 import { NavProjects } from './nav-projects';
-import { NavUser } from './nav-user';
+import { NavUser, ServerUser } from './nav-user';
 import { TeamSwitcher } from './team-switcher';
 import { useAssistantStore } from '@/stores/useAssistantStore';
+
+export type UnverifiedCounts = {
+  invoices: number;
+  payments: number;
+  customers: number;
+  estimates: number;
+  creditMemos: number;
+  salesReceipts: number;
+  delayedCharges: number;
+  delayedCredits: number;
+  refundReceipts: number;
+};
 
 interface NavItem {
   title: string;
@@ -317,11 +329,15 @@ export function AppSidebar({
   companies = [],
   companySystemRole: _role,
   portalMode = 'company',
+  unverifiedCounts,
+  serverUser,
   ...props
 }: React.ComponentProps<typeof Sidebar> & {
   companies?: Company[];
   companySystemRole?: string | null;
   portalMode?: 'company' | 'accountant';
+  unverifiedCounts?: UnverifiedCounts;
+  serverUser?: ServerUser;
 }) {
   const { open } = useSidebar();
   const { toggleAssistant } = useAssistantStore();
@@ -375,7 +391,6 @@ export function AppSidebar({
     : [...userNavItems];
 
   if (portalMode === 'accountant') {
-    // Optionally add a link back to switch to company view if they have a company
     if (companies.length > 0) {
         navItems.push({
             title: 'Back to Company View',
@@ -384,7 +399,6 @@ export function AppSidebar({
         });
     }
   } else {
-    // Show shortcut to accountant portal if they have access
     if (hasAccountantAccess) {
       navItems.push({
         title: 'Accountant Portal',
@@ -411,13 +425,13 @@ export function AppSidebar({
             }
           }}
         />
-        {portalMode === 'company' && (
+        {portalMode !== 'accountant' && (
           <NavMain items={reportNavItems} label="Reports" />
         )}
-        <NavProjects projects={portalMode === 'company' ? projects : []} />
+        <NavProjects projects={portalMode !== 'accountant' ? projects : []} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser />
+        <NavUser serverUser={serverUser} />
       </SidebarFooter>
     </Sidebar>
   );

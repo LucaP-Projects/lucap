@@ -23,6 +23,7 @@ import {
   TabsList,
   TabsTrigger,
 } from '@/components/ui/tabs';
+import { getDocumentQualificationStatus } from '@/lib/document-qualification';
 import { formatDate } from '@/lib/utils';
 import { getCustomer } from '../actions';
 
@@ -50,7 +51,9 @@ export default async function CustomerPage({ params }: CustomerPageProps) {
           <Button variant="outline" asChild>
             <Link href="/customers">Back to Customers</Link>
           </Button>
-          <Button>Edit Customer</Button>
+          <Button asChild>
+            <Link href={`/customers/${customer.id}/edit`}>Edit Customer</Link>
+          </Button>
         </div>
       </div>
 
@@ -132,13 +135,44 @@ export default async function CustomerPage({ params }: CustomerPageProps) {
               <dt className="text-muted-foreground text-sm font-medium">
                 Address
               </dt>
-              <dd className="text-sm font-medium">
-                {JSON.stringify(customer?.billingAddress) || '-'}
+              <dd className="text-sm font-medium break-words">
+                {(() => {
+                  const address = customer.billingAddress as {
+                    line1?: string;
+                    line2?: string;
+                    city?: string;
+                    state?: string;
+                    postalCode?: string;
+                    country?: string;
+                  } | null;
+                  const hasAddress =
+                    address && Object.values(address).some((val) => val);
+
+                  if (!hasAddress) return '-';
+
+                  const cityLine = [
+                    address.city,
+                    [address.state, address.postalCode]
+                      .filter(Boolean)
+                      .join(' ')
+                  ]
+                    .filter(Boolean)
+                    .join(', ');
+
+                  return (
+                    <>
+                      {address.line1 && <p>{address.line1}</p>}
+                      {address.line2 && <p>{address.line2}</p>}
+                      {cityLine && <p>{cityLine}</p>}
+                      {address.country && <p>{address.country}</p>}
+                    </>
+                  );
+                })()}
               </dd>
             </div>
             <div>
               <dt className="text-muted-foreground text-sm font-medium">ID</dt>
-              <dd className="text-sm font-medium">{customer.id}</dd>
+              <dd className="text-sm font-medium break-words">{customer.id}</dd>
             </div>
           </dl>
         </CardContent>
@@ -206,26 +240,40 @@ export default async function CustomerPage({ params }: CustomerPageProps) {
                       <TableHead>Amount</TableHead>
                       <TableHead>Status</TableHead>
                       <TableHead>Due Date</TableHead>
-                      <TableHead>Notes</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {customer.invoices.map((invoice) => (
-                      <TableRow key={invoice.id}>
-                        <TableCell>{invoice.number}</TableCell>
-                        <TableCell>
-                          {customer.subCustomers.find(
-                            (s) => s.id === invoice.customerId
-                          )?.displayName || '-'}
-                        </TableCell>
-                        <TableCell>${invoice.amount.toFixed(2)}</TableCell>
-                        <TableCell>
-                          <Badge variant="outline">{invoice.status}</Badge>
-                        </TableCell>
-                        <TableCell>{formatDate(invoice.dueDate)}</TableCell>
-                        <TableCell>{invoice.notes || '-'}</TableCell>
-                      </TableRow>
-                    ))}
+                    {customer.invoices.map((invoice) => {
+                      const qualificationStatus = getDocumentQualificationStatus(
+                        invoice.notes
+                      );
+                      return (
+                        <TableRow key={invoice.id}>
+                          <TableCell>{invoice.number}</TableCell>
+                          <TableCell>
+                            {customer.subCustomers.find(
+                              (s) => s.id === invoice.customerId
+                            )?.displayName || '-'}
+                          </TableCell>
+                          <TableCell>${invoice.amount.toFixed(2)}</TableCell>
+                          <TableCell>
+                            <Badge
+                              variant="outline"
+                              className={
+                                qualificationStatus === 'VALIDATED'
+                                  ? 'bg-green-500/10 text-green-700'
+                                  : qualificationStatus === 'REJECTED'
+                                    ? 'bg-red-500/10 text-red-700'
+                                    : 'bg-gray-500/10 text-gray-500'
+                              }
+                            >
+                              {qualificationStatus ?? 'Not reviewed'}
+                            </Badge>
+                          </TableCell>
+                          <TableCell>{formatDate(invoice.dueDate)}</TableCell>
+                        </TableRow>
+                      );
+                    })}
                   </TableBody>
                 </Table>
               </div>

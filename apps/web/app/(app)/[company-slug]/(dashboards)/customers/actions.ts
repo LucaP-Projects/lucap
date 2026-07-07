@@ -1,7 +1,7 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { getCurrentCompany, getSessionWithCompany } from '@/lib/auth';
+import { getSessionWithCompany } from '@/lib/auth';
 import { CustomerStatus } from '@/lib/generated/prisma/enums';
 import * as Prisma from '@/lib/generated/prisma/internal/prismaNamespace';
 import { prisma } from '@/lib/prisma';
@@ -271,10 +271,15 @@ export async function getCustomersShort(params: {
     return [];
   }
 }
-export const getFullCustomer = async (id: string) =>
-  await prisma.customer.findUnique({
-    where: { id }
+export const getFullCustomer = async (id: string) => {
+  const session = await getSessionWithCompany();
+  if (!session?.user?.activeCompanyId) {
+    return null;
+  }
+  return await prisma.customer.findUnique({
+    where: { id, companyId: session.user.activeCompanyId }
   });
+};
 
 async function getCustomerStatistics(): Promise<CustomerStatistics> {
   const session = await getSessionWithCompany();
@@ -434,31 +439,75 @@ const defaultStatistics: CustomerStatistics = {
   recentlyPaid: { amount: 0, count: 0 }
 };
 
+const toAddressJson = (address?: {
+  line1?: string;
+  line2?: string;
+  city?: string;
+  state?: string;
+  postalCode?: string;
+  country?: string;
+}) => ({
+  line1: address?.line1 || '',
+  line2: address?.line2 || '',
+  city: address?.city || '',
+  state: address?.state || '',
+  postalCode: address?.postalCode || '',
+  country: address?.country || ''
+});
+
 export async function createCustomer(formData: CustomerFormData) {
   try {
-    const companyId = await getCurrentCompany();
-    if (!companyId) return;
-    // if (formData.shouldCreateUser === "true") {
-    const customerRoleId = await prisma.role.findFirst({
-      select: { id: true },
-      where: { name: 'CUSTOMER' }
-    });
-    if (!customerRoleId) {
-      return { error: 'Customer role not found' };
+    const session = await getSessionWithCompany();
+    if (!session?.user?.activeCompanyId) {
+      return { error: 'No active company' };
     }
-    // }
 
-    // await prisma.customer.create({
-    //   data: {
-    //     ...formData,
-    //     displayName: formData.displayName,
-    //     Company: { connect: { id: companyId } },
-    //   }
-    // });
+    await prisma.customer.create({
+      data: {
+        displayName: formData.displayName,
+        title: formData.title || null,
+        givenName: formData.givenName || null,
+        middleName: formData.middleName || null,
+        familyName: formData.familyName || null,
+        suffix: formData.suffix || null,
+        companyName: formData.companyName || null,
+        primaryPhone: formData.primaryPhone || null,
+        alternatePhone: formData.alternatePhone || null,
+        mobile: formData.mobile || null,
+        fax: formData.fax || null,
+        primaryEmail: formData.primaryEmail || null,
+        webAddress: formData.webAddress || null,
+        billingAddress: toAddressJson(formData.billingAddress),
+        shippingAddress: toAddressJson(
+          formData.shippingAddressSameAsBilling
+            ? formData.billingAddress
+            : formData.shippingAddress
+        ),
+        taxIdentifier: formData.taxIdentifier || null,
+        secondaryTaxId: formData.secondaryTaxId || null,
+        resaleNumber: formData.resaleNumber || null,
+        businessNumber: formData.businessNumber || null,
+        notes: formData.notes || null,
+        balance: formData.balance ?? 0,
+        creditLimit: formData.creditLimit ?? null,
+        preferredPaymentMethod: formData.preferredPaymentMethod ?? null,
+        taxable: formData.taxable ?? true,
+        printOnCheckName: formData.printOnCheckName || null,
+        parentId: formData.isSubcustomer ? formData.parentId || null : null,
+        metadata: formData.metadata
+          ? {
+              industry: formData.metadata.industry,
+              marketingPreferences: formData.metadata.marketingPreferences
+            }
+          : undefined,
+        companyId: session.user.activeCompanyId
+      }
+    });
 
     revalidatePath('/customers');
     return { success: true };
   } catch (error) {
+    console.error('Error creating customer:', error);
     return { error: 'Failed to create customer' };
   }
 }
@@ -560,14 +609,22 @@ export async function sparseUpdateCustomer(
       }
     });
 
-    (
-      ['billingAddress', 'shippingAddress', 'metadata'] as UpdateFields[]
-    ).forEach((jsonField) => {
-      const value = (<Prisma.CustomerUpdateInput>formData)[jsonField] as string;
-      if (value) {
-        data[jsonField] = JSON.parse(value) as any;
-      }
-    });
+    if (formData.billingAddress) {
+      data.billingAddress = toAddressJson(formData.billingAddress);
+    }
+    if (formData.shippingAddressSameAsBilling || formData.shippingAddress) {
+      data.shippingAddress = toAddressJson(
+        formData.shippingAddressSameAsBilling
+          ? formData.billingAddress
+          : formData.shippingAddress
+      );
+    }
+    if (formData.metadata) {
+      data.metadata = {
+        industry: formData.metadata.industry,
+        marketingPreferences: formData.metadata.marketingPreferences
+      };
+    }
 
     if (formData?.parentId) {
       // need to do manual checks here for invoices and background running jobs

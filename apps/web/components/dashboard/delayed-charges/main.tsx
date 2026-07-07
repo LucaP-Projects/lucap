@@ -2,6 +2,7 @@
 
 import { useCallback, useState } from 'react';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import { DocumentFilters } from '@/components/dashboard/base/DocumentFilters';
 import { DataTable } from '@/components/dashboard/base/table';
 import { useFilters } from '@/components/dashboard/base/useFilters';
@@ -43,6 +44,7 @@ export default function DelayedChargesPage({
   initialStats,
   searchParams
 }: DelayedChargesPageProps) {
+  const { 'company-slug': companySlug } = useParams<{ 'company-slug': string }>();
   const [chargesData, setChargesData] = useState(initialData);
   const [stats, setStats] = useState(initialStats);
 
@@ -110,7 +112,7 @@ export default function DelayedChargesPage({
           </p>
         </div>
         <div className="flex items-center space-x-2">
-          <Link href="/delayedcharge">
+          <Link href={`/${companySlug}/delayed-charges/new`}>
             <Button className="bg-teal-600 px-5 py-2.5 text-sm font-medium shadow-sm hover:bg-teal-700">
               <svg
                 className="mr-2 h-4 w-4"
