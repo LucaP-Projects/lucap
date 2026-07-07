@@ -284,7 +284,7 @@ export async function getSessionWithCompany() {
   const session = await auth.api.getSession({headers: await headers()});
 
   if (!session?.user) {
-    return redirect('/login');
+    return redirect('/auth/login');
   }
 
   // Use activeCompanyId which is more consistent

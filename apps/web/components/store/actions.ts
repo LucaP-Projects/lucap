@@ -115,12 +115,6 @@ export async function getStoreBySlug(slug: string): Promise<StoreResponse> {
             address: true
           }
         },
-        products: {
-          where: { status: "ACTIVE" },
-          include: {
-            category: { select: { id: true, name: true } }
-          }
-        }
       }
     });
 

@@ -38,6 +38,7 @@ export function CustomerTable({
   const [pageSize, setPageSize] = useState(50);
   const [includeInactive, setIncludeInactive] = useState(false);
   const [includeProjects, setIncludeProjects] = useState(false);
+  const [isAddCustomerOpen, setIsAddCustomerOpen] = useState(false);
 
   const currentSearch = searchParams.get('search') ?? '';
 
@@ -55,7 +56,8 @@ export function CustomerTable({
   };
 
   function handleCustomerCreated(): void {
-    throw new Error('Function not implemented.');
+    setIsAddCustomerOpen(false);
+    router.refresh();
   }
 
   return (
@@ -68,9 +70,9 @@ export function CustomerTable({
               Manage your customers and their payment events
             </CardDescription>
           </div>
-          <Sheet>
+          <Sheet open={isAddCustomerOpen} onOpenChange={setIsAddCustomerOpen}>
             <SheetTrigger asChild>
-              <Button className="flex items-center">
+              <Button className="flex items-center bg-indigo-600 hover:bg-indigo-700">
                 <Plus className="mr-2 h-4 w-4" />
                 Add Customer
               </Button>

@@ -4,6 +4,7 @@ import { useCallback, useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { Contact2, MapPinIcon, SquarePen } from 'lucide-react';
+import { toast } from 'sonner';
 import { createCustomer, sparseUpdateCustomer, getFullCustomer } from '@/app/(app)/[company-slug]/(dashboards)/customers/actions';
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
@@ -11,6 +12,7 @@ import type { CustomerPreferredPaymentMethod } from '@/lib/generated/prisma/enum
 import { CreateCustomerDTO, CustomerFormData } from '@/types/customer';
 import { CustomerSchema } from '@/validation/customer/customer.schema';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '../ui/accordion';
+import { Button } from '../ui/button';
 import { Field, FieldError, FieldLabel } from '../ui/field';
 import { Input } from '../ui/input';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '../ui/select';
@@ -28,60 +30,90 @@ interface CustomerFormProps {
 export function CustomerForm({
   type,
   customerId,
+  defaultValues,
   onSuccess
 }: CustomerFormProps) {
+  const billingAddress = defaultValues?.billingAddress as
+    | {
+        line1?: string;
+        line2?: string;
+        city?: string;
+        state?: string;
+        postalCode?: string;
+        country?: string;
+      }
+    | undefined;
+  const shippingAddress = defaultValues?.shippingAddress as
+    | {
+        line1?: string;
+        line2?: string;
+        city?: string;
+        state?: string;
+        postalCode?: string;
+        country?: string;
+      }
+    | undefined;
+  const metadata = defaultValues?.metadata as
+    | {
+        industry?: string;
+        marketingPreferences?: { emailOptIn: boolean; smsOptIn: boolean };
+      }
+    | undefined;
+
   const form = useForm({
     resolver: zodResolver(CustomerSchema),
     defaultValues: {
-      title: '',
-      givenName: '',
-      middleName: '',
-      familyName: '',
-      suffix: '',
-      companyName: '',
-      displayName: undefined,
-      primaryEmail: '',
-      primaryPhone: '',
-      alternatePhone: '',
-      mobile: '',
-      fax: '',
-      webAddress: '',
-      printOnCheckName: '',
-      isSubcustomer: false,
-      parentId: undefined,
+      title: defaultValues?.title ?? '',
+      givenName: defaultValues?.givenName ?? '',
+      middleName: defaultValues?.middleName ?? '',
+      familyName: defaultValues?.familyName ?? '',
+      suffix: defaultValues?.suffix ?? '',
+      companyName: defaultValues?.companyName ?? '',
+      displayName: defaultValues?.displayName ?? '',
+      primaryEmail: defaultValues?.primaryEmail ?? '',
+      primaryPhone: defaultValues?.primaryPhone ?? '',
+      alternatePhone: defaultValues?.alternatePhone ?? '',
+      mobile: defaultValues?.mobile ?? '',
+      fax: defaultValues?.fax ?? '',
+      webAddress: defaultValues?.webAddress ?? '',
+      printOnCheckName: defaultValues?.printOnCheckName ?? '',
+      isSubcustomer: !!defaultValues?.parentId,
+      parentId: defaultValues?.parentId ?? undefined,
       billParentCustomer: false,
       billingAddress: {
-        line1: '',
-        line2: '',
-        city: '',
-        state: '',
-        postalCode: '',
-        country: ''
+        line1: billingAddress?.line1 ?? '',
+        line2: billingAddress?.line2 ?? '',
+        city: billingAddress?.city ?? '',
+        state: billingAddress?.state ?? '',
+        postalCode: billingAddress?.postalCode ?? '',
+        country: billingAddress?.country ?? ''
       },
-      taxIdentifier: '',
-      secondaryTaxId: '',
-      resaleNumber: '',
-      businessNumber: '',
-      taxable: true,
-      balance: 0,
-      creditLimit: 0,
-      preferredPaymentMethod: 'PRINT',
-      notes: '',
+      taxIdentifier: defaultValues?.taxIdentifier ?? '',
+      secondaryTaxId: defaultValues?.secondaryTaxId ?? '',
+      resaleNumber: defaultValues?.resaleNumber ?? '',
+      businessNumber: defaultValues?.businessNumber ?? '',
+      taxable: defaultValues?.taxable ?? true,
+      balance: defaultValues?.balance ?? 0,
+      creditLimit: defaultValues?.creditLimit ?? 0,
+      preferredPaymentMethod:
+        (defaultValues?.preferredPaymentMethod as CustomerPreferredPaymentMethod) ??
+        'PRINT',
+      notes: defaultValues?.notes ?? '',
       metadata: {
-        industry: '',
+        industry: metadata?.industry ?? '',
         marketingPreferences: {
-          emailOptIn: false,
-          smsOptIn: false
+          emailOptIn: metadata?.marketingPreferences?.emailOptIn ?? false,
+          smsOptIn: metadata?.marketingPreferences?.smsOptIn ?? false
         }
       },
-      shippingAddressSameAsBilling: true,
+      shippingAddressSameAsBilling: !shippingAddress?.line1,
       shippingAddress: {
-        line1: '',
-        line2: '',
-        city: '',
-        state: '',
-        postalCode: '',
-        country: ''
+        line1: shippingAddress?.line1 ?? '',
+        line2: shippingAddress?.line2 ?? '',
+        city: shippingAddress?.city ?? '',
+        state: shippingAddress?.state ?? '',
+        postalCode: shippingAddress?.postalCode ?? '',
+        country: shippingAddress?.country ?? ''
       }
     }
   });
@@ -151,7 +183,14 @@ export function CustomerForm({
     const result = await (type === 'create'
       ? createCustomer(data)
       : sparseUpdateCustomer(customerId as string, data));
-    if (result?.success) onSuccess?.();
+    if (result?.success) {
+      toast.success(
+        type === 'create' ? 'Customer created successfully' : 'Customer updated successfully'
+      );
+      onSuccess?.();
+    } else {
+      toast.error(result?.error || 'Failed to save customer');
+    }
   };
   const isSubcustomer = form.watch('isSubcustomer');
   const watchedFields = form.watch([
@@ -215,7 +254,7 @@ export function CustomerForm({
         defaultValue={['basic', 'billing', 'tax', 'financial', 'additional']}
       >
         {/* Basic Information */}
-        <AccordionItem value="basic" className="rounded-lg border shadow-md">
+        <AccordionItem value="basic" className="rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800">
           <AccordionTrigger className="flex justify-between px-4 hover:no-underline">
             <span className="flex gap-2 text-base">
               <Contact2 className="aspect-square w-6" /> Name and contact
@@ -589,7 +628,7 @@ export function CustomerForm({
         {/* Address */}
         <AccordionItem
           value="billing"
-          className="rounded-lg border shadow-md"
+          className="rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800"
         >
           <AccordionTrigger className="px-4">
             <span className="flex gap-2">
@@ -895,7 +934,7 @@ export function CustomerForm({
         {/* Additional Information */}
         <AccordionItem
           value="additional"
-          className="rounded-lg border shadow-md"
+          className="rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800"
         >
           <AccordionTrigger className="px-4">
             <span className="flex gap-2">
@@ -927,7 +966,7 @@ export function CustomerForm({
         </AccordionItem>
 
         {/* Tax Information */}
-        <AccordionItem value="tax" className="rounded-lg border shadow-md">
+        <AccordionItem value="tax" className="rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800">
           <AccordionTrigger className="px-4">
             <span className="flex gap-2">Tax Information</span>
           </AccordionTrigger>
@@ -1032,7 +1071,7 @@ export function CustomerForm({
         {/* Financial Information */}
         <AccordionItem
           value="financial"
-          className="rounded-lg border shadow-md"
+          className="rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800"
         >
           <AccordionTrigger className="px-4">
             Financial Information
@@ -1048,7 +1087,18 @@ export function CustomerForm({
                       <FieldLabel className="text-xs" htmlFor="balance">
                         Opening Balance
                       </FieldLabel>
-                      <Input {...field} type="number" />
+                      <Input
+                        {...field}
+                        type="number"
+                        step="0.01"
+                        onChange={(e) =>
+                          field.onChange(
+                            e.target.value === ''
+                              ? 0
+                              : parseFloat(e.target.value)
+                          )
+                        }
+                      />
                       {fieldState.error && (
                         <FieldError errors={[fieldState.error]} />
                       )}
@@ -1066,7 +1116,19 @@ export function CustomerForm({
                       <FieldLabel className="text-xs" htmlFor="creditLimit">
                         Credit Limit
                       </FieldLabel>
-                      <Input {...field} type="number" step="0.01" />
+                      <Input
+                        {...field}
+                        type="number"
+                        step="0.01"
+                        value={field.value ?? ''}
+                        onChange={(e) =>
+                          field.onChange(
+                            e.target.value === ''
+                              ? undefined
+                              : parseFloat(e.target.value)
+                          )
+                        }
+                      />
                       {fieldState.error && (
                         <FieldError errors={[fieldState.error]} />
                       )}
@@ -1088,18 +1150,18 @@ export function CustomerForm({
                         Preferred Payment Method
                       </FieldLabel>
                       <Select
-                        {...field}
+                        value={field.value}
                         onValueChange={(
                           value: CustomerPreferredPaymentMethod
-                        ) => form.setValue('preferredPaymentMethod', value)}
+                        ) => field.onChange(value)}
                       >
                         <SelectTrigger>
                           <SelectValue placeholder="Select method" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="Print">Print</SelectItem>
-                          <SelectItem value="Email">Email</SelectItem>
-                          <SelectItem value="None">None</SelectItem>
+                          <SelectItem value="PRINT">Print</SelectItem>
+                          <SelectItem value="EMAIL">Email</SelectItem>
+                          <SelectItem value="NONE">None</SelectItem>
                         </SelectContent>
                       </Select>
                       {fieldState.error && (
@@ -1113,6 +1175,20 @@ export function CustomerForm({
           </AccordionContent>
         </AccordionItem>
       </Accordion>
+
+      <div className="sticky bottom-0 flex justify-end border-t bg-white pt-4 pb-1 dark:border-gray-700 dark:bg-gray-900">
+        <Button
+          type="submit"
+          disabled={form.formState.isSubmitting}
+          className={`bg-indigo-600 px-5 hover:bg-indigo-700 ${form.formState.isSubmitting ? 'cursor-not-allowed opacity-50' : ''}`}
+        >
+          {form.formState.isSubmitting
+            ? 'Saving...'
+            : type === 'create'
+              ? 'Create Customer'
+              : 'Save Changes'}
+        </Button>
+      </div>
     </form>
   );
 }

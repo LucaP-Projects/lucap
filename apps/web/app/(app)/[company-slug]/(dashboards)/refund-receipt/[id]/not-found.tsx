@@ -25,7 +25,7 @@ const RefundReceiptNotFound = () => (
       </p>
 
       <div className="flex justify-center gap-4 pt-4">
-        <Link href="/refund-receipts">
+        <Link href="/refund-receipt">
           <Button variant="outline" size="lg" className="h-11">
             Back to Refund Receipts
           </Button>

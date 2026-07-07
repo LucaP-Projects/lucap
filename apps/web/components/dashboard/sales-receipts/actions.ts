@@ -58,7 +58,7 @@ export type SalesReceiptWithRelations = Prisma.SalesReceiptGetPayload<{
         };
       };
     };
-    Transaction: {
+    transactions: {
       select: {
         id: true;
         type: true;
@@ -242,7 +242,7 @@ export async function getSalesReceiptDetails(
           }
         }
       },
-      Transaction: {
+      transactions: {
         select: {
           id: true,
           type: true,
@@ -282,7 +282,7 @@ export async function deleteSalesReceipts(
         isActive: true,
         OR: [
           { status: 'REFUNDED' },
-          { Transaction: { some: {} } } // Has any transactions
+          { transactions: { some: {} } } // Has any transactions
         ]
       },
       select: {
@@ -352,7 +352,7 @@ export async function deleteSalesReceipts(
     });
 
     // Revalidate the sales receipts page
-    revalidatePath('/sales-receipts');
+    revalidatePath('/sales-receipt');
 
     return {
       success: true

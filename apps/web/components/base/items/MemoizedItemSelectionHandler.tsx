@@ -1,7 +1,6 @@
 import React, { memo, useCallback } from 'react';
 import { DragDropProvider } from '@dnd-kit/react';
 import { useSortable } from '@dnd-kit/react/sortable';
-import { CSS } from '@dnd-kit/utilities';
 import {
   Controller,
   useFieldArray,

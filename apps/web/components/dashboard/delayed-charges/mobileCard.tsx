@@ -1,5 +1,6 @@
 import { Table } from '@tanstack/react-table';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
+import { getDocumentQualificationStatus } from '@/lib/document-qualification';
 import { formatCurrency, formatDate } from '@/lib/utils';
 import { BaseMobileCards } from '../base/mobileCard';
 import { DelayedChargeBasic } from './actions';
@@ -15,7 +16,9 @@ export const MobileCards = ({
   onSelect,
   onOpenSheet
 }: MobileCardsProps) => {
-  const renderContent = (row: any) => (
+  const renderContent = (row: any) => {
+    const qualificationStatus = getDocumentQualificationStatus(row.original.notes);
+    return (
       <div className="space-y-3 py-1">
         <div className="flex items-center justify-between">
           <span className="font-medium text-gray-700">Amount</span>
@@ -46,28 +49,29 @@ export const MobileCards = ({
           <div className="flex items-center">
             <div
               className={`mr-2 h-2.5 w-2.5 rounded-full ${
-                row.original.status === 'PENDING'
-                  ? 'bg-yellow-500'
-                  : row.original.status === 'INVOICED'
-                    ? 'bg-green-500'
-                    : 'bg-red-500'
+                qualificationStatus === 'VALIDATED'
+                  ? 'bg-green-500'
+                  : qualificationStatus === 'REJECTED'
+                    ? 'bg-red-500'
+                    : 'bg-gray-400'
               }`}
              />
             <span
               className={`text-xs font-medium ${
-                row.original.status === 'PENDING'
-                  ? 'text-yellow-600'
-                  : row.original.status === 'INVOICED'
-                    ? 'text-green-600'
-                    : 'text-red-600'
+                qualificationStatus === 'VALIDATED'
+                  ? 'text-green-600'
+                  : qualificationStatus === 'REJECTED'
+                    ? 'text-red-600'
+                    : 'text-gray-500'
               }`}
             >
-              {row.original.status}
+              {qualificationStatus ?? 'Not reviewed'}
             </span>
           </div>
         </div>
       </div>
     );
+  };
 
   const renderActions = (row: any) => {
     if (row.original.status === 'PENDING') {

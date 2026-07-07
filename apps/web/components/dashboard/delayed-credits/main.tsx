@@ -1,6 +1,7 @@
 'use client';
 import { useCallback, useState } from 'react';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import { DocumentFilters } from '@/components/dashboard/base/DocumentFilters';
 import { DataTable } from '@/components/dashboard/base/table';
 import { useFilters } from '@/components/dashboard/base/useFilters';
@@ -30,6 +31,7 @@ export default function DelayedCreditsPage({
   initialStats,
   searchParams
 }: DelayedCreditsPageProps) {
+  const { 'company-slug': companySlug } = useParams<{ 'company-slug': string }>();
   const [creditsData, setCreditsData] =
     useState<DelayedCreditResponseCustom>(initialData);
   const [stats, setStats] = useState({
@@ -110,7 +112,7 @@ export default function DelayedCreditsPage({
           </p>
         </div>
         <div className="flex items-center space-x-2">
-          <Link href="/delayedcredit">
+          <Link href={`/${companySlug}/delayed-credits/new`}>
             <Button className="bg-orange-600 px-5 py-2.5 text-sm font-medium shadow-sm hover:bg-orange-700">
               <svg
                 className="mr-2 h-4 w-4"

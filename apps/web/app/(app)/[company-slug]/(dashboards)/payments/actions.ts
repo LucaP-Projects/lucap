@@ -55,7 +55,7 @@ export type PaymentWithRelations = Prisma.PaymentGetPayload<{
         dueDate: true;
       };
     };
-    Transaction: {
+    transactions: {
       select: {
         id: true;
         type: true;
@@ -183,7 +183,7 @@ export async function getPaymentStats() {
           orderBy: {
             paymentDate: 'desc'
           },
-          take: 30, // Last 30 days
+          take: 30,
           where: { isActive: true }
         })
       ]);
@@ -250,7 +250,7 @@ export async function getPaymentDetails(
           dueDate: true
         }
       },
-      Transaction: {
+      transactions: {
         select: {
           id: true,
           type: true,
@@ -282,35 +282,27 @@ export async function deletePayments(ids: string[]): Promise<DeleteResult> {
       };
     }
 
-    // Check for payments that can't be deleted
     const nonDeletablePayments = await prisma.payment.findMany({
       where: {
         id: { in: ids },
         isActive: true,
-        Transaction: {
-          some: {} // Has any transactions
+        transactions: {
+          some: {}
         }
       },
       select: {
         id: true,
-        invoice: {
-          select: {
-            number: true
-          }
-        }
+        invoiceId: true
       }
     });
 
     if (nonDeletablePayments.length > 0) {
       return {
         success: false,
-        error: `Cannot deactivate payments that have associated transactions for invoices: ${nonDeletablePayments
-          .map((p) => p.invoice.number)
-          .join(', ')}`
+        error: 'Cannot deactivate payments that have associated transactions'
       };
     }
 
-    // Get the invoices that need to be updated
     const affectedInvoices = await prisma.payment.findMany({
       where: {
         id: { in: ids },
@@ -321,9 +313,7 @@ export async function deletePayments(ids: string[]): Promise<DeleteResult> {
       }
     });
 
-    // Use a transaction to ensure all operations succeed or none do
     await prisma.$transaction(async (tx) => {
-      // 1. Soft delete the payments by updating isActive to false
       await tx.payment.updateMany({
         where: {
           id: { in: ids },
@@ -337,7 +327,6 @@ export async function deletePayments(ids: string[]): Promise<DeleteResult> {
         }
       });
 
-      // 2. Update invoice statuses - only count active payments
       for (const { invoiceId } of affectedInvoices) {
         const remainingPayments = await tx.payment.aggregate({
           where: {
@@ -371,7 +360,6 @@ export async function deletePayments(ids: string[]): Promise<DeleteResult> {
       }
     });
 
-    // Revalidate affected pages
     revalidatePath('/payments');
     revalidatePath('/invoices');
 

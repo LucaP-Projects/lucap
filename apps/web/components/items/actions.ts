@@ -28,7 +28,7 @@ export async function createItem(
   try {
     const session = await getSessionWithCompany();
     if (!session?.user?.id) {
-      redirect('/login');
+      redirect('/auth/login');
     }
     if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
@@ -133,9 +133,9 @@ export async function createItem(
       revalidatePath('/sales-orders');
       revalidatePath('/creditmemo');
       revalidatePath('/salesreceipt');
-      revalidatePath('/refundreceipt');
-      revalidatePath('/delayedcredits');
-      revalidatePath('/delayedcharges');
+      revalidatePath('/refund-receipt');
+      revalidatePath('/delayed-credits');
+      revalidatePath('/delayed-charges');
 
       return {
         success: true,
@@ -167,7 +167,7 @@ export async function updateItemStatus(
   try {
     const session = await getSessionWithCompany();
     if (!session?.user?.id) {
-      redirect('/login');
+      redirect('/auth/login');
     }
     if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
@@ -198,9 +198,9 @@ export async function updateItemStatus(
     revalidatePath('/sales-orders');
     revalidatePath('/creditmemo');
     revalidatePath('/salesreceipt');
-    revalidatePath('/refundreceipt');
-    revalidatePath('/delayedcredits');
-    revalidatePath('/delayedcharges');
+    revalidatePath('/refund-receipt');
+    revalidatePath('/delayed-credits');
+    revalidatePath('/delayed-charges');
 
     return {
       success: true,
@@ -226,7 +226,7 @@ export async function updateItem(
     const session = await getSessionWithCompany();
 
     if (!session?.user?.id) {
-      redirect('/login');
+      redirect('/auth/login');
     }
     if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
@@ -342,9 +342,9 @@ export async function updateItem(
     revalidatePath('/sales-orders');
     revalidatePath('/creditmemo');
     revalidatePath('/salesreceipt');
-    revalidatePath('/refundreceipt');
-    revalidatePath('/delayedcredits');
-    revalidatePath('/delayedcharges');
+    revalidatePath('/refund-receipt');
+    revalidatePath('/delayed-credits');
+    revalidatePath('/delayed-charges');
 
     return {
       success: true,
@@ -388,7 +388,7 @@ export async function getItems(
   try {
     const session = await getSessionWithCompany();
     if (!session?.user?.id) {
-      redirect('/login');
+      redirect('/auth/login');
     }
     if (!session?.user?.activeCompanyId) {
       redirect('/select-company');
@@ -479,7 +479,7 @@ export async function deleteItem(
   try {
     const session = await getSessionWithCompany();
     if (!session?.user?.id) {
-      redirect('/login');
+      redirect('/auth/login');
     }
     if (!session?.user?.activeCompanyId) {
       redirect('/select-company');

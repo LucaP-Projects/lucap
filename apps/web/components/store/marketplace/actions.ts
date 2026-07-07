@@ -129,14 +129,17 @@ export async function getMarketplaceProducts(): Promise<MarketplaceResponse> {
         storeIsPublic: true
       },
       include: {
-        store: {
-          include: {
-            company: {
+        company: {
+          select: {
+            id: true,
+            name: true,
+            slug: true,
+            logo: true,
+            store: {
               select: {
                 id: true,
                 name: true,
-                slug: true,
-                logo: true
+                slug: true
               }
             }
           }

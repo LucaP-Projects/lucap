@@ -77,7 +77,9 @@ export async function POST(req: Request) {
 
                 const payments = await prisma.paymentEvent.findMany({
                     where: {
-                        customerId,
+                        customerPaymentEvents: {
+                          some: { customerId }
+                        },
                         createdAt: { gte: dateLimit }
                     },
                     orderBy: { createdAt: 'desc' }

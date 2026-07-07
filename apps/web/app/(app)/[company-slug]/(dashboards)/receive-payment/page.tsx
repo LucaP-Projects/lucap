@@ -1,5 +1,3 @@
-'use client';
-
 import { PaymentForm } from '@/components/receive-payment/form';
 
 export default function PaymentPage() {

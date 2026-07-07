@@ -25,7 +25,7 @@ const DelayedCreditNotFound = () => (
       </p>
 
       <div className="flex justify-center gap-4 pt-4">
-        <Link href="/delayedcredits">
+        <Link href="/delayed-credits">
           <Button variant="outline" size="lg" className="h-11">
             Back to Delayed Credits
           </Button>

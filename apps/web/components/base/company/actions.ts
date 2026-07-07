@@ -9,7 +9,7 @@ import { prisma } from '@/lib/prisma';
 export async function getCurrentCompanyForInvoice(): Promise<CompanyInfo | null> {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session?.user?.id) {
-    redirect('/login');
+    redirect('/auth/login');
   }
   if (!session?.user?.activeCompanyId) {
     redirect('/select-company');

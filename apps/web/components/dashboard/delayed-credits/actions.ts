@@ -124,6 +124,7 @@ export async function getDelayedCreditsPage(
 
       // creditMethod: true,
       // reason: true,
+      notes: true,
       createdAt: true
     }
   });
@@ -325,7 +326,7 @@ export async function deleteDelayedCredits(
     });
 
     // Revalidate the delayed credits page
-    revalidatePath('/delayedcredits');
+    revalidatePath('/delayed-credits');
 
     return {
       success: true

@@ -1,12 +1,12 @@
 import { z } from 'zod';
 
 export const AddressSchema = z.object({
-  line1: z.string().min(1).max(100),
-  line2: z.string().max(100).optional(),
-  city: z.string().min(1).max(50),
-  state: z.string().min(1).max(50),
-  postalCode: z.string().min(1).max(20),
-  country: z.string().min(1).max(50)
+  line1: z.string().max(100).optional().or(z.literal('')),
+  line2: z.string().max(100).optional().or(z.literal('')),
+  city: z.string().max(50).optional().or(z.literal('')),
+  state: z.string().max(50).optional().or(z.literal('')),
+  postalCode: z.string().max(20).optional().or(z.literal('')),
+  country: z.string().max(50).optional().or(z.literal(''))
 });
 
 export const CustomerMetadataSchema = z.object({
@@ -25,25 +25,27 @@ export const CustomerMetadataSchema = z.object({
 export const CustomerSchema = z.object({
   displayName: z.string().min(1).max(500),
   title: z.string().max(16).optional(),
-  givenName: z.string().min(1).max(100).optional(),
+  givenName: z.string().max(100).optional(),
   middleName: z.string().max(100).optional(),
-  familyName: z.string().min(1).max(100).optional(),
+  familyName: z.string().max(100).optional(),
   suffix: z.string().max(16).optional(),
   companyName: z.string().max(100).optional(),
   primaryPhone: z
     .string()
     .regex(/^[+]{0,1}\d{3}\d{3}\d{4}$/)
     .max(30)
-    .optional(),
+    .optional()
+    .or(z.literal('')),
   alternatePhone: z
     .string()
     .regex(/^[+]{0,1}\d{3}\d{3}\d{4}$/)
     .max(30)
-    .optional(),
+    .optional()
+    .or(z.literal('')),
   mobile: z.string().max(30).optional(),
   fax: z.string().max(30).optional(),
-  primaryEmail: z.email().optional(),
-  webAddress: z.string().url().max(1000).optional(),
+  primaryEmail: z.email().optional().or(z.literal('')),
+  webAddress: z.string().url().max(1000).optional().or(z.literal('')),
   printOnCheckName: z.string().max(500).optional(),
   billingAddress: AddressSchema.optional(),
   shippingAddress: AddressSchema.optional(),

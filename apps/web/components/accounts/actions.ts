@@ -15,7 +15,7 @@ export async function createAccount(
     const validatedData = accountFormSchema.parse(data);
     const session = await getSessionWithCompany();
     if (!session?.user?.id) {
-      redirect('/login');
+      redirect('/auth/login');
     }
     if (!session?.user?.activeCompanyId) {
       redirect('/select-company');

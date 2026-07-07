@@ -17,24 +17,24 @@ export async function referenceSearch(query: string, companyId: string) {
     prisma.invoice.findMany({
       where: {
         companyId,
-        invoiceNumber: { contains: query, mode: "insensitive" },
+        number: { contains: query, mode: "insensitive" },
       },
       take: 5,
-      select: { id: true, invoiceNumber: true },
+      select: { id: true, number: true },
     }),
     prisma.account.findMany({
       where: {
         companyId,
-        name: { contains: query, mode: "insensitive" },
+        title: { contains: query, mode: "insensitive" },
       },
       take: 5,
-      select: { id: true, name: true },
+      select: { id: true, title: true },
     }),
   ]);
 
   return [
     ...customers.map((c) => ({ id: c.id, label: c.displayName, type: "customer" })),
-    ...invoices.map((i) => ({ id: i.id, label: `Invoice #${i.invoiceNumber}`, type: "invoice" })),
-    ...accounts.map((a) => ({ id: a.id, label: a.name, type: "account" })),
+    ...invoices.map((i) => ({ id: i.id, label: `Invoice #${i.number}`, type: "invoice" })),
+    ...accounts.map((a) => ({ id: a.id, label: a.title, type: "account" })),
   ];
 }
