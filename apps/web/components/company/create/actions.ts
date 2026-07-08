@@ -109,7 +109,7 @@ export async function createCompany(
         address: data.address || null,
         logo: typeof data.logo === 'string' ? data.logo : null,
         isActive: true,
-        metadata: {}
+        metadata: data.metadata || {}
       }
       });
 

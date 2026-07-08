@@ -24,7 +24,8 @@ export const createCompanySchema = z.object({
     .or(z.literal('')),
   website: z.url('Invalid URL').optional().or(z.literal('')),
   address: addressSchema.default({city: '', state: '', postalCode: '', country: '', line1: '', line2: ''}),
-  logo: z.any().optional() // This will handle the File object
+  logo: z.any().optional(), // This will handle the File object
+  metadata: z.any().optional(),
 });
 
 export type CreateCompanyInput = z.infer<typeof createCompanySchema>;
