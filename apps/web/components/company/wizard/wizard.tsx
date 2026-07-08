@@ -1,11 +1,10 @@
 'use client';
 
 import { useState, useTransition } from 'react';
-import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import {
   Building2, User, Building, Users, Check, ChevronRight, Loader2,
-  ArrowLeft, Plus, Trash2, Landmark, FileText
+  ArrowLeft, Plus, Trash2, SendHorizonal, Clock
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -17,7 +16,7 @@ import { Badge } from '@/components/ui/badge';
 import {
   ENTITY_INFO, STEPS, type Step, type WizardData, type CompanyInfoData, type CapitalData,
 } from './types';
-import { createCompany } from '../create/actions';
+import { submitFormationRequest } from './actions';
 
 const TYPE_ICONS: Record<string, React.ReactNode> = {
   SARL: <Building2 className="h-5 w-5" />,
@@ -519,10 +518,48 @@ function ReviewStep({
   );
 }
 
+function SuccessView({ requestId }: { requestId: string }) {
+  return (
+    <div className="space-y-6 text-center py-10">
+      <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
+        <SendHorizonal className="h-8 w-8 text-primary" />
+      </div>
+      <div>
+        <h2 className="text-xl font-semibold">Formation request submitted</h2>
+        <p className="text-sm text-muted-foreground mt-2 max-w-md mx-auto">
+          Your company formation request has been sent to LucaPacioli. An accountant will review it and get back to you.
+        </p>
+      </div>
+      <Card className="max-w-sm mx-auto">
+        <CardContent className="pt-6 space-y-2">
+          <div className="flex justify-between text-sm">
+            <span className="text-muted-foreground">Request ID</span>
+            <span className="font-mono text-xs">{requestId.slice(0, 8)}...</span>
+          </div>
+          <div className="flex justify-between text-sm">
+            <span className="text-muted-foreground">Status</span>
+            <Badge variant="secondary">Submitted</Badge>
+          </div>
+          <div className="flex justify-between text-sm">
+            <span className="text-muted-foreground">What happens next?</span>
+            <span className="text-right text-xs text-muted-foreground">Accountant reviews within 1-2 business days</span>
+          </div>
+        </CardContent>
+      </Card>
+      <a
+        href="/formation-requests"
+        className="inline-flex items-center gap-1 text-sm text-primary underline underline-offset-2"
+      >
+        View all your requests
+      </a>
+    </div>
+  );
+}
+
 export function CompanyFormationWizard() {
-  const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [step, setStep] = useState<Step>('type');
+  const [submittedRequestId, setSubmittedRequestId] = useState<string | null>(null);
 
   const [companyType, setCompanyType] = useState<string | null>(null);
   const [info, setInfo] = useState<CompanyInfoData>({
@@ -585,7 +622,7 @@ export function CompanyFormationWizard() {
     if (prevStep) setStep(prevStep.key);
   };
 
-  const handleCreate = () => {
+  const handleSubmit = () => {
     if (!companyType) return;
     const totalShares = capital.shareholders.reduce((s, sh) => s + (sh.shares || 0), 0);
     if (totalShares !== capital.numberOfShares) {
@@ -595,33 +632,19 @@ export function CompanyFormationWizard() {
 
     startTransition(async () => {
       try {
-        const res = await createCompany({
-          name: info.name,
-          companyType: companyType as any,
-          email: info.email,
-          taxId: info.taxId,
-          phone: info.phone,
-          website: info.website,
-          address: info.address.line1 ? info.address : undefined,
-          metadata: {
-            formationWizard: {
-              taxRegime: info.taxRegime,
-              vatRegime: info.vatRegime,
-              capitalAmount: capital.capitalAmount,
-              numberOfShares: capital.numberOfShares,
-              shareholders: capital.shareholders,
-            },
-          },
-        } as any);
+        const res = await submitFormationRequest({
+          companyType,
+          info,
+          capital,
+        });
 
         if (!res.success) {
-          toast.error(res.error || 'Failed to create company');
+          toast.error(res.error || 'Failed to submit request');
           return;
         }
 
-        toast.success('Company created successfully!');
-        router.push('/');
-        router.refresh();
+        setSubmittedRequestId(res.data.id);
+        toast.success('Formation request submitted!');
       } catch {
         toast.error('An unexpected error occurred');
       }
@@ -629,6 +652,10 @@ export function CompanyFormationWizard() {
   };
 
   const stepError = errors[Object.keys(errors)[0] || ''];
+
+  if (submittedRequestId) {
+    return <SuccessView requestId={submittedRequestId} />;
+  }
 
   return (
     <div className="space-y-6">
@@ -664,9 +691,9 @@ export function CompanyFormationWizard() {
             Continue <ChevronRight className="h-4 w-4 ml-1" />
           </Button>
         ) : (
-          <Button type="button" onClick={handleCreate} disabled={isPending}>
+          <Button type="button" onClick={handleSubmit} disabled={isPending}>
             {isPending && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
-            {isPending ? 'Creating...' : 'Create Company'}
+            {isPending ? 'Submitting...' : 'Submit Formation Request'}
           </Button>
         )}
       </div>

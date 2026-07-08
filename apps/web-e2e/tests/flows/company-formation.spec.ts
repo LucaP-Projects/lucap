@@ -64,14 +64,11 @@ test.describe("Company Formation Wizard", () => {
     await expect(page.locator("text=Founder One")).toBeVisible();
     await expect(page.locator("text=500 shares")).toBeVisible();
 
-    await page.locator("button[type='button']").filter({ hasText: "Create Company" }).click();
+    await page.locator("button[type='button']").filter({ hasText: "Submit Formation Request" }).click();
 
-    // Wait for navigation away from wizard — admin goes to /admin via root redirect
-    await page.waitForURL((url) => !url.pathname.includes("/create-company"), {
-      timeout: 30000,
-    });
-    await expect(page.locator("h1, h2").first()).toBeVisible({ timeout: 10000 });
-    expect(page.url()).not.toContain("/create-company");
+    // Wait for the success view
+    await expect(page.locator("h2")).toContainText("Formation request submitted", { timeout: 15000 });
+    await expect(page.locator("text=Your company formation request has been sent")).toBeVisible();
   });
 
   test("validates required fields on each step", async ({ page }) => {

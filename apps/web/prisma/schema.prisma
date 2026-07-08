@@ -36,6 +36,7 @@ model User {
   companies            UserCompany[]
   sessions             Session[]
   tickets              Ticket[]
+  formationRequests    CompanyFormationRequest[]
   activeCompany        Company?      @relation("ActiveCompany", fields: [activeCompanyId], references: [id])
   ownedAccountants     Accountant[]  @relation("AccountantOwner")
   accountantProfiles   AccountantUser[]
@@ -1643,6 +1644,36 @@ model MessageAttachment {
   fileType  String
   createdAt DateTime @default(now())
   message   Message  @relation(fields: [messageId], references: [id], onDelete: Cascade)
+}
+
+model CompanyFormationRequest {
+  id              String   @id @default(uuid())
+  status          String   @default("SUBMITTED")
+  companyType     String?
+  companyName     String?
+  taxId           String?
+  email           String?
+  phone           String?
+  website         String?
+  address         Json?
+  taxRegime       String?
+  vatRegime       String?
+  capitalAmount   Float?
+  numberOfShares  Int?
+  shareholders    Json?
+  notes           String?
+
+  // Submitter — either a platform user or external contact
+  userId          String?
+  user            User?    @relation(fields: [userId], references: [id])
+  submitterName   String?
+  submitterEmail  String?
+  submitterPhone  String?
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("company_formation_request")
 }
 
 enum UserRole {
