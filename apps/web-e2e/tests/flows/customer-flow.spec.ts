@@ -1,16 +1,29 @@
 import { test, expect } from "@playwright/test";
 
+function getSlug(url: string): string {
+  const parts = new URL(url).pathname.split("/").filter(Boolean);
+  return parts[0] || "";
+}
+
 test.describe("Customer Management", () => {
   test.use({ storageState: ".auth/user.json" });
 
   test("customers list page loads", async ({ page }) => {
-    await page.goto("/customers");
+    await page.goto("/");
+    await page.waitForLoadState("domcontentloaded");
+    const slug = getSlug(page.url());
+
+    await page.goto(`/${slug}/customers`);
     await page.waitForLoadState("domcontentloaded");
     expect(page.url()).toContain("/customers");
   });
 
   test("customer table or list renders", async ({ page }) => {
-    await page.goto("/customers");
+    await page.goto("/");
+    await page.waitForLoadState("domcontentloaded");
+    const slug = getSlug(page.url());
+
+    await page.goto(`/${slug}/customers`);
     await page.waitForLoadState("domcontentloaded");
 
     const table = page.locator("table").first();

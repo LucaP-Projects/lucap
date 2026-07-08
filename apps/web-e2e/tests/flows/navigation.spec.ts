@@ -7,7 +7,7 @@ test.describe("Login Page Navigation", () => {
     const loginPage = new LoginPage(page);
     await loginPage.goto();
 
-    await expect(page.locator("h1")).toContainText("Login");
+    await expect(page.locator("h1")).toContainText("Login to your account");
     await expect(loginPage.emailInput).toBeVisible();
     await expect(loginPage.passwordInput).toBeVisible();
     await expect(loginPage.loginButton).toBeVisible();
@@ -22,6 +22,11 @@ test.describe("Login Page Navigation", () => {
   });
 });
 
+function getSlug(url: string): string {
+  const parts = new URL(url).pathname.split("/").filter(Boolean);
+  return parts[0] || "";
+}
+
 test.describe("Authenticated Navigation", () => {
   test.use({ storageState: ".auth/user.json" });
 
@@ -29,17 +34,16 @@ test.describe("Authenticated Navigation", () => {
     await page.goto("/");
     await page.waitForLoadState("domcontentloaded");
 
-    const sidebar = page.locator(
-      '[data-testid="app-sidebar"], nav[aria-label="Main navigation"]',
-    );
+    const sidebar = page.locator('[data-slot="sidebar"]');
     await expect(sidebar).toBeVisible({ timeout: 10000 });
   });
 
   test("navigate to invoices page", async ({ page }) => {
     await page.goto("/");
     await page.waitForLoadState("domcontentloaded");
+    const slug = getSlug(page.url());
 
-    const invoicesLink = page.locator('a[href*="/invoices"]').first();
+    const invoicesLink = page.locator(`a[href*="/${slug}/invoices"]`).first();
     if (await invoicesLink.isVisible({ timeout: 5000 })) {
       await invoicesLink.click();
       await page.waitForLoadState("domcontentloaded");
@@ -50,8 +54,9 @@ test.describe("Authenticated Navigation", () => {
   test("navigate to customers page", async ({ page }) => {
     await page.goto("/");
     await page.waitForLoadState("domcontentloaded");
+    const slug = getSlug(page.url());
 
-    const customersLink = page.locator('a[href*="/customers"]').first();
+    const customersLink = page.locator(`a[href*="/${slug}/customers"]`).first();
     if (await customersLink.isVisible({ timeout: 5000 })) {
       await customersLink.click();
       await page.waitForLoadState("domcontentloaded");
@@ -62,20 +67,19 @@ test.describe("Authenticated Navigation", () => {
   test("navigate to drive page", async ({ page }) => {
     await page.goto("/");
     await page.waitForLoadState("domcontentloaded");
+    const slug = getSlug(page.url());
 
-    const driveLink = page.locator('a[href*="/drive"]').first();
-    if (await driveLink.isVisible({ timeout: 5000 })) {
-      await driveLink.click();
-      await page.waitForLoadState("domcontentloaded");
-      expect(page.url()).toContain("/drive");
-    }
+    await page.goto(`/${slug}/drive`);
+    await page.waitForLoadState("domcontentloaded");
+    expect(page.url()).toContain("/drive");
   });
 
   test("navigate to payments page", async ({ page }) => {
     await page.goto("/");
     await page.waitForLoadState("domcontentloaded");
+    const slug = getSlug(page.url());
 
-    const paymentsLink = page.locator('a[href*="/payments"]').first();
+    const paymentsLink = page.locator(`a[href*="/${slug}/payments"]`).first();
     if (await paymentsLink.isVisible({ timeout: 5000 })) {
       await paymentsLink.click();
       await page.waitForLoadState("domcontentloaded");

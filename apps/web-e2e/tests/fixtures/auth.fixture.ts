@@ -66,25 +66,32 @@ export function generateTestUser(prefix: string = "test"): TestUser {
  * Logout the current user
  */
 export async function logoutUser(page: Page): Promise<void> {
-  const userMenu = page.locator(
-    '[data-testid="user-menu"], [data-testid="avatar-button"], button[aria-label="User menu"]',
-  );
-
+  const sidebarFooter = page.locator('[data-slot="sidebar-footer"]');
   try {
-    if (await userMenu.isVisible({ timeout: 2000 })) {
-      await userMenu.click();
-      await page.waitForTimeout(500);
+    if (await sidebarFooter.isVisible({ timeout: 2000 })) {
+      const trigger = sidebarFooter.locator('button').first();
+      if (await trigger.isVisible({ timeout: 2000 })) {
+        await trigger.click();
+        await page.waitForTimeout(500);
+      }
     }
   } catch {
-    // No user menu visible
+    // No sidebar footer visible (e.g. admin page)
   }
 
-  const logoutButton = page.locator("button, a", {
-    hasText: /logout|sign out|log out/i,
-  });
-
-  if (await logoutButton.isVisible({ timeout: 2000 })) {
-    await logoutButton.click();
+  const logoutMenuItem = page.locator('[role="menuitem"]', { hasText: /log out/i });
+  try {
+    if (await logoutMenuItem.isVisible({ timeout: 3000 })) {
+      await logoutMenuItem.click();
+    }
+  } catch {
+    // Fallback: try generic text match
+    const fallback = page.locator('button, a, [role="menuitem"]', {
+      hasText: /log out|sign out|logout/i,
+    });
+    if (await fallback.isVisible({ timeout: 2000 })) {
+      await fallback.click();
+    }
   }
 
   await page.waitForURL((url) => url.pathname.includes("/auth/login"), {

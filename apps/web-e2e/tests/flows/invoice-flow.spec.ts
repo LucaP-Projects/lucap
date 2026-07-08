@@ -1,20 +1,32 @@
 import { test, expect } from "@playwright/test";
-import { InvoicesPage } from "../pages/invoices.page";
+
+function getSlug(url: string): string {
+  const parts = new URL(url).pathname.split("/").filter(Boolean);
+  return parts[0] || "";
+}
 
 test.describe("Invoices", () => {
   test.use({ storageState: ".auth/user.json" });
 
   test("invoices list page loads", async ({ page }) => {
-    const invoicesPage = new InvoicesPage(page);
-    await invoicesPage.goto();
+    await page.goto("/");
+    await page.waitForLoadState("domcontentloaded");
+    const slug = getSlug(page.url());
 
-    await expect(page.locator("h1").first()).toBeVisible({ timeout: 10000 });
+    await page.goto(`/${slug}/invoices`);
+    await page.waitForLoadState("domcontentloaded");
+
+    await expect(page.locator("h1, h2").first()).toBeVisible({ timeout: 10000 });
     expect(page.url()).toContain("/invoices");
   });
 
   test("new invoice button is visible", async ({ page }) => {
-    const invoicesPage = new InvoicesPage(page);
-    await invoicesPage.goto();
+    await page.goto("/");
+    await page.waitForLoadState("domcontentloaded");
+    const slug = getSlug(page.url());
+
+    await page.goto(`/${slug}/invoices`);
+    await page.waitForLoadState("domcontentloaded");
 
     const newBtn = page.locator(
       'a[href*="/invoices/new"], button:has-text("New Invoice")',
@@ -23,7 +35,11 @@ test.describe("Invoices", () => {
   });
 
   test("invoice table or list renders", async ({ page }) => {
-    await page.goto("/invoices");
+    await page.goto("/");
+    await page.waitForLoadState("domcontentloaded");
+    const slug = getSlug(page.url());
+
+    await page.goto(`/${slug}/invoices`);
     await page.waitForLoadState("domcontentloaded");
 
     const table = page.locator("table").first();

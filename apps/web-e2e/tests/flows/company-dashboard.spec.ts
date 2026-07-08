@@ -1,5 +1,10 @@
 import { test, expect } from "@playwright/test";
 
+function getSlug(url: string): string {
+  const parts = new URL(url).pathname.split("/").filter(Boolean);
+  return parts[0] || "";
+}
+
 test.describe("Company Dashboard", () => {
   test.use({ storageState: ".auth/user.json" });
 
@@ -15,9 +20,7 @@ test.describe("Company Dashboard", () => {
     await page.goto("/");
     await page.waitForLoadState("domcontentloaded");
 
-    const sidebar = page.locator(
-      '[data-testid="app-sidebar"], nav[aria-label="Main navigation"]',
-    );
+    const sidebar = page.locator('[data-slot="sidebar"]');
     await expect(sidebar).toBeVisible({ timeout: 10000 });
   });
 
@@ -33,9 +36,7 @@ test.describe("Company Dashboard", () => {
     await page.goto("/");
     await page.waitForLoadState("domcontentloaded");
 
-    const userMenu = page.locator(
-      '[data-testid="user-menu"], [data-testid="avatar-button"]',
-    );
+    const userMenu = page.locator('[data-slot="sidebar-footer"] button').first();
     await expect(userMenu).toBeVisible({ timeout: 10000 });
   });
 });
