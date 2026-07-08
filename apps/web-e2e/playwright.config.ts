@@ -48,6 +48,7 @@ export default defineConfig({
       testMatch: [
         "**/auth.spec.ts",
         "**/navigation.spec.ts",
+        "**/company-formation.spec.ts",
       ],
     },
 
