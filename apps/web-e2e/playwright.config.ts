@@ -71,6 +71,11 @@ export default defineConfig({
         "**/company-dashboard.spec.ts",
         "**/customer-flow.spec.ts",
         "**/invoice-flow.spec.ts",
+        "**/settings-department.spec.ts",
+        "**/settings-class.spec.ts",
+        "**/settings-vendor-credit.spec.ts",
+        "**/purchase.spec.ts",
+        "**/purchase-order.spec.ts",
       ],
     },
 

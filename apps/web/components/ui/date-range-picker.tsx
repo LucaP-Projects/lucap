@@ -80,6 +80,31 @@ const PRESETS: Preset[] = [
   { name: 'lastMonth', label: 'Last Month' }
 ]
 
+const PresetButton = ({
+  preset,
+  label,
+  isSelected,
+  onSelect
+}: {
+  preset: string
+  label: string
+  isSelected: boolean
+  onSelect: (preset: string) => void
+}) => (
+  <Button
+    className={cn(isSelected && 'pointer-events-none')}
+    variant="ghost"
+    onClick={() => { onSelect(preset) }}
+  >
+    <>
+      <span className={cn('pr-2 opacity-0', isSelected && 'opacity-70')}>
+        <CheckIcon width={18} height={18} />
+      </span>
+      {label}
+    </>
+  </Button>
+)
+
 /** The DateRangePicker component allows a user to select a range of dates */
 export const DateRangePicker = ({
   initialDateFrom = new Date(new Date().setHours(0, 0, 0, 0)),
@@ -280,31 +305,6 @@ export const DateRangePicker = ({
   useEffect(() => {
     checkPreset()
   }, [range])
-
-  const PresetButton = ({
-    preset,
-    label,
-    isSelected
-  }: {
-    preset: string
-    label: string
-    isSelected: boolean
-  }) => (
-    <Button
-      className={cn(isSelected && 'pointer-events-none')}
-      variant="ghost"
-      onClick={() => {
-        setPreset(preset)
-      }}
-    >
-      <>
-        <span className={cn('pr-2 opacity-0', isSelected && 'opacity-70')}>
-          <CheckIcon width={18} height={18} />
-        </span>
-        {label}
-      </>
-    </Button>
-  )
 
   // Helper function to check if two date ranges are equal
   const areRangesEqual = (a?: DateRange, b?: DateRange): boolean => {
@@ -516,6 +516,7 @@ export const DateRangePicker = ({
                     preset={preset.name}
                     label={preset.label}
                     isSelected={selectedPreset === preset.name}
+                    onSelect={setPreset}
                   />
                 ))}
               </div>

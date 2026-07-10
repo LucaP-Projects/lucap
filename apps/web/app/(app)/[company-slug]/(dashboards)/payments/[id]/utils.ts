@@ -49,10 +49,10 @@ export function getBaseScheduleInfo(baseSchedule: any) {
 }
 
 // lib/utils.ts
-export const formatCurrency = (amount: number) =>
+export const formatCurrency = (amount: number, currency = 'TND') =>
   new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: 'USD'
+    currency
   }).format(amount);
 
 export const paymentStatusColorMap: Record<PaymentStatus, string> = {

@@ -124,83 +124,95 @@ export default function QualificationForm({
         {/* Row 1 — Fournisseur / N° Facture */}
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className={labelClass}>Fournisseur</label>
-            <input
-              type="text"
-              value={fournisseur}
-              onChange={(e) => setFournisseur(e.target.value)}
-              disabled={isLocked}
-              className={inputClass}
-            />
+            <label className={labelClass}>
+              Fournisseur
+              <input
+                type="text"
+                value={fournisseur}
+                onChange={(e) => setFournisseur(e.target.value)}
+                disabled={isLocked}
+                className={inputClass}
+              />
+            </label>
           </div>
           <div>
-            <label className={labelClass}>Numéro de Facture</label>
-            <input
-              type="text"
-              value={numeroFacture}
-              onChange={(e) => setNumeroFacture(e.target.value)}
-              disabled={isLocked}
-              className={inputClass}
-            />
+            <label className={labelClass}>
+              Numéro de Facture
+              <input
+                type="text"
+                value={numeroFacture}
+                onChange={(e) => setNumeroFacture(e.target.value)}
+                disabled={isLocked}
+                className={inputClass}
+              />
+            </label>
           </div>
         </div>
 
         {/* Row 2 — Montant HT / Taux TVA */}
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className={labelClass}>Montant HT</label>
-            <input
-              type="number"
-              value={montantHT}
-              onChange={(e) => setMontantHT(Number(e.target.value))}
-              disabled={isLocked}
-              min={0}
-              step="0.001"
-              className={inputClass}
-            />
+            <label className={labelClass}>
+              Montant HT
+              <input
+                type="number"
+                value={montantHT}
+                onChange={(e) => setMontantHT(Number(e.target.value))}
+                disabled={isLocked}
+                min={0}
+                step="0.001"
+                className={inputClass}
+              />
+            </label>
           </div>
           <div>
-            <label className={labelClass}>Taux TVA</label>
-            <select
-              value={tauxTVA}
-              onChange={(e) => setTauxTVA(Number(e.target.value))}
-              disabled={isLocked}
-              className={inputClass}
-            >
-              {TVA_OPTIONS.map((opt) => (
-                <option key={opt.value} value={opt.value}>
-                  {opt.label}
-                </option>
-              ))}
-            </select>
+            <label className={labelClass}>
+              Taux TVA
+              <select
+                value={tauxTVA}
+                onChange={(e) => setTauxTVA(Number(e.target.value))}
+                disabled={isLocked}
+                className={inputClass}
+              >
+                {TVA_OPTIONS.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+            </label>
           </div>
         </div>
 
         {/* Row 3 — FODEC / Droit de Timbre */}
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className={labelClass}>FODEC (1%)</label>
-            <select
-              value={fodec ? 'true' : 'false'}
-              onChange={(e) => setFodec(e.target.value === 'true')}
-              disabled={isLocked}
-              className={inputClass}
-            >
-              <option value="false">Désactivé</option>
-              <option value="true">Activé</option>
-            </select>
+            <label className={labelClass}>
+              FODEC (1%)
+              <select
+                value={fodec ? 'true' : 'false'}
+                onChange={(e) => setFodec(e.target.value === 'true')}
+                disabled={isLocked}
+                className={inputClass}
+              >
+                <option value="false">Désactivé</option>
+                <option value="true">Activé</option>
+              </select>
+            </label>
           </div>
           <div>
-            <label className={labelClass}>Droit de Timbre</label>
-            <input
-              type="number"
-              value={droitTimbre}
-              onChange={(e) => setDroitTimbre(Number(e.target.value))}
-              disabled={isLocked}
-              min={0}
-              step="0.001"
-              className={inputClass}
-            />
+            <label className={labelClass}>
+              Droit de Timbre
+              <input
+                type="number"
+                value={droitTimbre}
+                onChange={(e) => setDroitTimbre(Number(e.target.value))}
+                disabled={isLocked}
+                min={0}
+                step="0.001"
+                className={inputClass}
+              />
+            </label>
           </div>
         </div>
 

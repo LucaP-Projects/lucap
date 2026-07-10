@@ -70,6 +70,7 @@ async function seedCompanyAccounts(
     await tx.$executeRawUnsafe(query, companyId);
     return true;
   } catch (error) {
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
     console.error('Error seeding company accounts:', error);
     throw error;
   }
@@ -146,6 +147,7 @@ export async function createCompany(
       try {
         await seedCompanyAccounts(company.id, tx);
       } catch (seedError) {
+        if ((seedError as any)?.digest?.startsWith('NEXT_REDIRECT')) throw seedError;
         console.error('Failed to seed company accounts:', seedError);
         throw new Error('Failed to create company accounts structure', { cause: seedError });
       }
@@ -172,6 +174,7 @@ export async function createCompany(
           data: { logo: logoUrl }
         });
       } catch (uploadError) {
+        if ((uploadError as any)?.digest?.startsWith('NEXT_REDIRECT')) throw uploadError;
         console.error('Image upload failed:', uploadError);
         return {
           success: true,
@@ -198,6 +201,7 @@ export async function createCompany(
       }
     };
   } catch (error) {
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
     console.error('Detailed error in createCompany:', {
       error,
       errorMessage: error instanceof Error ? error.message : 'Unknown error',

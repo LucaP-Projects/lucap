@@ -81,6 +81,7 @@ export async function createCategory(data: CategoryFormValues): Promise<{
       };
     });
   } catch (error) {
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
     console.error('Error creating category:', error);
     return {
       success: false,
@@ -173,6 +174,7 @@ export async function updateCategory(
       };
     });
   } catch (error) {
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
     console.error('Error updating category:', error);
     return {
       success: false,

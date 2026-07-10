@@ -1,0 +1,11 @@
+node_modules
+.next
+.git
+apps/web/.next
+apps/web/node_modules
+*.tsbuildinfo
+dist
+.env
+.env.local
+*.pkl
+*.cache

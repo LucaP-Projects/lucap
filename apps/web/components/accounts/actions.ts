@@ -108,6 +108,7 @@ export async function createAccount(
     revalidatePath('/accounts');
     return { success: true, data: account };
   } catch (error) {
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
     console.error('Error creating account:', error);
 
     // Handle Prisma unique constraint violations

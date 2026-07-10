@@ -1,5 +1,7 @@
 'use server';
 
+import { headers } from 'next/headers';
+import { auth } from '@/lib/auth';
 import {
   getStoragePublicUrl,
   storageBucketName,
@@ -8,6 +10,8 @@ import {
 
 export async function uploadFileLocal(formData: FormData) {
   try {
+    const session = await auth.api.getSession({ headers: await headers() });
+    if (!session?.user?.id) throw new Error('Unauthorized');
     const file = formData.get('file') as File;
     const tenantId = formData.get('tenantId') as string || undefined;
     
@@ -43,6 +47,8 @@ export async function uploadFileLocal(formData: FormData) {
 // Legacy compatibility exports (for minimal refactoring)
 export async function getSignedURL(filename: string, _contentType: string) {
   try {
+    const session = await auth.api.getSession({ headers: await headers() });
+    if (!session?.user?.id) throw new Error('Unauthorized');
     void _contentType;
 
     const safeName = filename.replace(/[^a-z0-9.-]/gi, '_');
@@ -66,6 +72,8 @@ export async function getSignedURL(filename: string, _contentType: string) {
 }
 
 export async function makeFilePublic(key: string) {
+  const session = await auth.api.getSession({ headers: await headers() });
+  if (!session?.user?.id) throw new Error('Unauthorized');
   return {
     success: true,
     publicUrl: getStoragePublicUrl(key),

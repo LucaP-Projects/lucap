@@ -16,7 +16,7 @@ export const CreditMemoStatusSection: React.FC = memo(() => {
   return (
     <div className="flex items-start gap-4">
       <div className="flex flex-col">
-        <label className="mb-1 text-sm font-medium text-gray-900 dark:text-gray-100">
+        <label htmlFor="credit-memo-status" className="mb-1 text-sm font-medium text-gray-900 dark:text-gray-100">
           Status
         </label>
         <Controller
@@ -29,7 +29,7 @@ export const CreditMemoStatusSection: React.FC = memo(() => {
               }
               value={field.value}
             >
-              <SelectTrigger className="h-9 w-[130px] bg-gray-50/50 dark:bg-gray-800/50">
+              <SelectTrigger id="credit-memo-status" className="h-9 w-[130px] bg-gray-50/50 dark:bg-gray-800/50">
                 <SelectValue placeholder="Select Status" />
               </SelectTrigger>
               <SelectContent>
@@ -46,7 +46,7 @@ export const CreditMemoStatusSection: React.FC = memo(() => {
       </div>
 
       <div className="flex flex-col">
-        <label className="mb-1 text-sm font-medium text-gray-900 dark:text-gray-100">
+        <label htmlFor="credit-memo-reason" className="mb-1 text-sm font-medium text-gray-900 dark:text-gray-100">
           Reason
         </label>
         <Controller
@@ -59,7 +59,7 @@ export const CreditMemoStatusSection: React.FC = memo(() => {
               }
               value={field.value}
             >
-              <SelectTrigger className="h-9 w-[130px] bg-gray-50/50 dark:bg-gray-800/50">
+              <SelectTrigger id="credit-memo-reason" className="h-9 w-[130px] bg-gray-50/50 dark:bg-gray-800/50">
                 <SelectValue placeholder="Select Reason" />
               </SelectTrigger>
               <SelectContent>

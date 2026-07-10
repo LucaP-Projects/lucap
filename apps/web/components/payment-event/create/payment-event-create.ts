@@ -95,6 +95,7 @@ export async function createOneTimePaymentEvent(data: PaymentEventFormValues) {
     revalidatePath('/payment-events');
     return { success: true, data: paymentEvent };
   } catch (error) {
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
     console.error('Error creating payment event:', error);
     return { error: 'Failed to create payment event' };
   }
@@ -210,6 +211,7 @@ export async function createSubscriptionPaymentEvent(
     revalidatePath('/payment-events');
     return { success: true, data: paymentEvent };
   } catch (error) {
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
     console.error('Error creating subscription payment event:', error);
     return { error: 'Failed to create subscription payment event' };
   }

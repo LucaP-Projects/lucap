@@ -133,6 +133,7 @@ export async function createPayment(data: CreatePaymentData) {
 
     return { success: true, data: payment };
   } catch (error) {
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
     console.error('Error creating payment:', error);
     return { success: false, error: 'Failed to create payment' };
   }
@@ -183,6 +184,7 @@ export async function activatePaymentEvent(id: string): Promise<ActionResult> {
     revalidatePath('/finance/payment-events');
     return { success: true };
   } catch (error) {
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
     console.error('Error activating payment event:', error);
     return { error: 'Failed to activate payment event' };
   }
@@ -223,6 +225,7 @@ export async function deactivatePaymentEvent(
     revalidatePath('/finance/payment-events');
     return { success: true };
   } catch (error) {
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
     console.error('Error deactivating payment event:', error);
     return { error: 'Failed to deactivate payment event' };
   }
@@ -332,6 +335,7 @@ export async function deletePaymentEvent(id: string): Promise<ActionResult> {
     revalidatePath('/finance/payment-events');
     return { success: true };
   } catch (error) {
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
     console.error('Error deactivating payment event:', error);
     return {
       error:

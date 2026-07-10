@@ -109,7 +109,7 @@ function RequestCard({
   const [isPending, startTransition] = useTransition();
   const [status, setStatus] = useState(req.status);
   const [notes, setNotes] = useState(req.notes || "");
-  const meta = STATUS_META[status] || STATUS_META.SUBMITTED;
+  const meta = (STATUS_META[status] || STATUS_META.SUBMITTED)!;
 
   const handleStatusChange = (newStatus: string) => {
     startTransition(async () => {
@@ -212,9 +212,9 @@ function RequestCard({
 
           <div className="flex items-center gap-3">
             <div className="flex-1">
-              <label className="text-xs text-muted-foreground block mb-1">Status</label>
+              <label htmlFor="formation-status" className="text-xs text-muted-foreground block mb-1">Status</label>
               <Select value={status} onValueChange={handleStatusChange}>
-                <SelectTrigger className="w-full">
+                <SelectTrigger id="formation-status" className="w-full">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -229,8 +229,9 @@ function RequestCard({
           </div>
 
           <div>
-            <label className="text-xs text-muted-foreground block mb-1">Internal notes</label>
+            <label htmlFor="internal-notes" className="text-xs text-muted-foreground block mb-1">Internal notes</label>
             <Textarea
+              id="internal-notes"
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               placeholder="Add internal notes about this request..."

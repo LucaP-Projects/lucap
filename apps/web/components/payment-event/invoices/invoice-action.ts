@@ -1,7 +1,9 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
+import { headers } from 'next/headers';
 import { Invoice, PaymentStatus } from '@/lib/generated/prisma/client';
+import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 
 import { PaymentFormData } from './types';
@@ -11,6 +13,8 @@ export async function processPayment(
   pathToRevalidate: string
 ) {
   try {
+    const session = await auth.api.getSession({ headers: await headers() });
+    if (!session?.user?.id) throw new Error('Unauthorized');
     const invoice = await prisma.invoice.findUnique({
       where: { id: data.invoiceId },
       include: {
@@ -325,6 +329,9 @@ function mapPaymentToSubscriptionStatus(
 // Add this new function to fetch the latest invoice data
 export async function getLatestInvoiceData(invoiceId: string) {
   try {
+    const session = await auth.api.getSession({ headers: await headers() });
+    if (!session?.user?.id) throw new Error('Unauthorized');
+
     const invoice = await prisma.invoice.findUnique({
       where: { id: invoiceId }
     });

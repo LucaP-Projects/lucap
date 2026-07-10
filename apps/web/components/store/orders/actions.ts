@@ -32,7 +32,7 @@ const itemInclude = {
       }
     }
   }
-};
+} as const;
 
 export async function placeOrder({
   sellerStoreId

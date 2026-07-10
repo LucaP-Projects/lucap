@@ -228,15 +228,14 @@ export function CustomerForm({
 
 
   useEffect(() => {
-    updateDisplayName();
-    const displayName = form.watch('displayName');
+    const displayName = form.getValues('displayName');
     if (!Object.values(displayNames).includes(displayName)) {
       if (form.formState.isDirty) {
         if (!displayName && displayNames.short) {
           form.setValue('displayName', displayNames.short);
         }
         if (
-          !displayNames[form.watch('displayName') as keyof typeof displayNames]
+          !displayNames[form.getValues('displayName') as keyof typeof displayNames]
         ) {
           form.setValue('displayName', '');
         }

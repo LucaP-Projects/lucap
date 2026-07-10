@@ -38,6 +38,7 @@ async function validateEstimateNumber(
       throw new Error('Estimate number already exists');
     }
   } catch (error) {
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
     // Handle Prisma-specific errors
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       // Handle specific Prisma errors by their error codes
@@ -222,6 +223,7 @@ export async function createEstimate(
     revalidatePath('/estimates');
     return { success: true, data: estimate };
   } catch (error) {
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
     return {
       success: false,
       error:
@@ -402,6 +404,7 @@ export async function updateEstimate(
     revalidatePath('/estimates');
     return { success: true, data: estimate };
   } catch (error) {
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
     return {
       success: false,
       error:
@@ -523,6 +526,7 @@ export async function convertEstimateToInvoice(estimateId: string) {
 
     return { success: true, data: invoice };
   } catch (error) {
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
     console.error('Error converting estimate to invoice:', error);
     return {
       success: false,
@@ -585,6 +589,7 @@ export async function getEstimate(id: string) {
       data: estimate
     };
   } catch (error) {
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
     console.error('Error fetching estimate:', error);
     return {
       success: false,

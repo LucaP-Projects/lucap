@@ -38,6 +38,7 @@ async function validateInvoiceNumber(
       throw new Error('Invoice number already exists');
     }
   } catch (error) {
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
     // Handle Prisma-specific errors
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       switch (error.code) {
@@ -227,6 +228,7 @@ export async function createInvoice(
     revalidatePath('/invoices');
     return { success: true, data: invoice };
   } catch (error) {
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
     return {
       success: false,
       error: error instanceof Error ? error.message : 'Failed to create invoice'
@@ -292,6 +294,7 @@ export async function getInvoice(id: string) {
       data: invoice
     };
   } catch (error) {
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
     console.error('Error fetching invoice:', error);
     return {
       success: false,
@@ -659,6 +662,7 @@ export async function updateInvoice(
     revalidatePath('/invoices');
     return { success: true, data: invoice };
   } catch (error) {
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
     console.error('Error updating invoice:', error);
     return {
       success: false,
@@ -774,6 +778,7 @@ export async function deleteInvoice(
     revalidatePath('/invoices');
     return { success: true };
   } catch (error) {
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
     console.error('Error deactivating invoice:', error);
     return {
       success: false,

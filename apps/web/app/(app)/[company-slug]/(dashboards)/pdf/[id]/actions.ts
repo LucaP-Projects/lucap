@@ -1,9 +1,17 @@
 'use server';
+import { headers } from 'next/headers';
+import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 
+async function requireAuth() {
+  const session = await auth.api.getSession({ headers: await headers() });
+  if (!session?.user?.id) throw new Error('Unauthorized');
+  return session;
+}
 
 export async function getInvoiceById(id: string) {
   try {
+    await requireAuth();
     const invoice = await prisma.invoice.findUnique({
       where: { id },
       include: {
@@ -68,6 +76,7 @@ export async function getDelayedCreditById(
   id: string
 ) {
   try {
+    await requireAuth();
     const delayedCredit = await prisma.delayedCredit.findUnique({
       where: { id },
       include: {
@@ -123,6 +132,7 @@ export async function getDelayedChargesById(
   id: string
 ) {
   try {
+    await requireAuth();
     const delayedCharges = await prisma.delayedCharge.findUnique({
       where: { id },
       include: {
@@ -177,6 +187,7 @@ export type DelayedChargesResponse = ReturnType<typeof getDelayedChargesById>;
 
 export async function getEstimateById(id: string) {
   try {
+    await requireAuth();
     const estimate = await prisma.estimate.findUnique({
       where: { id },
       include: {
@@ -234,6 +245,7 @@ export async function getSalesReceiptById(
   id: string
 ) {
   try {
+    await requireAuth();
     const salesReceipt = await prisma.salesReceipt.findUnique({
       where: { id },
       include: {
@@ -292,6 +304,7 @@ export async function getRefundReceiptById(
   id: string
 ) {
   try {
+    await requireAuth();
     const refundReceipt = await prisma.refundReceipt.findUnique({
       where: { id },
       include: {
@@ -349,6 +362,7 @@ export async function getCreditMemoById(
   id: string
 ) {
   try {
+    await requireAuth();
     const creditMemo = await prisma.creditMemo.findUnique({
       where: { id },
       include: {

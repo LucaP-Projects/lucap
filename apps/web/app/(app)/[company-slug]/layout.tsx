@@ -29,6 +29,9 @@ async function getUnverifiedCounts(_companyId: string): Promise<UnverifiedCounts
     delayedCharges: 0,
     delayedCredits: 0,
     refundReceipts: 0,
+    bills: 0,
+    vendors: 0,
+    billPayments: 0,
   };
 }
 

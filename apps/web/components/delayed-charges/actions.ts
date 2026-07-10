@@ -105,6 +105,7 @@ async function validateChargeNumber(
       throw new Error('Charge number already exists');
     }
   } catch (error) {
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
     // Handle Prisma-specific errors
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       // Handle specific Prisma errors by their error codes
@@ -297,6 +298,7 @@ export async function createDelayedCharge(
     revalidatePath('/delayed-charges');
     return { success: true, data: charge };
   } catch (error) {
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
     return {
       success: false,
       error: error instanceof Error ? error.message : 'Failed to create charge'
@@ -353,6 +355,7 @@ export async function getDelayedCharge(id: string) {
       data: charge
     };
   } catch (error) {
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
     console.error('Error fetching delayed charge:', error);
     return {
       success: false,
@@ -618,6 +621,7 @@ export async function updateDelayedCharge(
     revalidatePath('/delayed-charges');
     return { success: true, data: charge };
   } catch (error) {
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
     console.error('Error updating delayed charge:', error);
     return {
       success: false,
@@ -718,6 +722,7 @@ export async function deleteDelayedCharge(id: string) {
       success: true
     };
   } catch (error) {
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
     console.error('Error deactivating delayed charge:', error);
     return {
       success: false,

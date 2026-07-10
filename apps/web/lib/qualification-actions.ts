@@ -35,7 +35,7 @@ type QualifiableDelegate = {
   }) => Promise<unknown>;
 };
 
-const ROUTE_SEGMENTS: Record<QualifiableDocumentType, string> = {
+const ROUTE_SEGMENTS = {
   invoice: 'invoices',
   estimate: 'estimates',
   creditMemo: 'credit-memos',
@@ -44,7 +44,7 @@ const ROUTE_SEGMENTS: Record<QualifiableDocumentType, string> = {
   delayedCharge: 'delayed-charges',
   delayedCredit: 'delayed-credits',
   payment: 'payments',
-};
+} as const satisfies Record<QualifiableDocumentType, string>;
 
 export async function qualifyDocument(
   documentType: QualifiableDocumentType,

@@ -73,6 +73,7 @@ export async function getNextJournalNumber(): Promise<ActionResponse<string>> {
     const nextNumber = parseInt(lastEntry.journalNo) + 1;
     return { success: true, data: nextNumber.toString() };
   } catch (error) {
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
     console.error('Error getting next journal number:', error);
     return { success: false, error: 'Failed to get next journal number' };
   }
@@ -129,6 +130,7 @@ export async function createJournalEntry(
     revalidatePath('/journals');
     return { success: true };
   } catch (error) {
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
     console.error('Error creating journal entry:', error);
     return { success: false, error: 'Failed to create journal entry' };
   }
@@ -198,6 +200,7 @@ export async function updateJournalEntry(
     revalidatePath('/journals');
     return { success: true };
   } catch (error) {
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
     console.error('Error updating journal entry:', error);
     return { success: false, error: 'Failed to update journal entry' };
   }
@@ -236,6 +239,7 @@ export async function fetchJournalEntry(
 
     return { success: true, data: journal };
   } catch (error) {
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
     console.error('Error fetching journal entry:', error);
     return { success: false, error: 'Failed to fetch journal entry' };
   }
@@ -282,6 +286,7 @@ export async function deleteJournalEntry(id: string): Promise<ActionResponse> {
     revalidatePath('/journals');
     return { success: true };
   } catch (error) {
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
     console.error('Error deleting journal entry:', error);
     return { success: false, error: 'Failed to delete journal entry' };
   }

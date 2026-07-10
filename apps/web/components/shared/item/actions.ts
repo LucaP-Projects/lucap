@@ -64,6 +64,7 @@ export async function getItemsForSelect(
     });
     return { success: true, data: items };
   } catch (error) {
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
     console.error('Error fetching items:', error);
     return { success: false, error: 'Failed to fetch items' };
   }
@@ -108,6 +109,7 @@ export async function deleteItem(
 
     return { success: true };
   } catch (error) {
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
     console.error('Error deleting item:', error);
     return {
       success: false,

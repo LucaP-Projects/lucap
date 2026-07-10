@@ -21,6 +21,18 @@ import {
   getAuditLogData,
   getSnapshotData,
   getInventoryValuationData,
+  getTrialBalanceData,
+  getGeneralLedgerData,
+  getAPAgingSummaryData,
+  getSalesByCustomerData,
+  getSalesByProductData,
+  getVendorBalanceData,
+  getTaxSummaryData,
+  getSalesByClassData,
+  getSalesByDepartmentData,
+  getTransactionListData,
+  getTransactionListByCustomerData,
+  getTransactionListByVendorData,
   getReportFilters
 } from '@/app/(app)/[company-slug]/reports/actions';
 import { Button } from '@/components/ui/button';
@@ -148,6 +160,30 @@ export function ReportViewer({
           result = await getSnapshotData();
         } else if (reportType === 'inventory-valuation-summary') {
           result = await getInventoryValuationData();
+        } else if (reportType === 'trial-balance') {
+          result = await getTrialBalanceData(currentToDate, settings);
+        } else if (reportType === 'general-ledger') {
+          result = await getGeneralLedgerData(currentFromDate, currentToDate, settings);
+        } else if (reportType === 'ap-aging-summary') {
+          result = await getAPAgingSummaryData(currentToDate, settings);
+        } else if (reportType === 'sales-customer-summary') {
+          result = await getSalesByCustomerData(currentFromDate, currentToDate, settings);
+        } else if (reportType === 'sales-product-summary') {
+          result = await getSalesByProductData(currentFromDate, currentToDate, settings);
+        } else if (reportType === 'vendor-balance-summary') {
+          result = await getVendorBalanceData(settings);
+        } else if (reportType === 'tax-summary') {
+          result = await getTaxSummaryData(currentFromDate, currentToDate);
+        } else if (reportType === 'sales-class-summary') {
+          result = await getSalesByClassData(currentFromDate, currentToDate);
+        } else if (reportType === 'sales-dept-summary') {
+          result = await getSalesByDepartmentData(currentFromDate, currentToDate);
+        } else if (reportType === 'transaction-list') {
+          result = await getTransactionListData(currentFromDate, currentToDate);
+        } else if (reportType === 'transactions-customer') {
+          result = await getTransactionListByCustomerData(currentFromDate, currentToDate);
+        } else if (reportType === 'transactions-vendor') {
+          result = await getTransactionListByVendorData(currentFromDate, currentToDate);
         }
         setData(result);
       } catch (error) {

@@ -44,7 +44,7 @@ export function FormationRequestsList({ requests }: { requests: RequestItem[] })
   return (
     <div className="space-y-3">
       {requests.map((req) => {
-        const meta = STATUS_META[req.status] || STATUS_META.SUBMITTED;
+        const meta = (STATUS_META[req.status] || STATUS_META.SUBMITTED)!;
         return (
           <Card key={req.id} className="hover:shadow-sm transition-shadow">
             <CardContent className="flex items-center justify-between py-4">

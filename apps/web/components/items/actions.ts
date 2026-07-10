@@ -117,6 +117,7 @@ export async function createItem(
             data: { imageUrl }
           });
         } catch (uploadError) {
+          if ((uploadError as any)?.digest?.startsWith('NEXT_REDIRECT')) throw uploadError;
           console.error('Image upload failed:', uploadError);
           return {
             success: true,
@@ -142,10 +143,12 @@ export async function createItem(
         data: item
       };
     } catch (dbError) {
+      if ((dbError as any)?.digest?.startsWith('NEXT_REDIRECT')) throw dbError;
       console.error('DB error when creating item:', dbError);
       throw dbError;
     }
   } catch (error) {
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
     console.error('Error creating item:', error ?? '[Unknown error]');
     return {
       success: false,
@@ -207,6 +210,7 @@ export async function updateItemStatus(
       data: updatedItem
     };
   } catch (error) {
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
     console.error('Error updating item status:', error ?? '[Unknown error]');
     return {
       success: false,
@@ -326,6 +330,7 @@ export async function updateItem(
           data: { imageUrl }
         });
       } catch (uploadError) {
+        if ((uploadError as any)?.digest?.startsWith('NEXT_REDIRECT')) throw uploadError;
         console.error('[updateItem] Image upload failed:', uploadError);
         return {
           success: true,
@@ -351,6 +356,7 @@ export async function updateItem(
       data: updatedItem
     };
   } catch (error) {
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
     console.error(
       '[updateItem] Error updating item:',
       error ?? '[Unknown error]'
@@ -463,6 +469,7 @@ export async function getItems(
       totalPages
     };
   } catch (error) {
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
     console.error('Error fetching items:', error ?? '[Unknown error]');
     return {
       success: false,
@@ -533,6 +540,7 @@ export async function deleteItem(
     revalidatePath('/items');
     return { success: true };
   } catch (error) {
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
     console.error('Error deleting item:', error);
     return {
       success: false,

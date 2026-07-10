@@ -3,6 +3,12 @@
 import { headers } from 'next/headers';
 import { auth } from '@/lib/auth';
 
+async function requireAdmin() {
+  const session = await auth.api.getSession({ headers: await headers() });
+  if (!session?.user?.id) throw new Error('Unauthorized');
+  return session;
+}
+
 const adminApi = auth.api as typeof auth.api & {
   setRole: (params: { headers: Headers; body: { userId: string; role: string } }) => Promise<unknown>;
   listUserAccounts: (params: { headers: Headers; query: { limit: number; offset: number } }) => Promise<unknown>;
@@ -10,16 +16,19 @@ const adminApi = auth.api as typeof auth.api & {
 };
 
 export async function setUserRole(userId: string, role: string) {
+  await requireAdmin();
   const res = await adminApi.setRole({ headers: await headers(), body: { userId, role } });
   return res;
 }
 
 export async function listUsers(limit = 100, offset = 0) {
+  await requireAdmin();
   const res = await adminApi.listUserAccounts({ headers: await headers(), query: { limit, offset }  });
   return res;
 }
 
 export async function createAuthUser(data: { email: string; name?: string; password?: string; roles?: string[] }) {
+  await requireAdmin();
   const res = await adminApi.createUser({ headers: await headers(), body: data });
   return res;
 }

@@ -20,11 +20,11 @@ export const RefundStatusSection: React.FC = memo(() => {
         name="refundMethod"
         render={({ field }) => (
           <div className="space-y-1">
-            <label className="text-sm font-medium text-gray-900 dark:text-gray-100">
+            <label htmlFor="refund-method" className="text-sm font-medium text-gray-900 dark:text-gray-100">
               Refund Method
             </label>
             <Select onValueChange={field.onChange} value={field.value}>
-              <SelectTrigger className="h-9 w-[160px] bg-gray-50/50 dark:bg-gray-800/50">
+              <SelectTrigger id="refund-method" className="h-9 w-[160px] bg-gray-50/50 dark:bg-gray-800/50">
                 <SelectValue placeholder="Select refund method" />
               </SelectTrigger>
               <SelectContent>
@@ -45,11 +45,11 @@ export const RefundStatusSection: React.FC = memo(() => {
         name="originalPaymentMethod"
         render={({ field }) => (
           <div className="space-y-1">
-            <label className="text-sm font-medium text-gray-900 dark:text-gray-100">
+            <label htmlFor="original-payment-method" className="text-sm font-medium text-gray-900 dark:text-gray-100">
               Original Payment Method
             </label>
             <Select onValueChange={field.onChange} value={field.value}>
-              <SelectTrigger className="h-9 w-[160px] bg-gray-50/50 dark:bg-gray-800/50">
+              <SelectTrigger id="original-payment-method" className="h-9 w-[160px] bg-gray-50/50 dark:bg-gray-800/50">
                 <SelectValue placeholder="Select original method" />
               </SelectTrigger>
               <SelectContent>

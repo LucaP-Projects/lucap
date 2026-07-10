@@ -39,6 +39,7 @@ async function validateCreditMemoNumber(
       throw new Error('Credit memo number already exists');
     }
   } catch (error) {
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
     // Handle Prisma-specific errors
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       // Handle specific Prisma errors by their error codes
@@ -297,6 +298,7 @@ export async function createCreditMemo(
     revalidatePath('/credit-memos');
     return { success: true, data: creditMemo };
   } catch (error) {
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
     console.error('Error in createCreditMemo:', error);
     return {
       success: false,
@@ -580,6 +582,7 @@ export async function updateCreditMemo(
       data: creditMemo
     };
   } catch (error) {
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
     console.error('Error updating credit memo:', error);
     return {
       success: false,
@@ -637,6 +640,7 @@ export async function getCreditMemo(id: string): Promise<{ success: boolean; dat
       data: creditMemo
     };
   } catch (error) {
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
     console.error('Error fetching credit memo:', error);
     return {
       success: false,
@@ -735,6 +739,7 @@ export async function deleteCreditMemo(id: string) {
       success: true
     };
   } catch (error) {
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
     console.error('Error deactivating credit memo:', error);
     return {
       success: false,
