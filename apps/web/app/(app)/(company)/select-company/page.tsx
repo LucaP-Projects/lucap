@@ -3,6 +3,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { getSessionWithCompany } from '@/lib/auth';
 import { SelectCompanyForm } from './form';
 
+export const dynamic = 'force-dynamic';
+
 export default async function SelectCompanyPage() {
   const [session, companies] = await Promise.all([
     getSessionWithCompany(),
