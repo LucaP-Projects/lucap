@@ -15,6 +15,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@/components/ui/sheet';
+import { getStoragePublicUrl } from '@/components/shared/utils';
 
 interface BaseSheetProps {
   isOpen: boolean;
@@ -240,11 +241,7 @@ export const CustomerInfo = ({
 );
 
 const getStorageFileUrl = (filePath: string) => {
-  if (/^https?:\/\//.test(filePath)) return filePath;
-
-  const baseUrl =
-    process.env.NEXT_PUBLIC_GARAGE_PUBLIC_URL || 'http://localhost:9000/lucap';
-  return `${baseUrl}/${filePath.replace(/^\/+/, '')}`;
+  return getStoragePublicUrl(filePath);
 };
 
 export const Attachments = ({

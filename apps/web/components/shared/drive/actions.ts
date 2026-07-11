@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
+import { deleteFromStorage } from "@/components/shared/utils";
 
 export async function getCompanyFiles(companyId: string) {
   const session = await auth.api.getSession({
@@ -46,6 +47,17 @@ export async function deleteFile(fileId: string, companySlug: string) {
 
     if (!session) {
         throw new Error("Unauthorized");
+    }
+
+    const file = await prisma.file.findUnique({
+        where: { id: fileId },
+        select: { path: true }
+    });
+
+    if (file?.path) {
+        await deleteFromStorage(file.path).catch((err) =>
+            console.error('Failed to delete file from storage:', err)
+        );
     }
 
     await prisma.file.update({
