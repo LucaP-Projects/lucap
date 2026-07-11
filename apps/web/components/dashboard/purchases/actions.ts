@@ -6,6 +6,7 @@ import { getSessionWithCompany } from '@/lib/auth';
 import { PurchaseStatus, PurchasePaymentType } from '@/lib/generated/prisma/enums';
 import * as Prisma from '@/lib/generated/prisma/internal/prismaNamespace';
 import { prisma } from '@/lib/prisma';
+import { generateUniqueNumber } from '@/lib/utils';
 
 export type PurchaseFilters = {
   status?: PurchaseStatus | undefined;
@@ -166,7 +167,7 @@ export async function createPurchase(data: {
 
   const purchase = await prisma.purchase.create({
     data: {
-      number: `PUR-${Date.now()}`,
+      number: `PUR-${generateUniqueNumber()}`,
       vendorId: data.vendorId,
       amount: data.amount,
       accountRefId: data.accountRefId,

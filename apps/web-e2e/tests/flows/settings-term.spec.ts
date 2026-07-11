@@ -1,12 +1,17 @@
 import { test, expect } from "@playwright/test";
+import { cleanupTestData } from "../helpers/cleanup";
 
 function getSlug(url: string): string {
   const parts = new URL(url).pathname.split("/").filter(Boolean);
   return parts[0] || "";
 }
 
+let createdName = "";
+
 test.describe("Term Settings", () => {
   test.use({ storageState: ".auth/user.json" });
+
+  test.afterEach(async () => { if (createdName) await cleanupTestData("term", createdName); });
 
   test.beforeEach(async ({ page }) => {
     await page.goto("/");

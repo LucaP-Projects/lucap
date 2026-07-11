@@ -1,12 +1,22 @@
 import { test, expect } from "@playwright/test";
+import { cleanupTestData } from "../helpers/cleanup";
 
 function getSlug(url: string): string {
   const parts = new URL(url).pathname.split("/").filter(Boolean);
   return parts[0] || "";
 }
 
+let createdClassName = '';
+
 test.describe("Class Settings", () => {
   test.use({ storageState: ".auth/user.json" });
+
+  test.afterEach(async () => {
+    if (createdClassName) {
+      await cleanupTestData('class', createdClassName);
+      createdClassName = '';
+    }
+  });
 
   test.beforeEach(async ({ page }) => {
     await page.goto("/");
@@ -26,6 +36,7 @@ test.describe("Class Settings", () => {
   test("create a new class", async ({ page }) => {
     const ts = Date.now();
     const className = `E2E Test Class ${ts}`;
+    createdClassName = className;
 
     await page.locator("button").filter({ hasText: "Add Class" }).click();
     await expect(page.locator('[role="dialog"] h2')).toContainText("Create Class");
@@ -38,6 +49,7 @@ test.describe("Class Settings", () => {
   test("edit an existing class", async ({ page }) => {
     const ts = Date.now();
     const className = `E2E Test Class ${ts}`;
+    createdClassName = className;
 
     await page.locator("button").filter({ hasText: "Add Class" }).click();
     await page.locator('input[placeholder="Enter class name"]').fill(className);
@@ -58,6 +70,7 @@ test.describe("Class Settings", () => {
   test("delete a class", async ({ page }) => {
     const ts = Date.now();
     const className = `E2E Test Class Delete ${ts}`;
+    createdClassName = className;
 
     await page.locator("button").filter({ hasText: "Add Class" }).click();
     await page.locator('input[placeholder="Enter class name"]').fill(className);
@@ -84,6 +97,7 @@ test.describe("Class Settings", () => {
   test("search filters classes", async ({ page }) => {
     const ts = Date.now();
     const className = `E2E Search Class ${ts}`;
+    createdClassName = className;
 
     await page.locator("button").filter({ hasText: "Add Class" }).click();
     await page.locator('input[placeholder="Enter class name"]').fill(className);

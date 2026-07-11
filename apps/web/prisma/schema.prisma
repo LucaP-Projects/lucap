@@ -238,6 +238,7 @@ model Account {
   vendorCreditLineItems   VendorCreditLineItem[]
   budgetEntries           BudgetEntry[]
   deposits                Deposit[]
+  depositLineItems        DepositLineItem[]
   creditCardBankAccounts  CreditCardPayment[]  @relation("CreditCardBankAccount")
   creditCardAccounts      CreditCardPayment[]  @relation("CreditCardAccount")
   inventoryAdjustments    InventoryAdjustment[]
@@ -520,6 +521,13 @@ model Invoice {
   deactivationReason      String?
   currency                String                   @default("TND")
   exchangeRateId          String?
+  appliedRate             Float                    @default(1)
+  rateSource              String                   @default("MANUAL")
+  originalCurrency        String?
+  functionalAmount        Float?
+  taxMode                 String                   @default("EXCLUSIVE")
+  deliveryDate            DateTime?
+  isTaxInclusive          Boolean                  @default(false)
   creditMemo              CreditMemo[]
   company                 Company                  @relation(fields: [companyId], references: [id])
   customer                Customer                 @relation(fields: [customerId], references: [id])
@@ -1061,6 +1069,8 @@ model Payment {
   discountValue           Float?
   discountApplicationTime DiscountApplicationTime?
   discountAmount          Float                    @default(0)
+  isUndeposited           Boolean                  @default(false)
+  depositedAt             DateTime?
   createdAt               DateTime                 @default(now())
   updatedAt               DateTime                 @updatedAt
   companyId               String
@@ -1073,6 +1083,7 @@ model Payment {
   company                 Company                  @relation(fields: [companyId], references: [id])
   customer                Customer                 @relation(fields: [customerId], references: [id])
   invoice                 Invoice                  @relation(fields: [invoiceId], references: [id])
+  depositLineItem         DepositLineItem?
   transactions            Transaction[]
 
   @@index([invoiceId])
@@ -1458,6 +1469,7 @@ model JournalEntry {
   transactionType     String
   description         String?
   customerId          String?
+  vendorId            String?
   classId             String?
   departmentId        String?
   companyId           String
@@ -1471,14 +1483,16 @@ model JournalEntry {
   exchangeRateId      String?
   company             Company            @relation(fields: [companyId], references: [id], onDelete: Cascade)
   customer            Customer?          @relation(fields: [customerId], references: [id])
+  vendor              Vendor?            @relation(fields: [vendorId], references: [id])
   class               Class?             @relation(fields: [classId], references: [id])
   department          Department?        @relation(fields: [departmentId], references: [id])
   entries             JournalEntryLine[]
 
   @@index([companyId])
   @@index([customerId])
+  @@index([vendorId])
   @@index([date])
-  @@index([journalNo])
+  @@unique([journalNo, companyId])
   @@index([classId])
   @@index([departmentId])
 }
@@ -1610,6 +1624,8 @@ model Company {
   /// [CompanyMetadata]
   metadata          Json?
   baseCurrency      String                 @default("TND")
+  countryCode       String                 @default("TN")
+  accountingStandard String                @default("PCN_TUNISIE")
   parentCompanyId String?
   createdAt       DateTime             @default(now())
   updatedAt       DateTime             @updatedAt
@@ -1848,6 +1864,7 @@ model Vendor {
   purchaseOrders      PurchaseOrder[]
   timeActivities       TimeActivity[]
   creditCardPayments   CreditCardPayment[]
+  journalEntries       JournalEntry[]
 
   @@unique([displayName, companyId])
   @@index([status])
@@ -1877,6 +1894,8 @@ model Bill {
   deactivationReason  String?
   currency            String      @default("TND")
   exchangeRateId      String?
+  appliedRate         Float       @default(1)
+  rateSource          String      @default("MANUAL")
   classId             String?
   departmentId        String?
   vendor              Vendor     @relation(fields: [vendorId], references: [id])
@@ -2293,9 +2312,38 @@ enum AdjustmentStrategy {
 enum NotificationType {
   PAYMENT_DUE
   PAYMENT_RECEIVED
+  PAYMENT_OVERDUE
+  INVOICE_SENT
+  INVOICE_VIEWED
+  ESTIMATE_EXPIRING
   SUBSCRIPTION_EXPIRING
   SUBSCRIPTION_CANCELLED
   CUSTOMER_WELCOME
+  DOCUMENT_SHARED
+  SYSTEM_ALERT
+  REPORT_READY
+}
+
+model JobQueue {
+  id          String    @id @default(cuid())
+  type        String
+  status      String    @default("PENDING")
+  payload     Json
+  result      Json?
+  error       String?
+  priority    Int       @default(0)
+  maxRetries  Int       @default(3)
+  retryCount  Int       @default(0)
+  scheduledAt DateTime?
+  startedAt   DateTime?
+  completedAt DateTime?
+  companyId   String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([status, priority, createdAt])
+  @@index([type])
+  @@index([companyId])
 }
 
 enum ChargeStatus {
@@ -2709,11 +2757,27 @@ model Deposit {
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 
+  lineItems       DepositLineItem[]
   company         Company  @relation(fields: [companyId], references: [id])
   depositToAccount Account? @relation(fields: [depositToAccountId], references: [id])
 
   @@index([companyId])
   @@index([depositDate])
+}
+
+model DepositLineItem {
+  id              String  @id @default(cuid())
+  depositId       String
+  accountId       String
+  amount          Float
+  description     String?
+  linkedPaymentId String? @unique
+
+  deposit Deposit        @relation(fields: [depositId], references: [id], onDelete: Cascade)
+  account Account        @relation(fields: [accountId], references: [id])
+  payment Payment?       @relation(fields: [linkedPaymentId], references: [id])
+
+  @@index([depositId])
 }
 
 model Transfer {

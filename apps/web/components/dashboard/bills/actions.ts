@@ -6,6 +6,7 @@ import { getSessionWithCompany } from '@/lib/auth';
 import { BillStatus } from '@/lib/generated/prisma/enums';
 import * as Prisma from '@/lib/generated/prisma/internal/prismaNamespace';
 import { prisma } from '@/lib/prisma';
+import { generateUniqueNumber } from '@/lib/utils';
 
 export type BillFilters = {
   status?: BillStatus | undefined;
@@ -192,7 +193,7 @@ export async function createBill(data: {
 
   const bill = await prisma.bill.create({
     data: {
-      number: `BILL-${Date.now()}`,
+      number: `BILL-${generateUniqueNumber()}`,
       vendorId: data.vendorId,
       amount: data.amount,
       dueDate: data.dueDate,

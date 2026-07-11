@@ -98,4 +98,31 @@ test.describe("Reports", () => {
     await expect(page.locator("h1")).toContainText("Reports");
     await expect(page.locator("text=Transaction List")).toBeVisible();
   });
+
+  test("ap aging summary page loads", async ({ page }) => {
+    await page.goto("/");
+    await page.waitForLoadState("domcontentloaded");
+    const slug = getSlug(page.url());
+    await page.goto(`/${slug}/reports/ap-aging-summary`);
+    await page.waitForLoadState("domcontentloaded");
+    await expect(page.locator("text=AP Aging Summary")).toBeVisible();
+  });
+
+  test("sales by customer summary page loads", async ({ page }) => {
+    await page.goto("/");
+    await page.waitForLoadState("domcontentloaded");
+    const slug = getSlug(page.url());
+    await page.goto(`/${slug}/reports/sales-customer-summary`);
+    await page.waitForLoadState("domcontentloaded");
+    await expect(page.locator("text=Sales by Customer")).toBeVisible();
+  });
+
+  test("sales by product summary page loads", async ({ page }) => {
+    await page.goto("/");
+    await page.waitForLoadState("domcontentloaded");
+    const slug = getSlug(page.url());
+    await page.goto(`/${slug}/reports/sales-product-summary`);
+    await page.waitForLoadState("domcontentloaded");
+    await expect(page.locator("text=Sales by Product")).toBeVisible();
+  });
 });

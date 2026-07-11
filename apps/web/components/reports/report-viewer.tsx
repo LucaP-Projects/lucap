@@ -46,6 +46,7 @@ import {
 } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
+import { downloadCsv, toCsv } from '@/lib/csv-export';
 import { CustomizeReportModal, CustomizeReportSettings } from './customize-report-modal';
 
 interface ReportRow {
@@ -268,8 +269,27 @@ export function ReportViewer({
     );
   };
 
+  const handleDownload = () => {
+    const flattenRows = (rows: ReportRow[], level = 0): { Label: string; Amount: string; Level: number }[] =>
+      rows.flatMap(row => [
+        { Label: row.label, Amount: row.amount !== undefined ? row.amount.toFixed(2) : '', Level: level },
+        ...(row.children ? flattenRows(row.children, level + 1) : []),
+      ]);
+    const csvData = flattenRows(data);
+    downloadCsv(toCsv(csvData), `${reportType}-${new Date().toISOString().split('T')[0]}.csv`);
+  };
+
   return (
-    <div className="flex flex-col h-full bg-white">
+    <>
+      <style>{`
+        @media print {
+          body * { visibility: hidden; }
+          .report-print-area, .report-print-area * { visibility: visible; }
+          .report-print-area { position: absolute; left: 0; top: 0; width: 100%; }
+        }
+      `}</style>
+      <div className="report-print-area">
+      <div className="flex flex-col h-full bg-white">
       {/* Top Filter Bar */}
       <div className="border-b p-4 space-y-4">
         <div className="flex items-center justify-between">
@@ -372,10 +392,9 @@ export function ReportViewer({
           
           {/* Action Icons */}
           <div className="absolute top-4 right-4 flex items-center gap-4 text-gray-400">
-             <button className="hover:text-gray-600 transition-colors"><RefreshCcw className="h-4 w-4" /></button>
-             <button className="hover:text-gray-600 transition-colors"><Printer className="h-4 w-4" /></button>
+             <button onClick={() => window.print()} className="hover:text-gray-600 transition-colors"><Printer className="h-4 w-4" /></button>
              <button className="hover:text-gray-600 transition-colors"><Mail className="h-4 w-4" /></button>
-             <button className="hover:text-gray-600 transition-colors"><FileDown className="h-4 w-4" /></button>
+             <button onClick={handleDownload} className="hover:text-gray-600 transition-colors"><FileDown className="h-4 w-4" /></button>
              <button className="hover:text-gray-600 transition-colors"><Settings className="h-4 w-4" /></button>
              <Separator orientation="vertical" className="h-4" />
              <div className="flex items-center gap-0.5 text-[10px] font-bold">
@@ -475,5 +494,7 @@ export function ReportViewer({
         </div>
       </div>
     </div>
+    </div>
+    </>
   );
 }

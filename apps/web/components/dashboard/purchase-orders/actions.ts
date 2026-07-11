@@ -6,6 +6,7 @@ import { getSessionWithCompany } from '@/lib/auth';
 import { PurchaseOrderStatus } from '@/lib/generated/prisma/enums';
 import * as Prisma from '@/lib/generated/prisma/internal/prismaNamespace';
 import { prisma } from '@/lib/prisma';
+import { generateUniqueNumber } from '@/lib/utils';
 
 export type PurchaseOrderFilters = {
   status?: PurchaseOrderStatus | undefined;
@@ -165,7 +166,7 @@ export async function createPurchaseOrder(data: {
 
   const order = await prisma.purchaseOrder.create({
     data: {
-      number: `PO-${Date.now()}`,
+      number: `PO-${generateUniqueNumber()}`,
       vendorId: data.vendorId,
       amount: data.amount,
       dueDate: data.dueDate,

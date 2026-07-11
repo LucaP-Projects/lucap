@@ -1,8 +1,9 @@
 'use client';
 import * as React from 'react';
-import { Trash2 } from 'lucide-react';
+import { Plus, Trash2 } from 'lucide-react';
 import { deleteCCPayment, getCCPayments } from '@/components/credit-card-payment/actions';
 import { CCPaymentRecord } from '@/components/credit-card-payment/schema';
+import { CCPaymentSheet } from '@/components/credit-card-payment/sheet';
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
@@ -41,6 +42,7 @@ export default function CreditCardPaymentsPage() {
         <CardHeader>
           <div className="flex items-center justify-between">
             <div><CardTitle>All Payments</CardTitle><CardDescription>{payments.length} payment{payments.length !== 1 ? 's' : ''} found</CardDescription></div>
+            <div><CCPaymentSheet onSuccess={fetch}><Button><Plus className="mr-2 h-4 w-4" />New Payment</Button></CCPaymentSheet></div>
           </div>
         </CardHeader>
         <CardContent>

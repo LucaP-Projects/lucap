@@ -1,369 +1,160 @@
+'use server';
 
-// Email service configuration
-const EMAIL_SERVICE_URL =
-  process.env.EMAIL_SERVICE_URL || 'http://localhost:8081/api/v1';
+import { prisma } from '@/lib/prisma';
 
-// Types for email service API
-export interface SendEmailRequest {
-  to: string[];
-  subject: string;
-  html?: string;
-  text?: string;
-}
+const EMAIL_SERVICE_URL = process.env.EMAIL_SERVICE_URL || 'http://localhost:8081/api/v1';
 
-export interface SendTemplateEmailRequest {
-  to: string[];
-  template_id: number;
-  variables: Record<string, string>;
-}
-
-export interface EmailResponse {
-  message: string;
-  email_log: {
-    id: number;
-    recipient: string;
-    subject: string;
-    template_id: number | null;
-    status: string;
-    error_message: string | null;
-    zeptomail_id: string;
-    sent_at: string;
-    created_at: string;
-  };
-}
-
-// Email service client
-class EmailServiceClient {
-  private baseURL: string;
-  private healthURL: string;
-
-  constructor(baseURL: string = EMAIL_SERVICE_URL) {
-    this.baseURL = baseURL;
-    // Health endpoint is at root level, not under /api/v1
-    this.healthURL = baseURL.replace('/api/v1', '');
-  }
-  private async makeRequest<T>(
-    endpoint: string,
-    options: RequestInit
-  ): Promise<T> {
-    const url = `${this.baseURL}${endpoint}`;
-
-    console.log(`📧 Email service request: ${options.method} ${url}`);
-
-    try {
-      const response = await fetch(url, {
-        ...options,
-        headers: {
-          'Content-Type': 'application/json',
-          ...options.headers
-        }
-      });
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error(
-          `❌ Email service error: ${response.status} - ${errorText}`
-        );
-        throw new Error(
-          `Email service error: ${response.status} - ${errorText}`
-        );
-      }
-
-      const result = await response.json();
-      console.log(`✅ Email service success: ${options.method} ${url}`);
-      return result;
-    } catch (error) {
-      console.error(`❌ Email service request failed for ${url}:`, error);
-      // Provide helpful debugging information
-      if (
-        error instanceof Error &&
-        (error as any).cause?.code === 'ENOTFOUND'
-      ) {
-        console.error(`🔍 Debug info:`);
-        console.error(`   - URL: ${url}`);
-        console.error(
-          `   - EMAIL_SERVICE_URL: ${process.env.EMAIL_SERVICE_URL || 'not set'}`
-        );
-        console.error(
-          `   - Suggestion: Make sure the email service is running and accessible`
-        );
-        console.error(`   - For local dev: Use http://localhost:8081/api/v1`);
-        console.error(
-          `   - For Docker: Use http://lucap_email:8080/api/v1`
-        );
-      }
-
-      throw error;
-    }
-  }
-
-  async sendEmail(request: SendEmailRequest): Promise<EmailResponse> {
-    return this.makeRequest<EmailResponse>('/emails/send', {
-      method: 'POST',
-      body: JSON.stringify(request)
-    });
-  }
-
-  async sendTemplateEmail(
-    request: SendTemplateEmailRequest
-  ): Promise<EmailResponse> {
-    return this.makeRequest<EmailResponse>('/emails/template', {
-      method: 'POST',
-      body: JSON.stringify(request)
-    });
-  }
-
-  async getEmailStatus(emailId: number): Promise<EmailResponse['email_log']> {
-    return this.makeRequest<EmailResponse['email_log']>(
-      `/emails/${emailId}/status`,
-      {
-        method: 'GET'
-      }
-    );
-  }
-  async healthCheck(): Promise<{ status: string }> {
-    const url = `${this.healthURL}/health`;
-
-    try {
-      const response = await fetch(url, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(
-          `Health check failed: ${response.status} - ${errorText}`
-        );
-      }
-
-      return await response.json();
-    } catch (error) {
-      console.error(`Health check failed:`, error);
-      throw error;
-    }
-  }
-}
-
-// Export singleton instance
-export const emailService = new EmailServiceClient();
-
-// Helper functions for Better Auth integration
-export async function sendVerificationEmail({
-  to,
-  subject,
-  verificationUrl
-}: {
+export type EmailPayload = {
   to: string;
   subject: string;
-  verificationUrl: string;
-}) {
+  html: string;
+  cc?: string[];
+  bcc?: string[];
+  attachments?: { filename: string; content: string; contentType: string }[];
+};
+
+/**
+ * Sends an email via the external email microservice.
+ * Falls back to console.log in development.
+ */
+export async function sendEmail(payload: EmailPayload) {
+  if (process.env.NODE_ENV === 'development' && !process.env.EMAIL_SERVICE_URL) {
+    console.log('[Email Dev]', { to: payload.to, subject: payload.subject });
+    return { success: true, mock: true };
+  }
+
+  const res = await fetch(`${EMAIL_SERVICE_URL}/send`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+
+  if (!res.ok) throw new Error(`Email service error: ${res.status}`);
+  return res.json();
+}
+
+/**
+ * Sends an invoice to the customer.
+ */
+export async function sendInvoiceEmail(invoiceId: string) {
+  const invoice = await prisma.invoice.findUnique({
+    where: { id: invoiceId },
+    include: {
+      customer: { select: { displayName: true, primaryEmail: true } },
+      company: { select: { name: true, email: true } },
+    },
+  });
+
+  if (!invoice?.customer?.primaryEmail) throw new Error('Customer has no email');
+
   const html = `
-    <div style="max-width:500px;margin:20px auto;padding:20px;border:1px solid #ddd;border-radius:6px;">
-      <h1 style="font-size:20px;color:#333;">${subject}</h1>
-      <p style="font-size:16px;">Please verify your email address to complete the registration process.</p>
-      <a href="${verificationUrl}" style="display:inline-block;margin-top:15px;padding:10px 15px;background:#007bff;color:#fff;text-decoration:none;border-radius:4px;">
-        Verify Email Address
-      </a>
-      <p style="font-size:14px;color:#666;margin-top:20px;">
-        If you didn't create this account, you can safely ignore this email.
-      </p>
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <h2>Invoice ${invoice.number}</h2>
+      <p>Dear ${invoice.customer.displayName},</p>
+      <p>Your invoice of ${invoice.amount.toFixed(3)} ${invoice.currency} is ready.</p>
+      <p>Due date: ${invoice.dueDate.toLocaleDateString()}</p>
+      <p>Status: ${invoice.status}</p>
+      <hr />
+      <p style="color: #666; font-size: 12px;">${invoice.company?.name} — ${invoice.company?.email || ''}</p>
     </div>
   `;
 
-  const text = `
-    ${subject}
-    
-    Please verify your email address to complete the registration process.
-    
-    Click here to verify: ${verificationUrl}
-    
-    If you didn't create this account, you can safely ignore this email.
-  `;
-
-  try {
-    return await emailService.sendEmail({
-      to: [to],
-      subject: `LucaP - ${subject}`,
-      html,
-      text
-    });
-  } catch (error) {
-    // In development, log the email instead of failing
-    // Check multiple ways to detect development mode
-    const isDevelopment =
-      process.env.NODE_ENV === 'development' ||
-      !process.env.NODE_ENV ||
-      process.env.EMAIL_SERVICE_URL?.includes('localhost');
-
-    if (isDevelopment) {
-      console.log('📧 Email would be sent (dev mode):');
-      console.log(`   To: ${to}`);
-      console.log(`   Subject: LucaP - ${subject}`);
-      console.log(`   Verification URL: ${verificationUrl}`);
-
-      // Return a mock successful response
-      return {
-        message: 'Email logged (development mode)',
-        email_log: {
-          id: 0,
-          recipient: to,
-          subject: `LucaP - ${subject}`,
-          template_id: null,
-          status: 'logged',
-          error_message: null,
-          zeptomail_id: 'dev-mode',
-          sent_at: new Date().toISOString(),
-          created_at: new Date().toISOString()
-        }
-      };
-    }
-    throw error;
-  }
+  return sendEmail({
+    to: invoice.customer.primaryEmail,
+    subject: `Invoice ${invoice.number} from ${invoice.company?.name || 'LucaP'}`,
+    html,
+  });
 }
 
-export async function sendPasswordResetEmail({
-  to,
-  subject,
-  resetUrl
-}: {
-  to: string;
-  subject: string;
-  resetUrl: string;
-}) {
+/**
+ * Sends payment receipt to the customer.
+ */
+export async function sendPaymentReceiptEmail(paymentId: string) {
+  const payment = await prisma.payment.findUnique({
+    where: { id: paymentId },
+    include: {
+      customer: { select: { displayName: true, primaryEmail: true } },
+      invoice: { select: { number: true } },
+      company: { select: { name: true } },
+    },
+  });
+
+  if (!payment?.customer?.primaryEmail) throw new Error('Customer has no email');
+
   const html = `
-    <div style="max-width:500px;margin:20px auto;padding:20px;border:1px solid #ddd;border-radius:6px;">
-      <h1 style="font-size:20px;color:#333;">${subject}</h1>
-      <p style="font-size:16px;">Please click the link below to reset your password.</p>
-      <a href="${resetUrl}" style="display:inline-block;margin-top:15px;padding:10px 15px;background:#dc3545;color:#fff;text-decoration:none;border-radius:4px;">
-        Reset Password
-      </a>
-      <p style="font-size:14px;color:#666;margin-top:20px;">
-        If you didn't request a password reset, you can safely ignore this email.
-      </p>
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <h2>Payment Received</h2>
+      <p>Dear ${payment.customer.displayName},</p>
+      <p>We received your payment of ${payment.amount.toFixed(3)}.</p>
+      ${payment.invoice ? `<p>Reference: Invoice ${payment.invoice.number}</p>` : ''}
+      <p>Payment method: ${payment.paymentMethod}</p>
+      <hr />
+      <p style="color: #666; font-size: 12px;">${payment.company?.name || 'LucaP'}</p>
     </div>
   `;
 
-  const text = `
-    ${subject}
-    
-    Please click the link below to reset your password.
-    
-    Reset link: ${resetUrl}
-    
-    If you didn't request a password reset, you can safely ignore this email.
-  `;
-
-  try {
-    return await emailService.sendEmail({
-      to: [to],
-      subject: `LucaP - ${subject}`,
-      html,
-      text
-    });
-  } catch (error) {
-    // In development, log the email instead of failing
-    const isDevelopment =
-      process.env.NODE_ENV === 'development' ||
-      !process.env.NODE_ENV ||
-      process.env.EMAIL_SERVICE_URL?.includes('localhost');
-
-    if (isDevelopment) {
-      console.log('📧 Password reset email would be sent (dev mode):');
-      console.log(`   To: ${to}`);
-      console.log(`   Subject: LucaP - ${subject}`);
-      console.log(`   Reset URL: ${resetUrl}`);
-
-      // Return a mock successful response
-      return {
-        message: 'Email logged (development mode)',
-        email_log: {
-          id: 0,
-          recipient: to,
-          subject: `LucaP - ${subject}`,
-          template_id: null,
-          status: 'logged',
-          error_message: null,
-          zeptomail_id: 'dev-mode',
-          sent_at: new Date().toISOString(),
-          created_at: new Date().toISOString()
-        }
-      };
-    }
-    throw error;
-  }
+  return sendEmail({
+    to: payment.customer.primaryEmail,
+    subject: `Payment Received — ${payment.company?.name || 'LucaP'}`,
+    html,
+  });
 }
 
-export async function sendMagicLinkEmail({
-  to,
-  subject,
-  magicLinkUrl
-}: {
-  to: string;
-  subject: string;
-  magicLinkUrl: string;
-}) {
+/**
+ * Sends overdue invoice reminder.
+ */
+export async function sendOverdueReminderEmail(invoiceId: string) {
+  const invoice = await prisma.invoice.findUnique({
+    where: { id: invoiceId },
+    include: {
+      customer: { select: { displayName: true, primaryEmail: true } },
+      company: { select: { name: true } },
+    },
+  });
+
+  if (!invoice?.customer?.primaryEmail) throw new Error('Customer has no email');
+
   const html = `
-    <div style="max-width:500px;margin:20px auto;padding:20px;border:1px solid #ddd;border-radius:6px;">
-      <h1 style="font-size:20px;color:#333;">${subject}</h1>
-      <p style="font-size:16px;">Click the link below to sign in to your account.</p>
-      <a href="${magicLinkUrl}" style="display:inline-block;margin-top:15px;padding:10px 15px;background:#28a745;color:#fff;text-decoration:none;border-radius:4px;">
-        Sign In with Magic Link
-      </a>
-      <p style="font-size:14px;color:#666;margin-top:20px;">
-        This link will expire in 15 minutes. If you didn't request this, you can safely ignore this email.
-      </p>
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <h2>Payment Reminder</h2>
+      <p>Dear ${invoice.customer.displayName},</p>
+      <p>This is a reminder that Invoice ${invoice.number} for ${invoice.amount.toFixed(3)} ${invoice.currency} is overdue.</p>
+      <p>Original due date: ${invoice.dueDate.toLocaleDateString()}</p>
+      <p>Please arrange payment at your earliest convenience.</p>
+      <hr />
+      <p style="color: #666; font-size: 12px;">${invoice.company?.name || 'LucaP'}</p>
     </div>
   `;
 
-  const text = `
-    ${subject}
-    
-    Click the link below to sign in to your account.
-    
-    Magic link: ${magicLinkUrl}
-    
-    This link will expire in 15 minutes. If you didn't request this, you can safely ignore this email.
-  `;
+  return sendEmail({
+    to: invoice.customer.primaryEmail,
+    subject: `Overdue: Invoice ${invoice.number} — ${invoice.company?.name || 'LucaP'}`,
+    html,
+  });
+}
 
-  try {
-    return await emailService.sendEmail({
-      to: [to],
-      subject: `LucaP - ${subject}`,
-      html,
-      text
-    });
-  } catch (error) {
-    // In development, log the email instead of failing
-    const isDevelopment =
-      process.env.NODE_ENV === 'development' ||
-      !process.env.NODE_ENV ||
-      process.env.EMAIL_SERVICE_URL?.includes('localhost');
+// ─── Better Auth Email Helpers ───
+// Better Auth passes: { to, subject, url/verificationUrl } depending on the plugin
 
-    if (isDevelopment) {
-      console.log('📧 Magic link email would be sent (dev mode):');
-      console.log(`   To: ${to}`);
-      console.log(`   Subject: LucaP - ${subject}`);
-      console.log(`   Magic Link: ${magicLinkUrl}`);
+export async function sendVerificationEmail(data: { to: string; subject?: string; verificationUrl?: string }) {
+  const html = `<p>Click <a href="${data.verificationUrl || '#'}">here</a> to verify your email address.</p>`;
+  return sendEmail({ to: data.to, subject: data.subject || 'Verify your email', html }).catch(() => {
+    console.log(`[Auth Email Dev] Verification: ${data.to}`);
+  });
+}
 
-      // Return a mock successful response
-      return {
-        message: 'Email logged (development mode)',
-        email_log: {
-          id: 0,
-          recipient: to,
-          subject: `LucaP - ${subject}`,
-          template_id: null,
-          status: 'logged',
-          error_message: null,
-          zeptomail_id: 'dev-mode',
-          sent_at: new Date().toISOString(),
-          created_at: new Date().toISOString()
-        }
-      };
-    }
-    throw error;
-  }
+export async function sendPasswordResetEmail(data: { to: string; subject?: string; resetUrl?: string; url?: string }) {
+  const link = data.resetUrl || data.url || '#';
+  const html = `<p>Click <a href="${link}">here</a> to reset your password.</p>`;
+  return sendEmail({ to: data.to, subject: data.subject || 'Reset your password', html }).catch(() => {
+    console.log(`[Auth Email Dev] Password Reset: ${data.to}`);
+  });
+}
+
+export async function sendMagicLinkEmail(data: { to: string; subject?: string; url?: string; magicLinkUrl?: string }) {
+  const link = data.magicLinkUrl || data.url || '#';
+  const html = `<p>Click <a href="${link}">here</a> to sign in.</p>`;
+  return sendEmail({ to: data.to, subject: data.subject || 'Sign in to LucaP', html }).catch(() => {
+    console.log(`[Auth Email Dev] Magic Link: ${data.to}`);
+  });
 }

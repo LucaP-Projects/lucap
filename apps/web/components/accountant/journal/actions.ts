@@ -34,6 +34,7 @@ export type CreateJournalEntryData = {
   journalNo: string;
   description?: string;
   customerId?: string;
+  vendorId?: string;
   entries: JournalEntryLine[];
 };
 
@@ -105,6 +106,22 @@ export async function createJournalEntry(
       return { success: false, error: 'Total debits must equal total credits' };
     }
 
+    // QBO: AR accounts must have Customer entity; AP accounts must have Vendor entity
+    const entryAccounts = await prisma.account.findMany({
+      where: { id: { in: data.entries.map(e => e.accountId) }, companyId: session.user.activeCompanyId },
+      select: { id: true, number: true }
+    });
+    const accountMap = new Map(entryAccounts.map(a => [a.id, a.number]));
+    for (const entry of data.entries) {
+      const num = accountMap.get(entry.accountId);
+      if (num && num.startsWith('41') && !data.customerId) {
+        return { success: false, error: `Account ${num} is an AR account — a customer reference is required` };
+      }
+      if (num && (num.startsWith('40') || num.startsWith('44')) && !data.vendorId) {
+        return { success: false, error: `Account ${num} is an AP account — a vendor reference is required` };
+      }
+    }
+
     // Create the journal entry with its lines
     await prisma.journalEntry.create({
       data: {
@@ -113,6 +130,7 @@ export async function createJournalEntry(
         journalNo: data.journalNo,
         description: data.description,
         customerId: data.customerId,
+        vendorId: data.vendorId,
         companyId: session.user.activeCompanyId,
         isActive: true,
         entries: {

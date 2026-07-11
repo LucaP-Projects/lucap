@@ -787,3 +787,40 @@ export async function deleteInvoice(
     };
   }
 }
+
+/**
+ * QBO-style void: preserves the record, zeros amounts, marks as VOID, appends to notes.
+ * Unlike soft-delete, void keeps the record visible for audit trail.
+ */
+export async function voidInvoice(id: string): Promise<{ success: boolean; error?: string }> {
+  try {
+    const session = await getSessionWithCompany();
+    if (!session?.user?.id) { redirect('/auth/login'); }
+    if (!session?.user?.activeCompanyId) { redirect('/select-company'); }
+
+    const invoice = await prisma.invoice.findUnique({
+      where: { id, companyId: session.user.activeCompanyId, isActive: true },
+    });
+    if (!invoice) return { success: false, error: 'Invoice not found' };
+
+    if (invoice.status === 'PAID') return { success: false, error: 'Cannot void a paid invoice' };
+
+    await prisma.invoice.update({
+      where: { id },
+      data: {
+        amount: 0,
+        taxAmount: 0,
+        status: 'CANCELLED',
+        notes: invoice.notes
+          ? `${invoice.notes}\n[VOIDED ${new Date().toISOString().split('T')[0]} by ${session.user.id}]`
+          : `[VOIDED ${new Date().toISOString().split('T')[0]} by ${session.user.id}]`,
+      },
+    });
+
+    revalidatePath('/invoices');
+    return { success: true };
+  } catch (error) {
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
+    return { success: false, error: 'Failed to void invoice' };
+  }
+}

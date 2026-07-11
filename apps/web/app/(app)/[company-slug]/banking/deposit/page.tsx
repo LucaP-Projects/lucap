@@ -3,6 +3,7 @@ import * as React from 'react';
 import { Plus, Trash2 } from 'lucide-react';
 import { deleteDeposit, getDeposits } from '@/components/deposit/actions';
 import { DepositRecord } from '@/components/deposit/schema';
+import { DepositSheet } from '@/components/deposit/sheet';
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
@@ -42,6 +43,7 @@ export default function DepositsPage() {
         <CardHeader>
           <div className="flex items-center justify-between">
             <div><CardTitle>All Deposits</CardTitle><CardDescription>{deposits.length} deposit{deposits.length !== 1 ? 's' : ''} found</CardDescription></div>
+            <div><DepositSheet onSuccess={fetch}><Button><Plus className="mr-2 h-4 w-4" />New Deposit</Button></DepositSheet></div>
           </div>
         </CardHeader>
         <CardContent>

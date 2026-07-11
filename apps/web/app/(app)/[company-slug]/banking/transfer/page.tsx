@@ -3,6 +3,7 @@ import * as React from 'react';
 import { Plus, Trash2 } from 'lucide-react';
 import { deleteTransfer, getTransfers } from '@/components/transfer/actions';
 import { TransferRecord } from '@/components/transfer/schema';
+import { TransferSheet } from '@/components/transfer/sheet';
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
@@ -42,6 +43,7 @@ export default function TransfersPage() {
         <CardHeader>
           <div className="flex items-center justify-between">
             <div><CardTitle>All Transfers</CardTitle><CardDescription>{transfers.length} transfer{transfers.length !== 1 ? 's' : ''} found</CardDescription></div>
+            <div><TransferSheet onSuccess={fetch}><Button><Plus className="mr-2 h-4 w-4" />New Transfer</Button></TransferSheet></div>
           </div>
         </CardHeader>
         <CardContent>

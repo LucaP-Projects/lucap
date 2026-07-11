@@ -130,7 +130,7 @@ Analysis date: 2026-07-09 (updated 2026-07-09 — QBO docs sweep + field alignme
 4. ~~**TaxCode / TaxAgency** — full CRUD settings pages + Prisma models~~ ✅ Done
 5. ~~**TaxService** — computation utility with currency conversion~~ ✅ Done
 6. **Payment gateway** — no Stripe/PayPal to collect money online
-7. **Report export** — CSV utility exists, needs integration into report pages
+7. ~~**Report export** — CSV download wired into report-viewer~~ ✅ Done
 8. **Employee / TimeActivity** — needed before payroll
 9. **Banking (Deposit, Transfer)** — bank transactions
 

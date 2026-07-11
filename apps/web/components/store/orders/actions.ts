@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { getSessionWithCompany } from "@/lib/auth";
 import { OrderStatus, FulfillmentStatus } from "@/lib/generated/prisma/enums";
 import { prisma } from "@/lib/prisma";
+import { generateUniqueNumber } from '@/lib/utils';
 
 export type OrderResponse = {
   success: boolean;
@@ -79,7 +80,7 @@ export async function placeOrder({
     }
 
     const total = items.reduce((sum, item) => sum + Number(item.unitPrice) * item.quantity, 0);
-    const orderNumber = `ORD-${Date.now()}`;
+    const orderNumber = `ORD-${generateUniqueNumber()}`;
 
     const order = await prisma.$transaction(async (tx) => {
       const createdOrder = await tx.order.create({
@@ -353,7 +354,7 @@ export async function createInvoiceFromOrder(orderId: string): Promise<OrderResp
       return { success: false, error: "Invoice already exists for this order" };
     }
 
-    const invoiceNumber = `INV-${Date.now()}`;
+    const invoiceNumber = `INV-${generateUniqueNumber()}`;
 
     const result = await prisma.$transaction(async (tx) => {
       const invoice = await tx.invoice.create({

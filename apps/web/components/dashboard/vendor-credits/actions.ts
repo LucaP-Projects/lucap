@@ -6,6 +6,7 @@ import { getSessionWithCompany } from '@/lib/auth';
 import { VendorCreditStatus } from '@/lib/generated/prisma/enums';
 import * as Prisma from '@/lib/generated/prisma/internal/prismaNamespace';
 import { prisma } from '@/lib/prisma';
+import { generateUniqueNumber } from '@/lib/utils';
 
 export type VendorCreditBasic = Prisma.VendorCreditGetPayload<{
   include: { vendor: { select: { displayName: true } } };
@@ -97,7 +98,7 @@ export async function createVendorCredit(data: {
 
   const credit = await prisma.vendorCredit.create({
     data: {
-      number: `VC-${Date.now()}`,
+      number: `VC-${generateUniqueNumber()}`,
       vendorId: data.vendorId,
       amount: data.amount,
       remainingCredit: data.amount,

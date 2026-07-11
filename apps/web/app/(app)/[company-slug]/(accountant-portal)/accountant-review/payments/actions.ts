@@ -143,7 +143,7 @@ export async function getPaymentForAccountant(
       notes: paymentData.notes,
       paymentMethod: paymentData.paymentMethod,
       companyName: paymentData.company.name,
-      invoiceNumber: paymentData.invoice.number,
+      invoiceNumber: paymentData.invoice?.number ?? '',
     },
     customer,
   };
