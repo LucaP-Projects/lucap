@@ -36,6 +36,7 @@ model User {
   companies            UserCompany[]
   sessions             Session[]
   tickets              Ticket[]
+  formationRequests    CompanyFormationRequest[]
   activeCompany        Company?      @relation("ActiveCompany", fields: [activeCompanyId], references: [id])
   ownedAccountants     Accountant[]  @relation("AccountantOwner")
   accountantProfiles   AccountantUser[]
@@ -162,8 +163,8 @@ model Customer {
   userId                 String?                         @unique
   createdAt              DateTime                        @default(now())
   updatedAt              DateTime                        @updatedAt
-  companyId              String
-  isActive               Boolean                         @default(true)
+  companyId               String
+  isActive                Boolean                 @default(true)
   deactivatedAt          DateTime?
   deactivatedByUserId    String?
   deactivationReason     String?
@@ -182,6 +183,9 @@ model Customer {
   payments               Payment[]
   refundReceipts         RefundReceipt[]
   salesReceipts          SalesReceipt[]
+  timeActivities         TimeActivity[]
+  budgetEntries          BudgetEntry[]
+  reimburseCharges       ReimburseCharge[]
 
   @@unique([displayName, companyId])
   @@index([parentId])
@@ -225,7 +229,19 @@ model Account {
   expenseItems        Item[]             @relation("ItemExpenseAccount")
   incomeItems         Item[]             @relation("ItemIncomeAccount")
   inventoryAssetItems Item[]             @relation("ItemInventoryAssetAccount")
-  journalEntryLine    JournalEntryLine[]
+  journalEntryLine        JournalEntryLine[]
+  billLineItems           BillLineItem[]
+  purchaseLineItems       PurchaseLineItem[]
+  purchaseOrderLineItems  PurchaseOrderLineItem[]
+  purchases               Purchase[]              @relation("PurchaseAccountRef")
+  purchaseOrders          PurchaseOrder[]          @relation("PurchaseOrderApAccountRef")
+  vendorCreditLineItems   VendorCreditLineItem[]
+  budgetEntries           BudgetEntry[]
+  deposits                Deposit[]
+  depositLineItems        DepositLineItem[]
+  creditCardBankAccounts  CreditCardPayment[]  @relation("CreditCardBankAccount")
+  creditCardAccounts      CreditCardPayment[]  @relation("CreditCardAccount")
+  inventoryAdjustments    InventoryAdjustment[]
 
   @@unique([companyId, number])
   @@unique([companyId, composed_number])
@@ -432,6 +448,7 @@ model Item {
   salesReceiptItems       SalesReceiptItem[]
   cartItems               CartItem[]
   orderItems              OrderItem[]
+  inventoryAdjustments    InventoryAdjustment[]
 
   @@unique([sku, companyId])
   @@unique([storeSlug, companyId])
@@ -496,16 +513,29 @@ model Invoice {
   updatedAt               DateTime                 @updatedAt
   isLinkedToVersion       Boolean                  @default(false)
   companyId               String
+  classId                 String?
+  departmentId            String?
   isActive                Boolean                  @default(true)
   deactivatedAt           DateTime?
   deactivatedByUserId     String?
   deactivationReason      String?
+  currency                String                   @default("TND")
+  exchangeRateId          String?
+  appliedRate             Float                    @default(1)
+  rateSource              String                   @default("MANUAL")
+  originalCurrency        String?
+  functionalAmount        Float?
+  taxMode                 String                   @default("EXCLUSIVE")
+  deliveryDate            DateTime?
+  isTaxInclusive          Boolean                  @default(false)
   creditMemo              CreditMemo[]
   company                 Company                  @relation(fields: [companyId], references: [id])
   customer                Customer                 @relation(fields: [customerId], references: [id])
   estimate                Estimate?                @relation(fields: [estimateId], references: [id])
   customerPaymentEvent    CustomerPaymentEvent?    @relation(fields: [paymentEventId], references: [id])
   tax                     TaxRate?                 @relation(fields: [taxId], references: [id])
+  class                   Class?                   @relation(fields: [classId], references: [id])
+  department              Department?              @relation(fields: [departmentId], references: [id])
   attachments             InvoiceAttachment[]
   items                   InvoiceItem[]
   payments                Payment[]
@@ -517,6 +547,8 @@ model Invoice {
   @@index([paymentEventId])
   @@index([status])
   @@index([dueDate])
+  @@index([classId])
+  @@index([departmentId])
 }
 
 model InvoiceAttachment {
@@ -587,6 +619,8 @@ model Estimate {
   deactivatedAt           DateTime?
   deactivatedByUserId     String?
   deactivationReason      String?
+  currency                String                   @default("TND")
+  exchangeRateId          String?
   company                 Company                  @relation(fields: [companyId], references: [id])
   customer                Customer                 @relation(fields: [customerId], references: [id])
   tax                     TaxRate?                 @relation(fields: [taxId], references: [id])
@@ -668,6 +702,8 @@ model CreditMemo {
   deactivatedAt           DateTime?
   deactivatedByUserId     String?
   deactivationReason      String?
+  currency                String                   @default("TND")
+  exchangeRateId          String?
   company                 Company                  @relation(fields: [companyId], references: [id])
   customer                Customer                 @relation(fields: [customerId], references: [id])
   invoice                 Invoice?                 @relation(fields: [invoiceId], references: [id])
@@ -749,6 +785,8 @@ model SalesReceipt {
   deactivatedAt           DateTime?
   deactivatedByUserId     String?
   deactivationReason      String?
+  currency                String                   @default("TND")
+  exchangeRateId          String?
   attachments             ReceiptAttachment[]
   company                 Company                  @relation(fields: [companyId], references: [id])
   customer                Customer                 @relation(fields: [customerId], references: [id])
@@ -831,6 +869,8 @@ model RefundReceipt {
   deactivatedAt           DateTime?
   deactivatedByUserId     String?
   deactivationReason      String?
+  currency                String                   @default("TND")
+  exchangeRateId          String?
   attachments             RefundAttachment[]
   company                 Company                  @relation(fields: [companyId], references: [id])
   customer                Customer                 @relation(fields: [customerId], references: [id])
@@ -1029,6 +1069,8 @@ model Payment {
   discountValue           Float?
   discountApplicationTime DiscountApplicationTime?
   discountAmount          Float                    @default(0)
+  isUndeposited           Boolean                  @default(false)
+  depositedAt             DateTime?
   createdAt               DateTime                 @default(now())
   updatedAt               DateTime                 @updatedAt
   companyId               String
@@ -1036,9 +1078,12 @@ model Payment {
   deactivatedAt           DateTime?
   deactivatedByUserId     String?
   deactivationReason      String?
+  currency                String                   @default("TND")
+  exchangeRateId          String?
   company                 Company                  @relation(fields: [companyId], references: [id])
   customer                Customer                 @relation(fields: [customerId], references: [id])
   invoice                 Invoice                  @relation(fields: [invoiceId], references: [id])
+  depositLineItem         DepositLineItem?
   transactions            Transaction[]
 
   @@index([invoiceId])
@@ -1132,6 +1177,11 @@ model Transaction {
   referenceNumber     String?
   refundReceiptId     String?
   salesReceiptId      String?
+  billId              String?
+  billPaymentId       String?
+  vendorCreditId      String?
+  purchaseId          String?
+  purchaseOrderId     String?
   type                TransactionType
   updatedAt           DateTime                @updatedAt
   status              TransactionStatus       @default(INCOMPLETE)
@@ -1143,6 +1193,11 @@ model Transaction {
   invoicePayment      Payment?                @relation(fields: [invoicePaymentId], references: [id])
   refundReceipt       RefundReceipt?          @relation(fields: [refundReceiptId], references: [id])
   salesReceipt        SalesReceipt?           @relation(fields: [salesReceiptId], references: [id])
+  bill                Bill?                   @relation(fields: [billId], references: [id])
+  billPayment         BillPayment?            @relation(fields: [billPaymentId], references: [id])
+  vendorCredit        VendorCredit?           @relation(fields: [vendorCreditId], references: [id])
+  purchase            Purchase?               @relation(fields: [purchaseId], references: [id])
+  purchaseOrder       PurchaseOrder?          @relation(fields: [purchaseOrderId], references: [id])
   attachments         TransactionAttachment[]
   transactionHistory  TransactionHistory[]
 
@@ -1152,6 +1207,11 @@ model Transaction {
   @@index([createdBy])
   @@index([status])
   @@index([completed])
+  @@index([billId])
+  @@index([billPaymentId])
+  @@index([vendorCreditId])
+  @@index([purchaseId])
+  @@index([purchaseOrderId])
 }
 
 
@@ -1409,6 +1469,9 @@ model JournalEntry {
   transactionType     String
   description         String?
   customerId          String?
+  vendorId            String?
+  classId             String?
+  departmentId        String?
   companyId           String
   createdAt           DateTime           @default(now())
   updatedAt           DateTime           @updatedAt
@@ -1416,14 +1479,22 @@ model JournalEntry {
   deactivatedAt       DateTime?
   deactivatedByUserId String?
   deactivationReason  String?
+  currency            String             @default("TND")
+  exchangeRateId      String?
   company             Company            @relation(fields: [companyId], references: [id], onDelete: Cascade)
   customer            Customer?          @relation(fields: [customerId], references: [id])
+  vendor              Vendor?            @relation(fields: [vendorId], references: [id])
+  class               Class?             @relation(fields: [classId], references: [id])
+  department          Department?        @relation(fields: [departmentId], references: [id])
   entries             JournalEntryLine[]
 
   @@index([companyId])
   @@index([customerId])
+  @@index([vendorId])
   @@index([date])
-  @@index([journalNo])
+  @@unique([journalNo, companyId])
+  @@index([classId])
+  @@index([departmentId])
 }
 
 model JournalEntryLine {
@@ -1467,13 +1538,71 @@ model TaxRate {
   estimates           Estimate[]
   invoices            Invoice[]
   refundReceipts      RefundReceipt[]
-  salesReceipts       SalesReceipt[]
-  company             Company         @relation(fields: [companyId], references: [id])
+  salesReceipts           SalesReceipt[]
+  billLineItems           BillLineItem[]
+  purchaseLineItems       PurchaseLineItem[]
+  purchaseOrderLineItems  PurchaseOrderLineItem[]
+  vendorCreditLineItems   VendorCreditLineItem[]
+  taxCodeId           String?
+  taxAgencyId         String?
+  taxClassification   String?
+  taxCode             TaxCode?         @relation(fields: [taxCodeId], references: [id])
+  taxAgency           TaxAgency?       @relation(fields: [taxAgencyId], references: [id])
+  company             Company          @relation(fields: [companyId], references: [id])
 
   @@unique([name, companyId])
   @@index([status])
   @@index([companyId])
   @@index([effectiveDate])
+}
+
+model TaxCode {
+  id         String   @id @default(cuid())
+  name       String
+  description String?
+  taxGroup   Boolean  @default(false)
+  taxable    Boolean  @default(true)
+  active     Boolean  @default(true)
+  companyId  String
+
+  taxRates TaxRate[]
+  company  Company  @relation(fields: [companyId], references: [id])
+
+  @@unique([name, companyId])
+  @@index([companyId])
+}
+
+model TaxAgency {
+  id                   String   @id @default(cuid())
+  name                 String
+  registrationNumber   String?
+  taxTrackedOnSales    Boolean  @default(true)
+  taxTrackedOnPurchases Boolean @default(true)
+  companyId            String
+
+  taxRates    TaxRate[]
+  taxPayments TaxPayment[]
+  company     Company    @relation(fields: [companyId], references: [id])
+
+  @@unique([name, companyId])
+  @@index([companyId])
+}
+
+model TaxPayment {
+  id           String   @id @default(cuid())
+  amount       Float
+  paymentDate  DateTime
+  taxAgencyId  String?
+  reference    String?
+  notes        String?
+  companyId    String
+  createdAt    DateTime @default(now())
+
+  taxAgency TaxAgency? @relation(fields: [taxAgencyId], references: [id])
+  company   Company    @relation(fields: [companyId], references: [id])
+
+  @@index([companyId])
+  @@index([paymentDate])
 }
 
 model Company {
@@ -1493,7 +1622,10 @@ model Company {
   /// [CompanySettings]
   settings        Json?
   /// [CompanyMetadata]
-  metadata        Json?
+  metadata          Json?
+  baseCurrency      String                 @default("TND")
+  countryCode       String                 @default("TN")
+  accountingStandard String                @default("PCN_TUNISIE")
   parentCompanyId String?
   createdAt       DateTime             @default(now())
   updatedAt       DateTime             @updatedAt
@@ -1528,6 +1660,29 @@ model Company {
   tickets         Ticket[]
   activeUsers     User[]               @relation("ActiveCompany")
   accountantAssignments AccountantAssignment[]
+  bills                 Bill[]
+  billPayments          BillPayment[]
+  companyCurrencies     CompanyCurrency[]
+  classes               Class[]
+  departments           Department[]
+  purchaseOrders        PurchaseOrder[]
+  purchases             Purchase[]
+  terms                 Term[]
+  vendorCredits         VendorCredit[]
+  vendors               Vendor[]
+  taxCodes              TaxCode[]
+  taxAgencies           TaxAgency[]
+  taxPayments           TaxPayment[]
+  budgets               Budget[]
+  employees             Employee[]
+  timeActivities        TimeActivity[]
+  deposits              Deposit[]
+  transfers             Transfer[]
+  creditCardPayments    CreditCardPayment[]
+  inventoryAdjustments  InventoryAdjustment[]
+  recurringTransactions RecurringTransaction[]
+  changeOrders          ChangeOrder[]
+  reimburseCharges      ReimburseCharge[]
 
   @@index([isActive])
   @@index([parentCompanyId])
@@ -1645,6 +1800,453 @@ model MessageAttachment {
   message   Message  @relation(fields: [messageId], references: [id], onDelete: Cascade)
 }
 
+model CompanyFormationRequest {
+  id              String   @id @default(uuid())
+  status          String   @default("SUBMITTED")
+  companyType     String?
+  companyName     String?
+  taxId           String?
+  email           String?
+  phone           String?
+  website         String?
+  address         Json?
+  taxRegime       String?
+  vatRegime       String?
+  capitalAmount   Float?
+  numberOfShares  Int?
+  shareholders    Json?
+  notes           String?
+
+  // Submitter — either a platform user or external contact
+  userId          String?
+  user            User?    @relation(fields: [userId], references: [id])
+  submitterName   String?
+  submitterEmail  String?
+  submitterPhone  String?
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("company_formation_request")
+}
+
+// --- AP models ---
+
+model Vendor {
+  id                  String       @id @default(cuid())
+  displayName         String       @db.VarChar(500)
+  companyName         String?      @db.VarChar(100)
+  primaryEmail        String?
+  primaryPhone        String?      @db.VarChar(30)
+  website             String?      @db.VarChar(1000)
+  billingAddress      Json?
+  taxId               String?
+  notes               String?      @db.VarChar(2000)
+  accountNumber       String?      @db.VarChar(100)
+  balance             Float        @default(0)
+  status              VendorStatus @default(ACTIVE)
+  createdAt           DateTime     @default(now())
+  updatedAt           DateTime     @updatedAt
+  companyId           String
+  isActive            Boolean      @default(true)
+  deactivatedAt       DateTime?
+  deactivatedByUserId String?
+  deactivationReason  String?
+  classId             String?
+  departmentId        String?
+  company             Company      @relation(fields: [companyId], references: [id])
+  class               Class?       @relation(fields: [classId], references: [id])
+  department          Department?  @relation(fields: [departmentId], references: [id])
+  bills               Bill[]
+  billPayments        BillPayment[]
+  vendorCredits       VendorCredit[]
+  purchases           Purchase[]
+  purchaseOrders      PurchaseOrder[]
+  timeActivities       TimeActivity[]
+  creditCardPayments   CreditCardPayment[]
+  journalEntries       JournalEntry[]
+
+  @@unique([displayName, companyId])
+  @@index([status])
+  @@index([companyId])
+  @@index([classId])
+  @@index([departmentId])
+}
+
+model Bill {
+  id                  String     @id @default(cuid())
+  number              String
+  vendorId            String
+  amount              Float
+  dueDate             DateTime
+  billDate            DateTime   @default(now())
+  status              BillStatus @default(OPEN)
+  notes               String?    @db.VarChar(2000)
+  memo                String?    @db.VarChar(1000)
+  taxRate             Float      @default(0)
+  taxAmount           Float      @default(0)
+  companyId           String
+  createdAt           DateTime   @default(now())
+  updatedAt           DateTime   @updatedAt
+  isActive            Boolean    @default(true)
+  deactivatedAt       DateTime?
+  deactivatedByUserId String?
+  deactivationReason  String?
+  currency            String      @default("TND")
+  exchangeRateId      String?
+  appliedRate         Float       @default(1)
+  rateSource          String      @default("MANUAL")
+  classId             String?
+  departmentId        String?
+  vendor              Vendor     @relation(fields: [vendorId], references: [id])
+  company             Company    @relation(fields: [companyId], references: [id])
+  class               Class?     @relation(fields: [classId], references: [id])
+  department          Department? @relation(fields: [departmentId], references: [id])
+  lineItems           BillLineItem[]
+  allocations         BillPaymentAllocation[]
+  transactions        Transaction[]
+
+  @@unique([number, companyId])
+  @@index([vendorId])
+  @@index([status])
+  @@index([dueDate])
+  @@index([companyId])
+  @@index([classId])
+  @@index([departmentId])
+}
+
+model BillLineItem {
+  id                  String   @id @default(cuid())
+  billId              String
+  description         String?  @db.VarChar(2000)
+  amount              Float
+  accountId           String
+  taxable             Boolean  @default(true)
+  taxRateId           String?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+  isActive            Boolean  @default(true)
+  deactivatedAt       DateTime?
+  deactivatedByUserId String?
+  deactivationReason  String?
+  bill                Bill     @relation(fields: [billId], references: [id], onDelete: Cascade)
+  account             Account  @relation(fields: [accountId], references: [id])
+  taxRate             TaxRate? @relation(fields: [taxRateId], references: [id])
+
+  @@index([billId])
+  @@index([accountId])
+  @@index([taxRateId])
+}
+
+model BillPayment {
+  id                  String        @id @default(cuid())
+  vendorId            String
+  amount              Float
+  paymentDate         DateTime
+  paymentMethod       PaymentMethod
+  reference           String?
+  notes               String?       @db.VarChar(2000)
+  companyId           String
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
+  isActive            Boolean       @default(true)
+  deactivatedAt       DateTime?
+  deactivatedByUserId String?
+  deactivationReason  String?
+  vendor              Vendor        @relation(fields: [vendorId], references: [id])
+  company             Company       @relation(fields: [companyId], references: [id])
+  allocations         BillPaymentAllocation[]
+  transactions        Transaction[]
+
+  @@index([vendorId])
+  @@index([paymentDate])
+  @@index([companyId])
+}
+
+model BillPaymentAllocation {
+  id             String          @id @default(cuid())
+  billPaymentId  String
+  billId         String
+  amount         Float
+  createdAt      DateTime        @default(now())
+  billPayment    BillPayment     @relation(fields: [billPaymentId], references: [id], onDelete: Cascade)
+  bill           Bill            @relation(fields: [billId], references: [id])
+
+  @@unique([billPaymentId, billId])
+  @@index([billPaymentId])
+  @@index([billId])
+}
+
+model Class {
+  id                  String    @id @default(cuid())
+  name                String    @db.VarChar(100)
+  fullyQualifiedName  String?   @db.VarChar(500)
+  parentId            String?
+  active              Boolean   @default(true)
+  companyId           String
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+  isActive            Boolean   @default(true)
+  deactivatedAt       DateTime?
+  deactivatedByUserId String?
+  deactivationReason  String?
+  company             Company   @relation(fields: [companyId], references: [id])
+  parent              Class?    @relation("ClassHierarchy", fields: [parentId], references: [id])
+  subClasses          Class[]   @relation("ClassHierarchy")
+  bills               Bill[]
+  invoices            Invoice[]
+  journalEntries      JournalEntry[]
+  vendors             Vendor[]
+  vendorCredits       VendorCredit[]
+  purchases           Purchase[]
+  purchaseOrders      PurchaseOrder[]
+
+  @@unique([name, companyId])
+  @@index([parentId])
+  @@index([active])
+  @@index([companyId])
+}
+
+model Department {
+  id                  String      @id @default(cuid())
+  name                String      @db.VarChar(100)
+  fullyQualifiedName  String?     @db.VarChar(500)
+  parentId            String?
+  active              Boolean     @default(true)
+  companyId           String
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
+  isActive            Boolean     @default(true)
+  deactivatedAt       DateTime?
+  deactivatedByUserId String?
+  deactivationReason  String?
+  company             Company     @relation(fields: [companyId], references: [id])
+  parent              Department? @relation("DepartmentHierarchy", fields: [parentId], references: [id])
+  subDepartments      Department[] @relation("DepartmentHierarchy")
+  bills               Bill[]
+  invoices            Invoice[]
+  journalEntries      JournalEntry[]
+  vendors             Vendor[]
+  vendorCredits       VendorCredit[]
+  purchases           Purchase[]
+  purchaseOrders      PurchaseOrder[]
+
+  @@unique([name, companyId])
+  @@index([parentId])
+  @@index([active])
+  @@index([companyId])
+}
+
+model VendorCredit {
+  id                  String             @id @default(cuid())
+  number              String
+  vendorId            String
+  amount              Float
+  remainingCredit     Float              @default(0)
+  creditDate          DateTime           @default(now())
+  reason              String?            @db.VarChar(2000)
+  notes               String?            @db.VarChar(2000)
+  status              VendorCreditStatus @default(OPEN)
+  classId             String?
+  departmentId        String?
+  companyId           String
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+  isActive            Boolean            @default(true)
+  deactivatedAt       DateTime?
+  deactivatedByUserId String?
+  deactivationReason  String?
+  currency            String             @default("TND")
+  exchangeRateId      String?
+  vendor              Vendor             @relation(fields: [vendorId], references: [id])
+  class               Class?             @relation(fields: [classId], references: [id])
+  department          Department?        @relation(fields: [departmentId], references: [id])
+  company             Company            @relation(fields: [companyId], references: [id])
+  lineItems           VendorCreditLineItem[]
+  transactions        Transaction[]
+
+  @@unique([number, companyId])
+  @@index([vendorId])
+  @@index([status])
+  @@index([creditDate])
+  @@index([companyId])
+  @@index([classId])
+  @@index([departmentId])
+}
+
+model VendorCreditLineItem {
+  id                  String       @id @default(cuid())
+  vendorCreditId      String
+  description         String?      @db.VarChar(2000)
+  amount              Float
+  accountId           String
+  taxable             Boolean      @default(true)
+  taxRateId           String?
+  createdAt           DateTime     @default(now())
+  updatedAt           DateTime     @updatedAt
+  isActive            Boolean      @default(true)
+  deactivatedAt       DateTime?
+  deactivatedByUserId String?
+  deactivationReason  String?
+  vendorCredit        VendorCredit @relation(fields: [vendorCreditId], references: [id], onDelete: Cascade)
+  account             Account      @relation(fields: [accountId], references: [id])
+  taxRate             TaxRate?     @relation(fields: [taxRateId], references: [id])
+
+  @@index([vendorCreditId])
+  @@index([accountId])
+  @@index([taxRateId])
+}
+
+model Term {
+  id                  String   @id @default(cuid())
+  name                String   @db.VarChar(100)
+  discountPercent     Float?
+  discountDays        Int?
+  dueDays             Int?
+  active              Boolean  @default(true)
+  companyId           String
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+  isActive            Boolean  @default(true)
+  deactivatedAt       DateTime?
+  deactivatedByUserId String?
+  deactivationReason  String?
+  company             Company  @relation(fields: [companyId], references: [id])
+  purchaseOrders      PurchaseOrder[]
+
+  @@unique([name, companyId])
+  @@index([active])
+  @@index([companyId])
+}
+
+model Purchase {
+  id                   String                   @id @default(cuid())
+  number               String
+  vendorId             String
+  amount               Float
+  paymentType          PurchasePaymentType      @default(CHECK)
+  accountRefId         String
+  paymentMethod        PaymentMethod?
+  txnDate              DateTime                 @default(now())
+  privateNote          String?                  @db.VarChar(4000)
+  globalTaxCalculation GlobalTaxCalculationEnum @default(NotApplicable)
+  notes                String?                  @db.VarChar(2000)
+  status               PurchaseStatus           @default(OPEN)
+  credit               Boolean                  @default(false)
+  classId              String?
+  departmentId         String?
+  companyId            String
+  createdAt            DateTime                 @default(now())
+  updatedAt            DateTime                 @updatedAt
+  isActive             Boolean                  @default(true)
+  deactivatedAt        DateTime?
+  deactivatedByUserId  String?
+  deactivationReason   String?
+  currency             String                   @default("TND")
+  exchangeRateId       String?
+  vendor               Vendor                   @relation(fields: [vendorId], references: [id])
+  accountRef           Account                  @relation("PurchaseAccountRef", fields: [accountRefId], references: [id])
+  class                Class?                   @relation(fields: [classId], references: [id])
+  department           Department?              @relation(fields: [departmentId], references: [id])
+  company              Company                  @relation(fields: [companyId], references: [id])
+  lineItems            PurchaseLineItem[]
+  transactions         Transaction[]
+
+  @@unique([number, companyId])
+  @@index([vendorId])
+  @@index([status])
+  @@index([txnDate])
+  @@index([companyId])
+  @@index([classId])
+  @@index([departmentId])
+}
+
+model PurchaseLineItem {
+  id                  String    @id @default(cuid())
+  purchaseId          String
+  description         String?   @db.VarChar(2000)
+  amount              Float
+  accountId           String
+  taxable             Boolean   @default(true)
+  taxRateId           String?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+  isActive            Boolean   @default(true)
+  deactivatedAt       DateTime?
+  deactivatedByUserId String?
+  deactivationReason  String?
+  purchase            Purchase  @relation(fields: [purchaseId], references: [id], onDelete: Cascade)
+  account             Account   @relation(fields: [accountId], references: [id])
+  taxRate             TaxRate?  @relation(fields: [taxRateId], references: [id])
+
+  @@index([purchaseId])
+  @@index([accountId])
+}
+
+model PurchaseOrder {
+  id                   String                   @id @default(cuid())
+  number               String
+  vendorId             String
+  amount               Float
+  dueDate              DateTime?
+  txnDate              DateTime                 @default(now())
+  status               PurchaseOrderStatus      @default(OPEN)
+  memo                 String?                  @db.VarChar(2000)
+  poEmail              String?
+  apAccountRefId       String?
+  classId              String?
+  departmentId         String?
+  termId               String?
+  globalTaxCalculation GlobalTaxCalculationEnum @default(NotApplicable)
+  companyId            String
+  createdAt            DateTime                 @default(now())
+  updatedAt            DateTime                 @updatedAt
+  isActive             Boolean                  @default(true)
+  deactivatedAt        DateTime?
+  deactivatedByUserId  String?
+  deactivationReason   String?
+  currency             String                   @default("TND")
+  exchangeRateId       String?
+  vendor               Vendor                   @relation(fields: [vendorId], references: [id])
+  apAccountRef         Account?                 @relation("PurchaseOrderApAccountRef", fields: [apAccountRefId], references: [id])
+  class                Class?                   @relation(fields: [classId], references: [id])
+  department           Department?              @relation(fields: [departmentId], references: [id])
+  term                 Term?                    @relation(fields: [termId], references: [id])
+  company              Company                  @relation(fields: [companyId], references: [id])
+  lineItems            PurchaseOrderLineItem[]
+  transactions         Transaction[]
+
+  @@unique([number, companyId])
+  @@index([vendorId])
+  @@index([status])
+  @@index([txnDate])
+  @@index([companyId])
+  @@index([classId])
+  @@index([departmentId])
+}
+
+model PurchaseOrderLineItem {
+  id                  String         @id @default(cuid())
+  purchaseOrderId     String
+  description         String?        @db.VarChar(2000)
+  amount              Float
+  accountId           String
+  taxable             Boolean        @default(true)
+  taxRateId           String?
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime       @updatedAt
+  isActive            Boolean        @default(true)
+  deactivatedAt       DateTime?
+  deactivatedByUserId String?
+  deactivationReason  String?
+  purchaseOrder       PurchaseOrder  @relation(fields: [purchaseOrderId], references: [id], onDelete: Cascade)
+  account             Account        @relation(fields: [accountId], references: [id])
+  taxRate             TaxRate?       @relation(fields: [taxRateId], references: [id])
+
+  @@index([purchaseOrderId])
+  @@index([accountId])
+}
+
 enum UserRole {
   USER
   ADMIN
@@ -1710,9 +2312,38 @@ enum AdjustmentStrategy {
 enum NotificationType {
   PAYMENT_DUE
   PAYMENT_RECEIVED
+  PAYMENT_OVERDUE
+  INVOICE_SENT
+  INVOICE_VIEWED
+  ESTIMATE_EXPIRING
   SUBSCRIPTION_EXPIRING
   SUBSCRIPTION_CANCELLED
   CUSTOMER_WELCOME
+  DOCUMENT_SHARED
+  SYSTEM_ALERT
+  REPORT_READY
+}
+
+model JobQueue {
+  id          String    @id @default(cuid())
+  type        String
+  status      String    @default("PENDING")
+  payload     Json
+  result      Json?
+  error       String?
+  priority    Int       @default(0)
+  maxRetries  Int       @default(3)
+  retryCount  Int       @default(0)
+  scheduledAt DateTime?
+  startedAt   DateTime?
+  completedAt DateTime?
+  companyId   String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([status, priority, createdAt])
+  @@index([type])
+  @@index([companyId])
 }
 
 enum ChargeStatus {
@@ -1853,6 +2484,9 @@ enum TableType {
   INVOICE
   PAYMENT
   TRANSACTION
+  BILL
+  VENDOR
+  BILL_PAYMENT
 }
 
 enum CompanyCustomFieldType {
@@ -1925,4 +2559,341 @@ enum FulfillmentStatus {
   SHIPPED
   DELIVERED
   RETURNED
+}
+
+enum VendorStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum BillStatus {
+  DRAFT
+  OPEN
+  OVERDUE
+  PAID
+  PARTIALLY_PAID
+  VOID
+}
+
+enum VendorCreditStatus {
+  OPEN
+  CLOSED
+  VOID
+  PARTIALLY_APPLIED
+}
+
+enum PurchasePaymentType {
+  CASH
+  CHECK
+  CREDIT_CARD
+  DEBIT_CARD
+}
+
+enum PurchaseStatus {
+  OPEN
+  CLOSED
+  VOID
+}
+
+enum PurchaseOrderStatus {
+  OPEN
+  CLOSED
+  VOID
+}
+
+enum GlobalTaxCalculationEnum {
+  TaxExcluded
+  TaxInclusive
+  NotApplicable
+}
+
+model CompanyCurrency {
+  id        String   @id @default(cuid())
+  companyId String
+  currency  String
+  name      String?
+  active    Boolean  @default(true)
+  isDefault Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  company Company @relation(fields: [companyId], references: [id])
+
+  @@unique([companyId, currency])
+  @@index([companyId])
+}
+
+model ExchangeRate {
+  id             String   @id @default(cuid())
+  sourceCurrency String
+  targetCurrency String
+  rate           Float
+  asOfDate       DateTime
+  source         String   @default("manual")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([sourceCurrency, targetCurrency, asOfDate])
+}
+
+model DailyExchangeRate {
+  id             String   @id @default(cuid())
+  rateDate       DateTime
+  baseCurrency   String   @default("USD")
+  targetCurrency String
+  rate           Float
+  createdAt      DateTime @default(now())
+
+  @@unique([rateDate, baseCurrency, targetCurrency])
+  @@index([rateDate, targetCurrency])
+}
+
+enum BudgetType {
+  ANNUAL
+  MONTHLY
+  QUARTERLY
+}
+
+model Budget {
+  id         String     @id @default(cuid())
+  name       String
+  budgetType BudgetType @default(ANNUAL)
+  fiscalYear Int
+  startDate  DateTime
+  endDate    DateTime
+  companyId  String
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+
+  company Company       @relation(fields: [companyId], references: [id])
+  entries BudgetEntry[]
+
+  @@unique([name, companyId, fiscalYear])
+  @@index([companyId])
+}
+
+model BudgetEntry {
+  id         String  @id @default(cuid())
+  budgetId   String
+  accountId  String
+  customerId String?
+  amount     Float
+
+  budget   Budget    @relation(fields: [budgetId], references: [id], onDelete: Cascade)
+  account  Account   @relation(fields: [accountId], references: [id])
+  customer Customer? @relation(fields: [customerId], references: [id])
+
+  @@unique([budgetId, accountId, customerId])
+}
+
+model Employee {
+  id               String   @id @default(cuid())
+  displayName      String
+  title            String?
+  givenName        String?
+  middleName       String?
+  familyName       String?
+  suffix           String?
+  primaryEmail     String?
+  primaryPhone     String?
+  mobilePhone      String?
+  employeeNumber   String?
+  ssn              String?
+  costRate         Float?
+  billableTime     Boolean  @default(false)
+  billRate         Float?
+  printOnCheckName String?
+  /// [Address]
+  primaryAddr      Json?
+  hiredDate        DateTime?
+  releaseDate      DateTime?
+  birthDate        DateTime?
+  isActive         Boolean  @default(true)
+  companyId        String
+
+  company     Company        @relation(fields: [companyId], references: [id])
+  timeEntries TimeActivity[]
+
+  @@index([companyId])
+}
+
+model TimeActivity {
+  id           String   @id @default(cuid())
+  employeeId   String
+  vendorId     String?
+  customerId   String?
+  itemId       String?
+  date         DateTime
+  startTime    DateTime?
+  endTime      DateTime?
+  duration     Float
+  description  String?
+  billable     Boolean  @default(true)
+  hourlyRate   Float?
+  costRate     Float?
+  companyId    String
+
+  employee Employee  @relation(fields: [employeeId], references: [id])
+  vendor   Vendor?   @relation(fields: [vendorId], references: [id])
+  customer Customer? @relation(fields: [customerId], references: [id])
+  company  Company   @relation(fields: [companyId], references: [id])
+
+  @@index([employeeId])
+  @@index([vendorId])
+  @@index([customerId])
+  @@index([companyId])
+  @@index([date])
+}
+
+model Deposit {
+  id                String   @id @default(cuid())
+  depositNumber     String?
+  depositToAccountId String?
+  amount            Float
+  depositDate       DateTime
+  cashBack          Float    @default(0)
+  memo              String?
+  companyId         String
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  lineItems       DepositLineItem[]
+  company         Company  @relation(fields: [companyId], references: [id])
+  depositToAccount Account? @relation(fields: [depositToAccountId], references: [id])
+
+  @@index([companyId])
+  @@index([depositDate])
+}
+
+model DepositLineItem {
+  id              String  @id @default(cuid())
+  depositId       String
+  accountId       String
+  amount          Float
+  description     String?
+  linkedPaymentId String? @unique
+
+  deposit Deposit        @relation(fields: [depositId], references: [id], onDelete: Cascade)
+  account Account        @relation(fields: [accountId], references: [id])
+  payment Payment?       @relation(fields: [linkedPaymentId], references: [id])
+
+  @@index([depositId])
+}
+
+model Transfer {
+  id              String   @id @default(cuid())
+  amount          Float
+  transferDate    DateTime
+  fromAccountId   String
+  toAccountId     String
+  memo            String?
+  companyId       String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  company Company @relation(fields: [companyId], references: [id])
+
+  @@index([companyId])
+  @@index([transferDate])
+}
+
+model CreditCardPayment {
+  id                  String   @id @default(cuid())
+  txnDate             DateTime
+  amount              Float
+  bankAccountId       String
+  creditCardAccountId String
+  vendorId            String?
+  privateNote         String?
+  companyId           String
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  bankAccount       Account? @relation("CreditCardBankAccount", fields: [bankAccountId], references: [id])
+  creditCardAccount Account? @relation("CreditCardAccount", fields: [creditCardAccountId], references: [id])
+  vendor            Vendor?  @relation(fields: [vendorId], references: [id])
+  company           Company  @relation(fields: [companyId], references: [id])
+
+  @@index([companyId])
+  @@index([txnDate])
+}
+
+model InventoryAdjustment {
+  id             String   @id @default(cuid())
+  docNumber      String?
+  itemId         String
+  quantity       Int
+  adjustAccountId String?
+  privateNote    String?
+  date           DateTime
+  companyId      String
+  createdAt      DateTime @default(now())
+
+  item          Item     @relation(fields: [itemId], references: [id])
+  adjustAccount Account? @relation(fields: [adjustAccountId], references: [id])
+  company       Company  @relation(fields: [companyId], references: [id])
+
+  @@index([companyId])
+  @@index([itemId])
+  @@index([date])
+}
+
+enum RecurringFrequency {
+  DAILY
+  WEEKLY
+  MONTHLY
+  QUARTERLY
+  YEARLY
+}
+
+model RecurringTransaction {
+  id              String              @id @default(cuid())
+  name            String
+  templateType    String
+  frequency       RecurringFrequency  @default(MONTHLY)
+  active          Boolean             @default(true)
+  nextDate        DateTime
+  endDate         DateTime?
+  numberOfDays    Int?
+  numberOfOccurrences Int?
+  companyId       String
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+
+  company Company @relation(fields: [companyId], references: [id])
+
+  @@index([companyId])
+  @@index([nextDate])
+}
+
+model ChangeOrder {
+  id          String   @id @default(cuid())
+  estimateId  String?
+  amount      Float
+  description String?
+  date        DateTime
+  status      String   @default("PENDING")
+  companyId   String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  company Company @relation(fields: [companyId], references: [id])
+
+  @@index([companyId])
+}
+
+model ReimburseCharge {
+  id          String   @id @default(cuid())
+  customerId  String?
+  amount      Float
+  expenseDate DateTime
+  description String?
+  billable    Boolean  @default(true)
+  companyId   String
+  createdAt   DateTime @default(now())
+
+  customer Customer? @relation(fields: [customerId], references: [id])
+  company  Company   @relation(fields: [companyId], references: [id])
+
+  @@index([companyId])
 }

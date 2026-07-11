@@ -87,7 +87,7 @@ export async function proxy(request: NextRequest) {
       if (!isOnAuthRoute && pathWithoutLang !== '/select-company' && pathWithoutLang !== '/create-company') {
         return NextResponse.redirect(new URL(`/select-company`, request.url));
       }
-    } else if (!isOnAuthRoute) {
+    } else if (!isOnAuthRoute && pathWithoutLang !== '/create-company') {
       const companyPath = normalizeToCompanyPath(session.user.activeCompany?.slug);
 
       if (companyPath) {
