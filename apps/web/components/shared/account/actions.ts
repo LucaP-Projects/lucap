@@ -151,6 +151,10 @@ export async function getAccountsForSelect(
     );
     return { success: true, data: accounts };
   } catch (error) {
+<<<<<<< HEAD
+=======
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
+>>>>>>> feat/concierge-service-platform
     console.error('Error fetching accounts:', error);
     return { success: false, error: 'Failed to fetch accounts' };
   }

@@ -70,6 +70,10 @@ export async function getTaxesForSelect(search?: string): Promise<TaxResponse> {
 
     return { success: true, data: taxes };
   } catch (error) {
+<<<<<<< HEAD
+=======
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
+>>>>>>> feat/concierge-service-platform
     console.error('Error fetching taxes:', error);
     return { success: false, error: 'Failed to fetch taxes' };
   }
@@ -136,6 +140,10 @@ export async function deleteTax(
 
     return { success: true };
   } catch (error) {
+<<<<<<< HEAD
+=======
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
+>>>>>>> feat/concierge-service-platform
     console.error('Error deleting tax rate:', error);
     return {
       success: false,

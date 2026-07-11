@@ -35,7 +35,11 @@ type QualifiableDelegate = {
   }) => Promise<unknown>;
 };
 
+<<<<<<< HEAD
 const ROUTE_SEGMENTS: Record<QualifiableDocumentType, string> = {
+=======
+const ROUTE_SEGMENTS = {
+>>>>>>> feat/concierge-service-platform
   invoice: 'invoices',
   estimate: 'estimates',
   creditMemo: 'credit-memos',
@@ -44,7 +48,11 @@ const ROUTE_SEGMENTS: Record<QualifiableDocumentType, string> = {
   delayedCharge: 'delayed-charges',
   delayedCredit: 'delayed-credits',
   payment: 'payments',
+<<<<<<< HEAD
 };
+=======
+} as const satisfies Record<QualifiableDocumentType, string>;
+>>>>>>> feat/concierge-service-platform
 
 export async function qualifyDocument(
   documentType: QualifiableDocumentType,

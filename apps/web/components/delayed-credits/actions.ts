@@ -135,6 +135,10 @@ async function validateCreditNumber(
       throw new Error('Credit number already exists');
     }
   } catch (error) {
+<<<<<<< HEAD
+=======
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
+>>>>>>> feat/concierge-service-platform
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       switch (error.code) {
         case 'P2002':
@@ -319,6 +323,10 @@ export async function createDelayedCredit(
     revalidatePath('/delayed-credits');
     return { success: true, data: credit };
   } catch (error) {
+<<<<<<< HEAD
+=======
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
+>>>>>>> feat/concierge-service-platform
     return {
       success: false,
       error: error instanceof Error ? error.message : 'Failed to create credit'
@@ -376,6 +384,10 @@ export async function getDelayedCredit(id: string) {
       data: credit
     };
   } catch (error) {
+<<<<<<< HEAD
+=======
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
+>>>>>>> feat/concierge-service-platform
     console.error('Error fetching delayed credit:', error);
     return {
       success: false,
@@ -676,6 +688,10 @@ export async function updateDelayedCredit(
     revalidatePath('/delayed-credits');
     return { success: true, data: credit };
   } catch (error) {
+<<<<<<< HEAD
+=======
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
+>>>>>>> feat/concierge-service-platform
     return {
       success: false,
       error: error instanceof Error ? error.message : 'Failed to update credit'
@@ -772,6 +788,10 @@ export async function deleteDelayedCredit(id: string) {
       success: true
     };
   } catch (error) {
+<<<<<<< HEAD
+=======
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
+>>>>>>> feat/concierge-service-platform
     console.error('Error deactivating delayed credit:', error);
     return {
       success: false,

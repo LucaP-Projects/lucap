@@ -21,6 +21,21 @@ import {
   getAuditLogData,
   getSnapshotData,
   getInventoryValuationData,
+<<<<<<< HEAD
+=======
+  getTrialBalanceData,
+  getGeneralLedgerData,
+  getAPAgingSummaryData,
+  getSalesByCustomerData,
+  getSalesByProductData,
+  getVendorBalanceData,
+  getTaxSummaryData,
+  getSalesByClassData,
+  getSalesByDepartmentData,
+  getTransactionListData,
+  getTransactionListByCustomerData,
+  getTransactionListByVendorData,
+>>>>>>> feat/concierge-service-platform
   getReportFilters
 } from '@/app/(app)/[company-slug]/reports/actions';
 import { Button } from '@/components/ui/button';
@@ -34,6 +49,10 @@ import {
 } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
+<<<<<<< HEAD
+=======
+import { downloadCsv, toCsv } from '@/lib/csv-export';
+>>>>>>> feat/concierge-service-platform
 import { CustomizeReportModal, CustomizeReportSettings } from './customize-report-modal';
 
 interface ReportRow {
@@ -148,6 +167,33 @@ export function ReportViewer({
           result = await getSnapshotData();
         } else if (reportType === 'inventory-valuation-summary') {
           result = await getInventoryValuationData();
+<<<<<<< HEAD
+=======
+        } else if (reportType === 'trial-balance') {
+          result = await getTrialBalanceData(currentToDate, settings);
+        } else if (reportType === 'general-ledger') {
+          result = await getGeneralLedgerData(currentFromDate, currentToDate, settings);
+        } else if (reportType === 'ap-aging-summary') {
+          result = await getAPAgingSummaryData(currentToDate, settings);
+        } else if (reportType === 'sales-customer-summary') {
+          result = await getSalesByCustomerData(currentFromDate, currentToDate, settings);
+        } else if (reportType === 'sales-product-summary') {
+          result = await getSalesByProductData(currentFromDate, currentToDate, settings);
+        } else if (reportType === 'vendor-balance-summary') {
+          result = await getVendorBalanceData(settings);
+        } else if (reportType === 'tax-summary') {
+          result = await getTaxSummaryData(currentFromDate, currentToDate);
+        } else if (reportType === 'sales-class-summary') {
+          result = await getSalesByClassData(currentFromDate, currentToDate);
+        } else if (reportType === 'sales-dept-summary') {
+          result = await getSalesByDepartmentData(currentFromDate, currentToDate);
+        } else if (reportType === 'transaction-list') {
+          result = await getTransactionListData(currentFromDate, currentToDate);
+        } else if (reportType === 'transactions-customer') {
+          result = await getTransactionListByCustomerData(currentFromDate, currentToDate);
+        } else if (reportType === 'transactions-vendor') {
+          result = await getTransactionListByVendorData(currentFromDate, currentToDate);
+>>>>>>> feat/concierge-service-platform
         }
         setData(result);
       } catch (error) {
@@ -232,8 +278,32 @@ export function ReportViewer({
     );
   };
 
+<<<<<<< HEAD
   return (
     <div className="flex flex-col h-full bg-white">
+=======
+  const handleDownload = () => {
+    const flattenRows = (rows: ReportRow[], level = 0): { Label: string; Amount: string; Level: number }[] =>
+      rows.flatMap(row => [
+        { Label: row.label, Amount: row.amount !== undefined ? row.amount.toFixed(2) : '', Level: level },
+        ...(row.children ? flattenRows(row.children, level + 1) : []),
+      ]);
+    const csvData = flattenRows(data);
+    downloadCsv(toCsv(csvData), `${reportType}-${new Date().toISOString().split('T')[0]}.csv`);
+  };
+
+  return (
+    <>
+      <style>{`
+        @media print {
+          body * { visibility: hidden; }
+          .report-print-area, .report-print-area * { visibility: visible; }
+          .report-print-area { position: absolute; left: 0; top: 0; width: 100%; }
+        }
+      `}</style>
+      <div className="report-print-area">
+      <div className="flex flex-col h-full bg-white">
+>>>>>>> feat/concierge-service-platform
       {/* Top Filter Bar */}
       <div className="border-b p-4 space-y-4">
         <div className="flex items-center justify-between">
@@ -336,10 +406,16 @@ export function ReportViewer({
           
           {/* Action Icons */}
           <div className="absolute top-4 right-4 flex items-center gap-4 text-gray-400">
+<<<<<<< HEAD
              <button className="hover:text-gray-600 transition-colors"><RefreshCcw className="h-4 w-4" /></button>
              <button className="hover:text-gray-600 transition-colors"><Printer className="h-4 w-4" /></button>
              <button className="hover:text-gray-600 transition-colors"><Mail className="h-4 w-4" /></button>
              <button className="hover:text-gray-600 transition-colors"><FileDown className="h-4 w-4" /></button>
+=======
+             <button onClick={() => window.print()} className="hover:text-gray-600 transition-colors"><Printer className="h-4 w-4" /></button>
+             <button className="hover:text-gray-600 transition-colors"><Mail className="h-4 w-4" /></button>
+             <button onClick={handleDownload} className="hover:text-gray-600 transition-colors"><FileDown className="h-4 w-4" /></button>
+>>>>>>> feat/concierge-service-platform
              <button className="hover:text-gray-600 transition-colors"><Settings className="h-4 w-4" /></button>
              <Separator orientation="vertical" className="h-4" />
              <div className="flex items-center gap-0.5 text-[10px] font-bold">
@@ -439,5 +515,10 @@ export function ReportViewer({
         </div>
       </div>
     </div>
+<<<<<<< HEAD
+=======
+    </div>
+    </>
+>>>>>>> feat/concierge-service-platform
   );
 }

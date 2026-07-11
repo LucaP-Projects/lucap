@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+<<<<<<< HEAD
 import { Geist } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -16,6 +17,20 @@ const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
 });
+=======
+import { Space_Grotesk } from "next/font/google";
+import localFont from "next/font/local";
+import "./globals.css";
+import { cn } from "@/lib/utils";
+import { Providers } from "./providers";
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  variable: '--font-sans',
+  display: 'swap',
+});
+
+>>>>>>> feat/concierge-service-platform
 const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
@@ -32,8 +47,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+<<<<<<< HEAD
     <html lang="en" className={cn("font-sans", geist.variable)} suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable}`} suppressHydrationWarning>
+=======
+    <html lang="en" className={cn("font-sans", spaceGrotesk.variable)} suppressHydrationWarning>
+      <body className={`${geistMono.variable}`} suppressHydrationWarning>
+>>>>>>> feat/concierge-service-platform
         <Providers lng="en">{children}</Providers>
       </body>
     </html>

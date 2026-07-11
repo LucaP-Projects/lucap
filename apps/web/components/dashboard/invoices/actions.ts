@@ -294,6 +294,10 @@ export async function getInvoiceStats() {
       outstandingAmount: totalAmount - totalPaid
     };
   } catch (error) {
+<<<<<<< HEAD
+=======
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
+>>>>>>> feat/concierge-service-platform
     console.error('Error fetching invoice stats:', error);
     throw new Error('Failed to fetch invoice statistics', { cause: error });
   }
@@ -494,6 +498,10 @@ export async function deleteInvoices(ids: string[]): Promise<DeleteResult> {
       success: true
     };
   } catch (error) {
+<<<<<<< HEAD
+=======
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
+>>>>>>> feat/concierge-service-platform
     console.error('Error deactivating invoices:', error);
     return {
       success: false,

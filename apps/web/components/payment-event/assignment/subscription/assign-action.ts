@@ -332,6 +332,10 @@ export async function assignSubscription(
       }
     };
   } catch (error) {
+<<<<<<< HEAD
+=======
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
+>>>>>>> feat/concierge-service-platform
     console.error('Error assigning subscription:', error);
 
     if ((error as AssignmentError).code) {
@@ -386,6 +390,10 @@ export async function getActiveSubscriptionsCount(
 
     return count;
   } catch (error) {
+<<<<<<< HEAD
+=======
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
+>>>>>>> feat/concierge-service-platform
     console.error('Failed to fetch active subscriptions count:', error);
     throw new Error('Failed to fetch active subscriptions count', { cause: error });
   }

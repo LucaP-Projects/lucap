@@ -1,5 +1,10 @@
 'use server';
 
+<<<<<<< HEAD
+=======
+import { headers } from 'next/headers';
+import { auth } from '@/lib/auth';
+>>>>>>> feat/concierge-service-platform
 import { readFileSync } from 'fs';
 import { join } from 'path';
 import { format } from 'date-fns';
@@ -56,6 +61,11 @@ export async function generatePdf({
   paperType = 'invoice'
 }: any) {
   try {
+<<<<<<< HEAD
+=======
+    const session = await auth.api.getSession({ headers: await headers() });
+    if (!session?.user?.id) throw new Error('Unauthorized');
+>>>>>>> feat/concierge-service-platform
     const templateFileName =
       paperTemplateMap[paperType.toLowerCase()] || 'invoice.html';
 

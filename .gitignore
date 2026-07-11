@@ -80,4 +80,9 @@ apps/web/public/wasm/doc_scanner.wasm
 CMakeCache.txt
 CMakeFiles/
 cmake_install.cmake
+<<<<<<< HEAD
 Makefile
+=======
+Makefile
+.env*
+>>>>>>> feat/concierge-service-platform

@@ -38,6 +38,10 @@ async function validateReceiptNumber(
       throw new Error('Sales receipt number already exists');
     }
   } catch (error) {
+<<<<<<< HEAD
+=======
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
+>>>>>>> feat/concierge-service-platform
     // Handle Prisma-specific errors
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       // Handle specific Prisma errors by their error codes
@@ -266,6 +270,10 @@ export async function createSalesReceipt(
 
     return { success: true, data: receiptAction };
   } catch (error) {
+<<<<<<< HEAD
+=======
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
+>>>>>>> feat/concierge-service-platform
     console.error('Error creating sales receipt:', error);
     return {
       success: false,
@@ -335,6 +343,10 @@ export async function getSalesReceipt(id: string) {
       data: receipt
     };
   } catch (error) {
+<<<<<<< HEAD
+=======
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
+>>>>>>> feat/concierge-service-platform
     console.error('Error fetching sales receipt:', error);
     return {
       success: false,
@@ -696,6 +708,10 @@ export async function updateSalesReceipt(
     revalidatePath('/sales-receipt');
     return { success: true, data: receiptAction };
   } catch (error) {
+<<<<<<< HEAD
+=======
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
+>>>>>>> feat/concierge-service-platform
     console.error('Error updating sales receipt:', error);
     return {
       success: false,
@@ -800,6 +816,10 @@ export async function deleteSalesReceipt(
     revalidatePath('/sales-receipt');
     return { success: true };
   } catch (error) {
+<<<<<<< HEAD
+=======
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
+>>>>>>> feat/concierge-service-platform
     console.error('Error deactivating sales receipt:', error);
     return {
       success: false,

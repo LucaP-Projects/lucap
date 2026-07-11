@@ -75,6 +75,10 @@ export async function getCustomerById(
       data: customerData
     };
   } catch (error) {
+<<<<<<< HEAD
+=======
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
+>>>>>>> feat/concierge-service-platform
     console.error('Error fetching customer:', error);
     return {
       success: false,
@@ -166,6 +170,10 @@ export async function getCustomersForSelect(
       data: customers
     };
   } catch (error) {
+<<<<<<< HEAD
+=======
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
+>>>>>>> feat/concierge-service-platform
     console.error('Error fetching customers:', error);
     return {
       success: false,
@@ -195,6 +203,10 @@ export async function getCustomerCount(companyId: string): Promise<number> {
 
     return count;
   } catch (error) {
+<<<<<<< HEAD
+=======
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
+>>>>>>> feat/concierge-service-platform
     console.error('Failed to fetch customer count:', error);
     throw new Error('Failed to fetch customer count');
   }
@@ -304,6 +316,10 @@ export async function deleteCustomer(customerId: string): Promise<{ success: boo
 
     return { success: true };
   } catch (error) {
+<<<<<<< HEAD
+=======
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
+>>>>>>> feat/concierge-service-platform
     console.error('Error deleting customer:', error);
     return {
       success: false,

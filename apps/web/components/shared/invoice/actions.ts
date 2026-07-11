@@ -64,6 +64,10 @@ export async function getInvoiceById(
 
     return { success: true, data: invoice || undefined };
   } catch (error) {
+<<<<<<< HEAD
+=======
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
+>>>>>>> feat/concierge-service-platform
     console.error('Error fetching invoice by id:', error);
     return { success: false, error: 'Failed to fetch invoice' };
   }
@@ -124,6 +128,10 @@ export async function getInvoicesForSelect(
 
     return { success: true, data: invoices };
   } catch (error) {
+<<<<<<< HEAD
+=======
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
+>>>>>>> feat/concierge-service-platform
     console.error('Error fetching invoices:', error);
     return { success: false, error: 'Failed to fetch invoices' };
   }
@@ -154,6 +162,10 @@ export async function getPendingInvoicesCount(
 
     return count;
   } catch (error) {
+<<<<<<< HEAD
+=======
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
+>>>>>>> feat/concierge-service-platform
     console.error('Failed to fetch pending invoices count:', error);
     throw new Error('Failed to fetch pending invoices count');
   }

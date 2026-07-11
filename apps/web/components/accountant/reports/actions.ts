@@ -85,6 +85,10 @@ export async function fetchJournals({
       }
     };
   } catch (error) {
+<<<<<<< HEAD
+=======
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
+>>>>>>> feat/concierge-service-platform
     console.error('Error fetching journals:', error);
     return { success: false, error: 'Failed to fetch journals' };
   }
@@ -134,6 +138,10 @@ export async function deleteJournal(id: string) {
     revalidatePath('/journals');
     return { success: true };
   } catch (error) {
+<<<<<<< HEAD
+=======
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
+>>>>>>> feat/concierge-service-platform
     console.error('Error deleting journal:', error);
     return { success: false, error: 'Failed to delete journal' };
   }

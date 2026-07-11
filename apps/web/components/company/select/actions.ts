@@ -60,6 +60,10 @@ export async function getUserCompanies() {
       permissions: uc.role.permissions
     }));
   } catch (error) {
+<<<<<<< HEAD
+=======
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
+>>>>>>> feat/concierge-service-platform
     console.error('Error fetching companies:', error);
     throw new Error('Failed to fetch companies', { cause: error });
   }
@@ -168,6 +172,10 @@ export async function selectCompany(companyId: string) {
       isAdmin: result.isAdmin
     };
   } catch (error) {
+<<<<<<< HEAD
+=======
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
+>>>>>>> feat/concierge-service-platform
     console.error('Error in selectCompany:', error);
     throw error instanceof Error
       ? error

@@ -230,6 +230,10 @@ export async function assignOneTimePayment(
             data: { progress: finalProgress }
           });
         } catch (error) {
+<<<<<<< HEAD
+=======
+          if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
+>>>>>>> feat/concierge-service-platform
           throw {
             code: 'INVOICE_CREATION_FAILED',
             message: 'Failed to create invoice',
@@ -269,6 +273,10 @@ export async function assignOneTimePayment(
 
     return { success: true, data: result };
   } catch (error) {
+<<<<<<< HEAD
+=======
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
+>>>>>>> feat/concierge-service-platform
     console.error('Error assigning one-time payment:', error);
 
     if ((error as AssignmentError).code) {
@@ -303,6 +311,10 @@ export async function checkCustomerAssignment(input: {
 
     return { exists: existingAssignment !== null };
   } catch (error) {
+<<<<<<< HEAD
+=======
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
+>>>>>>> feat/concierge-service-platform
     console.error('Error checking assignment:', error);
     return { error: 'Failed to check existing assignment' };
   }
@@ -351,6 +363,10 @@ export async function getCustomersWithHierarchy() {
 
     return rootCustomers;
   } catch (error) {
+<<<<<<< HEAD
+=======
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
+>>>>>>> feat/concierge-service-platform
     console.error('Error getting customers with hierarchy:', error);
     return [];
   }
@@ -399,6 +415,10 @@ export async function getPaymentEventsWithRelations(): Promise<
 
     return paymentEvents as PaymentEventWithRelations[];
   } catch (error) {
+<<<<<<< HEAD
+=======
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
+>>>>>>> feat/concierge-service-platform
     console.error('Error getting payment events with relations:', error);
     return [];
   }

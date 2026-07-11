@@ -75,6 +75,10 @@ export async function deleteAccount(
     revalidatePath('/accounts');
     return { success: true };
   } catch (error) {
+<<<<<<< HEAD
+=======
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
+>>>>>>> feat/concierge-service-platform
     console.error('Error deleting account:', error);
     return { success: false, error: 'Failed to delete account' };
   }
@@ -125,6 +129,10 @@ export async function updateAccount(
     revalidatePath('/accounts');
     return { success: true };
   } catch (error) {
+<<<<<<< HEAD
+=======
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
+>>>>>>> feat/concierge-service-platform
     console.error('Error updating account:', error);
     return { success: false, error: 'Failed to update account' };
   }

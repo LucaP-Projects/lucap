@@ -54,6 +54,10 @@ export async function getCustomerInvoices(customerId: string): Promise<GetCustom
       }
     });
   } catch (error) {
+<<<<<<< HEAD
+=======
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
+>>>>>>> feat/concierge-service-platform
     console.error('Error fetching invoices:', error);
     return [];
   }
@@ -180,6 +184,10 @@ export async function createPayment(data: PaymentFormValues) {
     revalidatePath('/payments');
     return { success: true, data: result };
   } catch (error) {
+<<<<<<< HEAD
+=======
+    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
+>>>>>>> feat/concierge-service-platform
     console.error('Error creating payment:', error);
     return {
       success: false,
