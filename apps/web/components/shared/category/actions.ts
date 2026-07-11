@@ -85,10 +85,6 @@ export async function getCategoriesForSelect(
     );
     return { success: true, data: categories };
   } catch (error) {
-<<<<<<< HEAD
-=======
-    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
->>>>>>> feat/concierge-service-platform
     console.error('Error fetching categories:', error);
     return { success: false, error: 'Failed to fetch categories' };
   }
@@ -162,10 +158,6 @@ export async function deleteCategory(
 
     return { success: true };
   } catch (error) {
-<<<<<<< HEAD
-=======
-    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
->>>>>>> feat/concierge-service-platform
     console.error('Error deleting category:', error);
     return { success: false, error: 'Failed to delete category' };
   }

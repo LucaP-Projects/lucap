@@ -38,17 +38,10 @@ export function formatDate(date: Date): string {
     year: 'numeric'
   }).format(new Date(date));
 }
-<<<<<<< HEAD
 export function formatCurrency(amount: number): string {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
-=======
-export function formatCurrency(amount: number, currency = 'TND'): string {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency,
->>>>>>> feat/concierge-service-platform
     minimumFractionDigits: 2
   }).format(amount);
 }

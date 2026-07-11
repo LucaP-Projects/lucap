@@ -1,10 +1,5 @@
 'use server';
 
-<<<<<<< HEAD
-=======
-import { headers } from 'next/headers';
-import { auth } from '@/lib/auth';
->>>>>>> feat/concierge-service-platform
 import { PutObjectCommand } from '@aws-sdk/client-s3';
 import * as Prisma from '@/lib/generated/prisma/internal/prismaNamespace';
 // Make sure to export s3Client and encryptPayload from your updated utils.ts
@@ -21,14 +16,6 @@ export interface ValidationResult {
   error?: string;
 }
 
-<<<<<<< HEAD
-=======
-async function requireAuth() {
-  const session = await auth.api.getSession({ headers: await headers() });
-  if (!session?.user?.id) throw new Error('Unauthorized');
-}
-
->>>>>>> feat/concierge-service-platform
 /**
  * Uploads a file to the S3-compatible storage (Garage).
  * @param file The file object from the client.
@@ -41,10 +28,6 @@ export async function uploadFileToStorage(
   isSecure: boolean = false
 ): Promise<FileUploadResult> {
   try {
-<<<<<<< HEAD
-=======
-    await requireAuth();
->>>>>>> feat/concierge-service-platform
     const fileExt = file.name.split('.').pop()?.toLowerCase();
     const key = `${folderPath}/${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
     let buffer: Buffer;

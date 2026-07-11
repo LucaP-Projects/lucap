@@ -142,10 +142,6 @@ export async function getTaxRates(search?: string): Promise<TaxRateResponse> {
 
     return { success: true, data: formattedTaxRates };
   } catch (error) {
-<<<<<<< HEAD
-=======
-    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
->>>>>>> feat/concierge-service-platform
     console.error('Error fetching tax rates:', error);
     return { success: false, error: 'Failed to fetch tax rates' };
   }
@@ -201,10 +197,6 @@ export async function createTax(data: TaxFormValues): Promise<{
       };
     });
   } catch (error) {
-<<<<<<< HEAD
-=======
-    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
->>>>>>> feat/concierge-service-platform
     console.error('Error creating tax rate:', error);
     return {
       success: false,
@@ -287,10 +279,6 @@ export async function updateTax(
       };
     });
   } catch (error) {
-<<<<<<< HEAD
-=======
-    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
->>>>>>> feat/concierge-service-platform
     console.error('Error updating tax rate:', error);
     return {
       success: false,
@@ -355,10 +343,6 @@ export async function deleteTaxRate(
 
     return { success: true };
   } catch (error) {
-<<<<<<< HEAD
-=======
-    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
->>>>>>> feat/concierge-service-platform
     console.error('Error deleting tax rate:', error);
     return {
       success: false,

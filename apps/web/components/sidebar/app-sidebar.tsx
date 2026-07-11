@@ -45,12 +45,6 @@ export type UnverifiedCounts = {
   delayedCharges: number;
   delayedCredits: number;
   refundReceipts: number;
-<<<<<<< HEAD
-=======
-  bills: number;
-  vendors: number;
-  billPayments: number;
->>>>>>> feat/concierge-service-platform
 };
 
 interface NavItem {
@@ -124,19 +118,6 @@ const COMPANY_NAV_BASE: NavItem[] = [
     ]
   },
   {
-<<<<<<< HEAD
-=======
-    title: 'Banking',
-    url: '/banking',
-    icon: LayoutDashboard,
-    items: [
-      { title: 'Deposits', url: '/banking/deposit' },
-      { title: 'Transfers', url: '/banking/transfer' },
-      { title: 'Credit Card Payments', url: '/banking/credit-card' },
-    ]
-  },
-  {
->>>>>>> feat/concierge-service-platform
     title: 'Finance Dashboards',
     url: '/finance/dashboards',
     icon: LayoutDashboard,
@@ -205,41 +186,6 @@ const COMPANY_NAV_BASE: NavItem[] = [
       {
         title: 'Category Settings',
         url: '/settings/category'
-<<<<<<< HEAD
-=======
-      },
-      {
-        title: 'Currencies',
-        url: '/settings/company-currency'
-      },
-      {
-        title: 'Tax Agencies',
-        url: '/settings/tax-agency'
-      },
-      {
-        title: 'Tax Payments',
-        url: '/settings/tax-payment'
-      },
-      {
-        title: 'Preferences',
-        url: '/settings/preferences'
-      },
-      {
-        title: 'Budgets',
-        url: '/settings/budget'
-      },
-      {
-        title: 'Employees',
-        url: '/settings/employee'
-      },
-      {
-        title: 'Time Activities',
-        url: '/time-activity'
-      },
-      {
-        title: 'Tax Agencies',
-        url: '/settings/tax-agency'
->>>>>>> feat/concierge-service-platform
       }
     ]
   }
@@ -295,12 +241,6 @@ const REPORTS_NAV_BASE: NavItem[] = [
     icon: PieChart,
     items: [
       { title: 'Audit Log', url: '/reports/audit-log' },
-<<<<<<< HEAD
-=======
-      { title: 'Trial Balance', url: '/reports/trial-balance' },
-      { title: 'General Ledger', url: '/reports/general-ledger' },
-      { title: 'Transaction List', url: '/reports/transaction-list' },
->>>>>>> feat/concierge-service-platform
       { title: 'Balance Sheet', url: '/reports/balance-sheet' },
       { title: 'Balance Sheet Comparison', url: '/reports/balance-sheet-comparison' },
       { title: 'Balance Sheet Detail', url: '/reports/balance-sheet-detail' },
@@ -320,19 +260,11 @@ const REPORTS_NAV_BASE: NavItem[] = [
     ]
   },
   {
-<<<<<<< HEAD
     title: 'Who Owes You',
-=======
-    title: 'Receivables & Payables',
->>>>>>> feat/concierge-service-platform
     url: '/reports/receivables',
     icon: UserMinus,
     items: [
       { title: 'AR aging summary', url: '/reports/ar-aging-summary' },
-<<<<<<< HEAD
-=======
-      { title: 'AP aging summary', url: '/reports/ap-aging-summary' },
->>>>>>> feat/concierge-service-platform
       { title: 'AR aging detail', url: '/reports/ar-aging-detail' },
       { title: 'Collections Report', url: '/reports/collections' },
       { title: 'Customer Balance Summary', url: '/reports/customer-balance-summary' },
@@ -344,11 +276,6 @@ const REPORTS_NAV_BASE: NavItem[] = [
       { title: 'Terms List', url: '/reports/terms' },
       { title: 'Unbilled charges', url: '/reports/unbilled-charges' },
       { title: 'Unbilled time', url: '/reports/unbilled-time' },
-<<<<<<< HEAD
-=======
-      { title: 'Vendor Balance Summary', url: '/reports/vendor-balance-summary' },
-      { title: 'Tax Summary', url: '/reports/tax-summary' },
->>>>>>> feat/concierge-service-platform
     ]
   },
   {
@@ -368,18 +295,9 @@ const REPORTS_NAV_BASE: NavItem[] = [
       { title: 'Product/Service List', url: '/reports/product-service-list' },
       { title: 'Sales by Product/Service Summary', url: '/reports/sales-product-summary' },
       { title: 'Sales by Product/Service Detail', url: '/reports/sales-product-detail' },
-<<<<<<< HEAD
       { title: 'Payment Method List', url: '/reports/payment-methods' },
       { title: 'Time Activities by Customer Detail', url: '/reports/time-activities-customer' },
       { title: 'Transaction List by Customer', url: '/reports/transactions-customer' },
-=======
-      { title: 'Sales by Class Summary', url: '/reports/sales-class-summary' },
-      { title: 'Sales by Department Summary', url: '/reports/sales-dept-summary' },
-      { title: 'Payment Method List', url: '/reports/payment-methods' },
-      { title: 'Time Activities by Customer Detail', url: '/reports/time-activities-customer' },
-      { title: 'Transaction List by Customer', url: '/reports/transactions-customer' },
-      { title: 'Transaction List by Vendor', url: '/reports/transactions-vendor' },
->>>>>>> feat/concierge-service-platform
       { title: 'Transaction List by Tag Group', url: '/reports/transactions-tag' },
     ]
   },
@@ -388,10 +306,6 @@ const REPORTS_NAV_BASE: NavItem[] = [
     url: '/reports/inventory',
     icon: Box,
     items: [
-<<<<<<< HEAD
-=======
-      { title: 'Inventory Adjustments', url: '/inventory/adjustments' },
->>>>>>> feat/concierge-service-platform
       { title: 'Inventory Valuation Detail', url: '/reports/inventory-valuation-detail' },
       { title: 'Inventory Valuation Summary', url: '/reports/inventory-valuation-summary' },
       { title: 'Open Purchase Order Detail', url: '/reports/open-po-detail' },

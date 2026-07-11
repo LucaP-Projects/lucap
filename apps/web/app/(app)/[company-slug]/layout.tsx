@@ -29,12 +29,6 @@ async function getUnverifiedCounts(_companyId: string): Promise<UnverifiedCounts
     delayedCharges: 0,
     delayedCredits: 0,
     refundReceipts: 0,
-<<<<<<< HEAD
-=======
-    bills: 0,
-    vendors: 0,
-    billPayments: 0,
->>>>>>> feat/concierge-service-platform
   };
 }
 

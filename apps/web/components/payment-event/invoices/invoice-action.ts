@@ -1,13 +1,7 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-<<<<<<< HEAD
 import { Invoice, PaymentStatus } from '@/lib/generated/prisma/client';
-=======
-import { headers } from 'next/headers';
-import { Invoice, PaymentStatus } from '@/lib/generated/prisma/client';
-import { auth } from '@/lib/auth';
->>>>>>> feat/concierge-service-platform
 import { prisma } from '@/lib/prisma';
 
 import { PaymentFormData } from './types';
@@ -17,11 +11,6 @@ export async function processPayment(
   pathToRevalidate: string
 ) {
   try {
-<<<<<<< HEAD
-=======
-    const session = await auth.api.getSession({ headers: await headers() });
-    if (!session?.user?.id) throw new Error('Unauthorized');
->>>>>>> feat/concierge-service-platform
     const invoice = await prisma.invoice.findUnique({
       where: { id: data.invoiceId },
       include: {
@@ -336,12 +325,6 @@ function mapPaymentToSubscriptionStatus(
 // Add this new function to fetch the latest invoice data
 export async function getLatestInvoiceData(invoiceId: string) {
   try {
-<<<<<<< HEAD
-=======
-    const session = await auth.api.getSession({ headers: await headers() });
-    if (!session?.user?.id) throw new Error('Unauthorized');
-
->>>>>>> feat/concierge-service-platform
     const invoice = await prisma.invoice.findUnique({
       where: { id: invoiceId }
     });

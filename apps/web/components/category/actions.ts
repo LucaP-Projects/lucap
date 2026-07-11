@@ -81,10 +81,6 @@ export async function createCategory(data: CategoryFormValues): Promise<{
       };
     });
   } catch (error) {
-<<<<<<< HEAD
-=======
-    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
->>>>>>> feat/concierge-service-platform
     console.error('Error creating category:', error);
     return {
       success: false,
@@ -177,10 +173,6 @@ export async function updateCategory(
       };
     });
   } catch (error) {
-<<<<<<< HEAD
-=======
-    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
->>>>>>> feat/concierge-service-platform
     console.error('Error updating category:', error);
     return {
       success: false,

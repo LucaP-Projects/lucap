@@ -20,19 +20,11 @@ export const RefundStatusSection: React.FC = memo(() => {
         name="refundMethod"
         render={({ field }) => (
           <div className="space-y-1">
-<<<<<<< HEAD
             <label className="text-sm font-medium text-gray-900 dark:text-gray-100">
               Refund Method
             </label>
             <Select onValueChange={field.onChange} value={field.value}>
               <SelectTrigger className="h-9 w-[160px] bg-gray-50/50 dark:bg-gray-800/50">
-=======
-            <label htmlFor="refund-method" className="text-sm font-medium text-gray-900 dark:text-gray-100">
-              Refund Method
-            </label>
-            <Select onValueChange={field.onChange} value={field.value}>
-              <SelectTrigger id="refund-method" className="h-9 w-[160px] bg-gray-50/50 dark:bg-gray-800/50">
->>>>>>> feat/concierge-service-platform
                 <SelectValue placeholder="Select refund method" />
               </SelectTrigger>
               <SelectContent>
@@ -53,19 +45,11 @@ export const RefundStatusSection: React.FC = memo(() => {
         name="originalPaymentMethod"
         render={({ field }) => (
           <div className="space-y-1">
-<<<<<<< HEAD
             <label className="text-sm font-medium text-gray-900 dark:text-gray-100">
               Original Payment Method
             </label>
             <Select onValueChange={field.onChange} value={field.value}>
               <SelectTrigger className="h-9 w-[160px] bg-gray-50/50 dark:bg-gray-800/50">
-=======
-            <label htmlFor="original-payment-method" className="text-sm font-medium text-gray-900 dark:text-gray-100">
-              Original Payment Method
-            </label>
-            <Select onValueChange={field.onChange} value={field.value}>
-              <SelectTrigger id="original-payment-method" className="h-9 w-[160px] bg-gray-50/50 dark:bg-gray-800/50">
->>>>>>> feat/concierge-service-platform
                 <SelectValue placeholder="Select original method" />
               </SelectTrigger>
               <SelectContent>

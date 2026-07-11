@@ -70,10 +70,6 @@ async function seedCompanyAccounts(
     await tx.$executeRawUnsafe(query, companyId);
     return true;
   } catch (error) {
-<<<<<<< HEAD
-=======
-    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
->>>>>>> feat/concierge-service-platform
     console.error('Error seeding company accounts:', error);
     throw error;
   }
@@ -113,11 +109,7 @@ export async function createCompany(
         address: data.address || null,
         logo: typeof data.logo === 'string' ? data.logo : null,
         isActive: true,
-<<<<<<< HEAD
         metadata: {}
-=======
-        metadata: data.metadata || {}
->>>>>>> feat/concierge-service-platform
       }
       });
 
@@ -154,10 +146,6 @@ export async function createCompany(
       try {
         await seedCompanyAccounts(company.id, tx);
       } catch (seedError) {
-<<<<<<< HEAD
-=======
-        if ((seedError as any)?.digest?.startsWith('NEXT_REDIRECT')) throw seedError;
->>>>>>> feat/concierge-service-platform
         console.error('Failed to seed company accounts:', seedError);
         throw new Error('Failed to create company accounts structure', { cause: seedError });
       }
@@ -184,10 +172,6 @@ export async function createCompany(
           data: { logo: logoUrl }
         });
       } catch (uploadError) {
-<<<<<<< HEAD
-=======
-        if ((uploadError as any)?.digest?.startsWith('NEXT_REDIRECT')) throw uploadError;
->>>>>>> feat/concierge-service-platform
         console.error('Image upload failed:', uploadError);
         return {
           success: true,
@@ -214,10 +198,6 @@ export async function createCompany(
       }
     };
   } catch (error) {
-<<<<<<< HEAD
-=======
-    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
->>>>>>> feat/concierge-service-platform
     console.error('Detailed error in createCompany:', {
       error,
       errorMessage: error instanceof Error ? error.message : 'Unknown error',

@@ -117,10 +117,6 @@ export async function createItem(
             data: { imageUrl }
           });
         } catch (uploadError) {
-<<<<<<< HEAD
-=======
-          if ((uploadError as any)?.digest?.startsWith('NEXT_REDIRECT')) throw uploadError;
->>>>>>> feat/concierge-service-platform
           console.error('Image upload failed:', uploadError);
           return {
             success: true,
@@ -146,18 +142,10 @@ export async function createItem(
         data: item
       };
     } catch (dbError) {
-<<<<<<< HEAD
-=======
-      if ((dbError as any)?.digest?.startsWith('NEXT_REDIRECT')) throw dbError;
->>>>>>> feat/concierge-service-platform
       console.error('DB error when creating item:', dbError);
       throw dbError;
     }
   } catch (error) {
-<<<<<<< HEAD
-=======
-    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
->>>>>>> feat/concierge-service-platform
     console.error('Error creating item:', error ?? '[Unknown error]');
     return {
       success: false,
@@ -219,10 +207,6 @@ export async function updateItemStatus(
       data: updatedItem
     };
   } catch (error) {
-<<<<<<< HEAD
-=======
-    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
->>>>>>> feat/concierge-service-platform
     console.error('Error updating item status:', error ?? '[Unknown error]');
     return {
       success: false,
@@ -342,10 +326,6 @@ export async function updateItem(
           data: { imageUrl }
         });
       } catch (uploadError) {
-<<<<<<< HEAD
-=======
-        if ((uploadError as any)?.digest?.startsWith('NEXT_REDIRECT')) throw uploadError;
->>>>>>> feat/concierge-service-platform
         console.error('[updateItem] Image upload failed:', uploadError);
         return {
           success: true,
@@ -371,10 +351,6 @@ export async function updateItem(
       data: updatedItem
     };
   } catch (error) {
-<<<<<<< HEAD
-=======
-    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
->>>>>>> feat/concierge-service-platform
     console.error(
       '[updateItem] Error updating item:',
       error ?? '[Unknown error]'
@@ -487,10 +463,6 @@ export async function getItems(
       totalPages
     };
   } catch (error) {
-<<<<<<< HEAD
-=======
-    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
->>>>>>> feat/concierge-service-platform
     console.error('Error fetching items:', error ?? '[Unknown error]');
     return {
       success: false,
@@ -561,10 +533,6 @@ export async function deleteItem(
     revalidatePath('/items');
     return { success: true };
   } catch (error) {
-<<<<<<< HEAD
-=======
-    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
->>>>>>> feat/concierge-service-platform
     console.error('Error deleting item:', error);
     return {
       success: false,

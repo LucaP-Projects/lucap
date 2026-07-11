@@ -34,10 +34,6 @@ export type CreateJournalEntryData = {
   journalNo: string;
   description?: string;
   customerId?: string;
-<<<<<<< HEAD
-=======
-  vendorId?: string;
->>>>>>> feat/concierge-service-platform
   entries: JournalEntryLine[];
 };
 
@@ -77,10 +73,6 @@ export async function getNextJournalNumber(): Promise<ActionResponse<string>> {
     const nextNumber = parseInt(lastEntry.journalNo) + 1;
     return { success: true, data: nextNumber.toString() };
   } catch (error) {
-<<<<<<< HEAD
-=======
-    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
->>>>>>> feat/concierge-service-platform
     console.error('Error getting next journal number:', error);
     return { success: false, error: 'Failed to get next journal number' };
   }
@@ -112,25 +104,6 @@ export async function createJournalEntry(
       return { success: false, error: 'Total debits must equal total credits' };
     }
 
-<<<<<<< HEAD
-=======
-    // QBO: AR accounts must have Customer entity; AP accounts must have Vendor entity
-    const entryAccounts = await prisma.account.findMany({
-      where: { id: { in: data.entries.map(e => e.accountId) }, companyId: session.user.activeCompanyId },
-      select: { id: true, number: true }
-    });
-    const accountMap = new Map(entryAccounts.map(a => [a.id, a.number]));
-    for (const entry of data.entries) {
-      const num = accountMap.get(entry.accountId);
-      if (num && num.startsWith('41') && !data.customerId) {
-        return { success: false, error: `Account ${num} is an AR account — a customer reference is required` };
-      }
-      if (num && (num.startsWith('40') || num.startsWith('44')) && !data.vendorId) {
-        return { success: false, error: `Account ${num} is an AP account — a vendor reference is required` };
-      }
-    }
-
->>>>>>> feat/concierge-service-platform
     // Create the journal entry with its lines
     await prisma.journalEntry.create({
       data: {
@@ -139,10 +112,6 @@ export async function createJournalEntry(
         journalNo: data.journalNo,
         description: data.description,
         customerId: data.customerId,
-<<<<<<< HEAD
-=======
-        vendorId: data.vendorId,
->>>>>>> feat/concierge-service-platform
         companyId: session.user.activeCompanyId,
         isActive: true,
         entries: {
@@ -160,10 +129,6 @@ export async function createJournalEntry(
     revalidatePath('/journals');
     return { success: true };
   } catch (error) {
-<<<<<<< HEAD
-=======
-    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
->>>>>>> feat/concierge-service-platform
     console.error('Error creating journal entry:', error);
     return { success: false, error: 'Failed to create journal entry' };
   }
@@ -233,10 +198,6 @@ export async function updateJournalEntry(
     revalidatePath('/journals');
     return { success: true };
   } catch (error) {
-<<<<<<< HEAD
-=======
-    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
->>>>>>> feat/concierge-service-platform
     console.error('Error updating journal entry:', error);
     return { success: false, error: 'Failed to update journal entry' };
   }
@@ -275,10 +236,6 @@ export async function fetchJournalEntry(
 
     return { success: true, data: journal };
   } catch (error) {
-<<<<<<< HEAD
-=======
-    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
->>>>>>> feat/concierge-service-platform
     console.error('Error fetching journal entry:', error);
     return { success: false, error: 'Failed to fetch journal entry' };
   }
@@ -325,10 +282,6 @@ export async function deleteJournalEntry(id: string): Promise<ActionResponse> {
     revalidatePath('/journals');
     return { success: true };
   } catch (error) {
-<<<<<<< HEAD
-=======
-    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
->>>>>>> feat/concierge-service-platform
     console.error('Error deleting journal entry:', error);
     return { success: false, error: 'Failed to delete journal entry' };
   }

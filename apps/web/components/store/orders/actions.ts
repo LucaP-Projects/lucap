@@ -4,10 +4,6 @@ import { revalidatePath } from "next/cache";
 import { getSessionWithCompany } from "@/lib/auth";
 import { OrderStatus, FulfillmentStatus } from "@/lib/generated/prisma/enums";
 import { prisma } from "@/lib/prisma";
-<<<<<<< HEAD
-=======
-import { generateUniqueNumber } from '@/lib/utils';
->>>>>>> feat/concierge-service-platform
 
 export type OrderResponse = {
   success: boolean;
@@ -36,11 +32,7 @@ const itemInclude = {
       }
     }
   }
-<<<<<<< HEAD
 };
-=======
-} as const;
->>>>>>> feat/concierge-service-platform
 
 export async function placeOrder({
   sellerStoreId
@@ -87,11 +79,7 @@ export async function placeOrder({
     }
 
     const total = items.reduce((sum, item) => sum + Number(item.unitPrice) * item.quantity, 0);
-<<<<<<< HEAD
     const orderNumber = `ORD-${Date.now()}`;
-=======
-    const orderNumber = `ORD-${generateUniqueNumber()}`;
->>>>>>> feat/concierge-service-platform
 
     const order = await prisma.$transaction(async (tx) => {
       const createdOrder = await tx.order.create({
@@ -365,11 +353,7 @@ export async function createInvoiceFromOrder(orderId: string): Promise<OrderResp
       return { success: false, error: "Invoice already exists for this order" };
     }
 
-<<<<<<< HEAD
     const invoiceNumber = `INV-${Date.now()}`;
-=======
-    const invoiceNumber = `INV-${generateUniqueNumber()}`;
->>>>>>> feat/concierge-service-platform
 
     const result = await prisma.$transaction(async (tx) => {
       const invoice = await tx.invoice.create({

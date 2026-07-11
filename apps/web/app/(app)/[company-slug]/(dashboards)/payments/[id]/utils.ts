@@ -49,17 +49,10 @@ export function getBaseScheduleInfo(baseSchedule: any) {
 }
 
 // lib/utils.ts
-<<<<<<< HEAD
 export const formatCurrency = (amount: number) =>
   new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD'
-=======
-export const formatCurrency = (amount: number, currency = 'TND') =>
-  new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency
->>>>>>> feat/concierge-service-platform
   }).format(amount);
 
 export const paymentStatusColorMap: Record<PaymentStatus, string> = {

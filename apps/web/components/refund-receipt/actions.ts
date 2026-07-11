@@ -38,10 +38,6 @@ async function validateRefundNumber(
       throw new Error('Refund number already exists');
     }
   } catch (error) {
-<<<<<<< HEAD
-=======
-    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
->>>>>>> feat/concierge-service-platform
     // Handle Prisma-specific errors
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       // Handle specific Prisma errors by their error codes
@@ -273,10 +269,6 @@ export async function createRefundReceipt(
 
     return { success: true, data: refundAction };
   } catch (error) {
-<<<<<<< HEAD
-=======
-    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
->>>>>>> feat/concierge-service-platform
     console.error('Error creating refund receipt:', error);
     return {
       success: false,
@@ -346,10 +338,6 @@ export async function getRefundReceipt(id: string) {
       data: refund
     };
   } catch (error) {
-<<<<<<< HEAD
-=======
-    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
->>>>>>> feat/concierge-service-platform
     console.error('Error fetching refund receipt:', error);
     return {
       success: false,
@@ -716,10 +704,6 @@ export async function updateRefundReceipt(
     revalidatePath('/refund-receipt');
     return { success: true, data: refundAction };
   } catch (error) {
-<<<<<<< HEAD
-=======
-    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
->>>>>>> feat/concierge-service-platform
     console.error('Error updating refund receipt:', error);
     return {
       success: false,
@@ -821,10 +805,6 @@ export async function deleteRefundReceipt(
     revalidatePath('/refund-receipt');
     return { success: true };
   } catch (error) {
-<<<<<<< HEAD
-=======
-    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
->>>>>>> feat/concierge-service-platform
     console.error('Error deactivating refund receipt:', error);
     return {
       success: false,

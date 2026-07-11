@@ -56,11 +56,7 @@ const CCInput = memo(function CCInput() {
               <PopoverContent className="w-80">
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-<<<<<<< HEAD
                     <label className="text-sm font-medium text-gray-900 dark:text-gray-100">
-=======
-                    <label htmlFor="cc-email" className="text-sm font-medium text-gray-900 dark:text-gray-100">
->>>>>>> feat/concierge-service-platform
                       CC Email (Optional)
                     </label>
                     {field.value && isInvalid && (
@@ -70,10 +66,6 @@ const CCInput = memo(function CCInput() {
                     )}
                   </div>
                   <Input
-<<<<<<< HEAD
-=======
-                    id="cc-email"
->>>>>>> feat/concierge-service-platform
                     placeholder="Enter CC email (optional)"
                     className={inputClassName}
                     {...field}

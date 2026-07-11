@@ -280,17 +280,10 @@ const AccountsPageClient: React.FC<AccountsPageClientProps> = ({
             account.subAccounts &&
             account.subAccounts.length > 0 && (
               <motion.div
-<<<<<<< HEAD
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
                 className="border-l border-gray-100"
-=======
-                initial={{ opacity: 0, y: -8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                className="border-l border-gray-100 overflow-hidden"
->>>>>>> feat/concierge-service-platform
               >
                 {account.subAccounts.map((subAccount) =>
                   renderAccountTree(subAccount, level + 1)

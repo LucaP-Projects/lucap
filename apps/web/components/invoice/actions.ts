@@ -38,10 +38,6 @@ async function validateInvoiceNumber(
       throw new Error('Invoice number already exists');
     }
   } catch (error) {
-<<<<<<< HEAD
-=======
-    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
->>>>>>> feat/concierge-service-platform
     // Handle Prisma-specific errors
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       switch (error.code) {
@@ -231,10 +227,6 @@ export async function createInvoice(
     revalidatePath('/invoices');
     return { success: true, data: invoice };
   } catch (error) {
-<<<<<<< HEAD
-=======
-    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
->>>>>>> feat/concierge-service-platform
     return {
       success: false,
       error: error instanceof Error ? error.message : 'Failed to create invoice'
@@ -300,10 +292,6 @@ export async function getInvoice(id: string) {
       data: invoice
     };
   } catch (error) {
-<<<<<<< HEAD
-=======
-    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
->>>>>>> feat/concierge-service-platform
     console.error('Error fetching invoice:', error);
     return {
       success: false,
@@ -671,10 +659,6 @@ export async function updateInvoice(
     revalidatePath('/invoices');
     return { success: true, data: invoice };
   } catch (error) {
-<<<<<<< HEAD
-=======
-    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
->>>>>>> feat/concierge-service-platform
     console.error('Error updating invoice:', error);
     return {
       success: false,
@@ -790,10 +774,6 @@ export async function deleteInvoice(
     revalidatePath('/invoices');
     return { success: true };
   } catch (error) {
-<<<<<<< HEAD
-=======
-    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
->>>>>>> feat/concierge-service-platform
     console.error('Error deactivating invoice:', error);
     return {
       success: false,
@@ -802,43 +782,3 @@ export async function deleteInvoice(
     };
   }
 }
-<<<<<<< HEAD
-=======
-
-/**
- * QBO-style void: preserves the record, zeros amounts, marks as VOID, appends to notes.
- * Unlike soft-delete, void keeps the record visible for audit trail.
- */
-export async function voidInvoice(id: string): Promise<{ success: boolean; error?: string }> {
-  try {
-    const session = await getSessionWithCompany();
-    if (!session?.user?.id) { redirect('/auth/login'); }
-    if (!session?.user?.activeCompanyId) { redirect('/select-company'); }
-
-    const invoice = await prisma.invoice.findUnique({
-      where: { id, companyId: session.user.activeCompanyId, isActive: true },
-    });
-    if (!invoice) return { success: false, error: 'Invoice not found' };
-
-    if (invoice.status === 'PAID') return { success: false, error: 'Cannot void a paid invoice' };
-
-    await prisma.invoice.update({
-      where: { id },
-      data: {
-        amount: 0,
-        taxAmount: 0,
-        status: 'CANCELLED',
-        notes: invoice.notes
-          ? `${invoice.notes}\n[VOIDED ${new Date().toISOString().split('T')[0]} by ${session.user.id}]`
-          : `[VOIDED ${new Date().toISOString().split('T')[0]} by ${session.user.id}]`,
-      },
-    });
-
-    revalidatePath('/invoices');
-    return { success: true };
-  } catch (error) {
-    if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) throw error;
-    return { success: false, error: 'Failed to void invoice' };
-  }
-}
->>>>>>> feat/concierge-service-platform

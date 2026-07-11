@@ -34,10 +34,6 @@ export async function deleteUserAction({ userId }: { userId: string }) {
     revalidatePath('/dashboard/admin');
     return { success: true, error: null };
   } catch (err) {
-<<<<<<< HEAD
-=======
-    if ((err as any)?.digest?.startsWith('NEXT_REDIRECT')) throw err;
->>>>>>> feat/concierge-service-platform
     if (err instanceof APIError) {
       return { success: false, error: err.message };
     }

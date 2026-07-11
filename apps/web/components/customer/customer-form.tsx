@@ -228,23 +228,15 @@ export function CustomerForm({
 
 
   useEffect(() => {
-<<<<<<< HEAD
     updateDisplayName();
     const displayName = form.watch('displayName');
-=======
-    const displayName = form.getValues('displayName');
->>>>>>> feat/concierge-service-platform
     if (!Object.values(displayNames).includes(displayName)) {
       if (form.formState.isDirty) {
         if (!displayName && displayNames.short) {
           form.setValue('displayName', displayNames.short);
         }
         if (
-<<<<<<< HEAD
           !displayNames[form.watch('displayName') as keyof typeof displayNames]
-=======
-          !displayNames[form.getValues('displayName') as keyof typeof displayNames]
->>>>>>> feat/concierge-service-platform
         ) {
           form.setValue('displayName', '');
         }

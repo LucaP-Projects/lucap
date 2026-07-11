@@ -143,11 +143,7 @@ export async function getPaymentForAccountant(
       notes: paymentData.notes,
       paymentMethod: paymentData.paymentMethod,
       companyName: paymentData.company.name,
-<<<<<<< HEAD
       invoiceNumber: paymentData.invoice.number,
-=======
-      invoiceNumber: paymentData.invoice?.number ?? '',
->>>>>>> feat/concierge-service-platform
     },
     customer,
   };
