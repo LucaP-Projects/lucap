@@ -1,9 +1,6 @@
 """
-Runtime retrieval module — called by the Next.js chat API to query pgvector.
-
-Usage from TypeScript:
-  const { searchSegments } = await import("@lucap/rag/retrieve");
-  const results = await searchSegments(company.countryCode, userQuery);
+Runtime retrieval — called by the Next.js chat API.
+Queries the RAG DB for a given country's legal documents.
 """
 
 from .db import get_conn, ensure_schema
@@ -30,7 +27,7 @@ def format_context(results: list[dict]) -> str:
         source = r.get("source", "?")
         filename = r.get("filename", "?")
         sim = r.get("similarity", 0)
-        lines.append(f"[{source}/{filename}] (score: {sim:.2f})")
+        lines.append(f"[{source}] ({sim:.0%} match)")
         lines.append(r["content"])
         lines.append("")
     return "\n".join(lines)

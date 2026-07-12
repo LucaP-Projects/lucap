@@ -3,7 +3,10 @@ import psycopg
 from psycopg import Connection
 from psycopg.rows import dict_row
 
-DB_URL = os.environ.get("DATABASE_URL", "postgresql://postgres:secret123@localhost:5432/monapp")
+DB_URL = os.environ.get(
+    "RAG_DATABASE_URL",
+    os.environ.get("DATABASE_URL", "postgresql://postgres:secret123@localhost:5432/monapp"),
+)
 
 
 def get_conn() -> Connection:

@@ -1,83 +1,43 @@
-import sys
-from pathlib import Path
+"""
+Entry point: crawl + pipeline for one or all countries.
 
-from .db import get_conn, ensure_schema, count_documents, count_segments
-from .chunk import chunk_document, truncate_for_embedding
-from .embed import embed_texts
-from .store import insert_document, insert_segment
-from .crawlers import CRAWLERS
+Usage:
+  python -m rag.ingest TN              # Crawl + ingest Tunisia only
+  python -m rag.ingest all              # All supported countries
+  python -m rag.ingest list             # List supported countries
+"""
+
+import sys
+from .db import get_conn, ensure_schema
+from .pipeline import run_pipeline
+from .crawlers import get_crawler, list_supported, REGISTRY
 
 
 def main():
-    target = sys.argv[1] if len(sys.argv) > 1 else "qbo"
-    country = sys.argv[2] if len(sys.argv) > 2 else None
+    args = sys.argv[1:]
+    if not args or args[0] == "list":
+        print("Supported countries:", ", ".join(list_supported()))
+        return
 
-    crawler_cls = CRAWLERS.get(target)
-    if not crawler_cls:
-        print(f"Unknown crawler: {target}")
-        print(f"Available: {list(CRAWLERS.keys())}")
-        sys.exit(1)
-
-    crawler = crawler_cls()
-    docs = crawler.list_documents()
-
-    if country:
-        docs = [d for d in docs if d["country_code"] == country]
-        print(f"Filtered to country {country}: {len(docs)} docs")
-    else:
-        print(f"Found {len(docs)} documents for {target}")
+    countries = list_supported() if args[0] == "all" else args
 
     conn = get_conn()
     ensure_schema(conn)
 
-    existing = count_documents(conn)
-    if existing > 0:
-        print(f"DB already has {existing} docs. Set FORCE_REINDEX=1 to redo.")
-        conn.close()
-        return
-
-    total_chunks = 0
-    for doc in docs:
-        path = doc["path"]
-        source_name = doc["source"]
-        cc = doc["country_code"]
-        filename = doc["filename"]
-
-        print(f"  {filename}...", end=" ", flush=True)
-
-        text = Path(path).read_text(encoding="utf-8")
-        chunks = chunk_document(text, source_name)
-
-        if not chunks:
-            print("no content")
+    for cc in countries:
+        crawler = get_crawler(cc)
+        if crawler is None:
+            print(f"Unknown country: {cc}")
             continue
 
-        doc_id = insert_document(
-            conn,
-            country_code=cc,
-            content=filename.replace(".md", ""),
-            filename=filename,
-            source=source_name,
-            source_url=doc.get("source_url"),
-        )
+        print(f"\n=== {cc} ({crawler.__class__.__name__}) ===")
+        print("Crawling...")
+        docs = list(crawler.crawl())
+        print(f"Found {len(docs)} documents")
 
-        texts = [truncate_for_embedding(c["content"]) for c in chunks]
-        embeddings = embed_texts(texts)
+        total = run_pipeline(docs, conn, data_dir="data")
+        print(f"Total segments: {total}")
 
-        for i, (chunk, embedding) in enumerate(zip(chunks, embeddings)):
-            insert_segment(
-                conn,
-                country_code=cc,
-                content=chunk["content"],
-                source_document_id=doc_id,
-                vector=embedding,
-                chunk_index=i,
-            )
-
-        total_chunks += len(chunks)
-        print(f"{len(chunks)} chunks")
-
-    print(f"\nDone: {len(docs)} docs, {total_chunks} segments")
     conn.close()
 
 
