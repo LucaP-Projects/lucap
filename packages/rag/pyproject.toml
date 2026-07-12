@@ -1,0 +1,18 @@
+[project]
+name = "lucap-rag"
+version = "0.1.0"
+description = "LucaP RAG engine — per-country regulatory document ingestion and retrieval"
+requires-python = ">=3.11"
+dependencies = [
+    "psycopg[binary]>=3.2.0",
+    "httpx>=0.27.0",
+    "PyMuPDF>=1.24.0",
+    "pytesseract>=0.3.10",
+    "pdf2image>=1.17.0",
+    "beautifulsoup4>=4.12.0",
+    "lxml>=5.2.0",
+    "tqdm>=4.66.0",
+]
+
+[project.scripts]
+lucap-rag = "rag.ingest:main"

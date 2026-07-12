@@ -4,8 +4,8 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
+import { retrieveRagContext } from "@/lib/rag-retrieve";
 
-// Use the appropriate model
 const model = google("gemini-1.5-flash");
 
 export async function POST(req: Request) {
@@ -19,33 +19,47 @@ export async function POST(req: Request) {
 
   const { messages, companyId, uiContext, references } = await req.json();
 
-  // Grounding the AI with rich context
-  let systemPrompt = `You are LucaP Assistant, a helpful AI expert in accounting and business management.
-  You are helping a user with their business data in the LucaP portal.
-  Be concise, professional, and accurate.`;
+  const lastMessage = messages?.[messages.length - 1]?.content || "";
+
+  let countryCode = "GLOBAL";
+  if (companyId) {
+    const company = await prisma.company.findUnique({
+      where: { id: companyId },
+      select: { countryCode: true, name: true }
+    });
+    if (company?.countryCode) countryCode = company.countryCode;
+  }
+
+  const { contextText, segments } = await retrieveRagContext(lastMessage, countryCode);
+
+  let systemPrompt = `You are LucaP Assistant, a helpful AI expert in accounting, tax, and business management.
+You have access to a knowledge base of regulatory and product documentation.
+Answer based on the retrieved documentation. If the documentation doesn't contain the answer, say so.
+Always cite the source document name when referencing specific information.`;
+
+  if (segments.length > 0) {
+    systemPrompt += `\n\nRELEVANT DOCUMENTATION:\n${contextText}`;
+  }
 
   if (companyId) {
     const company = await prisma.company.findUnique({
       where: { id: companyId },
-      select: { name: true }
+      select: { name: true, countryCode: true }
     });
     if (company) {
-      systemPrompt += `\nYou are currently assisting with the company: ${company.name}.`;
+      systemPrompt += `\n\nYou are assisting: ${company.name} (${company.countryCode || "unknown country"}).`;
     }
   }
 
   if (uiContext) {
-    systemPrompt += `\n\nCURRENT USER VIEWPORT CONTEXT:
-    - Page Title: ${uiContext.title}
+    systemPrompt += `\n\nCURRENT VIEWPORT:
+    - Page: ${uiContext.title}
     - Path: ${uiContext.path}
-    ${uiContext.data ? `- Page Data Context: ${JSON.stringify(uiContext.data)}` : ''}
-    Refer to this context if the user asks questions like "what's on my screen" or "analyze this list".`;
+    ${uiContext.data ? `- Data: ${JSON.stringify(uiContext.data)}` : ''}`;
   }
 
-  if (references && references.length > 0) {
-    systemPrompt += `\n\nMENTIONED REFERENCES:
-    ${references.map((r: any) => `- ${r.type}: ${r.label} (ID: ${r.id})`).join('\n')}
-    Use these specific IDs when calling tools to ensure data accuracy.`;
+  if (references?.length) {
+    systemPrompt += `\n\nREFERENCES:\n${references.map((r: any) => `- ${r.type}: ${r.label} (${r.id})`).join('\n')}`;
   }
 
   const result = await streamText({
@@ -55,42 +69,39 @@ export async function POST(req: Request) {
     tools: {
         getCompanyInfo: tool({
             description: "Get basic information about the current company",
-            inputSchema: z.object({
-                companyId: z.string()
-            }),
+            inputSchema: z.object({ companyId: z.string() }),
             execute: async ({ companyId }: any) => {
-                const company = await prisma.company.findUnique({
-                    where: { id: companyId }
-                });
+                const company = await prisma.company.findUnique({ where: { id: companyId } });
                 return JSON.parse(JSON.stringify(company));
             }
         }),
         getCustomerPayments: tool({
-            description: "Get payments for a specific customer over a recent period",
-            inputSchema: z.object({
-                customerId: z.string(),
-                months: z.number().default(4)
-            }),
+            description: "Get payments for a specific customer",
+            inputSchema: z.object({ customerId: z.string(), months: z.number().default(4) }),
             execute: async ({ customerId, months }: any) => {
                 const dateLimit = new Date();
                 dateLimit.setMonth(dateLimit.getMonth() - (months || 4));
-
                 const payments = await prisma.paymentEvent.findMany({
                     where: {
-                        customerPaymentEvents: {
-                          some: { customerId }
-                        },
+                        customerPaymentEvents: { some: { customerId } },
                         createdAt: { gte: dateLimit }
                     },
                     orderBy: { createdAt: 'desc' }
                 });
                 return JSON.parse(JSON.stringify(payments));
             }
+        }),
+        searchDocs: tool({
+            description: "Search the documentation knowledge base for a specific query",
+            inputSchema: z.object({ query: z.string(), country: z.string().optional() }),
+            execute: async ({ query, country }: any) => {
+                const cc = country || countryCode;
+                const { contextText } = await retrieveRagContext(query, cc, 10);
+                return contextText || "No relevant documentation found.";
+            }
         })
     }
   });
 
-  return result.toUIMessageStreamResponse({
-      originalMessages: messages
-  });
+  return result.toUIMessageStreamResponse({ originalMessages: messages });
 }
