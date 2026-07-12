@@ -1,6 +1,10 @@
+import { google } from "@ai-sdk/google";
+import { embed } from "ai";
 import { prisma } from "@/lib/prisma";
 
-const EMBEDDING_API_URL = process.env.EMBEDDING_API_URL || "http://localhost:8000";
+const embeddingModel = google.textEmbeddingModel("text-embedding-004", {
+  outputDimensionality: 384,
+});
 
 interface RagSegment {
   id: string;
@@ -16,13 +20,8 @@ interface RagSegment {
 }
 
 async function embedQuery(text: string): Promise<number[]> {
-  const res = await fetch(`${EMBEDDING_API_URL}/embed`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ text }),
-  });
-  if (!res.ok) throw new Error(`Embedding API error: ${res.statusText}`);
-  return (await res.json()).embedding;
+  const result = await embed({ model: embeddingModel, value: text });
+  return result.embedding;
 }
 
 export async function retrieveRagContext(

@@ -1,15 +1,36 @@
+import os
+import sys
+import logging
+
+os.environ.setdefault("HF_HOME", "/tmp/.hf")
+os.environ.setdefault("SENTENCE_TRANSFORMERS_HOME", "/tmp/.st")
+os.makedirs("/tmp/.hf", exist_ok=True)
+os.makedirs("/tmp/.st", exist_ok=True)
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from fastembed import TextEmbedding
 from typing import List
 
 app = FastAPI(title="BGE-Small Embedding Server")
 
-try:
-    model = TextEmbedding(model_name="BAAI/bge-small-en-v1.5")
-except Exception as e:
-    print(f"Failed to load model: {e}")
-    model = None
+_model = None
+
+def get_model():
+    global _model
+    if _model is not None:
+        return _model
+    logger.info("Loading embedding model BAAI/bge-small-en-v1.5...")
+    try:
+        from fastembed import TextEmbedding
+        _model = TextEmbedding(model_name="BAAI/bge-small-en-v1.5", cache_dir="/tmp/.hf")
+        logger.info("Model loaded successfully")
+    except Exception as e:
+        logger.error(f"Failed to load model: {e}")
+        raise
+    return _model
 
 class QueryRequest(BaseModel):
     text: str
@@ -25,12 +46,15 @@ class BatchEmbeddingResponse(BaseModel):
 
 @app.get("/")
 def health_check():
-    return {"status": "healthy", "model": "bge-small-en-v1.5"}
+    status = "loading" if _model is None else "healthy"
+    return {"status": status, "model": "bge-small-en-v1.5"}
 
 @app.post("/embed", response_model=EmbeddingResponse)
 async def generate_embedding(payload: QueryRequest):
-    if not model:
-        raise HTTPException(status_code=500, detail="Embedding model not loaded.")
+    try:
+        model = get_model()
+    except Exception as e:
+        raise HTTPException(status_code=503, detail=f"Model unavailable: {e}")
     if not payload.text.strip():
         raise HTTPException(status_code=400, detail="Text payload cannot be empty.")
     try:
@@ -42,8 +66,10 @@ async def generate_embedding(payload: QueryRequest):
 
 @app.post("/embed-batch", response_model=BatchEmbeddingResponse)
 async def generate_embeddings_batch(payload: BatchRequest):
-    if not model:
-        raise HTTPException(status_code=500, detail="Embedding model not loaded.")
+    try:
+        model = get_model()
+    except Exception as e:
+        raise HTTPException(status_code=503, detail=f"Model unavailable: {e}")
     if not payload.texts:
         raise HTTPException(status_code=400, detail="Texts list cannot be empty.")
     if len(payload.texts) > 100:
