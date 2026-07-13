@@ -5,30 +5,83 @@ CHUNK_OVERLAP_WORDS = 20
 
 SECTOR_KEYWORDS: dict[str, list[str]] = {
     "tax": [
-        "impôt", "taxe", "tva", "fiscal", "déclaration", "crédit d'impôt",
-        "irpp", "is", "impôt sur le revenu", "retenue", "droit d'enregistrement", "timbre",
-        "tax", "taxation", "withholding", "vat", "gst",
+        "impôt", "taxe", "tva", "fiscal", "irpp", "is",
+        "déclaration", "retenue à la source", "crédit d'impôt",
+        "droit d'enregistrement", "timbre", "tax", "vat", "gst",
+        "withholding", "corporate tax", "income tax", "transfer pricing",
     ],
-    "company": [
-        "société", "commerce", "commercial", "actionnaire", "gérant",
-        "conseil d'administration", "assemblée générale", "registre du commerce",
-        "company", "corporation", "shareholder", "board",
+    "social": [
+        "cnss", "cnrps", "sécurité sociale", "cotisation", "prestation sociale",
+        "allocations familiales", "assurance maladie", "retraite", "mutuelle",
+        "social security", "contribution", "pension", "health insurance",
     ],
     "labor": [
-        "travail", "salarié", "employeur", "contrat de travail", "congé",
-        "sécurité sociale", "cnss", "paie", "licenciement",
-        "labor", "employee", "employer", "social security",
+        "code du travail", "contrat de travail", "salarié", "employeur",
+        "licenciement", "préavis", "congé", "temps de travail",
+        "salaire minimum", "smig", "convention collective",
+        "labor", "employment", "termination", "severance",
+    ],
+    "corporate": [
+        "code de commerce", "société", "sarl", "sa", "actionnaire",
+        "assemblée générale", "conseil d'administration", "gérant",
+        "registre du commerce", "fusion", "liquidation",
+        "company", "corporation", "shareholder", "board",
     ],
     "accounting": [
-        "comptabilité", "bilan", "compte de résultat", "norme comptable",
-        "plan comptable", "etats financiers", "audit",
+        "comptabilité", "plan comptable", "bilan", "compte de résultat",
+        "norme comptable", "etats financiers", "audit", "commissaire",
         "accounting", "gaap", "ifrs", "financial statement",
+    ],
+    "einvoicing": [
+        "facture électronique", "e-invoicing", "facturation électronique",
+        "signature électronique", "archivage électronique",
+        "facture", "invoice", "clearance", "continuous transaction",
+    ],
+    "data": [
+        "données personnelles", "protection des données", "rgpd",
+        "consentement", "data protection", "privacy",
+        "gdpr", "personal data", "cross-border transfer",
+    ],
+    "currency": [
+        "change", "code des changes", "convertibilité", "rapatriement",
+        "compte en devises", "banque centrale", "currency control",
+        "foreign exchange", "repatriation", "capital control",
+    ],
+    "customs": [
+        "douane", "code des douanes", "droit de douane", "importation",
+        "exportation", "règles d'origine", "déclaration en douane",
+        "customs", "tariff", "free trade", "rules of origin",
+    ],
+    "aml": [
+        "blanchiment", "financement du terrorisme", "lcb-ft",
+        "kyc", "bénéficiaire effectif", "déclaration de soupçon",
+        "anti-money laundering", "aml", "know your customer",
+        "beneficial ownership", "suspicious transaction",
+    ],
+    "realestate": [
+        "foncier", "immobilier", "cadastre", "hypothèque", "notaire",
+        "propriété", "permis de construire", "urbanisme",
+        "real estate", "property", "land", "mortgage",
+    ],
+    "procurement": [
+        "marchés publics", "commande publique", "appel d'offres",
+        "concession", "délégation de service public",
+        "public procurement", "tender", "government contract",
+    ],
+    "banking": [
+        "banque", "établissement de crédit", "taux d'intérêt",
+        "moyen de paiement", "monnaie électronique", "psp",
+        "banking", "payment", "fintech", "credit institution",
+    ],
+    "investment": [
+        "investissement", "code des investissements", "incitation fiscale",
+        "zone franche", "avantage fiscal", "investissement étranger",
+        "investment", "tax incentive", "free zone", "foreign direct",
     ],
 }
 
 
 def classify_sector(text: str) -> list[str]:
-    """Classify text into legal sectors based on keyword presence."""
     text_lower = text.lower()
     matched = []
     for sector, keywords in SECTOR_KEYWORDS.items():

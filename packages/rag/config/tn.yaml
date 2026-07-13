@@ -1,12 +1,16 @@
 country_code: TN
 name: Tunisia
 
-# Crawlers that feed this country's knowledge base.
-# Sector tagging happens at chunk time via keyword analysis (see chunk.py).
-# Query-time filtering by sector uses the stored tags.
+# ── TN covers all 14 sectors via jibaya.tn (tax) + JORT (everything published) ──
+# JORT documents are auto-tagged by sector at chunk time via keyword matching.
+# As we add more crawlers (CNSS, legislation.tn, etc.), add them here.
+
 crawlers:
+  # Tax codes, notes communes, lois de finances, conventions fiscales
   - type: jibaya
     manifest: jibaya_docs_data.json
+
+  # All laws, decrees, announcements published chronologically
   - type: jort
     collections:
       - journal-officiel

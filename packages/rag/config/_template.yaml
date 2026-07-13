@@ -1,0 +1,96 @@
+# ═══════════════════════════════════════════════════════════════
+# Country legal sector template
+# Copy this file to {country_code}.yaml and fill in the crawlers
+# ═══════════════════════════════════════════════════════════════
+
+country_code: XX        # ISO 3166-1 alpha-2
+name: Country Name
+
+# Each sector maps to a domain of law every company needs.
+# crawlers: which crawler types feed documents into this country's vector store.
+# Tags are applied automatically at chunk time via keyword matching (chunk.py).
+
+crawlers:
+  # ── 1. TAX — Corporate/Income/VAT/Withholding ──
+  #   Corporate tax rates, VAT/GST, income tax withholding, tax returns,
+  #   transfer pricing, tax treaties, penalties, statute of limitations.
+  - type:               # e.g. legifrance, jibaya, irs, gov_api
+    params: {}
+
+  # ── 2. SOCIAL — Social security & mandatory insurance ──
+  #   Employer/employee contribution rates, salary caps, health insurance,
+  #   unemployment, pension, workplace accident, family benefits.
+  - type:
+    params: {}
+
+  # ── 3. LABOR — Employment & labor law ──
+  #   Contracts (CDI/CDD), probation, termination, severance, leave,
+  #   overtime, minimum wage, collective bargaining, work hours.
+  - type:
+    params: {}
+
+  # ── 4. CORPORATE — Company & commercial law ──
+  #   Company formation (SARL/SA/SAS), shareholder rights, board,
+  #   annual meetings, share transfers, liquidation, commercial register.
+  - type:
+    params: {}
+
+  # ── 5. ACCOUNTING — Accounting standards & audit ──
+  #   Chart of accounts, financial statements, GAAP/IFRS adoption,
+  #   statutory audit, turnover thresholds, filing deadlines.
+  - type:
+    params: {}
+
+  # ── 6. E-INVOICING — Electronic invoicing mandates ──
+  #   Mandatory e-invoicing, clearance models, XML formats,
+  #   digital signatures, archiving, interoperability.
+  - type:
+    params: {}
+
+  # ── 7. DATA — Data protection & privacy ──
+  #   Data retention, cross-border transfers, consent, breach
+  #   notification, registration with authority, DPIA.
+  - type:
+    params: {}
+
+  # ── 8. CURRENCY — Foreign exchange & currency control ──
+  #   Profit repatriation, foreign accounts, currency conversion,
+  #   capital controls, reporting to central bank.
+  - type:
+    params: {}
+
+  # ── 9. CUSTOMS — Import/export & customs duties ──
+  #   Tariffs, customs valuation, free trade agreements,
+  #   rules of origin, customs procedures, brokers.
+  - type:
+    params: {}
+
+  # ── 10. AML — Anti-money laundering & compliance ──
+  #   KYC/CDD, beneficial ownership, suspicious transaction
+  #   reporting, record-keeping, compliance officer.
+  - type:
+    params: {}
+
+  # ── 11. REAL ESTATE — Property & land law ──
+  #   Property registration, transfer taxes, notary fees,
+  #   lease agreements, zoning, mortgage, cadastre.
+  - type:
+    params: {}
+
+  # ── 12. PROCUREMENT — Public procurement & tenders ──
+  #   Government tenders, bidding, supplier registration,
+  #   contract awards, penalties, dispute resolution.
+  - type:
+    params: {}
+
+  # ── 13. BANKING — Banking & financial regulation ──
+  #   Payment processing, interest rates, banking licenses,
+  #   fintech regulation, mobile money, PSP, open banking.
+  - type:
+    params: {}
+
+  # ── 14. INVESTMENT — Investment incentives & codes ──
+  #   Tax holidays, free zones, investment codes, sector
+  #   incentives, grants, subsidies, strategic projects.
+  - type:
+    params: {}
