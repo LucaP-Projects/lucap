@@ -12,6 +12,7 @@ class JortCrawler(Crawler):
     type = "jort"
 
     def __init__(self, collections: list[str] | None = None, **kwargs):
+        super().__init__(**kwargs)
         self.collections = collections or [
             "journal-officiel",
             "annonces-legales",

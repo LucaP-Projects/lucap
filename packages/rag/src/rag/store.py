@@ -31,16 +31,19 @@ def insert_segment(
     page_number: int | None = None,
     tags: list[str] | None = None,
     article_number: int | None = None,
-    ref: str | None = None,
+    law_id: str | None = None,
+    refs: dict | None = None,
 ):
     vector_str = "[" + ",".join(str(v) for v in vector) + "]"
     conn.execute(
         """INSERT INTO source_document_segment
-           (country_code, content, source_document_id, vector, chunk_index, page_number, tags, article_number)
-           VALUES (%s, %s, %s, %s::vector, %s, %s, %s::jsonb, %s)
+           (country_code, content, source_document_id, vector, chunk_index,
+            page_number, tags, article_number, law_id, refs)
+           VALUES (%s, %s, %s, %s::vector, %s, %s, %s::jsonb, %s, %s, %s::jsonb)
            ON CONFLICT DO NOTHING""",
-        (country_code, content, source_document_id, vector_str, chunk_index, page_number,
-         json.dumps(tags) if tags else None, article_number),
+        (country_code, content, source_document_id, vector_str, chunk_index,
+         page_number, json.dumps(tags) if tags else None, article_number,
+         law_id, json.dumps(refs) if refs else None),
     )
     conn.commit()
 

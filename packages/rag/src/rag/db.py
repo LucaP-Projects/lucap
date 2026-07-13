@@ -36,7 +36,9 @@ CREATE TABLE IF NOT EXISTS source_document_segment (
     chunk_index INT NOT NULL DEFAULT 0,
     page_number INT,
     tags JSONB,
-    article_number INT
+    article_number INT,
+    law_id TEXT,
+    refs JSONB
 );
 
 CREATE INDEX IF NOT EXISTS idx_segment_country ON source_document_segment (country_code);

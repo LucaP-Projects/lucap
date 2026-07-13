@@ -8,7 +8,7 @@ name: Tunisia
 crawlers:
   # Tax codes, notes communes, lois de finances, conventions fiscales
   - type: jibaya
-    manifest: jibaya_docs_data.json
+    manifest: config/jibaya_docs_data.json
 
   # All laws, decrees, announcements published chronologically
   - type: jort

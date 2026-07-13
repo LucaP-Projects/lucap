@@ -20,6 +20,7 @@ class JibayaCrawler(Crawler):
     type = "jibaya"
 
     def __init__(self, manifest: str | None = None, **kwargs):
+        super().__init__(**kwargs)
         self._manifest_path = manifest
         self.client = httpx.Client(follow_redirects=True, timeout=30)
 
