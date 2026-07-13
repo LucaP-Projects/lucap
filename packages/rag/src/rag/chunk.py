@@ -160,9 +160,8 @@ def chunk_jort(text: str, source: str) -> list[dict]:
         if len(content) < 20:
             return
         sectors = classify_sector(content)
-        header = current_meta["title"]
-        law_refs = extract_references(content, header)
         law_id = extract_law_id(content[:300])
+        law_refs = extract_references(content, law_id or current_meta["title"])
         chunks.append({
             "title": header,
             "content": content,
@@ -205,7 +204,7 @@ def chunk_markdown_by_headings(text: str, source: str, max_words: int = CHUNK_MA
             title = " > ".join(heading_stack)
         sectors = classify_sector(content)
         law_id = extract_law_id(content[:300])
-        law_refs = extract_references(content, title)
+        law_refs = extract_references(content, law_id or title)
         chunks.append({
             "title": title,
             "content": content,
@@ -250,7 +249,7 @@ def chunk_plain_text(text: str, source: str, max_words: int = CHUNK_MAX_WORDS) -
         content = " ".join(chunk_words)
         sectors = classify_sector(content)
         law_id = extract_law_id(content[:300])
-        law_refs = extract_references(content, source)
+        law_refs = extract_references(content, law_id or source)
         chunks.append({
             "title": source,
             "content": content,

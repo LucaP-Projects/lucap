@@ -43,12 +43,8 @@ def main():
             kwargs = {k: v for k, v in crawler_cfg.items() if k != "type"}
             crawler = cls(country_code=cc, **kwargs)
             print(f"  Running {ctype}...")
-            docs = list(crawler.crawl())
-            print(f"    Found {len(docs)} documents")
-            all_docs.extend(docs)
-
-        total = run_pipeline(all_docs, conn, data_dir="data")
-        print(f"  Total segments: {total}")
+            total = run_pipeline(crawler.crawl(), conn, data_dir="data")
+            print(f"    Segments: {total}")
 
     conn.close()
 

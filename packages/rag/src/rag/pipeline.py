@@ -9,13 +9,15 @@ from .store import insert_document, insert_segment
 from .crawlers import Document
 
 
-def run_pipeline(docs: list[Document], conn, data_dir: str = "data"):
-    """Run the full pipeline for a batch of documents."""
+def run_pipeline(docs, conn, data_dir: str = "data"):
+    """Run the full pipeline for a batch of documents (accepts list or generator)."""
     data_path = Path(data_dir)
     total_chunks = 0
+    total_docs = 0
 
     for i, doc in enumerate(docs):
-        print(f"  [{i+1}/{len(docs)}] {doc.filename}...", end=" ", flush=True)
+        total_docs = i + 1
+        print(f"  [{total_docs}] {doc.filename[:50]}...", end=" ", flush=True)
         local_path = data_path / doc.country_code / doc.filename
         local_path.parent.mkdir(parents=True, exist_ok=True)
 
@@ -65,6 +67,9 @@ def run_pipeline(docs: list[Document], conn, data_dir: str = "data"):
                 source_document_id=doc_id,
                 vector=embedding,
                 chunk_index=j,
+                tags=chunk.get("sectors"),
+                law_id=chunk.get("law_id"),
+                refs=chunk.get("refs"),
             )
 
         total_chunks += len(chunks)
