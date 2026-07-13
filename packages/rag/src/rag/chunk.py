@@ -1,5 +1,6 @@
 import re
 from typing import Generator
+from .refs import extract_references, extract_law_id
 
 CHUNK_MAX_WORDS = 200
 CHUNK_OVERLAP_WORDS = 20
@@ -159,13 +160,18 @@ def chunk_jort(text: str, source: str) -> list[dict]:
         if len(content) < 20:
             return
         sectors = classify_sector(content)
+        header = current_meta["title"]
+        law_refs = extract_references(content, header)
+        law_id = extract_law_id(content[:300])
         chunks.append({
-            "title": current_meta["title"],
+            "title": header,
             "content": content,
             "source": source,
             "sectors": sectors,
             "page_number": None,
             "ref": current_meta["ref"],
+            "law_id": law_id,
+            "refs": law_refs,
         })
 
     for line in lines:
@@ -197,13 +203,18 @@ def chunk_markdown_by_headings(text: str, source: str, max_words: int = CHUNK_MA
         title = current_title
         if heading_stack:
             title = " > ".join(heading_stack)
+        sectors = classify_sector(content)
+        law_id = extract_law_id(content[:300])
+        law_refs = extract_references(content, title)
         chunks.append({
             "title": title,
             "content": content,
             "source": source,
-            "sectors": classify_sector(content),
+            "sectors": sectors,
             "page_number": None,
             "ref": None,
+            "law_id": law_id,
+            "refs": law_refs,
         })
         current = []
 
@@ -237,14 +248,18 @@ def chunk_plain_text(text: str, source: str, max_words: int = CHUNK_MAX_WORDS) -
     for i in range(0, len(words), max_words - CHUNK_OVERLAP_WORDS):
         chunk_words = words[i:i + max_words]
         content = " ".join(chunk_words)
-        ref = extract_jort_ref(content)
+        sectors = classify_sector(content)
+        law_id = extract_law_id(content[:300])
+        law_refs = extract_references(content, source)
         chunks.append({
             "title": source,
             "content": content,
             "source": source,
-            "sectors": classify_sector(content),
+            "sectors": sectors,
             "page_number": None,
-            "ref": ref,
+            "ref": extract_jort_ref(content),
+            "law_id": law_id,
+            "refs": law_refs,
         })
     return chunks
 
