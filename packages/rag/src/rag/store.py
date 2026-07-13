@@ -1,3 +1,4 @@
+import json
 from psycopg import Connection
 
 
@@ -30,6 +31,7 @@ def insert_segment(
     page_number: int | None = None,
     tags: list[str] | None = None,
     article_number: int | None = None,
+    ref: str | None = None,
 ):
     vector_str = "[" + ",".join(str(v) for v in vector) + "]"
     conn.execute(
@@ -62,6 +64,3 @@ def search_segments(
         (vector_str, country_code, vector_str, limit),
     ).fetchall()
     return [dict(r) for r in rows]
-
-
-import json

@@ -1,4 +1,5 @@
 import re
+from typing import Generator
 
 CHUNK_MAX_WORDS = 200
 CHUNK_OVERLAP_WORDS = 20
@@ -35,7 +36,7 @@ SECTOR_KEYWORDS: dict[str, list[str]] = {
     "einvoicing": [
         "facture électronique", "e-invoicing", "facturation électronique",
         "signature électronique", "archivage électronique",
-        "facture", "invoice", "clearance", "continuous transaction",
+        "invoice", "clearance", "continuous transaction",
     ],
     "data": [
         "données personnelles", "protection des données", "rgpd",
@@ -49,47 +50,134 @@ SECTOR_KEYWORDS: dict[str, list[str]] = {
     ],
     "customs": [
         "douane", "code des douanes", "droit de douane", "importation",
-        "exportation", "règles d'origine", "déclaration en douane",
-        "customs", "tariff", "free trade", "rules of origin",
+        "exportation", "règles d'origine", "customs", "tariff",
     ],
     "aml": [
-        "blanchiment", "financement du terrorisme", "lcb-ft",
-        "kyc", "bénéficiaire effectif", "déclaration de soupçon",
-        "anti-money laundering", "aml", "know your customer",
+        "blanchiment", "lcb-ft", "kyc", "bénéficiaire effectif",
+        "déclaration de soupçon", "anti-money laundering", "aml",
         "beneficial ownership", "suspicious transaction",
     ],
     "realestate": [
         "foncier", "immobilier", "cadastre", "hypothèque", "notaire",
-        "propriété", "permis de construire", "urbanisme",
-        "real estate", "property", "land", "mortgage",
+        "propriété", "urbanisme", "real estate", "property", "mortgage",
     ],
     "procurement": [
-        "marchés publics", "commande publique", "appel d'offres",
-        "concession", "délégation de service public",
+        "marchés publics", "appel d'offres", "concession",
         "public procurement", "tender", "government contract",
     ],
     "banking": [
-        "banque", "établissement de crédit", "taux d'intérêt",
-        "moyen de paiement", "monnaie électronique", "psp",
-        "banking", "payment", "fintech", "credit institution",
+        "banque", "taux d'intérêt", "moyen de paiement",
+        "monnaie électronique", "psp", "banking", "fintech",
     ],
     "investment": [
-        "investissement", "code des investissements", "incitation fiscale",
-        "zone franche", "avantage fiscal", "investissement étranger",
-        "investment", "tax incentive", "free zone", "foreign direct",
+        "investissement", "code des investissements", "zone franche",
+        "incitation fiscale", "investment", "free zone", "tax incentive",
     ],
+}
+
+ARABIC_SECTOR_KEYWORDS: dict[str, list[str]] = {
+    "tax": ["ضريبة", "جباية", "أداء", "tva", "إقرار", "تصريح"],
+    "social": ["ضمان اجتماعي", "cnss", "cnrps", "تقاعد", "تأمين صحي"],
+    "labor": ["شغل", "أجير", "مشغّل", "عقد عمل", "تسريح"],
+    "corporate": ["شركة", "تجاري", "مساهم", "سجل تجاري"],
+    "accounting": ["محاسبة", "ميزانية", "حسابات", "تدقيق"],
+    "einvoicing": ["فاتورة إلكترونية", "فاتورة"],
+    "data": ["معطيات شخصية", "بيانات شخصية"],
+    "currency": ["صرف", "تحويل", "عملة"],
+    "customs": ["ديوانة", "تصدير", "استيراد"],
+    "aml": ["غسل أموال", "تمويل الإرهاب"],
+    "realestate": ["عقار", "ملكية", "رهن", "عدل"],
+    "procurement": ["صفقات عمومية", "مناقصة"],
+    "banking": ["بنك", "مؤسسة مالية", "دفع"],
+    "investment": ["استثمار", "منطقة حرة", "حوافز"],
 }
 
 
 def classify_sector(text: str) -> list[str]:
     text_lower = text.lower()
-    matched = []
+    matched: list[str] = []
     for sector, keywords in SECTOR_KEYWORDS.items():
         for kw in keywords:
             if kw.lower() in text_lower:
                 matched.append(sector)
                 break
+    if not matched:
+        for sector, keywords in ARABIC_SECTOR_KEYWORDS.items():
+            for kw in keywords:
+                if kw in text:
+                    matched.append(sector)
+                    break
     return matched if matched else ["general"]
+
+
+def extract_jort_ref(text: str) -> str | None:
+    """Extract the decree/law reference from a JORT document (FR or AR)."""
+    m = re.search(
+        r"(Décret|Arrêté|Loi|Décision|Ordre)\s+n[°°]\s*(\d{4})-(\d+)",
+        text,
+    )
+    if m:
+        return f"{m.group(1)} n° {m.group(2)}-{m.group(3)}"
+    m = re.search(r"(Décret|Arrêté|Loi)\s+.*?du\s+(\d+\s+\w+\s+\d{4})", text)
+    if m:
+        return m.group(0)[:80]
+    m = re.search(r"(أمر|قرار)\s+عدد\s*(\d+)\s+لسنة\s*(\d{4})", text)
+    if m:
+        return f"{m.group(1)} عدد {m.group(2)} لسنة {m.group(3)}"
+    return None
+
+
+def is_decree_boundary(line: str) -> bool:
+    """Check if a line marks the start of a new decree in JORT (FR or AR)."""
+    clean = line.strip()
+    if not clean:
+        return False
+    if re.match(
+        r"^(Décret|Arrêté|LOI|Loi|Décision|Ordre)\s",
+        clean,
+        re.IGNORECASE,
+    ):
+        return True
+    if re.match(r"^MINIST[ÈE]RE\s", clean, re.IGNORECASE):
+        return True
+    if re.match(r"^(أمر|قرار|منشور|تعليمة|بلاغ|إعلان|وزير|وزارة)\s", clean):
+        return True
+    return False
+
+
+def chunk_jort(text: str, source: str) -> list[dict]:
+    """JORT-aware chunker: splits at decree/arrêté boundaries."""
+    lines = text.split("\n")
+    chunks: list[dict] = []
+    current: list[str] = []
+    current_meta = {"title": source, "ref": None, "sectors": []}
+
+    def flush():
+        if not current:
+            return
+        content = "\n".join(current).strip()
+        if len(content) < 20:
+            return
+        sectors = classify_sector(content)
+        chunks.append({
+            "title": current_meta["title"],
+            "content": content,
+            "source": source,
+            "sectors": sectors,
+            "page_number": None,
+            "ref": current_meta["ref"],
+        })
+
+    for line in lines:
+        if is_decree_boundary(line) and len("\n".join(current).strip()) > 100:
+            flush()
+            current = []
+            ref = extract_jort_ref(line)
+            current_meta = {"title": line.strip()[:120], "ref": ref, "sectors": []}
+        current.append(line)
+
+    flush()
+    return chunks
 
 
 def chunk_markdown_by_headings(text: str, source: str, max_words: int = CHUNK_MAX_WORDS) -> list[dict]:
@@ -115,6 +203,7 @@ def chunk_markdown_by_headings(text: str, source: str, max_words: int = CHUNK_MA
             "source": source,
             "sectors": classify_sector(content),
             "page_number": None,
+            "ref": None,
         })
         current = []
 
@@ -133,12 +222,9 @@ def chunk_markdown_by_headings(text: str, source: str, max_words: int = CHUNK_MA
             current_title = heading_text
             current = [line]
             continue
-
         current.append(line)
-        word_count = len(" ".join(current).split())
-        if word_count >= max_words:
+        if len(" ".join(current).split()) >= max_words:
             flush()
-
     flush()
     return chunks
 
@@ -151,17 +237,21 @@ def chunk_plain_text(text: str, source: str, max_words: int = CHUNK_MAX_WORDS) -
     for i in range(0, len(words), max_words - CHUNK_OVERLAP_WORDS):
         chunk_words = words[i:i + max_words]
         content = " ".join(chunk_words)
+        ref = extract_jort_ref(content)
         chunks.append({
             "title": source,
             "content": content,
             "source": source,
             "sectors": classify_sector(content),
             "page_number": None,
+            "ref": ref,
         })
     return chunks
 
 
 def chunk_document(text: str, source: str) -> list[dict]:
+    if "jort" in source or "journal-officiel" in source:
+        return chunk_jort(text, source)
     if re.search(r"^#{1,6}\s+", text, re.MULTILINE):
         return chunk_markdown_by_headings(text, source)
     return chunk_plain_text(text, source)
