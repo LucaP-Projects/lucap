@@ -1,0 +1,14 @@
+country_code: TN
+name: Tunisia
+
+# Crawlers that feed this country's knowledge base.
+# Sector tagging happens at chunk time via keyword analysis (see chunk.py).
+# Query-time filtering by sector uses the stored tags.
+crawlers:
+  - type: jibaya
+    manifest: jibaya_docs_data.json
+  - type: jort
+    collections:
+      - journal-officiel
+      - annonces-legales
+      - tribunal-immobilier

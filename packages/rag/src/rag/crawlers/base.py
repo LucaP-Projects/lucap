@@ -13,13 +13,12 @@ class Document:
 
 
 class Crawler(ABC):
-    """Base class for per-country legal document crawlers."""
+    """Base class for legal document crawlers."""
 
-    @property
-    @abstractmethod
-    def country_code(self) -> str:
-        """ISO 3166-1 alpha-2 country code."""
-        ...
+    type = "base"  # Override in each subclass — matches `type` in YAML config
+
+    def __init__(self, country_code: str = "XX", **kwargs):
+        self.country_code = country_code
 
     @abstractmethod
     def crawl(self) -> Generator[Document, None, None]:

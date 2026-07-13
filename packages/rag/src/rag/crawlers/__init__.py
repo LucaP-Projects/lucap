@@ -1,17 +1,46 @@
-from .base import Crawler, Document
-from .tunisia import TunisiaCrawler
+"""Config-driven crawler registry.
 
-REGISTRY: dict[str, type[Crawler]] = {
-    "TN": TunisiaCrawler,
+Loads a country's YAML config and instantiates the configured crawlers.
+"""
+
+import os
+import yaml
+from pathlib import Path
+from typing import Generator
+
+from .base import Crawler, Document
+
+# Import all crawler types — they register themselves via the TYPE registry
+from .types.jibaya import JibayaCrawler
+from .types.jort import JortCrawler
+
+# ── Crawler type registry ──
+# Keys match the `type` field in YAML config
+CRAWLER_TYPES: dict[str, type[Crawler]] = {
+    "jibaya": JibayaCrawler,
+    "jort": JortCrawler,
 }
 
+# ── Config loading ──
 
-def get_crawler(country_code: str, **kwargs) -> Crawler | None:
-    cls = REGISTRY.get(country_code)
-    if cls is None:
+CONFIG_DIR = Path(__file__).parent.parent.parent.parent / "config"
+
+
+def get_config_path(country_code: str) -> Path | None:
+    code = country_code.lower()
+    for f in CONFIG_DIR.glob("*.yaml"):
+        if f.stem.lower() == code:
+            return f
+    return None
+
+
+def load_config(country_code: str) -> dict | None:
+    path = get_config_path(country_code)
+    if path is None:
         return None
-    return cls(**kwargs)
+    with open(path) as f:
+        return yaml.safe_load(f)
 
 
-def list_supported() -> list[str]:
-    return sorted(REGISTRY.keys())
+def list_configured() -> list[str]:
+    return sorted(f.stem.upper() for f in CONFIG_DIR.glob("*.yaml"))
