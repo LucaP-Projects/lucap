@@ -45,6 +45,24 @@ CREATE INDEX IF NOT EXISTS idx_segment_country ON source_document_segment (count
 CREATE INDEX IF NOT EXISTS idx_segment_doc_id ON source_document_segment (source_document_id);
 CREATE INDEX IF NOT EXISTS idx_segment_vector ON source_document_segment USING hnsw (vector vector_cosine_ops) WITH (m = 16, ef_construction = 200);
 CREATE INDEX IF NOT EXISTS idx_doc_country ON source_document (country_code);
+
+-- Full-text search index for hybrid keyword search
+ALTER TABLE source_document_segment ADD COLUMN IF NOT EXISTS search_vector tsvector;
+CREATE INDEX IF NOT EXISTS idx_segment_search ON source_document_segment USING GIN (search_vector);
+
+-- Trigger to auto-update tsvector on insert
+CREATE OR REPLACE FUNCTION update_search_vector() RETURNS trigger AS $$
+BEGIN
+    NEW.search_vector := to_tsvector('french', COALESCE(NEW.content, ''));
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS trg_search_vector ON source_document_segment;
+CREATE TRIGGER trg_search_vector
+    BEFORE INSERT OR UPDATE ON source_document_segment
+    FOR EACH ROW
+    EXECUTE FUNCTION update_search_vector();
 """
 
 

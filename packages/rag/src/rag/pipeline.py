@@ -15,8 +15,23 @@ def run_pipeline(docs, conn, data_dir: str = "data"):
     total_chunks = 0
     total_docs = 0
 
+    # Pre-check which docs already exist to skip re-processing
+    existing: set[str] = set()
+    try:
+        import psycopg
+        rows = conn.execute("SELECT content FROM source_document").fetchall()
+        existing = {str(r["content"]) for r in rows}
+        if existing:
+            print(f"  Skipping {len(existing)} already-indexed docs")
+    except psycopg.Error as e:
+        print(f"  Could not check existing docs: {e}")
+
     for i, doc in enumerate(docs):
         total_docs = i + 1
+        doc_key = doc.filename.replace(".pdf", "").replace(".md", "")
+        if doc_key in existing:
+            continue
+
         print(f"  [{total_docs}] {doc.filename[:50]}...", end=" ", flush=True)
         local_path = data_path / doc.country_code / doc.filename
         local_path.parent.mkdir(parents=True, exist_ok=True)
