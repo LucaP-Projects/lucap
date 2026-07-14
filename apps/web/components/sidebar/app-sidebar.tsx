@@ -144,7 +144,7 @@ const COMPANY_NAV_BASE: NavItem[] = [
       },
       {
         title: 'Sales Receipts',
-        url: '/sales-receipts'
+        url: '/sales-receipt'
       },
       {
         title: 'Delayed Charges',
@@ -156,7 +156,7 @@ const COMPANY_NAV_BASE: NavItem[] = [
       },
       {
         title: 'Refund Receipts',
-        url: '/refund-receipts'
+        url: '/refund-receipt'
       }
     ]
   },
@@ -328,6 +328,7 @@ const ACCOUNTANT_SYSTEM_ROLES = ['SUPER_ACCOUNTANT', 'ACCOUNTANT_STAFF'];
 export function AppSidebar({
   companies = [],
   companySystemRole: _role,
+  activeCompanyId,
   portalMode = 'company',
   unverifiedCounts,
   serverUser,
@@ -335,6 +336,7 @@ export function AppSidebar({
 }: React.ComponentProps<typeof Sidebar> & {
   companies?: Company[];
   companySystemRole?: string | null;
+  activeCompanyId?: string | null;
   portalMode?: 'company' | 'accountant';
   unverifiedCounts?: UnverifiedCounts;
   serverUser?: ServerUser;
@@ -411,7 +413,7 @@ export function AppSidebar({
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <TeamSwitcher companies={companies} />
+        <TeamSwitcher companies={companies} activeCompanyId={activeCompanyId} />
       </SidebarHeader>
       <SidebarContent className="px-2 group-data-[collapsible=icon]:px-0">
         <div className="mb-4">

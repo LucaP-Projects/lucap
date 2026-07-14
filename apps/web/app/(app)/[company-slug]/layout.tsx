@@ -79,6 +79,7 @@ export default async function DashboardLayout({
       <AppSidebar
         companies={companies}
         companySystemRole={companySystemRole}
+        activeCompanyId={session.user.activeCompanyId}
         portalMode="company"
         serverUser={serverUser}
         unverifiedCounts={unverifiedCounts}

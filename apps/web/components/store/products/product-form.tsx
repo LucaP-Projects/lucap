@@ -75,7 +75,7 @@ export function ProductForm({
       compareAtPrice: initialData?.compareAtPrice || undefined,
       sku: initialData?.sku || "",
       inventory: initialData?.quantityOnHand || undefined,
-      status: initialData?.storeStatus || "DRAFT",
+      status: initialData?.storeStatus || "ACTIVE",
       itemId: initialData?.itemId || "",
       categoryIds: initialData?.category?.id ? [initialData.category.id] : [],
       features: initialData?.storeFeatures || [],

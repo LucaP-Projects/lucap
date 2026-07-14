@@ -422,6 +422,7 @@ model Item {
   deactivationReason      String?
 
   // Store fields (single source of truth)
+  isStoreItem             Boolean                  @default(false)
   storeStatus             StoreItemStatus          @default(DRAFT)
   storeSlug               String?
   storeDescription        String?                  @db.VarChar(2000)
@@ -460,6 +461,7 @@ model Item {
   @@index([purchasable])
   @@index([trackInventory])
   @@index([companyId])
+  @@index([isStoreItem])
   @@index([storeStatus])
   @@index([storeIsPublic])
   @@index([storeSlug])

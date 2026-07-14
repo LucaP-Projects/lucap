@@ -32,13 +32,22 @@ import {
 } from '@/components/ui/tooltip';
 import { authClient } from '@/lib/auth-client';
 
-export function TeamSwitcher({ companies }: { companies: Company[] }) {
+export function TeamSwitcher({
+  companies,
+  activeCompanyId
+}: {
+  companies: Company[];
+  activeCompanyId?: string | null;
+}) {
   const { isMobile, open: isOpen } = useSidebar();
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const { data: session, refetch: updateSession } = authClient.useSession();
 
-  const currentCompanyId = session?.user?.activeCompanyId || '';
+  // Fall back to the server-provided activeCompanyId until the client session
+  // hook resolves, so the initial client render matches SSR output and avoids
+  // a hydration mismatch.
+  const currentCompanyId = session?.user?.activeCompanyId || activeCompanyId || '';
   const selectedCompany = companies.find(
     (company) => company.id === currentCompanyId
   );

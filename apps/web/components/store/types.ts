@@ -57,6 +57,7 @@ export interface StoreWithCompany {
   };
   items?: StoreItem[];
   products?: StoreItem[];
+  productCount?: number;
 }
 
 export interface CartItemWithItem {

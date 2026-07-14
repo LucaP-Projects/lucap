@@ -23,6 +23,136 @@ function generateSlug(name: string, existingSlugs: string[] = []): string {
   return slug;
 }
 
+export type StoreItemListEntry = {
+  id: string;
+  name: string;
+  sku: string | null;
+  salesPrice: number;
+  type: string;
+};
+
+export type StoreItemListsResponse = {
+  success: boolean;
+  data?: { available: StoreItemListEntry[]; selected: StoreItemListEntry[] };
+  error?: string;
+};
+
+export async function getStoreItemLists(): Promise<StoreItemListsResponse> {
+  try {
+    const session = await getSessionWithCompany();
+    if (!session?.user?.id) {
+      return { success: false, error: "Not authenticated" };
+    }
+
+    const companyId = session.user.activeCompanyId;
+    if (!companyId) {
+      return { success: false, error: "No active company" };
+    }
+
+    const items = await prisma.item.findMany({
+      where: { companyId, isActive: true, sellable: true },
+      select: { id: true, name: true, sku: true, salesPrice: true, type: true, isStoreItem: true },
+      orderBy: { name: "asc" }
+    });
+
+    return {
+      success: true,
+      data: {
+        available: items.filter((item) => !item.isStoreItem),
+        selected: items.filter((item) => item.isStoreItem)
+      }
+    };
+  } catch (error) {
+    console.error("Error fetching store item lists:", error);
+    return { success: false, error: "Failed to fetch items" };
+  }
+}
+
+export async function addItemsToStore(itemIds: string[]): Promise<ProductResponse> {
+  try {
+    const session = await getSessionWithCompany();
+    if (!session?.user?.id) {
+      return { success: false, error: "Not authenticated" };
+    }
+
+    const companyId = session.user.activeCompanyId;
+    if (!companyId) {
+      return { success: false, error: "No active company" };
+    }
+
+    if (itemIds.length === 0) {
+      return { success: true };
+    }
+
+    const items = await prisma.item.findMany({
+      where: { id: { in: itemIds }, companyId },
+      select: { id: true, name: true, storeSlug: true }
+    });
+
+    const existingSlugs = (
+      await prisma.item.findMany({
+        where: { companyId },
+        select: { storeSlug: true }
+      })
+    ).map((i) => i.storeSlug).filter(Boolean) as string[];
+
+    await prisma.$transaction(
+      items.map((item) => {
+        const slug = item.storeSlug || generateSlug(item.name, existingSlugs);
+        existingSlugs.push(slug);
+        return prisma.item.update({
+          where: { id: item.id },
+          data: {
+            isStoreItem: true,
+            storeStatus: "ACTIVE",
+            storeIsPublic: true,
+            storeSlug: slug
+          }
+        });
+      })
+    );
+
+    revalidatePath(`/${session.activeCompany?.slug}/store/products`);
+    revalidatePath(`/${session.activeCompany?.slug}/store`);
+
+    return { success: true };
+  } catch (error) {
+    console.error("Error adding items to store:", error);
+    return { success: false, error: "Failed to add items to store" };
+  }
+}
+
+export async function removeItemsFromStore(itemIds: string[]): Promise<ProductResponse> {
+  try {
+    const session = await getSessionWithCompany();
+    if (!session?.user?.id) {
+      return { success: false, error: "Not authenticated" };
+    }
+
+    const companyId = session.user.activeCompanyId;
+    if (!companyId) {
+      return { success: false, error: "No active company" };
+    }
+
+    if (itemIds.length === 0) {
+      return { success: true };
+    }
+
+    await prisma.item.updateMany({
+      where: { id: { in: itemIds }, companyId },
+      data: { isStoreItem: false, storeIsPublic: false, storeStatus: "DRAFT" }
+    });
+
+    revalidatePath(`/${session.activeCompany?.slug}/store/products`);
+    revalidatePath(`/${session.activeCompany?.slug}/store`);
+
+    return { success: true };
+  } catch (error) {
+    console.error("Error removing items from store:", error);
+    return { success: false, error: "Failed to remove items from store" };
+  }
+}
+
 export async function getProducts(): Promise<ProductResponse> {
   try {
     const session = await getSessionWithCompany();
@@ -44,7 +174,7 @@ export async function getProducts(): Promise<ProductResponse> {
     }
 
     const items = await prisma.item.findMany({
-      where: { companyId, storeStatus: { not: "ARCHIVED" } },
+      where: { companyId, isStoreItem: true, storeStatus: { not: "ARCHIVED" } },
       include: {
         category: { select: { id: true, name: true } }
       },
@@ -138,6 +268,7 @@ export async function createProduct(data: StoreProductInput): Promise<ProductRes
         salesPrice: data.price,
         sku: data.sku,
         quantityOnHand: data.inventory,
+        isStoreItem: true,
         storeStatus: data.status,
         companyId,
         sellable: true,
@@ -240,7 +371,7 @@ export async function deleteProduct(productId: string): Promise<ProductResponse>
 
     await prisma.item.update({
       where: { id: productId },
-      data: { storeStatus: "ARCHIVED", storeIsPublic: false }
+      data: { isStoreItem: false, storeStatus: "ARCHIVED", storeIsPublic: false }
     });
 
     revalidatePath(`/${session.activeCompany?.slug}/store/products`);

@@ -54,9 +54,7 @@ export async function placeOrder({
       where: { companyId },
       include: {
         items: {
-          include: {
-            item: true
-          }
+          include: itemInclude
         }
       }
     });
@@ -66,7 +64,7 @@ export async function placeOrder({
     }
 
     const items = sellerStoreId
-      ? cart.items.filter((item: any) => item.item.company?.store?.id === sellerStoreId)
+      ? cart.items.filter((item) => item.item.company?.store?.id === sellerStoreId)
       : cart.items;
 
     if (items.length === 0) {
@@ -87,7 +85,7 @@ export async function placeOrder({
           orderNumber,
           buyerCompanyId: companyId,
           sellerCompanyId: firstItem.item.companyId,
-          sellerStoreId: (firstItem.item as any).company?.store?.id ?? "",
+          sellerStoreId: firstItem.item.company?.store?.id ?? "",
           status: OrderStatus.PENDING,
           fulfillmentStatus: FulfillmentStatus.PENDING,
           subtotal: total,

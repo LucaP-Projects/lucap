@@ -1,18 +1,12 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import { redirect, notFound } from "next/navigation";
-import { Package, ArrowLeft } from "lucide-react";
-import { getStoreBySlug } from "@/components/store/actions";
+import { ArrowLeft, Package } from "lucide-react";
+import { getStoreBySlug } from "@/components/store/marketplace/actions";
+import { ProductCard } from "@/components/store/marketplace/product-card";
 import { StoreWithCompany } from "@/components/store/types";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader
-} from "@/components/ui/card";
 import { getSessionWithCompany } from "@/lib/auth";
-import { formatCurrency } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Store",
@@ -46,66 +40,40 @@ export default async function MarketplaceStorePage({ params }: StorePageProps) {
   const products = store.products || [];
 
   return (
-    <div className="container mx-auto py-6">
-      <Link href={`/${companySlug}/marketplace`}>
-        <Button variant="ghost" className="mb-4 pl-0">
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Back to Marketplace
-        </Button>
-      </Link>
-
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold tracking-tight">{store.name}</h1>
-        <p className="text-muted-foreground">
-          {store.description || `Products from ${store.company.name}`}
-        </p>
+    <div className="flex flex-col gap-6">
+      <div>
+        <Link href={`/${companySlug}/marketplace`}>
+          <Button variant="ghost" className="mb-2 pl-0 text-gray-600 hover:text-gray-900">
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back to Marketplace
+          </Button>
+        </Link>
+        <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+          <h2 className="text-2xl font-bold tracking-tight text-indigo-900">{store.name}</h2>
+          <p className="text-sm text-gray-600">
+            {store.description || `Products from ${store.company.name}`}
+          </p>
+        </div>
       </div>
 
-      {products.length === 0 ? (
-        <Card>
-          <CardContent className="py-8 text-center text-muted-foreground">
-            This store has no active products yet.
-          </CardContent>
-        </Card>
-      ) : (
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          {products.map((product) => (
-            <Link
-              key={product.id}
-              href={`/${companySlug}/marketplace/${store.slug}/${product.storeSlug}`}
-            >
-              <Card className="h-full transition-shadow hover:shadow-md">
-                <CardHeader className="pb-2">
-                  <div className="flex h-40 items-center justify-center rounded-md bg-muted">
-                    {product.storeImages?.[0]?.url ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={product.storeImages[0].url}
-                        alt={product.name}
-                        className="h-full w-full rounded-md object-cover"
-                      />
-                    ) : (
-                      <Package className="h-10 w-10 text-muted-foreground" />
-                    )}
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <h3 className="font-semibold line-clamp-1">{product.name}</h3>
-                  <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
-                    {product.storeShortDescription || product.description}
-                  </p>
-                  <p className="mt-2 font-medium">{formatCurrency(product.salesPrice)}</p>
-                  {product.quantityOnHand !== null && product.quantityOnHand <= 5 && product.quantityOnHand > 0 && (
-                    <Badge variant="secondary" className="mt-2">
-                      Only {product.quantityOnHand} left
-                    </Badge>
-                  )}
-                </CardContent>
-              </Card>
-            </Link>
-          ))}
-        </div>
-      )}
+      <div className="rounded-lg border border-gray-200 bg-white p-5 shadow-sm">
+        <h3 className="mb-4 flex items-center gap-2 text-lg font-medium text-gray-800">
+          <Package className="h-5 w-5" />
+          Products
+        </h3>
+        {products.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-10 text-center">
+            <Package className="h-10 w-10 text-gray-300" />
+            <p className="mt-3 text-sm text-gray-600">This store has no active products yet.</p>
+          </div>
+        ) : (
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {products.map((product) => (
+              <ProductCard key={product.id} product={product} companySlug={companySlug} />
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
