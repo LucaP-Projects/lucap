@@ -1,11 +1,11 @@
 /*
  * Seed credentials (for development only — never commit real passwords):
  *
- *   admin@lucap.com              / Admin@1234      (role: ADMIN, company admin)
- *   staff@lucap.com              / Staff@1234      (role: Staff)
- *   user@lucap.com               / User@1234       (role: Customer)
- *   superaccountant@lucap.com    / SuperAcc@1234   (role: Super Accountant)
- *   accountantstaff@lucap.com    / AccStaff@1234   (role: Accountant Staff)
+ *   admin@lucap.com              / Admin@1234      (role: ADMIN, company admin — Default Company)
+ *   staff@lucap.com              / Staff@1234      (role: Staff — Default Company)
+ *   user@lucap.com               / User@1234       (role: Customer — own company, Customer Company)
+ *   superaccountant@lucap.com    / SuperAcc@1234   (role: Super Accountant — Default Company)
+ *   accountantstaff@lucap.com    / AccStaff@1234   (role: Accountant Staff — Default Company)
  */
 
 import { hash } from '@node-rs/argon2';
@@ -70,12 +70,21 @@ const seedUsersAuth: SeedModule = {
     if (!context.companyId) {
       throw new Error('Company ID not found in context — run seedCompany first');
     }
+    if (!context.customerCompanyId) {
+      throw new Error('Customer company ID not found in context — run seedCompany first');
+    }
 
     console.log('Creating auth users...');
 
     for (const u of USERS) {
+      // Customers are their own tenant, isolated from the admin/staff company
+      // (and its store) — everyone else shares the default company.
+      const companyId =
+        u.systemRole === SystemRole.CUSTOMER ? context.customerCompanyId : context.companyId;
+      const isCompanyOwner = u.systemRole === SystemRole.CUSTOMER ? true : u.isAdmin;
+
       const role = await prisma.role.findFirst({
-        where: { systemRole: u.systemRole, companyId: context.companyId }
+        where: { systemRole: u.systemRole, companyId }
       });
       if (!role) throw new Error(`Role not found for systemRole: ${u.systemRole}`);
 
@@ -88,7 +97,7 @@ const seedUsersAuth: SeedModule = {
           password: hashedPassword,
           emailVerified: true,
           role: u.userRole,
-          activeCompanyId: context.companyId
+          activeCompanyId: companyId
         },
         create: {
           email: u.email,
@@ -96,7 +105,7 @@ const seedUsersAuth: SeedModule = {
           password: hashedPassword,
           emailVerified: true,
           role: u.userRole,
-          activeCompanyId: context.companyId
+          activeCompanyId: companyId
         }
       });
       console.log(`  User: ${user.email} (id: ${user.id})`);
@@ -127,13 +136,13 @@ const seedUsersAuth: SeedModule = {
 
       // Link user to company
       await prisma.userCompany.upsert({
-        where: { userId_companyId: { userId: user.id, companyId: context.companyId } },
-        update: { roleId: role.id, isAdmin: u.isAdmin },
+        where: { userId_companyId: { userId: user.id, companyId } },
+        update: { roleId: role.id, isAdmin: isCompanyOwner },
         create: {
           userId: user.id,
-          companyId: context.companyId,
+          companyId,
           roleId: role.id,
-          isAdmin: u.isAdmin,
+          isAdmin: isCompanyOwner,
           isActive: true
         }
       });

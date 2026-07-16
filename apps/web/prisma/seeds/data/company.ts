@@ -82,6 +82,35 @@ const seedCompany: SeedModule = {
     context.companyId = company.id;
 
     console.log('✓ Created default company with system roles');
+
+    // Customers are external to the default company — they get their own
+    // tenant so they don't inherit the admin/staff company's store & data.
+    const customerCompany = await prisma.company.create({
+      data: {
+        name: 'Customer Company',
+        email: 'customer-company@example.com',
+        isActive: true,
+        slug: 'customer-company',
+        roles: {
+          create: [
+            {
+              name: 'Customer',
+              description: 'Regular customer role',
+              systemRole: SystemRole.CUSTOMER,
+              permissions: [Permission.VIEW_DASHBOARD]
+            }
+          ]
+        }
+      },
+      include: {
+        roles: true
+      }
+    });
+
+    context.customerCompanyId = customerCompany.id;
+
+    console.log('✓ Created customer company with system roles');
+
     return company;
   }
 };
