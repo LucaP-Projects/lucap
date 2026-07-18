@@ -1,12 +1,21 @@
 'use server';
+import { headers } from 'next/headers';
 import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { getSessionWithCompany} from '@/lib/auth';
+import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
+
+// This page exists specifically for users who don't have an active company yet,
+// so — unlike most company-scoped actions — it must not require one via
+// getSessionWithCompany() (which would redirect back to this same page).
+async function getPlainSession() {
+  return auth.api.getSession({ headers: await headers() });
+}
+
 export async function getUserCompanies() {
   try {
-    const session = await getSessionWithCompany();
+    const session = await getPlainSession();
     if (!session?.user?.id) {
       redirect('/auth/login');
     }
@@ -67,7 +76,7 @@ export async function getUserCompanies() {
 
 export async function selectCompany(companyId: string) {
   try {
-    const session = await getSessionWithCompany();
+    const session = await getPlainSession();
 
     if (!session?.user?.id) {
       throw new Error('Not authenticated');
@@ -101,9 +110,33 @@ export async function selectCompany(companyId: string) {
         }
       });
 
+      // Firm accountants have no UserCompany row for their clients — fall back to
+      // checking whether their firm has an AccountantAssignment to this company.
+      let company = userCompany?.company;
+      let roleName = userCompany?.role.name;
+      let isAdmin = userCompany?.isAdmin ?? false;
+
       if (!userCompany) {
-        throw new Error('Company access denied');
+        const assignment = await tx.accountantAssignment.findFirst({
+          where: {
+            companyId,
+            accountant: { users: { some: { userId: session.user.id } } }
+          },
+          include: {
+            company: {
+              select: { id: true, name: true, email: true, logo: true, isActive: true }
+            }
+          }
+        });
+
+        if (!assignment || !assignment.company.isActive) {
+          throw new Error('Company access denied');
+        }
+
+        company = assignment.company;
+        roleName = 'Accountant';
       }
+
       const availableCompanies = await tx.userCompany.findMany({
         where: {
           userId: session.user.id,
@@ -136,9 +169,9 @@ export async function selectCompany(companyId: string) {
       });
 
       return {
-        company: userCompany.company,
-        role: userCompany.role,
-        isAdmin: userCompany.isAdmin,
+        company: company!,
+        role: { name: roleName! },
+        isAdmin,
         availableCompanies: availableCompanies.map((uc) => ({
           companyId: uc.company.id,
           companyRole: uc.role.name,

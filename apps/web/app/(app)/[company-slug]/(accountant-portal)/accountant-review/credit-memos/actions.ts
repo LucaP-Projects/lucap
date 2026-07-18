@@ -7,7 +7,39 @@ import {
   AccountantDocument,
   CustomerDocumentSummary,
   CustomerForAccountant,
+  FlatAccountantDocument,
 } from '@/components/accountant-review/types';
+
+export async function getCreditMemosForAccountant(): Promise<FlatAccountantDocument[]> {
+  const session = await getSessionWithCompany();
+  if (!session?.user?.activeCompanyId) return [];
+
+  const creditMemos = await prisma.creditMemo.findMany({
+    where: { companyId: session.user.activeCompanyId, isActive: true },
+    select: {
+      id: true,
+      number: true,
+      amount: true,
+      dueDate: true,
+      createdAt: true,
+      notes: true,
+      customer: { select: { id: true, displayName: true } },
+    },
+    orderBy: { dueDate: 'desc' },
+  });
+
+  return creditMemos.map((m) => ({
+    id: m.id,
+    number: m.number,
+    amount: m.amount,
+    dueDate: m.dueDate,
+    createdAt: m.createdAt,
+    notes: m.notes,
+    qualificationStatus: getDocumentQualificationStatus(m.notes),
+    customerId: m.customer.id,
+    customerName: m.customer.displayName,
+  }));
+}
 
 export type CreditMemoItemForAccountant = {
   id: string;

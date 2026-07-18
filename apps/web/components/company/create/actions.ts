@@ -115,10 +115,10 @@ export async function createCompany(
 
       const adminRole = await tx.role.create({
         data: {
-          name: `Administrator_${company.id}`,
-          description: 'Company Administrator',
+          name: `Moderator_${company.id}`,
+          description: 'Company Moderator',
           permissions: Object.values(Permission),
-          systemRole: SystemRole.ADMIN,
+          systemRole: SystemRole.MODERATOR,
           companyId: company.id
         }
       });

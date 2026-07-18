@@ -13,8 +13,7 @@ import {
 } from '@/components/ui/sidebar';
 
 import { auth } from '@/lib/auth';
-
-const ACCOUNTANT_SYSTEM_ROLES = ['SUPER_ACCOUNTANT', 'ACCOUNTANT_STAFF'];
+import { prisma } from '@/lib/prisma';
 
 // Placeholder — returns 0 for all types until the paper validation flow is built.
 // Once papers have a verifiedByAccountant status, query counts here.
@@ -50,11 +49,24 @@ export default async function DashboardLayout({
   );
   const companySystemRole = activeCompany?.systemRole ?? null;
 
-  const isAccountantRole =
-    companySystemRole !== null &&
-    ACCOUNTANT_SYSTEM_ROLES.includes(companySystemRole);
+  // Accountant status for the active company comes from the firm model
+  // (AccountantUser + AccountantAssignment), not a company-scoped role —
+  // a Moderator/Staff role no longer doubles as "accountant".
+  const isAccountantForActiveCompany =
+    session?.user?.id && activeCompany?.companyId
+      ? Boolean(
+          await prisma.accountantUser.findFirst({
+            where: {
+              userId: session.user.id,
+              accountant: {
+                assignments: { some: { companyId: activeCompany.companyId } }
+              }
+            }
+          })
+        )
+      : false;
 
-  const unverifiedCounts = isAccountantRole && activeCompany?.companyId
+  const unverifiedCounts = isAccountantForActiveCompany && activeCompany?.companyId
     ? await getUnverifiedCounts(activeCompany.companyId)
     : undefined;
 
@@ -83,6 +95,7 @@ export default async function DashboardLayout({
         portalMode="company"
         serverUser={serverUser}
         unverifiedCounts={unverifiedCounts}
+        isAccountant={session.user.isAccountant}
       />
       <SidebarInset className="flex h-screen flex-col">
         <header className="group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 bg-background sticky top-0 z-10 flex h-16 shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear">

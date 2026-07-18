@@ -1,3 +1,4 @@
+import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { CreateCompanyForm } from '@/components/company/create/create-company-form';
 import {
@@ -7,11 +8,13 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card';
-import { getSessionWithCompany } from '@/lib/auth';
+import { auth } from '@/lib/auth';
 
-
+// This page exists for users with zero companies yet — it must not use
+// getSessionWithCompany(), which would redirect them to /select-company
+// (a dead end, since they have nothing to select either).
 export default async function CreateCompanyPage() {
-  const [session] = await Promise.all([getSessionWithCompany()]);
+  const session = await auth.api.getSession({ headers: await headers() });
 
   if (!session) {
     redirect(`/auth/login`);

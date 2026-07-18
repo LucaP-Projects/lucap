@@ -70,9 +70,18 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL(`/`, request.url));
   }
   
+  // Admin and Accountant accounts don't belong to a company at all — they live in
+  // /admin and /accountant-dashboard, not the company flow. Route-group layouts
+  // enforce the reverse (non-admin/non-accountant can't get into those trees).
+  const isPlatformAccount = isLoggedIn && (session.user.role === 'ADMIN' || session.user.isAccountant);
+
   if (pathWithoutLang === '/' ) {
     if (isLoggedIn) {
-      if (session.user.activeCompany?.slug) {
+      if (session.user.role === 'ADMIN') {
+        return NextResponse.redirect(new URL(`/admin`, request.url));
+      } else if (session.user.isAccountant) {
+        return NextResponse.redirect(new URL(`/accountant-dashboard`, request.url));
+      } else if (session.user.activeCompany?.slug) {
         return NextResponse.redirect(new URL(`/${session.user.activeCompany.slug}`, request.url));
       } else {
         return NextResponse.redirect(new URL(`/select-company`, request.url));
@@ -82,7 +91,7 @@ export async function proxy(request: NextRequest) {
     }
   }
 
-  if (isLoggedIn) {
+  if (isLoggedIn && !isPlatformAccount) {
     if (!session.user.activeCompany?.slug) {
       if (!isOnAuthRoute && pathWithoutLang !== '/select-company' && pathWithoutLang !== '/create-company') {
         return NextResponse.redirect(new URL(`/select-company`, request.url));

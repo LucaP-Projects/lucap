@@ -1,5 +1,5 @@
-import { CustomerSummaryList } from '@/components/accountant-review/customer-summary-list';
-import { getCustomersWithRefundReceiptSummary } from './actions';
+import { DocumentList } from '@/components/accountant-review/document-list';
+import { getRefundReceiptsForAccountant } from './actions';
 
 interface PageProps {
   params: Promise<{ 'company-slug': string }>;
@@ -7,15 +7,16 @@ interface PageProps {
 
 export default async function AccountantRefundReceiptsPage({ params }: PageProps) {
   const { 'company-slug': companySlug } = await params;
-  const customers = await getCustomersWithRefundReceiptSummary();
+  const documents = await getRefundReceiptsForAccountant();
 
   return (
-    <CustomerSummaryList
+    <DocumentList
       title="Refund Receipts Review"
-      description="Select a customer to view their refund receipts"
+      description="All refund receipts for this company"
       companySlug={companySlug}
       routeSegment="refund-receipts"
-      customers={customers}
+      documents={documents}
+      documentNumberLabel="Refund #"
     />
   );
 }

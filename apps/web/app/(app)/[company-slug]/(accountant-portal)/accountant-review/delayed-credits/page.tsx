@@ -1,5 +1,5 @@
-import { CustomerSummaryList } from '@/components/accountant-review/customer-summary-list';
-import { getCustomersWithDelayedCreditSummary } from './actions';
+import { DocumentList } from '@/components/accountant-review/document-list';
+import { getDelayedCreditsForAccountant } from './actions';
 
 interface PageProps {
   params: Promise<{ 'company-slug': string }>;
@@ -7,15 +7,16 @@ interface PageProps {
 
 export default async function AccountantDelayedCreditsPage({ params }: PageProps) {
   const { 'company-slug': companySlug } = await params;
-  const customers = await getCustomersWithDelayedCreditSummary();
+  const documents = await getDelayedCreditsForAccountant();
 
   return (
-    <CustomerSummaryList
+    <DocumentList
       title="Delayed Credits Review"
-      description="Select a customer to view their delayed credits"
+      description="All delayed credits for this company"
       companySlug={companySlug}
       routeSegment="delayed-credits"
-      customers={customers}
+      documents={documents}
+      documentNumberLabel="Credit #"
     />
   );
 }

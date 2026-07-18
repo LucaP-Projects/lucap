@@ -17,6 +17,13 @@ export type AccountantDocument = {
   qualificationStatus: 'VALIDATED' | 'REJECTED' | null;
 };
 
+// Same shape as AccountantDocument, plus the customer it belongs to — used by
+// the flat, company-wide document list (no customer-picker step).
+export type FlatAccountantDocument = AccountantDocument & {
+  customerId: string;
+  customerName: string;
+};
+
 export type CustomerForAccountant = {
   id: string;
   displayName: string;

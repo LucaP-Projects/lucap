@@ -18,9 +18,9 @@ const seedCompany: SeedModule = {
         roles: {
           create: [
             {
-              name: 'Administrator',
-              description: 'System administrator with full access',
-              systemRole: SystemRole.ADMIN,
+              name: 'Moderator',
+              description: 'Manages company settings and the store',
+              systemRole: SystemRole.MODERATOR,
               permissions: [
                 Permission.MANAGE_CUSTOMERS,
                 Permission.MANAGE_SUBSCRIPTIONS,
@@ -34,38 +34,12 @@ const seedCompany: SeedModule = {
               ]
             },
             {
-              name: 'Customer',
-              description: 'Regular customer role',
-              systemRole: SystemRole.CUSTOMER,
-              permissions: [Permission.VIEW_DASHBOARD]
-            },
-            {
               name: 'Staff',
               description: 'Staff member role',
               systemRole: SystemRole.STAFF,
               permissions: [
                 Permission.VIEW_DASHBOARD,
                 Permission.MANAGE_CUSTOMERS,
-                Permission.VIEW_REPORTS
-              ]
-            },
-            {
-              name: 'Super Accountant',
-              description: 'Senior accountant who manages accountant staff',
-              systemRole: SystemRole.SUPER_ACCOUNTANT,
-              permissions: [
-                Permission.VIEW_DASHBOARD,
-                Permission.VIEW_REPORTS,
-                Permission.MANAGE_STAFF,
-                Permission.MANAGE_SETTINGS
-              ]
-            },
-            {
-              name: 'Accountant Staff',
-              description: 'Accountant staff member under a super accountant',
-              systemRole: SystemRole.ACCOUNTANT_STAFF,
-              permissions: [
-                Permission.VIEW_DASHBOARD,
                 Permission.VIEW_REPORTS
               ]
             }
@@ -82,34 +56,6 @@ const seedCompany: SeedModule = {
     context.companyId = company.id;
 
     console.log('✓ Created default company with system roles');
-
-    // Customers are external to the default company — they get their own
-    // tenant so they don't inherit the admin/staff company's store & data.
-    const customerCompany = await prisma.company.create({
-      data: {
-        name: 'Customer Company',
-        email: 'customer-company@example.com',
-        isActive: true,
-        slug: 'customer-company',
-        roles: {
-          create: [
-            {
-              name: 'Customer',
-              description: 'Regular customer role',
-              systemRole: SystemRole.CUSTOMER,
-              permissions: [Permission.VIEW_DASHBOARD]
-            }
-          ]
-        }
-      },
-      include: {
-        roles: true
-      }
-    });
-
-    context.customerCompanyId = customerCompany.id;
-
-    console.log('✓ Created customer company with system roles');
 
     return company;
   }

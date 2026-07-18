@@ -47,11 +47,13 @@ export function NavMain({
 
           return item.items === undefined ? (
             <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton 
-                asChild 
+              <SidebarMenuButton
+                asChild
                 tooltip={item.title}
                 onClick={(e) => {
-                    if (onItemClick) {
+                    // Only intercept items that need custom behavior (e.g. Assistant) —
+                    // everything else must navigate normally via the anchor's href.
+                    if (onItemClick && item.title === 'Assistant') {
                         e.preventDefault();
                         onItemClick(item);
                     }

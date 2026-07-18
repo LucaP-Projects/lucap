@@ -1,3 +1,4 @@
+import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import {
   BookOpen,
@@ -9,22 +10,40 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { getSessionWithCompany } from '@/lib/auth';
+import { auth } from '@/lib/auth';
+import { prisma } from '@/lib/prisma';
 
 export default async function AccountantDashboardPage() {
-  const session = await getSessionWithCompany();
+  const session = await auth.api.getSession({ headers: await headers() });
 
   if (!session?.user) {
     redirect('/auth/login');
   }
 
-  const activeCompany = session.user.availableCompanies?.find(
-    (c) => c.companyId === session.user.activeCompanyId
-  );
+  // An accountant belongs to a firm, not a company — resolve their role and
+  // client list from AccountantUser/AccountantAssignment instead.
+  const accountantProfile = await prisma.accountantUser.findFirst({
+    where: { userId: session.user.id },
+    include: {
+      accountant: {
+        include: { assignments: { include: { company: { select: { name: true } } } } }
+      }
+    }
+  });
 
-  const isSuperAccountant = activeCompany?.systemRole === 'SUPER_ACCOUNTANT';
+  if (!accountantProfile) {
+    redirect('/');
+  }
+
+  const isOwner = accountantProfile.accountant.ownerId === session.user.id;
   const userName = session.user.name || 'User';
-  const companyName = activeCompany?.name || 'your company';
+  const clientNames = accountantProfile.accountant.assignments.map((a) => a.company.name);
+  const companyName =
+    clientNames.length === 0
+      ? 'your clients'
+      : clientNames.length === 1
+        ? clientNames[0]
+        : `${clientNames.length} client companies`;
 
   return (
     <div className="flex min-h-screen flex-col bg-linear-to-b from-slate-50 via-white to-emerald-50">
@@ -37,7 +56,7 @@ export default async function AccountantDashboardPage() {
           <div className="space-y-3">
             <div className="inline-flex items-center gap-2 rounded-full bg-emerald-600/30 px-3 py-1 text-xs font-medium backdrop-blur-sm">
               <Calculator className="h-3 w-3" />
-              {isSuperAccountant ? 'Super Accountant Portal' : 'Accountant Staff Portal'}
+              Accountant Portal
             </div>
             <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
               Welcome back, {userName}!
@@ -47,7 +66,7 @@ export default async function AccountantDashboardPage() {
               <span className="font-medium">{companyName}</span>
               <span className="text-emerald-300">•</span>
               <span className="text-sm text-emerald-200">
-                {isSuperAccountant ? 'Super Accountant' : 'Accountant Staff'}
+                {isOwner ? 'Firm Owner' : 'Accountant'}
               </span>
               <span className="text-emerald-300">•</span>
               <span className="text-sm text-emerald-200">
@@ -70,16 +89,14 @@ export default async function AccountantDashboardPage() {
           <CardHeader className="pb-2">
             <CardTitle className="flex items-center gap-2 text-lg font-semibold text-gray-800">
               <CheckCircle2 className="h-5 w-5 text-emerald-600" />
-              {isSuperAccountant
-                ? 'Super Accountant Dashboard'
-                : 'Accountant Staff Dashboard'}
+              Accountant Dashboard
             </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-gray-600">
-              {isSuperAccountant
-                ? `As a Super Accountant, you have full access to the accounting portal for ${companyName}. You can manage your accountant staff, review all financial entries, and oversee accounting operations.`
-                : `Welcome to the accounting portal for ${companyName}. You have access to the modules assigned to you by your Super Accountant.`}
+              {isOwner
+                ? `As the owner of this firm, you have full access to the accounting portal for ${companyName}. You can manage your accountant team, review all financial entries, and oversee accounting operations.`
+                : `Welcome to the accounting portal for ${companyName}. You have access to review financial entries for your firm's assigned clients.`}
             </p>
           </CardContent>
         </Card>
@@ -138,8 +155,8 @@ export default async function AccountantDashboardPage() {
               </CardContent>
             </Card>
 
-            {/* Staff management — Super Accountant only */}
-            {isSuperAccountant && (
+            {/* Staff management — firm owner only */}
+            {isOwner && (
               <Card className="overflow-hidden border border-gray-100 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
                 <div className="h-1 w-full bg-gradient-to-r from-indigo-500 to-purple-500" />
                 <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -148,12 +165,12 @@ export default async function AccountantDashboardPage() {
                     Staff Management
                   </CardTitle>
                   <span className="rounded-full bg-indigo-100 px-2 py-0.5 text-xs font-medium text-indigo-800">
-                    Super Accountant
+                    Owner
                   </span>
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-gray-500">
-                    Assign accountant staff members and manage their module access.
+                    Add accountants to your firm and manage their client assignments.
                   </p>
                 </CardContent>
               </Card>

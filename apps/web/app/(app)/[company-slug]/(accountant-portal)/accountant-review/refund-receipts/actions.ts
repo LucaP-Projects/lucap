@@ -7,7 +7,39 @@ import {
   AccountantDocument,
   CustomerDocumentSummary,
   CustomerForAccountant,
+  FlatAccountantDocument,
 } from '@/components/accountant-review/types';
+
+export async function getRefundReceiptsForAccountant(): Promise<FlatAccountantDocument[]> {
+  const session = await getSessionWithCompany();
+  if (!session?.user?.activeCompanyId) return [];
+
+  const refundReceipts = await prisma.refundReceipt.findMany({
+    where: { companyId: session.user.activeCompanyId, isActive: true },
+    select: {
+      id: true,
+      number: true,
+      amount: true,
+      dueDate: true,
+      createdAt: true,
+      notes: true,
+      customer: { select: { id: true, displayName: true } },
+    },
+    orderBy: { dueDate: 'desc' },
+  });
+
+  return refundReceipts.map((r) => ({
+    id: r.id,
+    number: r.number,
+    amount: r.amount,
+    dueDate: r.dueDate,
+    createdAt: r.createdAt,
+    notes: r.notes,
+    qualificationStatus: getDocumentQualificationStatus(r.notes),
+    customerId: r.customer.id,
+    customerName: r.customer.displayName,
+  }));
+}
 
 export type RefundReceiptItemForAccountant = {
   id: string;

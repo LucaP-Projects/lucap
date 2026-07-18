@@ -149,16 +149,13 @@ const seedUsers: SeedModule = {
     try {
       // Fetch required roles
       const adminRole = await prisma.role.findFirst({
-        where: { systemRole: SystemRole.ADMIN }
-      });
-      const parentRole = await prisma.role.findFirst({
-        where: { systemRole: SystemRole.CUSTOMER }
+        where: { systemRole: SystemRole.MODERATOR }
       });
       const staffRole = await prisma.role.findFirst({
         where: { systemRole: SystemRole.STAFF }
       });
 
-      if (!adminRole || !parentRole || !staffRole) {
+      if (!adminRole || !staffRole) {
         throw new Error('Required system roles not found');
       }
 
