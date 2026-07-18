@@ -5,7 +5,7 @@ import { auth } from '@/lib/auth';
 
 const adminApi = auth.api as typeof auth.api & {
   setRole: (params: { headers: Headers; body: { userId: string; role: string } }) => Promise<unknown>;
-  listUserAccounts: (params: { headers: Headers; query: { limit: number; offset: number } }) => Promise<unknown>;
+  listUsers: (params: { headers: Headers; query: { limit: number; offset: number } }) => Promise<{ users: unknown[]; total: number }>;
   createUser: (params: { headers: Headers; body: { email: string; name?: string; password?: string; roles?: string[] } }) => Promise<unknown>;
 };
 
@@ -15,7 +15,7 @@ export async function setUserRole(userId: string, role: string) {
 }
 
 export async function listUsers(limit = 100, offset = 0) {
-  const res = await adminApi.listUserAccounts({ headers: await headers(), query: { limit, offset }  });
+  const res = await adminApi.listUsers({ headers: await headers(), query: { limit, offset } });
   return res;
 }
 

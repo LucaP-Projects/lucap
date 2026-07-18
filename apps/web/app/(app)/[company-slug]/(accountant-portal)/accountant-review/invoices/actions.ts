@@ -5,6 +5,7 @@ import { getSessionWithCompany } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { PaymentStatus } from '@/lib/generated/prisma/enums';
 import { getDocumentQualificationStatus } from '@/lib/document-qualification';
+import { FlatAccountantDocument } from '@/components/accountant-review/types';
 
 export type CustomerInvoiceSummary = {
   id: string;
@@ -77,6 +78,37 @@ export async function getCustomersWithInvoiceSummary(): Promise<CustomerInvoiceS
       (inv) => !getDocumentQualificationStatus(inv.notes)
     ).length,
     totalAmount: c.invoices.reduce((sum, inv) => sum + inv.amount, 0),
+  }));
+}
+
+export async function getInvoicesForAccountant(): Promise<FlatAccountantDocument[]> {
+  const session = await getSessionWithCompany();
+  if (!session?.user?.activeCompanyId) return [];
+
+  const invoices = await prisma.invoice.findMany({
+    where: { companyId: session.user.activeCompanyId, isActive: true },
+    select: {
+      id: true,
+      number: true,
+      amount: true,
+      dueDate: true,
+      createdAt: true,
+      notes: true,
+      customer: { select: { id: true, displayName: true } },
+    },
+    orderBy: { dueDate: 'desc' },
+  });
+
+  return invoices.map((inv) => ({
+    id: inv.id,
+    number: inv.number,
+    amount: inv.amount,
+    dueDate: inv.dueDate,
+    createdAt: inv.createdAt,
+    notes: inv.notes,
+    qualificationStatus: getDocumentQualificationStatus(inv.notes),
+    customerId: inv.customer.id,
+    customerName: inv.customer.displayName,
   }));
 }
 

@@ -3,8 +3,10 @@
 import * as React from 'react';
 import { useParams } from 'next/navigation';
 import {
+  Banknote,
   BookOpen,
   Box,
+  Building2,
   Calculator,
   GraduationCap,
   HardDrive,
@@ -14,6 +16,7 @@ import {
   MessageSquare,
   PieChart,
   Settings,
+  ShieldCheck,
   ShoppingBag,
   Store,
   Ticket,
@@ -144,7 +147,7 @@ const COMPANY_NAV_BASE: NavItem[] = [
       },
       {
         title: 'Sales Receipts',
-        url: '/sales-receipts'
+        url: '/sales-receipt'
       },
       {
         title: 'Delayed Charges',
@@ -156,7 +159,7 @@ const COMPANY_NAV_BASE: NavItem[] = [
       },
       {
         title: 'Refund Receipts',
-        url: '/refund-receipts'
+        url: '/refund-receipt'
       }
     ]
   },
@@ -231,6 +234,34 @@ const ACCOUNTANT_NAV_BASE: NavItem[] = [
         url: '/accountant-dashboard/journals'
       }
     ]
+  }
+];
+
+const ADMIN_NAV_BASE: NavItem[] = [
+  {
+    title: 'Dashboard',
+    url: '/admin',
+    icon: LayoutDashboard
+  },
+  {
+    title: 'Companies',
+    url: '/admin/companies',
+    icon: Building2
+  },
+  {
+    title: 'Users',
+    url: '/admin/users',
+    icon: Users
+  },
+  {
+    title: 'Accountants',
+    url: '/admin/accountants',
+    icon: ShieldCheck
+  },
+  {
+    title: 'Exchange Rates',
+    url: '/admin/exchange-rates',
+    icon: Banknote
   }
 ];
 
@@ -323,36 +354,36 @@ const projects = [
   }
 ];
 
-const ACCOUNTANT_SYSTEM_ROLES = ['SUPER_ACCOUNTANT', 'ACCOUNTANT_STAFF'];
-
 export function AppSidebar({
   companies = [],
   companySystemRole: _role,
+  activeCompanyId,
   portalMode = 'company',
   unverifiedCounts,
   serverUser,
+  isAccountant = false,
   ...props
 }: React.ComponentProps<typeof Sidebar> & {
   companies?: Company[];
   companySystemRole?: string | null;
-  portalMode?: 'company' | 'accountant';
+  activeCompanyId?: string | null;
+  portalMode?: 'company' | 'accountant' | 'admin';
   unverifiedCounts?: UnverifiedCounts;
   serverUser?: ServerUser;
+  isAccountant?: boolean;
 }) {
   const { open } = useSidebar();
   const { toggleAssistant } = useAssistantStore();
   const params = useParams();
   const companySlug = params['company-slug'] as string | undefined;
 
-  // Determine if the current user has accountant access across any company
-  // Use `systemRole` field (not `role`) which indicates accountancy system roles
-  const hasAccountantAccess = companies.some((c) =>
-    Boolean(c.systemRole) && ACCOUNTANT_SYSTEM_ROLES.includes(c.systemRole as (typeof ACCOUNTANT_SYSTEM_ROLES)[number])
-  );
+  // Accountant-firm membership (AccountantUser), not a company-scoped role —
+  // a company's own Moderator/Staff role can no longer double as "accountant".
+  const hasAccountantAccess = isAccountant;
 
   // Helper to prefix URL with company slug when appropriate
   const prefixUrl = (url: string) => {
-    if (!companySlug || portalMode === 'accountant') return url;
+    if (!companySlug || portalMode === 'accountant' || portalMode === 'admin') return url;
     if (url === '#') return '#';
     if (url.startsWith('http')) return url;
     return `/${companySlug}${url === '/' ? '' : url}`;
@@ -383,12 +414,16 @@ export function AppSidebar({
   ];
 
   const accountantPortalItems = getPrefixedNavItems(ACCOUNTANT_NAV_BASE);
+  const adminPortalItems = getPrefixedNavItems(ADMIN_NAV_BASE);
   const reportNavItems = getPrefixedNavItems(REPORTS_NAV_BASE);
 
   // Separate sidebars: show only what's relevant to the current variant
-  const navItems: NavItem[] = portalMode === 'accountant' 
-    ? [...accountantPortalItems]
-    : [...userNavItems];
+  const navItems: NavItem[] =
+    portalMode === 'accountant'
+      ? [...accountantPortalItems]
+      : portalMode === 'admin'
+        ? [...adminPortalItems]
+        : [...userNavItems];
 
   if (portalMode === 'accountant') {
     if (companies.length > 0) {
@@ -398,7 +433,7 @@ export function AppSidebar({
             icon: Home
         });
     }
-  } else {
+  } else if (portalMode === 'company') {
     if (hasAccountantAccess) {
       navItems.push({
         title: 'Accountant Portal',
@@ -411,7 +446,7 @@ export function AppSidebar({
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <TeamSwitcher companies={companies} />
+        <TeamSwitcher companies={companies} activeCompanyId={activeCompanyId} />
       </SidebarHeader>
       <SidebarContent className="px-2 group-data-[collapsible=icon]:px-0">
         <div className="mb-4">
@@ -425,10 +460,10 @@ export function AppSidebar({
             }
           }}
         />
-        {portalMode !== 'accountant' && (
+        {portalMode === 'company' && (
           <NavMain items={reportNavItems} label="Reports" />
         )}
-        <NavProjects projects={portalMode !== 'accountant' ? projects : []} />
+        <NavProjects projects={portalMode === 'company' ? projects : []} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser serverUser={serverUser} />

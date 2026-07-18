@@ -7,7 +7,39 @@ import {
   AccountantDocument,
   CustomerDocumentSummary,
   CustomerForAccountant,
+  FlatAccountantDocument,
 } from '@/components/accountant-review/types';
+
+export async function getDelayedCreditsForAccountant(): Promise<FlatAccountantDocument[]> {
+  const session = await getSessionWithCompany();
+  if (!session?.user?.activeCompanyId) return [];
+
+  const delayedCredits = await prisma.delayedCredit.findMany({
+    where: { companyId: session.user.activeCompanyId, isActive: true },
+    select: {
+      id: true,
+      number: true,
+      amount: true,
+      dueDate: true,
+      createdAt: true,
+      notes: true,
+      customer: { select: { id: true, displayName: true } },
+    },
+    orderBy: { dueDate: 'desc' },
+  });
+
+  return delayedCredits.map((d) => ({
+    id: d.id,
+    number: d.number,
+    amount: d.amount,
+    dueDate: d.dueDate,
+    createdAt: d.createdAt,
+    notes: d.notes,
+    qualificationStatus: getDocumentQualificationStatus(d.notes),
+    customerId: d.customer.id,
+    customerName: d.customer.displayName,
+  }));
+}
 
 export type DelayedCreditItemForAccountant = {
   id: string;

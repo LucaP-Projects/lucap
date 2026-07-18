@@ -100,7 +100,7 @@ export function StoreSettingsForm({ companySlug, initialData }: StoreSettingsFor
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="slug">Store URL</Label>
+            <Label htmlFor="slug">Store Slug</Label>
             <Controller
               name="slug"
               control={control}
@@ -109,7 +109,7 @@ export function StoreSettingsForm({ companySlug, initialData }: StoreSettingsFor
               )}
             />
             <p className="text-sm text-muted-foreground">
-              Used for your public store URL.
+              A short name for your store&apos;s URL, e.g. acme-store — not a full web address.
             </p>
             {errors.slug && (
               <p className="text-sm text-red-500">{errors.slug.message}</p>

@@ -26,7 +26,26 @@ export async function getPublicStores(): Promise<MarketplaceResponse> {
       orderBy: { createdAt: "desc" }
     });
 
-    return { success: true, data: stores };
+    const productCounts = await prisma.item.groupBy({
+      by: ["companyId"],
+      where: {
+        companyId: { in: stores.map((store) => store.companyId) },
+        isStoreItem: true,
+        storeStatus: "ACTIVE",
+        storeIsPublic: true
+      },
+      _count: { _all: true }
+    });
+    const countByCompanyId = new Map(
+      productCounts.map((entry) => [entry.companyId, entry._count._all])
+    );
+
+    const storesWithProductCount = stores.map((store) => ({
+      ...store,
+      productCount: countByCompanyId.get(store.companyId) ?? 0
+    }));
+
+    return { success: true, data: storesWithProductCount };
   } catch (error) {
     console.error("Error fetching stores:", error);
     return { success: false, error: "Failed to fetch stores" };
@@ -59,6 +78,7 @@ export async function getStoreBySlug(slug: string): Promise<MarketplaceResponse>
     const items = await prisma.item.findMany({
       where: {
         companyId: store.companyId,
+        isStoreItem: true,
         storeStatus: "ACTIVE",
         storeIsPublic: true
       },
@@ -68,7 +88,7 @@ export async function getStoreBySlug(slug: string): Promise<MarketplaceResponse>
       orderBy: { createdAt: "desc" }
     });
 
-    return { success: true, data: { ...store, items } };
+    return { success: true, data: { ...store, products: items } };
   } catch (error) {
     console.error("Error fetching store:", error);
     return { success: false, error: "Failed to fetch store" };
@@ -102,6 +122,7 @@ export async function getStoreItemBySlug(
       where: {
         companyId: store.companyId,
         storeSlug: itemSlug,
+        isStoreItem: true,
         storeStatus: "ACTIVE",
         storeIsPublic: true
       },
@@ -125,6 +146,7 @@ export async function getMarketplaceProducts(): Promise<MarketplaceResponse> {
   try {
     const items = await prisma.item.findMany({
       where: {
+        isStoreItem: true,
         storeStatus: "ACTIVE",
         storeIsPublic: true
       },

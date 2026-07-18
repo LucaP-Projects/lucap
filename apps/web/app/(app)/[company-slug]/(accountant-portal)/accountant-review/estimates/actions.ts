@@ -7,7 +7,39 @@ import {
   AccountantDocument,
   CustomerDocumentSummary,
   CustomerForAccountant,
+  FlatAccountantDocument,
 } from '@/components/accountant-review/types';
+
+export async function getEstimatesForAccountant(): Promise<FlatAccountantDocument[]> {
+  const session = await getSessionWithCompany();
+  if (!session?.user?.activeCompanyId) return [];
+
+  const estimates = await prisma.estimate.findMany({
+    where: { companyId: session.user.activeCompanyId, isActive: true },
+    select: {
+      id: true,
+      number: true,
+      amount: true,
+      dueDate: true,
+      createdAt: true,
+      notes: true,
+      customer: { select: { id: true, displayName: true } },
+    },
+    orderBy: { dueDate: 'desc' },
+  });
+
+  return estimates.map((e) => ({
+    id: e.id,
+    number: e.number,
+    amount: e.amount,
+    dueDate: e.dueDate,
+    createdAt: e.createdAt,
+    notes: e.notes,
+    qualificationStatus: getDocumentQualificationStatus(e.notes),
+    customerId: e.customer.id,
+    customerName: e.customer.displayName,
+  }));
+}
 
 export type EstimateItemForAccountant = {
   id: string;

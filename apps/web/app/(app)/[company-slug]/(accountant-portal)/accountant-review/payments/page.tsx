@@ -1,5 +1,5 @@
-import { CustomerSummaryList } from '@/components/accountant-review/customer-summary-list';
-import { getCustomersWithPaymentSummary } from './actions';
+import { DocumentList } from '@/components/accountant-review/document-list';
+import { getPaymentsForAccountant } from './actions';
 
 interface PageProps {
   params: Promise<{ 'company-slug': string }>;
@@ -7,15 +7,16 @@ interface PageProps {
 
 export default async function AccountantPaymentsPage({ params }: PageProps) {
   const { 'company-slug': companySlug } = await params;
-  const customers = await getCustomersWithPaymentSummary();
+  const documents = await getPaymentsForAccountant();
 
   return (
-    <CustomerSummaryList
+    <DocumentList
       title="Payments Review"
-      description="Select a customer to view their payments"
+      description="All payments for this company"
       companySlug={companySlug}
       routeSegment="payments"
-      customers={customers}
+      documents={documents}
+      documentNumberLabel="Payment #"
     />
   );
 }

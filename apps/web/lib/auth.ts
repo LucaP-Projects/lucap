@@ -178,7 +178,20 @@ export const auth = betterAuth({
         where: { id: user.id },
         include: {
           accountantProfiles: {
-            select: { id: true }
+            select: {
+              id: true,
+              accountant: {
+                select: {
+                  assignments: {
+                    select: {
+                      company: {
+                        select: { id: true, name: true, logo: true, slug: true }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
           companies: {
             where: { isActive: true },
@@ -207,7 +220,7 @@ export const auth = betterAuth({
         throw new Error('User not found in database');
       }
 
-      const userCompanies = dbUser.companies.map((uc) => ({
+      const memberCompanies = dbUser.companies.map((uc) => ({
         companyId: uc.companyId,
         companyRole: uc.role.name,
         systemRole: uc.role.systemRole,
@@ -215,12 +228,32 @@ export const auth = betterAuth({
         permissions: uc.role.permissions,
         name: uc.company.name,
         logo: uc.company.logo,
-        slug: uc.company.slug
+        slug: uc.company.slug,
+        accessType: 'member' as const
       }));
 
-      const isAccountant = 
-        dbUser.accountantProfiles.length > 0 || 
-        userCompanies.some(c => ['SUPER_ACCOUNTANT', 'ACCOUNTANT_STAFF'].includes(c.systemRole || ''));
+      // Companies reachable via accountant-firm assignment, not direct membership —
+      // a firm accountant has no UserCompany row for their clients.
+      const memberCompanyIds = new Set(memberCompanies.map((c) => c.companyId));
+      const assignedCompanies = dbUser.accountantProfiles.flatMap((au) =>
+        au.accountant.assignments
+          .filter((a) => !memberCompanyIds.has(a.company.id))
+          .map((a) => ({
+            companyId: a.company.id,
+            companyRole: 'Accountant',
+            systemRole: null,
+            isAdmin: false,
+            permissions: [],
+            name: a.company.name,
+            logo: a.company.logo,
+            slug: a.company.slug,
+            accessType: 'accountant' as const
+          }))
+      );
+
+      const userCompanies = [...memberCompanies, ...assignedCompanies];
+
+      const isAccountant = dbUser.accountantProfiles.length > 0;
 
       const activeCompany = userCompanies.find(
         (uc) => uc.companyId === dbUser.activeCompanyId

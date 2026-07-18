@@ -7,10 +7,42 @@ import {
   AccountantDocument,
   CustomerDocumentSummary,
   CustomerForAccountant,
+  FlatAccountantDocument,
 } from '@/components/accountant-review/types';
 
 const toPaymentNumber = (payment: { id: string; reference: string | null }) =>
   payment.reference || `PMT-${payment.id.slice(-8).toUpperCase()}`;
+
+export async function getPaymentsForAccountant(): Promise<FlatAccountantDocument[]> {
+  const session = await getSessionWithCompany();
+  if (!session?.user?.activeCompanyId) return [];
+
+  const payments = await prisma.payment.findMany({
+    where: { companyId: session.user.activeCompanyId, isActive: true },
+    select: {
+      id: true,
+      reference: true,
+      amount: true,
+      paymentDate: true,
+      createdAt: true,
+      notes: true,
+      customer: { select: { id: true, displayName: true } },
+    },
+    orderBy: { paymentDate: 'desc' },
+  });
+
+  return payments.map((p) => ({
+    id: p.id,
+    number: toPaymentNumber(p),
+    amount: p.amount,
+    dueDate: p.paymentDate,
+    createdAt: p.createdAt,
+    notes: p.notes,
+    qualificationStatus: getDocumentQualificationStatus(p.notes),
+    customerId: p.customer.id,
+    customerName: p.customer.displayName,
+  }));
+}
 
 export type PaymentForAccountant = {
   id: string;

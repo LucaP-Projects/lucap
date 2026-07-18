@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { ArrowLeft } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -28,13 +29,23 @@ export function CustomerSummaryList({
 }: Props) {
   return (
     <div className="flex flex-col gap-6 p-6">
-      <div className="flex items-center justify-between rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
-        <div>
-          <h2 className="text-2xl font-bold tracking-tight text-blue-900">{title}</h2>
-          <p className="text-sm text-gray-600">{description}</p>
-        </div>
-        <div className="text-sm text-gray-500">
-          {customers.length} customer{customers.length !== 1 ? 's' : ''}
+      <div>
+        <Link
+          href={`/${companySlug}/accountant-review`}
+          className="mb-4 inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back to document types
+        </Link>
+
+        <div className="mt-2 flex items-center justify-between rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+          <div>
+            <h2 className="text-2xl font-bold tracking-tight text-blue-900">{title}</h2>
+            <p className="text-sm text-gray-600">{description}</p>
+          </div>
+          <div className="text-sm text-gray-500">
+            {customers.length} customer{customers.length !== 1 ? 's' : ''}
+          </div>
         </div>
       </div>
 

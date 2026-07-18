@@ -1,29 +1,13 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Plus, Package } from "lucide-react";
 import { getStore } from "@/components/store/actions";
-import { getProducts } from "@/components/store/products/actions";
+import { getProducts, getStoreItemLists } from "@/components/store/products/actions";
+import { ProductDetailsTable } from "@/components/store/products/product-details-table";
+import { ProductManagerDialog } from "@/components/store/products/product-manager-dialog";
 import { ProductWithImages } from "@/components/store/types";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle
-} from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow
-} from "@/components/ui/table";
 import { getSessionWithCompany } from "@/lib/auth";
-import { formatCurrency } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Store Products",
@@ -49,94 +33,64 @@ export default async function StoreProductsPage() {
     redirect(`/${companySlug}/settings/store`);
   }
 
-  const productsResult = await getProducts();
+  const [productsResult, itemListsResult] = await Promise.all([
+    getProducts(),
+    getStoreItemLists()
+  ]);
   const products = (productsResult.success ? productsResult.data : []) as ProductWithImages[];
+  const itemLists = itemListsResult.success
+    ? itemListsResult.data!
+    : { available: [], selected: [] };
 
   return (
-    <div className="container mx-auto py-6">
-      <div className="mb-6 flex items-center justify-between">
+    <div className="flex flex-col gap-6">
+      <div className="mb-2 flex items-center justify-between rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Products</h1>
-          <p className="text-muted-foreground">
+          <h2 className="text-2xl font-bold tracking-tight text-indigo-900">Products</h2>
+          <p className="text-sm text-gray-600">
             Manage the products available in your store.
           </p>
         </div>
-        <Link href={`/${companySlug}/store/products/new`}>
-          <Button>
-            <Plus className="mr-2 h-4 w-4" />
-            Add Product
-          </Button>
-        </Link>
+        <div className="flex items-center space-x-2">
+          <ProductManagerDialog
+            initialAvailable={itemLists.available}
+            initialSelected={itemLists.selected}
+          />
+          <Link href={`/${companySlug}/store/products/new`}>
+            <Button className="bg-indigo-600 px-5 py-2.5 text-sm font-medium shadow-sm hover:bg-indigo-700">
+              <svg
+                className="mr-2 h-4 w-4"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M12 5v14M5 12h14" />
+              </svg>
+              Add Product
+            </Button>
+          </Link>
+        </div>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Package className="h-5 w-5" />
-            All Products
-          </CardTitle>
-          <CardDescription>
-            {products.length} product{products.length !== 1 ? "s" : ""} in your store.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          {products.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-12 text-center">
-              <Package className="h-12 w-12 text-muted-foreground" />
-              <h3 className="mt-4 text-lg font-semibold">No products yet</h3>
-              <p className="text-muted-foreground">
-                Add your first product to start selling.
-              </p>
-              <Link href={`/${companySlug}/store/products/new`} className="mt-4">
-                <Button>Add Product</Button>
-              </Link>
-            </div>
-          ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Price</TableHead>
-                  <TableHead>Inventory</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {products.map((product) => (
-                  <TableRow key={product.id}>
-                    <TableCell className="font-medium">{product.name}</TableCell>
-                    <TableCell>
-                      <Badge
-                        variant={
-                          product.storeStatus === "ACTIVE"
-                            ? "default"
-                            : product.storeStatus === "DRAFT"
-                              ? "secondary"
-                              : "outline"
-                        }
-                      >
-                        {product.storeStatus}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>{formatCurrency(product.salesPrice)}</TableCell>
-                    <TableCell>
-                      {product.quantityOnHand === null ? "Unlimited" : product.quantityOnHand}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <Link href={`/${companySlug}/store/products/${product.id}/edit`}>
-                        <Button variant="ghost" size="sm">
-                          Edit
-                        </Button>
-                      </Link>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          )}
-        </CardContent>
-      </Card>
+      <div className="mt-2 space-y-4 rounded-lg border border-gray-200 bg-white p-5 shadow-sm">
+        <h3 className="mb-4 text-lg font-medium text-gray-800">
+          Product Details
+          <span className="ml-2 text-sm font-normal text-gray-500">
+            {products.length} product{products.length !== 1 ? "s" : ""} shown in your store
+          </span>
+        </h3>
+
+        <ProductDetailsTable
+          products={products}
+          companySlug={companySlug}
+          available={itemLists.available}
+          selected={itemLists.selected}
+        />
+      </div>
     </div>
   );
 }

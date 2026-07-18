@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { getSessionWithCompany } from "@/lib/auth";
+import * as Prisma from "@/lib/generated/prisma/internal/prismaNamespace";
 import { prisma } from "@/lib/prisma";
 import { StoreSettingsInput } from "./schema";
 
@@ -95,37 +96,16 @@ export async function createOrUpdateStore(data: StoreSettingsInput): Promise<Sto
     return { success: true, data: store };
   } catch (error) {
     console.error("Error saving store:", error);
-    return { success: false, error: "Failed to save store" };
-  }
-}
 
-export async function getStoreBySlug(slug: string): Promise<StoreResponse> {
-  try {
-    const store = await prisma.store.findUnique({
-      where: { slug },
-      include: {
-        company: {
-          select: {
-            id: true,
-            name: true,
-            slug: true,
-            logo: true,
-            email: true,
-            phone: true,
-            address: true
-          }
-        },
-      }
-    });
-
-    if (!store) {
-      return { success: false, error: "Store not found" };
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
+      const field = (error.meta?.target as string[])?.[0];
+      return {
+        success: false,
+        error: field === "slug" ? "This store URL is already taken" : "Failed to save store"
+      };
     }
 
-    return { success: true, data: store };
-  } catch (error) {
-    console.error("Error fetching store by slug:", error);
-    return { success: false, error: "Failed to fetch store" };
+    return { success: false, error: "Failed to save store" };
   }
 }
 
@@ -142,7 +122,7 @@ export async function getStoreItems(): Promise<StoreResponse> {
     }
 
     const items = await prisma.item.findMany({
-      where: { companyId, storeStatus: { not: "ARCHIVED" } },
+      where: { companyId, isStoreItem: true, storeStatus: { not: "ARCHIVED" } },
       include: {
         category: { select: { id: true, name: true } }
       },

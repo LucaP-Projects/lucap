@@ -1,5 +1,5 @@
-import { CustomerSummaryList } from '@/components/accountant-review/customer-summary-list';
-import { getCustomersWithCreditMemoSummary } from './actions';
+import { DocumentList } from '@/components/accountant-review/document-list';
+import { getCreditMemosForAccountant } from './actions';
 
 interface PageProps {
   params: Promise<{ 'company-slug': string }>;
@@ -7,15 +7,16 @@ interface PageProps {
 
 export default async function AccountantCreditMemosPage({ params }: PageProps) {
   const { 'company-slug': companySlug } = await params;
-  const customers = await getCustomersWithCreditMemoSummary();
+  const documents = await getCreditMemosForAccountant();
 
   return (
-    <CustomerSummaryList
+    <DocumentList
       title="Credit Memos Review"
-      description="Select a customer to view their credit memos"
+      description="All credit memos for this company"
       companySlug={companySlug}
       routeSegment="credit-memos"
-      customers={customers}
+      documents={documents}
+      documentNumberLabel="Credit Memo #"
     />
   );
 }

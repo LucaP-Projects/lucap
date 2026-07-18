@@ -1,65 +1,100 @@
-import { headers } from 'next/headers';
-import { getAccountantsForCurrentUser, createAccountant } from '@/components/accountant/actions';
+import Link from 'next/link';
+import { ChevronRight, ShieldCheck, UserPlus } from 'lucide-react';
+import { getAllAccountantsForAdmin, createAccountant } from '@/components/accountant/actions';
 import { createAuthUser } from '@/components/admin/user-actions';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 
 export default async function AdminAccountantsPage() {
-  const accountants = await getAccountantsForCurrentUser();
+  const accountants = await getAllAccountantsForAdmin();
 
   return (
-    <div className="p-8 max-w-6xl mx-auto space-y-6">
+    <div className="mx-auto max-w-6xl space-y-6 p-4 sm:p-8">
       <div>
-        <h1 className="text-3xl font-bold">Accountant Firms</h1>
-        <p className="text-muted-foreground mt-1">Manage accountant profiles and their staff.</p>
+        <h1 className="text-3xl font-bold tracking-tight">Accountant Firms</h1>
+        <p className="mt-1 text-muted-foreground">Manage accountant profiles and their staff.</p>
       </div>
 
       <div className="grid grid-cols-1 gap-4">
+        {accountants.length === 0 && (
+          <Card>
+            <CardContent className="py-8 text-center text-muted-foreground">
+              No accountant firms yet.
+            </CardContent>
+          </Card>
+        )}
+
         {accountants.map((a: any) => (
-          <div key={a.id} className="p-4 bg-white rounded-lg border shadow-sm">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="font-semibold">{a.name}</h3>
-                <p className="text-sm text-muted-foreground">Users: {a.users?.length ?? 0} • Companies: {a.assignments?.length ?? 0}</p>
-              </div>
-              <div>
-                <a className="text-sm text-navy" href={`/admin/accountants/${a.id}`}>Manage</a>
-              </div>
-            </div>
-          </div>
+          <Link key={a.id} href={`/admin/accountants/${a.id}`}>
+            <Card className="transition-colors hover:border-primary/50 hover:shadow-md">
+              <CardContent className="flex items-center justify-between py-4">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10">
+                    <ShieldCheck className="h-4 w-4 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold">{a.name}</h3>
+                    <p className="text-sm text-muted-foreground">
+                      {a.users?.length ?? 0} staff • {a.assignments?.length ?? 0} client
+                      {a.assignments?.length === 1 ? '' : 's'}
+                    </p>
+                  </div>
+                </div>
+                <ChevronRight className="h-4 w-4 text-muted-foreground" />
+              </CardContent>
+            </Card>
+          </Link>
         ))}
 
-        <div className="p-4 bg-white rounded-lg border shadow-sm">
-          <h3 className="font-semibold mb-2">Create new Accountant</h3>
-          <form action={async (formData: FormData) => {
-            'use server';
-            const name = String(formData.get('name'));
-            const slug = String(formData.get('slug') || undefined);
-            if (!name) return;
-            await createAccountant(name, slug);
-          }}>
-            <div className="flex gap-2">
-              <input name="name" placeholder="Firm name" className="border p-2 rounded flex-1" />
-              <input name="slug" placeholder="slug (optional)" className="border p-2 rounded w-48" />
-              <button type="submit" className="px-4 py-2 bg-navy text-white rounded">Create</button>
-            </div>
-          </form>
-        </div>
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base">Create new Accountant</CardTitle>
+            <CardDescription>Set up a new accounting firm on the platform.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form
+              action={async (formData: FormData) => {
+                'use server';
+                const name = String(formData.get('name'));
+                const slug = String(formData.get('slug') || undefined);
+                if (!name) return;
+                await createAccountant(name, slug);
+              }}
+              className="flex flex-col gap-2 sm:flex-row"
+            >
+              <Input name="name" placeholder="Firm name" className="flex-1" />
+              <Input name="slug" placeholder="slug (optional)" className="sm:w-48" />
+              <Button type="submit">Create</Button>
+            </form>
+          </CardContent>
+        </Card>
 
-        <div className="p-4 bg-white rounded-lg border shadow-sm">
-          <h3 className="font-semibold mb-2">Invite User (create auth user)</h3>
-          <form action={async (formData: FormData) => {
-            'use server';
-            const email = String(formData.get('email'));
-            const name = String(formData.get('name') || '');
-            if (!email) return;
-            await createAuthUser({ email, name });
-          }}>
-            <div className="flex gap-2">
-              <input name="email" placeholder="email@domain" className="border p-2 rounded flex-1" />
-              <input name="name" placeholder="Full name" className="border p-2 rounded w-48" />
-              <button type="submit" className="px-4 py-2 bg-navy text-white rounded">Invite</button>
-            </div>
-          </form>
-        </div>
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-base">
+              <UserPlus className="h-4 w-4" />
+              Invite User
+            </CardTitle>
+            <CardDescription>Create an auth account for a new user.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form
+              action={async (formData: FormData) => {
+                'use server';
+                const email = String(formData.get('email'));
+                const name = String(formData.get('name') || '');
+                if (!email) return;
+                await createAuthUser({ email, name });
+              }}
+              className="flex flex-col gap-2 sm:flex-row"
+            >
+              <Input name="email" placeholder="email@domain" className="flex-1" />
+              <Input name="name" placeholder="Full name" className="sm:w-48" />
+              <Button type="submit">Invite</Button>
+            </form>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

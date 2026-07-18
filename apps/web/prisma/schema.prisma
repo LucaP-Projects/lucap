@@ -422,6 +422,7 @@ model Item {
   deactivationReason      String?
 
   // Store fields (single source of truth)
+  isStoreItem             Boolean                  @default(false)
   storeStatus             StoreItemStatus          @default(DRAFT)
   storeSlug               String?
   storeDescription        String?                  @db.VarChar(2000)
@@ -460,6 +461,7 @@ model Item {
   @@index([purchasable])
   @@index([trackInventory])
   @@index([companyId])
+  @@index([isStoreItem])
   @@index([storeStatus])
   @@index([storeIsPublic])
   @@index([storeSlug])
@@ -1706,11 +1708,13 @@ model Accountant {
 }
 
 // Users that belong to an Accountant profile (accounting staff)
+// A person's membership in an accountant firm — flat, single profile type.
+// Ownership (Accountant.ownerId) is the only distinction; there is no
+// separate "senior vs junior accountant" role.
 model AccountantUser {
   id           String              @id @default(cuid())
   accountantId String
   userId       String
-  role         AccountantUserRole  @default(MEMBER)
   isActive     Boolean             @default(true)
   createdAt    DateTime            @default(now())
   updatedAt    DateTime            @updatedAt
@@ -1722,12 +1726,6 @@ model AccountantUser {
   @@unique([accountantId, userId])
   @@index([accountantId])
   @@index([userId])
-}
-
-enum AccountantUserRole {
-  OWNER
-  ADMIN
-  MEMBER
 }
 
 // Assignment of an accountant (or accountant user) to a client company with optional per-user permissions
@@ -2409,11 +2407,8 @@ enum PaymentFrequency {
 }
 
 enum SystemRole {
-  ADMIN
-  CUSTOMER
+  MODERATOR
   STAFF
-  SUPER_ACCOUNTANT
-  ACCOUNTANT_STAFF
 }
 
 enum TransactionType {
